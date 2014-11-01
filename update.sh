@@ -57,6 +57,6 @@ case $1 in
 
 esac
 
-#git add -A
-#git commit -a -m "$(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g')"
-#git push
+git add -A
+git commit -a -m "$(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g')"
+git push
