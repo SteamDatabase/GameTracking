@@ -13,37 +13,37 @@ cd "${0%/*}"
 case $1 in
 
 # Team Fortress 2
-232251)
-	mono .support/ProtobufDumper.exe "$1/server.dll" "Protobufs/tf/" > /dev/null
+232252)
+	mono .support/ProtobufDumper.exe "$1/server.dylib" "Protobufs/tf/" > /dev/null
 	
-	strings "$1/server.dll" | grep "buildslave" | sort -u > "BuildbotPaths/tf.txt"
+	strings "$1/server.dylib" | grep "buildslave" | sort -u > "BuildbotPaths/tf.txt"
 	;;
 
 # Counter-Strike: Global Offensive
-732)
-	mono .support/ProtobufDumper.exe "$1/engine.dll" "Protobufs/csgo/" > /dev/null
-	mono .support/ProtobufDumper.exe "$1/server.dll" "Protobufs/csgo/" > /dev/null
+733)
+	mono .support/ProtobufDumper.exe "$1/engine.dylib" "Protobufs/csgo/" > /dev/null
+	mono .support/ProtobufDumper.exe "$1/server.dylib" "Protobufs/csgo/" > /dev/null
 	
-	strings "$1/engine.dll" | grep "buildslave" | sort -u > "BuildbotPaths/csgo_engine.txt"
-	strings "$1/server.dll" | grep "buildslave" | sort -u > "BuildbotPaths/csgo_server.txt"
+	strings "$1/engine.dylib" | grep "buildslave" | sort -u > "BuildbotPaths/csgo_engine.txt"
+	strings "$1/server.dylib" | grep "buildslave" | sort -u > "BuildbotPaths/csgo_server.txt"
 	;;
 
 # Dota 2
-573)
-	mono .support/ProtobufDumper.exe "$1/engine.dll" "Protobufs/dota/" > /dev/null
-	mono .support/ProtobufDumper.exe "$1/server.dll" "Protobufs/dota/" > /dev/null
+574)
+	mono .support/ProtobufDumper.exe "$1/engine.dylib" "Protobufs/dota/" > /dev/null
+	mono .support/ProtobufDumper.exe "$1/server.dylib" "Protobufs/dota/" > /dev/null
 	
-	strings "$1/engine.dll" | grep "buildslave" | sort -u > "BuildbotPaths/dota_engine.txt"
-	strings "$1/server.dll" | grep "buildslave" | sort -u > "BuildbotPaths/dota_server.txt"
+	strings "$1/engine.dylib" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/dota_engine.txt"
+	strings "$1/server.dylib" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/dota_server.txt"
 	;;
 
 # Dota 2 Test
-205793)
-	mono .support/ProtobufDumper.exe "$1/engine.dll" "Protobufs/dota_test/" > /dev/null
-	mono .support/ProtobufDumper.exe "$1/server.dll" "Protobufs/dota_test/" > /dev/null
+205794)
+	mono .support/ProtobufDumper.exe "$1/engine.dylib" "Protobufs/dota_test/" > /dev/null
+	mono .support/ProtobufDumper.exe "$1/server.dylib" "Protobufs/dota_test/" > /dev/null
 	
-	strings "$1/engine.dll" | grep "buildslave" | sort -u > "BuildbotPaths/dota_test_engine.txt"
-	strings "$1/server.dll" | grep "buildslave" | sort -u > "BuildbotPaths/dota_test_server.txt"
+	strings "$1/engine.dylib" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/dota_test_engine.txt"
+	strings "$1/server.dylib" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/dota_test_server.txt"
 	;;
 
 # Dota 2 Workshop
