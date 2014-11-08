@@ -9,50 +9,53 @@ fi
 # Set working directory where this file is located
 cd "${0%/*}"
 
+ProcessDepot ()
+{
+	while IFS= read -r -d '' file
+	do
+		baseFile=$(basename "$file" "$3")
+		
+		echo "> $baseFile"
+		
+		if [ "$2" = "dota_s2" ]
+		then
+			mono .support/ProtobufDumper.exe "$file" "Protobufs/$2/$baseFile/" > /dev/null
+		else
+			mono .support/ProtobufDumper.exe "$file" "Protobufs/$2/" > /dev/null
+		fi
+		
+		mkdir -p "BuildbotPaths/$2"
+		
+		strings "$file" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/$2/$baseFile.txt"
+	done <   <(find "$1/" -type f -name "*$3" -print0)
+}
+
 # Do stuff based on the depotid
 case $1 in
 
 # Team Fortress 2
 232252)
-	mono .support/ProtobufDumper.exe "$1/server.dylib" "Protobufs/tf/" > /dev/null
-	
-	strings "$1/server.dylib" | grep "buildslave" | sort -u > "BuildbotPaths/tf.txt"
+	ProcessDepot "$1" "tf" ".dylib"
 	;;
 
 # Counter-Strike: Global Offensive
 733)
-	mono .support/ProtobufDumper.exe "$1/engine.dylib" "Protobufs/csgo/" > /dev/null
-	mono .support/ProtobufDumper.exe "$1/server.dylib" "Protobufs/csgo/" > /dev/null
-	
-	strings "$1/engine.dylib" | grep "buildslave" | sort -u > "BuildbotPaths/csgo_engine.txt"
-	strings "$1/server.dylib" | grep "buildslave" | sort -u > "BuildbotPaths/csgo_server.txt"
+	ProcessDepot "$1" "csgo" ".dylib"
 	;;
 
 # Dota 2
 574)
-	mono .support/ProtobufDumper.exe "$1/engine.dylib" "Protobufs/dota/" > /dev/null
-	mono .support/ProtobufDumper.exe "$1/server.dylib" "Protobufs/dota/" > /dev/null
-	
-	strings "$1/engine.dylib" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/dota_engine.txt"
-	strings "$1/server.dylib" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/dota_server.txt"
+	ProcessDepot "$1" "dota" ".dylib"
 	;;
 
 # Dota 2 Test
 205794)
-	mono .support/ProtobufDumper.exe "$1/engine.dylib" "Protobufs/dota_test/" > /dev/null
-	mono .support/ProtobufDumper.exe "$1/server.dylib" "Protobufs/dota_test/" > /dev/null
-	
-	strings "$1/engine.dylib" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/dota_test_engine.txt"
-	strings "$1/server.dylib" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/dota_test_server.txt"
+	ProcessDepot "$1" "dota_test" ".dylib"
 	;;
 
 # Dota 2 Workshop
 313250)
-	mono .support/ProtobufDumper.exe "$1/engine2.dll" "Protobufs/dota_s2/engine2/" > /dev/null
-	mono .support/ProtobufDumper.exe "$1/server.dll" "Protobufs/dota_s2/server/" > /dev/null
-	
-	strings "$1/engine2.dll" | grep "buildslave" | sort -u > "BuildbotPaths/dota_s2_engine2.txt"
-	strings "$1/server.dll" | grep "buildslave" | sort -u > "BuildbotPaths/dota_s2_server.txt"
+	ProcessDepot "$1" "dota_s2" ".dll"
 	;;
 
 esac
