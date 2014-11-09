@@ -25,8 +25,10 @@ ProcessDepot ()
 		fi
 		
 		mkdir -p "BuildbotPaths/$2"
+		mkdir -p "Strings/$2"
 		
 		strings "$file" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/$2/$baseFile.txt"
+		strings "$file" -n 5 | grep "^[a-zA-Z0-9\.\_\-]*$" | grep -v -i protobuf | sort -u > "Strings/$2/$baseFile.txt"
 	done <   <(find "$1/" -type f -name "*$3" -print0)
 }
 
