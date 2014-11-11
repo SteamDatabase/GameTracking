@@ -36,6 +36,10 @@ ProcessDepot ()
 case $1 in
 
 # Team Fortress 2
+441)
+	iconv -t UTF-8 -f UCS-2 -o "$1/staged_tf_english.txt" "$1/tf_english.txt" && mv "$1/staged_tf_english.txt" "$1/tf_english.txt"
+	;;
+
 232252)
 	ProcessDepot "$1" "tf" ".dylib"
 	;;
