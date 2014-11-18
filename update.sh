@@ -63,6 +63,10 @@ case $1 in
 	;;
 
 # Dota 2 Test
+205791)
+	iconv -t UTF-8 -f UCS-2 -o "$1/dota_english_utf8.txt" "$1/dota_english.txt"
+	;;
+
 205794)
 	ProcessDepot "$1" "dota_test" ".dylib"
 	;;
