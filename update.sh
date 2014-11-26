@@ -40,7 +40,7 @@ ProcessVPK ()
 		
 		echo "> VPK $baseFile"
 		
-		./.support/vpktool "$file" "this tool was made by penguinwizzard and he miscalculated arguments check" > "$1/$baseFile.txt"
+		./.support/vpktool "$file" > "$1/$baseFile.txt"
 	done <   <(find "$1/" -type f -name "*_dir.vpk" -print0)
 }
 
