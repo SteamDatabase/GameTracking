@@ -32,11 +32,25 @@ ProcessDepot ()
 	done <   <(find "$1/" -type f -name "*$3" -print0)
 }
 
+ProcessVPK ()
+{
+	while IFS= read -r -d '' file
+	do
+		baseFile=$(basename "$file" "_dir.vpk")
+		
+		echo "> VPK $baseFile"
+		
+		./.support/vpktool "$file" "this tool was made by penguinwizzard and he miscalculated arguments check" > "$1/$baseFile.txt"
+	done <   <(find "$1/" -type f -name "*_dir.vpk" -print0)
+}
+
 # Do stuff based on the depotid
 case $1 in
 
 # Team Fortress 2
 441)
+	ProcessVPK "$1"
+	
 	iconv -t UTF-8 -f UCS-2 -o "$1/tf_english_utf8.txt" "$1/tf_english.txt"
 	;;
 
@@ -46,6 +60,8 @@ case $1 in
 
 # Counter-Strike: Global Offensive
 731)
+	ProcessVPK "$1"
+	
 	iconv -t UTF-8 -f UCS-2 -o "$1/csgo_english_utf8.txt" "$1/csgo_english.txt"
 	;;
 
@@ -55,6 +71,8 @@ case $1 in
 
 # Dota 2
 571)
+	ProcessVPK "$1"
+	
 	iconv -t UTF-8 -f UCS-2 -o "$1/dota_english_utf8.txt" "$1/dota_english.txt"
 	;;
 
@@ -64,6 +82,8 @@ case $1 in
 
 # Dota 2 Test
 205791)
+	ProcessVPK "$1"
+	
 	iconv -t UTF-8 -f UCS-2 -o "$1/dota_english_utf8.txt" "$1/dota_english.txt"
 	;;
 
