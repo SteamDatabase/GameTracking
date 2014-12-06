@@ -96,6 +96,77 @@ case $1 in
 	ProcessDepot "$1" "dota_s2" ".dll"
 	;;
 
+# Half-Life 2
+221)
+	ProcessVPK "$1"
+	
+	iconv -t UTF-8 -f UCS-2 -o "$1/hl2_english_utf8.txt" "$1/hl2_english.txt"
+	;;
+	
+# Half-Life 2: Episode One
+389)
+	ProcessVPK "$1"
+	;;
+
+# Half-Life 2: Episode Two
+420)
+	ProcessVPK "$1"
+	;;
+	
+# Half-Life 2: Death Match
+321)
+	ProcessVPK "$1"
+	;;
+
+232372)
+	ProcessDepot "$1" "hl2dm" ".dylib"
+	;;
+
+# Portal
+401)
+	ProcessVPK "$1"
+	
+	iconv -t UTF-8 -f UCS-2 -o "$1/portal_english_utf8.txt" "$1/portal_english.txt"
+	;;
+	
+# Portal 2
+621)
+	ProcessVPK "$1"
+	
+	iconv -t UTF-8 -f UCS-2 -o "$1/portal2_english_utf8.txt" "$1/portal2_english.txt"
+	;;
+	
+624)
+	ProcessDepot "$1" "portal2" ".dylib"
+	;;
+
+# Left 4 Dead
+502)
+	ProcessVPK "$1"
+	;;
+	
+515)
+	ProcessDepot "$1" "l4d" ".dylib"
+	;;
+	
+# Left 4 Dead 2
+551)
+	ProcessVPK "$1"
+	;;
+
+553)
+	ProcessDepot "$1" "l4d2" ".dylib"
+	;;
+
+# Alien Swarm
+631)
+	ProcessVPK "$1"
+	
+	iconv -t UTF-8 -f UCS-2 -o "$1/swarm_english_utf8.txt" "$1/swarm_english.txt"
+	
+	ProcessDepot "$1" "as" ".dll"
+	;;
+	
 esac
 
 git add -A
