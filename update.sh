@@ -103,6 +103,10 @@ case $1 in
 	iconv -t UTF-8 -f UCS-2 -o "$1/hl2_english_utf8.txt" "$1/hl2_english.txt"
 	;;
 	
+223)
+	ProcessDepot "$1" "hl2" ".dylib"
+	;;
+	
 # Half-Life 2: Episode One
 389)
 	ProcessVPK "$1"
@@ -112,7 +116,7 @@ case $1 in
 420)
 	ProcessVPK "$1"
 	;;
-	
+
 # Half-Life 2: Death Match
 321)
 	ProcessVPK "$1"
@@ -127,6 +131,10 @@ case $1 in
 	ProcessVPK "$1"
 	
 	iconv -t UTF-8 -f UCS-2 -o "$1/portal_english_utf8.txt" "$1/portal_english.txt"
+	;;
+	
+403)
+	ProcessDepot "$1" "portal" ".dylib"
 	;;
 	
 # Portal 2
@@ -165,6 +173,16 @@ case $1 in
 	iconv -t UTF-8 -f UCS-2 -o "$1/swarm_english_utf8.txt" "$1/swarm_english.txt"
 	
 	ProcessDepot "$1" "as" ".dll"
+	;;
+
+# SFM
+1841)
+	ProcessDepot "$1" "sfm" ".dll"
+	;;
+
+# OpenVR
+250822)
+	ProcessDepot "$1" "openvr" ".dylib"
 	;;
 	
 esac
