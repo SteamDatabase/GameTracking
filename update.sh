@@ -52,7 +52,6 @@ case $1 in
 	ProcessVPK "$1"
 	
 	iconv -t UTF-8 -f UCS-2 -o "$1/tf_english_utf8.txt" "$1/tf_english.txt"
-	iconv -t UTF-8 -f UCS-2 -o "$1/items_game_utf8.txt" "$1/items_game.txt"
 	;;
 
 232252)
@@ -64,7 +63,6 @@ case $1 in
 	ProcessVPK "$1"
 	
 	iconv -t UTF-8 -f UCS-2 -o "$1/csgo_english_utf8.txt" "$1/csgo_english.txt"
-	iconv -t UTF-8 -f UCS-2 -o "$1/items_game_utf8.txt" "$1/items_game.txt"
 	;;
 
 733)
