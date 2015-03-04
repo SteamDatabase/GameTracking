@@ -1,0 +1,101 @@
+option cc_generic_services = false;
+
+enum ESteamDatagramMsgID {
+	k_ESteamDatagramMsg_RouterPingRequest = 1;
+	k_ESteamDatagramMsg_RouterPingReply = 2;
+	k_ESteamDatagramMsg_GameserverPingRequest = 3;
+	k_ESteamDatagramMsg_GameserverPingReply = 4;
+	k_ESteamDatagramMsg_GameserverSessionRequest = 5;
+	k_ESteamDatagramMsg_GameserverSessionEstablished = 6;
+	k_ESteamDatagramMsg_NoSession = 7;
+	k_ESteamDatagramMsg_Diagnostic = 8;
+	k_ESteamDatagramMsg_DataClientToRouter = 9;
+	k_ESteamDatagramMsg_DataRouterToServer = 10;
+	k_ESteamDatagramMsg_DataServerToRouter = 11;
+	k_ESteamDatagramMsg_DataRouterToClient = 12;
+}
+
+message CMsgSteamDatagramRouterPingRequest {
+	optional fixed32 client_timestamp = 1;
+	repeated uint32 request_latency_service_ids = 2 [packed = true];
+}
+
+message CMsgSteamDatagramRouterPingReply {
+	optional fixed32 client_timestamp = 1;
+	repeated uint32 latency_service_ids = 2 [packed = true];
+	repeated uint32 latency_ping_ms = 3 [packed = true];
+	optional fixed32 your_public_ip = 4;
+	optional fixed32 server_time = 5;
+	optional fixed64 challenge = 6;
+}
+
+message CMsgSteamDatagramGameserverPing {
+	optional uint32 client_session_id = 1;
+	optional fixed64 client_steam_id = 2;
+	optional fixed32 client_timestamp = 3;
+	optional fixed32 router_timestamp = 4;
+	optional uint32 router_gameserver_latency = 5;
+}
+
+message CMsgSteamDatagramGameServerAuthTicket {
+	optional fixed32 time_expiry = 1;
+	optional fixed64 authorized_steam_id = 2;
+	optional fixed32 authorized_public_ip = 3;
+	optional fixed64 gameserver_steam_id = 4;
+	optional fixed64 gameserver_net_id = 5;
+	optional bytes signature = 6;
+}
+
+message CMsgSteamDatagramGameserverSessionRequest {
+	optional .CMsgSteamDatagramGameServerAuthTicket ticket = 1;
+	optional fixed32 challenge_time = 3;
+	optional fixed64 challenge = 4;
+}
+
+message CMsgSteamDatagramGameserverSessionEstablished {
+	optional uint32 session_id = 1;
+	optional fixed64 gameserver_net_id = 2;
+	optional fixed64 gameserver_steam_id = 3;
+}
+
+message CMsgSteamDatagramNoSession {
+	optional uint32 session_id = 1;
+	optional fixed32 your_public_ip = 2;
+	optional fixed32 server_time = 3;
+	optional fixed64 challenge = 4;
+}
+
+message CMsgSteamDatagramDiagnostic {
+	optional uint32 severity = 1;
+	optional string text = 2;
+}
+
+message CMsgSteamDatagramDataRouterToServer {
+	optional fixed64 client_steam_id = 1;
+	optional uint32 client_session_id = 2;
+	optional uint32 channel = 3;
+	optional bytes payload = 4;
+	optional fixed32 ping_client_timestamp = 5;
+	optional fixed32 ping_router_timestamp = 6;
+}
+
+message CMsgSteamDatagramDataServerToRouter {
+	optional fixed64 client_steam_id = 1;
+	optional uint32 client_session_id = 2;
+	optional uint32 channel = 3;
+	optional bytes payload = 4;
+}
+
+message CMsgSteamDatagramDataClientToRouter {
+	optional uint32 client_session_id = 1;
+	optional uint32 channel = 2;
+	optional bytes payload = 3;
+	optional fixed32 ping_client_timestamp = 4;
+}
+
+message CMsgSteamDatagramDataRouterToClient {
+	optional uint32 client_session_id = 1;
+	optional uint32 channel = 2;
+	optional bytes payload = 3;
+}
+
