@@ -325,6 +325,8 @@
 (anonymous namespace)::CMsgGCCStrike15_v2_ClientVarValueNotificationInfo_reflection_
 (anonymous namespace)::CMsgGCCStrike15_v2_GC2ClientTextMsg_descriptor_
 (anonymous namespace)::CMsgGCCStrike15_v2_GC2ClientTextMsg_reflection_
+(anonymous namespace)::CMsgGCCStrike15_v2_GC2ClientTournamentInfo_descriptor_
+(anonymous namespace)::CMsgGCCStrike15_v2_GC2ClientTournamentInfo_reflection_
 (anonymous namespace)::CMsgGCCStrike15_v2_GC2ServerReservationUpdate_descriptor_
 (anonymous namespace)::CMsgGCCStrike15_v2_GC2ServerReservationUpdate_reflection_
 (anonymous namespace)::CMsgGCCStrike15_v2_GiftsLeaderboardRequest_descriptor_
@@ -8171,6 +8173,7 @@ CCSGameRules::CCSGameRules()
 CCSGameRules::CCSGameRules()::sv_mmqueue_reservation
 CCSGameRules::CalculateEndOfRoundMVP()
 CCSGameRules::CalculateMaxGunGameProgressiveWeaponIndex()
+CCSGameRules::CanClientCustomizeOwnIdentity()
 CCSGameRules::CanPlayerHearTalker(CBasePlayer*, CBasePlayer*, bool)
 CCSGameRules::CheckAndAwardAssists(CCSPlayer*, CCSPlayer*)
 CCSGameRules::CheckForGiftsLeaderboardUpdate()
@@ -15592,6 +15595,7 @@ CGameRules::AdjustPlayerDamageTaken(CTakeDamageInfo*)
 CGameRules::AllowAutoTargetCrosshair()
 CGameRules::AllowSoundscapes()
 CGameRules::CGameRules()
+CGameRules::CanClientCustomizeOwnIdentity()
 CGameRules::CanEntityBeUsePushed(CBaseEntity*)
 CGameRules::CanHaveAmmo(CBaseCombatCharacter*, char const*)
 CGameRules::CanHaveAmmo(CBaseCombatCharacter*, int)
@@ -17673,6 +17677,18 @@ CMsgGCCStrike15_v2_GC2ClientTextMsg::SerializeWithCachedSizesToArray(unsigned ch
 CMsgGCCStrike15_v2_GC2ClientTextMsg::SetCachedSize(int) const
 CMsgGCCStrike15_v2_GC2ClientTextMsg::default_instance_
 CMsgGCCStrike15_v2_GC2ClientTextMsg::~CMsgGCCStrike15_v2_GC2ClientTextMsg()
+CMsgGCCStrike15_v2_GC2ClientTournamentInfo
+CMsgGCCStrike15_v2_GC2ClientTournamentInfo::ByteSize() const
+CMsgGCCStrike15_v2_GC2ClientTournamentInfo::Clear()
+CMsgGCCStrike15_v2_GC2ClientTournamentInfo::GetCachedSize() const
+CMsgGCCStrike15_v2_GC2ClientTournamentInfo::GetMetadata() const
+CMsgGCCStrike15_v2_GC2ClientTournamentInfo::IsInitialized() const
+CMsgGCCStrike15_v2_GC2ClientTournamentInfo::MergeFrom(CMsgGCCStrike15_v2_GC2ClientTournamentInfo const&)
+CMsgGCCStrike15_v2_GC2ClientTournamentInfo::New() const
+CMsgGCCStrike15_v2_GC2ClientTournamentInfo::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGCCStrike15_v2_GC2ClientTournamentInfo::SetCachedSize(int) const
+CMsgGCCStrike15_v2_GC2ClientTournamentInfo::default_instance_
+CMsgGCCStrike15_v2_GC2ClientTournamentInfo::~CMsgGCCStrike15_v2_GC2ClientTournamentInfo()
 CMsgGCCStrike15_v2_GC2ServerReservationUpdate
 CMsgGCCStrike15_v2_GC2ServerReservationUpdate::ByteSize() const
 CMsgGCCStrike15_v2_GC2ServerReservationUpdate::CMsgGCCStrike15_v2_GC2ServerReservationUpdate()
@@ -23464,6 +23480,7 @@ CServerGameClients::ClientConnect(edict_t*, char const*, char const*, char*, int
 CServerGameClients::ClientDisconnect(edict_t*)
 CServerGameClients::ClientEarPosition(edict_t*, Vector*)
 CServerGameClients::ClientFullyConnect(edict_t*)
+CServerGameClients::ClientNameHandler(unsigned long long, char const*)
 CServerGameClients::ClientPutInServer(edict_t*, char const*)
 CServerGameClients::ClientSettingsChanged(edict_t*)
 CServerGameClients::ClientSettingsChanged(edict_t*)::pMax
@@ -36489,7 +36506,6 @@ ___cxx_global_array_dtor20
 ___cxx_global_array_dtor204
 ___cxx_global_array_dtor205
 ___cxx_global_array_dtor21
-___cxx_global_array_dtor210
 ___cxx_global_array_dtor212
 ___cxx_global_array_dtor22
 ___cxx_global_array_dtor220
@@ -40952,6 +40968,7 @@ dmg_armor
 dmg_health
 domain
 dominated
+domination
 dont_teleport_at_end
 door_moving
 door_options
@@ -47783,6 +47800,8 @@ m_iMatchStats_Kills
 m_iMatchStats_LiveTime
 m_iMatchStats_MoneySaved
 m_iMatchStats_Objective
+m_iMatchStats_PlayersAlive_CT
+m_iMatchStats_PlayersAlive_T
 m_iMatchStats_RoundResults
 m_iMaterialModel
 m_iMaterialName
@@ -50302,6 +50321,8 @@ on_damage
 on_flashlight_illum
 on_spawn
 onbreak
+one_per_account
+one_per_account_cdkey
 onfirstimpact
 ongoing_matches
 ongoingmatch
@@ -51658,6 +51679,7 @@ srcid
 ssg08
 st_szNextMap
 st_szNextSpot
+stageid
 stamp
 start
 startLerpTo
@@ -52236,6 +52258,7 @@ team_scores
 team_tag
 teamchange_pending
 teamid
+teamids
 teamnum
 teamnumber
 teamplay_broadcast_audio
@@ -53982,6 +54005,7 @@ typeinfo for CMsgGCCStrike15_v2_ClientRequestWatchInfoFriends
 typeinfo for CMsgGCCStrike15_v2_ClientSubmitSurveyVote
 typeinfo for CMsgGCCStrike15_v2_ClientVarValueNotificationInfo
 typeinfo for CMsgGCCStrike15_v2_GC2ClientTextMsg
+typeinfo for CMsgGCCStrike15_v2_GC2ClientTournamentInfo
 typeinfo for CMsgGCCStrike15_v2_GC2ServerReservationUpdate
 typeinfo for CMsgGCCStrike15_v2_GiftsLeaderboardRequest
 typeinfo for CMsgGCCStrike15_v2_GiftsLeaderboardResponse
@@ -56296,6 +56320,7 @@ typeinfo name for CMsgGCCStrike15_v2_ClientRequestWatchInfoFriends
 typeinfo name for CMsgGCCStrike15_v2_ClientSubmitSurveyVote
 typeinfo name for CMsgGCCStrike15_v2_ClientVarValueNotificationInfo
 typeinfo name for CMsgGCCStrike15_v2_GC2ClientTextMsg
+typeinfo name for CMsgGCCStrike15_v2_GC2ClientTournamentInfo
 typeinfo name for CMsgGCCStrike15_v2_GC2ServerReservationUpdate
 typeinfo name for CMsgGCCStrike15_v2_GiftsLeaderboardRequest
 typeinfo name for CMsgGCCStrike15_v2_GiftsLeaderboardResponse
@@ -61125,6 +61150,7 @@ vtable for CMsgGCCStrike15_v2_ClientRequestWatchInfoFriends
 vtable for CMsgGCCStrike15_v2_ClientSubmitSurveyVote
 vtable for CMsgGCCStrike15_v2_ClientVarValueNotificationInfo
 vtable for CMsgGCCStrike15_v2_GC2ClientTextMsg
+vtable for CMsgGCCStrike15_v2_GC2ClientTournamentInfo
 vtable for CMsgGCCStrike15_v2_GC2ServerReservationUpdate
 vtable for CMsgGCCStrike15_v2_GiftsLeaderboardRequest
 vtable for CMsgGCCStrike15_v2_GiftsLeaderboardResponse
