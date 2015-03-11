@@ -18,6 +18,7 @@ enum ESteamDatagramMsgID {
 message CMsgSteamDatagramRouterPingRequest {
 	optional fixed32 client_timestamp = 1;
 	repeated uint32 request_latency_service_ids = 2 [packed = true];
+	optional fixed32 client_challenge = 3;
 }
 
 message CMsgSteamDatagramRouterPingReply {
@@ -27,6 +28,8 @@ message CMsgSteamDatagramRouterPingReply {
 	optional fixed32 your_public_ip = 4;
 	optional fixed32 server_time = 5;
 	optional fixed64 challenge = 6;
+	optional bool shutting_down_soon = 7;
+	optional fixed32 client_challenge = 8;
 }
 
 message CMsgSteamDatagramGameserverPing {
@@ -50,12 +53,14 @@ message CMsgSteamDatagramGameserverSessionRequest {
 	optional .CMsgSteamDatagramGameServerAuthTicket ticket = 1;
 	optional fixed32 challenge_time = 3;
 	optional fixed64 challenge = 4;
+	optional fixed32 client_challenge = 5;
 }
 
 message CMsgSteamDatagramGameserverSessionEstablished {
-	optional uint32 session_cookie = 1;
-	optional fixed64 gameserver_net_id = 2;
+	optional fixed32 client_challenge = 1;
+	optional fixed32 session_cookie = 2;
 	optional fixed64 gameserver_steam_id = 3;
+	optional bool shutting_down_soon = 4;
 }
 
 message CMsgSteamDatagramNoSession {
@@ -63,39 +68,11 @@ message CMsgSteamDatagramNoSession {
 	optional fixed32 your_public_ip = 2;
 	optional fixed32 server_time = 3;
 	optional fixed64 challenge = 4;
+	optional bool shutting_down_soon = 5;
 }
 
 message CMsgSteamDatagramDiagnostic {
 	optional uint32 severity = 1;
 	optional string text = 2;
-}
-
-message CMsgSteamDatagramDataRouterToServer {
-	optional fixed64 client_steam_id = 1;
-	optional uint32 client_session_id = 2;
-	optional uint32 channel = 3;
-	optional bytes payload = 4;
-	optional fixed32 ping_client_timestamp = 5;
-	optional fixed32 ping_router_timestamp = 6;
-}
-
-message CMsgSteamDatagramDataServerToRouter {
-	optional fixed64 client_steam_id = 1;
-	optional uint32 client_session_id = 2;
-	optional uint32 channel = 3;
-	optional bytes payload = 4;
-}
-
-message CMsgSteamDatagramDataClientToRouter {
-	optional uint32 session_cookie = 1;
-	optional uint32 channel = 2;
-	optional bytes payload = 3;
-	optional fixed32 ping_client_timestamp = 4;
-}
-
-message CMsgSteamDatagramDataRouterToClient {
-	optional uint32 session_cookie = 1;
-	optional uint32 channel = 2;
-	optional bytes payload = 3;
 }
 
