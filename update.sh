@@ -6,8 +6,6 @@ cd "${0%/*}"
 if [[ $1 = "all" ]]; then
 	echo "Going to process all folders"
 	
-	shopt -s extglob
-	
 	re='^[0-9]+/$'
 	
 	for dir in */; do
