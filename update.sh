@@ -1,13 +1,33 @@
 #!/bin/bash
 
+# Set working directory where this file is located
+cd "${0%/*}"
+
+if [[ $1 = "all" ]]; then
+	echo "Going to process all folders"
+	
+	shopt -s extglob
+	
+	re='^[0-9]+/$'
+	
+	for dir in */; do
+		if [[ $dir =~ $re ]]; then
+			echo "$dir"
+			
+			./update.sh "${dir::-1}" "no-git"
+		fi
+	done
+	
+	./update.sh 0
+	
+	exit 0
+fi
+
 # Validate that first argument is a number (depotid)
 re='^[0-9]+$'
 if ! [[ $1 =~ $re ]]; then
 	echo "First argument must be an integer" >&2; exit 1
 fi
-
-# Set working directory where this file is located
-cd "${0%/*}"
 
 ProcessDepot ()
 {
@@ -26,9 +46,16 @@ ProcessDepot ()
 		
 		mkdir -p "BuildbotPaths/$2"
 		mkdir -p "Strings/$2"
+		mkdir -p "Symbols/$2"
 		
 		strings "$file" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/$2/$baseFile.txt"
-		strings "$file" -n 5 | grep "^[a-zA-Z0-9\.\_\-]*$" | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -t_ | sort -u > "Strings/$2/$baseFile.txt"
+		
+		if [ "$3" = ".dylib" ]
+		then
+			./.support/nm-with-macho -C -p "$file" | grep -Evi "GCC_except_table|google::protobuf" | awk '{$1=""; print $0}' | sort -u > "Symbols/$2/$baseFile.txt"
+		else
+			strings "$file" -n 5 | grep "^[a-zA-Z0-9\.\_\-]*$" | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -t_ | sort -u > "Strings/$2/$baseFile.txt"
+		fi
 	done <   <(find "$1/" -type f -name "*$3" -print0)
 }
 
@@ -189,6 +216,8 @@ case $1 in
 	
 esac
 
-git add -A
-git commit -a -m "$(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g')"
-git push
+if ! [[ $2 = "no-git" ]]; then
+	git add -A
+	git commit -a -m "$(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g')"
+	git push
+fi
