@@ -3035,8 +3035,10 @@
  B tf_grapplinghook_enable
  B tf_grapplinghook_fire_delay
  B tf_grapplinghook_follow_distance
+ B tf_grapplinghook_jump_up_speed
  B tf_grapplinghook_max_distance
  B tf_grapplinghook_move_speed
+ B tf_grapplinghook_prevent_fall_damage
  B tf_grapplinghook_projectile_speed
  B tf_grapplinghook_use_acceleration
  B tf_grenadelauncher_chargescale
@@ -6563,6 +6565,8 @@
  D C_TFFlareGun_Revenge::m_PredMap
  D C_TFGameRules::ItemTesting_GetBotAnimSpeed()::pHostTimescale
  D C_TFGrapplingHook::m_PredMap
+ D C_TFGrapplingHook::m_acttable
+ D C_TFGrapplingHook::m_poseparamtable
  D C_TFGrenadeLauncher::m_PredMap
  D C_TFGrenadeLauncher::m_pClassRecvTable
  D C_TFGrenadePipebombProjectile::m_pClassRecvTable
@@ -6642,18 +6646,6 @@
  D C_TFThrowable::m_PredMap
  D C_TFThrowable::m_pClassRecvTable
  D C_TFWeaponBase::m_PredMap
- D C_TFWeaponBase::m_acttableBuilding
- D C_TFWeaponBase::m_acttableBuildingDeployed
- D C_TFWeaponBase::m_acttableItem1
- D C_TFWeaponBase::m_acttableItem2
- D C_TFWeaponBase::m_acttableLoserState
- D C_TFWeaponBase::m_acttableMelee
- D C_TFWeaponBase::m_acttableMeleeAllclass
- D C_TFWeaponBase::m_acttablePDA
- D C_TFWeaponBase::m_acttablePrimary
- D C_TFWeaponBase::m_acttablePrimary2
- D C_TFWeaponBase::m_acttableSecondary
- D C_TFWeaponBase::m_acttableSecondary2
  D C_TFWeaponBase::m_pClassRecvTable
  D C_TFWeaponBaseGrenadeProj::m_pClassRecvTable
  D C_TFWeaponBaseGun::m_PredMap
@@ -11790,7 +11782,6 @@
  D k_flMaxEntitySpeed
  D loadingdisc
  D m_pitch
- D m_viewmodelacttable
  D messagechars
  D modemanager
  D netgraphpanel
@@ -11828,10 +11819,21 @@
  D s_ReplayPerformancePlaybackHandler
  D s_aGestureSlotNames
  D s_aPlayerClassFiles
+ D s_acttableBuilding
+ D s_acttableItem1
+ D s_acttableItem2
+ D s_acttableMelee
+ D s_acttableMeleeAllclass
+ D s_acttablePDA
+ D s_acttablePrimary
+ D s_acttablePrimary2
+ D s_acttableSecondary
+ D s_acttableSecondary2
  D s_flaggedConVars
  D s_m_iv_AnimOverlayNames
  D s_pRandomFloats
  D s_pStatStrings
+ D s_viewmodelacttable
  D screenfade_t::m_DataMap
  D screenshake_t::m_DataMap
  D servernetadr_t::ToString(unsigned int, unsigned short) const::nBuf
@@ -22530,7 +22532,7 @@
  T AxisAngleQuaternion(Vector const&, float, Quaternion&)
  T BGetLocalFormattedDate(long, char*, int)
  T BInitializeCurrencyPricePoints(CUtlMap<price_point_map_key_t, unsigned int, unsigned short>&, KeyValues*)
- T BInitializeStoreEntryPricePoints(econ_store_entry_t&, CUtlMap<price_point_map_key_t, unsigned int, unsigned short> const&, KeyValues*, void (econ_store_entry_t::*)(ECurrency, unsigned int), unsigned int (econ_store_entry_t::*)(ECurrency) const)
+ T BInitializeStoreEntryPricePoints(econ_store_entry_t&, CUtlMap<price_point_map_key_t, unsigned int, unsigned short> const&, KeyValues*, int)
  T BMPResAnimData_t::~BMPResAnimData_t()
  T BMPResData_t::~BMPResData_t()
  T BSpline(Vector const&, Vector const&, Vector const&, Vector const&, float, Vector&)
@@ -36867,7 +36869,6 @@
  T CProxyWheatlyEyeGlow::OnBind(void*)
  T CProxyWheatlyEyeGlow::~CProxyWheatlyEyeGlow()
  T CPublishedFiles::RequestNextPublishedFileDetails()
- T CPublishedFiles::RequestPublishedFileDetails(unsigned long long)
  T CPublishedFiles::Steam_OnDeletePublishedFile(RemoteStorageDeletePublishedFileResult_t*, bool)
  T CPublishedFiles::Steam_OnEnumeratePublishedFiles(RemoteStorageEnumerateUserPublishedFilesResult_t*, bool)
  T CPublishedFiles::Steam_OnGetPublishedFileDetails(RemoteStorageGetPublishedFileDetailsResult_t*, bool)
@@ -41367,7 +41368,6 @@
  T CUtlDict<int, unsigned short>::~CUtlDict()
  T CUtlDict<vgui::IPanelAnimationPropertyConverter*, int>::~CUtlDict()
  T CUtlHandleTable<vgui::BuildGroup, 20>::AddHandle()
- T CUtlHandleTable<vgui::BuildGroup, 20>::RemoveHandle(unsigned int)
  T CUtlHandleTable<vgui::BuildGroup, 20>::~CUtlHandleTable()
  T CUtlHash<CEntityDataInstantiator<CWatcherList>::HashEntry, bool (*)(CEntityDataInstantiator<CWatcherList>::HashEntry const&, CEntityDataInstantiator<CWatcherList>::HashEntry const&), unsigned int (*)(CEntityDataInstantiator<CWatcherList>::HashEntry const&)>::Insert(CEntityDataInstantiator<CWatcherList>::HashEntry const&)
  T CUtlHash<CEntityDataInstantiator<CWatcherList>::HashEntry, bool (*)(CEntityDataInstantiator<CWatcherList>::HashEntry const&, CEntityDataInstantiator<CWatcherList>::HashEntry const&), unsigned int (*)(CEntityDataInstantiator<CWatcherList>::HashEntry const&)>::~CUtlHash()
@@ -42162,6 +42162,8 @@
  T CUtlPriorityQueue<SoundCommand_t*>::Insert(SoundCommand_t* const&)
  T CUtlPriorityQueue<SoundCommand_t*>::RemoveAt(int)
  T CUtlPriorityQueue<SoundCommand_t*>::RemoveAtHead()
+ T CUtlQueue<int, CUtlMemory<int, int> >::Insert(int const&)
+ T CUtlQueue<unsigned long long, CUtlMemory<unsigned long long, int> >::Insert(unsigned long long const&)
  T CUtlRBTree<AsyncCaption_t::BlockInfo_t, unsigned short, bool (*)(AsyncCaption_t::BlockInfo_t const&, AsyncCaption_t::BlockInfo_t const&), CUtlMemory<UtlRBTreeNode_t<AsyncCaption_t::BlockInfo_t, unsigned short>, unsigned short> >::Find(AsyncCaption_t::BlockInfo_t const&) const
  T CUtlRBTree<AsyncCaption_t::BlockInfo_t, unsigned short, bool (*)(AsyncCaption_t::BlockInfo_t const&, AsyncCaption_t::BlockInfo_t const&), CUtlMemory<UtlRBTreeNode_t<AsyncCaption_t::BlockInfo_t, unsigned short>, unsigned short> >::FindInsertionPosition(AsyncCaption_t::BlockInfo_t const&, unsigned short&, bool&)
  T CUtlRBTree<AsyncCaption_t::BlockInfo_t, unsigned short, bool (*)(AsyncCaption_t::BlockInfo_t const&, AsyncCaption_t::BlockInfo_t const&), CUtlMemory<UtlRBTreeNode_t<AsyncCaption_t::BlockInfo_t, unsigned short>, unsigned short> >::FirstInorder() const
@@ -44320,8 +44322,7 @@
  T C_BaseCombatCharacter::~C_BaseCombatCharacter()
  T C_BaseCombatWeapon::AbortReload()
  T C_BaseCombatWeapon::Activate()
- T C_BaseCombatWeapon::ActivityList()
- T C_BaseCombatWeapon::ActivityListCount()
+ T C_BaseCombatWeapon::ActivityList(int&)
  T C_BaseCombatWeapon::ActivityOverride(Activity, bool*)
  T C_BaseCombatWeapon::AddLookShift()
  T C_BaseCombatWeapon::AddToCritBucket(float)
@@ -44457,6 +44458,7 @@
  T C_BaseCombatWeapon::OnPickedUp(C_BaseCombatCharacter*)
  T C_BaseCombatWeapon::OnRestore()
  T C_BaseCombatWeapon::OverrideMouseInput(float*, float*)
+ T C_BaseCombatWeapon::PoseParameterOverride(bool)
  T C_BaseCombatWeapon::Precache()
  T C_BaseCombatWeapon::PrimaryAttack()
  T C_BaseCombatWeapon::Ready()
@@ -45701,14 +45703,14 @@
  T C_EconItemView::C_EconItemView(C_EconItemView const&)
  T C_EconItemView::EnsureDescriptionIsBuilt() const
  T C_EconItemView::GetAccountID() const
- T C_EconItemView::GetAnimationSlot()
+ T C_EconItemView::GetAnimationSlot() const
  T C_EconItemView::GetCustomDesc() const
  T C_EconItemView::GetCustomName() const
  T C_EconItemView::GetCustomUserTextureID()
  T C_EconItemView::GetDataDescMap()
  T C_EconItemView::GetDropType()
- T C_EconItemView::GetExtraWearableModel()
- T C_EconItemView::GetExtraWearableViewModel()
+ T C_EconItemView::GetExtraWearableModel() const
+ T C_EconItemView::GetExtraWearableViewModel() const
  T C_EconItemView::GetFlags() const
  T C_EconItemView::GetID() const
  T C_EconItemView::GetInUse() const
@@ -45734,8 +45736,8 @@
  T C_EconItemView::GetSkin(int, bool) const
  T C_EconItemView::GetStaticData() const
  T C_EconItemView::GetStyle() const
- T C_EconItemView::GetVisionFilteredDisplayModel()
- T C_EconItemView::GetWorldDisplayModel()
+ T C_EconItemView::GetVisionFilteredDisplayModel() const
+ T C_EconItemView::GetWorldDisplayModel() const
  T C_EconItemView::Init(int, int, int, unsigned int)
  T C_EconItemView::IsTransparent()
  T C_EconItemView::IterateAttributes(IEconItemAttributeIterator*) const
@@ -45769,6 +45771,7 @@
  T C_EconWearable::OnDataChanged(DataUpdateType_t)
  T C_EconWearable::OnWearerDeath()
  T C_EconWearable::RemoveFrom(C_BaseEntity*)
+ T C_EconWearable::ShadowCastType()
  T C_EconWearable::ShouldDraw()
  T C_EconWearable::ShouldDrawParticleSystems()
  T C_EconWearable::ShouldDrawWhenPlayerIsDead()
@@ -48032,7 +48035,9 @@
  T C_TFGameRulesProxy::GetClientClass()
  T C_TFGameRulesProxy::YouForgotToImplementOrDeclareClientClass()
  T C_TFGameRulesProxy::~C_TFGameRulesProxy()
+ T C_TFGrapplingHook::ActivityList(int&)
  T C_TFGrapplingHook::CanAttack()
+ T C_TFGrapplingHook::Deploy()
  T C_TFGrapplingHook::FireProjectile(C_TFPlayer*)
  T C_TFGrapplingHook::GetCanAttackFlags() const
  T C_TFGrapplingHook::GetClientClass()
@@ -48044,9 +48049,16 @@
  T C_TFGrapplingHook::GetWeaponProjectileType() const
  T C_TFGrapplingHook::Holster(C_BaseCombatWeapon*)
  T C_TFGrapplingHook::ItemPostFrame()
+ T C_TFGrapplingHook::OnDataChanged(DataUpdateType_t)
+ T C_TFGrapplingHook::PlayWeaponShootSound()
+ T C_TFGrapplingHook::PoseParameterOverride(bool)
  T C_TFGrapplingHook::PrimaryAttack()
+ T C_TFGrapplingHook::SendWeaponAnim(int)
  T C_TFGrapplingHook::ShouldRemoveDisguiseOnPrimaryAttack() const
  T C_TFGrapplingHook::ShouldRemoveInvisibilityOnPrimaryAttack() const
+ T C_TFGrapplingHook::StartHookSound()
+ T C_TFGrapplingHook::UpdateHookSound()
+ T C_TFGrapplingHook::UpdateOnRemove()
  T C_TFGrapplingHook::YouForgotToImplementOrDeclareClientClass()
  T C_TFGrapplingHook::~C_TFGrapplingHook()
  T C_TFGrenadeLauncher::CanCharge()
@@ -48130,8 +48142,8 @@
  T C_TFJarMilk::ModifyEventParticles(char const*)
  T C_TFJarMilk::YouForgotToImplementOrDeclareClientClass()
  T C_TFJarMilk::~C_TFJarMilk()
- T C_TFKatana::ActivityList()
  T C_TFKatana::Deploy()
+ T C_TFKatana::GetActivityWeaponRole() const
  T C_TFKatana::GetClientClass()
  T C_TFKatana::GetMeleeDamage(C_BaseEntity*, int*, int*)
  T C_TFKatana::GetPredDescMap()
@@ -48431,6 +48443,7 @@
  T C_TFPlayer::CanShowClassMenu()
  T C_TFPlayer::CanUseFirstPersonCommand()
  T C_TFPlayer::CheckAndUpdateGibType()
+ T C_TFPlayer::CleanUpAnimationOnSpawn()
  T C_TFPlayer::ClearSceneEvent(CSceneEventInfo*, bool, bool)
  T C_TFPlayer::ClientPlayerRespawn()
  T C_TFPlayer::ClientThink()
@@ -49268,8 +49281,7 @@
  T C_TFViewModel::~C_TFViewModel()
  T C_TFWeaponBase::AbortReload()
  T C_TFWeaponBase::Activate()
- T C_TFWeaponBase::ActivityList()
- T C_TFWeaponBase::ActivityListCount()
+ T C_TFWeaponBase::ActivityList(int&)
  T C_TFWeaponBase::AddViewmodelBob(C_BaseViewModel*, Vector&, QAngle&)
  T C_TFWeaponBase::AllowTaunts()
  T C_TFWeaponBase::ApplyFireDelay(float) const
@@ -49317,6 +49329,7 @@
  T C_TFWeaponBase::FireFullClipAtOnce()
  T C_TFWeaponBase::FireGameEvent(IGameEvent*)
  T C_TFWeaponBase::ForceWeaponSwitch() const
+ T C_TFWeaponBase::GetActivityWeaponRole() const
  T C_TFWeaponBase::GetAppropriateWorldOrViewModel()
  T C_TFWeaponBase::GetCanAttackFlags() const
  T C_TFWeaponBase::GetClientClass()
@@ -49328,7 +49341,6 @@
  T C_TFWeaponBase::GetEffectLabelText()
  T C_TFWeaponBase::GetInventoryModel()
  T C_TFWeaponBase::GetLastDeployTime()
- T C_TFWeaponBase::GetLoadoutSlot()
  T C_TFWeaponBase::GetMaxClip1() const
  T C_TFWeaponBase::GetMaxHealthMod()
  T C_TFWeaponBase::GetMuzzleFlashEffectName_1st()
@@ -49397,6 +49409,7 @@
  T C_TFWeaponBase::ReloadSinglyPostFrame()
  T C_TFWeaponBase::RemoveExtraWearables()
  T C_TFWeaponBase::SecondaryAttack()
+ T C_TFWeaponBase::SendWeaponAnim(int)
  T C_TFWeaponBase::SetReloadTimer(float)
  T C_TFWeaponBase::SetWeaponVisible(bool)
  T C_TFWeaponBase::ShadowCastType()
@@ -52242,6 +52255,7 @@
  T GetActiveWar()
  T GetActiveWeapon()
  T GetAmmoDef()
+ T GetAmmoName(int)
  T GetAttachTypeFromString(char const*)
  T GetAttachmentLocalSpace(CStudioHdr*, int, matrix3x4_t&)
  T GetAutoMultiplayerPhysicsMode(Vector, float)
@@ -53976,18 +53990,14 @@
  T datamap_t* DataMapInit<C_ClientRagdoll>(C_ClientRagdoll*)
  T datamap_t* DataMapInit<C_PointCommentaryNode>(C_PointCommentaryNode*)
  T dyld_stub_binding_helper
- T econ_store_entry_t::GetBasePrice(ECurrency) const
  T econ_store_entry_t::GetCurrentPrice(ECurrency) const
  T econ_store_entry_t::GetRentalPriceScale() const
- T econ_store_entry_t::GetSalePrice(ECurrency) const
  T econ_store_entry_t::HasDiscount(ECurrency, unsigned int*) const
  T econ_store_entry_t::InitCategoryTags(char const*)
  T econ_store_entry_t::IsListedInCategory(unsigned int) const
  T econ_store_entry_t::IsListedInCategoryOrSubcategories(CEconStoreCategoryManager::StoreCategory_t const&) const
  T econ_store_entry_t::IsOnSale(ECurrency) const
  T econ_store_entry_t::IsRentable() const
- T econ_store_entry_t::SetBasePrice(ECurrency, unsigned int)
- T econ_store_entry_t::SetSalePrice(ECurrency, unsigned int)
  T float AttributeConvertFromFloat<float>(float)
  T float CAttributeManager::AttribHookValue<float>(float, char const*, C_BaseEntity const*, CUtlVector<C_BaseEntity*, CUtlMemory<C_BaseEntity*, int> >*, bool)
  T float16::ConvertFloatTo16bits(float)
@@ -53996,6 +54006,7 @@
  T fogparams_t::operator!=(fogparams_t const&) const
  T fogplayerparams_t::NetworkStateChanged()
  T fogplayerparams_t::NetworkStateChanged(void*)
+ T hud_autoreloadscript_callback(IConVar*, char const*, float)
  T int AttributeConvertFromFloat<int>(float)
  T int CAttributeManager::AttribHookValue<int>(int, char const*, C_BaseEntity const*, CUtlVector<C_BaseEntity*, CUtlMemory<C_BaseEntity*, int> >*, bool)
  T int CRestore::ReadSimple<Quaternion>(Quaternion*, int, int)
@@ -56192,6 +56203,7 @@
  T non-virtual thunk to C_EconWearable::GetClientClass()
  T non-virtual thunk to C_EconWearable::GetSkin()
  T non-virtual thunk to C_EconWearable::OnDataChanged(DataUpdateType_t)
+ T non-virtual thunk to C_EconWearable::ShadowCastType()
  T non-virtual thunk to C_EconWearable::ShouldDraw()
  T non-virtual thunk to C_EconWearableGib::ClientThink()
  T non-virtual thunk to C_Embers::GetClientClass()
@@ -56780,6 +56792,7 @@
  T non-virtual thunk to C_TFGameRulesProxy::GetClientClass()
  T non-virtual thunk to C_TFGameRulesProxy::~C_TFGameRulesProxy()
  T non-virtual thunk to C_TFGrapplingHook::GetClientClass()
+ T non-virtual thunk to C_TFGrapplingHook::OnDataChanged(DataUpdateType_t)
  T non-virtual thunk to C_TFGrapplingHook::~C_TFGrapplingHook()
  T non-virtual thunk to C_TFGrenadeLauncher::CanCharge()
  T non-virtual thunk to C_TFGrenadeLauncher::GetChargeBeginTime()
@@ -61434,7 +61447,6 @@
  b IsLocalPlayerWrappedGift(IEconItemInterface const*)::pAttr_GifterAccountID
  b Is_CAM_ThirdPerson_MayaMode()::s_b_CAM_ThirdPerson_MayaMode
  b ItemSystem()::pSystem
- b KeyValues::LoadFromFile(IBaseFileSystem*, char const*, char const*, bool)::s_bCacheDisabled
  b KeyValues::SaveKeyToFile(KeyValues*, IBaseFileSystem*, void*, CUtlBuffer*, int, bool, bool)::buf
  b MapStats_t_UnpackInit::s_pUnpack
  b OnAskBigPictureControllerDialogButtonPressed(bool, void*)::joystick
@@ -62996,7 +63008,6 @@
  b guard variable for IEconTool::ShouldDisplayQuantity(IEconItemInterface const*) const::pAttrDef_UnlimitedQuantity
  b guard variable for IsDuelingMedal(CTFItemDefinition const*)::pAttrDef_DuelingMedals
  b guard variable for IsLocalPlayerWrappedGift(IEconItemInterface const*)::pAttr_GifterAccountID
- b guard variable for KeyValues::LoadFromFile(IBaseFileSystem*, char const*, char const*, bool)::s_bCacheDisabled
  b guard variable for OnAskBigPictureControllerDialogButtonPressed(bool, void*)::joystick
  b guard variable for PanelMetaClassMgr()::s_MetaClassMgrImp
  b guard variable for ParticleMgr()::s_ParticleMgr
@@ -64215,7 +64226,7 @@
  r CReplayRenderDialog::OnThink()::webmToQualityMultiplierTable
  r CSchemeVisualizer::AddFontsToList()::strOAccent
  r CSchemeVisualizer::AddFontsToList()::strSkull
- r CTFPlayerAnimState::ActivityOverride(Activity, bool*)::s_acttableKartState
+ r C_TFWeaponBase::GetInspectActivity(C_TFWeaponBase::TFWeaponInspectStage)::s_inspectActivities
  r CheckValveSignature(void const*, unsigned int, void const*, unsigned int)::valvePublicKey
  r CryptoPP::RoundupSizeTable
  r CryptoPP::SHA256::InitState(unsigned int*)::s
@@ -64691,6 +64702,9 @@
  r s_DefaultSheetSequence
  r s_ExtIndices
  r s_MatIndices
+ r s_acttableBuildingDeployed
+ r s_acttableKartState
+ r s_acttableLoserState
  r s_bBrushStrokeData
  r s_pAttributeSize
  r s_pBoxFaceIndices

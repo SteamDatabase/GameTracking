@@ -1016,6 +1016,7 @@
  B CTFHellZap_DataDescInit::g_DataMapHolder
  B CTFHolidayEntity_DataDescInit::g_DataMapHolder
  B CTFHudNotify_DataDescInit::g_DataMapHolder
+ B CTFInfoPowerupSpawn_DataDescInit::g_DataMapHolder
  B CTFIntermission_DataDescInit::g_DataMapHolder
  B CTFLobbyMember::_default_name_
  B CTFLobbyMember::default_instance_
@@ -1948,6 +1949,7 @@
  B IFuncForceFieldAutoList::m_IFuncForceFieldAutoListAutoList
  B IFuncNavPrerequisiteAutoList::m_IFuncNavPrerequisiteAutoListAutoList
  B IFuncNoBuildAutoList::m_IFuncNoBuildAutoListAutoList
+ B IFuncPowerupVolumeAutoList::m_IFuncPowerupVolumeAutoListAutoList
  B IFuncRespawnRoomAutoList::m_IFuncRespawnRoomAutoListAutoList
  B IFuncRespawnRoomVisualizerAutoList::m_IFuncRespawnRoomVisualizerAutoListAutoList
  B IInfoPowerupSpawnAutoList::m_IInfoPowerupSpawnAutoListAutoList
@@ -2774,6 +2776,7 @@
  B sv_vote_issue_classlimits_max_mvm
  B sv_vote_issue_kick_allowed
  B sv_vote_issue_kick_allowed_mvm
+ B sv_vote_issue_kick_limit_mvm
  B sv_vote_issue_kick_min_connect_time_mvm
  B sv_vote_issue_kick_namelock_duration
  B sv_vote_issue_kick_spectators_mvm
@@ -3028,8 +3031,11 @@
  B tf_grapplinghook_enable
  B tf_grapplinghook_fire_delay
  B tf_grapplinghook_follow_distance
+ B tf_grapplinghook_jump_up_speed
+ B tf_grapplinghook_los_force_detach_time
  B tf_grapplinghook_max_distance
  B tf_grapplinghook_move_speed
+ B tf_grapplinghook_prevent_fall_damage
  B tf_grapplinghook_projectile_speed
  B tf_grapplinghook_use_acceleration
  B tf_grenade_force_sleeptime
@@ -3204,6 +3210,7 @@
  B tf_populator_debug
  B tf_populator_health_multiplier
  B tf_powerup_mode
+ B tf_powerup_mode_imbalance_delta
  B tf_raid_engineer_infinte_metal
  B tf_rd_max_points_override
  B tf_rd_min_points_to_steal
@@ -3930,6 +3937,8 @@
  D CTFGameRules::ItemTesting_GetBotAnimSpeed()::pHostTimescale
  D CTFGameRulesProxy::m_DataMap
  D CTFGrapplingHook::m_DataMap
+ D CTFGrapplingHook::m_acttable
+ D CTFGrapplingHook::m_poseparamtable
  D CTFGrenadeLauncher::m_DataMap
  D CTFGrenadeLauncher::m_pClassSendTable
  D CTFGrenadePipebombProjectile::m_DataMap
@@ -3941,6 +3950,7 @@
  D CTFHellZap::m_DataMap
  D CTFHolidayEntity::m_DataMap
  D CTFHudNotify::m_DataMap
+ D CTFInfoPowerupSpawn::m_DataMap
  D CTFIntermission::m_DataMap
  D CTFItem::m_pClassSendTable
  D CTFJar::m_pClassSendTable
@@ -4003,18 +4013,6 @@
  D CTFTeamSpawn::m_DataMap
  D CTFThrowable::m_pClassSendTable
  D CTFWeaponBase::m_DataMap
- D CTFWeaponBase::m_acttableBuilding
- D CTFWeaponBase::m_acttableBuildingDeployed
- D CTFWeaponBase::m_acttableItem1
- D CTFWeaponBase::m_acttableItem2
- D CTFWeaponBase::m_acttableLoserState
- D CTFWeaponBase::m_acttableMelee
- D CTFWeaponBase::m_acttableMeleeAllclass
- D CTFWeaponBase::m_acttablePDA
- D CTFWeaponBase::m_acttablePrimary
- D CTFWeaponBase::m_acttablePrimary2
- D CTFWeaponBase::m_acttableSecondary
- D CTFWeaponBase::m_acttableSecondary2
  D CTFWeaponBase::m_pClassSendTable
  D CTFWeaponBaseGrenadeProj::m_DataMap
  D CTFWeaponBaseGrenadeProj::m_pClassSendTable
@@ -4121,6 +4119,7 @@
  D CUtlRBTree<CUtlMap<CChoreoActor*, CBaseFlex*, unsigned short>::Node_t, unsigned short, CUtlMap<CChoreoActor*, CBaseFlex*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CChoreoActor*, CBaseFlex*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short, CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+ D CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<CSteamID, double, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, double, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, double, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<CSteamID, float, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
@@ -5326,6 +5325,8 @@
  D datamap_t* DataMapInit<CTFHolidayEntity>(CTFHolidayEntity*)::nameHolder
  D datamap_t* DataMapInit<CTFHudNotify>(CTFHudNotify*)::dataDesc
  D datamap_t* DataMapInit<CTFHudNotify>(CTFHudNotify*)::nameHolder
+ D datamap_t* DataMapInit<CTFInfoPowerupSpawn>(CTFInfoPowerupSpawn*)::dataDesc
+ D datamap_t* DataMapInit<CTFInfoPowerupSpawn>(CTFInfoPowerupSpawn*)::nameHolder
  D datamap_t* DataMapInit<CTFIntermission>(CTFIntermission*)::dataDesc
  D datamap_t* DataMapInit<CTFIntermission>(CTFIntermission*)::nameHolder
  D datamap_t* DataMapInit<CTFLunchBox>(CTFLunchBox*)::dataDesc
@@ -5858,6 +5859,7 @@
  D guard variable for CUtlRBTree<CUtlMap<CChoreoActor*, CBaseFlex*, unsigned short>::Node_t, unsigned short, CUtlMap<CChoreoActor*, CBaseFlex*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CChoreoActor*, CBaseFlex*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short, CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+ D guard variable for CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<CSteamID, double, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, double, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, double, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<CSteamID, float, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
@@ -6625,6 +6627,7 @@
  D guard variable for datamap_t* DataMapInit<CTFHellZap>(CTFHellZap*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFHolidayEntity>(CTFHolidayEntity*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFHudNotify>(CTFHudNotify*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CTFInfoPowerupSpawn>(CTFInfoPowerupSpawn*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFIntermission>(CTFIntermission*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFLunchBox>(CTFLunchBox*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFMedigunShield>(CTFMedigunShield*)::dataDesc
@@ -7989,7 +7992,6 @@
  D lagcompensation
  D locksound_t::m_DataMap
  D m_nDebugOverlayIndex
- D m_viewmodelacttable
  D magnetted_objects_t::m_DataMap
  D modifiedconvars_t::m_DataMap
  D pFGDPropData
@@ -8015,8 +8017,19 @@
  D s_PluginCheck
  D s_aGestureSlotNames
  D s_aPlayerClassFiles
+ D s_acttableBuilding
+ D s_acttableItem1
+ D s_acttableItem2
+ D s_acttableMelee
+ D s_acttableMeleeAllclass
+ D s_acttablePDA
+ D s_acttablePrimary
+ D s_acttablePrimary2
+ D s_acttableSecondary
+ D s_acttableSecondary2
  D s_pDebrisContext
  D s_pFadeOutContext
+ D s_viewmodelacttable
  D sky3dparams_t::m_DataMap
  D steamapicontext
  D steamgameserverapicontext
@@ -8688,6 +8701,7 @@
  D typeinfo for CEntityFactory<CPopulationManager>
  D typeinfo for CEntityFactory<CPopulatorInternalSpawnPoint>
  D typeinfo for CEntityFactory<CPoseController>
+ D typeinfo for CEntityFactory<CPowerupVolume>
  D typeinfo for CEntityFactory<CPrecipitation>
  D typeinfo for CEntityFactory<CProjectedDecal>
  D typeinfo for CEntityFactory<CPropDoorRotating>
@@ -9713,6 +9727,7 @@
  D typeinfo for CPopulatorInternalSpawnPoint
  D typeinfo for CPoseController
  D typeinfo for CPostFrameNavigationHook
+ D typeinfo for CPowerupVolume
  D typeinfo for CPrecacheOtherList
  D typeinfo for CPrecipitation
  D typeinfo for CProjectedDecal
@@ -10731,6 +10746,7 @@
  D typeinfo for IFuncForceFieldAutoList
  D typeinfo for IFuncNavPrerequisiteAutoList
  D typeinfo for IFuncNoBuildAutoList
+ D typeinfo for IFuncPowerupVolumeAutoList
  D typeinfo for IFuncRespawnRoomAutoList
  D typeinfo for IFuncRespawnRoomVisualizerAutoList
  D typeinfo for IGameEventListener2
@@ -11532,6 +11548,7 @@
  D vtable for CEntityFactory<CPopulationManager>
  D vtable for CEntityFactory<CPopulatorInternalSpawnPoint>
  D vtable for CEntityFactory<CPoseController>
+ D vtable for CEntityFactory<CPowerupVolume>
  D vtable for CEntityFactory<CPrecipitation>
  D vtable for CEntityFactory<CProjectedDecal>
  D vtable for CEntityFactory<CPropDoorRotating>
@@ -12550,6 +12567,7 @@
  D vtable for CPopulatorInternalSpawnPoint
  D vtable for CPoseController
  D vtable for CPostFrameNavigationHook
+ D vtable for CPowerupVolume
  D vtable for CPrecacheOtherList
  D vtable for CPrecipitation
  D vtable for CProjectedDecal
@@ -13450,6 +13468,7 @@
  D vtable for IFuncForceFieldAutoList
  D vtable for IFuncNavPrerequisiteAutoList
  D vtable for IFuncNoBuildAutoList
+ D vtable for IFuncPowerupVolumeAutoList
  D vtable for IFuncRespawnRoomAutoList
  D vtable for IFuncRespawnRoomVisualizerAutoList
  D vtable for IGameSystem
@@ -14214,6 +14233,7 @@
  R typeinfo name for CEntityFactory<CPopulationManager>
  R typeinfo name for CEntityFactory<CPopulatorInternalSpawnPoint>
  R typeinfo name for CEntityFactory<CPoseController>
+ R typeinfo name for CEntityFactory<CPowerupVolume>
  R typeinfo name for CEntityFactory<CPrecipitation>
  R typeinfo name for CEntityFactory<CProjectedDecal>
  R typeinfo name for CEntityFactory<CPropDoorRotating>
@@ -15239,6 +15259,7 @@
  R typeinfo name for CPopulatorInternalSpawnPoint
  R typeinfo name for CPoseController
  R typeinfo name for CPostFrameNavigationHook
+ R typeinfo name for CPowerupVolume
  R typeinfo name for CPrecacheOtherList
  R typeinfo name for CPrecipitation
  R typeinfo name for CProjectedDecal
@@ -16257,6 +16278,7 @@
  R typeinfo name for IFuncForceFieldAutoList
  R typeinfo name for IFuncNavPrerequisiteAutoList
  R typeinfo name for IFuncNoBuildAutoList
+ R typeinfo name for IFuncPowerupVolumeAutoList
  R typeinfo name for IFuncRespawnRoomAutoList
  R typeinfo name for IFuncRespawnRoomVisualizerAutoList
  R typeinfo name for IGameEventListener2
@@ -19738,8 +19760,7 @@
  T CBaseCombatCharacter::~CBaseCombatCharacter()
  T CBaseCombatWeapon::AbortReload()
  T CBaseCombatWeapon::Activate()
- T CBaseCombatWeapon::ActivityList()
- T CBaseCombatWeapon::ActivityListCount()
+ T CBaseCombatWeapon::ActivityList(int&)
  T CBaseCombatWeapon::ActivityOverride(Activity, bool*)
  T CBaseCombatWeapon::AddToCritBucket(float)
  T CBaseCombatWeapon::AddViewKick()
@@ -19875,6 +19896,7 @@
  T CBaseCombatWeapon::Operator_ForceNPCFire(CBaseCombatCharacter*, bool)
  T CBaseCombatWeapon::Operator_FrameUpdate(CBaseCombatCharacter*)
  T CBaseCombatWeapon::Operator_HandleAnimEvent(animevent_t*, CBaseCombatCharacter*)
+ T CBaseCombatWeapon::PoseParameterOverride(bool)
  T CBaseCombatWeapon::Precache()
  T CBaseCombatWeapon::PrimaryAttack()
  T CBaseCombatWeapon::Ready()
@@ -20626,6 +20648,7 @@
  T CBaseIssue::GetNumberVoteOptions()
  T CBaseIssue::GetQuorumRatio()
  T CBaseIssue::GetTypeString()
+ T CBaseIssue::GetTypeStringLocalized()
  T CBaseIssue::GetVoteOptions(CUtlVector<char const*, CUtlMemory<char const*, int> >&)
  T CBaseIssue::GetVotePassedString()
  T CBaseIssue::IsEnabled()
@@ -22040,7 +22063,6 @@
  T CChangeLevelIssue::ExecuteCommand()
  T CChangeLevelIssue::GetDetailsString()
  T CChangeLevelIssue::GetDisplayString()
- T CChangeLevelIssue::GetTypeStringLocalized()
  T CChangeLevelIssue::GetVotePassedString()
  T CChangeLevelIssue::IsEnabled()
  T CChangeLevelIssue::IsTeamRestrictedVote()
@@ -22818,13 +22840,13 @@
  T CEconItemView::CEconItemView()
  T CEconItemView::CEconItemView(CEconItemView const&)
  T CEconItemView::GetAccountID() const
- T CEconItemView::GetAnimationSlot()
+ T CEconItemView::GetAnimationSlot() const
  T CEconItemView::GetCustomDesc() const
  T CEconItemView::GetCustomName() const
  T CEconItemView::GetDataDescMap()
  T CEconItemView::GetDropType()
- T CEconItemView::GetExtraWearableModel()
- T CEconItemView::GetExtraWearableViewModel()
+ T CEconItemView::GetExtraWearableModel() const
+ T CEconItemView::GetExtraWearableViewModel() const
  T CEconItemView::GetFlags() const
  T CEconItemView::GetID() const
  T CEconItemView::GetInUse() const
@@ -22841,8 +22863,8 @@
  T CEconItemView::GetSkin(int, bool) const
  T CEconItemView::GetStaticData() const
  T CEconItemView::GetStyle() const
- T CEconItemView::GetVisionFilteredDisplayModel()
- T CEconItemView::GetWorldDisplayModel()
+ T CEconItemView::GetVisionFilteredDisplayModel() const
+ T CEconItemView::GetWorldDisplayModel() const
  T CEconItemView::Init(int, int, int, unsigned int)
  T CEconItemView::IterateAttributes(IEconItemAttributeIterator*) const
  T CEconItemView::MarkDescriptionDirty()
@@ -22971,7 +22993,6 @@
  T CEnableTemporaryHalloweenIssue::CanCallVote(int, char const*, vote_create_failed_t&, int&)
  T CEnableTemporaryHalloweenIssue::ExecuteCommand()
  T CEnableTemporaryHalloweenIssue::GetDisplayString()
- T CEnableTemporaryHalloweenIssue::GetTypeStringLocalized()
  T CEnableTemporaryHalloweenIssue::GetVotePassedString()
  T CEnableTemporaryHalloweenIssue::IsEnabled()
  T CEnableTemporaryHalloweenIssue::IsYesNoVote()
@@ -24027,6 +24048,9 @@
  T CEntityFactory<CPoseController>::Create(char const*)
  T CEntityFactory<CPoseController>::Destroy(IServerNetworkable*)
  T CEntityFactory<CPoseController>::GetEntitySize()
+ T CEntityFactory<CPowerupVolume>::Create(char const*)
+ T CEntityFactory<CPowerupVolume>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CPowerupVolume>::GetEntitySize()
  T CEntityFactory<CPrecipitation>::Create(char const*)
  T CEntityFactory<CPrecipitation>::Destroy(IServerNetworkable*)
  T CEntityFactory<CPrecipitation>::GetEntitySize()
@@ -27251,7 +27275,6 @@
  T CKickIssue::ExecuteCommand()
  T CKickIssue::GetDetailsString()
  T CKickIssue::GetDisplayString()
- T CKickIssue::GetTypeStringLocalized()
  T CKickIssue::GetVotePassedString()
  T CKickIssue::IsEnabled()
  T CKickIssue::IsTeamRestrictedVote()
@@ -27259,6 +27282,7 @@
  T CKickIssue::NotifyGC(bool)
  T CKickIssue::OnVoteFailed(int)
  T CKickIssue::OnVoteStarted()
+ T CKickIssue::PrintLogData()
  T CKickIssue::~CKickIssue()
  T CKnownCollector::Inspect(CKnownEntity const&)
  T CKnownEntity::Destroy()
@@ -27447,7 +27471,6 @@
  T CMannVsMachineChangeChallengeIssue::GetDetailsString()
  T CMannVsMachineChangeChallengeIssue::GetDisplayString()
  T CMannVsMachineChangeChallengeIssue::GetNumberVoteOptions()
- T CMannVsMachineChangeChallengeIssue::GetTypeStringLocalized()
  T CMannVsMachineChangeChallengeIssue::GetVotePassedString()
  T CMannVsMachineChangeChallengeIssue::IsEnabled()
  T CMannVsMachineChangeChallengeIssue::IsTeamRestrictedVote()
@@ -31252,7 +31275,6 @@
  T CNextLevelIssue::GetDisplayString()
  T CNextLevelIssue::GetNumberVoteOptions()
  T CNextLevelIssue::GetQuorumRatio()
- T CNextLevelIssue::GetTypeStringLocalized()
  T CNextLevelIssue::GetVoteOptions(CUtlVector<char const*, CUtlMemory<char const*, int> >&)
  T CNextLevelIssue::GetVotePassedString()
  T CNextLevelIssue::IsEnabled()
@@ -32329,6 +32351,11 @@
  T CPostFrameNavigationHook::Init()
  T CPostFrameNavigationHook::Name()
  T CPostFrameNavigationHook::~CPostFrameNavigationHook()
+ T CPowerupVolume::CPowerupVolume()
+ T CPowerupVolume::Precache()
+ T CPowerupVolume::Spawn()
+ T CPowerupVolume::Touch(CBaseEntity*)
+ T CPowerupVolume::~CPowerupVolume()
  T CPrecacheOtherList::LevelInitPreEntity()
  T CPrecacheOtherList::LevelShutdownPostEntity()
  T CPrecacheOtherList::~CPrecacheOtherList()
@@ -32708,7 +32735,6 @@
  T CRestartGameIssue::CanCallVote(int, char const*, vote_create_failed_t&, int&)
  T CRestartGameIssue::ExecuteCommand()
  T CRestartGameIssue::GetDisplayString()
- T CRestartGameIssue::GetTypeStringLocalized()
  T CRestartGameIssue::GetVotePassedString()
  T CRestartGameIssue::IsEnabled()
  T CRestartGameIssue::IsTeamRestrictedVote()
@@ -33366,7 +33392,6 @@
  T CScrambleTeams::CanCallVote(int, char const*, vote_create_failed_t&, int&)
  T CScrambleTeams::ExecuteCommand()
  T CScrambleTeams::GetDisplayString()
- T CScrambleTeams::GetTypeStringLocalized()
  T CScrambleTeams::GetVotePassedString()
  T CScrambleTeams::IsEnabled()
  T CScrambleTeams::IsTeamRestrictedVote()
@@ -35319,7 +35344,9 @@
  T CTFGCServerSystem::GetFirstConnectTimeForLobbyMember(CSteamID const&) const
  T CTFGCServerSystem::GetLobby()
  T CTFGCServerSystem::GetLobby() const
+ T CTFGCServerSystem::GetVoteKickAttemptsByLobbyMember(CSteamID const&) const
  T CTFGCServerSystem::HasLobby() const
+ T CTFGCServerSystem::IncrementVoteKickAttemptsByLobbyMember(CSteamID const&)
  T CTFGCServerSystem::Init()
  T CTFGCServerSystem::LevelInitPreEntity()
  T CTFGCServerSystem::LevelShutdownPostEntity()
@@ -35552,6 +35579,7 @@
  T CTFGameRules::PlayerRoundScoreSortFunc(PlayerRoundScore_t const*, PlayerRoundScore_t const*)
  T CTFGameRules::PointsMayAlwaysBeBlocked()
  T CTFGameRules::PointsMayBeCaptured()
+ T CTFGameRules::PowerupTeamImbalance(int)
  T CTFGameRules::PreRound_End()
  T CTFGameRules::Precache()
  T CTFGameRules::PreviousRoundEnd()
@@ -35613,7 +35641,6 @@
  T CTFGameRules::SkillRating_CalculateAdjustment(CTFPlayer*, CTFPlayer*, float)
  T CTFGameRules::SkillRating_CalculateAdjustmentForTeams(int)
  T CTFGameRules::SkillRating_CalculateTeamMultipliers(float&, float&)
- T CTFGameRules::SkillRating_GetMatchType()
  T CTFGameRules::SkillRating_GetNameForMatchType(CGCMsgTFPlayerSkillRatingAdjustment_MatchType)
  T CTFGameRules::SkillRating_GetRecord(CTFPlayer*)
  T CTFGameRules::SkillRating_IsEnabled()
@@ -35641,7 +35668,6 @@
  T CTFGameRules::VoiceCommand(CBaseMultiplayerPlayer*, int, int)
  T CTFGameRules::WinSongName(int)
  T CTFGameRules::~CTFGameRules()
- T CTFGameRulesProxy* _CreateEntityTemplate<CTFGameRulesProxy>(CTFGameRulesProxy*, char const*)
  T CTFGameRulesProxy::Activate()
  T CTFGameRulesProxy::FireGameEvent(IGameEvent*)
  T CTFGameRulesProxy::GetDataDescMap()
@@ -35723,7 +35749,7 @@
  T CTFGameStats::Event_RobotReactorCoreEvent(int, int, bool)
  T CTFGameStats::Event_RobotRoundEnd(int, int, bool)
  T CTFGameStats::Event_RoundEnd(int, bool, float, bool)
- T CTFGameStats::Event_SkillRatingUpdate(CSteamID, int, int, int, int)
+ T CTFGameStats::Event_SkillRatingUpdate(CSteamID, unsigned int, int, CGCMsgTFPlayerSkillRatingAdjustment_MatchType, int)
  T CTFGameStats::Event_TeamChange(CTFPlayer*, int, int)
  T CTFGameStats::FindPlayerStats(CBasePlayer*)
  T CTFGameStats::FireGameEvent(IGameEvent*)
@@ -35750,7 +35776,9 @@
  T CTFGotoActionPoint::OnStart(CTFBot*, Action<CTFBot>*)
  T CTFGotoActionPoint::Update(CTFBot*, float)
  T CTFGotoActionPoint::~CTFGotoActionPoint()
+ T CTFGrapplingHook::ActivityList(int&)
  T CTFGrapplingHook::CanAttack()
+ T CTFGrapplingHook::Deploy()
  T CTFGrapplingHook::FireProjectile(CTFPlayer*)
  T CTFGrapplingHook::GetCanAttackFlags() const
  T CTFGrapplingHook::GetDataDescMap()
@@ -35762,7 +35790,12 @@
  T CTFGrapplingHook::GetWeaponProjectileType() const
  T CTFGrapplingHook::Holster(CBaseCombatWeapon*)
  T CTFGrapplingHook::ItemPostFrame()
+ T CTFGrapplingHook::OnHookReleased(bool)
+ T CTFGrapplingHook::PlayWeaponShootSound()
+ T CTFGrapplingHook::PoseParameterOverride(bool)
  T CTFGrapplingHook::PrimaryAttack()
+ T CTFGrapplingHook::RemoveHookProjectile(bool)
+ T CTFGrapplingHook::SendWeaponAnim(int)
  T CTFGrapplingHook::ShouldRemoveDisguiseOnPrimaryAttack() const
  T CTFGrapplingHook::ShouldRemoveInvisibilityOnPrimaryAttack() const
  T CTFGrapplingHook::YouForgotToImplementOrDeclareServerClass()
@@ -35902,6 +35935,9 @@
  T CTFHudNotify::GetDataDescMap()
  T CTFHudNotify::InputDisplay(inputdata_t&)
  T CTFHudNotify::~CTFHudNotify()
+ T CTFInfoPowerupSpawn::CTFInfoPowerupSpawn()
+ T CTFInfoPowerupSpawn::GetDataDescMap()
+ T CTFInfoPowerupSpawn::Spawn()
  T CTFInfoPowerupSpawn::~CTFInfoPowerupSpawn()
  T CTFIntermission::GetDataDescMap()
  T CTFIntermission::InputActivate(inputdata_t&)
@@ -35966,8 +36002,8 @@
  T CTFJarMilk::GetWeaponID() const
  T CTFJarMilk::YouForgotToImplementOrDeclareServerClass()
  T CTFJarMilk::~CTFJarMilk()
- T CTFKatana::ActivityList()
  T CTFKatana::Deploy()
+ T CTFKatana::GetActivityWeaponRole() const
  T CTFKatana::GetMeleeDamage(CBaseEntity*, int*, int*)
  T CTFKatana::GetServerClass()
  T CTFKatana::GetSkinOverride() const
@@ -36643,7 +36679,7 @@
  T CTFPlayer::SetBlastJumpState(int, bool)
  T CTFPlayer::SetBombHeadTimestamp()
  T CTFPlayer::SetCurrentTauntMoveSpeed(float)
- T CTFPlayer::SetGrapplingHookTarget(CBaseEntity*)
+ T CTFPlayer::SetGrapplingHookTarget(CBaseEntity*, bool)
  T CTFPlayer::SetIsCoaching(bool)
  T CTFPlayer::SetItem(CTFItem*)
  T CTFPlayer::SetNumberofDominations(int)
@@ -36841,7 +36877,7 @@
  T CTFPlayerShared::IsPlayerDominatingMe(int)
  T CTFPlayerShared::IsSnared()
  T CTFPlayerShared::IsStealthed() const
- T CTFPlayerShared::MakeBleed(CTFPlayer*, CTFWeaponBase*, float, int)
+ T CTFPlayerShared::MakeBleed(CTFPlayer*, CTFWeaponBase*, float, int, bool)
  T CTFPlayerShared::ModifyRage(float)
  T CTFPlayerShared::NetworkStateChanged()
  T CTFPlayerShared::NetworkStateChanged(void*)
@@ -36914,6 +36950,7 @@
  T CTFPlayerShared::SetScoutHypeMeter(float)
  T CTFPlayerShared::SetStunExpireTime(float)
  T CTFPlayerShared::Spawn()
+ T CTFPlayerShared::StopBleed(CTFPlayer*, CTFWeaponBase*)
  T CTFPlayerShared::StopHealing(CBaseEntity*)
  T CTFPlayerShared::StunPlayer(float, float, int, CTFPlayer*)
  T CTFPlayerShared::TestAndExpireChargeEffect(medigun_charge_types)
@@ -37095,6 +37132,7 @@
  T CTFProjectile_GrapplingHook::IsDeflectable()
  T CTFProjectile_GrapplingHook::OnArrowImpact(mstudiobbox_t*, CBaseEntity*, CBaseEntity*)
  T CTFProjectile_GrapplingHook::OnArrowMissAllPlayers()
+ T CTFProjectile_GrapplingHook::Precache()
  T CTFProjectile_GrapplingHook::Spawn()
  T CTFProjectile_GrapplingHook::UpdateOnRemove()
  T CTFProjectile_GrapplingHook::YouForgotToImplementOrDeclareServerClass()
@@ -37578,7 +37616,7 @@
  T CTFRocketLauncher_DirectHit::~CTFRocketLauncher_DirectHit()
  T CTFRune::BlinkThink()
  T CTFRune::ComeToRest()
- T CTFRune::CreateRune(Vector const&, RuneTypes_t, bool, Vector)
+ T CTFRune::CreateRune(Vector const&, RuneTypes_t, int, bool, bool, Vector)
  T CTFRune::GetDefaultPowerupModel()
  T CTFRune::MyTouch(CBasePlayer*)
  T CTFRune::Precache()
@@ -37959,8 +37997,7 @@
  T CTFWarTracker_SpyEngy::~CTFWarTracker_SpyEngy()
  T CTFWeaponBase::AbortReload()
  T CTFWeaponBase::Activate()
- T CTFWeaponBase::ActivityList()
- T CTFWeaponBase::ActivityListCount()
+ T CTFWeaponBase::ActivityList(int&)
  T CTFWeaponBase::AddAssociatedObject(CBaseObject*)
  T CTFWeaponBase::AddKillCombo(int)
  T CTFWeaponBase::AllowTaunts()
@@ -38018,6 +38055,7 @@
  T CTFWeaponBase::FinishReload()
  T CTFWeaponBase::FireFullClipAtOnce()
  T CTFWeaponBase::ForceWeaponSwitch() const
+ T CTFWeaponBase::GetActivityWeaponRole() const
  T CTFWeaponBase::GetBulletSpread()
  T CTFWeaponBase::GetCanAttackFlags() const
  T CTFWeaponBase::GetCustomDamageType() const
@@ -38033,7 +38071,6 @@
  T CTFWeaponBase::GetKillEaterKillEventType() const
  T CTFWeaponBase::GetLastDeployTime()
  T CTFWeaponBase::GetLastHitTime()
- T CTFWeaponBase::GetLoadoutSlot()
  T CTFWeaponBase::GetMaxClip1() const
  T CTFWeaponBase::GetMaxHealthMod()
  T CTFWeaponBase::GetMuzzleFlashEffectName_1st()
@@ -38100,6 +38137,7 @@
  T CTFWeaponBase::Respawn()
  T CTFWeaponBase::SecondaryAttack()
  T CTFWeaponBase::SendObjectDeflectedEvent(CTFPlayer*, CTFPlayer*, int, CBaseAnimating*)
+ T CTFWeaponBase::SendWeaponAnim(int)
  T CTFWeaponBase::SetReloadTimer(float)
  T CTFWeaponBase::SetWeaponVisible(bool)
  T CTFWeaponBase::Spawn()
@@ -39801,6 +39839,7 @@
  T CUtlMemory<IFuncForceFieldAutoList*, int>::Grow(int)
  T CUtlMemory<IFuncNavPrerequisiteAutoList*, int>::Grow(int)
  T CUtlMemory<IFuncNoBuildAutoList*, int>::Grow(int)
+ T CUtlMemory<IFuncPowerupVolumeAutoList*, int>::Grow(int)
  T CUtlMemory<IFuncRespawnRoomAutoList*, int>::Grow(int)
  T CUtlMemory<IFuncRespawnRoomVisualizerAutoList*, int>::Grow(int)
  T CUtlMemory<IGameSystem*, int>::Grow(int)
@@ -39891,6 +39930,7 @@
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CChoreoActor*, CBaseFlex*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
+ T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, double, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, float, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
@@ -40249,6 +40289,16 @@
  T CUtlRBTree<CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
  T CUtlRBTree<CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
  T CUtlRBTree<CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CCopyableUtlVector<CBaseQuestObjectiveTracker*, CUtlMemory<CBaseQuestObjectiveTracker*, int> >, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
+ T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t const&) const
+ T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t const&, unsigned short&, bool&)
+ T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t const&)
+ T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
+ T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsLeftChild(unsigned short) const
+ T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsRightChild(unsigned short) const
+ T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::NewNode()
+ T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
+ T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
+ T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
  T CUtlRBTree<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t const&) const
  T CUtlRBTree<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t const&, unsigned short&, bool&)
  T CUtlRBTree<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FirstInorder() const
@@ -41219,6 +41269,7 @@
  T CUtlVector<IFuncForceFieldAutoList*, CUtlMemory<IFuncForceFieldAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncNavPrerequisiteAutoList*, CUtlMemory<IFuncNavPrerequisiteAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncNoBuildAutoList*, CUtlMemory<IFuncNoBuildAutoList*, int> >::~CUtlVector()
+ T CUtlVector<IFuncPowerupVolumeAutoList*, CUtlMemory<IFuncPowerupVolumeAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncRespawnRoomAutoList*, CUtlMemory<IFuncRespawnRoomAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncRespawnRoomVisualizerAutoList*, CUtlMemory<IFuncRespawnRoomVisualizerAutoList*, int> >::~CUtlVector()
  T CUtlVector<IGameSystem*, CUtlMemory<IGameSystem*, int> >::~CUtlVector()
@@ -41458,6 +41509,8 @@
  T CVoteController::VoteControllerThink()
  T CVoteController::YouForgotToImplementOrDeclareServerClass()
  T CVoteController::~CVoteController()
+ T CVoteControllerSystem::AddPlayerToKickWatchList(CSteamID, float)
+ T CVoteControllerSystem::AddPlayerToNameLockedList(CSteamID, float)
  T CVoteControllerSystem::FrameUpdatePostEntityThink()
  T CVoteControllerSystem::LevelInitPreEntity()
  T CVoteControllerSystem::~CVoteControllerSystem()
@@ -43395,6 +43448,7 @@
  T GetAllChildren(CBaseEntity*, CUtlVector<CBaseEntity*, CUtlMemory<CBaseEntity*, int> >&)
  T GetAllInHierarchy(CBaseEntity*, CUtlVector<CBaseEntity*, CUtlMemory<CBaseEntity*, int> >&)
  T GetAmmoDef()
+ T GetAmmoName(int)
  T GetAnimationEvent(CStudioHdr*, int, animevent_t*, float, float, int)
  T GetAttachmentLocalSpace(CStudioHdr*, int, matrix3x4_t&)
  T GetAutoMultiplayerPhysicsMode(Vector, float)
@@ -43410,6 +43464,7 @@
  T GetConstraintAttachments(CBaseEntity*, CBaseEntity**, IPhysicsObject**)
  T GetCurrentGravity()
  T GetCurrentSkyCamera()
+ T GetCustomDamageName(ETFDmgCustom)
  T GetDeathPoseActivity(CBaseAnimating*, CTakeDamageInfo const&)
  T GetDefaultLightstyleString(int)
  T GetDefaultResponseSystemSaveRestoreBlockHandler()
@@ -43608,6 +43663,7 @@
  T IFuncForceFieldAutoList::~IFuncForceFieldAutoList()
  T IFuncNavPrerequisiteAutoList::~IFuncNavPrerequisiteAutoList()
  T IFuncNoBuildAutoList::~IFuncNoBuildAutoList()
+ T IFuncPowerupVolumeAutoList::~IFuncPowerupVolumeAutoList()
  T IFuncRespawnRoomAutoList::~IFuncRespawnRoomAutoList()
  T IFuncRespawnRoomVisualizerAutoList::~IFuncRespawnRoomVisualizerAutoList()
  T IGameSystem::Add(IGameSystem*)
@@ -44784,6 +44840,7 @@
  T SpawnClientsideFlyingBird(Vector&)
  T SpawnGhost(Vector const&, QAngle const&, float)
  T SpawnHierarchicalList(int, HierarchicalSpawn_t*, bool)
+ T SpawnRunesForTeam(int)
  T Spline_Normalize(Vector const&, Vector const&, Vector const&, Vector const&, Vector&, Vector&)
  T SplitContext(char const*, char*, int, char*, int, float*)
  T SporeExplosion::GetDataDescMap()
@@ -46501,6 +46558,7 @@
  T non-virtual thunk to CPlayerInfo::IsReplay()
  T non-virtual thunk to CPopulationManager::FireGameEvent(IGameEvent*)
  T non-virtual thunk to CPopulationManager::~CPopulationManager()
+ T non-virtual thunk to CPowerupVolume::~CPowerupVolume()
  T non-virtual thunk to CPropDoorRotating::~CPropDoorRotating()
  T non-virtual thunk to CPropSoccerBall::~CPropSoccerBall()
  T non-virtual thunk to CPropVehicle::OnPhysGunPickup(CBasePlayer*, PhysGunPickup_t)
@@ -48093,6 +48151,7 @@
  b CTFPlayerClassShared::GetModelName() const::modelFilename
  b CTFPlayerShared::OnRemoveHalloweenTiny()::vTest
  b CTFPowerupBottle::SetNumCharges(unsigned char)::pAttrDef_PowerupCharges
+ b CTFRune::CreateRune(Vector const&, RuneTypes_t, int, bool, bool, Vector)::tf_powerup_mode
  b CTFWeaponBase::GetBulletSpread()::cone
  b CTFWeaponBaseGun::GetCustomProjectileModel(CAttribute_String*)::pAttrDef_ProjectileEntityName
  b CTFWeaponBaseMelee::DoSwingTraceInternal(CGameTrace&, bool, CUtlVector<CGameTrace, CUtlMemory<CGameTrace, int> >*)::vecSwingMaxsBase
@@ -48157,7 +48216,6 @@
  b IVision::IsLineOfSightClear(Vector const&) const::_counter
  b Internal_GetAttributeTypeUniqueIdentifierNextValue()::s_unUniqueCounter
  b ItemSystem()::pSystem
- b KeyValues::LoadFromFile(IBaseFileSystem*, char const*, char const*, bool)::s_bCacheDisabled
  b KeyValues::SaveKeyToFile(KeyValues*, IBaseFileSystem*, void*, CUtlBuffer*, int, bool, bool)::buf
  b ListRecentNPCSpeechCmd
  b MarkAttribute
@@ -48490,6 +48548,7 @@
  b func_physbox_multiplayer
  b func_plat
  b func_platrot
+ b func_powerupvolume
  b func_precipitation
  b func_proprrespawnzone
  b func_pushable
@@ -49134,6 +49193,7 @@
  b guard variable for CTFPlayer::UpdateSkillRatingData()::vecAttackers
  b guard variable for CTFPlayerShared::OnRemoveHalloweenTiny()::vTest
  b guard variable for CTFPowerupBottle::SetNumCharges(unsigned char)::pAttrDef_PowerupCharges
+ b guard variable for CTFRune::CreateRune(Vector const&, RuneTypes_t, int, bool, bool, Vector)::tf_powerup_mode
  b guard variable for CTFWeaponBase::GetBulletSpread()::cone
  b guard variable for CTFWeaponBaseGun::GetCustomProjectileModel(CAttribute_String*)::pAttrDef_ProjectileEntityName
  b guard variable for CTFWeaponBaseMelee::DoSwingTraceInternal(CGameTrace&, bool, CUtlVector<CGameTrace, CUtlMemory<CGameTrace, int> >*)::vecSwingMaxsBase
@@ -49169,7 +49229,6 @@
  b guard variable for IEconItemInterface::IsUsableInCrafting() const::pAttrib_NeverCraftable
  b guard variable for IEconTool::ShouldDisplayQuantity(IEconItemInterface const*) const::pAttrDef_UnlimitedQuantity
  b guard variable for IVision::IsLineOfSightClear(Vector const&) const::_counter
- b guard variable for KeyValues::LoadFromFile(IBaseFileSystem*, char const*, char const*, bool)::s_bCacheDisabled
  b guard variable for MissingSceneWarning(char const*)::missing
  b guard variable for MoveHelperServer()::s_MoveHelperServer
  b guard variable for PlayerBody::Upkeep()::bot_mimic
@@ -50340,9 +50399,9 @@
  r CBasePlayer::FindUseEntity()::tangents
  r CCaptureFlag::Drop(CTFPlayer*, bool, bool, bool)::fMultipliers
  r CTFBotDefendPoint::OnStart(CTFBot*, Action<CTFBot>*)::roamChance
- r CTFPlayerAnimState::ActivityOverride(Activity, bool*)::s_acttableKartState
  r CTFPlayerShared::GetConditionAssistFromAttacker()::nTrackedConditions
  r CTFPlayerShared::GetConditionAssistFromVictim()::nTrackedConditions
+ r CTFWeaponBase::GetInspectActivity(CTFWeaponBase::TFWeaponInspectStage)::s_inspectActivities
  r CheckValveSignature(void const*, unsigned int, void const*, unsigned int)::valvePublicKey
  r CryptoPP::RoundupSizeTable
  r CryptoPP::SHA256::InitState(unsigned int*)::s
@@ -50720,6 +50779,9 @@
  r pulCRCTable
  r s_ExtIndices
  r s_MatIndices
+ r s_acttableBuildingDeployed
+ r s_acttableKartState
+ r s_acttableLoserState
  r s_pAttributeSize
  r typeinfo name for (anonymous namespace)::CPlayerInfoManager_V1
  r typeinfo name for (anonymous namespace)::IPlayerInfoManager_V1
@@ -50966,8 +51028,8 @@
  t __cxx_global_array_dtor
  t __cxx_global_array_dtor102
  t __cxx_global_array_dtor105
- t __cxx_global_array_dtor1052
  t __cxx_global_array_dtor106
+ t __cxx_global_array_dtor1064
  t __cxx_global_array_dtor114
  t __cxx_global_array_dtor115
  t __cxx_global_array_dtor120
@@ -50985,7 +51047,6 @@
  t __cxx_global_array_dtor18
  t __cxx_global_array_dtor184
  t __cxx_global_array_dtor186
- t __cxx_global_array_dtor187
  t __cxx_global_array_dtor189
  t __cxx_global_array_dtor19
  t __cxx_global_array_dtor191
@@ -51000,9 +51061,9 @@
  t __cxx_global_array_dtor229
  t __cxx_global_array_dtor23
  t __cxx_global_array_dtor231
- t __cxx_global_array_dtor236
- t __cxx_global_array_dtor241
- t __cxx_global_array_dtor246
+ t __cxx_global_array_dtor238
+ t __cxx_global_array_dtor243
+ t __cxx_global_array_dtor248
  t __cxx_global_array_dtor25
  t __cxx_global_array_dtor254
  t __cxx_global_array_dtor26
@@ -51012,11 +51073,11 @@
  t __cxx_global_array_dtor280
  t __cxx_global_array_dtor29
  t __cxx_global_array_dtor30
- t __cxx_global_array_dtor308
  t __cxx_global_array_dtor31
+ t __cxx_global_array_dtor311
  t __cxx_global_array_dtor32
- t __cxx_global_array_dtor328
  t __cxx_global_array_dtor33
+ t __cxx_global_array_dtor332
  t __cxx_global_array_dtor34
  t __cxx_global_array_dtor351
  t __cxx_global_array_dtor36
