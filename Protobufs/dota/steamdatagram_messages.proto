@@ -15,20 +15,14 @@ enum ESteamDatagramMsgID {
 	k_ESteamDatagramMsg_DataRouterToClient = 12;
 }
 
-message CMsgSteamDatagramRouterPingRequest {
-	optional fixed32 client_timestamp = 1;
-	repeated uint32 request_latency_service_ids = 2 [packed = true];
-	optional fixed32 client_challenge = 3;
-}
-
 message CMsgSteamDatagramRouterPingReply {
 	optional fixed32 client_timestamp = 1;
-	repeated uint32 latency_service_ids = 2 [packed = true];
+	repeated fixed32 latency_datacenter_ids = 2 [packed = true];
 	repeated uint32 latency_ping_ms = 3 [packed = true];
 	optional fixed32 your_public_ip = 4;
 	optional fixed32 server_time = 5;
 	optional fixed64 challenge = 6;
-	optional bool shutting_down_soon = 7;
+	optional uint32 seconds_until_shutdown = 7;
 	optional fixed32 client_challenge = 8;
 }
 
@@ -60,7 +54,7 @@ message CMsgSteamDatagramGameserverSessionEstablished {
 	optional fixed32 client_challenge = 1;
 	optional fixed32 session_cookie = 2;
 	optional fixed64 gameserver_steam_id = 3;
-	optional bool shutting_down_soon = 4;
+	optional uint32 seconds_until_shutdown = 4;
 }
 
 message CMsgSteamDatagramNoSession {
@@ -68,11 +62,25 @@ message CMsgSteamDatagramNoSession {
 	optional fixed32 your_public_ip = 2;
 	optional fixed32 server_time = 3;
 	optional fixed64 challenge = 4;
-	optional bool shutting_down_soon = 5;
+	optional uint32 seconds_until_shutdown = 5;
 }
 
 message CMsgSteamDatagramDiagnostic {
 	optional uint32 severity = 1;
 	optional string text = 2;
+}
+
+message CMsgSteamDatagramDataCenterState {
+	message Server {
+		optional string address = 1;
+		optional uint32 ping_ms = 2;
+	}
+
+	message DataCenter {
+		optional string code = 1;
+		repeated .CMsgSteamDatagramDataCenterState.Server server_sample = 2;
+	}
+
+	repeated .CMsgSteamDatagramDataCenterState.DataCenter data_centers = 1;
 }
 
