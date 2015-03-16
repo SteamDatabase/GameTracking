@@ -200,6 +200,7 @@
  D CUtlMemory<INetworkPacketFilter*, int>::Grow(int)::tm_fmt
  D CUtlMemory<INetworkPrepareStartupParams*, int>::Grow(int)::tm_fmt
  D CUtlMemory<SteamDatagramTransport::CDatagramQueue::Channel, int>::Grow(int)::tm_fmt
+ D CUtlMemory<SteamDatagramTransport::RouterDowntimeWarning, int>::Grow(int)::tm_fmt
  D CUtlMemory<SteamDatagramTransport::SharedClusterData*, int>::Grow(int)::tm_fmt
  D CUtlMemory<SteamDatagramTransport::SharedClusterData, int>::Grow(int)::tm_fmt
  D CUtlMemory<SteamDatagramTransport::SteamDatagramNetwork::AddressRange, int>::Grow(int)::tm_fmt
@@ -1693,13 +1694,13 @@
  T CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::BumpEntry(unsigned int)
  T CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
  T CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::DoRealloc(int)
+ T CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::Find(unsigned int) const
  T CUtlLinkedList<SendQueueItem_t, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<SendQueueItem_t, unsigned short>, unsigned short> >::AllocInternal(bool)
  T CUtlLinkedList<SendQueueItem_t, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<SendQueueItem_t, unsigned short>, unsigned short> >::Free(unsigned short)
  T CUtlLinkedList<SendQueueItem_t, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<SendQueueItem_t, unsigned short>, unsigned short> >::LinkBefore(unsigned short, unsigned short)
  T CUtlLinkedList<SendQueueItem_t, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<SendQueueItem_t, unsigned short>, unsigned short> >::RemoveAll()
  T CUtlLinkedList<netpacket_t*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<netpacket_t*, unsigned short>, unsigned short> >::AllocInternal(bool)
  T CUtlLinkedList<netpacket_t*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<netpacket_t*, unsigned short>, unsigned short> >::LinkBefore(unsigned short, unsigned short)
- T CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int>::Find(netadr_t const&) const
  T CUtlMemory<CNetChan*, int>::Grow(int)
  T CUtlMemory<CNetChan::DataFragments_t*, int>::Grow(int)
  T CUtlMemory<CQueuedPacketSender::CQueuedPacket*, int>::Grow(int)
@@ -1714,6 +1715,7 @@
  T CUtlMemory<INetworkPacketFilter*, int>::Grow(int)
  T CUtlMemory<INetworkPrepareStartupParams*, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::CDatagramQueue::Channel, int>::Grow(int)
+ T CUtlMemory<SteamDatagramTransport::RouterDowntimeWarning, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::SharedClusterData*, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::SharedClusterData, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::SteamDatagramNetwork::AddressRange, int>::Grow(int)
@@ -1785,12 +1787,14 @@
  T CUtlString::Get() const
  T CUtlString::Set(char const*)
  T CUtlString::operator=(char const*)
+ T CUtlVector<SteamDatagramTransport::RouterDowntimeWarning, CUtlMemory<SteamDatagramTransport::RouterDowntimeWarning, int> >::~CUtlVector()
  T CUtlVector<SteamDatagramTransport::SharedClusterData, CUtlMemory<SteamDatagramTransport::SharedClusterData, int> >::~CUtlVector()
  T CUtlVectorBase<CSplitPacketEntry, CUtlMemory<CSplitPacketEntry, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CUtlString, CUtlMemory<CUtlString, int> >::InsertBefore(int, CUtlString const&)
  T CUtlVectorBase<CUtlString, CUtlMemory<CUtlString, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CUtlVector<INetMessageBinder*, CUtlMemory<INetMessageBinder*, int> >, CUtlMemory<CUtlVector<INetMessageBinder*, CUtlMemory<INetMessageBinder*, int> >, int> >::InsertMultipleBefore(int, int)
  T CUtlVectorBase<CUtlVector<INetMessageBinder*, CUtlMemory<INetMessageBinder*, int> >, CUtlMemory<CUtlVector<INetMessageBinder*, CUtlMemory<INetMessageBinder*, int> >, int> >::Purge()
+ T CUtlVectorBase<SteamDatagramTransport::RouterDowntimeWarning, CUtlMemory<SteamDatagramTransport::RouterDowntimeWarning, int> >::InsertBefore(int)
  T CUtlVectorBase<SteamDatagramTransport::SharedClusterData*, CUtlMemoryFixedGrowable<SteamDatagramTransport::SharedClusterData*, 64ul, int> >::CUtlVectorBase(int, int)
  T CUtlVectorBase<SteamDatagramTransport::SharedClusterData*, CUtlMemoryFixedGrowable<SteamDatagramTransport::SharedClusterData*, 64ul, int> >::InsertBefore(int, SteamDatagramTransport::SharedClusterData* const&)
  T CUtlVectorBase<SteamDatagramTransport::SharedClusterData, CUtlMemory<SteamDatagramTransport::SharedClusterData, int> >::InsertMultipleBefore(int, int)
@@ -1911,6 +1915,7 @@
  T SteamDatagramTransport::CSteamDatagramTransportClient::CallbackThreadProc(void*)
  T SteamDatagramTransport::CSteamDatagramTransportClient::CheckNetworkRevisionChanged()
  T SteamDatagramTransport::CSteamDatagramTransportClient::Destroy()
+ T SteamDatagramTransport::CSteamDatagramTransportClient::DetermineServiceDataCenterID()
  T SteamDatagramTransport::CSteamDatagramTransportClient::DiagnosticMessage(int, char const*, ...)
  T SteamDatagramTransport::CSteamDatagramTransportClient::FindOrCreateServerDataForAddress(netadr_t const&, int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::FindOrCreateServerDataForCluster(int)
@@ -1939,6 +1944,7 @@
  T SteamDatagramTransport::SharedClusterData::SelectRandomAddress() const
  T SteamDatagramTransport::SteamDatagramNetwork::BuildLookupTables(char (&) [1024])
  T SteamDatagramTransport::SteamDatagramNetwork::FindClusterByAddress(netadr_t const&, int*) const
+ T SteamDatagramTransport::SteamDatagramNetwork::FindDataCenterByServiceIP(unsigned int) const
  T SteamDatagramTransport::SteamDatagramNetwork::GetURLForUniverse(EUniverse)
  T SteamDatagramTransport::SteamDatagramNetwork::SetupFromJSON(char const*, int, char (&) [1024])
  T SteamDatagramTransport::SteamDatagramNetwork::SetupHardcodedRouterList(char const*)
@@ -1998,7 +2004,9 @@
  T char* std::string::_S_construct<char*>(char*, char*, std::allocator<char> const&, std::forward_iterator_tag)
  T int V_sprintf_safe<1024ul>(char (&) [1024ul], char const*, ...)
  T int V_sprintf_safe<32ul>(char (&) [32ul], char const*, ...)
+ T int V_sprintf_safe<512ul>(char (&) [512ul], char const*, ...)
  T int V_sprintf_safe<64ul>(char (&) [64ul], char const*, ...)
+ T int V_sprintfcat_safe<512ul>(char (&) [512ul], char const*, ...)
  T netadr_t::Clear()
  T netadr_t::CompareAdr(netadr_t const&, bool) const
  T netadr_t::GetIPHostByteOrder() const
@@ -2131,6 +2139,7 @@
  T strnlen
  T unsigned int CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t>::DoInsert<CSteamID const&>(CSteamID const&, unsigned int)
  T unsigned int CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::DoInsert<unsigned int>(unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing const&, unsigned int, bool*)
+ T unsigned int CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::DoInsert<unsigned int>(unsigned int, unsigned int)
  T void snappy::SnappyDecompressor::DecompressAllTags<snappy::SnappyArrayWriter>(snappy::SnappyArrayWriter*)
  T void snappy::SnappyDecompressor::DecompressAllTags<snappy::SnappyDecompressionValidator>(snappy::SnappyDecompressionValidator*)
  T void std::__final_insertion_sort<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*)
@@ -2330,9 +2339,12 @@
  b CNetworkSystem::SetTime(double)::s_last_realtime
  b CSteamID::Render() const::nBuf
  b CSteamID::Render() const::rgchBuf
+ b CUtlMemory<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort, int>::Grow(int)::tm_fmt
  b CUtlMemory<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ServerPingSort, int>::Grow(int)::tm_fmt
  b CheckConnectionLessRateLimits(ns_address const&)::autoMutex__
  b SteamDatagramTransport::s_steamDatagramTransportMutex
+ b SteamDatagramTransport::s_usecRouterDowntime
+ b SteamDatagramTransport::s_vecDowntimeWarnings
  b SteamDatagramTransport::s_vecSharedClusterData
  b UNSPECIFIED_LOGGING_COLOR
  b V_strncasecmp(char const*, char const*, int)::tm_fmt
@@ -2602,7 +2614,7 @@
  t ParseRouterAddress(char const*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress&)
  t SendToNsAddress(ns_address const&, netsocket_t&, void const*, int, int)
  t SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::$_0::__invoke(SteamDatagramTransport::SharedClusterData* const*, SteamDatagramTransport::SharedClusterData* const*)
- t SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::$_1::__invoke(SteamDatagramTransport::SharedClusterData* const*, SteamDatagramTransport::SharedClusterData* const*)
+ t SteamDatagramTransport::ProcessDowntimeWarning(netadr_t const&, int, unsigned long long)
  t __CreateCNetworkSystemINetworkSystem_interface()
  t __cxx_global_var_init124
  t __cxx_global_var_init125
@@ -2623,6 +2635,7 @@
  t global constructors keyed to a
  t net_channels(CCommandContext const&, CCommand const&)
  t net_status(CCommandContext const&, CCommand const&)
+ t void std::__introsort_loop<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*, int>(SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*, SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*, int)
  t void std::__introsort_loop<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ServerPingSort*, int>(SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ServerPingSort*, SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ServerPingSort*, int)
  typeinfo for CThread
  typeinfo for std::exception
