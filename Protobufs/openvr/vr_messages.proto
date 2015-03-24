@@ -50,3 +50,98 @@ message CVRMsg_GetDisplayInfoResponse {
 	repeated .CVRMsg_GetDisplayInfoResponse.DisplayInfo display = 1;
 }
 
+message CVRMsg_GetCameraInfo {
+}
+
+message CVRMsg_GetCameraInfoResponse {
+	message CameraInfo {
+		optional string camera_id = 1;
+		optional uint32 width = 2;
+		optional uint32 height = 3;
+		optional uint32 depth = 4;
+		optional float fx = 5;
+		optional float cx = 6;
+		optional float fy = 7;
+		optional float cy = 8;
+	}
+
+	repeated .CVRMsg_GetCameraInfoResponse.CameraInfo camera = 1;
+}
+
+message CVRMsg_EnableCamera {
+	optional uint32 index = 1;
+	optional bool enabled = 2;
+}
+
+message CVRMsg_EnableCameraResponse {
+	optional bool success = 1;
+}
+
+message CVRMsg_GetProperty {
+	enum PropertyDataType {
+		PropType_String = 1;
+		PropType_Bool = 2;
+		PropType_Int32 = 3;
+		PropType_Uint64 = 4;
+		PropType_Float = 5;
+	}
+
+	optional uint32 tracked_device_index = 1;
+	optional uint32 property_id = 2;
+	optional .CVRMsg_GetProperty.PropertyDataType request_data_type = 3 [default = PropType_String];
+}
+
+message CVRMsg_GetPropertyResponse {
+	optional uint32 result = 1;
+	optional string string_value = 2;
+	optional bool bool_value = 3;
+	optional int32 int32_value = 4;
+	optional float float_value = 5;
+	optional uint64 uint64_value = 6;
+}
+
+message CVRMsg_CompositorConnect {
+	optional uint32 version = 1;
+}
+
+message CVRMsg_CompositorSetOverlay {
+	optional uint32 width = 1;
+	optional uint32 height = 2;
+	optional uint32 depth = 3;
+	optional bytes buffer = 4;
+}
+
+message CVRMsg_CompositorConnectResponse {
+	optional int32 result = 1;
+}
+
+message CVRMsg_CompositorClearFrameBuffer {
+}
+
+message CVRMsg_CompositorBringToFront {
+}
+
+message CVRMsg_CompositorGoToBack {
+}
+
+message CVRMsg_CompositorQuit {
+}
+
+message CVRMsg_CompositorSetOverlayFromFile {
+	optional string filePath = 1;
+}
+
+message CVRMsg_CompositorFadeToColor {
+	optional float seconds = 1;
+	optional float red = 2;
+	optional float green = 3;
+	optional float blue = 4;
+	optional float alpha = 5;
+	optional bool background = 6;
+}
+
+message CVRMsg_CompositorFadeGrid {
+	optional float seconds = 1;
+	optional bool fadein = 2;
+}
+
