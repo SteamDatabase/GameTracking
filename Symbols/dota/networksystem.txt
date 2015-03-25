@@ -9,6 +9,10 @@
  B CCLCMsg_SplitPlayerConnect::default_instance_
  B CCLCMsg_VoiceData::default_instance_
  B CMsgQAngle::default_instance_
+ B CMsgSteamDatagramConnectionQuality::default_instance_
+ B CMsgSteamDatagramConnectionStatsClientToRouter::default_instance_
+ B CMsgSteamDatagramConnectionStatsRouterToClient::default_instance_
+ B CMsgSteamDatagramConnectionStatsRouterToServer::default_instance_
  B CMsgSteamDatagramDataCenterState::default_instance_
  B CMsgSteamDatagramDataCenterState_DataCenter::default_instance_
  B CMsgSteamDatagramDataCenterState_Server::default_instance_
@@ -17,6 +21,8 @@
  B CMsgSteamDatagramGameserverPing::default_instance_
  B CMsgSteamDatagramGameserverSessionEstablished::default_instance_
  B CMsgSteamDatagramGameserverSessionRequest::default_instance_
+ B CMsgSteamDatagramLinkInstantaneousStats::default_instance_
+ B CMsgSteamDatagramLinkLifetimeStats::default_instance_
  B CMsgSteamDatagramNoSession::default_instance_
  B CMsgSteamDatagramRouterPingReply::default_instance_
  B CMsgVector2D::default_instance_
@@ -72,6 +78,8 @@
  B ConCommandBase::s_pConCommandBases
  B LOG_NETWORKING
  B SteamDatagramTransport::g_SteamDatagramNetwork
+ B SteamDatagramTransport::sdt_client_fakeloss_recv
+ B SteamDatagramTransport::sdt_client_fakeloss_send
  B colorcorrection
  B cvar
  B g_BitWriteMasks
@@ -152,6 +160,8 @@
  B s_NoEscConversion
  B s_StringCharConversion
  B s_pInterfaceRegs
+ B sdt_server_fakeloss_recv
+ B sdt_server_fakeloss_send
  B studiorender
  CThread::CThread()
  CThread::GetThreadProc()
@@ -253,6 +263,10 @@
  D typeinfo for CDefaultAccessor
  D typeinfo for CEmptyConVar
  D typeinfo for CMsgQAngle
+ D typeinfo for CMsgSteamDatagramConnectionQuality
+ D typeinfo for CMsgSteamDatagramConnectionStatsClientToRouter
+ D typeinfo for CMsgSteamDatagramConnectionStatsRouterToClient
+ D typeinfo for CMsgSteamDatagramConnectionStatsRouterToServer
  D typeinfo for CMsgSteamDatagramDataCenterState
  D typeinfo for CMsgSteamDatagramDataCenterState_DataCenter
  D typeinfo for CMsgSteamDatagramDataCenterState_Server
@@ -261,6 +275,8 @@
  D typeinfo for CMsgSteamDatagramGameserverPing
  D typeinfo for CMsgSteamDatagramGameserverSessionEstablished
  D typeinfo for CMsgSteamDatagramGameserverSessionRequest
+ D typeinfo for CMsgSteamDatagramLinkInstantaneousStats
+ D typeinfo for CMsgSteamDatagramLinkLifetimeStats
  D typeinfo for CMsgSteamDatagramNoSession
  D typeinfo for CMsgSteamDatagramRouterPingReply
  D typeinfo for CMsgVector
@@ -364,6 +380,10 @@
  D vtable for CDefaultAccessor
  D vtable for CEmptyConVar
  D vtable for CMsgQAngle
+ D vtable for CMsgSteamDatagramConnectionQuality
+ D vtable for CMsgSteamDatagramConnectionStatsClientToRouter
+ D vtable for CMsgSteamDatagramConnectionStatsRouterToClient
+ D vtable for CMsgSteamDatagramConnectionStatsRouterToServer
  D vtable for CMsgSteamDatagramDataCenterState
  D vtable for CMsgSteamDatagramDataCenterState_DataCenter
  D vtable for CMsgSteamDatagramDataCenterState_Server
@@ -372,6 +392,8 @@
  D vtable for CMsgSteamDatagramGameserverPing
  D vtable for CMsgSteamDatagramGameserverSessionEstablished
  D vtable for CMsgSteamDatagramGameserverSessionRequest
+ D vtable for CMsgSteamDatagramLinkInstantaneousStats
+ D vtable for CMsgSteamDatagramLinkLifetimeStats
  D vtable for CMsgSteamDatagramNoSession
  D vtable for CMsgSteamDatagramRouterPingReply
  D vtable for CMsgVector
@@ -481,6 +503,10 @@
  R typeinfo name for CDefaultAccessor
  R typeinfo name for CEmptyConVar
  R typeinfo name for CMsgQAngle
+ R typeinfo name for CMsgSteamDatagramConnectionQuality
+ R typeinfo name for CMsgSteamDatagramConnectionStatsClientToRouter
+ R typeinfo name for CMsgSteamDatagramConnectionStatsRouterToClient
+ R typeinfo name for CMsgSteamDatagramConnectionStatsRouterToServer
  R typeinfo name for CMsgSteamDatagramDataCenterState
  R typeinfo name for CMsgSteamDatagramDataCenterState_DataCenter
  R typeinfo name for CMsgSteamDatagramDataCenterState_Server
@@ -489,6 +515,8 @@
  R typeinfo name for CMsgSteamDatagramGameserverPing
  R typeinfo name for CMsgSteamDatagramGameserverSessionEstablished
  R typeinfo name for CMsgSteamDatagramGameserverSessionRequest
+ R typeinfo name for CMsgSteamDatagramLinkInstantaneousStats
+ R typeinfo name for CMsgSteamDatagramLinkLifetimeStats
  R typeinfo name for CMsgSteamDatagramNoSession
  R typeinfo name for CMsgSteamDatagramRouterPingReply
  R typeinfo name for CMsgVector
@@ -744,6 +772,49 @@
  T CMsgQAngle::SetCachedSize(int) const
  T CMsgQAngle::default_instance()
  T CMsgQAngle::~CMsgQAngle()
+ T CMsgSteamDatagramConnectionQuality::ByteSize() const
+ T CMsgSteamDatagramConnectionQuality::CMsgSteamDatagramConnectionQuality()
+ T CMsgSteamDatagramConnectionQuality::Clear()
+ T CMsgSteamDatagramConnectionQuality::GetCachedSize() const
+ T CMsgSteamDatagramConnectionQuality::GetMetadata() const
+ T CMsgSteamDatagramConnectionQuality::IsInitialized() const
+ T CMsgSteamDatagramConnectionQuality::MergeFrom(CMsgSteamDatagramConnectionQuality const&)
+ T CMsgSteamDatagramConnectionQuality::New() const
+ T CMsgSteamDatagramConnectionQuality::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgSteamDatagramConnectionQuality::SetCachedSize(int) const
+ T CMsgSteamDatagramConnectionQuality::~CMsgSteamDatagramConnectionQuality()
+ T CMsgSteamDatagramConnectionStatsClientToRouter::ByteSize() const
+ T CMsgSteamDatagramConnectionStatsClientToRouter::CMsgSteamDatagramConnectionStatsClientToRouter()
+ T CMsgSteamDatagramConnectionStatsClientToRouter::Clear()
+ T CMsgSteamDatagramConnectionStatsClientToRouter::GetCachedSize() const
+ T CMsgSteamDatagramConnectionStatsClientToRouter::GetMetadata() const
+ T CMsgSteamDatagramConnectionStatsClientToRouter::IsInitialized() const
+ T CMsgSteamDatagramConnectionStatsClientToRouter::MergeFrom(CMsgSteamDatagramConnectionStatsClientToRouter const&)
+ T CMsgSteamDatagramConnectionStatsClientToRouter::New() const
+ T CMsgSteamDatagramConnectionStatsClientToRouter::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgSteamDatagramConnectionStatsClientToRouter::SetCachedSize(int) const
+ T CMsgSteamDatagramConnectionStatsClientToRouter::~CMsgSteamDatagramConnectionStatsClientToRouter()
+ T CMsgSteamDatagramConnectionStatsRouterToClient::ByteSize() const
+ T CMsgSteamDatagramConnectionStatsRouterToClient::Clear()
+ T CMsgSteamDatagramConnectionStatsRouterToClient::GetCachedSize() const
+ T CMsgSteamDatagramConnectionStatsRouterToClient::GetMetadata() const
+ T CMsgSteamDatagramConnectionStatsRouterToClient::IsInitialized() const
+ T CMsgSteamDatagramConnectionStatsRouterToClient::MergeFrom(CMsgSteamDatagramConnectionStatsRouterToClient const&)
+ T CMsgSteamDatagramConnectionStatsRouterToClient::New() const
+ T CMsgSteamDatagramConnectionStatsRouterToClient::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgSteamDatagramConnectionStatsRouterToClient::SetCachedSize(int) const
+ T CMsgSteamDatagramConnectionStatsRouterToClient::~CMsgSteamDatagramConnectionStatsRouterToClient()
+ T CMsgSteamDatagramConnectionStatsRouterToServer::ByteSize() const
+ T CMsgSteamDatagramConnectionStatsRouterToServer::CMsgSteamDatagramConnectionStatsRouterToServer()
+ T CMsgSteamDatagramConnectionStatsRouterToServer::Clear()
+ T CMsgSteamDatagramConnectionStatsRouterToServer::GetCachedSize() const
+ T CMsgSteamDatagramConnectionStatsRouterToServer::GetMetadata() const
+ T CMsgSteamDatagramConnectionStatsRouterToServer::IsInitialized() const
+ T CMsgSteamDatagramConnectionStatsRouterToServer::MergeFrom(CMsgSteamDatagramConnectionStatsRouterToServer const&)
+ T CMsgSteamDatagramConnectionStatsRouterToServer::New() const
+ T CMsgSteamDatagramConnectionStatsRouterToServer::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgSteamDatagramConnectionStatsRouterToServer::SetCachedSize(int) const
+ T CMsgSteamDatagramConnectionStatsRouterToServer::~CMsgSteamDatagramConnectionStatsRouterToServer()
  T CMsgSteamDatagramDataCenterState::ByteSize() const
  T CMsgSteamDatagramDataCenterState::Clear()
  T CMsgSteamDatagramDataCenterState::GetCachedSize() const
@@ -832,6 +903,28 @@
  T CMsgSteamDatagramGameserverSessionRequest::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgSteamDatagramGameserverSessionRequest::SetCachedSize(int) const
  T CMsgSteamDatagramGameserverSessionRequest::~CMsgSteamDatagramGameserverSessionRequest()
+ T CMsgSteamDatagramLinkInstantaneousStats::ByteSize() const
+ T CMsgSteamDatagramLinkInstantaneousStats::CMsgSteamDatagramLinkInstantaneousStats()
+ T CMsgSteamDatagramLinkInstantaneousStats::Clear()
+ T CMsgSteamDatagramLinkInstantaneousStats::GetCachedSize() const
+ T CMsgSteamDatagramLinkInstantaneousStats::GetMetadata() const
+ T CMsgSteamDatagramLinkInstantaneousStats::IsInitialized() const
+ T CMsgSteamDatagramLinkInstantaneousStats::MergeFrom(CMsgSteamDatagramLinkInstantaneousStats const&)
+ T CMsgSteamDatagramLinkInstantaneousStats::New() const
+ T CMsgSteamDatagramLinkInstantaneousStats::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgSteamDatagramLinkInstantaneousStats::SetCachedSize(int) const
+ T CMsgSteamDatagramLinkInstantaneousStats::~CMsgSteamDatagramLinkInstantaneousStats()
+ T CMsgSteamDatagramLinkLifetimeStats::ByteSize() const
+ T CMsgSteamDatagramLinkLifetimeStats::CMsgSteamDatagramLinkLifetimeStats()
+ T CMsgSteamDatagramLinkLifetimeStats::Clear()
+ T CMsgSteamDatagramLinkLifetimeStats::GetCachedSize() const
+ T CMsgSteamDatagramLinkLifetimeStats::GetMetadata() const
+ T CMsgSteamDatagramLinkLifetimeStats::IsInitialized() const
+ T CMsgSteamDatagramLinkLifetimeStats::MergeFrom(CMsgSteamDatagramLinkLifetimeStats const&)
+ T CMsgSteamDatagramLinkLifetimeStats::New() const
+ T CMsgSteamDatagramLinkLifetimeStats::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgSteamDatagramLinkLifetimeStats::SetCachedSize(int) const
+ T CMsgSteamDatagramLinkLifetimeStats::~CMsgSteamDatagramLinkLifetimeStats()
  T CMsgSteamDatagramNoSession::ByteSize() const
  T CMsgSteamDatagramNoSession::CMsgSteamDatagramNoSession()
  T CMsgSteamDatagramNoSession::Clear()
@@ -1219,6 +1312,7 @@
  T CNetworkSystem::OutOfBandPrintf(int, ns_address const&, char const*, ...)
  T CNetworkSystem::PostFloodReportToWebAPI(int, bool)
  T CNetworkSystem::PrintChannelStatus(INetChannel*) const
+ T CNetworkSystem::PrintSteamdatagramClientStatus() const
  T CNetworkSystem::ProcessIncomingP2PRequests(ISteamP2PAllowConnection*)
  T CNetworkSystem::ProcessSocket(int, IConnectionlessPacketHandler*)
  T CNetworkSystem::QueuePacketForSend(CNetChan*, bool, char const*, int, ns_address const&, unsigned int)
@@ -1701,6 +1795,7 @@
  T CUtlLinkedList<SendQueueItem_t, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<SendQueueItem_t, unsigned short>, unsigned short> >::RemoveAll()
  T CUtlLinkedList<netpacket_t*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<netpacket_t*, unsigned short>, unsigned short> >::AllocInternal(bool)
  T CUtlLinkedList<netpacket_t*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<netpacket_t*, unsigned short>, unsigned short> >::LinkBefore(unsigned short, unsigned short)
+ T CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int>::Find(netadr_t const&) const
  T CUtlMemory<CNetChan*, int>::Grow(int)
  T CUtlMemory<CNetChan::DataFragments_t*, int>::Grow(int)
  T CUtlMemory<CQueuedPacketSender::CQueuedPacket*, int>::Grow(int)
@@ -1783,13 +1878,16 @@
  T CUtlRBTree<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int>::Node_t, int, CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int>::Node_t, int>, int> >::RemoveRebalance(int)
  T CUtlRBTree<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int>::Node_t, int, CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int>::Node_t, int>, int> >::Unlink(int)
  T CUtlRBTree<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int>::Node_t, int, CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int>::Node_t, int>, int> >::~CUtlRBTree()
+ T CUtlString::Append(char const*)
  T CUtlString::FreeMemoryBlock()
  T CUtlString::Get() const
  T CUtlString::Set(char const*)
+ T CUtlString::operator+=(char const*)
  T CUtlString::operator=(char const*)
  T CUtlVector<SteamDatagramTransport::RouterDowntimeWarning, CUtlMemory<SteamDatagramTransport::RouterDowntimeWarning, int> >::~CUtlVector()
  T CUtlVector<SteamDatagramTransport::SharedClusterData, CUtlMemory<SteamDatagramTransport::SharedClusterData, int> >::~CUtlVector()
  T CUtlVectorBase<CSplitPacketEntry, CUtlMemory<CSplitPacketEntry, int> >::~CUtlVectorBase()
+ T CUtlVectorBase<CSteamID, CUtlMemoryFixedGrowable<CSteamID, 4ul, int> >::InsertBefore(int, CSteamID const&)
  T CUtlVectorBase<CUtlString, CUtlMemory<CUtlString, int> >::InsertBefore(int, CUtlString const&)
  T CUtlVectorBase<CUtlString, CUtlMemory<CUtlString, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CUtlVector<INetMessageBinder*, CUtlMemory<INetMessageBinder*, int> >, CUtlMemory<CUtlVector<INetMessageBinder*, CUtlMemory<INetMessageBinder*, int> >, int> >::InsertMultipleBefore(int, int)
@@ -1865,6 +1963,7 @@
  T DisconnectTier2Libraries()
  T ENetworkDisconnectionReason_IsValid(int)
  T INetMessage::~INetMessage()
+ T ISteamDatagramTransportClient::ConnectionStatus::Print(char*, int) const
  T InstallProtobufLogHandler()
  T InterfaceReg::InterfaceReg(void* (*)(), char const*)
  T KeyValues::AddSubkeyUsingKnownLastChild(KeyValues*, KeyValues*)
@@ -1906,6 +2005,7 @@
  T RunningStat::RunningStat()
  T SendQueueItem_t::SendQueueItem_t()
  T SocketErrorString(int)
+ T SteamDatagramLinkStats::Clear()
  T SteamDatagramNetwork_SetupHardcodedRouterList(char const*)
  T SteamDatagramTransport::CDatagramQueue::Clear()
  T SteamDatagramTransport::CDatagramQueue::Enqueue(int, SteamDatagramTransport::Datagram_t*)
@@ -1919,12 +2019,15 @@
  T SteamDatagramTransport::CSteamDatagramTransportClient::DiagnosticMessage(int, char const*, ...)
  T SteamDatagramTransport::CSteamDatagramTransportClient::FindOrCreateServerDataForAddress(netadr_t const&, int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::FindOrCreateServerDataForCluster(int)
+ T SteamDatagramTransport::CSteamDatagramTransportClient::GetConnectionStatus(ISteamDatagramTransportClient::ConnectionStatus&)
  T SteamDatagramTransport::CSteamDatagramTransportClient::LostSession(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, char const*)
  T SteamDatagramTransport::CSteamDatagramTransportClient::ProcessPacket(unsigned char const*, int, sockaddr_in const&)
+ T SteamDatagramTransport::CSteamDatagramTransportClient::ReceivedPacketFromServer(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, int, unsigned long long)
  T SteamDatagramTransport::CSteamDatagramTransportClient::ReceivedSessionMessage(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, unsigned int, char const*, unsigned long long)
  T SteamDatagramTransport::CSteamDatagramTransportClient::RecvDatagram(void*, unsigned int, int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::SendDatagram(void const*, unsigned int, int)
- T SteamDatagramTransport::CSteamDatagramTransportClient::SendPing(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, unsigned long long)
+ T SteamDatagramTransport::CSteamDatagramTransportClient::SendPing(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, unsigned long long, bool)
+ T SteamDatagramTransport::CSteamDatagramTransportClient::ServerData::ServerData()
  T SteamDatagramTransport::CSteamDatagramTransportClient::SetGameServerAuthTicket(CMsgSteamDatagramGameServerAuthTicket const&, char (&) [1024])
  T SteamDatagramTransport::CSteamDatagramTransportClient::Start(char (&) [1024])
  T SteamDatagramTransport::CSteamDatagramTransportClient::Think()
@@ -1934,16 +2037,30 @@
  T SteamDatagramTransport::CSteamDatagramTransportGameserver::CallbackThreadProc(void*)
  T SteamDatagramTransport::CSteamDatagramTransportGameserver::Destroy()
  T SteamDatagramTransport::CSteamDatagramTransportGameserver::DiagnosticMessage(int, char const*, ...)
+ T SteamDatagramTransport::CSteamDatagramTransportGameserver::LocateClient(CSteamID, sockaddr const&, unsigned int, unsigned long long)
  T SteamDatagramTransport::CSteamDatagramTransportGameserver::ProcessPacket(unsigned char const*, int, sockaddr const&)
  T SteamDatagramTransport::CSteamDatagramTransportGameserver::RecvDatagram(void*, unsigned int, CSteamID*, int)
+ T SteamDatagramTransport::CSteamDatagramTransportGameserver::RecvStats(CMsgSteamDatagramConnectionStatsRouterToServer const&, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client*, unsigned long long)
  T SteamDatagramTransport::CSteamDatagramTransportGameserver::SendDatagram(void const*, unsigned int, CSteamID, int)
+ T SteamDatagramTransport::CSteamDatagramTransportGameserver::Think()
  T SteamDatagramTransport::CSteamDatagramTransportGameserver::ThreadProc()
  T SteamDatagramTransport::CSteamDatagramTransportGameserver::~CSteamDatagramTransportGameserver()
  T SteamDatagramTransport::CreateUDPSocket(unsigned short, char (&) [1024])
+ T SteamDatagramTransport::LinkStatsPrintInstantaneousToBuf(char const*, SteamDatagramLinkInstantaneousStats const&, CUtlBuffer&)
+ T SteamDatagramTransport::LinkStatsPrintLifetimeToBuf(char const*, SteamDatagramLinkLifetimeStats const&, CUtlBuffer&)
+ T SteamDatagramTransport::LinkStatsPrintToBuf(char const*, SteamDatagramLinkStats const&, CUtlBuffer&)
+ T SteamDatagramTransport::LinkStatsTracker::GetLinkStats(SteamDatagramLinkStats&, unsigned long long) const
+ T SteamDatagramTransport::LinkStatsTracker::Init(unsigned long long)
+ T SteamDatagramTransport::LinkStatsTracker::PopulateMessage(CMsgSteamDatagramConnectionQuality&, unsigned long long) const
+ T SteamDatagramTransport::LinkStatsTracker::ProcessMessage(CMsgSteamDatagramConnectionQuality const&, unsigned long long)
+ T SteamDatagramTransport::LinkStatsTracker::ReceivedPing(int, unsigned long long)
+ T SteamDatagramTransport::LinkStatsTracker::TrackRecvSequencedPacket(unsigned short)
+ T SteamDatagramTransport::LinkStatsTracker::TrackSentStats(CMsgSteamDatagramConnectionQuality const&, unsigned long long)
+ T SteamDatagramTransport::LinkStatsTracker::UpdateInterval(unsigned long long)
+ T SteamDatagramTransport::NumberPrettyPrinter::Print(long long)
  T SteamDatagramTransport::SharedClusterData::Init(int)
  T SteamDatagramTransport::SharedClusterData::SelectRandomAddress() const
  T SteamDatagramTransport::SteamDatagramNetwork::BuildLookupTables(char (&) [1024])
- T SteamDatagramTransport::SteamDatagramNetwork::FindClusterByAddress(netadr_t const&, int*) const
  T SteamDatagramTransport::SteamDatagramNetwork::FindDataCenterByServiceIP(unsigned int) const
  T SteamDatagramTransport::SteamDatagramNetwork::GetURLForUniverse(EUniverse)
  T SteamDatagramTransport::SteamDatagramNetwork::SetupFromJSON(char const*, int, char (&) [1024])
@@ -2002,6 +2119,7 @@
  T bf_write::bf_write()
  T bf_write::bf_write(char const*, void*, int, int)
  T char* std::string::_S_construct<char*>(char*, char*, std::allocator<char> const&, std::forward_iterator_tag)
+ T int CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t>::DoRemove<CSteamID const&>(CSteamID const&, unsigned int)
  T int V_sprintf_safe<1024ul>(char (&) [1024ul], char const*, ...)
  T int V_sprintf_safe<32ul>(char (&) [32ul], char const*, ...)
  T int V_sprintf_safe<512ul>(char (&) [512ul], char const*, ...)
@@ -2010,6 +2128,7 @@
  T netadr_t::Clear()
  T netadr_t::CompareAdr(netadr_t const&, bool) const
  T netadr_t::GetIPHostByteOrder() const
+ T netadr_t::GetIPNetworkByteOrder() const
  T netadr_t::GetPort() const
  T netadr_t::GetType() const
  T netadr_t::IsLocalhost() const
@@ -2207,6 +2326,14 @@
  b (anonymous namespace)::CLC_Messages_descriptor_
  b (anonymous namespace)::CMsgQAngle_descriptor_
  b (anonymous namespace)::CMsgQAngle_reflection_
+ b (anonymous namespace)::CMsgSteamDatagramConnectionQuality_descriptor_
+ b (anonymous namespace)::CMsgSteamDatagramConnectionQuality_reflection_
+ b (anonymous namespace)::CMsgSteamDatagramConnectionStatsClientToRouter_descriptor_
+ b (anonymous namespace)::CMsgSteamDatagramConnectionStatsClientToRouter_reflection_
+ b (anonymous namespace)::CMsgSteamDatagramConnectionStatsRouterToClient_descriptor_
+ b (anonymous namespace)::CMsgSteamDatagramConnectionStatsRouterToClient_reflection_
+ b (anonymous namespace)::CMsgSteamDatagramConnectionStatsRouterToServer_descriptor_
+ b (anonymous namespace)::CMsgSteamDatagramConnectionStatsRouterToServer_reflection_
  b (anonymous namespace)::CMsgSteamDatagramDataCenterState_DataCenter_descriptor_
  b (anonymous namespace)::CMsgSteamDatagramDataCenterState_DataCenter_reflection_
  b (anonymous namespace)::CMsgSteamDatagramDataCenterState_Server_descriptor_
@@ -2223,6 +2350,10 @@
  b (anonymous namespace)::CMsgSteamDatagramGameserverSessionEstablished_reflection_
  b (anonymous namespace)::CMsgSteamDatagramGameserverSessionRequest_descriptor_
  b (anonymous namespace)::CMsgSteamDatagramGameserverSessionRequest_reflection_
+ b (anonymous namespace)::CMsgSteamDatagramLinkInstantaneousStats_descriptor_
+ b (anonymous namespace)::CMsgSteamDatagramLinkInstantaneousStats_reflection_
+ b (anonymous namespace)::CMsgSteamDatagramLinkLifetimeStats_descriptor_
+ b (anonymous namespace)::CMsgSteamDatagramLinkLifetimeStats_reflection_
  b (anonymous namespace)::CMsgSteamDatagramNoSession_descriptor_
  b (anonymous namespace)::CMsgSteamDatagramNoSession_reflection_
  b (anonymous namespace)::CMsgSteamDatagramRouterPingReply_descriptor_
@@ -2343,6 +2474,8 @@
  b CUtlMemory<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort, int>::Grow(int)::tm_fmt
  b CUtlMemory<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ServerPingSort, int>::Grow(int)::tm_fmt
  b CheckConnectionLessRateLimits(ns_address const&)::autoMutex__
+ b SteamDatagramTransport::s_eAvailAnyRouterCommunication
+ b SteamDatagramTransport::s_eAvailNetworkConfig
  b SteamDatagramTransport::s_steamDatagramTransportMutex
  b SteamDatagramTransport::s_usecRouterDowntime
  b SteamDatagramTransport::s_vecDowntimeWarnings
@@ -2411,6 +2544,7 @@
  b s_szConfigCacheFilename
  b s_vecSteamDatagramAuthTickets
  b std::__ioinit
+ b steamdatagram_clientstatus_command
  b sv_logblocks
  b sv_max_queries_sec
  b sv_max_queries_sec_global
@@ -2524,6 +2658,10 @@
  r protobuf_AssignDesc_networkbasetypes_2eproto()::CSVCMsg_GameEvent_key_t_offsets_
  r protobuf_AssignDesc_networkbasetypes_2eproto()::CSVCMsg_GameEvent_offsets_
  r protobuf_AssignDesc_networkbasetypes_2eproto()::CSVCMsg_UserMessage_offsets_
+ r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramConnectionQuality_offsets_
+ r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramConnectionStatsClientToRouter_offsets_
+ r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramConnectionStatsRouterToClient_offsets_
+ r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramConnectionStatsRouterToServer_offsets_
  r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramDataCenterState_DataCenter_offsets_
  r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramDataCenterState_Server_offsets_
  r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramDataCenterState_offsets_
@@ -2532,6 +2670,8 @@
  r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramGameserverPing_offsets_
  r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramGameserverSessionEstablished_offsets_
  r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramGameserverSessionRequest_offsets_
+ r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramLinkInstantaneousStats_offsets_
+ r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramLinkLifetimeStats_offsets_
  r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramNoSession_offsets_
  r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramRouterPingReply_offsets_
  r pulCRCTable
@@ -2629,13 +2769,14 @@
  t __cxx_global_var_init16
  t __cxx_global_var_init17
  t __cxx_global_var_init18
- t __cxx_global_var_init221
- t __cxx_global_var_init222
- t __cxx_global_var_init223
- t __cxx_global_var_init224
+ t __cxx_global_var_init226
+ t __cxx_global_var_init227
+ t __cxx_global_var_init228
+ t __cxx_global_var_init229
  t global constructors keyed to a
  t net_channels(CCommandContext const&, CCommand const&)
  t net_status(CCommandContext const&, CCommand const&)
+ t steamdatagram_clientstatus(CCommandContext const&, CCommand const&)
  t void std::__introsort_loop<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*, int>(SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*, SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*, int)
  t void std::__introsort_loop<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ServerPingSort*, int>(SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ServerPingSort*, SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ServerPingSort*, int)
  typeinfo for CThread

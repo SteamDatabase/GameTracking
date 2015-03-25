@@ -13,6 +13,7 @@ enum ESteamDatagramMsgID {
 	k_ESteamDatagramMsg_DataRouterToServer = 10;
 	k_ESteamDatagramMsg_DataServerToRouter = 11;
 	k_ESteamDatagramMsg_DataRouterToClient = 12;
+	k_ESteamDatagramMsg_Stats = 13;
 }
 
 message CMsgSteamDatagramRouterPingReply {
@@ -23,7 +24,7 @@ message CMsgSteamDatagramRouterPingReply {
 	optional fixed32 server_time = 5;
 	optional fixed64 challenge = 6;
 	optional uint32 seconds_until_shutdown = 7;
-	optional fixed32 client_challenge = 8;
+	optional fixed32 client_cookie = 8;
 }
 
 message CMsgSteamDatagramGameserverPing {
@@ -32,6 +33,8 @@ message CMsgSteamDatagramGameserverPing {
 	optional fixed32 client_timestamp = 3;
 	optional fixed32 router_timestamp = 4;
 	optional uint32 router_gameserver_latency = 5;
+	optional uint32 seq_number_router = 6;
+	optional uint32 seq_number_e2e = 7;
 }
 
 message CMsgSteamDatagramGameServerAuthTicket {
@@ -47,19 +50,20 @@ message CMsgSteamDatagramGameserverSessionRequest {
 	optional .CMsgSteamDatagramGameServerAuthTicket ticket = 1;
 	optional fixed32 challenge_time = 3;
 	optional fixed64 challenge = 4;
-	optional fixed32 client_challenge = 5;
+	optional fixed32 client_cookie = 5;
 }
 
 message CMsgSteamDatagramGameserverSessionEstablished {
-	optional fixed32 client_challenge = 1;
-	optional fixed32 session_cookie = 2;
+	optional fixed32 client_cookie = 1;
+	optional fixed32 legacy_client_cookie = 2;
 	optional fixed64 gameserver_steam_id = 3;
 	optional uint32 seconds_until_shutdown = 4;
 }
 
 message CMsgSteamDatagramNoSession {
-	optional uint32 session_cookie = 1;
-	optional uint32 client_challenge = 6;
+	optional fixed32 client_cookie = 7;
+	optional uint32 legacy_client_cookie_1 = 1;
+	optional uint32 legacy_client_cookie_2 = 6;
 	optional fixed32 your_public_ip = 2;
 	optional fixed32 server_time = 3;
 	optional fixed64 challenge = 4;
@@ -83,5 +87,61 @@ message CMsgSteamDatagramDataCenterState {
 	}
 
 	repeated .CMsgSteamDatagramDataCenterState.DataCenter data_centers = 1;
+}
+
+message CMsgSteamDatagramLinkInstantaneousStats {
+	optional uint32 out_packets_per_sec_x10 = 1;
+	optional uint32 out_bytes_per_sec = 2;
+	optional uint32 in_packets_per_sec_x10 = 3;
+	optional uint32 in_bytes_per_sec = 4;
+	optional uint32 ping_ms = 5;
+	optional uint32 packets_dropped_pct = 6;
+	optional uint32 packets_weird_sequence_pct = 7;
+}
+
+message CMsgSteamDatagramLinkLifetimeStats {
+	optional uint64 packets_sent = 3;
+	optional uint64 kb_sent = 4;
+	optional uint64 packets_recv = 5;
+	optional uint64 kb_recv = 6;
+	optional uint64 packets_recv_sequenced = 7;
+	optional uint64 packets_recv_dropped = 8;
+	optional uint64 packets_recv_out_of_order = 9;
+	optional uint64 packets_recv_duplicate = 10;
+	optional uint64 packets_recv_lurch = 11;
+}
+
+message CMsgSteamDatagramConnectionQuality {
+	optional .CMsgSteamDatagramLinkInstantaneousStats instantaneous = 1;
+	optional .CMsgSteamDatagramLinkLifetimeStats lifetime = 2;
+}
+
+message CMsgSteamDatagramConnectionStatsClientToRouter {
+	optional .CMsgSteamDatagramConnectionQuality c2r = 1;
+	optional .CMsgSteamDatagramConnectionQuality c2s = 2;
+	optional fixed32 client_timestamp = 3;
+	optional fixed32 client_cookie = 8;
+	optional uint32 seq_num_c2r = 9;
+	optional uint32 seq_num_c2s = 10;
+}
+
+message CMsgSteamDatagramConnectionStatsRouterToClient {
+	optional .CMsgSteamDatagramConnectionQuality r2c = 1;
+	optional .CMsgSteamDatagramConnectionQuality s2c = 2;
+	optional fixed32 client_timestamp_from_server = 3;
+	optional fixed32 client_timestamp_from_router = 5;
+	optional uint32 router_gameserver_latency = 7;
+	optional fixed32 client_cookie = 8;
+	optional uint32 seq_num_r2c = 9;
+	optional uint32 seq_num_s2c = 10;
+}
+
+message CMsgSteamDatagramConnectionStatsRouterToServer {
+	optional .CMsgSteamDatagramConnectionQuality c2s = 2;
+	optional fixed32 client_timestamp = 3;
+	optional fixed32 router_timestamp = 4;
+	optional uint32 seq_num_c2s = 6;
+	optional fixed64 client_steam_id = 7;
+	optional uint32 client_session_id = 8;
 }
 
