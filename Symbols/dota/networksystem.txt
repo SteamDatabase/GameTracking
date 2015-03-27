@@ -209,6 +209,7 @@
  D CUtlMemory<INetworkFileSendCompleted*, int>::Grow(int)::tm_fmt
  D CUtlMemory<INetworkPacketFilter*, int>::Grow(int)::tm_fmt
  D CUtlMemory<INetworkPrepareStartupParams*, int>::Grow(int)::tm_fmt
+ D CUtlMemory<ServerWithSessionSort, int>::Grow(int)::tm_fmt
  D CUtlMemory<SteamDatagramTransport::CDatagramQueue::Channel, int>::Grow(int)::tm_fmt
  D CUtlMemory<SteamDatagramTransport::RouterDowntimeWarning, int>::Grow(int)::tm_fmt
  D CUtlMemory<SteamDatagramTransport::SharedClusterData*, int>::Grow(int)::tm_fmt
@@ -795,6 +796,7 @@
  T CMsgSteamDatagramConnectionStatsClientToRouter::SetCachedSize(int) const
  T CMsgSteamDatagramConnectionStatsClientToRouter::~CMsgSteamDatagramConnectionStatsClientToRouter()
  T CMsgSteamDatagramConnectionStatsRouterToClient::ByteSize() const
+ T CMsgSteamDatagramConnectionStatsRouterToClient::CMsgSteamDatagramConnectionStatsRouterToClient()
  T CMsgSteamDatagramConnectionStatsRouterToClient::Clear()
  T CMsgSteamDatagramConnectionStatsRouterToClient::GetCachedSize() const
  T CMsgSteamDatagramConnectionStatsRouterToClient::GetMetadata() const
@@ -1809,6 +1811,7 @@
  T CUtlMemory<INetworkFileSendCompleted*, int>::Grow(int)
  T CUtlMemory<INetworkPacketFilter*, int>::Grow(int)
  T CUtlMemory<INetworkPrepareStartupParams*, int>::Grow(int)
+ T CUtlMemory<ServerWithSessionSort, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::CDatagramQueue::Channel, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::RouterDowntimeWarning, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::SharedClusterData*, int>::Grow(int)
@@ -1892,6 +1895,8 @@
  T CUtlVectorBase<CUtlString, CUtlMemory<CUtlString, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CUtlVector<INetMessageBinder*, CUtlMemory<INetMessageBinder*, int> >, CUtlMemory<CUtlVector<INetMessageBinder*, CUtlMemory<INetMessageBinder*, int> >, int> >::InsertMultipleBefore(int, int)
  T CUtlVectorBase<CUtlVector<INetMessageBinder*, CUtlMemory<INetMessageBinder*, int> >, CUtlMemory<CUtlVector<INetMessageBinder*, CUtlMemory<INetMessageBinder*, int> >, int> >::Purge()
+ T CUtlVectorBase<ServerWithSessionSort, CUtlMemoryFixedGrowable<ServerWithSessionSort, 64ul, int> >::CUtlVectorBase(int, int)
+ T CUtlVectorBase<ServerWithSessionSort, CUtlMemoryFixedGrowable<ServerWithSessionSort, 64ul, int> >::InsertBefore(int)
  T CUtlVectorBase<SteamDatagramTransport::RouterDowntimeWarning, CUtlMemory<SteamDatagramTransport::RouterDowntimeWarning, int> >::InsertBefore(int)
  T CUtlVectorBase<SteamDatagramTransport::SharedClusterData*, CUtlMemoryFixedGrowable<SteamDatagramTransport::SharedClusterData*, 64ul, int> >::CUtlVectorBase(int, int)
  T CUtlVectorBase<SteamDatagramTransport::SharedClusterData*, CUtlMemoryFixedGrowable<SteamDatagramTransport::SharedClusterData*, 64ul, int> >::InsertBefore(int, SteamDatagramTransport::SharedClusterData* const&)
@@ -2023,8 +2028,8 @@
  T SteamDatagramTransport::CSteamDatagramTransportClient::LostSession(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, char const*)
  T SteamDatagramTransport::CSteamDatagramTransportClient::ProcessPacket(unsigned char const*, int, sockaddr_in const&)
  T SteamDatagramTransport::CSteamDatagramTransportClient::ReceivedPacketFromServer(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, int, unsigned long long)
- T SteamDatagramTransport::CSteamDatagramTransportClient::ReceivedSessionMessage(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, unsigned int, char const*, unsigned long long)
  T SteamDatagramTransport::CSteamDatagramTransportClient::RecvDatagram(void*, unsigned int, int)
+ T SteamDatagramTransport::CSteamDatagramTransportClient::RecvStats(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, CMsgSteamDatagramConnectionStatsRouterToClient&, unsigned long long)
  T SteamDatagramTransport::CSteamDatagramTransportClient::SendDatagram(void const*, unsigned int, int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::SendPing(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, unsigned long long, bool)
  T SteamDatagramTransport::CSteamDatagramTransportClient::ServerData::ServerData()
@@ -2061,6 +2066,7 @@
  T SteamDatagramTransport::SharedClusterData::Init(int)
  T SteamDatagramTransport::SharedClusterData::SelectRandomAddress() const
  T SteamDatagramTransport::SteamDatagramNetwork::BuildLookupTables(char (&) [1024])
+ T SteamDatagramTransport::SteamDatagramNetwork::FindClusterByAddress(netadr_t const&, int*) const
  T SteamDatagramTransport::SteamDatagramNetwork::FindDataCenterByServiceIP(unsigned int) const
  T SteamDatagramTransport::SteamDatagramNetwork::GetURLForUniverse(EUniverse)
  T SteamDatagramTransport::SteamDatagramNetwork::SetupFromJSON(char const*, int, char (&) [1024])
@@ -2090,6 +2096,7 @@
  T _V_memmove(void*, void const*, int)
  T _V_memset(void*, int, int)
  T _V_strcmp(char const*, char const*)
+ T _V_strcpy(char*, char const*)
  T _V_stricmp(char const*, char const*)
  T _V_strlen(char const*)
  T _V_strncat(char*, char const*, int, int)
@@ -2121,6 +2128,7 @@
  T char* std::string::_S_construct<char*>(char*, char*, std::allocator<char> const&, std::forward_iterator_tag)
  T int CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t>::DoRemove<CSteamID const&>(CSteamID const&, unsigned int)
  T int V_sprintf_safe<1024ul>(char (&) [1024ul], char const*, ...)
+ T int V_sprintf_safe<16ul>(char (&) [16ul], char const*, ...)
  T int V_sprintf_safe<32ul>(char (&) [32ul], char const*, ...)
  T int V_sprintf_safe<512ul>(char (&) [512ul], char const*, ...)
  T int V_sprintf_safe<64ul>(char (&) [64ul], char const*, ...)
@@ -2261,10 +2269,13 @@
  T unsigned int CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::DoInsert<unsigned int>(unsigned int, unsigned int)
  T void snappy::SnappyDecompressor::DecompressAllTags<snappy::SnappyArrayWriter>(snappy::SnappyArrayWriter*)
  T void snappy::SnappyDecompressor::DecompressAllTags<snappy::SnappyDecompressionValidator>(snappy::SnappyDecompressionValidator*)
+ T void std::__adjust_heap<ServerWithSessionSort*, int, ServerWithSessionSort>(ServerWithSessionSort*, int, int, ServerWithSessionSort)
+ T void std::__final_insertion_sort<ServerWithSessionSort*>(ServerWithSessionSort*, ServerWithSessionSort*)
  T void std::__final_insertion_sort<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*)
  T void std::__final_insertion_sort<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*)
  T void std::__heap_select<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*)
  T void std::__heap_select<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*)
+ T void std::__introsort_loop<ServerWithSessionSort*, int>(ServerWithSessionSort*, ServerWithSessionSort*, int)
  T void std::__introsort_loop<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, int>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, int)
  T void std::__introsort_loop<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, int>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, int)
  ThreadGetCurrentId
@@ -2472,7 +2483,6 @@
  b CSteamID::Render() const::nBuf
  b CSteamID::Render() const::rgchBuf
  b CUtlMemory<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort, int>::Grow(int)::tm_fmt
- b CUtlMemory<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ServerPingSort, int>::Grow(int)::tm_fmt
  b CheckConnectionLessRateLimits(ns_address const&)::autoMutex__
  b SteamDatagramTransport::s_eAvailAnyRouterCommunication
  b SteamDatagramTransport::s_eAvailNetworkConfig
@@ -2739,6 +2749,7 @@
  strcasecmp
  strchr
  strcmp
+ strcpy
  strerror$UNIX2003
  strlen
  strncat
@@ -2778,7 +2789,6 @@
  t net_status(CCommandContext const&, CCommand const&)
  t steamdatagram_clientstatus(CCommandContext const&, CCommand const&)
  t void std::__introsort_loop<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*, int>(SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*, SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*, int)
- t void std::__introsort_loop<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ServerPingSort*, int>(SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ServerPingSort*, SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ServerPingSort*, int)
  typeinfo for CThread
  typeinfo for std::exception
  vsnprintf
