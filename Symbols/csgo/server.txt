@@ -532,6 +532,7 @@
  B CMsgApplyAutograph::default_instance_
  B CMsgApplyEggEssence::default_instance_
  B CMsgApplyPennantUpgrade::default_instance_
+ B CMsgApplyStatTrakSwap::default_instance_
  B CMsgApplySticker::default_instance_
  B CMsgApplyStrangePart::default_instance_
  B CMsgCStrike15Welcome::default_instance_
@@ -1316,6 +1317,8 @@
  B DT_SlideshowDisplay::g_SendTableInit
  B DT_SmokeGrenade::g_SendTable
  B DT_SmokeGrenade::g_SendTableInit
+ B DT_SmokeGrenadeProjectile::g_SendTable
+ B DT_SmokeGrenadeProjectile::g_SendTableInit
  B DT_SmokeStack::g_SendTable
  B DT_SmokeStack::g_SendTableInit
  B DT_SmokeTrail::g_SendTable
@@ -2883,7 +2886,6 @@
  B sv_server_verify_blood_on_player
  B sv_show_bot_difficulty_in_name
  B sv_showanimstate
- B sv_showbullethits
  B sv_showimpacts
  B sv_showimpacts_penetration
  B sv_showimpacts_time
@@ -6052,6 +6054,7 @@
  D guard variable for int ServerClassInit<DT_ShadowControl::ignored>(DT_ShadowControl::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_SlideshowDisplay::ignored>(DT_SlideshowDisplay::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_SmokeGrenade::ignored>(DT_SmokeGrenade::ignored*)::g_SendProps
+ D guard variable for int ServerClassInit<DT_SmokeGrenadeProjectile::ignored>(DT_SmokeGrenadeProjectile::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_SmokeStack::ignored>(DT_SmokeStack::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_SmokeTrail::ignored>(DT_SmokeTrail::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_SpatialEntity::ignored>(DT_SpatialEntity::ignored*)::g_SendProps
@@ -6570,6 +6573,8 @@
  D int ServerClassInit<DT_SlideshowDisplay::ignored>(DT_SlideshowDisplay::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_SmokeGrenade::ignored>(DT_SmokeGrenade::ignored*)::g_SendProps
  D int ServerClassInit<DT_SmokeGrenade::ignored>(DT_SmokeGrenade::ignored*)::g_pSendTableName
+ D int ServerClassInit<DT_SmokeGrenadeProjectile::ignored>(DT_SmokeGrenadeProjectile::ignored*)::g_SendProps
+ D int ServerClassInit<DT_SmokeGrenadeProjectile::ignored>(DT_SmokeGrenadeProjectile::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_SmokeStack::ignored>(DT_SmokeStack::ignored*)::g_SendProps
  D int ServerClassInit<DT_SmokeStack::ignored>(DT_SmokeStack::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_SmokeTrail::ignored>(DT_SmokeTrail::ignored*)::g_SendProps
@@ -7253,6 +7258,7 @@
  D typeinfo for CEconTool_PaintKit
  D typeinfo for CEconTool_Recipe
  D typeinfo for CEconTool_SeasonPass
+ D typeinfo for CEconTool_StatTrakSwap
  D typeinfo for CEconTool_Sticker
  D typeinfo for CEconTool_WeddingRing
  D typeinfo for CEconTool_WrappedGift
@@ -8090,6 +8096,7 @@
  D typeinfo for CMsgApplyAutograph
  D typeinfo for CMsgApplyEggEssence
  D typeinfo for CMsgApplyPennantUpgrade
+ D typeinfo for CMsgApplyStatTrakSwap
  D typeinfo for CMsgApplySticker
  D typeinfo for CMsgApplyStrangePart
  D typeinfo for CMsgCStrike15Welcome
@@ -9940,6 +9947,7 @@
  D vtable for CEconTool_PaintKit
  D vtable for CEconTool_Recipe
  D vtable for CEconTool_SeasonPass
+ D vtable for CEconTool_StatTrakSwap
  D vtable for CEconTool_Sticker
  D vtable for CEconTool_WeddingRing
  D vtable for CEconTool_WrappedGift
@@ -10768,6 +10776,7 @@
  D vtable for CMsgApplyAutograph
  D vtable for CMsgApplyEggEssence
  D vtable for CMsgApplyPennantUpgrade
+ D vtable for CMsgApplyStatTrakSwap
  D vtable for CMsgApplySticker
  D vtable for CMsgApplyStrangePart
  D vtable for CMsgCStrike15Welcome
@@ -12185,6 +12194,7 @@
  R typeinfo name for CEconTool_PaintKit
  R typeinfo name for CEconTool_Recipe
  R typeinfo name for CEconTool_SeasonPass
+ R typeinfo name for CEconTool_StatTrakSwap
  R typeinfo name for CEconTool_Sticker
  R typeinfo name for CEconTool_WeddingRing
  R typeinfo name for CEconTool_WrappedGift
@@ -13022,6 +13032,7 @@
  R typeinfo name for CMsgApplyAutograph
  R typeinfo name for CMsgApplyEggEssence
  R typeinfo name for CMsgApplyPennantUpgrade
+ R typeinfo name for CMsgApplyStatTrakSwap
  R typeinfo name for CMsgApplySticker
  R typeinfo name for CMsgApplyStrangePart
  R typeinfo name for CMsgCStrike15Welcome
@@ -19123,6 +19134,7 @@
  T CCSGameRules::ClientSettingsChanged(CBasePlayer*)
  T CCSGameRules::CreateEndMatchMapGroupVoteOptions()
  T CCSGameRules::CreateStandardEntities()
+ T CCSGameRules::CreateWeaponKillGameEvent(char const*, CTakeDamageInfo const&)
  T CCSGameRules::DeathNotice(CBasePlayer*, CTakeDamageInfo const&)
  T CCSGameRules::DefaultFOV()
  T CCSGameRules::DumpTimers() const
@@ -20164,6 +20176,7 @@
  T CCSUsrMsg_ReloadEffect::SetCachedSize(int) const
  T CCSUsrMsg_ReloadEffect::~CCSUsrMsg_ReloadEffect()
  T CCSUsrMsg_ReportHit::ByteSize() const
+ T CCSUsrMsg_ReportHit::CCSUsrMsg_ReportHit()
  T CCSUsrMsg_ReportHit::Clear()
  T CCSUsrMsg_ReportHit::GetCachedSize() const
  T CCSUsrMsg_ReportHit::GetMetadata() const
@@ -20543,6 +20556,12 @@
  T CCSWeaponInfo::GetUsedByTeam(CEconItemView const*) const
  T CCSWeaponInfo::GetWeaponPrice(CEconItemView const*, int, float) const
  T CCSWeaponInfo::GetWeaponType(CEconItemView const*) const
+ T CCSWeaponInfo::GetZoomFOV1(CEconItemView const*, int, float) const
+ T CCSWeaponInfo::GetZoomFOV2(CEconItemView const*, int, float) const
+ T CCSWeaponInfo::GetZoomLevels(CEconItemView const*, int, float) const
+ T CCSWeaponInfo::GetZoomTime0(CEconItemView const*, int, float) const
+ T CCSWeaponInfo::GetZoomTime1(CEconItemView const*, int, float) const
+ T CCSWeaponInfo::GetZoomTime2(CEconItemView const*, int, float) const
  T CCSWeaponInfo::HasBulletAltfire(CEconItemView const*, int, float) const
  T CCSWeaponInfo::HasBurstMode(CEconItemView const*, int, float) const
  T CCSWeaponInfo::HasPostponeFire(CEconItemView const*, int, float) const
@@ -21976,6 +21995,7 @@
  T CEconTool_PaintKit::~CEconTool_PaintKit()
  T CEconTool_Recipe::~CEconTool_Recipe()
  T CEconTool_SeasonPass::~CEconTool_SeasonPass()
+ T CEconTool_StatTrakSwap::~CEconTool_StatTrakSwap()
  T CEconTool_Sticker::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const
  T CEconTool_Sticker::~CEconTool_Sticker()
  T CEconTool_WeddingRing::RequiresToolEscrowPeriod() const
@@ -26483,6 +26503,16 @@
  T CMsgApplyPennantUpgrade::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgApplyPennantUpgrade::SetCachedSize(int) const
  T CMsgApplyPennantUpgrade::~CMsgApplyPennantUpgrade()
+ T CMsgApplyStatTrakSwap::ByteSize() const
+ T CMsgApplyStatTrakSwap::Clear()
+ T CMsgApplyStatTrakSwap::GetCachedSize() const
+ T CMsgApplyStatTrakSwap::GetMetadata() const
+ T CMsgApplyStatTrakSwap::IsInitialized() const
+ T CMsgApplyStatTrakSwap::MergeFrom(CMsgApplyStatTrakSwap const&)
+ T CMsgApplyStatTrakSwap::New() const
+ T CMsgApplyStatTrakSwap::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgApplyStatTrakSwap::SetCachedSize(int) const
+ T CMsgApplyStatTrakSwap::~CMsgApplyStatTrakSwap()
  T CMsgApplySticker::ByteSize() const
  T CMsgApplySticker::Clear()
  T CMsgApplySticker::GetCachedSize() const
@@ -31754,6 +31784,7 @@
  T CSmokeGrenadeProjectile::Detonate()
  T CSmokeGrenadeProjectile::GetDataDescMap()
  T CSmokeGrenadeProjectile::GetGrenadeType()
+ T CSmokeGrenadeProjectile::GetServerClass()
  T CSmokeGrenadeProjectile::OnBounced()
  T CSmokeGrenadeProjectile::Precache()
  T CSmokeGrenadeProjectile::RemoveGrenadeFromLists()
@@ -31762,6 +31793,7 @@
  T CSmokeGrenadeProjectile::Think_Detonate()
  T CSmokeGrenadeProjectile::Think_Fade()
  T CSmokeGrenadeProjectile::Think_Remove()
+ T CSmokeGrenadeProjectile::YouForgotToImplementOrDeclareServerClass()
  T CSmokeGrenadeProjectile::~CSmokeGrenadeProjectile()
  T CSmokeStack::Activate()
  T CSmokeStack::CSmokeStack()
@@ -35203,6 +35235,7 @@
  T CWeaponCSBase::CalculateNextAttackTime(float)
  T CWeaponCSBase::CallSecondaryAttack()
  T CWeaponCSBase::CanBeSelected()
+ T CWeaponCSBase::CanBeUsedWithShield() const
  T CWeaponCSBase::CanDeploy()
  T CWeaponCSBase::CannotShootUnderwater() const
  T CWeaponCSBase::CheckRespawn()
@@ -35213,7 +35246,10 @@
  T CWeaponCSBase::Deploy()
  T CWeaponCSBase::Drop(Vector const&)
  T CWeaponCSBase::GetAddonModel() const
+ T CWeaponCSBase::GetAddonScale() const
+ T CWeaponCSBase::GetAnimExtension() const
  T CWeaponCSBase::GetArmorRatio() const
+ T CWeaponCSBase::GetBotAudibleRange() const
  T CWeaponCSBase::GetBulletSpread()
  T CWeaponCSBase::GetCSWeaponID() const
  T CWeaponCSBase::GetCSWpnData() const
@@ -35238,14 +35274,23 @@
  T CWeaponCSBase::GetRecoilMagnitudeVariance(int) const
  T CWeaponCSBase::GetRecoilSeed() const
  T CWeaponCSBase::GetServerClass()
+ T CWeaponCSBase::GetShieldViewModel() const
  T CWeaponCSBase::GetShootSound(int) const
  T CWeaponCSBase::GetShotgunReloadState()
+ T CWeaponCSBase::GetSilencerModel() const
  T CWeaponCSBase::GetSpread() const
+ T CWeaponCSBase::GetThrowVelocity() const
  T CWeaponCSBase::GetTracerType()
  T CWeaponCSBase::GetViewModel(int) const
  T CWeaponCSBase::GetWeaponID() const
  T CWeaponCSBase::GetWeaponPrice() const
  T CWeaponCSBase::GetWeaponType() const
+ T CWeaponCSBase::GetWrongTeamMsg() const
+ T CWeaponCSBase::GetZoomFOV(int) const
+ T CWeaponCSBase::GetZoomInSound() const
+ T CWeaponCSBase::GetZoomLevels() const
+ T CWeaponCSBase::GetZoomOutSound() const
+ T CWeaponCSBase::GetZoomTime(int) const
  T CWeaponCSBase::HasSilencer() const
  T CWeaponCSBase::HasTraditionalScope() const
  T CWeaponCSBase::HasZoom()
@@ -36186,7 +36231,7 @@
  T GCSDK::CJob::BYieldingRunJobFromMsg(GCSDK::IMsgNetPacket*)
  T GCSDK::CJob::BYieldingWaitOneFrame()
  T GCSDK::CJob::CHeartbeatsBeforeTimeout()
- T GCSDK::CJob::CJob(GCSDK::CJobMgr&)
+ T GCSDK::CJob::CJob(GCSDK::CJobMgr&, char const*)
  T GCSDK::CJob::Continue()
  T GCSDK::CJob::EndPause(GCSDK::EJobPauseReason)
  T GCSDK::CJob::GetName() const
@@ -38692,6 +38737,7 @@
  T int ServerClassInit<DT_ShadowControl::ignored>(DT_ShadowControl::ignored*)
  T int ServerClassInit<DT_SlideshowDisplay::ignored>(DT_SlideshowDisplay::ignored*)
  T int ServerClassInit<DT_SmokeGrenade::ignored>(DT_SmokeGrenade::ignored*)
+ T int ServerClassInit<DT_SmokeGrenadeProjectile::ignored>(DT_SmokeGrenadeProjectile::ignored*)
  T int ServerClassInit<DT_SmokeStack::ignored>(DT_SmokeStack::ignored*)
  T int ServerClassInit<DT_SmokeTrail::ignored>(DT_SmokeTrail::ignored*)
  T int ServerClassInit<DT_SpatialEntity::ignored>(DT_SpatialEntity::ignored*)
@@ -41564,6 +41610,8 @@
  b (anonymous namespace)::CMsgApplyEggEssence_reflection_
  b (anonymous namespace)::CMsgApplyPennantUpgrade_descriptor_
  b (anonymous namespace)::CMsgApplyPennantUpgrade_reflection_
+ b (anonymous namespace)::CMsgApplyStatTrakSwap_descriptor_
+ b (anonymous namespace)::CMsgApplyStatTrakSwap_reflection_
  b (anonymous namespace)::CMsgApplySticker_descriptor_
  b (anonymous namespace)::CMsgApplySticker_reflection_
  b (anonymous namespace)::CMsgApplyStrangePart_descriptor_
@@ -42291,6 +42339,18 @@
  b CCSWeaponInfo::GetTracerFrequency(CEconItemView const*, int, float) const::hAttribAlt
  b CCSWeaponInfo::GetWeaponPrice(CEconItemView const*, int, float) const::hAttrib
  b CCSWeaponInfo::GetWeaponPrice(CEconItemView const*, int, float) const::hAttribAlt
+ b CCSWeaponInfo::GetZoomFOV1(CEconItemView const*, int, float) const::hAttrib
+ b CCSWeaponInfo::GetZoomFOV1(CEconItemView const*, int, float) const::hAttribAlt
+ b CCSWeaponInfo::GetZoomFOV2(CEconItemView const*, int, float) const::hAttrib
+ b CCSWeaponInfo::GetZoomFOV2(CEconItemView const*, int, float) const::hAttribAlt
+ b CCSWeaponInfo::GetZoomLevels(CEconItemView const*, int, float) const::hAttrib
+ b CCSWeaponInfo::GetZoomLevels(CEconItemView const*, int, float) const::hAttribAlt
+ b CCSWeaponInfo::GetZoomTime0(CEconItemView const*, int, float) const::hAttrib
+ b CCSWeaponInfo::GetZoomTime0(CEconItemView const*, int, float) const::hAttribAlt
+ b CCSWeaponInfo::GetZoomTime1(CEconItemView const*, int, float) const::hAttrib
+ b CCSWeaponInfo::GetZoomTime1(CEconItemView const*, int, float) const::hAttribAlt
+ b CCSWeaponInfo::GetZoomTime2(CEconItemView const*, int, float) const::hAttrib
+ b CCSWeaponInfo::GetZoomTime2(CEconItemView const*, int, float) const::hAttribAlt
  b CCSWeaponInfo::HasBulletAltfire(CEconItemView const*, int, float) const::hAttrib
  b CCSWeaponInfo::HasBulletAltfire(CEconItemView const*, int, float) const::hAttribAlt
  b CCSWeaponInfo::HasBurstMode(CEconItemView const*, int, float) const::hAttrib
@@ -42348,6 +42408,7 @@
  b CIronSightController::Init(CWeaponCSBase*)::pAttrflIronSightPivotForward
  b CIronSightController::Init(CWeaponCSBase*)::pAttrflIronSightPullUpSpeed
  b CIronSightController::Init(CWeaponCSBase*)::pAttrflIronSightPutDownSpeed
+ b CItemSelectionCriteria::BEvaluate(CEconItem const*, CEconItemSchema const&) const::pAttr_KillEaterScoreType
  b CKeyValuesDumpContextAsDevMsg::KvBeginKey(KeyValues*, int)::r_developer
  b CNavArea::ComputeVisibilityDelta(CNavArea const*) const::delta
  b CNavArea::Draw() const::blink
@@ -43018,6 +43079,7 @@
  b g_CSceneEntity_ClassReg
  b g_CShadowControl_ClassReg
  b g_CSlideshowDisplay_ClassReg
+ b g_CSmokeGrenadeProjectile_ClassReg
  b g_CSmokeGrenade_ClassReg
  b g_CSmokeStack_ClassReg
  b g_CSpatialEntity_ClassReg
@@ -43431,6 +43493,18 @@
  b guard variable for CCSWeaponInfo::GetTracerFrequency(CEconItemView const*, int, float) const::hAttribAlt
  b guard variable for CCSWeaponInfo::GetWeaponPrice(CEconItemView const*, int, float) const::hAttrib
  b guard variable for CCSWeaponInfo::GetWeaponPrice(CEconItemView const*, int, float) const::hAttribAlt
+ b guard variable for CCSWeaponInfo::GetZoomFOV1(CEconItemView const*, int, float) const::hAttrib
+ b guard variable for CCSWeaponInfo::GetZoomFOV1(CEconItemView const*, int, float) const::hAttribAlt
+ b guard variable for CCSWeaponInfo::GetZoomFOV2(CEconItemView const*, int, float) const::hAttrib
+ b guard variable for CCSWeaponInfo::GetZoomFOV2(CEconItemView const*, int, float) const::hAttribAlt
+ b guard variable for CCSWeaponInfo::GetZoomLevels(CEconItemView const*, int, float) const::hAttrib
+ b guard variable for CCSWeaponInfo::GetZoomLevels(CEconItemView const*, int, float) const::hAttribAlt
+ b guard variable for CCSWeaponInfo::GetZoomTime0(CEconItemView const*, int, float) const::hAttrib
+ b guard variable for CCSWeaponInfo::GetZoomTime0(CEconItemView const*, int, float) const::hAttribAlt
+ b guard variable for CCSWeaponInfo::GetZoomTime1(CEconItemView const*, int, float) const::hAttrib
+ b guard variable for CCSWeaponInfo::GetZoomTime1(CEconItemView const*, int, float) const::hAttribAlt
+ b guard variable for CCSWeaponInfo::GetZoomTime2(CEconItemView const*, int, float) const::hAttrib
+ b guard variable for CCSWeaponInfo::GetZoomTime2(CEconItemView const*, int, float) const::hAttribAlt
  b guard variable for CCSWeaponInfo::HasBulletAltfire(CEconItemView const*, int, float) const::hAttrib
  b guard variable for CCSWeaponInfo::HasBulletAltfire(CEconItemView const*, int, float) const::hAttribAlt
  b guard variable for CCSWeaponInfo::HasBurstMode(CEconItemView const*, int, float) const::hAttrib
@@ -43474,6 +43548,7 @@
  b guard variable for CIronSightController::Init(CWeaponCSBase*)::pAttrflIronSightPivotForward
  b guard variable for CIronSightController::Init(CWeaponCSBase*)::pAttrflIronSightPullUpSpeed
  b guard variable for CIronSightController::Init(CWeaponCSBase*)::pAttrflIronSightPutDownSpeed
+ b guard variable for CItemSelectionCriteria::BEvaluate(CEconItem const*, CEconItemSchema const&) const::pAttr_KillEaterScoreType
  b guard variable for CKeyValuesDumpContextAsDevMsg::KvBeginKey(KeyValues*, int)::r_developer
  b guard variable for CNavArea::ComputeVisibilityDelta(CNavArea const*) const::delta
  b guard variable for CNavArea::Draw() const::blink
@@ -44619,6 +44694,7 @@
  r protobuf_AssignDesc_base_5fgcmessages_2eproto()::CMsgAdjustItemEquippedState_offsets_
  r protobuf_AssignDesc_base_5fgcmessages_2eproto()::CMsgApplyEggEssence_offsets_
  r protobuf_AssignDesc_base_5fgcmessages_2eproto()::CMsgApplyPennantUpgrade_offsets_
+ r protobuf_AssignDesc_base_5fgcmessages_2eproto()::CMsgApplyStatTrakSwap_offsets_
  r protobuf_AssignDesc_base_5fgcmessages_2eproto()::CMsgApplySticker_offsets_
  r protobuf_AssignDesc_base_5fgcmessages_2eproto()::CMsgApplyStrangePart_offsets_
  r protobuf_AssignDesc_base_5fgcmessages_2eproto()::CMsgConVarValue_offsets_
