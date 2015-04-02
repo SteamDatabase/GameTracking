@@ -2274,6 +2274,7 @@
  B gHLClient
  B gHUD
  B gLCD
+ B gScaleformBrowserActive
  B gWR
  B g_AccountPrivacySettings
  B g_AchievementMgrCS
@@ -5196,6 +5197,17 @@
  D HTMLInterior::GetKBMap()::s_pMap
  D HTMLInterior::GetMessageMap()::s_pMap
  D HTMLInterior::KB_ChainToMap()::chained
+ D HTMLPopup::ChainToAnimationMap()::chained
+ D HTMLPopup::ChainToMap()::chained
+ D HTMLPopup::GetKBMap()::s_pMap
+ D HTMLPopup::GetMessageMap()::s_pMap
+ D HTMLPopup::KB_ChainToMap()::chained
+ D HTMLPopup::PanelMessageFunc_OnCloseWindow::InitVar()::bAdded
+ D HTMLPopup::PopupHTML::ChainToAnimationMap()::chained
+ D HTMLPopup::PopupHTML::ChainToMap()::chained
+ D HTMLPopup::PopupHTML::GetKBMap()::s_pMap
+ D HTMLPopup::PopupHTML::GetMessageMap()::s_pMap
+ D HTMLPopup::PopupHTML::KB_ChainToMap()::chained
  D HardwareVerts::FileHeader_t::m_DataMap
  D HardwareVerts::MeshHeader_t::m_DataMap
  D IGameStatTracker::CGameStatList<SRoundData>* IGameStatTracker::GetStatTable<SRoundData>()::s_vecOfType
@@ -6264,6 +6276,10 @@
  D guard variable for HTMLComboBoxHost::GetMessageMap()::s_pMap
  D guard variable for HTMLInterior::GetKBMap()::s_pMap
  D guard variable for HTMLInterior::GetMessageMap()::s_pMap
+ D guard variable for HTMLPopup::GetKBMap()::s_pMap
+ D guard variable for HTMLPopup::GetMessageMap()::s_pMap
+ D guard variable for HTMLPopup::PopupHTML::GetKBMap()::s_pMap
+ D guard variable for HTMLPopup::PopupHTML::GetMessageMap()::s_pMap
  D guard variable for ISaveRestoreOps* CUtlVectorDataopsInstantiator<10>::GetDataOps<CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> > >(CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> >*)::ops
  D guard variable for ISaveRestoreOps* CUtlVectorDataopsInstantiator<13>::GetDataOps<CUtlVector<CHandle<C_BaseEntity>, CUtlMemory<CHandle<C_BaseEntity>, int> > >(CUtlVector<CHandle<C_BaseEntity>, CUtlMemory<CHandle<C_BaseEntity>, int> >*)::ops
  D guard variable for ISaveRestoreOps* CUtlVectorDataopsInstantiator<5>::GetDataOps<CUtlVector<int, CUtlMemory<int, int> > >(CUtlVector<int, CUtlMemory<int, int> >*)::ops
@@ -7470,6 +7486,7 @@
  D typeinfo for CCallback<GCSDK::CGCClient, SteamServersDisconnected_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_CanGoBackAndForward_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_CloseBrowser_t, false>
+ D typeinfo for CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_FinishedRequest_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_HidePopup_t, false>
@@ -7479,6 +7496,7 @@
  D typeinfo for CCallback<vgui::HTML, HTML_JSConfirm_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_LinkAtPosition_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_NeedsPaint_t, false>
+ D typeinfo for CCallback<vgui::HTML, HTML_NewWindow_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_SearchResults_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_SetCursor_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_ShowPopup_t, false>
@@ -9561,6 +9579,8 @@
  D typeinfo for GunshipImpactPrecache::CResourcePrecacher
  D typeinfo for HTMLComboBoxHost
  D typeinfo for HTMLInterior
+ D typeinfo for HTMLPopup
+ D typeinfo for HTMLPopup::PopupHTML
  D typeinfo for HelicopterMegaBombPrecache::CResourcePrecacher
  D typeinfo for HunterDamagePrecache::CResourcePrecacher
  D typeinfo for IAccountPersonaLocalizer
@@ -10743,6 +10763,7 @@
  D vtable for CCallback<GCSDK::CGCClient, SteamServersDisconnected_t, false>
  D vtable for CCallback<vgui::HTML, HTML_CanGoBackAndForward_t, false>
  D vtable for CCallback<vgui::HTML, HTML_CloseBrowser_t, false>
+ D vtable for CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>
  D vtable for CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>
  D vtable for CCallback<vgui::HTML, HTML_FinishedRequest_t, false>
  D vtable for CCallback<vgui::HTML, HTML_HidePopup_t, false>
@@ -10752,6 +10773,7 @@
  D vtable for CCallback<vgui::HTML, HTML_JSConfirm_t, false>
  D vtable for CCallback<vgui::HTML, HTML_LinkAtPosition_t, false>
  D vtable for CCallback<vgui::HTML, HTML_NeedsPaint_t, false>
+ D vtable for CCallback<vgui::HTML, HTML_NewWindow_t, false>
  D vtable for CCallback<vgui::HTML, HTML_SearchResults_t, false>
  D vtable for CCallback<vgui::HTML, HTML_SetCursor_t, false>
  D vtable for CCallback<vgui::HTML, HTML_ShowPopup_t, false>
@@ -12753,6 +12775,8 @@
  D vtable for GunshipImpactPrecache::CResourcePrecacher
  D vtable for HTMLComboBoxHost
  D vtable for HTMLInterior
+ D vtable for HTMLPopup
+ D vtable for HTMLPopup::PopupHTML
  D vtable for HelicopterMegaBombPrecache::CResourcePrecacher
  D vtable for HunterDamagePrecache::CResourcePrecacher
  D vtable for IDecalEmitterSystem
@@ -13341,6 +13365,7 @@
  R typeinfo name for CCallback<GCSDK::CGCClient, SteamServersDisconnected_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_CanGoBackAndForward_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_CloseBrowser_t, false>
+ R typeinfo name for CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_FinishedRequest_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_HidePopup_t, false>
@@ -13350,6 +13375,7 @@
  R typeinfo name for CCallback<vgui::HTML, HTML_JSConfirm_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_LinkAtPosition_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_NeedsPaint_t, false>
+ R typeinfo name for CCallback<vgui::HTML, HTML_NewWindow_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_SearchResults_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_SetCursor_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_ShowPopup_t, false>
@@ -15433,6 +15459,8 @@
  R typeinfo name for GunshipImpactPrecache::CResourcePrecacher
  R typeinfo name for HTMLComboBoxHost
  R typeinfo name for HTMLInterior
+ R typeinfo name for HTMLPopup
+ R typeinfo name for HTMLPopup::PopupHTML
  R typeinfo name for HelicopterMegaBombPrecache::CResourcePrecacher
  R typeinfo name for HunterDamagePrecache::CResourcePrecacher
  R typeinfo name for IAccountPersonaLocalizer
@@ -18765,6 +18793,9 @@
  T CCallback<vgui::HTML, HTML_CloseBrowser_t, false>::GetCallbackSizeBytes()
  T CCallback<vgui::HTML, HTML_CloseBrowser_t, false>::Run(void*)
  T CCallback<vgui::HTML, HTML_CloseBrowser_t, false>::Run(void*, bool, unsigned long long)
+ T CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>::GetCallbackSizeBytes()
+ T CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>::Run(void*)
+ T CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>::Run(void*, bool, unsigned long long)
  T CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>::GetCallbackSizeBytes()
  T CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>::Run(void*)
  T CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>::Run(void*, bool, unsigned long long)
@@ -18792,6 +18823,9 @@
  T CCallback<vgui::HTML, HTML_NeedsPaint_t, false>::GetCallbackSizeBytes()
  T CCallback<vgui::HTML, HTML_NeedsPaint_t, false>::Run(void*)
  T CCallback<vgui::HTML, HTML_NeedsPaint_t, false>::Run(void*, bool, unsigned long long)
+ T CCallback<vgui::HTML, HTML_NewWindow_t, false>::GetCallbackSizeBytes()
+ T CCallback<vgui::HTML, HTML_NewWindow_t, false>::Run(void*)
+ T CCallback<vgui::HTML, HTML_NewWindow_t, false>::Run(void*, bool, unsigned long long)
  T CCallback<vgui::HTML, HTML_SearchResults_t, false>::GetCallbackSizeBytes()
  T CCallback<vgui::HTML, HTML_SearchResults_t, false>::Run(void*)
  T CCallback<vgui::HTML, HTML_SearchResults_t, false>::Run(void*, bool, unsigned long long)
@@ -41735,6 +41769,22 @@
  T HTMLInterior::GetPanelClassName()
  T HTMLInterior::HTMLInterior(vgui::HTML*)
  T HTMLInterior::~HTMLInterior()
+ T HTMLPopup::AddToMap(char const*, void (vgui::Panel::*)(), int, int, char const*, int, char const*)
+ T HTMLPopup::GetAnimMap()
+ T HTMLPopup::GetKBMap()
+ T HTMLPopup::GetMessageMap()
+ T HTMLPopup::GetPanelClassName()
+ T HTMLPopup::HTMLPopup(vgui::Panel*, unsigned int, char const*, char const*)
+ T HTMLPopup::OnCloseWindow()
+ T HTMLPopup::PerformLayout()
+ T HTMLPopup::PopupHTML::GetAnimMap()
+ T HTMLPopup::PopupHTML::GetKBMap()
+ T HTMLPopup::PopupHTML::GetMessageMap()
+ T HTMLPopup::PopupHTML::GetPanelClassName()
+ T HTMLPopup::PopupHTML::OnSetHTMLTitle(char const*)
+ T HTMLPopup::PopupHTML::PopupHTML(vgui::Frame*, char const*, bool, bool)
+ T HTMLPopup::PopupHTML::~PopupHTML()
+ T HTMLPopup::~HTMLPopup()
  T Hack_FixEscapeChars(char*)
  T HandleGameEntityKeyValues(KeyValues*)
  T HasZipSuffix(char const*)
@@ -47131,6 +47181,7 @@
  T vgui::HTML::BCanGoFoward()
  T vgui::HTML::BrowserCanGoBackandForward(HTML_CanGoBackAndForward_t*)
  T vgui::HTML::BrowserClose(HTML_CloseBrowser_t*)
+ T vgui::HTML::BrowserComboNeedsPaint(HTML_ComboNeedsPaint_t*)
  T vgui::HTML::BrowserFileOpenDialog(HTML_FileOpenDialog_t*)
  T vgui::HTML::BrowserFinishedRequest(HTML_FinishedRequest_t*)
  T vgui::HTML::BrowserHidePopup(HTML_HidePopup_t*)
@@ -47140,6 +47191,7 @@
  T vgui::HTML::BrowserJSConfirm(HTML_JSConfirm_t*)
  T vgui::HTML::BrowserLinkAtPositionResponse(HTML_LinkAtPosition_t*)
  T vgui::HTML::BrowserNeedsPaint(HTML_NeedsPaint_t*)
+ T vgui::HTML::BrowserPopupHTMLWindow(HTML_NewWindow_t*)
  T vgui::HTML::BrowserResize()
  T vgui::HTML::BrowserSearchResults(HTML_SearchResults_t*)
  T vgui::HTML::BrowserSetCursor(HTML_SetCursor_t*)
