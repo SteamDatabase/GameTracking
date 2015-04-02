@@ -864,6 +864,7 @@
  T CMsgSteamDatagramGameServerAuthTicket::CMsgSteamDatagramGameServerAuthTicket()
  T CMsgSteamDatagramGameServerAuthTicket::CMsgSteamDatagramGameServerAuthTicket(CMsgSteamDatagramGameServerAuthTicket const&)
  T CMsgSteamDatagramGameServerAuthTicket::Clear()
+ T CMsgSteamDatagramGameServerAuthTicket::CopyFrom(CMsgSteamDatagramGameServerAuthTicket const&)
  T CMsgSteamDatagramGameServerAuthTicket::GetCachedSize() const
  T CMsgSteamDatagramGameServerAuthTicket::GetMetadata() const
  T CMsgSteamDatagramGameServerAuthTicket::IsInitialized() const
@@ -1332,6 +1333,7 @@
  T CNetworkSystem::SendLoopPacket(int, int, unsigned char const*, ns_address const&)
  T CNetworkSystem::SendPacket(INetChannel*, int, ns_address const&, unsigned char const*, int, bf_write*, bool, unsigned int)
  T CNetworkSystem::SendQueuedPackets()
+ T CNetworkSystem::SendToNsAddress(ns_address const&, netsocket_t&, void const*, int, int)
  T CNetworkSystem::SetDedicated(bool)
  T CNetworkSystem::SetDefaultBroadcastPort(int)
  T CNetworkSystem::SetRemoteSteamChannel(int, int)
@@ -2031,9 +2033,9 @@
  T SteamDatagramTransport::CSteamDatagramTransportClient::RecvDatagram(void*, unsigned int, int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::RecvStats(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, CMsgSteamDatagramConnectionStatsRouterToClient&, unsigned long long)
  T SteamDatagramTransport::CSteamDatagramTransportClient::SendDatagram(void const*, unsigned int, int)
+ T SteamDatagramTransport::CSteamDatagramTransportClient::SendPacket(void const*, int, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&)
  T SteamDatagramTransport::CSteamDatagramTransportClient::SendPing(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, unsigned long long, bool)
  T SteamDatagramTransport::CSteamDatagramTransportClient::ServerData::ServerData()
- T SteamDatagramTransport::CSteamDatagramTransportClient::SetGameServerAuthTicket(CMsgSteamDatagramGameServerAuthTicket const&, char (&) [1024])
  T SteamDatagramTransport::CSteamDatagramTransportClient::Start(char (&) [1024])
  T SteamDatagramTransport::CSteamDatagramTransportClient::Think()
  T SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)
@@ -2054,9 +2056,12 @@
  T SteamDatagramTransport::LinkStatsPrintInstantaneousToBuf(char const*, SteamDatagramLinkInstantaneousStats const&, CUtlBuffer&)
  T SteamDatagramTransport::LinkStatsPrintLifetimeToBuf(char const*, SteamDatagramLinkLifetimeStats const&, CUtlBuffer&)
  T SteamDatagramTransport::LinkStatsPrintToBuf(char const*, SteamDatagramLinkStats const&, CUtlBuffer&)
+ T SteamDatagramTransport::LinkStatsTracker::BCheckHaveDataToSendInstantaneous(unsigned long long)
+ T SteamDatagramTransport::LinkStatsTracker::BCheckHaveDataToSendLifetime(unsigned long long)
+ T SteamDatagramTransport::LinkStatsTracker::BNeedToSendStats(unsigned long long)
  T SteamDatagramTransport::LinkStatsTracker::GetLinkStats(SteamDatagramLinkStats&, unsigned long long) const
  T SteamDatagramTransport::LinkStatsTracker::Init(unsigned long long)
- T SteamDatagramTransport::LinkStatsTracker::PopulateMessage(CMsgSteamDatagramConnectionQuality&, unsigned long long) const
+ T SteamDatagramTransport::LinkStatsTracker::PopulateMessage(CMsgSteamDatagramConnectionQuality&, unsigned long long)
  T SteamDatagramTransport::LinkStatsTracker::ProcessMessage(CMsgSteamDatagramConnectionQuality const&, unsigned long long)
  T SteamDatagramTransport::LinkStatsTracker::ReceivedPing(int, unsigned long long)
  T SteamDatagramTransport::LinkStatsTracker::TrackRecvSequencedPacket(unsigned short)
@@ -2274,10 +2279,10 @@
  T void std::__final_insertion_sort<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*)
  T void std::__final_insertion_sort<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*)
  T void std::__heap_select<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*)
- T void std::__heap_select<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*)
  T void std::__introsort_loop<ServerWithSessionSort*, int>(ServerWithSessionSort*, ServerWithSessionSort*, int)
  T void std::__introsort_loop<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, int>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, int)
  T void std::__introsort_loop<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, int>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, int)
+ T void std::make_heap<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*)
  ThreadGetCurrentId
  ThreadInterlockedAssignIf64
  ThreadJoin
@@ -2495,6 +2500,7 @@
  b _V_strcmp(char const*, char const*)::tm_fmt
  b _V_stricmp(char const*, char const*)::tm_fmt
  b __g_CreateCNetworkSystemINetworkSystem_reg
+ b cl_steamdatagramtransport_debugticket_address
  b configFetch
  b droppackets
  b fakejitter
@@ -2764,7 +2770,6 @@
  t AddSteamDatagramTicket(CMsgSteamDatagramGameServerAuthTicket const&)
  t OnNetPublicAdrChanged(IConVar*, char const*, float)
  t ParseRouterAddress(char const*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress&)
- t SendToNsAddress(ns_address const&, netsocket_t&, void const*, int, int)
  t SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::$_0::__invoke(SteamDatagramTransport::SharedClusterData* const*, SteamDatagramTransport::SharedClusterData* const*)
  t SteamDatagramTransport::ProcessDowntimeWarning(netadr_t const&, int, unsigned long long)
  t __CreateCNetworkSystemINetworkSystem_interface()
@@ -2780,10 +2785,10 @@
  t __cxx_global_var_init16
  t __cxx_global_var_init17
  t __cxx_global_var_init18
- t __cxx_global_var_init226
- t __cxx_global_var_init227
- t __cxx_global_var_init228
- t __cxx_global_var_init229
+ t __cxx_global_var_init235
+ t __cxx_global_var_init236
+ t __cxx_global_var_init237
+ t __cxx_global_var_init238
  t global constructors keyed to a
  t net_channels(CCommandContext const&, CCommand const&)
  t net_status(CCommandContext const&, CCommand const&)
