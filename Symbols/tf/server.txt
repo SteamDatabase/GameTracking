@@ -3938,8 +3938,6 @@
  D CTFGameRules::ItemTesting_GetBotAnimSpeed()::pHostTimescale
  D CTFGameRulesProxy::m_DataMap
  D CTFGrapplingHook::m_DataMap
- D CTFGrapplingHook::m_acttable
- D CTFGrapplingHook::m_poseparamtable
  D CTFGrenadeLauncher::m_DataMap
  D CTFGrenadeLauncher::m_pClassSendTable
  D CTFGrenadePipebombProjectile::m_DataMap
@@ -8028,6 +8026,10 @@
  D s_acttablePrimary2
  D s_acttableSecondary
  D s_acttableSecondary2
+ D s_grapplinghook_engineer_acttable
+ D s_grapplinghook_engineer_poseparamtable
+ D s_grapplinghook_normal_acttable
+ D s_grapplinghook_normal_poseparamtable
  D s_pDebrisContext
  D s_pFadeOutContext
  D s_viewmodelacttable
@@ -9269,6 +9271,7 @@
  D typeinfo for CItemSelectionCriteria::ICondition
  D typeinfo for CItemSoda
  D typeinfo for CKeepUpright
+ D typeinfo for CKeyValuesDumpContextAsDevMsg
  D typeinfo for CKickIssue
  D typeinfo for CKnownCollector
  D typeinfo for CKnownEntity
@@ -10763,6 +10766,8 @@
  D typeinfo for IIntention
  D typeinfo for IInventoryUpdateListener
  D typeinfo for IIsHolidayActive
+ D typeinfo for IKeyValuesDumpContext
+ D typeinfo for IKeyValuesDumpContextAsText
  D typeinfo for ILagCompensationManager
  D typeinfo for ILocomotion
  D typeinfo for IMapEntityFilter
@@ -12112,6 +12117,7 @@
  D vtable for CItemSelectionCriteria::CStringCondition
  D vtable for CItemSoda
  D vtable for CKeepUpright
+ D vtable for CKeyValuesDumpContextAsDevMsg
  D vtable for CKickIssue
  D vtable for CKnownCollector
  D vtable for CKnownEntity
@@ -14801,6 +14807,7 @@
  R typeinfo name for CItemSelectionCriteria::ICondition
  R typeinfo name for CItemSoda
  R typeinfo name for CKeepUpright
+ R typeinfo name for CKeyValuesDumpContextAsDevMsg
  R typeinfo name for CKickIssue
  R typeinfo name for CKnownCollector
  R typeinfo name for CKnownEntity
@@ -16295,6 +16302,8 @@
  R typeinfo name for IIntention
  R typeinfo name for IInventoryUpdateListener
  R typeinfo name for IIsHolidayActive
+ R typeinfo name for IKeyValuesDumpContext
+ R typeinfo name for IKeyValuesDumpContextAsText
  R typeinfo name for ILagCompensationManager
  R typeinfo name for ILocomotion
  R typeinfo name for IMapEntityFilter
@@ -19897,6 +19906,7 @@
  T CBaseCombatWeapon::Operator_ForceNPCFire(CBaseCombatCharacter*, bool)
  T CBaseCombatWeapon::Operator_FrameUpdate(CBaseCombatCharacter*)
  T CBaseCombatWeapon::Operator_HandleAnimEvent(animevent_t*, CBaseCombatCharacter*)
+ T CBaseCombatWeapon::PoseParamList(int&)
  T CBaseCombatWeapon::PoseParameterOverride(bool)
  T CBaseCombatWeapon::Precache()
  T CBaseCombatWeapon::PrimaryAttack()
@@ -27270,6 +27280,8 @@
  T CKeepUpright::Simulate(IPhysicsMotionController*, IPhysicsObject*, float, Vector&, Vector&)
  T CKeepUpright::Spawn()
  T CKeepUpright::~CKeepUpright()
+ T CKeyValuesDumpContextAsDevMsg::KvBeginKey(KeyValues*, int)
+ T CKeyValuesDumpContextAsDevMsg::KvWriteText(char const*)
  T CKeyValuesErrorStack::ReportError(char const*)
  T CKickIssue::CanCallVote(int, char const*, vote_create_failed_t&, int&)
  T CKickIssue::CreateVoteDataFromDetails(char const*)
@@ -35743,6 +35755,7 @@
  T CTFGameStats::Event_PlayerSuicide(CBasePlayer*)
  T CTFGameStats::Event_PlayerUsedTeleport(CTFPlayer*, CTFPlayer*)
  T CTFGameStats::Event_PowerUpModeDeath(CTFPlayer*, CTFPlayer*)
+ T CTFGameStats::Event_PowerUpRuneDuration(CTFPlayer*, int, int)
  T CTFGameStats::Event_RobotCoreCollected(CTFPlayer*, int, int)
  T CTFGameStats::Event_RobotDamaged(CTFPlayer*, int, int)
  T CTFGameStats::Event_RobotFlagTouched(CTFPlayer*)
@@ -35793,7 +35806,7 @@
  T CTFGrapplingHook::ItemPostFrame()
  T CTFGrapplingHook::OnHookReleased(bool)
  T CTFGrapplingHook::PlayWeaponShootSound()
- T CTFGrapplingHook::PoseParameterOverride(bool)
+ T CTFGrapplingHook::PoseParamList(int&)
  T CTFGrapplingHook::PrimaryAttack()
  T CTFGrapplingHook::RemoveHookProjectile(bool)
  T CTFGrapplingHook::SendWeaponAnim(int)
@@ -36521,6 +36534,7 @@
  T CTFPlayer::GetOverrideStepSound(char const*)
  T CTFPlayer::GetResponseSceneFromConcept(int, char*, int)
  T CTFPlayer::GetResponseSystem()
+ T CTFPlayer::GetRuneHealthBonus() const
  T CTFPlayer::GetSceneSoundToken()
  T CTFPlayer::GetServerClass()
  T CTFPlayer::GetSpecialDSP()
@@ -43704,6 +43718,9 @@
  T IInventoryUpdateListener::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
  T IInventoryUpdateListener::SODestroyed(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
  T IInventoryUpdateListener::SOUpdated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
+ T IKeyValuesDumpContextAsText::KvEndKey(KeyValues*, int)
+ T IKeyValuesDumpContextAsText::KvWriteIndent(int)
+ T IKeyValuesDumpContextAsText::KvWriteValue(KeyValues*, int)
  T ILocalize::ConvertUnicodeToANSI(wchar_t const*, char*, int)
  T ILocomotion::AdjustPosture(Vector const&)
  T ILocomotion::Approach(Vector const&, float)
@@ -44037,6 +44054,7 @@
  T KeyValues::Clear()
  T KeyValues::CreateKeyUsingKnownLastChild(char const*, KeyValues*)
  T KeyValues::CreateNewKey()
+ T KeyValues::Dump(IKeyValuesDumpContext*, int)
  T KeyValues::FindKey(char const*, bool)
  T KeyValues::GetBool(char const*, bool, bool*)
  T KeyValues::GetColor(char const*)
@@ -44619,7 +44637,6 @@
  T PropBreakablePrecacheAll(string_t)
  T PropDynamic_CollidesWithGrenades(CBaseEntity*)
  T PropIsGib(CBaseEntity*)
- T Q_RemoveAllEvilCharacters(char*)
  T Q_UTF32ToUTF8(wchar_t const*, char*, int, EStringConvertErrorPolicy)
  T Q_UTF8ToUChar32(char const*, wchar_t&, bool&)
  T Q_UTF8ToUTF32(char const*, wchar_t*, int, EStringConvertErrorPolicy)
@@ -48070,6 +48087,7 @@
  b CEyeballBossLocomotion::GetFeet() const::feet
  b CFlexAnimationTrack::GetBoundedSample(int, bool&, int)::nullend
  b CFlexAnimationTrack::GetBoundedSample(int, bool&, int)::nullstart
+ b CKeyValuesDumpContextAsDevMsg::KvBeginKey(KeyValues*, int)::r_developer
  b CMultiplayRules::DetermineMapCycleFilename(char*, int, bool)::szLastResult
  b CNavArea::ComputeVisibilityDelta(CNavArea const*) const::delta
  b CNavArea::Draw() const::blink
@@ -49130,6 +49148,7 @@
  b guard variable for CEyeballBossLocomotion::GetFeet() const::feet
  b guard variable for CFlexAnimationTrack::GetBoundedSample(int, bool&, int)::nullend
  b guard variable for CFlexAnimationTrack::GetBoundedSample(int, bool&, int)::nullstart
+ b guard variable for CKeyValuesDumpContextAsDevMsg::KvBeginKey(KeyValues*, int)::r_developer
  b guard variable for CNavArea::ComputeVisibilityDelta(CNavArea const*) const::delta
  b guard variable for CNavArea::Draw() const::blink
  b guard variable for CNavMesh::DrawEditMode()::host_thread_mode
@@ -50984,6 +51003,7 @@
  t ProcessNavigationQueries(CFunctor**, unsigned int)
  t RecursiveInheritKeyValues(KeyValues*, KeyValues*)
  t ReduceToComponentAreas(CNavArea*, bool)
+ t RemapOverridePaintIndexToRGB(unsigned int, unsigned int)
  t RetrieveLeaderboardEntries(LeaderboardScoresDownloaded_t&, CUtlVector<LeaderboardEntry_t*, CUtlMemory<LeaderboardEntry_t*, int> >&)
  t SelectedSetColorChaged(IConVar*, char const*, float)
  t SendDuelResults(duel_minigame_data_t&, CSteamID const&, eDuelEndReason)

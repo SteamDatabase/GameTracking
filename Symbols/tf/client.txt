@@ -6566,8 +6566,6 @@
  D C_TFFlareGun_Revenge::m_PredMap
  D C_TFGameRules::ItemTesting_GetBotAnimSpeed()::pHostTimescale
  D C_TFGrapplingHook::m_PredMap
- D C_TFGrapplingHook::m_acttable
- D C_TFGrapplingHook::m_poseparamtable
  D C_TFGrenadeLauncher::m_PredMap
  D C_TFGrenadeLauncher::m_pClassRecvTable
  D C_TFGrenadePipebombProjectile::m_pClassRecvTable
@@ -11831,6 +11829,10 @@
  D s_acttableSecondary
  D s_acttableSecondary2
  D s_flaggedConVars
+ D s_grapplinghook_engineer_acttable
+ D s_grapplinghook_engineer_poseparamtable
+ D s_grapplinghook_normal_acttable
+ D s_grapplinghook_normal_poseparamtable
  D s_m_iv_AnimOverlayNames
  D s_pRandomFloats
  D s_pStatStrings
@@ -13096,6 +13098,7 @@
  D typeinfo for CItemTestHUDPanel
  D typeinfo for CJob
  D typeinfo for CKeyValueLabelPanel
+ D typeinfo for CKeyValuesDumpContextAsDevMsg
  D typeinfo for CKillsPanel
  D typeinfo for CLCD
  D typeinfo for CLCDItem
@@ -15079,6 +15082,8 @@
  D typeinfo for IInterpolatedVar
  D typeinfo for IInventoryUpdateListener
  D typeinfo for IIsHolidayActive
+ D typeinfo for IKeyValuesDumpContext
+ D typeinfo for IKeyValuesDumpContextAsText
  D typeinfo for ILoadingDisc
  D typeinfo for IManipulator
  D typeinfo for IMaterialProxy
@@ -16996,6 +17001,7 @@
  D vtable for CItemTestHUDPanel
  D vtable for CJob
  D vtable for CKeyValueLabelPanel
+ D vtable for CKeyValuesDumpContextAsDevMsg
  D vtable for CKillsPanel
  D vtable for CLCD
  D vtable for CLCDItem
@@ -20261,6 +20267,7 @@
  R typeinfo name for CItemTestHUDPanel
  R typeinfo name for CJob
  R typeinfo name for CKeyValueLabelPanel
+ R typeinfo name for CKeyValuesDumpContextAsDevMsg
  R typeinfo name for CKillsPanel
  R typeinfo name for CLCD
  R typeinfo name for CLCDItem
@@ -22245,6 +22252,8 @@
  R typeinfo name for IInterpolatedVar
  R typeinfo name for IInventoryUpdateListener
  R typeinfo name for IIsHolidayActive
+ R typeinfo name for IKeyValuesDumpContext
+ R typeinfo name for IKeyValuesDumpContextAsText
  R typeinfo name for ILoadingDisc
  R typeinfo name for IManipulator
  R typeinfo name for IMaterialProxy
@@ -31800,6 +31809,8 @@
  T CKeyValueLabelPanel::GetPanelClassName()
  T CKeyValueLabelPanel::PerformLayout()
  T CKeyValueLabelPanel::~CKeyValueLabelPanel()
+ T CKeyValuesDumpContextAsDevMsg::KvBeginKey(KeyValues*, int)
+ T CKeyValuesDumpContextAsDevMsg::KvWriteText(char const*)
  T CKeyValuesErrorStack::ReportError(char const*)
  T CKillsPanel::ApplySchemeSettings(vgui::IScheme*)
  T CKillsPanel::CKillsPanel(vgui::Panel*, unsigned int)
@@ -38649,7 +38660,6 @@
  T CStorePanel::ApplySchemeSettings(vgui::IScheme*)
  T CStorePanel::CStorePanel(vgui::Panel*)
  T CStorePanel::CheckMessageResult(EPurchaseResult)
- T CStorePanel::CheckoutCancel()
  T CStorePanel::ConfirmCheckout(bool, void*)
  T CStorePanel::ConfirmUpsellStamps(bool, CSchemaFieldHandle<CEconItemDefinition>, int)
  T CStorePanel::CreateStorePage(CEconStoreCategoryManager::StoreCategory_t const*)
@@ -44460,6 +44470,7 @@
  T C_BaseCombatWeapon::OnPickedUp(C_BaseCombatCharacter*)
  T C_BaseCombatWeapon::OnRestore()
  T C_BaseCombatWeapon::OverrideMouseInput(float*, float*)
+ T C_BaseCombatWeapon::PoseParamList(int&)
  T C_BaseCombatWeapon::PoseParameterOverride(bool)
  T C_BaseCombatWeapon::Precache()
  T C_BaseCombatWeapon::PrimaryAttack()
@@ -48053,7 +48064,7 @@
  T C_TFGrapplingHook::ItemPostFrame()
  T C_TFGrapplingHook::OnDataChanged(DataUpdateType_t)
  T C_TFGrapplingHook::PlayWeaponShootSound()
- T C_TFGrapplingHook::PoseParameterOverride(bool)
+ T C_TFGrapplingHook::PoseParamList(int&)
  T C_TFGrapplingHook::PrimaryAttack()
  T C_TFGrapplingHook::SendWeaponAnim(int)
  T C_TFGrapplingHook::ShouldRemoveDisguiseOnPrimaryAttack() const
@@ -52523,6 +52534,9 @@
  T IInventoryUpdateListener::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
  T IInventoryUpdateListener::SODestroyed(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
  T IInventoryUpdateListener::SOUpdated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
+ T IKeyValuesDumpContextAsText::KvEndKey(KeyValues*, int)
+ T IKeyValuesDumpContextAsText::KvWriteIndent(int)
+ T IKeyValuesDumpContextAsText::KvWriteValue(KeyValues*, int)
  T ILocalize::ConstructStringKeyValuesInternal(wchar_t*, int, wchar_t const*, KeyValues*)
  T ILocalize::ConstructStringVArgsInternal(wchar_t*, int, wchar_t const*, int, char*)
  T ILocalize::ConvertANSIToUnicode(char const*, wchar_t*, int)
@@ -52781,6 +52795,7 @@
  T KeyValues::CopySubkeys(KeyValues*) const
  T KeyValues::CreateKeyUsingKnownLastChild(char const*, KeyValues*)
  T KeyValues::CreateNewKey()
+ T KeyValues::Dump(IKeyValuesDumpContext*, int)
  T KeyValues::FindKey(char const*, bool)
  T KeyValues::FindKey(int) const
  T KeyValues::GetBool(char const*, bool, bool*)
@@ -53956,6 +53971,27 @@
  T bool C_OP_WorldTraceConstraint::EnforceConstraintInternal<true, false>(int, int, CParticleCollection*, void*, int) const
  T bool C_OP_WorldTraceConstraint::EnforceConstraintInternal<true, true>(int, int, CParticleCollection*, void*, int) const
  T bool CryptoPP::Hack_GetValueIntoConstReference<CryptoPP::Integer>(CryptoPP::NameValuePairs const&, char const*, CryptoPP::Integer const&)
+ T bool FindAttribute<CEconItemDefinition>(CEconItemDefinition const*, CEconItemAttributeDefinition const*)
+ T bool FindAttribute<CTFItemDefinition>(CTFItemDefinition const*, CEconItemAttributeDefinition const*)
+ T bool FindAttribute<C_EconItemView>(C_EconItemView const*, CEconItemAttributeDefinition const*)
+ T bool FindAttribute<IEconItemInterface>(IEconItemInterface const*, CEconItemAttributeDefinition const*)
+ T bool FindAttribute_UnsafeBitwiseCast<CAttribute_DynamicRecipeComponent, CAttribute_DynamicRecipeComponent, IEconItemInterface>(IEconItemInterface const*, CEconItemAttributeDefinition const*, CAttribute_DynamicRecipeComponent*)
+ T bool FindAttribute_UnsafeBitwiseCast<CAttribute_ItemSlotCriteria, CAttribute_ItemSlotCriteria, IEconItemInterface>(IEconItemInterface const*, CEconItemAttributeDefinition const*, CAttribute_ItemSlotCriteria*)
+ T bool FindAttribute_UnsafeBitwiseCast<CAttribute_String, CAttribute_String, CEconItemDefinition>(CEconItemDefinition const*, CEconItemAttributeDefinition const*, CAttribute_String*)
+ T bool FindAttribute_UnsafeBitwiseCast<CAttribute_String, CAttribute_String, IEconItemInterface>(IEconItemInterface const*, CEconItemAttributeDefinition const*, CAttribute_String*)
+ T bool FindAttribute_UnsafeBitwiseCast<CAttribute_String, char const*, CEconItem>(CEconItem const*, CEconItemAttributeDefinition const*, char const**)
+ T bool FindAttribute_UnsafeBitwiseCast<CAttribute_String, char const*, C_EconItemView>(C_EconItemView const*, CEconItemAttributeDefinition const*, char const**)
+ T bool FindAttribute_UnsafeBitwiseCast<CAttribute_String, char const*, IEconItemInterface>(IEconItemInterface const*, CEconItemAttributeDefinition const*, char const**)
+ T bool FindAttribute_UnsafeBitwiseCast<float, float, IEconItemInterface>(IEconItemInterface const*, CEconItemAttributeDefinition const*, float*)
+ T bool FindAttribute_UnsafeBitwiseCast<unsigned int, float, CAttributeList>(CAttributeList const*, CEconItemAttributeDefinition const*, float*)
+ T bool FindAttribute_UnsafeBitwiseCast<unsigned int, float, CEconItem>(CEconItem const*, CEconItemAttributeDefinition const*, float*)
+ T bool FindAttribute_UnsafeBitwiseCast<unsigned int, float, CEconItemDefinition>(CEconItemDefinition const*, CEconItemAttributeDefinition const*, float*)
+ T bool FindAttribute_UnsafeBitwiseCast<unsigned int, float, CTFItemDefinition>(CTFItemDefinition const*, CEconItemAttributeDefinition const*, float*)
+ T bool FindAttribute_UnsafeBitwiseCast<unsigned int, float, C_EconItemView>(C_EconItemView const*, CEconItemAttributeDefinition const*, float*)
+ T bool FindAttribute_UnsafeBitwiseCast<unsigned int, float, IEconItemInterface>(IEconItemInterface const*, CEconItemAttributeDefinition const*, float*)
+ T bool FindAttribute_UnsafeBitwiseCast<unsigned int, unsigned int, CEconItemDefinition>(CEconItemDefinition const*, CEconItemAttributeDefinition const*, unsigned int*)
+ T bool FindAttribute_UnsafeBitwiseCast<unsigned int, unsigned int, IEconItemInterface>(IEconItemInterface const*, CEconItemAttributeDefinition const*, unsigned int*)
+ T bool FindAttribute_UnsafeBitwiseCast<unsigned long long, unsigned long long, IEconItemInterface>(IEconItemInterface const*, CEconItemAttributeDefinition const*, unsigned long long*)
  T bool Serialize<CUtlBinaryBlock>(CUtlBuffer&, CUtlVector<CUtlBinaryBlock, CUtlMemory<CUtlBinaryBlock, int> > const&)
  T bool Serialize<CUtlString>(CUtlBuffer&, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> > const&)
  T bool Serialize<Color>(CUtlBuffer&, CUtlVector<Color, CUtlMemory<Color, int> > const&)
@@ -61032,6 +61068,7 @@
  b CItemModelPanel::UpdateSeriesLabel()::pAttrDef_CrateSeries
  b CItemSlotPanel::SetItem(CEconItem*)::s_itemInSlotAttributes
  b CItemSlotPanel::SetItem(CEconItem*)::s_itemSlotCriteriaAttributes
+ b CKeyValuesDumpContextAsDevMsg::KvBeginKey(KeyValues*, int)::r_developer
  b CLoadoutItemOptionsPanel::AddControlsParticleEffect() const::pAttrDef_AttachParticleEffect
  b CLoadoutItemOptionsPanel::AddControlsParticleEffect() const::pAttrDef_UseHeadOrigin
  b CLoadoutItemOptionsPanel::AddControlsParticleEffect() const::pAttrDef_VerticalOffset
@@ -62858,6 +62895,7 @@
  b guard variable for CItemModelPanel::UpdateSeriesLabel()::pAttrDef_CrateSeries
  b guard variable for CItemSlotPanel::SetItem(CEconItem*)::s_itemInSlotAttributes
  b guard variable for CItemSlotPanel::SetItem(CEconItem*)::s_itemSlotCriteriaAttributes
+ b guard variable for CKeyValuesDumpContextAsDevMsg::KvBeginKey(KeyValues*, int)::r_developer
  b guard variable for CLoadoutItemOptionsPanel::AddControlsParticleEffect() const::pAttrDef_AttachParticleEffect
  b guard variable for CLoadoutItemOptionsPanel::AddControlsParticleEffect() const::pAttrDef_UseHeadOrigin
  b guard variable for CLoadoutItemOptionsPanel::AddControlsParticleEffect() const::pAttrDef_VerticalOffset
@@ -65961,6 +65999,7 @@
  t RecvProxy_TimerPaused(CRecvProxyData const*, void*, void*)
  t RecvProxy_VectorDirtySurround(CRecvProxyData const*, void*, void*)
  t RecvProxy_Weapon(CRecvProxyData const*, void*, void*)
+ t RemapOverridePaintIndexToRGB(unsigned int, unsigned int)
  t RemoveDecals_f()
  t RemoveRelatedDuelNotifications(CEconNotification*)
  t RemoveResistShield(C_LocalTempEntity**, C_TFPlayer*)
