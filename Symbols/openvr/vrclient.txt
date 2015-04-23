@@ -37,6 +37,10 @@
  B CVRMsg_GetProperty::default_instance_
  B CVRMsg_GetPropertyResponse::_default_string_value_
  B CVRMsg_GetPropertyResponse::default_instance_
+ B CVRMsg_InputCaptureRequest::default_instance_
+ B CVRMsg_InputCaptureResponse::default_instance_
+ B CVRMsg_TriggerHapticPulse::default_instance_
+ B CVRMsg_TriggerHapticPulseResponse::default_instance_
  B InterfaceRegistrationBase::s_pFirst
  B Json::Value::null
  B g_SuspendResumeLock
@@ -55,6 +59,7 @@
  D typeinfo for CHmd_005
  D typeinfo for CHmd_006
  D typeinfo for CVRCompositorClient
+ D typeinfo for CVRCompositorClientBase
  D typeinfo for CVRCompositorClient_InProcess
  D typeinfo for CVRCompositor_001
  D typeinfo for CVRCompositor_002
@@ -87,8 +92,13 @@
  D typeinfo for CVRMsg_GetDriverInfoResponse_DriverInfo
  D typeinfo for CVRMsg_GetProperty
  D typeinfo for CVRMsg_GetPropertyResponse
+ D typeinfo for CVRMsg_InputCaptureRequest
+ D typeinfo for CVRMsg_InputCaptureResponse
+ D typeinfo for CVRMsg_TriggerHapticPulse
+ D typeinfo for CVRMsg_TriggerHapticPulseResponse
  D typeinfo for CVRSystemLatest
  D typeinfo for CVRSystem_001
+ D typeinfo for CVRSystem_002
  D typeinfo for CompositorInterfaceRegistration<CVRCompositor_001>
  D typeinfo for CompositorInterfaceRegistration<CVRCompositor_002>
  D typeinfo for CompositorInterfaceRegistration<CVRCompositor_003>
@@ -101,6 +111,7 @@
  D typeinfo for HmdInterfaceRegistration<CHmd_005>
  D typeinfo for HmdInterfaceRegistration<CHmd_006>
  D typeinfo for HmdInterfaceRegistration<CVRSystem_001>
+ D typeinfo for HmdInterfaceRegistration<CVRSystem_002>
  D typeinfo for IHmdSystem_002
  D typeinfo for IHmdSystem_003
  D typeinfo for IPC::BinarySemaphore
@@ -178,8 +189,13 @@
  D vtable for CVRMsg_GetDriverInfoResponse_DriverInfo
  D vtable for CVRMsg_GetProperty
  D vtable for CVRMsg_GetPropertyResponse
+ D vtable for CVRMsg_InputCaptureRequest
+ D vtable for CVRMsg_InputCaptureResponse
+ D vtable for CVRMsg_TriggerHapticPulse
+ D vtable for CVRMsg_TriggerHapticPulseResponse
  D vtable for CVRSystemLatest
  D vtable for CVRSystem_001
+ D vtable for CVRSystem_002
  D vtable for CompositorInterfaceRegistration<CVRCompositor_001>
  D vtable for CompositorInterfaceRegistration<CVRCompositor_002>
  D vtable for CompositorInterfaceRegistration<CVRCompositor_003>
@@ -192,6 +208,7 @@
  D vtable for HmdInterfaceRegistration<CHmd_005>
  D vtable for HmdInterfaceRegistration<CHmd_006>
  D vtable for HmdInterfaceRegistration<CVRSystem_001>
+ D vtable for HmdInterfaceRegistration<CVRSystem_002>
  D vtable for IHmdSystem_002
  D vtable for IHmdSystem_003
  D vtable for IPC::BinarySemaphore
@@ -210,6 +227,7 @@
  D vtable for vr::CVRChaperoneLatest
  NSHomeDirectory
  OBJC_CLASS_$_NSAutoreleasePool
+ R CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::LoadData(char const*, unsigned long)::empty
  R Json::Value::maxInt
  R Json::Value::maxUInt
  R Json::Value::minInt
@@ -226,6 +244,7 @@
  R typeinfo name for CHmd_005
  R typeinfo name for CHmd_006
  R typeinfo name for CVRCompositorClient
+ R typeinfo name for CVRCompositorClientBase
  R typeinfo name for CVRCompositorClient_InProcess
  R typeinfo name for CVRCompositor_001
  R typeinfo name for CVRCompositor_002
@@ -258,8 +277,13 @@
  R typeinfo name for CVRMsg_GetDriverInfoResponse_DriverInfo
  R typeinfo name for CVRMsg_GetProperty
  R typeinfo name for CVRMsg_GetPropertyResponse
+ R typeinfo name for CVRMsg_InputCaptureRequest
+ R typeinfo name for CVRMsg_InputCaptureResponse
+ R typeinfo name for CVRMsg_TriggerHapticPulse
+ R typeinfo name for CVRMsg_TriggerHapticPulseResponse
  R typeinfo name for CVRSystemLatest
  R typeinfo name for CVRSystem_001
+ R typeinfo name for CVRSystem_002
  R typeinfo name for CompositorInterfaceRegistration<CVRCompositor_001>
  R typeinfo name for CompositorInterfaceRegistration<CVRCompositor_002>
  R typeinfo name for CompositorInterfaceRegistration<CVRCompositor_003>
@@ -272,6 +296,7 @@
  R typeinfo name for HmdInterfaceRegistration<CHmd_005>
  R typeinfo name for HmdInterfaceRegistration<CHmd_006>
  R typeinfo name for HmdInterfaceRegistration<CVRSystem_001>
+ R typeinfo name for HmdInterfaceRegistration<CVRSystem_002>
  R typeinfo name for IHmdSystem_002
  R typeinfo name for IHmdSystem_003
  R typeinfo name for IPC::BinarySemaphore
@@ -322,12 +347,14 @@
  T CDriverManager::CDriverManager()
  T CDriverManager::Cleanup()
  T CDriverManager::CleanupDriver(CDriverManager::HmdDriver_t*)
+ T CDriverManager::FindDriverByName(std::string const&)
  T CDriverManager::GetClientProvider(unsigned int)
  T CDriverManager::GetDriverBaseDir()
  T CDriverManager::GetDriverName(unsigned int)
  T CDriverManager::HmdDriver_t* std::__uninitialized_copy_aux<CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*>(CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, std::__false_type)
  T CDriverManager::LoadDriver(unsigned int, CDriverManager::HmdDriverContext, bool, vr::IServerDriverHost*, vr::IClientDriverHost*)
  T CDriverManager::~CDriverManager()
+ T CHmdSystemLatest::BHmdPresentForDriver(int, std::string&)
  T CHmdSystemLatest::BIsHmdPresent(char const*)
  T CHmdSystemLatest::BIsHmdPresentInternal(char const*)
  T CHmdSystemLatest::CHmdSystemLatest()
@@ -338,6 +365,7 @@
  T CHmdSystemLatest::GetCameraId(unsigned int, char*, unsigned int)
  T CHmdSystemLatest::GetCameraImage(unsigned int, vr::CameraImage_t*)
  T CHmdSystemLatest::GetCameraInfo(unsigned int, vr::CameraInfo_t*)
+ T CHmdSystemLatest::GetCurrentCompositorInterface(char const*)
  T CHmdSystemLatest::GetCurrentDisplayInterface(char const*)
  T CHmdSystemLatest::GetDriverCount()
  T CHmdSystemLatest::GetDriverDisplayCount(char const*)
@@ -478,7 +506,7 @@
  T CHmd_006::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
  T CHmd_006::IsTrackedDeviceConnected(unsigned int)
  T CHmd_006::LoadRenderModel(char const*, vr::RenderModel_t*)
- T CHmd_006::PollNextEvent(vr::VREvent_t*)
+ T CHmd_006::PollNextEvent(VREvent001_t*)
  T CHmd_006::ZeroTracker()
  T CIPCPipe::CIPCPipe()
  T CIPCPipe::ClosePipe()
@@ -501,6 +529,14 @@
  T CSharedTextureHelper::GetSharedTextureHandle(void*, vr::Compositor_TextureBounds*, int, bool, bool, bool, void*, void**)
  T CSharedTextureHelper::Init(void*, CSharedTextureHelper::DeviceType)
  T CSharedTextureHelper::Release()
+ T CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::AddEntry(char const*, char const*, char const*, char const*, bool, bool)
+ T CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Delete(char const*, char const*, bool)
+ T CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::FindEntry(char*&, char const*&, char const*&, char const*&, char const*&) const
+ T CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::LoadData(char const*, unsigned long)
+ T CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::LoadFile(__sFILE*)
+ T CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::LoadMultiLineText(char*&, char const*&, char const*, bool) const
+ T CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Reset()
+ T CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::~CSimpleIniTempl()
  T CTrackedDevicePropertyCache::CTrackedDevicePropertyCache()
  T CTrackedDevicePropertyCache::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*, unsigned int)
  T CTrackedDevicePropertyCache::GetFloatTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*, unsigned int)
@@ -520,6 +556,7 @@
  T CVRClient::Cleanup()
  T CVRClient::ComputeDistortion(vr::Hmd_Eye, float, float)
  T CVRClient::Init()
+ T CVRCompositorClient::BInitialized() const
  T CVRCompositorClient::BStartVRCompositor()
  T CVRCompositorClient::BeginFrame_DEPRECATED(vr::Hmd_Eye, vr::TrackedDevicePose_t*, unsigned int)
  T CVRCompositorClient::Cleanup()
@@ -548,6 +585,8 @@
  T CVRCompositorClient::SetVSync(bool)
  T CVRCompositorClient::Submit(vr::Hmd_Eye, void*, vr::Compositor_TextureBounds*)
  T CVRCompositorClient::WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int)
+ T CVRCompositorClientBase::ComputeOverlayIntersection(vr::Compositor_OverlaySettings const*, float, vr::TrackingUniverseOrigin, vr::HmdVector3_t, vr::HmdVector3_t, vr::HmdVector2_t*, vr::HmdVector3_t*)
+ T CVRCompositorClient_InProcess::BInitialized() const
  T CVRCompositorClient_InProcess::Cleanup()
  T CVRCompositorClient_InProcess::ClearLastSubmittedFrame()
  T CVRCompositorClient_InProcess::ClearOverlay()
@@ -950,6 +989,50 @@
  T CVRMsg_GetPropertyResponse::SerializeWithCachedSizesToArray(unsigned char*) const
  T CVRMsg_GetPropertyResponse::SetCachedSize(int) const
  T CVRMsg_GetPropertyResponse::~CVRMsg_GetPropertyResponse()
+ T CVRMsg_InputCaptureRequest::ByteSize() const
+ T CVRMsg_InputCaptureRequest::CVRMsg_InputCaptureRequest()
+ T CVRMsg_InputCaptureRequest::Clear()
+ T CVRMsg_InputCaptureRequest::GetCachedSize() const
+ T CVRMsg_InputCaptureRequest::GetMetadata() const
+ T CVRMsg_InputCaptureRequest::IsInitialized() const
+ T CVRMsg_InputCaptureRequest::MergeFrom(CVRMsg_InputCaptureRequest const&)
+ T CVRMsg_InputCaptureRequest::New() const
+ T CVRMsg_InputCaptureRequest::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_InputCaptureRequest::SetCachedSize(int) const
+ T CVRMsg_InputCaptureRequest::~CVRMsg_InputCaptureRequest()
+ T CVRMsg_InputCaptureResponse::ByteSize() const
+ T CVRMsg_InputCaptureResponse::CVRMsg_InputCaptureResponse()
+ T CVRMsg_InputCaptureResponse::Clear()
+ T CVRMsg_InputCaptureResponse::GetCachedSize() const
+ T CVRMsg_InputCaptureResponse::GetMetadata() const
+ T CVRMsg_InputCaptureResponse::IsInitialized() const
+ T CVRMsg_InputCaptureResponse::MergeFrom(CVRMsg_InputCaptureResponse const&)
+ T CVRMsg_InputCaptureResponse::New() const
+ T CVRMsg_InputCaptureResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_InputCaptureResponse::SetCachedSize(int) const
+ T CVRMsg_InputCaptureResponse::~CVRMsg_InputCaptureResponse()
+ T CVRMsg_TriggerHapticPulse::ByteSize() const
+ T CVRMsg_TriggerHapticPulse::CVRMsg_TriggerHapticPulse()
+ T CVRMsg_TriggerHapticPulse::Clear()
+ T CVRMsg_TriggerHapticPulse::GetCachedSize() const
+ T CVRMsg_TriggerHapticPulse::GetMetadata() const
+ T CVRMsg_TriggerHapticPulse::IsInitialized() const
+ T CVRMsg_TriggerHapticPulse::MergeFrom(CVRMsg_TriggerHapticPulse const&)
+ T CVRMsg_TriggerHapticPulse::New() const
+ T CVRMsg_TriggerHapticPulse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_TriggerHapticPulse::SetCachedSize(int) const
+ T CVRMsg_TriggerHapticPulse::~CVRMsg_TriggerHapticPulse()
+ T CVRMsg_TriggerHapticPulseResponse::ByteSize() const
+ T CVRMsg_TriggerHapticPulseResponse::CVRMsg_TriggerHapticPulseResponse()
+ T CVRMsg_TriggerHapticPulseResponse::Clear()
+ T CVRMsg_TriggerHapticPulseResponse::GetCachedSize() const
+ T CVRMsg_TriggerHapticPulseResponse::GetMetadata() const
+ T CVRMsg_TriggerHapticPulseResponse::IsInitialized() const
+ T CVRMsg_TriggerHapticPulseResponse::MergeFrom(CVRMsg_TriggerHapticPulseResponse const&)
+ T CVRMsg_TriggerHapticPulseResponse::New() const
+ T CVRMsg_TriggerHapticPulseResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_TriggerHapticPulseResponse::SetCachedSize(int) const
+ T CVRMsg_TriggerHapticPulseResponse::~CVRMsg_TriggerHapticPulseResponse()
  T CVRPathRegistry::BLoadFromFile()
  T CVRPathRegistry::BSaveToFile() const
  T CVRPathRegistry::CVRPathRegistry()
@@ -964,9 +1047,16 @@
  T CVRSharedStatePtrBase::~CVRSharedStatePtrBase()
  T CVRSystemLatest::AttachToWindow(void*)
  T CVRSystemLatest::BSetSeatedZeroPoseFromDevicePose(VRTrackingState_Pose_t const&)
+ T CVRSystemLatest::CaptureInputFocus()
  T CVRSystemLatest::ComputeDistortion(vr::Hmd_Eye, float, float)
  T CVRSystemLatest::FreeRenderModel(vr::RenderModel_t*)
+ T CVRSystemLatest::GenerateLocalMouseEvents(unsigned int, float, float, vr::VRControllerState001_t const&, vr::VRControllerState001_t const&)
  T CVRSystemLatest::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystemLatest::GetButtonIdNameFromEnum(vr::EVRButtonId)
+ T CVRSystemLatest::GetControllerAxisTypeNameFromEnum(vr::EVRControllerAxisType)
+ T CVRSystemLatest::GetControllerState(unsigned int, vr::VRControllerState001_t*)
+ T CVRSystemLatest::GetControllerStateWithPose(vr::TrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
+ T CVRSystemLatest::GetControllerStateWithPoseInternal(vr::TrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
  T CVRSystemLatest::GetD3D9AdapterIndex()
  T CVRSystemLatest::GetDXGIOutputInfo(int*, int*)
  T CVRSystemLatest::GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
@@ -987,13 +1077,20 @@
  T CVRSystemLatest::GetTrackedDeviceClass(unsigned int)
  T CVRSystemLatest::GetUint64TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
  T CVRSystemLatest::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
+ T CVRSystemLatest::HandleControllerOverlayInteractionAsMouse(vr::Compositor_OverlaySettings const&, vr::HmdVector2_t, vr::HmdVector2_t, unsigned int, vr::EVRControllerEventOutputType)
+ T CVRSystemLatest::IsInputFocusCapturedByAnotherProcess()
  T CVRSystemLatest::IsTrackedDeviceConnected(unsigned int)
  T CVRSystemLatest::LoadRenderModel(char const*, vr::RenderModel_t*)
  T CVRSystemLatest::PollNextEvent(vr::VREvent_t*)
+ T CVRSystemLatest::PollNextEventWithPose(vr::TrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
+ T CVRSystemLatest::PollNextEventWithPoseInternal(vr::TrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
  T CVRSystemLatest::PredictRawPose(vr::TrackingUniverseOrigin, double, float, VRTrackingState_Pose_t const&, vr::TrackedDevicePose_t*)
- T CVRSystemLatest::Reset(CVRClient*, CRenderModelManager*, vr::ChaperoneInfo_t*)
+ T CVRSystemLatest::ReleaseInputFocus()
+ T CVRSystemLatest::Reset(CVRClient*, CRenderModelManager*, vr::ChaperoneInfo_t*, vr::IVRControlPanel*)
  T CVRSystemLatest::ResetSeatedZeroPose()
  T CVRSystemLatest::SetClientProvider(vr::IClientTrackedDeviceProvider*)
+ T CVRSystemLatest::ShouldBlockThisEventForThisProcess(vr::VREvent_t const&)
+ T CVRSystemLatest::TriggerHapticPulse(unsigned int, unsigned int, unsigned short)
  T CVRSystem_001::AttachToWindow(void*)
  T CVRSystem_001::ComputeDistortion(vr::Hmd_Eye, float, float)
  T CVRSystem_001::FreeRenderModel(vr::RenderModel_t*)
@@ -1020,8 +1117,36 @@
  T CVRSystem_001::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
  T CVRSystem_001::IsTrackedDeviceConnected(unsigned int)
  T CVRSystem_001::LoadRenderModel(char const*, vr::RenderModel_t*)
- T CVRSystem_001::PollNextEvent(vr::VREvent_t*)
+ T CVRSystem_001::PollNextEvent(VREvent001_t*)
  T CVRSystem_001::ResetSeatedZeroPose()
+ T CVRSystem_002::AttachToWindow(void*)
+ T CVRSystem_002::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CVRSystem_002::FreeRenderModel(vr::RenderModel_t*)
+ T CVRSystem_002::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_002::GetD3D9AdapterIndex()
+ T CVRSystem_002::GetDXGIOutputInfo(int*, int*)
+ T CVRSystem_002::GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRSystem_002::GetEventTypeNameFromEnum(vr::EVREventType)
+ T CVRSystem_002::GetEyeOutputViewport(vr::Hmd_Eye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CVRSystem_002::GetEyeToHeadTransform(vr::Hmd_Eye)
+ T CVRSystem_002::GetFloatTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_002::GetHiddenAreaMesh(vr::Hmd_Eye)
+ T CVRSystem_002::GetInt32TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_002::GetMatrix34TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_002::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
+ T CVRSystem_002::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
+ T CVRSystem_002::GetPropErrorNameFromEnum(vr::TrackedPropertyError)
+ T CVRSystem_002::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
+ T CVRSystem_002::GetSeatedZeroPoseToStandingAbsoluteTrackingPose()
+ T CVRSystem_002::GetStringTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, char*, unsigned int, vr::TrackedPropertyError*)
+ T CVRSystem_002::GetTimeSinceLastVsync(float*, unsigned long long*)
+ T CVRSystem_002::GetTrackedDeviceClass(unsigned int)
+ T CVRSystem_002::GetUint64TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_002::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
+ T CVRSystem_002::IsTrackedDeviceConnected(unsigned int)
+ T CVRSystem_002::LoadRenderModel(char const*, vr::RenderModel_t*)
+ T CVRSystem_002::PollNextEvent(VREvent001_t*)
+ T CVRSystem_002::ResetSeatedZeroPose()
  T CleanupLog()
  T CompositorInterfaceRegistration<CVRCompositor_001>::GetInterface()
  T CompositorInterfaceRegistration<CVRCompositor_001>::~CompositorInterfaceRegistration()
@@ -1044,7 +1169,10 @@
  T GetResourceBaseDir()
  T GetStringForHmdError(vr::HmdError)
  T GetStringForTrackingEventType(EVRTrackingEventType)
+ T GetStringForVRButtonId(vr::EVRButtonId)
+ T GetStringForVRControllerAxisType(vr::EVRControllerAxisType)
  T GetStringForVREventType(vr::EVREventType)
+ T GetSystemTicksFromTime(double)
  T GetSystemTime()
  T GetSystemTimeFromTicks(unsigned long long)
  T GetSystemTimeInTicks()
@@ -1064,6 +1192,8 @@
  T HmdInterfaceRegistration<CHmd_006>::~HmdInterfaceRegistration()
  T HmdInterfaceRegistration<CVRSystem_001>::GetInterface()
  T HmdInterfaceRegistration<CVRSystem_001>::~HmdInterfaceRegistration()
+ T HmdInterfaceRegistration<CVRSystem_002>::GetInterface()
+ T HmdInterfaceRegistration<CVRSystem_002>::~HmdInterfaceRegistration()
  T HmdQuadFromJson_V0(Json::Value const&, vr::HmdQuad_t&)
  T HmdSystemFactory
  T HmdVector3FromJson(Json::Value const&, vr::HmdVector3_t&)
@@ -1242,6 +1372,8 @@
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_GetDisplayInfoResponse>(unsigned int, CVRMsg_GetDisplayInfoResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_GetDriverInfoResponse>(unsigned int, CVRMsg_GetDriverInfoResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_GetPropertyResponse>(unsigned int, CVRMsg_GetPropertyResponse&, unsigned int)
+ T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_InputCaptureResponse>(unsigned int, CVRMsg_InputCaptureResponse&, unsigned int)
+ T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TriggerHapticPulseResponse>(unsigned int, CVRMsg_TriggerHapticPulseResponse&, unsigned int)
  T char* std::string::_S_construct<char*>(char*, char*, std::allocator<char> const&, std::forward_iterator_tag)
  T dyld_stub_binding_helper
  T glm::detail::compute_inverse<glm::detail::tmat4x4, float, (glm::precision)0>::call(glm::detail::tmat4x4<float, (glm::precision)0> const&)
@@ -1251,6 +1383,7 @@
  T non-virtual thunk to CHmdSystemLatest::GetCameraId(unsigned int, char*, unsigned int)
  T non-virtual thunk to CHmdSystemLatest::GetCameraImage(unsigned int, vr::CameraImage_t*)
  T non-virtual thunk to CHmdSystemLatest::GetCameraInfo(unsigned int, vr::CameraInfo_t*)
+ T non-virtual thunk to CHmdSystemLatest::GetCurrentCompositorInterface(char const*)
  T non-virtual thunk to CHmdSystemLatest::GetCurrentDisplayInterface(char const*)
  T non-virtual thunk to CHmdSystemLatest::GetDriverCount()
  T non-virtual thunk to CHmdSystemLatest::GetDriverDisplayCount(char const*)
@@ -1290,6 +1423,18 @@
  T std::_Deque_base<Json::Value*, std::allocator<Json::Value*> >::_M_create_nodes(Json::Value***, Json::Value***)
  T std::_Deque_base<Json::Value*, std::allocator<Json::Value*> >::_M_initialize_map(unsigned long)
  T std::_Deque_iterator<Json::Reader::ErrorInfo, Json::Reader::ErrorInfo&, Json::Reader::ErrorInfo*> std::__uninitialized_fill_copy<std::_Deque_iterator<Json::Reader::ErrorInfo, Json::Reader::ErrorInfo&, Json::Reader::ErrorInfo*>, Json::Reader::ErrorInfo, std::_Deque_iterator<Json::Reader::ErrorInfo, Json::Reader::ErrorInfo&, Json::Reader::ErrorInfo*>, std::allocator<Json::Reader::ErrorInfo> >(std::_Deque_iterator<Json::Reader::ErrorInfo, Json::Reader::ErrorInfo&, Json::Reader::ErrorInfo*>, std::_Deque_iterator<Json::Reader::ErrorInfo, Json::Reader::ErrorInfo&, Json::Reader::ErrorInfo*>, Json::Reader::ErrorInfo const&, std::_Deque_iterator<Json::Reader::ErrorInfo, Json::Reader::ErrorInfo&, Json::Reader::ErrorInfo*>, std::_Deque_iterator<Json::Reader::ErrorInfo, Json::Reader::ErrorInfo&, Json::Reader::ErrorInfo*>, std::allocator<Json::Reader::ErrorInfo>)
+ T std::_Rb_tree<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*>, std::_Select1st<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> >, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > >::_M_copy(std::_Rb_tree_node<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > const*, std::_Rb_tree_node<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> >*)
+ T std::_Rb_tree<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*>, std::_Select1st<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> >, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > >::_M_erase(std::_Rb_tree_node<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> >*)
+ T std::_Rb_tree<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*>, std::_Select1st<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> >, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> const&)
+ T std::_Rb_tree<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*>, std::_Select1st<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> >, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > >::find(CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const&)
+ T std::_Rb_tree<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*>, std::_Select1st<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> >, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > >::find(CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const&) const
+ T std::_Rb_tree<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > >, std::_Select1st<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > >, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > > >::_M_create_node(std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > const&)
+ T std::_Rb_tree<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > >, std::_Select1st<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > >, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > > >::_M_erase(std::_Rb_tree_node<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > >*)
+ T std::_Rb_tree<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > >, std::_Select1st<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > >, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > > >::_M_insert(std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > const&)
+ T std::_Rb_tree<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > >, std::_Select1st<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > >, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > > >::_M_insert_unique(std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > const&)
+ T std::_Rb_tree<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > >, std::_Select1st<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > >, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > > >::erase(std::_Rb_tree_iterator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > >, std::_Rb_tree_iterator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > >)
+ T std::_Rb_tree<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > >, std::_Select1st<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > >, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > > >::find(CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const&)
+ T std::_Rb_tree<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > >, std::_Select1st<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > >, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, std::multimap<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry, char const*, CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry::KeyOrder, std::allocator<std::pair<CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const, char const*> > > > > >::find(CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::Entry const&) const
  T std::_Rb_tree<Json::Value::CZString, std::pair<Json::Value::CZString const, Json::Value>, std::_Select1st<std::pair<Json::Value::CZString const, Json::Value> >, std::less<Json::Value::CZString>, std::allocator<std::pair<Json::Value::CZString const, Json::Value> > >::_M_copy(std::_Rb_tree_node<std::pair<Json::Value::CZString const, Json::Value> > const*, std::_Rb_tree_node<std::pair<Json::Value::CZString const, Json::Value> >*)
  T std::_Rb_tree<Json::Value::CZString, std::pair<Json::Value::CZString const, Json::Value>, std::_Select1st<std::pair<Json::Value::CZString const, Json::Value> >, std::less<Json::Value::CZString>, std::allocator<std::pair<Json::Value::CZString const, Json::Value> > >::_M_create_node(std::pair<Json::Value::CZString const, Json::Value> const&)
  T std::_Rb_tree<Json::Value::CZString, std::pair<Json::Value::CZString const, Json::Value>, std::_Select1st<std::pair<Json::Value::CZString const, Json::Value> >, std::less<Json::Value::CZString>, std::allocator<std::pair<Json::Value::CZString const, Json::Value> > >::_M_erase(std::_Rb_tree_node<std::pair<Json::Value::CZString const, Json::Value> >*)
@@ -1399,6 +1544,7 @@
  T std::vector<vr::ITrackedDeviceServerDriver*, std::allocator<vr::ITrackedDeviceServerDriver*> >::operator=(std::vector<vr::ITrackedDeviceServerDriver*, std::allocator<vr::ITrackedDeviceServerDriver*> > const&)
  T std::vector<vr::RenderModel_Vertex_t, std::allocator<vr::RenderModel_Vertex_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<vr::RenderModel_Vertex_t*, std::vector<vr::RenderModel_Vertex_t, std::allocator<vr::RenderModel_Vertex_t> > >, vr::RenderModel_Vertex_t const&)
  T std::vector<vr::RenderModel_Vertex_t, std::allocator<vr::RenderModel_Vertex_t> >::reserve(unsigned long)
+ T std::vector<vr::VREvent_t, std::allocator<vr::VREvent_t> >::_M_insert_aux(__gnu_cxx::__normal_iterator<vr::VREvent_t*, std::vector<vr::VREvent_t, std::allocator<vr::VREvent_t> > >, vr::VREvent_t const&)
  T strcpy_safe(char*, unsigned long, char const*)
  T tinyobj::LoadMtl(std::map<std::string, int, std::less<std::string>, std::allocator<std::pair<std::string const, int> > >&, std::vector<tinyobj::material_t, std::allocator<tinyobj::material_t> >&, std::istream&)
  T tinyobj::LoadObj(std::vector<tinyobj::shape_t, std::allocator<tinyobj::shape_t> >&, std::vector<tinyobj::material_t, std::allocator<tinyobj::material_t> >&, char const*, char const*)
@@ -1456,6 +1602,7 @@
  T vr::IGraphicsDevice::ReleaseTexture(void*)
  T vr::IGraphicsDevice::UpdateTexture(void*, void*, unsigned int, unsigned int, unsigned int)
  T vr::TrackingOrigin_t::FromJson(Json::Value const&)
+ T vr::TrackingOrigin_t::SetRawTrackingFromOriginPose(vr::HmdMatrix34_t const&)
  T vr::TrackingOrigin_t::ToJson() const
  T vr::TrackingOrigin_t::UpdateTransform()
  VTT for std::basic_ifstream<char, std::char_traits<char> >
@@ -1469,6 +1616,7 @@
  __cxa_call_unexpected
  __cxa_end_catch
  __cxa_free_exception
+ __cxa_guard_abort
  __cxa_guard_acquire
  __cxa_guard_release
  __cxa_pure_virtual
@@ -1486,6 +1634,7 @@
  __udivdi3
  _exit
  abort
+ acosf
  alphasort
  atan2
  atanf
@@ -1546,6 +1695,14 @@
  b (anonymous namespace)::CVRMsg_GetProperty_PropertyDataType_descriptor_
  b (anonymous namespace)::CVRMsg_GetProperty_descriptor_
  b (anonymous namespace)::CVRMsg_GetProperty_reflection_
+ b (anonymous namespace)::CVRMsg_InputCaptureRequest_descriptor_
+ b (anonymous namespace)::CVRMsg_InputCaptureRequest_reflection_
+ b (anonymous namespace)::CVRMsg_InputCaptureResponse_descriptor_
+ b (anonymous namespace)::CVRMsg_InputCaptureResponse_reflection_
+ b (anonymous namespace)::CVRMsg_TriggerHapticPulseResponse_descriptor_
+ b (anonymous namespace)::CVRMsg_TriggerHapticPulseResponse_reflection_
+ b (anonymous namespace)::CVRMsg_TriggerHapticPulse_descriptor_
+ b (anonymous namespace)::CVRMsg_TriggerHapticPulse_reflection_
  b (anonymous namespace)::__myglextActiveTexture
  b (anonymous namespace)::glAttachShader
  b (anonymous namespace)::glBindBuffer
@@ -1577,9 +1734,12 @@
  b (anonymous namespace)::glUseProgram
  b (anonymous namespace)::glVertexAttribPointer
  b CVRSystemLatest::GetPropErrorNameFromEnum(vr::TrackedPropertyError)::buf
- b CVRSystemLatest::PollNextEvent(vr::VREvent_t*)::bLogOnce
+ b CVRSystemLatest::PollNextEventWithPoseInternal(vr::TrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)::bLogOnce
+ b CVRSystemLatest::TriggerHapticPulse(unsigned int, unsigned int, unsigned short)::k_ulHapticRequestEnforcedDelayMS
  b GetStringForHmdError(vr::HmdError)::buf
  b GetStringForTrackingEventType(EVRTrackingEventType)::buf
+ b GetStringForVRButtonId(vr::EVRButtonId)::buf
+ b GetStringForVRControllerAxisType(vr::EVRControllerAxisType)::buf
  b GetStringForVREventType(vr::EVREventType)::buf
  b Json::valueAllocator()::defaultAllocator
  b _ZZN6google8protobuf55protobuf_AddDesc_google_2fprotobuf_2fdescriptor_2eprotoEvE12already_here.b
@@ -1597,6 +1757,7 @@
  b g_pCompositorLatest
  b g_pHmdLatest
  b g_pLoggingMutex
+ b guard variable for CVRSystemLatest::TriggerHapticPulse(unsigned int, unsigned int, unsigned short)::k_ulHapticRequestEnforcedDelayMS
  b guard variable for Json::valueAllocator()::defaultAllocator
  b hmd001
  b hmd002
@@ -1619,6 +1780,7 @@
  b systemTicksPerSecond
  b systemTimeInitialized
  b vrsystem001
+ b vrsystem002
  ceilf
  chdir
  chmod
@@ -1647,6 +1809,7 @@
  fclose
  feof
  fflush
+ fmodf
  fopen
  fork
  fprintf
@@ -1732,6 +1895,10 @@
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_GetDriverInfo_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_GetPropertyResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_GetProperty_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_InputCaptureRequest_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_InputCaptureResponse_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TriggerHapticPulseResponse_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TriggerHapticPulse_offsets_
  r s_mat34Identity
  read
  read$UNIX2003
@@ -1755,6 +1922,8 @@
  sprintf
  sscanf
  stat
+ std::_List_node_base::hook(std::_List_node_base*)
+ std::_List_node_base::unhook()
  std::_Rb_tree_decrement(std::_Rb_tree_node_base const*)
  std::_Rb_tree_decrement(std::_Rb_tree_node_base*)
  std::_Rb_tree_increment(std::_Rb_tree_node_base const*)
