@@ -527,6 +527,7 @@
  B g_SndMutex
  B g_SoundClockPaintTime
  B g_SoundMapMutex
+ B g_SteamP2PAllowConnection
  B g_StoreFilePaths
  B g_StudioHdrToActivityMaps
  B g_StudioHdrToActivityMapsLock
@@ -1786,6 +1787,7 @@
  D CUtlMemory<CSosOperator::InputData_t, int>::Grow(int)::tm_fmt
  D CUtlMemory<CSosOperator::OutputData_t, int>::Grow(int)::tm_fmt
  D CUtlMemory<CStaticProp, int>::Grow(int)::tm_fmt
+ D CUtlMemory<CSteamID, int>::Grow(int)::tm_fmt
  D CUtlMemory<CStudioHdr::CActivityToSequenceMapping::HashValueType, int>::Grow(int)::tm_fmt
  D CUtlMemory<CUtlBinaryBlock, int>::Grow(int)::tm_fmt
  D CUtlMemory<CUtlCachedFileData<CAudioSourceCachedInfo>*, int>::Grow(int)::tm_fmt
@@ -3718,6 +3720,7 @@
  D typeinfo for CStaticPanel
  D typeinfo for CStaticProp
  D typeinfo for CStaticPropMgr
+ D typeinfo for CSteamP2PAllowConnection
  D typeinfo for CStringProperty
  D typeinfo for CStudioConvexInfo
  D typeinfo for CTestScriptMgr
@@ -3891,6 +3894,7 @@
  D typeinfo for IStaticPropMgrClient
  D typeinfo for IStaticPropMgrEngine
  D typeinfo for IStaticPropMgrServer
+ D typeinfo for ISteamP2PAllowConnection
  D typeinfo for ITextureRegenerator
  D typeinfo for IToolFrameworkInternal
  D typeinfo for ITraceFilter
@@ -5047,6 +5051,7 @@
  D vtable for CStaticPanel
  D vtable for CStaticProp
  D vtable for CStaticPropMgr
+ D vtable for CSteamP2PAllowConnection
  D vtable for CStringProperty
  D vtable for CStudioConvexInfo
  D vtable for CTestScriptMgr
@@ -5843,6 +5848,7 @@
  R typeinfo name for CStaticPanel
  R typeinfo name for CStaticProp
  R typeinfo name for CStaticPropMgr
+ R typeinfo name for CSteamP2PAllowConnection
  R typeinfo name for CStringProperty
  R typeinfo name for CStudioConvexInfo
  R typeinfo name for CTestScriptMgr
@@ -6016,6 +6022,7 @@
  R typeinfo name for IStaticPropMgrClient
  R typeinfo name for IStaticPropMgrEngine
  R typeinfo name for IStaticPropMgrServer
+ R typeinfo name for ISteamP2PAllowConnection
  R typeinfo name for ITextureRegenerator
  R typeinfo name for IToolFrameworkInternal
  R typeinfo name for ITraceFilter
@@ -6866,7 +6873,6 @@
  T CBaseClientState::SendStringCmd(char const*)
  T CBaseClientState::SetEntityBaseline(int, ClientClass*, int, int)
  T CBaseClientState::SetSignonState(int, int, CNETMsg_SignonState const*)
- T CBaseClientState::SteamIDAllowedToConnect(CSteamID)
  T CBaseClientState::UpdateInstanceBaseline(int)
  T CBaseClientState::~CBaseClientState()
  T CBaseDemoAction::AddEditorFactory(DEMOACTION, CBaseActionEditDialog* (*)(CDemoEditorPanel*, CBaseDemoAction*, bool))
@@ -6998,7 +7004,6 @@
  T CBaseServer::SetTimescale(float)
  T CBaseServer::ShouldUpdateMasterServer()
  T CBaseServer::Shutdown()
- T CBaseServer::SteamIDAllowedToConnect(CSteamID)
  T CBaseServer::UpdateGameData()
  T CBaseServer::UpdateGameType()
  T CBaseServer::UpdateMasterServer()
@@ -13204,6 +13209,8 @@
  T CSteamID::CSteamID(char const*, EUniverse)
  T CSteamID::Render() const
  T CSteamID::SetFromString(char const*, EUniverse)
+ T CSteamP2PAllowConnection::SteamIDAllowedToP2PConnect(CSteamID)
+ T CSteamP2PAllowConnection::~CSteamP2PAllowConnection()
  T CStringProperty::GetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
  T CStringProperty::InitFromDefault(vgui::Panel*, PanelAnimationMapEntry*)
  T CStringProperty::SetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
@@ -13760,6 +13767,7 @@
  T CUtlMemory<CSosOperator::InputData_t, int>::Grow(int)
  T CUtlMemory<CSosOperator::OutputData_t, int>::Grow(int)
  T CUtlMemory<CStaticProp, int>::Grow(int)
+ T CUtlMemory<CSteamID, int>::Grow(int)
  T CUtlMemory<CStudioHdr::CActivityToSequenceMapping::HashValueType, int>::Grow(int)
  T CUtlMemory<CUtlBinaryBlock, int>::Grow(int)
  T CUtlMemory<CUtlCachedFileData<CAudioSourceCachedInfo>*, int>::Grow(int)
@@ -17412,7 +17420,6 @@
  T non-virtual thunk to CBaseClient::SetUpdateRate(int, bool)
  T non-virtual thunk to CBaseClient::~CBaseClient()
  T non-virtual thunk to CBaseClientState::ProcessConnectionlessPacket(netpacket_t*)
- T non-virtual thunk to CBaseClientState::SteamIDAllowedToConnect(CSteamID)
  T non-virtual thunk to CBaseClientState::~CBaseClientState()
  T non-virtual thunk to CCLCMsg_FileCRCCheck_t::~CCLCMsg_FileCRCCheck_t()
  T non-virtual thunk to CClientState::ProcessConnectionlessPacket(netpacket_t*)
@@ -22535,6 +22542,7 @@
  kCFProxyTypeKey
  kCFProxyTypeNone
  kCFProxyUsernameKey
+ kill$UNIX2003
  listen$UNIX2003
  localtime
  log
@@ -23194,6 +23202,7 @@
  t __cxx_global_var_init10
  t __cxx_global_var_init100
  t __cxx_global_var_init101
+ t __cxx_global_var_init102
  t __cxx_global_var_init104
  t __cxx_global_var_init105
  t __cxx_global_var_init106
@@ -23206,11 +23215,11 @@
  t __cxx_global_var_init114
  t __cxx_global_var_init115
  t __cxx_global_var_init12
- t __cxx_global_var_init125
- t __cxx_global_var_init126
  t __cxx_global_var_init127
  t __cxx_global_var_init128
+ t __cxx_global_var_init129
  t __cxx_global_var_init13
+ t __cxx_global_var_init130
  t __cxx_global_var_init131
  t __cxx_global_var_init132
  t __cxx_global_var_init133
@@ -23220,6 +23229,7 @@
  t __cxx_global_var_init137
  t __cxx_global_var_init138
  t __cxx_global_var_init14
+ t __cxx_global_var_init146
  t __cxx_global_var_init147
  t __cxx_global_var_init148
  t __cxx_global_var_init149
@@ -23347,11 +23357,11 @@
  t __cxx_global_var_init40
  t __cxx_global_var_init41
  t __cxx_global_var_init42
- t __cxx_global_var_init422
  t __cxx_global_var_init423
  t __cxx_global_var_init424
  t __cxx_global_var_init425
  t __cxx_global_var_init426
+ t __cxx_global_var_init427
  t __cxx_global_var_init43
  t __cxx_global_var_init44
  t __cxx_global_var_init45
