@@ -532,7 +532,6 @@
  B g_StudioHdrToActivityMaps
  B g_StudioHdrToActivityMapsLock
  B g_TesselateVerts
- B g_TestScriptMgr
  B g_TextEntryLinkerHack
  B g_TextEntryPullInModule
  B g_TextModeLine
@@ -1196,7 +1195,6 @@
  B telemetry_pause
  B telemetry_resume
  B telemetry_server
- B testscript_debug
  B texture_budget_background_alpha
  B texture_budget_panel_bottom_of_history_fraction
  B texture_budget_panel_global
@@ -1867,6 +1865,7 @@
  D CUtlMemory<UtlLinkedListElem_t<CBidirectionalSet<unsigned short, unsigned short, unsigned short, unsigned short>::BucketListInfo_t, unsigned short>, unsigned short>::Grow(int)::tm_fmt
  D CUtlMemory<UtlLinkedListElem_t<CBidirectionalSet<unsigned short, unsigned short, unsigned short, unsigned short>::ElementListInfo_t, unsigned short>, unsigned short>::Grow(int)::tm_fmt
  D CUtlMemory<UtlLinkedListElem_t<CBrushBatchRender::brushrender_t, unsigned short>, unsigned short>::Grow(int)::tm_fmt
+ D CUtlMemory<UtlLinkedListElem_t<CClientFrame*, unsigned short>, unsigned short>::Grow(int)::tm_fmt
  D CUtlMemory<UtlLinkedListElem_t<CClientSendTable*, unsigned short>, unsigned short>::Grow(int)::tm_fmt
  D CUtlMemory<UtlLinkedListElem_t<CDTIRecvTable*, int>, int>::Grow(int)::tm_fmt
  D CUtlMemory<UtlLinkedListElem_t<CDTISendTable*, unsigned short>, unsigned short>::Grow(int)::tm_fmt
@@ -1875,7 +1874,6 @@
  D CUtlMemory<UtlLinkedListElem_t<CDispShadowDecal, unsigned short>, unsigned short>::Grow(int)::tm_fmt
  D CUtlMemory<UtlLinkedListElem_t<CDispShadowFragment, unsigned short>, unsigned short>::Grow(int)::tm_fmt
  D CUtlMemory<UtlLinkedListElem_t<CFrameSnapshot*, unsigned short>, unsigned short>::Grow(int)::tm_fmt
- D CUtlMemory<UtlLinkedListElem_t<CLoopInfo*, int>, int>::Grow(int)::tm_fmt
  D CUtlMemory<UtlLinkedListElem_t<CModelRender::ModelInstance_t, unsigned short>, unsigned short>::Grow(int)::tm_fmt
  D CUtlMemory<UtlLinkedListElem_t<COverlayMgr::RenderQueueHead_t, unsigned short>, unsigned short>::Grow(int)::tm_fmt
  D CUtlMemory<UtlLinkedListElem_t<CRecvDecoder*, unsigned short>, unsigned short>::Grow(int)::tm_fmt
@@ -3279,6 +3277,7 @@
  D typeinfo for CConCommandMemberAccessor<CTextureBudgetPanel>
  D typeinfo for CConPanel
  D typeinfo for CConVarCheckButton
+ D typeinfo for CConsoleProcessorForTestScripts
  D typeinfo for CCoreDispInfo
  D typeinfo for CCurveEditorPanel
  D typeinfo for CCurvesColorOperation
@@ -3723,7 +3722,6 @@
  D typeinfo for CSteamP2PAllowConnection
  D typeinfo for CStringProperty
  D typeinfo for CStudioConvexInfo
- D typeinfo for CTestScriptMgr
  D typeinfo for CTextureBudgetPanel
  D typeinfo for CTextureIdProperty
  D typeinfo for CTextureListPanel
@@ -3895,6 +3893,7 @@
  D typeinfo for IStaticPropMgrEngine
  D typeinfo for IStaticPropMgrServer
  D typeinfo for ISteamP2PAllowConnection
+ D typeinfo for ITestScriptCommandProcessor
  D typeinfo for ITextureRegenerator
  D typeinfo for IToolFrameworkInternal
  D typeinfo for ITraceFilter
@@ -4622,6 +4621,7 @@
  D vtable for CConCommandMemberAccessor<CTextureBudgetPanel>
  D vtable for CConPanel
  D vtable for CConVarCheckButton
+ D vtable for CConsoleProcessorForTestScripts
  D vtable for CCoreDispInfo
  D vtable for CCurveEditorPanel
  D vtable for CCurvesColorOperation
@@ -5054,7 +5054,6 @@
  D vtable for CSteamP2PAllowConnection
  D vtable for CStringProperty
  D vtable for CStudioConvexInfo
- D vtable for CTestScriptMgr
  D vtable for CTextureBudgetPanel
  D vtable for CTextureIdProperty
  D vtable for CTextureListPanel
@@ -5209,11 +5208,6 @@
  KeyValuesSystem
  LOG_GENERAL
  LoggingSystem_AddTagToChannel
- LoggingSystem_GetChannel
- LoggingSystem_GetChannelCount
- LoggingSystem_GetChannelFlags
- LoggingSystem_GetFirstChannelID
- LoggingSystem_GetNextChannelID
  LoggingSystem_IsChannelEnabled
  LoggingSystem_Log
  LoggingSystem_Log(int, LoggingSeverity_t, Color, char const*, ...)
@@ -5223,9 +5217,6 @@
  LoggingSystem_RegisterLoggingChannel
  LoggingSystem_RegisterLoggingListener
  LoggingSystem_ResetCurrentLoggingState
- LoggingSystem_SetChannelColor
- LoggingSystem_SetChannelFlags
- LoggingSystem_SetChannelVerbosity
  LoggingSystem_SetChannelVerbosityByTag
  MemAllocScratch
  MemFreeScratch
@@ -5407,6 +5398,7 @@
  R typeinfo name for CConCommandMemberAccessor<CTextureBudgetPanel>
  R typeinfo name for CConPanel
  R typeinfo name for CConVarCheckButton
+ R typeinfo name for CConsoleProcessorForTestScripts
  R typeinfo name for CCoreDispInfo
  R typeinfo name for CCurveEditorPanel
  R typeinfo name for CCurvesColorOperation
@@ -5851,7 +5843,6 @@
  R typeinfo name for CSteamP2PAllowConnection
  R typeinfo name for CStringProperty
  R typeinfo name for CStudioConvexInfo
- R typeinfo name for CTestScriptMgr
  R typeinfo name for CTextureBudgetPanel
  R typeinfo name for CTextureIdProperty
  R typeinfo name for CTextureListPanel
@@ -6023,6 +6014,7 @@
  R typeinfo name for IStaticPropMgrEngine
  R typeinfo name for IStaticPropMgrServer
  R typeinfo name for ISteamP2PAllowConnection
+ R typeinfo name for ITestScriptCommandProcessor
  R typeinfo name for ITextureRegenerator
  R typeinfo name for IToolFrameworkInternal
  R typeinfo name for ITraceFilter
@@ -7709,6 +7701,7 @@
  T CConVarCheckButton::SetConVar(ConVar*)
  T CConVarCheckButton::SetSelected(bool)
  T CConVarCheckButton::~CConVarCheckButton()
+ T CConsoleProcessorForTestScripts::InsertCommand(char const*)
  T CCoreDispInfo::CCoreDispInfo()
  T CCoreDispInfo::CalcBoundingBoxAtNode(int)
  T CCoreDispInfo::CalcDispSurfCoords(bool, int)
@@ -13209,7 +13202,7 @@
  T CSteamID::CSteamID(char const*, EUniverse)
  T CSteamID::Render() const
  T CSteamID::SetFromString(char const*, EUniverse)
- T CSteamP2PAllowConnection::SteamIDAllowedToP2PConnect(CSteamID)
+ T CSteamP2PAllowConnection::SteamIDAllowedToP2PConnect(ESteamP2PConnectionOwner, CSteamID)
  T CSteamP2PAllowConnection::~CSteamP2PAllowConnection()
  T CStringProperty::GetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
  T CStringProperty::InitFromDefault(vgui::Panel*, PanelAnimationMapEntry*)
@@ -13231,15 +13224,6 @@
  T CTSQueue<StartSoundParams_t, false>::Push(CTSQueue<StartSoundParams_t, false>::Node_t*)
  T CTSQueue<StartSoundParams_t, false>::PushItem(StartSoundParams_t const&)
  T CTSQueue<StartSoundParams_t, false>::~CTSQueue()
- T CTestScriptMgr::CTestScriptMgr()
- T CTestScriptMgr::CheckPoint(char const*)
- T CTestScriptMgr::LoopCount(char const*, int)
- T CTestScriptMgr::LoopForNumSeconds(char const*, double)
- T CTestScriptMgr::RunCommands()
- T CTestScriptMgr::SetWaitCheckPoint(char const*, bool)
- T CTestScriptMgr::StartLoop(char const*)
- T CTestScriptMgr::StartTestScript(char const*)
- T CTestScriptMgr::~CTestScriptMgr()
  T CTextureBudgetPanel::CTextureBudgetPanel(vgui::Panel*, char const*)
  T CTextureBudgetPanel::DumpGlobalTextureStats(CCommandContext const&, CCommand const&)
  T CTextureBudgetPanel::OnTick()
@@ -13537,6 +13521,8 @@
  T CUtlLinkedList<CBrushBatchRender::brushrender_t, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CBrushBatchRender::brushrender_t, unsigned short>, unsigned short> >::LinkBefore(unsigned short, unsigned short)
  T CUtlLinkedList<CBrushBatchRender::brushrender_t, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CBrushBatchRender::brushrender_t, unsigned short>, unsigned short> >::Purge()
  T CUtlLinkedList<CChangeTrack*, int, false, int, CUtlMemory<UtlLinkedListElem_t<CChangeTrack*, int>, int> >::~CUtlLinkedList()
+ T CUtlLinkedList<CClientFrame*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CClientFrame*, unsigned short>, unsigned short> >::AllocInternal(bool)
+ T CUtlLinkedList<CClientFrame*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CClientFrame*, unsigned short>, unsigned short> >::LinkBefore(unsigned short, unsigned short)
  T CUtlLinkedList<CClientSendTable*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CClientSendTable*, unsigned short>, unsigned short> >::AllocInternal(bool)
  T CUtlLinkedList<CClientSendTable*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CClientSendTable*, unsigned short>, unsigned short> >::LinkBefore(unsigned short, unsigned short)
  T CUtlLinkedList<CClientSendTable*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CClientSendTable*, unsigned short>, unsigned short> >::Purge()
@@ -13573,7 +13559,6 @@
  T CUtlLinkedList<CEventInfo, int, true, int, CUtlFixedMemory<UtlLinkedListElem_t<CEventInfo, int> > >::Unlink(int)
  T CUtlLinkedList<CFrameSnapshot*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CFrameSnapshot*, unsigned short>, unsigned short> >::AllocInternal(bool)
  T CUtlLinkedList<CFrameSnapshot*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CFrameSnapshot*, unsigned short>, unsigned short> >::LinkBefore(unsigned short, unsigned short)
- T CUtlLinkedList<CLoopInfo*, int, false, int, CUtlMemory<UtlLinkedListElem_t<CLoopInfo*, int>, int> >::AllocInternal(bool)
  T CUtlLinkedList<CModelRender::ModelInstance_t, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CModelRender::ModelInstance_t, unsigned short>, unsigned short> >::AllocInternal(bool)
  T CUtlLinkedList<CModelRender::ModelInstance_t, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CModelRender::ModelInstance_t, unsigned short>, unsigned short> >::LinkBefore(unsigned short, unsigned short)
  T CUtlLinkedList<COverlayMgr::RenderQueueHead_t, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<COverlayMgr::RenderQueueHead_t, unsigned short>, unsigned short> >::AllocInternal(bool)
@@ -13847,6 +13832,7 @@
  T CUtlMemory<UtlLinkedListElem_t<CBidirectionalSet<unsigned short, unsigned short, unsigned short, unsigned short>::BucketListInfo_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<CBidirectionalSet<unsigned short, unsigned short, unsigned short, unsigned short>::ElementListInfo_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<CBrushBatchRender::brushrender_t, unsigned short>, unsigned short>::Grow(int)
+ T CUtlMemory<UtlLinkedListElem_t<CClientFrame*, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<CClientSendTable*, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<CDTIRecvTable*, int>, int>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<CDTISendTable*, unsigned short>, unsigned short>::Grow(int)
@@ -13855,7 +13841,6 @@
  T CUtlMemory<UtlLinkedListElem_t<CDispShadowDecal, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<CDispShadowFragment, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<CFrameSnapshot*, unsigned short>, unsigned short>::Grow(int)
- T CUtlMemory<UtlLinkedListElem_t<CLoopInfo*, int>, int>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<CModelRender::ModelInstance_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<COverlayMgr::RenderQueueHead_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<CRecvDecoder*, unsigned short>, unsigned short>::Grow(int)
@@ -14664,6 +14649,7 @@
  T CVEngineServer::LogPrint(char const*)
  T CVEngineServer::Message_DetermineMulticastRecipients(bool, Vector const&, CBitVec<64>&)
  T CVEngineServer::NotifyEdictFlagsChange(CEntityIndex)
+ T CVEngineServer::P2PGroupChanged()
  T CVEngineServer::PaintSurface(model_t const*, Vector const&, Color const&, float)
  T CVEngineServer::ParseFile(char const*, char*, int)
  T CVEngineServer::Pause(bool, bool)
@@ -15275,11 +15261,6 @@
  T Con_HideConsole_f()
  T Con_Init()
  T Con_IsVisible()
- T Con_LogColor_f(CCommand const&)
- T Con_LogDumpChannels_f()
- T Con_LogFlags_f(CCommand const&)
- T Con_LogLevel_f(CCommand const&)
- T Con_LogVerbosity_f(CCommand const&)
  T Con_NPrintf(int, char const*, ...)
  T Con_NXPrintf(con_nprint_s const*, char const*, ...)
  T Con_RunFrame()
@@ -16243,7 +16224,6 @@
  T PointInQuadToBarycentric(Vector const&, Vector const&, Vector const&, Vector const&, Vector const&, Vector2D&)
  T PolyFromPlane(Vector*, Vector const&, float, float)
  T PopTraceVisits(TraceInfo_t*)
- T PostUpdateProfile()
  T PreUpdateProfile(float)
  T PrecalcLightingState(lightcache_t*, unsigned char const*)
  T PrefetchDataStream(char const*, int, int)
@@ -16763,7 +16743,6 @@
  T Sys_SetRegKeyValue(char*, char*, char const*)
  T Sys_ShutdownGame()
  T Sys_Sleep(int)
- T Sys_TestSendKey(char const*)
  T Sys_UnloadModule(CSysModule*)
  T Sys_mkdir(char const*)
  T TAssetInfo::CheckBudget()
@@ -16822,13 +16801,6 @@
  T TZip::sread(TState&, char*, unsigned int)
  T TangentSpaceComputeBasis(Vector&, Vector&, Vector const&, Vector const&, bool)
  T TangentSpaceSurfaceSetup(msurface2_t*, Vector&)
- T Test_Loop(CCommandContext const&, CCommand const&)
- T Test_LoopCount(CCommandContext const&, CCommand const&)
- T Test_LoopForNumSeconds(CCommandContext const&, CCommand const&)
- T Test_RunFrame(CCommandContext const&, CCommand const&)
- T Test_StartLoop(CCommandContext const&, CCommand const&)
- T Test_Wait(CCommandContext const&, CCommand const&)
- T Test_WaitForCheckPoint(CCommandContext const&, CCommand const&)
  T TexCoordInQuadFromBarycentric(Vector2D const&, Vector2D const&, Vector2D const&, Vector2D const&, Vector2D const&, Vector2D&)
  T TextMessageGet
  T TextMessageInit
@@ -17113,7 +17085,6 @@
  T _V_StripExtension(char const*, char*, int)
  T _V_StripLastDir(char*, int)
  T _V_binarytohex(unsigned char const*, int, char*, int)
- T _V_hextobinary(char const*, int, unsigned char*, int)
  T _V_memcmp(void const*, void const*, int)
  T _V_memcpy(void*, void const*, int)
  T _V_memmove(void*, void const*, int)
@@ -20229,7 +20200,6 @@
  Tier0GenericMiniDumpHandler_SetPreHandlerCallback
  UnregisterAssertionFailureListener
  UtlStringTokenSystem
- V_tier0_stricmp
  Warning
  ZeroMemory
  _DefaultRuneLocale
@@ -20910,16 +20880,6 @@
  b SurfFlagsToSortGroup(msurface2_t*, int)::warningcount
  b Sys_Error_Internal(bool, char const*, char*)::bReentry
  b Sys_InitGame(void* (*)(char const*, int*), char const*, void*, int)::s_pBaseDir
- b Test_LoopCount_command
- b Test_LoopForNumSeconds_command
- b Test_Loop_command
- b Test_RandomChance_command
- b Test_RunFrame_command
- b Test_SendKey_command
- b Test_StartLoop_command
- b Test_StartScript_command
- b Test_WaitForCheckPoint_command
- b Test_Wait_command
  b TheDownloadCache
  b TheDownloadManager
  b ToolLoad
@@ -21142,6 +21102,7 @@
  b dt_UsePartialChangeEnts
  b dti_flush
  b dummySfx
+ b dump_edicts_command
  b dump_file_paths
  b dumpsavedir_command
  b dumpstringtables_command
@@ -21217,7 +21178,6 @@
  b g_Divider_Helper
  b g_DragDropCapture
  b g_EdgeVisualization
- b g_EdictFreeTime
  b g_EditablePanel_Helper
  b g_Engine
  b g_EngineTool
@@ -21233,7 +21193,6 @@
  b g_FrameIndex
  b g_FrameMissCount
  b g_FrameSnapshotManager
- b g_FreeEdicts
  b g_FullFrameFBTexture0
  b g_FullFrameFBTexture1
  b g_FullFrameFBTexture2
@@ -21614,12 +21573,7 @@
  b listip_command
  b listmodels_command
  b load_command
- b log_color
  b log_command
- b log_dumpchannels
- b log_flags
- b log_level
- b log_verbosity
  b logaddress_add_command
  b logaddress_del_command
  b logaddress_delall_command
@@ -22425,6 +22379,8 @@
  d g_iLastReplacedDynamic
  d g_iQueryCvarCookie
  d g_nCurrentProgressID
+ d g_nEdictFreeListHead
+ d g_nEdictFreeListTail
  d g_nSaveQueueState
  d g_nSortType
  d g_nSpewLines
@@ -22442,6 +22398,7 @@
  d originaldrawMRMModelsVal
  d p_floatconverter
  d p_intconverter
+ d s_ConsoleProcessorForTestScripts
  d s_DefaultAccessor
  d s_EngineLoggingListener
  d s_EngineRandomStream
@@ -22893,11 +22850,6 @@
  t ComputeStaticLightingForCacheEntry(CBaseLightCache*, Vector const&, int, bool)
  t ConCommandBaseLessFunc(ConCommandBase const* const&, ConCommandBase const* const&)
  t ConVarNetworkChangeCallback(IConVar*, char const*, float)
- t Con_LogColorCallback(LoggingChannel_t const*, char const*)
- t Con_LogFlagsCallback(LoggingChannel_t const*, char const*)
- t Con_LogFunctionHelper(CCommand const&, bool (*)(LoggingChannel_t const*, char const*))
- t Con_LogLevelCallback(LoggingChannel_t const*, char const*)
- t Con_LogVerbosityCallback(LoggingChannel_t const*, char const*)
  t CopySendPropsToRecvProps(CUtlRBTree<MatchingProp_t, unsigned short, bool (*)(MatchingProp_t const&, MatchingProp_t const&), CUtlMemory<UtlRBTreeNode_t<MatchingProp_t, unsigned short>, unsigned short> >&, CUtlVector<SendProp const*, CUtlMemory<SendProp const*, int> > const&, CUtlVector<RecvProp const*, CUtlMemory<RecvProp const*, int> >&)
  t CreateColorOp(ColorCorrectionTool_t, CColorOperationList*)
  t Create_AnimatingImagePanel()
@@ -23132,6 +23084,7 @@
  t Shader_WorldZFillSurfChain_Single(msurface2_t*, CMeshBuilder&, int&)
  t SortAttributeByName(void const*, void const*)
  t SortSurfacesByLightmapID(msurface2_t**, int)
+ t SpewEdicts()
  t SpewEdicts()::EdictSorter_t::SortEdicts(SpewEdicts()::EdictCount_t* const*, SpewEdicts()::EdictCount_t* const*)
  t StringToTick(char const*)
  t SvPasswordChangeCallback(IConVar*, char const*, float)
@@ -23140,9 +23093,6 @@
  t Sys_LoadLibrary(char const*)
  t Sys_LoadLibraryGuts(char const*)
  t TakeCubemapSnapshot(Vector const&, char const*, int, int, bool)
- t Test_RandomChance(CCommandContext const&, CCommand const&)
- t Test_SendKey(CCommandContext const&, CCommand const&)
- t Test_StartScript(CCommandContext const&, CCommand const&)
  t TextureCVarChangedCallBack(IConVar*, char const*, float)
  t UseDebugMaterial(char const*, ITexture*, CAutoMatSysDebugMode*)
  t VGui_PlaySound(char const*)
@@ -23215,11 +23165,7 @@
  t __cxx_global_var_init114
  t __cxx_global_var_init115
  t __cxx_global_var_init12
- t __cxx_global_var_init127
- t __cxx_global_var_init128
- t __cxx_global_var_init129
  t __cxx_global_var_init13
- t __cxx_global_var_init130
  t __cxx_global_var_init131
  t __cxx_global_var_init132
  t __cxx_global_var_init133
@@ -23357,11 +23303,11 @@
  t __cxx_global_var_init40
  t __cxx_global_var_init41
  t __cxx_global_var_init42
+ t __cxx_global_var_init421
+ t __cxx_global_var_init422
  t __cxx_global_var_init423
  t __cxx_global_var_init424
  t __cxx_global_var_init425
- t __cxx_global_var_init426
- t __cxx_global_var_init427
  t __cxx_global_var_init43
  t __cxx_global_var_init44
  t __cxx_global_var_init45
@@ -23504,6 +23450,7 @@
  t differences(CCommandContext const&, CCommand const&)
  t disconnect(CCommandContext const&, CCommand const&)
  t display_elapsedtime(CCommandContext const&, CCommand const&)
+ t dump_edicts(CCommandContext const&, CCommand const&)
  t dumpsavedir(CCommandContext const&, CCommand const&)
  t dumpstringtables(CCommandContext const&, CCommand const&)
  t echo(CCommandContext const&, CCommand const&)
