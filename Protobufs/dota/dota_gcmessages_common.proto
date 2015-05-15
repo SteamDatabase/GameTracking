@@ -467,7 +467,7 @@ enum EDOTAGCMsg {
 	k_EMsgClientToGCGetProfileCardResponse = 7535;
 	k_EMsgServerToGCGetProfileCard = 7536;
 	k_EMsgServerToGCGetProfileCardResponse = 7537;
-	k_EMsgClientToGCSetProfileCardSlot = 7538;
+	k_EMsgClientToGCSetProfileCardSlots = 7538;
 	k_EMsgGCToClientProfileCardUpdated = 7539;
 	k_EMsgServerToGCVictoryPredictions = 7540;
 	k_EMsgClientToGCMarkNotificationListRead = 7542;
@@ -552,8 +552,12 @@ enum EDOTAGCMsg {
 	k_EMsgGCToClientMergeGroupInviteReply = 8031;
 	k_EMsgClientToGCMergePartyResponse = 8032;
 	k_EMsgGCToClientMergePartyResponseReply = 8033;
+	k_EMsgClientToGCGetProfileCardStats = 8034;
+	k_EMsgClientToGCGetProfileCardStatsResponse = 8035;
 	k_EMsgClientToGCTopLeagueMatchesRequest = 8036;
-	k_EMsgClientToGCTopLeagueMatchesResponse = 8037;
+	k_EMsgClientToGCTopFriendMatchesRequest = 8037;
+	k_EMsgGCToClientTopMatchesResponse = 8038;
+	k_EMsgClientToGCTopPubMatchesRequest = 8039;
 }
 
 enum DOTA_GameMode {
@@ -828,6 +832,8 @@ enum DOTA_COMBATLOG_TYPES {
 	DOTA_COMBATLOG_MULTIKILL = 15;
 	DOTA_COMBATLOG_KILLSTREAK = 16;
 	DOTA_COMBATLOG_TEAM_BUILDING_KILL = 17;
+	DOTA_COMBATLOG_FIRST_BLOOD = 18;
+	DOTA_COMBATLOG_MODIFIER_REFRESH = 19;
 }
 
 message CSODOTAGameAccountClient {
@@ -923,6 +929,7 @@ message CSODOTAPartyInvite {
 	message PartyMember {
 		optional string name = 1;
 		optional fixed64 steam_id = 2;
+		optional bool is_coach = 4;
 	}
 
 	optional uint64 group_id = 1 [(key_field) = true];
@@ -932,6 +939,7 @@ message CSODOTAPartyInvite {
 	optional uint32 team_id = 5;
 	optional bool low_priority_status = 6;
 	optional bool as_coach = 7;
+	optional fixed64 invite_gid = 8;
 }
 
 message CSODOTALobbyInvite {
@@ -945,6 +953,7 @@ message CSODOTALobbyInvite {
 	optional string sender_name = 3;
 	repeated .CSODOTALobbyInvite.LobbyMember members = 4;
 	optional uint64 custom_game_id = 5;
+	optional fixed64 invite_gid = 6;
 }
 
 message CDOTASaveGame {
@@ -1437,6 +1446,12 @@ message CMsgDOTACombatLogEntry {
 	optional uint32 attacker_team = 28;
 	optional uint32 target_team = 29;
 	optional uint32 obs_wards_placed = 30;
+	optional uint32 assist_player0 = 31;
+	optional uint32 assist_player1 = 32;
+	optional uint32 assist_player2 = 33;
+	optional uint32 assist_player3 = 34;
+	optional uint32 stack_count = 35;
+	optional bool hidden_modifier = 36;
 }
 
 message CMsgDOTAProfileCard {
@@ -1455,10 +1470,22 @@ message CMsgDOTAProfileCard {
 			optional string serialized_item = 1;
 		}
 
+		message Hero {
+			optional uint32 hero_id = 1;
+			optional uint32 hero_wins = 2;
+			optional uint32 hero_losses = 3;
+		}
+
+		message Emoticon {
+			optional uint32 emoticon_id = 1;
+		}
+
 		optional uint32 slot_id = 1;
 		optional .CMsgDOTAProfileCard.Slot.Trophy trophy = 2;
 		optional .CMsgDOTAProfileCard.Slot.Stat stat = 3;
 		optional .CMsgDOTAProfileCard.Slot.Item item = 4;
+		optional .CMsgDOTAProfileCard.Slot.Hero hero = 5;
+		optional .CMsgDOTAProfileCard.Slot.Emoticon emoticon = 6;
 	}
 
 	enum EStatID {
@@ -1466,9 +1493,8 @@ message CMsgDOTAProfileCard {
 		k_eStat_PartyRank = 2;
 		k_eStat_Wins = 3;
 		k_eStat_Commends = 4;
-		k_eStat_Level = 5;
-		k_eStat_HeroWins_Start = 100;
-		k_eStat_HeroWins_End = 399;
+		k_eStat_GamesPlayed = 5;
+		k_eStat_FirstMatchDate = 6;
 	}
 
 	optional uint32 account_id = 1;
