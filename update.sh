@@ -106,6 +106,10 @@ case $1 in
 	ProcessDepot "$1" "dota" ".dylib"
 	;;
 
+575)
+	ProcessVPK "$1"
+	;;
+
 # Dota 2 Test
 205791)
 	ProcessVPK "$1"
