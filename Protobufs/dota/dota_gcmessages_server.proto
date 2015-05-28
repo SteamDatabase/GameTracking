@@ -202,9 +202,23 @@ message CMsgDOTAFantasyMatch {
 	optional uint32 team_2 = 7;
 }
 
+message CMsgServerToGCRealtimeStats {
+	optional .CMsgDOTARealtimeGameStats delayed = 1;
+	optional .CMsgDOTARealtimeGameStats current = 2;
+}
+
+message CMsgGCToServerRealtimeStatsStartStop {
+	optional bool start = 1;
+}
+
 message CMsgGameMatchSignOut {
 	message CTeam {
 		message CPlayer {
+			message CCustomGameData {
+				optional uint32 dota_team = 1;
+				optional bool winner = 2;
+			}
+
 			optional fixed64 steam_id = 1;
 			optional uint32 hero_id = 3;
 			repeated uint32 items = 4;
@@ -236,6 +250,7 @@ message CMsgGameMatchSignOut {
 			repeated .CMatchPlayerAbilityUpgrade ability_upgrades = 32;
 			repeated .CMatchAdditionalUnitInventory additional_units_inventory = 33;
 			optional uint32 net_worth = 34;
+			optional .CMsgGameMatchSignOut.CTeam.CPlayer.CCustomGameData custom_game_data = 35;
 		}
 
 		repeated .CMsgGameMatchSignOut.CTeam.CPlayer players = 1;

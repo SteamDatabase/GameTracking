@@ -408,7 +408,6 @@ enum EDOTAGCMsg {
 	k_EMsgServerGrantSurveyPermissionResponse = 7476;
 	k_EMsgClientProvideSurveyResult = 7477;
 	k_EMsgGCToGCSetCompendiumSelection = 7478;
-	k_EMsgDOTAUpdateTI4HeroQuest = 7479;
 	k_EMsgGCToGCUpdateTI4HeroQuest = 7480;
 	k_EMsgGCCompendiumDataChanged = 7481;
 	k_EMsgDOTAFantasyLeagueFindRequest = 7482;
@@ -520,6 +519,7 @@ enum EDOTAGCMsg {
 	k_EMsgGCToGCMasterReloadAccount = 7590;
 	k_EMsgSQLGCToGCGrantBackpackSlots = 7591;
 	k_EMsgSQLGrantLeagueMatchToTicketHolders = 7592;
+	k_EMsgClientToGCSetAdditionalEquipsResponse = 7593;
 	k_EMsgGCDev_GrantWarKill = 8001;
 	k_EMsgClientToGCCreateTeamShowcase = 8002;
 	k_EMsgGCToClientTeamShowcaseCreateResult = 8003;
@@ -559,6 +559,11 @@ enum EDOTAGCMsg {
 	k_EMsgClientToGCTopFriendMatchesRequest = 8037;
 	k_EMsgGCToClientTopMatchesResponse = 8038;
 	k_EMsgClientToGCTopPubMatchesRequest = 8039;
+	k_EMsgGCToClientProfileCardStatsUpdated = 8040;
+	k_EMsgServerToGCRealtimeStats = 8041;
+	k_EMsgGCToServerRealtimeStatsStartStop = 8042;
+	k_EMsgGCToClientDOTARealtimeGameStats = 8043;
+	k_EMsgClientToGCRealtimeGameStateViewing = 8044;
 }
 
 enum DOTA_GameMode {
@@ -1468,7 +1473,7 @@ message CMsgDOTAProfileCard {
 		}
 
 		message Item {
-			optional string serialized_item = 1;
+			optional bytes serialized_item = 1;
 		}
 
 		message Hero {
@@ -1548,5 +1553,60 @@ message CMsgGCRerollPlayerChallengeResponse {
 
 message CMsgGCToClientTopCustomGamesList {
 	repeated uint64 top_custom_games = 1;
+}
+
+message CMsgDOTARealtimeGameStats {
+	message ItemDetails {
+		optional uint32 item_id = 1;
+		optional uint32 purchase_time = 2;
+	}
+
+	message PlayerDetails {
+		optional uint32 player_id = 1;
+		optional uint32 hero_id = 2;
+		optional uint32 health = 3;
+		optional uint32 max_health = 4;
+		optional uint32 mana = 5;
+		optional uint32 max_mana = 6;
+		optional uint32 level = 7;
+		optional uint32 gold = 8;
+		optional uint32 kills = 9;
+		optional uint32 deaths = 10;
+		optional uint32 assists = 11;
+		optional uint32 respawn_time = 12;
+		optional uint32 ultimate_cooldown = 13;
+		optional uint32 location_x = 14;
+		optional uint32 location_y = 15;
+		repeated uint32 items = 16;
+		repeated uint32 skill_history = 17;
+		repeated .CMsgDOTARealtimeGameStats.ItemDetails item_history = 18;
+	}
+
+	message DeathDetails {
+		optional uint32 player_id = 1;
+		optional uint32 death_time = 2;
+		optional uint32 killer_player_id = 3;
+	}
+
+	message BroadcasterDetails {
+		optional uint32 player_id = 1;
+		optional uint32 selected_hero = 2;
+		optional uint32 selected_graph = 3;
+	}
+
+	message PickBanDetails {
+		optional uint32 hero_id = 1;
+		optional bool pick = 2;
+	}
+
+	optional uint64 server_steam_id = 1;
+	optional uint32 timestamp = 2;
+	optional int32 game_time = 3;
+	repeated .CMsgDOTARealtimeGameStats.PlayerDetails players = 4;
+	repeated .CMsgDOTARealtimeGameStats.DeathDetails deaths = 5;
+	repeated .CMsgDOTARealtimeGameStats.BroadcasterDetails broadcasters = 6;
+	repeated int32 gold_history = 7;
+	repeated int32 xp_history = 8;
+	repeated .CMsgDOTARealtimeGameStats.PickBanDetails pickbans = 9;
 }
 
