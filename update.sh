@@ -43,15 +43,17 @@ ProcessDepot ()
 		fi
 		
 		mkdir -p "BuildbotPaths/$2"
-		mkdir -p "Strings/$2"
-		mkdir -p "Symbols/$2"
 		
 		strings "$file" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/$2/$baseFile.txt"
 		
 		if [ "$3" = ".dylib" ]
 		then
+			mkdir -p "Symbols/$2"
+			
 			./.support/nm-with-macho -C -p "$file" | grep -Evi "GCC_except_table|google::protobuf" | awk '{$1=""; print $0}' | sort -u > "Symbols/$2/$baseFile.txt"
 		else
+			mkdir -p "Strings/$2"
+			
 			strings "$file" -n 5 | grep "^[a-zA-Z0-9\.\_\-]*$" | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -t_ | sort -u > "Strings/$2/$baseFile.txt"
 		fi
 	done <   <(find "$1/" -type f -name "*$3" -print0)
@@ -76,7 +78,7 @@ case $1 in
 441)
 	ProcessVPK "$1"
 	
-	iconv -t UTF-8 -f UCS-2 -o "$1/tf_english_utf8.txt" "$1/tf_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "$1/tf/resource/tf_english_utf8.txt" "$1/tf/resource/tf_english.txt"
 	;;
 
 232252)
@@ -87,7 +89,7 @@ case $1 in
 731)
 	ProcessVPK "$1"
 	
-	iconv -t UTF-8 -f UCS-2 -o "$1/csgo_english_utf8.txt" "$1/csgo_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "$1/csgo/resource/csgo_english_utf8.txt" "$1/csgo/resource/csgo_english.txt"
 	;;
 
 733)
@@ -98,8 +100,8 @@ case $1 in
 571)
 	ProcessVPK "$1"
 	
-	iconv -t UTF-8 -f UCS-2 -o "$1/dota_english_utf8.txt" "$1/dota_english.txt"
-	iconv -t UTF-8 -f UCS-2 -o "$1/items_english_utf8.txt" "$1/items_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "$1/dota/resource/dota_english_utf8.txt" "$1/dota/resource/dota_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "$1/dota/resource/items_english_utf8.txt" "$1/dota/resource/items_english.txt"
 	;;
 
 574)
@@ -114,8 +116,8 @@ case $1 in
 205791)
 	ProcessVPK "$1"
 	
-	iconv -t UTF-8 -f UCS-2 -o "$1/dota_english_utf8.txt" "$1/dota_english.txt"
-	iconv -t UTF-8 -f UCS-2 -o "$1/items_english_utf8.txt" "$1/items_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "$1/dota/resource/dota_english_utf8.txt" "$1/dota/resource/dota_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "$1/dota/resource/items_english_utf8.txt" "$1/dota/resource/items_english.txt"
 	;;
 
 205794)
@@ -131,13 +133,13 @@ case $1 in
 221)
 	ProcessVPK "$1"
 	
-	iconv -t UTF-8 -f UCS-2 -o "$1/hl2_english_utf8.txt" "$1/hl2_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "$1/hl2/resource/hl2_english_utf8.txt" "$1/hl2/resource/hl2_english.txt"
 	;;
-	
+
 223)
 	ProcessDepot "$1" "hl2" ".dylib"
 	;;
-	
+
 # Half-Life 2: Episode One
 389)
 	ProcessVPK "$1"
@@ -161,20 +163,20 @@ case $1 in
 401)
 	ProcessVPK "$1"
 	
-	iconv -t UTF-8 -f UCS-2 -o "$1/portal_english_utf8.txt" "$1/portal_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "$1/portal/resource/portal_english_utf8.txt" "$1/portal/resource/portal_english.txt"
 	;;
-	
+
 403)
 	ProcessDepot "$1" "portal" ".dylib"
 	;;
-	
+
 # Portal 2
 621)
 	ProcessVPK "$1"
 	
-	iconv -t UTF-8 -f UCS-2 -o "$1/portal2_english_utf8.txt" "$1/portal2_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "$1/portal2/resource/portal2_english_utf8.txt" "$1/portal2/resource/portal2_english.txt"
 	;;
-	
+
 624)
 	ProcessDepot "$1" "portal2" ".dylib"
 	;;
@@ -183,11 +185,11 @@ case $1 in
 502)
 	ProcessVPK "$1"
 	;;
-	
+
 515)
 	ProcessDepot "$1" "l4d" ".dylib"
 	;;
-	
+
 # Left 4 Dead 2
 551)
 	ProcessVPK "$1"
@@ -201,7 +203,7 @@ case $1 in
 631)
 	ProcessVPK "$1"
 	
-	iconv -t UTF-8 -f UCS-2 -o "$1/swarm_english_utf8.txt" "$1/swarm_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "$1/swarm/resource/swarm_english_utf8.txt" "$1/swarm/resource/swarm_english.txt"
 	
 	ProcessDepot "$1" "as" ".dll"
 	;;
@@ -215,7 +217,7 @@ case $1 in
 250822)
 	ProcessDepot "$1" "openvr" ".dylib"
 	;;
-	
+
 esac
 
 if ! [[ $2 = "no-git" ]]; then
