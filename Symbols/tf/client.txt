@@ -2384,6 +2384,7 @@
  B g_StringTableVguiScreen
  B g_TFClassViewVectors
  B g_TFInventoryManager
+ B g_TFMapsWorkshop
  B g_TFSteamStats
  B g_TFTips
  B g_TF_PR
@@ -2505,6 +2506,7 @@
  B g_pStudioStatsEntity
  B g_pTFStatsSummaryPanel
  B g_pTestAnimation
+ B g_pUGCManager
  B g_pUtlSortVectorQSortContext
  B g_pVGui
  B g_pVGuiInput
@@ -3314,7 +3316,9 @@
  CGaussianRandomStream::CGaussianRandomStream(IUniformRandomStream*)
  CGaussianRandomStream::RandomFloat(float, float)
  COM_TimestampedLog
+ CThread::CThread()
  CThread::GetName()
+ CThread::GetResult()
  CThread::GetThreadProc()
  CThread::Init()
  CThread::IsAlive()
@@ -3323,6 +3327,7 @@
  CThread::OnExit()
  CThread::SetName(char const*)
  CThread::Start(unsigned int)
+ CThread::Stop(int)
  CThread::~CThread()
  CThreadEvent::CThreadEvent(bool)
  CThreadEvent::Set()
@@ -6275,10 +6280,12 @@
  D CUtlRBTree<CUtlMap<unsigned int, int, int>::Node_t, int, CUtlMap<unsigned int, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, int, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
  D CUtlRBTree<CUtlMap<unsigned int, kill_eater_score_type_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, kill_eater_score_type_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, kill_eater_score_type_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+ D CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int, CUtlMap<unsigned long long, GCSDK::CJob*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
- D CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+ D CUtlRBTree<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int, CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
+ D CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<unsigned long long, char, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, char, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, char, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<unsigned long long, int, int>::Node_t, int, CUtlMap<unsigned long long, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
  D CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
@@ -6969,11 +6976,6 @@
  D GCSDK::g_nMaxSpewLevel
  D GetBitForBitnum(int)::bitsForBitnum
  D GetEndMask(int)::bitStringEndMasks
- D HTMLComboBoxHost::ChainToAnimationMap()::chained
- D HTMLComboBoxHost::ChainToMap()::chained
- D HTMLComboBoxHost::GetKBMap()::s_pMap
- D HTMLComboBoxHost::GetMessageMap()::s_pMap
- D HTMLComboBoxHost::KB_ChainToMap()::chained
  D HTMLInterior::ChainToAnimationMap()::chained
  D HTMLInterior::ChainToMap()::chained
  D HTMLInterior::GetKBMap()::s_pMap
@@ -7579,7 +7581,6 @@
  D VTT for CryptoPP::X509PublicKey
  D VTT for CustomTextureStencilGradientMapWidget
  D VTT for Dragger
- D VTT for HTMLComboBoxHost
  D VTT for HTMLInterior
  D VTT for HTMLPopup
  D VTT for HTMLPopup::PopupHTML
@@ -8433,7 +8434,6 @@
  D construction vtable for vgui::EditablePanel-in-CYouTubeLoginWaitDialog
  D construction vtable for vgui::EditablePanel-in-CYouTubeUploadDialog
  D construction vtable for vgui::EditablePanel-in-CYouTubeUploadWaitDialog
- D construction vtable for vgui::EditablePanel-in-HTMLComboBoxHost
  D construction vtable for vgui::EditablePanel-in-HTMLPopup
  D construction vtable for vgui::EditablePanel-in-RoundInfoOverlay
  D construction vtable for vgui::EditablePanel-in-SixenseGUIFrame
@@ -9065,7 +9065,6 @@
  D construction vtable for vgui::Panel-in-CommandMenu
  D construction vtable for vgui::Panel-in-CustomTextureStencilGradientMapWidget
  D construction vtable for vgui::Panel-in-Dragger
- D construction vtable for vgui::Panel-in-HTMLComboBoxHost
  D construction vtable for vgui::Panel-in-HTMLInterior
  D construction vtable for vgui::Panel-in-HTMLPopup
  D construction vtable for vgui::Panel-in-HTMLPopup::PopupHTML
@@ -10537,10 +10536,12 @@
  D guard variable for CUtlRBTree<CUtlMap<unsigned int, int, int>::Node_t, int, CUtlMap<unsigned int, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, int, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<unsigned int, kill_eater_score_type_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, kill_eater_score_type_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, kill_eater_score_type_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+ D guard variable for CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int, CUtlMap<unsigned long long, GCSDK::CJob*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
- D guard variable for CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+ D guard variable for CUtlRBTree<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int, CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
+ D guard variable for CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<unsigned long long, char, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, char, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, char, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<unsigned long long, int, int>::Node_t, int, CUtlMap<unsigned long long, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
@@ -10707,8 +10708,6 @@
  D guard variable for DmxElementUnpackStructure_t* DmxElementUnpackInit<RagdollSimulationData_t>(RagdollSimulationData_t*)::unpack
  D guard variable for DmxElementUnpackStructure_t* DmxElementUnpackInit<RoundMapStats_t>(RoundMapStats_t*)::unpack
  D guard variable for DmxElementUnpackStructure_t* DmxElementUnpackInit<RoundStats_t>(RoundStats_t*)::unpack
- D guard variable for HTMLComboBoxHost::GetKBMap()::s_pMap
- D guard variable for HTMLComboBoxHost::GetMessageMap()::s_pMap
  D guard variable for HTMLInterior::GetKBMap()::s_pMap
  D guard variable for HTMLInterior::GetMessageMap()::s_pMap
  D guard variable for HTMLPopup::GetKBMap()::s_pMap
@@ -12436,21 +12435,21 @@
  D typeinfo for CBuildingStatusItem_TeleporterExit
  D typeinfo for CBulletPenetrateEnum
  D typeinfo for CBulletWhizTimer
- D typeinfo for CCallResult<CFilePublishDialog, RemoteStoragePublishFileResult_t>
- D typeinfo for CCallResult<CFilePublishDialog, RemoteStorageUpdatePublishedFileResult_t>
+ D typeinfo for CCallResult<CFilePublishDialog, CreateItemResult_t>
+ D typeinfo for CCallResult<CFilePublishDialog, SubmitItemUpdateResult_t>
  D typeinfo for CCallResult<CGCUpdateItemSchema, HTTPRequestCompleted_t>
  D typeinfo for CCallResult<CLeaderboardInfo, LeaderboardFindResult_t>
  D typeinfo for CCallResult<CLeaderboardInfo, LeaderboardScoresDownloaded_t>
  D typeinfo for CCallResult<CMapInfoContainer, LeaderboardFindResult_t>
  D typeinfo for CCallResult<CMapInfoContainer, LeaderboardScoresDownloaded_t>
  D typeinfo for CCallResult<CPublishedFiles, RemoteStorageDeletePublishedFileResult_t>
- D typeinfo for CCallResult<CPublishedFiles, RemoteStorageDownloadUGCResult_t>
- D typeinfo for CCallResult<CPublishedFiles, RemoteStorageEnumerateUserPublishedFilesResult_t>
- D typeinfo for CCallResult<CPublishedFiles, RemoteStorageGetPublishedFileDetailsResult_t>
+ D typeinfo for CCallResult<CPublishedFiles, SteamUGCQueryCompleted_t>
  D typeinfo for CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardFindResult_t>
  D typeinfo for CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardScoresDownloaded_t>
  D typeinfo for CCallResult<CUGCFileRequest, RemoteStorageDownloadUGCResult_t>
  D typeinfo for CCallResult<CUGCFileRequest, RemoteStorageFileShareResult_t>
+ D typeinfo for CCallResult<CUGCManager, RemoteStorageDownloadUGCResult_t>
+ D typeinfo for CCallResult<CUGCManager, SteamUGCQueryCompleted_t>
  D typeinfo for CCallResult<vgui::HTML, HTML_BrowserReady_t>
  D typeinfo for CCallback<CAchievementMgr, UserStatsReceived_t, false>
  D typeinfo for CCallback<CAchievementMgr, UserStatsStored_t, false>
@@ -12468,15 +12467,14 @@
  D typeinfo for CCallback<CTFGCClientSystem, LobbyCreated_t, false>
  D typeinfo for CCallback<CTFGCClientSystem, LobbyDataUpdate_t, false>
  D typeinfo for CCallback<CTFGCClientSystem, LobbyEnter_t, false>
+ D typeinfo for CCallback<CTFMapsWorkshop, DownloadItemResult_t, false>
  D typeinfo for CCallback<ClientModeTFNormal, ScreenshotRequested_t, false>
  D typeinfo for CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_CanGoBackAndForward_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_ChangedTitle_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_CloseBrowser_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_FinishedRequest_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_HidePopup_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_HideToolTip_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_HorizontalScroll_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_JSAlert_t, false>
@@ -12487,9 +12485,7 @@
  D typeinfo for CCallback<vgui::HTML, HTML_OpenLinkInNewTab_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_SearchResults_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_SetCursor_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_ShowPopup_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_ShowToolTip_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_SizePopup_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_StartRequest_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_StatusText_t, false>
  D typeinfo for CCallback<vgui::HTML, HTML_URLChanged_t, false>
@@ -12586,6 +12582,7 @@
  D typeinfo for CCopyableUtlVector<CMvMVictoryMannUpEntry::CMvMLootItem*, CUtlMemory<CMvMVictoryMannUpEntry::CMvMLootItem*, int> >
  D typeinfo for CCopyableUtlVector<ModelPoseDebugInfo::InfoText, CUtlMemory<ModelPoseDebugInfo::InfoText, int> >
  D typeinfo for CCopyableUtlVector<MvMTourMission_t, CUtlMemory<MvMTourMission_t, int> >
+ D typeinfo for CCopyableUtlVector<char*, CUtlMemory<char*, int> >
  D typeinfo for CCopyableUtlVector<econ_store_entry_t::CategoryTag_t, CUtlMemory<econ_store_entry_t::CategoryTag_t, int> >
  D typeinfo for CCopyableUtlVector<int, CUtlMemory<int, int> >
  D typeinfo for CCountUserGeneratedAttributeIterator
@@ -13079,6 +13076,7 @@
  D typeinfo for CMainTargetID
  D typeinfo for CManagedDataCacheClient<AsyncCaptionData_t, asynccaptionparams_t, AsyncCaptionData_t*>
  D typeinfo for CMannVsMachineUpgradeManager
+ D typeinfo for CMapCompressThread
  D typeinfo for CMapInfoContainer
  D typeinfo for CMaterialModifyAnimatedProxy
  D typeinfo for CMaterialModifyProxy
@@ -13855,6 +13853,7 @@
  D typeinfo for CTFMapContribution
  D typeinfo for CTFMapInfoMenu
  D typeinfo for CTFMapStampsInfoDialog
+ D typeinfo for CTFMapsWorkshop
  D typeinfo for CTFMedicCallerPanel
  D typeinfo for CTFMessageBoxDialog
  D typeinfo for CTFModeManager
@@ -13922,6 +13921,7 @@
  D typeinfo for CTFWar<(EWarID)1, (EWarSides)1, (EWarSides)2>
  D typeinfo for CTFWeaponInfo
  D typeinfo for CTFWinPanel
+ D typeinfo for CTFWorkshopMap
  D typeinfo for CTF_Presence
  D typeinfo for CTargetID
  D typeinfo for CTargetOnlyFilter
@@ -13987,6 +13987,7 @@
  D typeinfo for CUtlVector<CMvMVictoryMannUpEntry::CMvMLootItem*, CUtlMemory<CMvMVictoryMannUpEntry::CMvMLootItem*, int> >
  D typeinfo for CUtlVector<ModelPoseDebugInfo::InfoText, CUtlMemory<ModelPoseDebugInfo::InfoText, int> >
  D typeinfo for CUtlVector<MvMTourMission_t, CUtlMemory<MvMTourMission_t, int> >
+ D typeinfo for CUtlVector<char*, CUtlMemory<char*, int> >
  D typeinfo for CUtlVector<econ_store_entry_t::CategoryTag_t, CUtlMemory<econ_store_entry_t::CategoryTag_t, int> >
  D typeinfo for CUtlVector<int, CUtlMemory<int, int> >
  D typeinfo for CUtlVectorDataOps<CUtlVector<CHandle<C_BaseEntity>, CUtlMemory<CHandle<C_BaseEntity>, int> >, 13>
@@ -14948,7 +14949,6 @@
  D typeinfo for GCSDK::IPlayerGroup
  D typeinfo for GCSDK::IPlayerGroupInvite
  D typeinfo for GCSDK::ISharedObjectListener
- D typeinfo for HTMLComboBoxHost
  D typeinfo for HTMLInterior
  D typeinfo for HTMLPopup
  D typeinfo for HTMLPopup::PopupHTML
@@ -15102,6 +15102,7 @@
  D typeinfo for ITextMessage
  D typeinfo for ITextureRegenerator
  D typeinfo for ITraceFilter
+ D typeinfo for IUGCGetFileInfoCallback
  D typeinfo for IVModeManager
  D typeinfo for IVPhysicsKeyHandler
  D typeinfo for IVTFTexture
@@ -16353,21 +16354,21 @@
  D vtable for CBuildingStatusItem_TeleporterExit
  D vtable for CBulletPenetrateEnum
  D vtable for CBulletWhizTimer
- D vtable for CCallResult<CFilePublishDialog, RemoteStoragePublishFileResult_t>
- D vtable for CCallResult<CFilePublishDialog, RemoteStorageUpdatePublishedFileResult_t>
+ D vtable for CCallResult<CFilePublishDialog, CreateItemResult_t>
+ D vtable for CCallResult<CFilePublishDialog, SubmitItemUpdateResult_t>
  D vtable for CCallResult<CGCUpdateItemSchema, HTTPRequestCompleted_t>
  D vtable for CCallResult<CLeaderboardInfo, LeaderboardFindResult_t>
  D vtable for CCallResult<CLeaderboardInfo, LeaderboardScoresDownloaded_t>
  D vtable for CCallResult<CMapInfoContainer, LeaderboardFindResult_t>
  D vtable for CCallResult<CMapInfoContainer, LeaderboardScoresDownloaded_t>
  D vtable for CCallResult<CPublishedFiles, RemoteStorageDeletePublishedFileResult_t>
- D vtable for CCallResult<CPublishedFiles, RemoteStorageDownloadUGCResult_t>
- D vtable for CCallResult<CPublishedFiles, RemoteStorageEnumerateUserPublishedFilesResult_t>
- D vtable for CCallResult<CPublishedFiles, RemoteStorageGetPublishedFileDetailsResult_t>
+ D vtable for CCallResult<CPublishedFiles, SteamUGCQueryCompleted_t>
  D vtable for CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardFindResult_t>
  D vtable for CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardScoresDownloaded_t>
  D vtable for CCallResult<CUGCFileRequest, RemoteStorageDownloadUGCResult_t>
  D vtable for CCallResult<CUGCFileRequest, RemoteStorageFileShareResult_t>
+ D vtable for CCallResult<CUGCManager, RemoteStorageDownloadUGCResult_t>
+ D vtable for CCallResult<CUGCManager, SteamUGCQueryCompleted_t>
  D vtable for CCallResult<vgui::HTML, HTML_BrowserReady_t>
  D vtable for CCallback<CAchievementMgr, UserStatsReceived_t, false>
  D vtable for CCallback<CAchievementMgr, UserStatsStored_t, false>
@@ -16385,15 +16386,14 @@
  D vtable for CCallback<CTFGCClientSystem, LobbyCreated_t, false>
  D vtable for CCallback<CTFGCClientSystem, LobbyDataUpdate_t, false>
  D vtable for CCallback<CTFGCClientSystem, LobbyEnter_t, false>
+ D vtable for CCallback<CTFMapsWorkshop, DownloadItemResult_t, false>
  D vtable for CCallback<ClientModeTFNormal, ScreenshotRequested_t, false>
  D vtable for CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>
  D vtable for CCallback<vgui::HTML, HTML_CanGoBackAndForward_t, false>
  D vtable for CCallback<vgui::HTML, HTML_ChangedTitle_t, false>
  D vtable for CCallback<vgui::HTML, HTML_CloseBrowser_t, false>
- D vtable for CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>
  D vtable for CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>
  D vtable for CCallback<vgui::HTML, HTML_FinishedRequest_t, false>
- D vtable for CCallback<vgui::HTML, HTML_HidePopup_t, false>
  D vtable for CCallback<vgui::HTML, HTML_HideToolTip_t, false>
  D vtable for CCallback<vgui::HTML, HTML_HorizontalScroll_t, false>
  D vtable for CCallback<vgui::HTML, HTML_JSAlert_t, false>
@@ -16404,9 +16404,7 @@
  D vtable for CCallback<vgui::HTML, HTML_OpenLinkInNewTab_t, false>
  D vtable for CCallback<vgui::HTML, HTML_SearchResults_t, false>
  D vtable for CCallback<vgui::HTML, HTML_SetCursor_t, false>
- D vtable for CCallback<vgui::HTML, HTML_ShowPopup_t, false>
  D vtable for CCallback<vgui::HTML, HTML_ShowToolTip_t, false>
- D vtable for CCallback<vgui::HTML, HTML_SizePopup_t, false>
  D vtable for CCallback<vgui::HTML, HTML_StartRequest_t, false>
  D vtable for CCallback<vgui::HTML, HTML_StatusText_t, false>
  D vtable for CCallback<vgui::HTML, HTML_URLChanged_t, false>
@@ -16500,6 +16498,7 @@
  D vtable for CCopyableUtlVector<CMvMVictoryMannUpEntry::CMvMLootItem*, CUtlMemory<CMvMVictoryMannUpEntry::CMvMLootItem*, int> >
  D vtable for CCopyableUtlVector<ModelPoseDebugInfo::InfoText, CUtlMemory<ModelPoseDebugInfo::InfoText, int> >
  D vtable for CCopyableUtlVector<MvMTourMission_t, CUtlMemory<MvMTourMission_t, int> >
+ D vtable for CCopyableUtlVector<char*, CUtlMemory<char*, int> >
  D vtable for CCopyableUtlVector<econ_store_entry_t::CategoryTag_t, CUtlMemory<econ_store_entry_t::CategoryTag_t, int> >
  D vtable for CCopyableUtlVector<int, CUtlMemory<int, int> >
  D vtable for CCountUserGeneratedAttributeIterator
@@ -16981,6 +16980,7 @@
  D vtable for CMainTargetID
  D vtable for CManagedDataCacheClient<AsyncCaptionData_t, asynccaptionparams_t, AsyncCaptionData_t*>
  D vtable for CMannVsMachineUpgradeManager
+ D vtable for CMapCompressThread
  D vtable for CMapInfoContainer
  D vtable for CMaterialModifyAnimatedProxy
  D vtable for CMaterialModifyProxy
@@ -17732,6 +17732,7 @@
  D vtable for CTFMapContribution
  D vtable for CTFMapInfoMenu
  D vtable for CTFMapStampsInfoDialog
+ D vtable for CTFMapsWorkshop
  D vtable for CTFMedicCallerPanel
  D vtable for CTFMessageBoxDialog
  D vtable for CTFModeManager
@@ -17798,6 +17799,7 @@
  D vtable for CTFWaitingForPlayersPanel
  D vtable for CTFWeaponInfo
  D vtable for CTFWinPanel
+ D vtable for CTFWorkshopMap
  D vtable for CTF_Presence
  D vtable for CTargetID
  D vtable for CTargetOnlyFilter
@@ -18752,7 +18754,6 @@
  D vtable for GCSDK::CSharedObjectTypeCache
  D vtable for GCSDK::CStructNetPacket
  D vtable for GCSDK::CWorkThreadPool
- D vtable for HTMLComboBoxHost
  D vtable for HTMLInterior
  D vtable for HTMLPopup
  D vtable for HTMLPopup::PopupHTML
@@ -18775,6 +18776,7 @@
  D vtable for IRobotDestructionGroupAutoList
  D vtable for ITFMvMBossProgressUserAutoList
  D vtable for ITFPumpkinBomb
+ D vtable for IUGCGetFileInfoCallback
  D vtable for IViewPort
  D vtable for IViewPortPanel
  D vtable for MenuItemCheckImage
@@ -19605,21 +19607,21 @@
  R typeinfo name for CBuildingStatusItem_TeleporterExit
  R typeinfo name for CBulletPenetrateEnum
  R typeinfo name for CBulletWhizTimer
- R typeinfo name for CCallResult<CFilePublishDialog, RemoteStoragePublishFileResult_t>
- R typeinfo name for CCallResult<CFilePublishDialog, RemoteStorageUpdatePublishedFileResult_t>
+ R typeinfo name for CCallResult<CFilePublishDialog, CreateItemResult_t>
+ R typeinfo name for CCallResult<CFilePublishDialog, SubmitItemUpdateResult_t>
  R typeinfo name for CCallResult<CGCUpdateItemSchema, HTTPRequestCompleted_t>
  R typeinfo name for CCallResult<CLeaderboardInfo, LeaderboardFindResult_t>
  R typeinfo name for CCallResult<CLeaderboardInfo, LeaderboardScoresDownloaded_t>
  R typeinfo name for CCallResult<CMapInfoContainer, LeaderboardFindResult_t>
  R typeinfo name for CCallResult<CMapInfoContainer, LeaderboardScoresDownloaded_t>
  R typeinfo name for CCallResult<CPublishedFiles, RemoteStorageDeletePublishedFileResult_t>
- R typeinfo name for CCallResult<CPublishedFiles, RemoteStorageDownloadUGCResult_t>
- R typeinfo name for CCallResult<CPublishedFiles, RemoteStorageEnumerateUserPublishedFilesResult_t>
- R typeinfo name for CCallResult<CPublishedFiles, RemoteStorageGetPublishedFileDetailsResult_t>
+ R typeinfo name for CCallResult<CPublishedFiles, SteamUGCQueryCompleted_t>
  R typeinfo name for CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardFindResult_t>
  R typeinfo name for CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardScoresDownloaded_t>
  R typeinfo name for CCallResult<CUGCFileRequest, RemoteStorageDownloadUGCResult_t>
  R typeinfo name for CCallResult<CUGCFileRequest, RemoteStorageFileShareResult_t>
+ R typeinfo name for CCallResult<CUGCManager, RemoteStorageDownloadUGCResult_t>
+ R typeinfo name for CCallResult<CUGCManager, SteamUGCQueryCompleted_t>
  R typeinfo name for CCallResult<vgui::HTML, HTML_BrowserReady_t>
  R typeinfo name for CCallback<CAchievementMgr, UserStatsReceived_t, false>
  R typeinfo name for CCallback<CAchievementMgr, UserStatsStored_t, false>
@@ -19637,15 +19639,14 @@
  R typeinfo name for CCallback<CTFGCClientSystem, LobbyCreated_t, false>
  R typeinfo name for CCallback<CTFGCClientSystem, LobbyDataUpdate_t, false>
  R typeinfo name for CCallback<CTFGCClientSystem, LobbyEnter_t, false>
+ R typeinfo name for CCallback<CTFMapsWorkshop, DownloadItemResult_t, false>
  R typeinfo name for CCallback<ClientModeTFNormal, ScreenshotRequested_t, false>
  R typeinfo name for CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_CanGoBackAndForward_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_ChangedTitle_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_CloseBrowser_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_FinishedRequest_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_HidePopup_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_HideToolTip_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_HorizontalScroll_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_JSAlert_t, false>
@@ -19656,9 +19657,7 @@
  R typeinfo name for CCallback<vgui::HTML, HTML_OpenLinkInNewTab_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_SearchResults_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_SetCursor_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_ShowPopup_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_ShowToolTip_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_SizePopup_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_StartRequest_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_StatusText_t, false>
  R typeinfo name for CCallback<vgui::HTML, HTML_URLChanged_t, false>
@@ -19755,6 +19754,7 @@
  R typeinfo name for CCopyableUtlVector<CMvMVictoryMannUpEntry::CMvMLootItem*, CUtlMemory<CMvMVictoryMannUpEntry::CMvMLootItem*, int> >
  R typeinfo name for CCopyableUtlVector<ModelPoseDebugInfo::InfoText, CUtlMemory<ModelPoseDebugInfo::InfoText, int> >
  R typeinfo name for CCopyableUtlVector<MvMTourMission_t, CUtlMemory<MvMTourMission_t, int> >
+ R typeinfo name for CCopyableUtlVector<char*, CUtlMemory<char*, int> >
  R typeinfo name for CCopyableUtlVector<econ_store_entry_t::CategoryTag_t, CUtlMemory<econ_store_entry_t::CategoryTag_t, int> >
  R typeinfo name for CCopyableUtlVector<int, CUtlMemory<int, int> >
  R typeinfo name for CCountUserGeneratedAttributeIterator
@@ -20248,6 +20248,7 @@
  R typeinfo name for CMainTargetID
  R typeinfo name for CManagedDataCacheClient<AsyncCaptionData_t, asynccaptionparams_t, AsyncCaptionData_t*>
  R typeinfo name for CMannVsMachineUpgradeManager
+ R typeinfo name for CMapCompressThread
  R typeinfo name for CMapInfoContainer
  R typeinfo name for CMaterialModifyAnimatedProxy
  R typeinfo name for CMaterialModifyProxy
@@ -21024,6 +21025,7 @@
  R typeinfo name for CTFMapContribution
  R typeinfo name for CTFMapInfoMenu
  R typeinfo name for CTFMapStampsInfoDialog
+ R typeinfo name for CTFMapsWorkshop
  R typeinfo name for CTFMedicCallerPanel
  R typeinfo name for CTFMessageBoxDialog
  R typeinfo name for CTFModeManager
@@ -21091,6 +21093,7 @@
  R typeinfo name for CTFWar<(EWarID)1, (EWarSides)1, (EWarSides)2>
  R typeinfo name for CTFWeaponInfo
  R typeinfo name for CTFWinPanel
+ R typeinfo name for CTFWorkshopMap
  R typeinfo name for CTF_Presence
  R typeinfo name for CTargetID
  R typeinfo name for CTargetOnlyFilter
@@ -21156,6 +21159,7 @@
  R typeinfo name for CUtlVector<CMvMVictoryMannUpEntry::CMvMLootItem*, CUtlMemory<CMvMVictoryMannUpEntry::CMvMLootItem*, int> >
  R typeinfo name for CUtlVector<ModelPoseDebugInfo::InfoText, CUtlMemory<ModelPoseDebugInfo::InfoText, int> >
  R typeinfo name for CUtlVector<MvMTourMission_t, CUtlMemory<MvMTourMission_t, int> >
+ R typeinfo name for CUtlVector<char*, CUtlMemory<char*, int> >
  R typeinfo name for CUtlVector<econ_store_entry_t::CategoryTag_t, CUtlMemory<econ_store_entry_t::CategoryTag_t, int> >
  R typeinfo name for CUtlVector<int, CUtlMemory<int, int> >
  R typeinfo name for CUtlVectorDataOps<CUtlVector<CHandle<C_BaseEntity>, CUtlMemory<CHandle<C_BaseEntity>, int> >, 13>
@@ -22118,7 +22122,6 @@
  R typeinfo name for GCSDK::IPlayerGroup
  R typeinfo name for GCSDK::IPlayerGroupInvite
  R typeinfo name for GCSDK::ISharedObjectListener
- R typeinfo name for HTMLComboBoxHost
  R typeinfo name for HTMLInterior
  R typeinfo name for HTMLPopup
  R typeinfo name for HTMLPopup::PopupHTML
@@ -22272,6 +22275,7 @@
  R typeinfo name for ITextMessage
  R typeinfo name for ITextureRegenerator
  R typeinfo name for ITraceFilter
+ R typeinfo name for IUGCGetFileInfoCallback
  R typeinfo name for IVModeManager
  R typeinfo name for IVPhysicsKeyHandler
  R typeinfo name for IVTFTexture
@@ -22420,6 +22424,7 @@
  SteamAPI_InitSafe
  SteamAPI_RegisterCallResult
  SteamAPI_RegisterCallback
+ SteamAPI_RunCallbacks
  SteamAPI_SetTryCatchCallbacks
  SteamAPI_UnregisterCallResult
  SteamAPI_UnregisterCallback
@@ -25533,12 +25538,12 @@
  T CC_Shake_Stop()
  T CC_VR_Cycle_Aim_Move_Mode(CCommand const&)
  T CCallQueue::~CCallQueue()
- T CCallResult<CFilePublishDialog, RemoteStoragePublishFileResult_t>::GetCallbackSizeBytes()
- T CCallResult<CFilePublishDialog, RemoteStoragePublishFileResult_t>::Run(void*)
- T CCallResult<CFilePublishDialog, RemoteStoragePublishFileResult_t>::Run(void*, bool, unsigned long long)
- T CCallResult<CFilePublishDialog, RemoteStorageUpdatePublishedFileResult_t>::GetCallbackSizeBytes()
- T CCallResult<CFilePublishDialog, RemoteStorageUpdatePublishedFileResult_t>::Run(void*)
- T CCallResult<CFilePublishDialog, RemoteStorageUpdatePublishedFileResult_t>::Run(void*, bool, unsigned long long)
+ T CCallResult<CFilePublishDialog, CreateItemResult_t>::GetCallbackSizeBytes()
+ T CCallResult<CFilePublishDialog, CreateItemResult_t>::Run(void*)
+ T CCallResult<CFilePublishDialog, CreateItemResult_t>::Run(void*, bool, unsigned long long)
+ T CCallResult<CFilePublishDialog, SubmitItemUpdateResult_t>::GetCallbackSizeBytes()
+ T CCallResult<CFilePublishDialog, SubmitItemUpdateResult_t>::Run(void*)
+ T CCallResult<CFilePublishDialog, SubmitItemUpdateResult_t>::Run(void*, bool, unsigned long long)
  T CCallResult<CGCUpdateItemSchema, HTTPRequestCompleted_t>::GetCallbackSizeBytes()
  T CCallResult<CGCUpdateItemSchema, HTTPRequestCompleted_t>::Run(void*)
  T CCallResult<CGCUpdateItemSchema, HTTPRequestCompleted_t>::Run(void*, bool, unsigned long long)
@@ -25557,15 +25562,9 @@
  T CCallResult<CPublishedFiles, RemoteStorageDeletePublishedFileResult_t>::GetCallbackSizeBytes()
  T CCallResult<CPublishedFiles, RemoteStorageDeletePublishedFileResult_t>::Run(void*)
  T CCallResult<CPublishedFiles, RemoteStorageDeletePublishedFileResult_t>::Run(void*, bool, unsigned long long)
- T CCallResult<CPublishedFiles, RemoteStorageDownloadUGCResult_t>::GetCallbackSizeBytes()
- T CCallResult<CPublishedFiles, RemoteStorageDownloadUGCResult_t>::Run(void*)
- T CCallResult<CPublishedFiles, RemoteStorageDownloadUGCResult_t>::Run(void*, bool, unsigned long long)
- T CCallResult<CPublishedFiles, RemoteStorageEnumerateUserPublishedFilesResult_t>::GetCallbackSizeBytes()
- T CCallResult<CPublishedFiles, RemoteStorageEnumerateUserPublishedFilesResult_t>::Run(void*)
- T CCallResult<CPublishedFiles, RemoteStorageEnumerateUserPublishedFilesResult_t>::Run(void*, bool, unsigned long long)
- T CCallResult<CPublishedFiles, RemoteStorageGetPublishedFileDetailsResult_t>::GetCallbackSizeBytes()
- T CCallResult<CPublishedFiles, RemoteStorageGetPublishedFileDetailsResult_t>::Run(void*)
- T CCallResult<CPublishedFiles, RemoteStorageGetPublishedFileDetailsResult_t>::Run(void*, bool, unsigned long long)
+ T CCallResult<CPublishedFiles, SteamUGCQueryCompleted_t>::GetCallbackSizeBytes()
+ T CCallResult<CPublishedFiles, SteamUGCQueryCompleted_t>::Run(void*)
+ T CCallResult<CPublishedFiles, SteamUGCQueryCompleted_t>::Run(void*, bool, unsigned long long)
  T CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardFindResult_t>::GetCallbackSizeBytes()
  T CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardFindResult_t>::Run(void*)
  T CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardFindResult_t>::Run(void*, bool, unsigned long long)
@@ -25578,6 +25577,12 @@
  T CCallResult<CUGCFileRequest, RemoteStorageFileShareResult_t>::GetCallbackSizeBytes()
  T CCallResult<CUGCFileRequest, RemoteStorageFileShareResult_t>::Run(void*)
  T CCallResult<CUGCFileRequest, RemoteStorageFileShareResult_t>::Run(void*, bool, unsigned long long)
+ T CCallResult<CUGCManager, RemoteStorageDownloadUGCResult_t>::GetCallbackSizeBytes()
+ T CCallResult<CUGCManager, RemoteStorageDownloadUGCResult_t>::Run(void*)
+ T CCallResult<CUGCManager, RemoteStorageDownloadUGCResult_t>::Run(void*, bool, unsigned long long)
+ T CCallResult<CUGCManager, SteamUGCQueryCompleted_t>::GetCallbackSizeBytes()
+ T CCallResult<CUGCManager, SteamUGCQueryCompleted_t>::Run(void*)
+ T CCallResult<CUGCManager, SteamUGCQueryCompleted_t>::Run(void*, bool, unsigned long long)
  T CCallResult<vgui::HTML, HTML_BrowserReady_t>::GetCallbackSizeBytes()
  T CCallResult<vgui::HTML, HTML_BrowserReady_t>::Run(void*)
  T CCallResult<vgui::HTML, HTML_BrowserReady_t>::Run(void*, bool, unsigned long long)
@@ -25629,6 +25634,9 @@
  T CCallback<CTFGCClientSystem, LobbyEnter_t, false>::GetCallbackSizeBytes()
  T CCallback<CTFGCClientSystem, LobbyEnter_t, false>::Run(void*)
  T CCallback<CTFGCClientSystem, LobbyEnter_t, false>::Run(void*, bool, unsigned long long)
+ T CCallback<CTFMapsWorkshop, DownloadItemResult_t, false>::GetCallbackSizeBytes()
+ T CCallback<CTFMapsWorkshop, DownloadItemResult_t, false>::Run(void*)
+ T CCallback<CTFMapsWorkshop, DownloadItemResult_t, false>::Run(void*, bool, unsigned long long)
  T CCallback<ClientModeTFNormal, ScreenshotRequested_t, false>::GetCallbackSizeBytes()
  T CCallback<ClientModeTFNormal, ScreenshotRequested_t, false>::Run(void*)
  T CCallback<ClientModeTFNormal, ScreenshotRequested_t, false>::Run(void*, bool, unsigned long long)
@@ -25644,18 +25652,12 @@
  T CCallback<vgui::HTML, HTML_CloseBrowser_t, false>::GetCallbackSizeBytes()
  T CCallback<vgui::HTML, HTML_CloseBrowser_t, false>::Run(void*)
  T CCallback<vgui::HTML, HTML_CloseBrowser_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>::Run(void*, bool, unsigned long long)
  T CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>::GetCallbackSizeBytes()
  T CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>::Run(void*)
  T CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>::Run(void*, bool, unsigned long long)
  T CCallback<vgui::HTML, HTML_FinishedRequest_t, false>::GetCallbackSizeBytes()
  T CCallback<vgui::HTML, HTML_FinishedRequest_t, false>::Run(void*)
  T CCallback<vgui::HTML, HTML_FinishedRequest_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_HidePopup_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_HidePopup_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_HidePopup_t, false>::Run(void*, bool, unsigned long long)
  T CCallback<vgui::HTML, HTML_HideToolTip_t, false>::GetCallbackSizeBytes()
  T CCallback<vgui::HTML, HTML_HideToolTip_t, false>::Run(void*)
  T CCallback<vgui::HTML, HTML_HideToolTip_t, false>::Run(void*, bool, unsigned long long)
@@ -25686,15 +25688,9 @@
  T CCallback<vgui::HTML, HTML_SetCursor_t, false>::GetCallbackSizeBytes()
  T CCallback<vgui::HTML, HTML_SetCursor_t, false>::Run(void*)
  T CCallback<vgui::HTML, HTML_SetCursor_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_ShowPopup_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_ShowPopup_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_ShowPopup_t, false>::Run(void*, bool, unsigned long long)
  T CCallback<vgui::HTML, HTML_ShowToolTip_t, false>::GetCallbackSizeBytes()
  T CCallback<vgui::HTML, HTML_ShowToolTip_t, false>::Run(void*)
  T CCallback<vgui::HTML, HTML_ShowToolTip_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_SizePopup_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_SizePopup_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_SizePopup_t, false>::Run(void*, bool, unsigned long long)
  T CCallback<vgui::HTML, HTML_StartRequest_t, false>::GetCallbackSizeBytes()
  T CCallback<vgui::HTML, HTML_StartRequest_t, false>::Run(void*)
  T CCallback<vgui::HTML, HTML_StartRequest_t, false>::Run(void*, bool, unsigned long long)
@@ -26902,6 +26898,7 @@
  T CCopyableUtlVector<CMvMVictoryMannUpEntry::CMvMLootItem*, CUtlMemory<CMvMVictoryMannUpEntry::CMvMLootItem*, int> >::~CCopyableUtlVector()
  T CCopyableUtlVector<ModelPoseDebugInfo::InfoText, CUtlMemory<ModelPoseDebugInfo::InfoText, int> >::~CCopyableUtlVector()
  T CCopyableUtlVector<MvMTourMission_t, CUtlMemory<MvMTourMission_t, int> >::~CCopyableUtlVector()
+ T CCopyableUtlVector<char*, CUtlMemory<char*, int> >::~CCopyableUtlVector()
  T CCopyableUtlVector<econ_store_entry_t::CategoryTag_t, CUtlMemory<econ_store_entry_t::CategoryTag_t, int> >::~CCopyableUtlVector()
  T CCopyableUtlVector<int, CUtlMemory<int, int> >::~CCopyableUtlVector()
  T CCoroutineMgr::CCoroutineMgr()
@@ -28342,7 +28339,6 @@
  T CFXStaticLine::~CFXStaticLine()
  T CFastDetailLeafSpriteList::~CFastDetailLeafSpriteList()
  T CFilePublishDialog::AddToMap(char const*, void (vgui::Panel::*)(), int, int, char const*, int, char const*)
- T CFilePublishDialog::AppUsesWorkshopFiles()
  T CFilePublishDialog::ApplySchemeSettings(vgui::IScheme*)
  T CFilePublishDialog::BForceSquarePreviewImage()
  T CFilePublishDialog::CFilePublishDialog(vgui::Panel*, char const*, PublishedFileDetails_t*)
@@ -28351,8 +28347,8 @@
  T CFilePublishDialog::ErrorMessage(CFilePublishDialog::ErrorCode_t, KeyValues*)
  T CFilePublishDialog::ErrorMessage(char const*)
  T CFilePublishDialog::GetAnimMap()
- T CFilePublishDialog::GetFileTypeDescriptions()
- T CFilePublishDialog::GetFileTypes()
+ T CFilePublishDialog::GetFileTypeDescriptions(eFilterType_t)
+ T CFilePublishDialog::GetFileTypes(eFilterType_t)
  T CFilePublishDialog::GetKBMap()
  T CFilePublishDialog::GetMessageMap()
  T CFilePublishDialog::GetPanelClassName()
@@ -28369,17 +28365,16 @@
  T CFilePublishDialog::PerformSquarize()
  T CFilePublishDialog::PopulateEditFields()
  T CFilePublishDialog::PopulateTags(SteamParamStringArray_t&)
- T CFilePublishDialog::PrepFile(char const*)
- T CFilePublishDialog::PrepFile(char const*, CUtlBuffer&)
- T CFilePublishDialog::PrepSteamCloudFilePath(char const*, CUtlString&)
- T CFilePublishDialog::PublishFile(char const*, char const*)
+ T CFilePublishDialog::PublishFile()
  T CFilePublishDialog::SetFile(char const*, bool)
  T CFilePublishDialog::SetPreviewImage(char const*)
  T CFilePublishDialog::ShowStatusWindow(CFilePublishDialog::StatusCode_t)
- T CFilePublishDialog::Steam_OnPublishFile(RemoteStoragePublishFileResult_t*, bool)
- T CFilePublishDialog::Steam_OnUpdateFile(RemoteStorageUpdatePublishedFileResult_t*, bool)
- T CFilePublishDialog::UpdateFile()
+ T CFilePublishDialog::StartMapCompress()
+ T CFilePublishDialog::Steam_OnCreateItem(CreateItemResult_t*, bool)
+ T CFilePublishDialog::Steam_OnPublishFile(SubmitItemUpdateResult_t*, bool)
+ T CFilePublishDialog::UpdateFileInternal()
  T CFilePublishDialog::ValidateFile(char const*)
+ T CFilePublishDialog::WorkshipFileTypeForFile(char const*)
  T CFilePublishDialog::~CFilePublishDialog()
  T CFireParticle::Create(char const*)
  T CFireParticle::UpdateColor(SimpleParticle const*)
@@ -29313,6 +29308,7 @@
  T CHLClient::PostInit()
  T CHLClient::PreSave(CSaveRestoreData*)
  T CHLClient::PrecacheMaterial(char const*)
+ T CHLClient::PrepareLevelResources(char const*, float*)
  T CHLClient::ReadRestoreHeaders(CSaveRestoreData*)
  T CHLClient::ReloadFilesInList(IFileList*)
  T CHLClient::RenderView(CViewSetup const&, int, int)
@@ -32059,6 +32055,9 @@
  T CMannVsMachineUpgradeManager::LoadUpgradesFileFromPath(char const*)
  T CMannVsMachineUpgradeManager::ParseUpgradeBlockForUIGroup(KeyValues*, int)
  T CMannVsMachineUpgradeManager::~CMannVsMachineUpgradeManager()
+ T CMapCompressThread::CMapCompressThread(char const*, char const*)
+ T CMapCompressThread::Run()
+ T CMapCompressThread::~CMapCompressThread()
  T CMapInfoContainer::CMapInfoContainer()
  T CMapInfoContainer::DownloadDuelLeaderboard()
  T CMapInfoContainer::DuckUpdateScore(int, EDuckLeaderboardTypes)
@@ -36830,10 +36829,9 @@
  T CProxyUrineLevel::~CProxyUrineLevel()
  T CProxyWheatlyEyeGlow::OnBind(void*)
  T CProxyWheatlyEyeGlow::~CProxyWheatlyEyeGlow()
- T CPublishedFiles::RequestNextPublishedFileDetails()
+ T CPublishedFiles::EnumerateUserPublishedFiles(unsigned int)
  T CPublishedFiles::Steam_OnDeletePublishedFile(RemoteStorageDeletePublishedFileResult_t*, bool)
- T CPublishedFiles::Steam_OnEnumeratePublishedFiles(RemoteStorageEnumerateUserPublishedFilesResult_t*, bool)
- T CPublishedFiles::Steam_OnGetPublishedFileDetails(RemoteStorageGetPublishedFileDetailsResult_t*, bool)
+ T CPublishedFiles::Steam_OnEnumeratePublishedFiles(SteamUGCQueryCompleted_t*, bool)
  T CPublishedFiles::~CPublishedFiles()
  T CPupilProxy::GetMaterial()
  T CPupilProxy::Init(IMaterial*, KeyValues*)
@@ -39123,15 +39121,14 @@
  T CTFDuelRequestNotification::Trigger()
  T CTFDuelRequestNotification::~CTFDuelRequestNotification()
  T CTFDuelSummary::~CTFDuelSummary()
- T CTFFilePublishDialog::AppUsesWorkshopFiles()
  T CTFFilePublishDialog::BForceSquarePreviewImage()
  T CTFFilePublishDialog::CTFFilePublishDialog(vgui::Panel*, char const*, PublishedFileDetails_t*)
  T CTFFilePublishDialog::DesiredPreviewHeight()
  T CTFFilePublishDialog::DesiredPreviewWidth()
  T CTFFilePublishDialog::ErrorMessage(CFilePublishDialog::ErrorCode_t, KeyValues*)
  T CTFFilePublishDialog::GetAnimMap()
- T CTFFilePublishDialog::GetFileTypeDescriptions()
- T CTFFilePublishDialog::GetFileTypes()
+ T CTFFilePublishDialog::GetFileTypeDescriptions(eFilterType_t)
+ T CTFFilePublishDialog::GetFileTypes(eFilterType_t)
  T CTFFilePublishDialog::GetKBMap()
  T CTFFilePublishDialog::GetMessageMap()
  T CTFFilePublishDialog::GetPanelClassName()
@@ -39147,9 +39144,10 @@
  T CTFFilePublishDialog::PopulateTags(SteamParamStringArray_t&)
  T CTFFilePublishDialog::PrepSteamCloudFilePath(char const*, CUtlString&)
  T CTFFilePublishDialog::SetFile(char const*, bool)
- T CTFFilePublishDialog::SetTagsVisible(bool)
+ T CTFFilePublishDialog::SetTagsVisible(bool, EWorkshopFileType)
  T CTFFilePublishDialog::ShowStatusWindow(CFilePublishDialog::StatusCode_t)
  T CTFFilePublishDialog::ValidateFile(char const*)
+ T CTFFilePublishDialog::WorkshipFileTypeForFile(char const*)
  T CTFFilePublishDialog::~CTFFilePublishDialog()
  T CTFFlagCalloutPanel::AddFlagCalloutIfNotFound(C_CaptureFlag*, float, Vector&)
  T CTFFlagCalloutPanel::ApplySchemeSettings(vgui::IScheme*)
@@ -39890,6 +39888,17 @@
  T CTFMapStampsInfoDialog::OnMouseReleased(ButtonCode_t)
  T CTFMapStampsInfoDialog::PerformLayout()
  T CTFMapStampsInfoDialog::~CTFMapStampsInfoDialog()
+ T CTFMapsWorkshop::Init()
+ T CTFMapsWorkshop::IsValidOriginalNameForMap(CUtlString const&)
+ T CTFMapsWorkshop::LocalFileNameForMap(unsigned long long, CUtlString const&, CUtlString&)
+ T CTFMapsWorkshop::MapIDFromLocalName(CUtlString)
+ T CTFMapsWorkshop::Name()
+ T CTFMapsWorkshop::OnClientPrepareLevelResources(char const*, float*)
+ T CTFMapsWorkshop::Refresh()
+ T CTFMapsWorkshop::Shutdown()
+ T CTFMapsWorkshop::Steam_OnUGCDownload(DownloadItemResult_t*)
+ T CTFMapsWorkshop::SyncPrepareMap(unsigned long long, CTFMapsWorkshop::eSyncType)
+ T CTFMapsWorkshop::~CTFMapsWorkshop()
  T CTFMedicCallerPanel::AddMedicCaller(C_BaseEntity*, float, Vector&, MedicCallerType)
  T CTFMedicCallerPanel::ApplySchemeSettings(vgui::IScheme*)
  T CTFMedicCallerPanel::CTFMedicCallerPanel(vgui::Panel*, char const*)
@@ -40829,6 +40838,14 @@
  T CTFWinPanel::SetVisible(bool)
  T CTFWinPanel::ShouldDraw()
  T CTFWinPanel::~CTFWinPanel()
+ T CTFWorkshopMap::CTFWorkshopMap(unsigned long long)
+ T CTFWorkshopMap::CheckLocalDiskState()
+ T CTFWorkshopMap::Downloaded(float*)
+ T CTFWorkshopMap::OnUGCGetFileInfoComplete(unsigned long long, PublishedFileInfo_t const&)
+ T CTFWorkshopMap::OnUGCGetFileInfoError(unsigned long long, EResult)
+ T CTFWorkshopMap::Refresh()
+ T CTFWorkshopMap::SyncCopyToLocalDisk()
+ T CTFWorkshopMap::~CTFWorkshopMap()
  T CTF_Presence::FireGameEvent(IGameEvent*)
  T CTF_Presence::GetPresenceID(char const*)
  T CTF_Presence::GetPropertyDisplayString(unsigned int, unsigned int, char*, int)
@@ -41232,6 +41249,12 @@
  T CUGCFileRequest::Update()
  T CUGCFileRequest::~CUGCFileRequest()
  T CUGCFileRequestCache::GetFileRequest(unsigned long long)
+ T CUGCManager::CancelFileInfoRequest(unsigned long long, IUGCGetFileInfoCallback*)
+ T CUGCManager::FireFileInfoCallbacks(unsigned long long, bool, EResult)
+ T CUGCManager::GetFileInfo(unsigned long long, IUGCGetFileInfoCallback*)
+ T CUGCManager::GetSingleton()
+ T CUGCManager::QueryNextFileInfo()
+ T CUGCManager::Steam_OnQueryUGCDetails(SteamUGCQueryCompleted_t*, bool)
  T CUnderWaterView::CRefractionView::Draw()
  T CUnderWaterView::CRefractionView::~CRefractionView()
  T CUnderWaterView::Draw()
@@ -41514,7 +41537,10 @@
  T CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::PurgeAndDeleteElements()
  T CUtlMap<unsigned int, CUtlString, int>::Insert(unsigned int const&, CUtlString const&)
  T CUtlMap<unsigned int, CUtlString, int>::InsertOrReplace(unsigned int const&, CUtlString const&)
+ T CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::PurgeAndDeleteElements()
  T CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::PurgeAndDeleteElements()
+ T CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Find(unsigned long long const&) const
+ T CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Insert(unsigned long long const&, PublishedFileInfo_t const&)
  T CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::~CUtlMap()
  T CUtlMap<unsigned short, econ_store_entry_t, unsigned short>::Find(unsigned short const&) const
  T CUtlMap<unsigned short, econ_store_entry_t, unsigned short>::Insert(unsigned short const&, econ_store_entry_t const&)
@@ -41724,6 +41750,7 @@
  T CUtlMemory<CThreadSafeMultiMemoryPool::MemPoolRecord_t, int>::Grow(int)
  T CUtlMemory<CTradeTargetPanel*, int>::Grow(int)
  T CUtlMemory<CTradingStartDialog::trade_partner_info_t, int>::Grow(int)
+ T CUtlMemory<CUGCManager::PendingInfoRequest, int>::Grow(int)
  T CUtlMemory<CUpgradeBuyPanel*, int>::Grow(int)
  T CUtlMemory<CUpgradeInfo, int>::Grow(int)
  T CUtlMemory<CUtlBinaryBlock, int>::Grow(int)
@@ -41978,10 +42005,12 @@
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, int, int>::Node_t, int>, int>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, kill_eater_score_type_t, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
+ T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int>, int>::Grow(int)
- T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
+ T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int>, int>::Grow(int)
+ T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, char, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, int>::Node_t, int>, int>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
@@ -42131,8 +42160,8 @@
  T CUtlPriorityQueue<SoundCommand_t*>::Insert(SoundCommand_t* const&)
  T CUtlPriorityQueue<SoundCommand_t*>::RemoveAt(int)
  T CUtlPriorityQueue<SoundCommand_t*>::RemoveAtHead()
+ T CUtlQueue<CUGCManager::PendingInfoRequest, CUtlMemory<CUGCManager::PendingInfoRequest, int> >::Insert(CUGCManager::PendingInfoRequest const&)
  T CUtlQueue<int, CUtlMemory<int, int> >::Insert(int const&)
- T CUtlQueue<unsigned long long, CUtlMemory<unsigned long long, int> >::Insert(unsigned long long const&)
  T CUtlRBTree<AsyncCaption_t::BlockInfo_t, unsigned short, bool (*)(AsyncCaption_t::BlockInfo_t const&, AsyncCaption_t::BlockInfo_t const&), CUtlMemory<UtlRBTreeNode_t<AsyncCaption_t::BlockInfo_t, unsigned short>, unsigned short> >::Find(AsyncCaption_t::BlockInfo_t const&) const
  T CUtlRBTree<AsyncCaption_t::BlockInfo_t, unsigned short, bool (*)(AsyncCaption_t::BlockInfo_t const&, AsyncCaption_t::BlockInfo_t const&), CUtlMemory<UtlRBTreeNode_t<AsyncCaption_t::BlockInfo_t, unsigned short>, unsigned short> >::FindInsertionPosition(AsyncCaption_t::BlockInfo_t const&, unsigned short&, bool&)
  T CUtlRBTree<AsyncCaption_t::BlockInfo_t, unsigned short, bool (*)(AsyncCaption_t::BlockInfo_t const&, AsyncCaption_t::BlockInfo_t const&), CUtlMemory<UtlRBTreeNode_t<AsyncCaption_t::BlockInfo_t, unsigned short>, unsigned short> >::FirstInorder() const
@@ -43044,6 +43073,18 @@
  T CUtlRBTree<CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
  T CUtlRBTree<CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
  T CUtlRBTree<CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
+ T CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t const&) const
+ T CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t const&, unsigned short&, bool&)
+ T CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FirstInorder() const
+ T CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t const&)
+ T CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
+ T CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsLeftChild(unsigned short) const
+ T CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsRightChild(unsigned short) const
+ T CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::NewNode()
+ T CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::NextInorder(unsigned short) const
+ T CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
+ T CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
+ T CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
  T CUtlRBTree<CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::Node_t const&) const
  T CUtlRBTree<CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::Node_t const&, unsigned short&, bool&)
  T CUtlRBTree<CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<unsigned long long, CUGCFileRequest*, unsigned short>::Node_t const&)
@@ -43065,20 +43106,15 @@
  T CUtlRBTree<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int, CUtlMap<unsigned long long, GCSDK::CJob*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int>, int> >::RotateLeft(int)
  T CUtlRBTree<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int, CUtlMap<unsigned long long, GCSDK::CJob*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int>, int> >::RotateRight(int)
  T CUtlRBTree<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int, CUtlMap<unsigned long long, GCSDK::CJob*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int>, int> >::Unlink(int)
- T CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t const&) const
- T CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t const&, unsigned short&, bool&)
- T CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::FirstInorder() const
- T CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t const&)
- T CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
- T CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsLeftChild(unsigned short) const
- T CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsRightChild(unsigned short) const
- T CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::NewNode()
- T CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::NextInorder(unsigned short) const
- T CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
- T CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveRebalance(unsigned short)
- T CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
- T CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
- T CUtlRBTree<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, RemoteStorageGetPublishedFileDetailsResult_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Unlink(unsigned short)
+ T CUtlRBTree<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t const&) const
+ T CUtlRBTree<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t const&, unsigned short&, bool&)
+ T CUtlRBTree<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t const&)
+ T CUtlRBTree<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
+ T CUtlRBTree<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsLeftChild(unsigned short) const
+ T CUtlRBTree<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsRightChild(unsigned short) const
+ T CUtlRBTree<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::NewNode()
+ T CUtlRBTree<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
+ T CUtlRBTree<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
  T CUtlRBTree<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int, CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int>, int> >::Find(CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t const&) const
  T CUtlRBTree<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int, CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int>, int> >::FindInsertionPosition(CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t const&, int&, bool&)
  T CUtlRBTree<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int, CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int>, int> >::InsertAt(int, bool)
@@ -43088,6 +43124,20 @@
  T CUtlRBTree<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int, CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int>, int> >::RemoveAll()
  T CUtlRBTree<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int, CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int>, int> >::RotateLeft(int)
  T CUtlRBTree<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int, CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SCustomImageCacheEntry*, int>::Node_t, int>, int> >::RotateRight(int)
+ T CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t const&) const
+ T CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t const&, unsigned short&, bool&)
+ T CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::FirstInorder() const
+ T CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t const&)
+ T CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
+ T CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsLeftChild(unsigned short) const
+ T CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsRightChild(unsigned short) const
+ T CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::NewNode()
+ T CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::NextInorder(unsigned short) const
+ T CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
+ T CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveRebalance(unsigned short)
+ T CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
+ T CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
+ T CUtlRBTree<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, SteamUGCDetails_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Unlink(unsigned short)
  T CUtlRBTree<CUtlMap<unsigned long long, char, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, char, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, char, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<unsigned long long, char, unsigned short>::Node_t const&) const
  T CUtlRBTree<CUtlMap<unsigned long long, char, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, char, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, char, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<unsigned long long, char, unsigned short>::Node_t const&, unsigned short&, bool&)
  T CUtlRBTree<CUtlMap<unsigned long long, char, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, char, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, char, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<unsigned long long, char, unsigned short>::Node_t const&)
@@ -43282,12 +43332,15 @@
  T CUtlString::Format(char const*, ...)
  T CUtlString::FormatV(char const*, char*)
  T CUtlString::Get() const
+ T CUtlString::GetExtension() const
  T CUtlString::GetForModify()
  T CUtlString::IsEqual_CaseSensitive(char const*) const
  T CUtlString::Purge()
  T CUtlString::Set(char const*)
  T CUtlString::SetDirect(char const*, int)
  T CUtlString::SetLength(int)
+ T CUtlString::Slice(int, int) const
+ T CUtlString::StripExtension() const
  T CUtlString::ToLower()
  T CUtlString::operator+=(CUtlString const&)
  T CUtlString::operator+=(char const*)
@@ -52340,6 +52393,7 @@
  T GetSpyVsEngyWarData()
  T GetStatPanel()
  T GetSteamIDForPlayerIndex(int)
+ T GetSteamUGC()
  T GetSteamWorksSGameStatsUploader()
  T GetStoreVersion()
  T GetStoreViewCartPanel()
@@ -52365,23 +52419,6 @@
  T GunshotSplashCallback(CEffectData const&)
  T HLTVCamera()
  T HSVtoRGB(Vector const&, Vector&)
- T HTMLComboBoxHost::GetAnimMap()
- T HTMLComboBoxHost::GetKBMap()
- T HTMLComboBoxHost::GetMessageMap()
- T HTMLComboBoxHost::GetPanelClassName()
- T HTMLComboBoxHost::HTMLComboBoxHost(vgui::HTML*, char const*)
- T HTMLComboBoxHost::OnCursorMoved(int, int)
- T HTMLComboBoxHost::OnKeyCodeReleased(ButtonCode_t)
- T HTMLComboBoxHost::OnKeyCodeTyped(ButtonCode_t)
- T HTMLComboBoxHost::OnKeyTyped(wchar_t)
- T HTMLComboBoxHost::OnKillFocus()
- T HTMLComboBoxHost::OnMouseDoublePressed(ButtonCode_t)
- T HTMLComboBoxHost::OnMousePressed(ButtonCode_t)
- T HTMLComboBoxHost::OnMouseReleased(ButtonCode_t)
- T HTMLComboBoxHost::OnMouseWheeled(int)
- T HTMLComboBoxHost::PaintBackground()
- T HTMLComboBoxHost::PerformLayout()
- T HTMLComboBoxHost::~HTMLComboBoxHost()
  T HTMLInterior::GetAnimMap()
  T HTMLInterior::GetKBMap()
  T HTMLInterior::GetMessageMap()
@@ -52635,6 +52672,7 @@
  T ITFMvMBossProgressUserAutoList::ITFMvMBossProgressUserAutoList(bool)
  T ITFMvMBossProgressUserAutoList::~ITFMvMBossProgressUserAutoList()
  T ITFPumpkinBomb::~ITFPumpkinBomb()
+ T IUGCGetFileInfoCallback::~IUGCGetFileInfoCallback()
  T IViewPortPanel::~IViewPortPanel()
  T IceKey::IceKey(int)
  T IceKey::blockSize() const
@@ -53050,6 +53088,7 @@
  T ProcessOnDataChangedEvents()
  T PromptAcceptRomevisionSharingCallback(bool, void*)
  T PropBreakableCreateAll(int, IPhysicsObject*, breakablepropparams_t const&, C_BaseEntity*, int, bool, bool)
+ T PublishedFileId_t_Less(unsigned long long const&, unsigned long long const&)
  T Q_AggressiveStripPrecedingAndTrailingWhitespace(char*)
  T Q_StripPrecedingAndTrailingWhitespace(char*)
  T Q_UTF32ToUTF8(wchar_t const*, char*, int, EStringConvertErrorPolicy)
@@ -53447,6 +53486,7 @@
  T SuppressParticleEffects(bool)
  T SuppressingParticleEffects()
  T SweepBoxToStudio(IPhysicsSurfaceProps*, Ray_t const&, CStudioHdr*, mstudiohitboxset_t*, matrix3x4_t**, int, CGameTrace&)
+ T SyncCompressMap(char const*, char const*)
  T Sys_GetFactory(CSysModule*)
  T Sys_GetFactoryThis()
  T Sys_LoadLibrary(char const*, Sys_Flags)
@@ -53511,6 +53551,7 @@
  T TFEnergyShieldImpactCallback(CEffectData const&)
  T TFExplosionCallback(Vector const&, Vector const&, int, CBaseHandle, int, int, int)
  T TFInventoryManager()
+ T TFMapsWorkshop()
  T TFModalStack()
  T TFPaintBombSplashCallback(CEffectData const&)
  T TFPlayerClassData_t::GetModelName() const
@@ -58326,10 +58367,8 @@
  T vgui::HTML::BCanGoFoward()
  T vgui::HTML::BrowserCanGoBackandForward(HTML_CanGoBackAndForward_t*)
  T vgui::HTML::BrowserClose(HTML_CloseBrowser_t*)
- T vgui::HTML::BrowserComboNeedsPaint(HTML_ComboNeedsPaint_t*)
  T vgui::HTML::BrowserFileLoadDialog(HTML_FileOpenDialog_t*)
  T vgui::HTML::BrowserFinishedRequest(HTML_FinishedRequest_t*)
- T vgui::HTML::BrowserHidePopup(HTML_HidePopup_t*)
  T vgui::HTML::BrowserHideToolTip(HTML_HideToolTip_t*)
  T vgui::HTML::BrowserHorizontalScrollBarSizeResponse(HTML_HorizontalScroll_t*)
  T vgui::HTML::BrowserJSAlert(HTML_JSAlert_t*)
@@ -58342,9 +58381,7 @@
  T vgui::HTML::BrowserSearchResults(HTML_SearchResults_t*)
  T vgui::HTML::BrowserSetCursor(HTML_SetCursor_t*)
  T vgui::HTML::BrowserSetHTMLTitle(HTML_ChangedTitle_t*)
- T vgui::HTML::BrowserShowPopup(HTML_ShowPopup_t*)
  T vgui::HTML::BrowserShowToolTip(HTML_ShowToolTip_t*)
- T vgui::HTML::BrowserSizePopup(HTML_SizePopup_t*)
  T vgui::HTML::BrowserStartRequest(HTML_StartRequest_t*)
  T vgui::HTML::BrowserStatusText(HTML_StatusText_t*)
  T vgui::HTML::BrowserURLChanged(HTML_URLChanged_t*)
@@ -61753,6 +61790,7 @@
  b cl_trade_steamid_command
  b cl_training_class_unlock_all_command
  b cl_trigger_first_notification_command
+ b cl_ugc_get_file_info_command
  b closequickswitch
  b colorEyeballBossText
  b colorMerasmusText
@@ -63798,6 +63836,8 @@
  b tf_tauntcam_pitch
  b tf_tauntcam_speed
  b tf_tauntcam_yaw
+ b tf_workshop_map_sync_command
+ b tf_workshop_refresh_command
  b thirdperson
  b thirdperson_mayamode
  b toggle_duck
@@ -64064,6 +64104,7 @@
  d jpeg_std_message_table
  d kClassTags
  d kImportedTag
+ d kMapTags
  d kOtherTags
  d p_floatconverter
  d p_intconverter
@@ -64119,6 +64160,7 @@
  d typeinfo for CInputStringForItemBackpackOverlayDialog::CreateItemPanels()::CItemDefLootListIterator
  d typeinfo for C_EconItemView::IterateAttributes(IEconItemAttributeIterator*) const::CEconItemAttributeIterator_EconItemViewWrapper
  d typeinfo for GetCardUpgradeForIndex(IEconItemInterface const*, int)::CGetNthUserGeneratedAttributeIterator
+ d typeinfo for cl_ugc_get_file_info(CCommand const&)::testinfoCallback
  d vgui::Panel::OnOldMessage(KeyValues*, unsigned int)::s_bDebugMessages
  d vtable for (anonymous namespace)::CYouTubeSystem
  d vtable for (anonymous namespace)::CaptionGripPanel
@@ -64128,6 +64170,7 @@
  d vtable for CInputStringForItemBackpackOverlayDialog::CreateItemPanels()::CItemDefLootListIterator
  d vtable for C_EconItemView::IterateAttributes(IEconItemAttributeIterator*) const::CEconItemAttributeIterator_EconItemViewWrapper
  d vtable for GetCardUpgradeForIndex(IEconItemInterface const*, int)::CGetNthUserGeneratedAttributeIterator
+ d vtable for cl_ugc_get_file_info(CCommand const&)::testinfoCallback
  daylight
  deflate
  deflateEnd
@@ -64237,6 +64280,7 @@
  r FX_DustImpact(Vector const&, CGameTrace*, float)::nParticleIdArray
  r GCSDK::k_rgchUnknown
  r GCSDK::s_MemPoolConfigAllocSize
+ r GetMapDisplayName(char const*)::szWorkshop
  r PryoSideIndexes
  r TFViewport::ApplySchemeSettings(vgui::IScheme*)::IntlChars
  r Training_GetNumCoursesForClass(int)::s_aClassCourses
@@ -64737,6 +64781,7 @@
  r typeinfo name for CInputStringForItemBackpackOverlayDialog::CreateItemPanels()::CItemDefLootListIterator
  r typeinfo name for C_EconItemView::IterateAttributes(IEconItemAttributeIterator*) const::CEconItemAttributeIterator_EconItemViewWrapper
  r typeinfo name for GetCardUpgradeForIndex(IEconItemInterface const*, int)::CGetNthUserGeneratedAttributeIterator
+ r typeinfo name for cl_ugc_get_file_info(CCommand const&)::testinfoCallback
  raise
  read$UNIX2003
  realloc
@@ -66540,6 +66585,10 @@
  t cl_trade_steamid(CCommand const&)
  t cl_training_class_unlock_all(CCommand const&)
  t cl_trigger_first_notification(CCommand const&)
+ t cl_ugc_get_file_info(CCommand const&)
+ t cl_ugc_get_file_info(CCommand const&)::testinfoCallback::OnUGCGetFileInfoComplete(unsigned long long, PublishedFileInfo_t const&)
+ t cl_ugc_get_file_info(CCommand const&)::testinfoCallback::OnUGCGetFileInfoError(unsigned long long, EResult)
+ t cl_ugc_get_file_info(CCommand const&)::testinfoCallback::~testinfoCallback()
  t cmyk_ycck_convert(jpeg_compress_struct*, unsigned char**, unsigned char***, unsigned int, int)
  t color_quantize(jpeg_decompress_struct*, unsigned char**, unsigned char**, int)
  t color_quantize3(jpeg_decompress_struct*, unsigned char**, unsigned char**, int)
@@ -66815,6 +66864,8 @@
  t tf_invite_debug(CCommand const&)
  t tf_lobby_debug(CCommand const&)
  t tf_party_debug(CCommand const&)
+ t tf_workshop_map_sync(CCommand const&)
+ t tf_workshop_refresh(CCommand const&)
  t togglescores(CCommand const&)
  t update_box(jpeg_decompress_struct*, box*)
  t use_merged_upsample(jpeg_decompress_struct*)
