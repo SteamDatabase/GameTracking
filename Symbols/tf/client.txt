@@ -12446,6 +12446,7 @@
  D typeinfo for CCallResult<CPublishedFiles, SteamUGCQueryCompleted_t>
  D typeinfo for CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardFindResult_t>
  D typeinfo for CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardScoresDownloaded_t>
+ D typeinfo for CCallResult<CTFWorkshopMap, SteamUGCQueryCompleted_t>
  D typeinfo for CCallResult<CUGCFileRequest, RemoteStorageDownloadUGCResult_t>
  D typeinfo for CCallResult<CUGCFileRequest, RemoteStorageFileShareResult_t>
  D typeinfo for CCallResult<CUGCManager, RemoteStorageDownloadUGCResult_t>
@@ -13921,7 +13922,6 @@
  D typeinfo for CTFWar<(EWarID)1, (EWarSides)1, (EWarSides)2>
  D typeinfo for CTFWeaponInfo
  D typeinfo for CTFWinPanel
- D typeinfo for CTFWorkshopMap
  D typeinfo for CTF_Presence
  D typeinfo for CTargetID
  D typeinfo for CTargetOnlyFilter
@@ -16365,6 +16365,7 @@
  D vtable for CCallResult<CPublishedFiles, SteamUGCQueryCompleted_t>
  D vtable for CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardFindResult_t>
  D vtable for CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardScoresDownloaded_t>
+ D vtable for CCallResult<CTFWorkshopMap, SteamUGCQueryCompleted_t>
  D vtable for CCallResult<CUGCFileRequest, RemoteStorageDownloadUGCResult_t>
  D vtable for CCallResult<CUGCFileRequest, RemoteStorageFileShareResult_t>
  D vtable for CCallResult<CUGCManager, RemoteStorageDownloadUGCResult_t>
@@ -17799,7 +17800,6 @@
  D vtable for CTFWaitingForPlayersPanel
  D vtable for CTFWeaponInfo
  D vtable for CTFWinPanel
- D vtable for CTFWorkshopMap
  D vtable for CTF_Presence
  D vtable for CTargetID
  D vtable for CTargetOnlyFilter
@@ -19618,6 +19618,7 @@
  R typeinfo name for CCallResult<CPublishedFiles, SteamUGCQueryCompleted_t>
  R typeinfo name for CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardFindResult_t>
  R typeinfo name for CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardScoresDownloaded_t>
+ R typeinfo name for CCallResult<CTFWorkshopMap, SteamUGCQueryCompleted_t>
  R typeinfo name for CCallResult<CUGCFileRequest, RemoteStorageDownloadUGCResult_t>
  R typeinfo name for CCallResult<CUGCFileRequest, RemoteStorageFileShareResult_t>
  R typeinfo name for CCallResult<CUGCManager, RemoteStorageDownloadUGCResult_t>
@@ -21093,7 +21094,6 @@
  R typeinfo name for CTFWar<(EWarID)1, (EWarSides)1, (EWarSides)2>
  R typeinfo name for CTFWeaponInfo
  R typeinfo name for CTFWinPanel
- R typeinfo name for CTFWorkshopMap
  R typeinfo name for CTF_Presence
  R typeinfo name for CTargetID
  R typeinfo name for CTargetOnlyFilter
@@ -22424,7 +22424,6 @@
  SteamAPI_InitSafe
  SteamAPI_RegisterCallResult
  SteamAPI_RegisterCallback
- SteamAPI_RunCallbacks
  SteamAPI_SetTryCatchCallbacks
  SteamAPI_UnregisterCallResult
  SteamAPI_UnregisterCallback
@@ -25571,6 +25570,9 @@
  T CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardScoresDownloaded_t>::GetCallbackSizeBytes()
  T CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardScoresDownloaded_t>::Run(void*)
  T CCallResult<CTFSpyVsEngyGlobalDataHelper, LeaderboardScoresDownloaded_t>::Run(void*, bool, unsigned long long)
+ T CCallResult<CTFWorkshopMap, SteamUGCQueryCompleted_t>::GetCallbackSizeBytes()
+ T CCallResult<CTFWorkshopMap, SteamUGCQueryCompleted_t>::Run(void*)
+ T CCallResult<CTFWorkshopMap, SteamUGCQueryCompleted_t>::Run(void*, bool, unsigned long long)
  T CCallResult<CUGCFileRequest, RemoteStorageDownloadUGCResult_t>::GetCallbackSizeBytes()
  T CCallResult<CUGCFileRequest, RemoteStorageDownloadUGCResult_t>::Run(void*)
  T CCallResult<CUGCFileRequest, RemoteStorageDownloadUGCResult_t>::Run(void*, bool, unsigned long long)
@@ -29308,7 +29310,7 @@
  T CHLClient::PostInit()
  T CHLClient::PreSave(CSaveRestoreData*)
  T CHLClient::PrecacheMaterial(char const*)
- T CHLClient::PrepareLevelResources(char const*, float*)
+ T CHLClient::PrepareLevelResources(char const*, char*, int, float*)
  T CHLClient::ReadRestoreHeaders(CSaveRestoreData*)
  T CHLClient::ReloadFilesInList(IFileList*)
  T CHLClient::RenderView(CViewSetup const&, int, int)
@@ -39121,6 +39123,7 @@
  T CTFDuelRequestNotification::Trigger()
  T CTFDuelRequestNotification::~CTFDuelRequestNotification()
  T CTFDuelSummary::~CTFDuelSummary()
+ T CTFFilePublishDialog::ApplySchemeSettings(vgui::IScheme*)
  T CTFFilePublishDialog::BForceSquarePreviewImage()
  T CTFFilePublishDialog::CTFFilePublishDialog(vgui::Panel*, char const*, PublishedFileDetails_t*)
  T CTFFilePublishDialog::DesiredPreviewHeight()
@@ -39888,16 +39891,16 @@
  T CTFMapStampsInfoDialog::OnMouseReleased(ButtonCode_t)
  T CTFMapStampsInfoDialog::PerformLayout()
  T CTFMapStampsInfoDialog::~CTFMapStampsInfoDialog()
+ T CTFMapsWorkshop::AddMap(unsigned long long)
+ T CTFMapsWorkshop::CanonicalNameForMap(unsigned long long, CUtlString const&, CUtlString&)
  T CTFMapsWorkshop::Init()
  T CTFMapsWorkshop::IsValidOriginalNameForMap(CUtlString const&)
- T CTFMapsWorkshop::LocalFileNameForMap(unsigned long long, CUtlString const&, CUtlString&)
- T CTFMapsWorkshop::MapIDFromLocalName(CUtlString)
+ T CTFMapsWorkshop::MapIDFromName(CUtlString)
  T CTFMapsWorkshop::Name()
- T CTFMapsWorkshop::OnClientPrepareLevelResources(char const*, float*)
+ T CTFMapsWorkshop::OnClientPrepareLevelResources(char const*, char*, int, float*)
  T CTFMapsWorkshop::Refresh()
  T CTFMapsWorkshop::Shutdown()
  T CTFMapsWorkshop::Steam_OnUGCDownload(DownloadItemResult_t*)
- T CTFMapsWorkshop::SyncPrepareMap(unsigned long long, CTFMapsWorkshop::eSyncType)
  T CTFMapsWorkshop::~CTFMapsWorkshop()
  T CTFMedicCallerPanel::AddMedicCaller(C_BaseEntity*, float, Vector&, MedicCallerType)
  T CTFMedicCallerPanel::ApplySchemeSettings(vgui::IScheme*)
@@ -40839,13 +40842,10 @@
  T CTFWinPanel::ShouldDraw()
  T CTFWinPanel::~CTFWinPanel()
  T CTFWorkshopMap::CTFWorkshopMap(unsigned long long)
- T CTFWorkshopMap::CheckLocalDiskState()
  T CTFWorkshopMap::Downloaded(float*)
- T CTFWorkshopMap::OnUGCGetFileInfoComplete(unsigned long long, PublishedFileInfo_t const&)
- T CTFWorkshopMap::OnUGCGetFileInfoError(unsigned long long, EResult)
+ T CTFWorkshopMap::GetLocalFile(CUtlString&)
  T CTFWorkshopMap::Refresh()
- T CTFWorkshopMap::SyncCopyToLocalDisk()
- T CTFWorkshopMap::~CTFWorkshopMap()
+ T CTFWorkshopMap::Steam_OnQueryUGCDetails(SteamUGCQueryCompleted_t*, bool)
  T CTF_Presence::FireGameEvent(IGameEvent*)
  T CTF_Presence::GetPresenceID(char const*)
  T CTF_Presence::GetPropertyDisplayString(unsigned int, unsigned int, char*, int)
@@ -49796,6 +49796,7 @@
  T C_TeamTrainWatcher::~C_TeamTrainWatcher()
  T C_TeamplayRoundBasedRules::AreTeamsUnbalanced(int&, int&)
  T C_TeamplayRoundBasedRules::C_TeamplayRoundBasedRules()
+ T C_TeamplayRoundBasedRules::FireGameEvent(IGameEvent*)
  T C_TeamplayRoundBasedRules::GetBonusRoundTime()
  T C_TeamplayRoundBasedRules::GetNextRespawnWave(int, C_BasePlayer*)
  T C_TeamplayRoundBasedRules::GetRespawnTimeScalar(int)
@@ -53094,6 +53095,7 @@
  T Q_UTF32ToUTF8(wchar_t const*, char*, int, EStringConvertErrorPolicy)
  T Q_UTF8ToUChar32(char const*, wchar_t&, bool&)
  T Q_UTF8ToUTF32(char const*, wchar_t*, int, EStringConvertErrorPolicy)
+ T Q_log2(int)
  T QuaternionAlign(Quaternion const&, Quaternion const&, Quaternion&)
  T QuaternionAngles(Quaternion const&, QAngle&)
  T QuaternionAngles(Quaternion const&, RadianEuler&)
@@ -57124,6 +57126,8 @@
  T non-virtual thunk to C_TeamTrainWatcher::GetClientClass()
  T non-virtual thunk to C_TeamTrainWatcher::OnDataChanged(DataUpdateType_t)
  T non-virtual thunk to C_TeamTrainWatcher::OnPreDataChanged(DataUpdateType_t)
+ T non-virtual thunk to C_TeamplayRoundBasedRules::FireGameEvent(IGameEvent*)
+ T non-virtual thunk to C_TeamplayRoundBasedRules::~C_TeamplayRoundBasedRules()
  T non-virtual thunk to C_TeamplayRoundBasedRulesProxy::GetClientClass()
  T non-virtual thunk to C_TeamplayRoundBasedRulesProxy::OnDataChanged(DataUpdateType_t)
  T non-virtual thunk to C_TeamplayRoundBasedRulesProxy::OnPreDataChanged(DataUpdateType_t)
@@ -64271,6 +64275,8 @@
  r CReplayRenderDialog::OnThink()::webmToQualityMultiplierTable
  r CSchemeVisualizer::AddFontsToList()::strOAccent
  r CSchemeVisualizer::AddFontsToList()::strSkull
+ r CTFMapsWorkshop::MapIDFromName(CUtlString)::szUGCSuffix
+ r CTFMapsWorkshop::MapIDFromName(CUtlString)::szWorkshopPrefix
  r C_TFWeaponBase::GetInspectActivity(C_TFWeaponBase::TFWeaponInspectStage)::s_inspectActivities
  r CheckValveSignature(void const*, unsigned int, void const*, unsigned int)::valvePublicKey
  r CryptoPP::RoundupSizeTable
