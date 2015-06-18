@@ -1,4 +1,3 @@
-import "google/protobuf/descriptor.proto";
 import "netmessages.proto";
 
 option cc_generic_services = false;
@@ -6,6 +5,7 @@ option cc_generic_services = false;
 enum P2P_Messages {
 	p2p_TextMessage = 256;
 	p2p_Voice = 257;
+	p2p_Ping = 258;
 }
 
 message CP2P_TextMessage {
@@ -21,10 +21,12 @@ message CP2P_Voice {
 		Played_Audio = 1;
 	}
 
-	optional uint32 sample_rate = 1;
-	optional uint32 sample_count = 2;
-	optional float sample_capture_time = 3;
-	optional int32 client_index = 4;
-	optional .CSteam_Voice_Encoding steam_encoding = 5;
+	optional .CMsgVoiceAudio audio = 1;
+	optional uint32 broadcast_group = 2;
+}
+
+message CP2P_Ping {
+	required uint64 send_time = 1;
+	required bool is_reply = 2;
 }
 

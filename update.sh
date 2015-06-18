@@ -63,7 +63,7 @@ ProcessVPK ()
 {
 	while IFS= read -r -d '' file
 	do
-		baseFile=$(basename "$file" "_dir.vpk")
+		baseFile="${file%.*}.txt"
 		
 		echo "> VPK $baseFile"
 		
@@ -124,8 +124,11 @@ case $1 in
 	ProcessDepot "$1" "dota_test" ".dylib"
 	;;
 
-# Dota 2 Workshop
-313250)
+373301)
+	ProcessVPK "$1"
+	;;
+
+373303)
 	ProcessDepot "$1" "dota_s2" ".dll"
 	;;
 
