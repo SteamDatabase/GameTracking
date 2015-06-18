@@ -63,7 +63,7 @@ ProcessVPK ()
 {
 	while IFS= read -r -d '' file
 	do
-		baseFile="${file%.*}.txt"
+		baseFile="${file%.*}"
 		
 		echo "> VPK $baseFile"
 		
