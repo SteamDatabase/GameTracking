@@ -63,11 +63,11 @@ ProcessVPK ()
 {
 	while IFS= read -r -d '' file
 	do
-		baseFile="${file%.*}"
+		baseFile="${file%.*}.txt"
 		
 		echo "> VPK $baseFile"
 		
-		./.support/vpktool "$file" > "$1/$baseFile.txt"
+		./.support/vpktool "$file" > "$baseFile"
 	done <   <(find "$1/" -type f -name "*_dir.vpk" -print0)
 }
 
