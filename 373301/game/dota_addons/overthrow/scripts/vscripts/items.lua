@@ -185,7 +185,10 @@ function COverthrowGameMode:ThinkSpecialItemDrop()
 	if self.nNextSpawnItemNumber >= 15 then
 		return
 	end
-
+	-- Don't spawn if the game is about to end
+	if nCOUNTDOWNTIMER < 20 then
+		return
+	end
 	local t = GameRules:GetDOTATime( false, false )
 	local tSpawn = ( self.spawnTime * self.nNextSpawnItemNumber )
 	local tWarn = tSpawn - 15

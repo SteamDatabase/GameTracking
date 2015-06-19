@@ -102,13 +102,14 @@ end
 --------------------------------------------------------------------------------
 function CHeroDemo:OnMaxLevelButtonPressed( eventSourceIndex, data )
 	local hPlayerHero = PlayerResource:GetSelectedHeroEntity( data.PlayerID )
-	while hPlayerHero:GetLevel() < 25 do
-		hPlayerHero:HeroLevelUp( false )
-	end
+	hPlayerHero:AddExperience( 32400, false, false ) -- for some reason maxing your level this way fixes the bad interaction with OnHeroReplaced
+	--while hPlayerHero:GetLevel() < 25 do
+		--hPlayerHero:HeroLevelUp( false )
+	--end
 
 	for i = 0, DOTA_MAX_ABILITIES - 1 do
 		local hAbility = hPlayerHero:GetAbilityByIndex( i )
-		if hAbility then
+		if hAbility and hAbility:CanAbilityBeUpgraded () == ABILITY_CAN_BE_UPGRADED then
 			while hAbility:GetLevel() < hAbility:GetMaxLevel() do
 				hPlayerHero:UpgradeAbility( hAbility )
 			end
@@ -139,12 +140,22 @@ end
 --------------------------------------------------------------------------------
 function CHeroDemo:OnInvulnerabilityButtonPressed( eventSourceIndex, data )
 	local hPlayerHero = PlayerResource:GetSelectedHeroEntity( data.PlayerID )
+	local hAllPlayerUnits = {}
+	hAllPlayerUnits = hPlayerHero:GetAdditionalOwnedUnits()
+	hAllPlayerUnits[ #hAllPlayerUnits + 1 ] = hPlayerHero
+
 	if self.m_bInvulnerabilityEnabled == 0 then
-		hPlayerHero:AddNewModifier( hPlayerHero, nil, "modifier_invulnerable", nil )
+		--hPlayerHero:AddNewModifier( hPlayerHero, nil, "modifier_invulnerable", nil )
+		for _, hUnit in pairs( hAllPlayerUnits ) do
+			hUnit:AddNewModifier( hPlayerHero, nil, "modifier_invulnerable", nil )
+		end
 		self.m_bInvulnerabilityEnabled = 1
 		self:BroadcastMsg( "#InvulnerabilityOn_Msg" )
 	elseif self.m_bInvulnerabilityEnabled == 1 then
-		hPlayerHero:RemoveModifierByName( "modifier_invulnerable" )
+		--hPlayerHero:RemoveModifierByName( "modifier_invulnerable" )
+		for _, hUnit in pairs( hAllPlayerUnits ) do
+			hUnit:RemoveModifierByName( "modifier_invulnerable" )
+		end
 		self.m_bInvulnerabilityEnabled = 0
 		self:BroadcastMsg( "#InvulnerabilityOff_Msg" )
 	end

@@ -154,8 +154,6 @@ function COverthrowGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetFountainPercentageManaRegen( 20 )
 	GameRules:GetGameModeEntity():SetFountainConstantManaRegen( 30 )
 	GameRules:GetGameModeEntity():SetBountyRunePickupFilter( Dynamic_Wrap( COverthrowGameMode, "BountyRunePickupFilter" ), self )
-	GameRules:GetGameModeEntity():SetModifyExperienceFilter( Dynamic_Wrap( COverthrowGameMode, "ModifyExperienceFilter" ), self )
-	GameRules:GetGameModeEntity():SetModifyGoldFilter( Dynamic_Wrap( COverthrowGameMode, "ModifyGoldFilter" ), self )
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap( COverthrowGameMode, "ExecuteOrderFilter" ), self )
 
 
@@ -454,54 +452,5 @@ function COverthrowGameMode:ExecuteOrderFilter( filterTable )
 			end
 		end
 	end
-	return true
-end
-
---------------------------------------------------------------------------------
--- Event: ModifyExperienceFilter for Meepo
---------------------------------------------------------------------------------
-function COverthrowGameMode:ModifyExperienceFilter( filterTable )
-	--[[Printing Modify Experience Table
-	for k, v in pairs( filterTable ) do
-   		print("ME: " .. k .. " " .. tostring(v) )
-	end
-	]]
-
-	local player = PlayerResource:GetPlayer(filterTable["player_id_const"])
-	if player == nil then
-		return true
-	end
-	local hero = player:GetAssignedHero()
-	if hero:GetClassname() ~= "npc_dota_hero_meepo" then
-		return true
-	end
-	local allHeroes = HeroList:GetAllHeroes()
-	local meepoCount = 0
-	for _,entity in pairs( allHeroes ) do
-		if entity:GetClassname() == "npc_dota_hero_meepo" then
-			meepoCount = meepoCount + 1
-		end
-	end
-	if meepoCount == 0 then
-		return true
-	end
-	filterTable["experience"] = filterTable["experience"] / meepoCount
-	return true
-end
-
-function COverthrowGameMode:ModifyGoldFilter( filterTable )
-	local player = PlayerResource:GetPlayer(filterTable["player_id_const"])
-	local hero = player:GetAssignedHero()
-	if hero:GetClassname() ~= "npc_dota_hero_meepo" then
-		return true
-	end
-    local allHeroes = HeroList:GetAllHeroes()
-	local meepoCount = 0
-	for _,entity in pairs( allHeroes ) do
-		if entity:GetClassname() == "npc_dota_hero_meepo" then
-			meepoCount = meepoCount + 1
-		end
-	end
-	filterTable["gold"] = filterTable["gold"] / meepoCount
 	return true
 end

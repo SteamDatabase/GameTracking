@@ -140,3 +140,14 @@ if CDOTA_Ability_Lua ~= nil then
 		end
 	end
 end
+
+if LinkLuaModifier ~= nil then
+	LinkLuaModifier_Engine = LinkLuaModifier
+	function LinkLuaModifier( modifierName, fileName, modifierType )
+		if modifierType == nil then
+			return LinkLuaModifier_Engine( modifierName, modifierName, fileName )
+		else
+			return LinkLuaModifier_Engine( modifierName, fileName, modifierType )
+		end
+	end
+end
