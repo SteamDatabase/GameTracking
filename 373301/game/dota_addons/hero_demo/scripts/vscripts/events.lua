@@ -110,7 +110,7 @@ function CHeroDemo:OnMaxLevelButtonPressed( eventSourceIndex, data )
 		local hAbility = hPlayerHero:GetAbilityByIndex( i )
 		if hAbility then
 			while hAbility:GetLevel() < hAbility:GetMaxLevel() do
-				hAbility:SetLevel( hAbility:GetLevel() + 1 )
+				hPlayerHero:UpgradeAbility( hAbility )
 			end
 		end
 	end
@@ -126,6 +126,7 @@ function CHeroDemo:OnFreeSpellsButtonPressed( eventSourceIndex )
 	SendToServerConsole( "toggle dota_ability_debug" )
 	if self.m_bFreeSpellsEnabled == 0 then
 		self.m_bFreeSpellsEnabled = 1
+		SendToServerConsole( "dota_dev hero_refresh" )
 		self:BroadcastMsg( "#FreeSpellsOn_Msg" )
 	elseif self.m_bFreeSpellsEnabled == 1 then
 		self.m_bFreeSpellsEnabled = 0
