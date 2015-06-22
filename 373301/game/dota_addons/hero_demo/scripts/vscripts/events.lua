@@ -109,7 +109,7 @@ function CHeroDemo:OnMaxLevelButtonPressed( eventSourceIndex, data )
 
 	for i = 0, DOTA_MAX_ABILITIES - 1 do
 		local hAbility = hPlayerHero:GetAbilityByIndex( i )
-		if hAbility and hAbility:CanAbilityBeUpgraded () == ABILITY_CAN_BE_UPGRADED then
+		if hAbility and hAbility:CanAbilityBeUpgraded () == ABILITY_CAN_BE_UPGRADED and not hAbility:IsHidden() then
 			while hAbility:GetLevel() < hAbility:GetMaxLevel() do
 				hPlayerHero:UpgradeAbility( hAbility )
 			end
@@ -183,7 +183,13 @@ end
 -- ButtonEvent: SpawnEnemyButtonPressed
 --------------------------------------------------------------------------------
 function CHeroDemo:OnSpawnEnemyButtonPressed( eventSourceIndex, data )
-	print( "Entering CHeroDemo:OnSpawnEnemyButtonPressed( eventSourceIndex, data )" )
+	if #self.m_tEnemiesList >= 100 then
+		print( "#self.m_tEnemiesList == " .. #self.m_tEnemiesList )
+
+		self:BroadcastMsg( "#MaxEnemies_Msg" )
+		return
+	end
+
 	local hAbility = self._hNeutralCaster:FindAbilityByName( "la_spawn_enemy_at_target" )
 	self._hNeutralCaster:CastAbilityImmediately( hAbility, -1 )
 
@@ -192,25 +198,6 @@ function CHeroDemo:OnSpawnEnemyButtonPressed( eventSourceIndex, data )
 	if hAbilityTestSearch then -- Testing whether AddAbility worked successfully on the lua-based ability
 		print( "hPlayerHero:AddAbility( \"la_spawn_enemy_at_target\" ) was successful" )
 	end
-	--local hPlayerHero = PlayerResource:GetSelectedHeroEntity( data.PlayerID )
-	--local hAbility = hPlayerHero:FindAbilityByName( "la_spawn_enemy_at_target" )
-	--hPlayerHero:CastAbilityOnPosition( hPlayerHero:GetCursorPosition(), hAbility, 0 )
-
---[[
-	local hPlayerHero = PlayerResource:GetSelectedHeroEntity( data.PlayerID )
-	self.m_nEnemiesCount = self.m_nEnemiesCount + 1
-	print( "Enemy team count is now: " .. self.m_nEnemiesCount )
-	self.m_tEnemiesList[ self.m_nEnemiesCount ] = CreateUnitByName( "npc_dota_hero_axe", hPlayerHero:GetAbsOrigin(), true, nil, nil, self.m_nENEMIES_TEAM )
-	-- can do it this way instead of keeping track of self.m_nEnemiesCount, and use # when you need to get length of the list:
-	--table.append(self.m_tEnemiesList, CreateUnitByName( "npc_dota_hero_axe", hPlayerHero:GetAbsOrigin(), true, nil, nil, self.m_nENEMIES_TEAM ) )
-	local hUnit = self.m_tEnemiesList[ self.m_nEnemiesCount ]
-	hUnit:SetControllableByPlayer( self.m_nPlayerID, false )
-	FindClearSpaceForUnit( hUnit, hPlayerHero:GetAbsOrigin(), false )
-	hUnit:SetRespawnPosition( hPlayerHero:GetAbsOrigin() ) -- this doesn't work
-	hUnit:Hold()
-	hUnit:SetIdleAcquire( false )
-	hUnit:SetAcquisitionRange( 0 )
-	]]
 
 	self:BroadcastMsg( "#SpawnEnemy_Msg" )
 end
