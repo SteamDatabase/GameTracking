@@ -128,8 +128,8 @@ case $1 in
 	ProcessVPK "$1"
 	;;
 
-373303)
-	ProcessDepot "$1" "dota_s2" ".dll"
+373304)
+	ProcessDepot "$1" "dota_s2" ".dylib"
 	;;
 
 # Half-Life 2
