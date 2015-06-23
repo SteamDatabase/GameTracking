@@ -123,64 +123,48 @@ function COverthrowGameMode:OnEntityKilled( event )
 	local killedUnit = EntIndexToHScript( event.entindex_killed )
 	local killedTeam = killedUnit:GetTeam()
 	local hero = EntIndexToHScript( event.entindex_attacker )
-	if hero:IsClone() then
-		hero = hero:GetCloneSource()
-	end
-	-- Fixing Meepo respawn bugs
-	if killedUnit:IsClone() == false then
-		if killedUnit:IsRealHero() then
-			self.allSpawned = true
-			--print("Hero has been killed")
-			if hero:IsRealHero() then
-				--print("Granting killer xp")
-				if killedUnit:GetTeam() == self.leadingTeam and self.isGameTied == false then
-					local memberID = hero:GetPlayerID()
-					PlayerResource:ModifyGold( memberID, 500, true, 0 )
-					hero:AddExperience( 100, 0, false, false )
-					local name = hero:GetClassname()
-					local victim = killedUnit:GetClassname()
-					local kill_alert =
-						{
-							hero_id = hero:GetClassname()
-						}
-					CustomGameEventManager:Send_ServerToAllClients( "kill_alert", kill_alert )
-				else
-					hero:AddExperience( 50, 0, false, false )
+	local heroTeam = hero:GetTeam()
+	if killedUnit:IsRealHero() then
+		self.allSpawned = true
+		--print("Hero has been killed")
+		if hero:IsRealHero() and heroTeam ~= killedTeam then
+			--print("Granting killer xp")
+			if killedUnit:GetTeam() == self.leadingTeam and self.isGameTied == false then
+				local memberID = hero:GetPlayerID()
+				PlayerResource:ModifyGold( memberID, 500, true, 0 )
+				hero:AddExperience( 100, 0, false, false )
+				local name = hero:GetClassname()
+				local victim = killedUnit:GetClassname()
+				local kill_alert =
+					{
+						hero_id = hero:GetClassname()
+					}
+				CustomGameEventManager:Send_ServerToAllClients( "kill_alert", kill_alert )
+			else
+				hero:AddExperience( 50, 0, false, false )
+			end
+		end
+		--Granting XP to all heroes who assisted
+		local allHeroes = HeroList:GetAllHeroes()
+		for _,attacker in pairs( allHeroes ) do
+			--print(killedUnit:GetNumAttackers())
+			for i = 0, killedUnit:GetNumAttackers() - 1 do
+				if attacker == killedUnit:GetAttacker( i ) then
+					--print("Granting assist xp")
+					attacker:AddExperience( 25, 0, false, false )
 				end
 			end
-			--Granting XP to all heroes who assisted
-			local allHeroes = HeroList:GetAllHeroes()
-			for _,attacker in pairs( allHeroes ) do
-				--print(killedUnit:GetNumAttackers())
-				for i = 0, killedUnit:GetNumAttackers() - 1 do
-					if attacker == killedUnit:GetAttacker( i ) then
-						if attacker:IsClone() == false then
-							--print("Granting assist xp")
-							attacker:AddExperience( 25, 0, false, false )
-						end
-					end
-				end
-			end
-			if killedUnit:GetRespawnTime() > 10 then
-				--print("Hero has long respawn time")
-				if killedUnit:IsReincarnating() == true then
-					--print("Set time for Wraith King respawn disabled")
-					return nil
-				else
-					COverthrowGameMode:SetRespawnTime( killedTeam, killedUnit )
-				end
+		end
+		if killedUnit:GetRespawnTime() > 10 then
+			--print("Hero has long respawn time")
+			if killedUnit:IsReincarnating() == true then
+				--print("Set time for Wraith King respawn disabled")
+				return nil
 			else
 				COverthrowGameMode:SetRespawnTime( killedTeam, killedUnit )
 			end
-		end
-	else
-		--print("Clone has been killed")
-		local source = killedUnit:GetCloneSource()
-		local sourceTeam = source:GetTeam()
-		if sourceTeam == self.leadingTeam then
-			source:SetTimeUntilRespawn(20)
 		else
-			source:SetTimeUntilRespawn(10)
+			COverthrowGameMode:SetRespawnTime( killedTeam, killedUnit )
 		end
 	end
 end

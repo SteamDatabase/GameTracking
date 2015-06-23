@@ -69,7 +69,9 @@ function modifier_pudge_meat_hook_lua:UpdateHorizontalMotion( me, dt )
 	if IsServer() then
 		if self:GetAbility().hVictim ~= nil then
 			self:GetAbility().hVictim:SetOrigin( self:GetAbility().vProjectileLocation )
-			if self:GetAbility().bChainAttached == false and ( ( self.vStartPosition - self:GetCaster():GetOrigin():Length2D() ) > 128.0 ) then
+			local vToCaster = self:GetAbility().vStartPosition - self:GetCaster():GetOrigin()
+			local flDist = vToCaster:Length2D()
+			if self:GetAbility().bChainAttached == false and flDist > 128.0 then 
 				self:GetAbility().bChainAttached = true  
 				ParticleManager:SetParticleControlEnt( self:GetAbility().nChainParticleFXIndex, 0, self:GetCaster(), PATTACH_CUSTOMORIGIN, "attach_hitloc", self:GetCaster():GetOrigin(), true )
 				ParticleManager:SetParticleControl( self:GetAbility().nChainParticleFXIndex, 0, self:GetAbility().vStartPosition + self:GetAbility().vHookOffset )

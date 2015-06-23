@@ -106,7 +106,6 @@ function CHeroDemo:InitGameMode()
 
 	self.m_nENEMIES_TEAM = 3
 	self.m_tEnemiesList = {}
-	self.m_nEnemiesCount = 0
 
 	self.m_nDUMMIES_TEAM = 4
 	self.m_tDummiesList = {}
@@ -127,6 +126,7 @@ end
 -- Main Think
 --------------------------------------------------------------------------------
 function CHeroDemo:GameThink()
+	--print( "#self.m_tEnemiesList == " .. #self.m_tEnemiesList .. " | GameTime == " .. tostring( string.format( "%.0f", GameRules:GetGameTime() ) ) )
 
-	return 0.25
+	return 0.5
 end
