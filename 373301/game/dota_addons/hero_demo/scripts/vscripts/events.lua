@@ -25,15 +25,11 @@ end
 --------------------------------------------------------------------------------
 function CHeroDemo:OnNPCSpawned( event )
 	spawnedUnit = EntIndexToHScript( event.entindex )
-	if self.m_bPlayerDataCaptured == false then
-		if spawnedUnit:GetUnitName() == self.m_sHeroSelection then
-			local hPlayerHero = spawnedUnit
-			local nPlayerID = hPlayerHero:GetPlayerOwnerID()
-			PlayerResource:ModifyGold( self.m_nPlayerID, 99999, true, 0 )
-			print( "PlayerResource:GetSelectedHeroID( 0 ) == " .. PlayerResource:GetSelectedHeroID( 0 ) )
-			--hPlayerHero:AddAbility( "la_spawn_enemy_at_target" ) -- remove this for now because it causes spam and breaks ordering of hero abilities (I think).
-			self.m_bPlayerDataCaptured = true
-		end
+
+	if spawnedUnit:GetPlayerOwnerID() == 0 and spawnedUnit:IsRealHero() and not spawnedUnit:IsClone() then
+		print( "spawnedUnit is player's hero" )
+		local hPlayerHero = spawnedUnit
+		hPlayerHero:SetContextThink( "self:Think_InitializePlayerHero", function() return self:Think_InitializePlayerHero( hPlayerHero ) end, 0 )
 	end
 
 	if spawnedUnit:GetUnitName() == "npc_dota_neutral_caster" then
@@ -42,17 +38,45 @@ function CHeroDemo:OnNPCSpawned( event )
 	end
 end
 
+--------------------------------------------------------------------------------
+-- Think_InitializePlayerHero
+--------------------------------------------------------------------------------
+function CHeroDemo:Think_InitializePlayerHero( hPlayerHero )
+	if not hPlayerHero then
+		return 0.1
+	end
+
+	if self.m_bPlayerDataCaptured == false then
+		if hPlayerHero:GetUnitName() == self.m_sHeroSelection then
+			local nPlayerID = hPlayerHero:GetPlayerOwnerID()
+			PlayerResource:ModifyGold( nPlayerID, 99999, true, 0 )
+			self.m_bPlayerDataCaptured = true
+		end
+	end
+
+	if self.m_bInvulnerabilityEnabled then
+		local hAllPlayerUnits = {}
+		hAllPlayerUnits = hPlayerHero:GetAdditionalOwnedUnits()
+		hAllPlayerUnits[ #hAllPlayerUnits + 1 ] = hPlayerHero
+
+		for _, hUnit in pairs( hAllPlayerUnits ) do
+			hUnit:AddNewModifier( hPlayerHero, nil, "lm_take_no_damage", nil )
+		end
+	end
+
+	return
+end
 
 --------------------------------------------------------------------------------
 -- Think_InitializeNeutralCaster
 --------------------------------------------------------------------------------
-function CHeroDemo:Think_InitializeNeutralCaster( spawnedUnit )
-	if not spawnedUnit then
+function CHeroDemo:Think_InitializeNeutralCaster( neutralCaster )
+	if not neutralCaster then
 		return 0.1
 	end
 
-	print( "spawnedUnit:AddAbility( \"la_spawn_enemy_at_target\" )" )
-	spawnedUnit:AddAbility( "la_spawn_enemy_at_target" )
+	print( "neutralCaster:AddAbility( \"la_spawn_enemy_at_target\" )" )
+	neutralCaster:AddAbility( "la_spawn_enemy_at_target" )
 	return
 end
 
@@ -125,12 +149,12 @@ end
 --------------------------------------------------------------------------------
 function CHeroDemo:OnFreeSpellsButtonPressed( eventSourceIndex )
 	SendToServerConsole( "toggle dota_ability_debug" )
-	if self.m_bFreeSpellsEnabled == 0 then
-		self.m_bFreeSpellsEnabled = 1
+	if self.m_bFreeSpellsEnabled == false then
+		self.m_bFreeSpellsEnabled = true
 		SendToServerConsole( "dota_dev hero_refresh" )
 		self:BroadcastMsg( "#FreeSpellsOn_Msg" )
-	elseif self.m_bFreeSpellsEnabled == 1 then
-		self.m_bFreeSpellsEnabled = 0
+	elseif self.m_bFreeSpellsEnabled == true then
+		self.m_bFreeSpellsEnabled = false
 		self:BroadcastMsg( "#FreeSpellsOff_Msg" )
 	end	
 end
@@ -144,19 +168,17 @@ function CHeroDemo:OnInvulnerabilityButtonPressed( eventSourceIndex, data )
 	hAllPlayerUnits = hPlayerHero:GetAdditionalOwnedUnits()
 	hAllPlayerUnits[ #hAllPlayerUnits + 1 ] = hPlayerHero
 
-	if self.m_bInvulnerabilityEnabled == 0 then
-		--hPlayerHero:AddNewModifier( hPlayerHero, nil, "modifier_invulnerable", nil )
+	if self.m_bInvulnerabilityEnabled == false then
 		for _, hUnit in pairs( hAllPlayerUnits ) do
-			hUnit:AddNewModifier( hPlayerHero, nil, "modifier_invulnerable", nil )
+			hUnit:AddNewModifier( hPlayerHero, nil, "lm_take_no_damage", nil )
 		end
-		self.m_bInvulnerabilityEnabled = 1
+		self.m_bInvulnerabilityEnabled = true
 		self:BroadcastMsg( "#InvulnerabilityOn_Msg" )
-	elseif self.m_bInvulnerabilityEnabled == 1 then
-		--hPlayerHero:RemoveModifierByName( "modifier_invulnerable" )
+	elseif self.m_bInvulnerabilityEnabled == true then
 		for _, hUnit in pairs( hAllPlayerUnits ) do
-			hUnit:RemoveModifierByName( "modifier_invulnerable" )
+			hUnit:RemoveModifierByName( "lm_take_no_damage" )
 		end
-		self.m_bInvulnerabilityEnabled = 0
+		self.m_bInvulnerabilityEnabled = false
 		self:BroadcastMsg( "#InvulnerabilityOff_Msg" )
 	end
 end
@@ -261,14 +283,14 @@ end
 --------------------------------------------------------------------------------
 function CHeroDemo:OnLaneCreepsButtonPressed( eventSourceIndex )
 	SendToServerConsole( "toggle dota_creeps_no_spawning" )
-	if self.m_bCreepsEnabled == 0 then
-		self.m_bCreepsEnabled = 1
+	if self.m_bCreepsEnabled == false then
+		self.m_bCreepsEnabled = true
 		self:BroadcastMsg( "#LaneCreepsOn_Msg" )
-	elseif self.m_bCreepsEnabled == 1 then
+	elseif self.m_bCreepsEnabled == true then
 		-- if we're disabling creep spawns, then also kill existing creep waves
 		SendToServerConsole( "dota_kill_creeps radiant" )
 		SendToServerConsole( "dota_kill_creeps dire" )
-		self.m_bCreepsEnabled = 0
+		self.m_bCreepsEnabled = false
 		self:BroadcastMsg( "#LaneCreepsOff_Msg" )
 	end
 end

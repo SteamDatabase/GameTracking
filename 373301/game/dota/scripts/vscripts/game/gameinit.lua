@@ -2,6 +2,7 @@
 --
 --
 --=============================================================================
+require( "game/dkjson" )
 
 function HasBaseClass( object, baseClass )
     while ( object ~= nil ) do

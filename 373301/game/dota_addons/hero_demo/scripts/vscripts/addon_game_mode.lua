@@ -7,6 +7,8 @@ _G.NEUTRAL_TEAM = 4 -- global const for neutral team int
 _G.DOTA_MAX_ABILITIES = 16
 _G.HERO_MAX_LEVEL = 25
 
+LinkLuaModifier( "lm_take_no_damage", LUA_MODIFIER_MOTION_NONE )
+
 -- "demo_hero_name" is a magic term, "default_value" means no string was passed, so we'd probably want to put them in hero selection
 sHeroSelection = GameRules:GetGameSessionConfigValue( "demo_hero_name", "default_value" )
 print( "sHeroSelection: " .. sHeroSelection )
@@ -110,11 +112,11 @@ function CHeroDemo:InitGameMode()
 	self.m_nDUMMIES_TEAM = 4
 	self.m_tDummiesList = {}
 	self.m_nDummiesCount = 0
-	self.m_bDummiesEnabled = 0
+	self.m_bDummiesEnabled = false
 
-	self.m_bFreeSpellsEnabled = 0
-	self.m_bInvulnerabilityEnabled = 0
-	self.m_bCreepsEnabled = 1
+	self.m_bFreeSpellsEnabled = false
+	self.m_bInvulnerabilityEnabled = false
+	self.m_bCreepsEnabled = true
 
 	local hNeutralSpawn = Entities:FindByName( nil, "neutral_caster_spawn" )
 	self._hNeutralCaster = CreateUnitByName( "npc_dota_neutral_caster", hNeutralSpawn:GetAbsOrigin(), false, nil, nil, NEUTRAL_TEAM )

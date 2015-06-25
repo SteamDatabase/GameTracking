@@ -80,6 +80,7 @@ end
 
 function Precache( context ) 
 	PrecacheResource( "particle", "particles/ui_mouseactions/unit_highlight.vpcf", context )
+	PrecacheResource( "particle", "particles/items_fx/black_king_bar_avatar.vpcf", context )
 end
 
 
@@ -167,9 +168,9 @@ function CTutorialAG:InitGameMode()
 	self._vAlertTable[ALERT_TOO_MANY_TOWER_HITS] =	{ nNagCount = 6, flAlertLevel = 0, flAlertThreshold = 5,	nCoolDown = 2, style = ALERT_STYLE_CONTINUE,	title = "ag_alert_TooManyTowerHitsTitle",	body = "ag_alert_TooManyTowerHitsBody" }
 	self._vAlertTable[ALERT_TOO_MANY_CREEP_HITS] =	{ nNagCount = 6, flAlertLevel = 0, flAlertThreshold = 10,	nCoolDown = 16, style = ALERT_STYLE_CONTINUE,	title = "ag_alert_TooManyCreepHitsTitle",	body = "ag_alert_TooManyCreepHitsBody" }
 	self._vAlertTable[ALERT_LOW_HEALTH] = 			{ nNagCount = 3, flAlertLevel = 0, flAlertThreshold = 3,	nCoolDown = 30, style = ALERT_STYLE_CONTINUE,	title = "ag_alert_LowHealthTitle",			body = "ag_alert_LowHealthBody" }
-	self._vAlertTable[ALERT_FIRST_PURCHASE] =		{ nNagCount = 1, flAlertLevel = 0, flAlertThreshold = 1,	nCoolDown = 30, style = ALERT_STYLE_CONTINUE,	title = "ag_alert_FirstPurchaseTitle",		body = "ag_alert_FirstPurchaseBody" }
+	self._vAlertTable[ALERT_FIRST_PURCHASE] =		{ nNagCount = 1, flAlertLevel = 0, flAlertThreshold = 1,	nCoolDown = 30, style = ALERT_STYLE_CONTINUE,	title = "ag_alert_FirstPurchaseTitle",		body = "", 	keyTable = {customBody="#ag_alert_FirstPurchaseBody", keyname="%dota_purchase_quickbuy%", keyname2="%dota_courier_deliver%"} }
 	self._vAlertTable[ALERT_FORCE_PURCHASE_ITEMS] =	{ nNagCount = 4, flAlertLevel = 0, flAlertThreshold = 25,	nCoolDown = 30, style = ALERT_STYLE_FORCE,		title = "ag_alert_ForcePurchaseItemsTitle",	body = "ag_alert_ForcePurchaseItemsBody" }
-	self._vAlertTable[ALERT_NEED_DELIVER_ITEMS] =	{ nNagCount = 3, flAlertLevel = 0, flAlertThreshold = 30,	nCoolDown = 30, style = ALERT_STYLE_CONTINUE,	title = "ag_alert_NeedDeliverItemsTitle",	body = "ag_alert_AlertNeedDeliverItemsBody" }
+	self._vAlertTable[ALERT_NEED_DELIVER_ITEMS] =	{ nNagCount = 3, flAlertLevel = 0, flAlertThreshold = 30,	nCoolDown = 30, style = ALERT_STYLE_CONTINUE,	title = "ag_alert_NeedDeliverItemsTitle",	body = "", keyTable = {customBody="#ag_alert_NeedDeliverItemsBody", keyname="%dota_courier_deliver%", keyname2=""}  }
 	self._vAlertTable[ALERT_FORCE_LEVEL_UP] =		{ nNagCount = 4, flAlertLevel = 0, flAlertThreshold = 25,	nCoolDown = 30, style = ALERT_STYLE_FORCE,		title = "ag_alert_ForceLevelUpTitle",		body = "ag_alert_ForceLevelUpBody" }
 	self._vAlertTable[ALERT_BEHIND_ON_TOWERS] =		{ nNagCount = 2, flAlertLevel = 0, flAlertThreshold = 20,	nCoolDown = 180, style = ALERT_STYLE_CONTINUE,	title = "ag_alert_BehindOnTowersTitle",		body = "ag_alert_BehindOnTowersBody" }
 	self._vAlertTable[ALERT_BEHIND_ON_GOLD] =		{ nNagCount = 2, flAlertLevel = 0, flAlertThreshold = 20,	nCoolDown = 180, style = ALERT_STYLE_CONTINUE,	title = "ag_alert_BehindOnGoldTitle",		body = "ag_alert_BehindOnGoldBody" }
@@ -196,6 +197,9 @@ function CTutorialAG:InitGameMode()
 
 	Tutorial:StartTutorialMode()
 
+	self._nImmuneFXIndex = -1
+	self._flDialogFadeInTime = 0
+	self._nAlertFadeCount = 3
 	self._flAlertTime = 0
 	self._flDelay = 0
 	self._nTowerHits = 0
@@ -236,6 +240,7 @@ function CTutorialAG:InitGameMode()
 	Convars:RegisterCommand( "tutorial_advance_state", function(...) return self:_TestAdvanceTutorial( ... ) end, "Advance the tutorial state.", FCVAR_CHEAT )
 	Convars:RegisterCommand( "tutorial_test_victory", function(...) return self:_TestTutorialVictory( ... ) end, "Advance the tutorial to the next state.", FCVAR_CHEAT )
 	Convars:RegisterCommand( "tutorial_change_to_late_game", function(...) return self:_ChangeToLateGame( ... ) end, "Advance the tutorial to the next state.", FCVAR_CHEAT )
+	Convars:RegisterCommand( "tutorial_alert", function(...) return self:_TestAlert( ... ) end, "Test alert with the given index.", FCVAR_CHEAT )
 
 	CustomGameEventManager:RegisterListener( "AbilityStartUse", function(...) return self:OnAbilityStartUse( ... ) end )
 	CustomGameEventManager:RegisterListener( "AbilityLearnModeToggled", function(...) return self:OnAbilityLearnModeToggled( ... ) end )
@@ -311,6 +316,10 @@ end
 
 function CTutorialAG:_ChangeToLateGame( cmdName )
 	self._bLateGame = true
+end
+
+function CTutorialAG:_TestAlert( cmdName, nAlertNum )
+	self:_ShowTriggeredAlert( tonumber( nAlertNum ) )
 end
 
 
@@ -403,13 +412,16 @@ function CTutorialAG:FilterExecuteOrder( filterTable )
 
 	if ( self._bGameStarted and Tutorial:GetTimeFrozen() ) then
 		local orderType = filterTable["order_type"]
-		if ( ( self._nActiveAlert == ALERT_FORCE_PURCHASE_ITEMS ) or ( self._nActiveAlert == ALERT_FIRST_PURCHASE ) and orderType == DOTA_UNIT_ORDER_PURCHASE_ITEM ) then
+		if ( ( self._nActiveAlert == ALERT_FORCE_PURCHASE_ITEMS or self._nActiveAlert == ALERT_FIRST_PURCHASE ) and orderType == DOTA_UNIT_ORDER_PURCHASE_ITEM ) then
+--			print("Clearing from purchase")
 			self:_ClearAlerts()
 			return true
 		elseif ( self._nActiveAlert == ALERT_FORCE_LEVEL_UP and orderType == DOTA_UNIT_ORDER_TRAIN_ABILITY ) then
+--			print("Clearing from level up")
 			self:_ClearAlerts()
 			return true			
 		elseif ( self._nActiveAlert == ALERT_NEED_DELIVER_ITEMS and orderType == DOTA_UNIT_ORDER_CAST_NO_TARGET ) then
+--			print("Clearing from deliver")
 			self:_ClearAlerts()
 			return true
 		end		
@@ -507,12 +519,15 @@ function CTutorialAG:OnDialogButtonPressed( eventSourceIndex, args )
 			print("Think I have my items purchased")
 			bNotifyItemsPurchased = true
 		end
+
+		self:_SetPlayerInvulnerability( false )
 	end
 
 	print("Active alert " .. tostring( self._nActiveAlert ) )
 	print("Force alert " .. tostring( self:_IsForceAlert( self._nActiveAlert ) ) )
 
 	if ( self._nActiveAlert ~= -1 and not self:_IsForceAlert( self._nActiveAlert ) ) then
+--		print("clearing from button")
 		self:_ClearAlerts()
 		return
 	end
@@ -617,6 +632,7 @@ function CTutorialAG:OnItemPurchased( event )
 --	print("------ ON_ITEM_PURCHASED")
 	if ( event.PlayerID == 0 ) then
 		if ( self._nActiveAlert == ALERT_FORCE_PURCHASE_ITEMS ) then
+--			print("clearing from purchase")
 			self:_ClearAlerts()
 		end
 
@@ -841,6 +857,13 @@ function CTutorialAG:OnThink()
 		return 0.25
 	end
 
+	if ( self._flDialogFadeInTime > 0 ) then
+		self._flDialogFadeInTime = self._flDialogFadeInTime - 0.25
+		if ( self._flDialogFadeInTime <= 0 ) then
+			self:_FadeInDialog()
+		end
+	end
+
 	if ( self._flFXClearTime > 0 and self._nFXIndex ~= -1 ) then
 		self._flFXClearTime = self._flFXClearTime - 0.25
 		if ( self._flFXClearTime <= 0 ) then
@@ -973,6 +996,8 @@ function CTutorialAG:_IsForceAlert( nAlert )
 end
 
 function CTutorialAG:_ClearAlerts()
+	self:_SetPlayerInvulnerability( false )
+
 	self:SetGameFrozen( false )
 	self._nActiveAlert = -1
 	CustomUI:DynamicHud_Destroy( -1, "alert_dialog" )
@@ -1117,8 +1142,14 @@ function CTutorialAG:_ShowTriggeredAlert( nAlert )
 
 	print( "Alert style " .. layout )
 
-	CustomUI:DynamicHud_Create( -1, "alert_dialog", layout, { TitleTextVar = self._vAlertTable[nAlert]["title"], BodyTextVar = self._vAlertTable[nAlert]["body"] } )
---	{ nNagCount = 3, flAlertLevel = 0, flAlertThreshold = 3,	nCoolDown = 10 }
+	if ( self._vAlertTable[nAlert]["keyTable"] ~= nil ) then
+		CustomUI:DynamicHud_Create( -1, "alert_dialog", layout, { TitleTextVar = self._vAlertTable[nAlert]["title"], BodyTextVar = self._vAlertTable[nAlert]["body"] } )
+		CustomGameEventManager:Send_ServerToAllClients( "set_custom_alert_string", self._vAlertTable[nAlert]["keyTable"] )
+	else
+		CustomUI:DynamicHud_Create( -1, "alert_dialog", layout, { TitleTextVar = self._vAlertTable[nAlert]["title"], BodyTextVar = self._vAlertTable[nAlert]["body"] } )
+	end
+
+	self:_QueueAlertFadeIn( nAlert )
 end
 
 -----------------------------------------------------------------------------------------
@@ -1397,12 +1428,62 @@ function CTutorialAG:_GetNextItemCost()
 	return totalCost
 end
 
+function CTutorialAG:_SetPlayerInvulnerability( bInvulnerable )
+	if ( bInvulnerable ) then
+		if ( self._hPlayerHero ~= nil and self._nImmuneFXIndex == -1 ) then
+			self._hPlayerHero:AddNewModifier( self._hPlayerHero, nil, "modifier_invulnerable", {} )
+
+			self._nImmuneFXIndex = ParticleManager:CreateParticle( "particles/items_fx/black_king_bar_avatar.vpcf", PATTACH_ABSORIGIN_FOLLOW, self._hPlayerHero )
+		end
+	else
+		if ( self._hPlayerHero ~= nil ) then
+			self._hPlayerHero:RemoveModifierByName( "modifier_invulnerable" )
+			if ( self._nImmuneFXIndex ~= -1 ) then
+				ParticleManager:DestroyParticle( self._nImmuneFXIndex, true )
+				self._nImmuneFXIndex = -1
+			end
+		end
+	end
+end
+
 function CTutorialAG:_SetBuildImage( imageClassName )
 	local event_data =
 	{
 	    image_class = imageClassName,
 	}
 	CustomGameEventManager:Send_ServerToAllClients( "set_build_image", event_data )
+end
+
+function CTutorialAG:_QueueDetailsFadeIn()
+	self:_SetPlayerInvulnerability( true )
+	self._flDialogFadeInTime = 1.5
+end
+
+function CTutorialAG:_QueueInfoFadeIn()
+	self:_SetPlayerInvulnerability( true )
+	self._flDialogFadeInTime = 1.5
+end
+
+function CTutorialAG:_QueueAlertFadeIn( nAlert )
+
+	-- Don't make the target invulnerable if they die.
+	if ( nAlert == ALERT_DEATH ) then
+		self:_FadeInDialog()
+		return
+	end
+
+	self:_SetPlayerInvulnerability( true )
+
+	if ( self._nAlertFadeCount > 0 ) then
+		self._nAlertFadeCount = self._nAlertFadeCount - 1
+		self._flDialogFadeInTime = 3.0
+	else
+		self._flDialogFadeInTime = 1.5		
+	end
+end
+
+function CTutorialAG:_FadeInDialog()
+	CustomGameEventManager:Send_ServerToAllClients( "fade_in_dialog", {} )
 end
 
 function CTutorialAG:_TryAnnounceItem( itemName )
@@ -1412,6 +1493,7 @@ function CTutorialAG:_TryAnnounceItem( itemName )
 		CustomUI:DynamicHud_Create( -1, "details_dialog", "file://{resources}/layout/custom_game/tutorial_dialog_build_details.xml", { TitleTextVar = itemDetails.title, BodyTextVar = itemDetails.body } )
 		self:_SetBuildImage( itemDetails.imageClass )
 		self._bPausedForDetails = true
+		self:_QueueDetailsFadeIn()
 	end
 end
 
@@ -1444,6 +1526,9 @@ function CTutorialAG:_TryAnnounceBuild( nLevel )
 		if ( self._nSkillIndex == 0 ) then
 			EmitGlobalSound("Tutorial.TaskProgress")
 			self._bStayPausedForDetails = true
+			self:_FadeInDialog()
+		else
+			self:_QueueDetailsFadeIn()
 		end
 	else
 --		print("Build is nil")
@@ -1862,10 +1947,12 @@ end
 function CTutorialAG:_IntroduceCoreItems()
 	self:SetGameFrozen( true )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective_completed" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_info", "file://{resources}/layout/custom_game/tutorial_dialog_blank.xml", { TitleTextVar = "ag_info_CoreItemsTitle", BodyTextVar = "ag_info_CoreItemsBody" } )
+	CustomUI:DynamicHud_Create( -1, "tutorial_info", "file://{resources}/layout/custom_game/tutorial_dialog_blank_pausing.xml", { TitleTextVar = "ag_info_CoreItemsTitle", BodyTextVar = "ag_info_CoreItemsBody" } )
+	self:_QueueInfoFadeIn()
 end
 
 function CTutorialAG:_QuestCoreItems()
+	self:_SetPlayerInvulnerability( false )
 	EmitGlobalSound("ui.npe_objective_given")
 	self:SetGameFrozen( false )
 	local progressText = self:_FormatProgessText( self._nItemIndex - self._nEarlyGameItemStart, 1 + ( self._nEarlyGameItemIdx - self._nEarlyGameItemStart ) )
@@ -1882,10 +1969,12 @@ end
 function CTutorialAG:_IntroduceObjectives()
 	self:SetGameFrozen( true )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_info", "file://{resources}/layout/custom_game/tutorial_dialog_blank.xml", { TitleTextVar = "ag_info_TakeObjectivesTitle", BodyTextVar = "ag_info_TakeObjectivesBody" } )
+	CustomUI:DynamicHud_Create( -1, "tutorial_info", "file://{resources}/layout/custom_game/tutorial_dialog_blank_pausing.xml", { TitleTextVar = "ag_info_TakeObjectivesTitle", BodyTextVar = "ag_info_TakeObjectivesBody" } )
+	self:_QueueInfoFadeIn()
 end
 
 function CTutorialAG:_QuestTakeTowers()
+	self:_SetPlayerInvulnerability( false )
 	self:SetGameFrozen( false )
 	self._nMinDifficulty = 1
 	GameRules:GetGameModeEntity():SetBotsMaxPushTier( 1 )
@@ -1908,10 +1997,12 @@ end
 function CTutorialAG:_IntroduceHighground()
 	self:SetGameFrozen( true )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective_completed" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_info", "file://{resources}/layout/custom_game/tutorial_dialog_blank.xml", { TitleTextVar = "ag_info_HighgroundTitle", BodyTextVar = "ag_info_HighgroundBody" } )
+	CustomUI:DynamicHud_Create( -1, "tutorial_info", "file://{resources}/layout/custom_game/tutorial_dialog_blank_pausing.xml", { TitleTextVar = "ag_info_HighgroundTitle", BodyTextVar = "ag_info_HighgroundBody" } )
+	self:_QueueInfoFadeIn()
 end
 
 function CTutorialAG:_QuestBreakBase()
+	self:_SetPlayerInvulnerability( false )
 	self:SetGameFrozen( false )
 	self._nMinDifficulty = 1
 	GameRules:GetGameModeEntity():SetBotsInLateGame( true )
