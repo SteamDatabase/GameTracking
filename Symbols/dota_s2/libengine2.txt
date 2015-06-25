@@ -456,6 +456,7 @@
  B clientport
  B closecaption
  B colorcorrection
+ B con_logfile_suffix
  B demo_debug
  B demoplayer
  B demorecorder
@@ -5269,6 +5270,7 @@
  Plat_FileSize
  Plat_FlashWindow
  Plat_FloatTime
+ Plat_GetCPUFrequency
  Plat_GetCPUUsage
  Plat_GetClockStart
  Plat_GetDesktopResolution
@@ -6930,6 +6932,7 @@
  T CAppSystemDict::AddSystem(void*, char const*)
  T CAppSystemDict::AddSystems(int, AppSystemInfo_t const*)
  T CAppSystemDict::CAppSystemDict(bool, void*, void*, int, bool, bool)
+ T CAppSystemDict::ChangeLogFileSuffix(char const*)
  T CAppSystemDict::ComputeDependencies(CUtlStringMap<CAppSystemDict::InterfaceInfo_t, CUtlSymbolTable>&)
  T CAppSystemDict::CreateAppWindow(char const*, bool, bool, int, int, int, int, bool, bool)
  T CAppSystemDict::CreateApplication()
@@ -9283,6 +9286,7 @@
  T CEngineClient::GetSinglePlayerSharedMemorySpace(char const*, int)
  T CEngineClient::GetSplitScreenPlayer(CSplitScreenSlot)
  T CEngineClient::GetStartupImage(char*, int, int, int)
+ T CEngineClient::GetStatsAppID() const
  T CEngineClient::GetSteamAPIContext()
  T CEngineClient::GetTimescale() const
  T CEngineClient::GetUILanguage(char*, int)
@@ -9413,6 +9417,7 @@
  T CEngineServer::GetSinglePlayerSharedMemorySpace(char const*, int)
  T CEngineServer::GetSplitScreenPlayerAttachToEdict(CEntityIndex)
  T CEngineServer::GetSplitScreenPlayerForEdict(CEntityIndex, CSplitScreenSlot)
+ T CEngineServer::GetStatsAppID() const
  T CEngineServer::GetTimescale() const
  T CEngineServer::GetViewEntity(CEntityIndex)
  T CEngineServer::HostValidateSession()
@@ -9694,6 +9699,7 @@
  T CFileLoggingListener::CFileLoggingListener()
  T CFileLoggingListener::EndLoggingToFile(int)
  T CFileLoggingListener::Log(LoggingContext_t const*, char const*)
+ T CFileLoggingListener::ReOpenLoggingToFile(int, char const*, char const*, char const*)
  T CFileLoggingListener::SetLogTimestamps(bool)
  T CFileLoggingListener::UnassignAllLogChannels()
  T CFileLoggingListener::UnassignLogChannel(int)
@@ -10161,7 +10167,6 @@
  T CInputService::FindBindingSubstringMatch(char*, char const*)
  T CInputService::GetBinding(AnalogCode_t, CSplitScreenSlot)
  T CInputService::GetBinding(ButtonCode_t, CSplitScreenSlot)
- T CInputService::GetConsoleToggleKey() const
  T CInputService::GetFrameCount() const
  T CInputService::GetServiceDependencies()
  T CInputService::HandleAnalogValueChange(InputEvent_t const&, CSplitScreenSlot)
@@ -10172,6 +10177,7 @@
  T CInputService::InsertCommand(InputCommandSource_t, char const*, int)
  T CInputService::InstallInputHandler(char const*, int, IInputHandler*)
  T CInputService::IsAppActive() const
+ T CInputService::IsConsoleToggleKey(ButtonCode_t)
  T CInputService::IsInCursorConfinementMode()
  T CInputService::Key_CheckDoneMultiTrapping(CUtlVector<ButtonCode_t, CUtlMemory<ButtonCode_t, int> >&)
  T CInputService::Key_CheckDoneTrapping(ButtonCode_t&)
@@ -16162,6 +16168,7 @@
  T CTier1Application::AddSystem(void*, char const*)
  T CTier1Application::AddSystemDontLoadStartupManifests(char const*, char const*)
  T CTier1Application::AddSystems(int, AppSystemInfo_t const*)
+ T CTier1Application::ChangeLogFileSuffix(char const*)
  T CTier1Application::FindSystem(char const*)
  T CTier1Application::GetAddonInfo(KeyValues*, char const*)
  T CTier1Application::GetAddonNameFromID(unsigned long long) const
@@ -16331,6 +16338,7 @@
  T CTier2AppSystem<IXboxSystem, 0>::Reconnect(void* (*)(char const*, int*), char const*)
  T CTier2AppSystem<IXboxSystem, 0>::Shutdown()
  T CTier2AppSystemDict::CTier2AppSystemDict(bool, void*, void*, int, bool, bool)
+ T CTier2AppSystemDict::ChangeLogFileSuffix(char const*)
  T CTier2AppSystemDict::CreateApplication()
  T CTier2AppSystemDict::GetAvailableAddonMaps(CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*, char const*)
  T CTier2AppSystemDict::GetAvailableAddonMaps_(KeyValues*, char const*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
@@ -17057,6 +17065,7 @@
  T CUtlStreamBuffer::StreamGetOverflow(int)
  T CUtlStreamBuffer::StreamPutOverflow(int)
  T CUtlStreamBuffer::~CUtlStreamBuffer()
+ T CUtlString::Append(char const*)
  T CUtlString::Clear()
  T CUtlString::FixSlashes(char)
  T CUtlString::Format(char const*, ...)
@@ -17543,6 +17552,7 @@
  T ConVar::ConVar(char const*, char const*, long long)
  T ConVar::ConVar(char const*, char const*, long long, char const*)
  T ConVar::ConVar(char const*, char const*, long long, char const*, bool, float, bool, float)
+ T ConVar::ConVar(char const*, char const*, long long, char const*, bool, float, bool, float, void (*)(IConVar*, char const*, float))
  T ConVar::ConVar(char const*, char const*, long long, char const*, void (*)(IConVar*, char const*, float))
  T ConVar::Create(char const*, char const*, long long, char const*, bool, float, bool, float, void (*)(IConVar*, char const*, float))
  T ConVar::GetBaseName() const
@@ -17580,6 +17590,7 @@
  T ConnectInterfaces(void* (**)(char const*, int*), int)
  T ConnectTier1Libraries(void* (**)(char const*, int*), int)
  T ConnectTier2Libraries(void* (**)(char const*, int*), int)
+ T ConsoleLogSuffixCallback(IConVar*, char const*, float)
  T ConstraintSlave_t::KV3TransferLoad(CKV3TransferLoadContext*)
  T ConstraintSlave_t::KV3TransferLoad_ConstraintSlave_t(CKV3TransferLoadContext*)
  T ConstraintSlave_t::KV3TransferSave(CKV3TransferSaveContext*)
