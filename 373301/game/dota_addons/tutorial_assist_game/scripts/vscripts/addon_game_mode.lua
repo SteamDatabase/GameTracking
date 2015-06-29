@@ -272,6 +272,8 @@ function CTutorialAG:InitGameMode()
 
 	GameRules:GetGameModeEntity():SetTrackingProjectileFilter( Dynamic_Wrap( CTutorialAG, "FilterTrackingProjectile" ), self )
 
+	GameRules:GetGameModeEntity():SetAbilityTuningValueFilter( Dynamic_Wrap( CTutorialAG, "FilterAbilityTuningValue" ), self )
+
 	-- Register OnThink with the game engine so it is called every 0.25 seconds
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, 0.25 ) 
 
@@ -326,6 +328,12 @@ end
 -----------------------------------------------------------------------------------------
 -- Filters
 -----------------------------------------------------------------------------------------
+
+function CTutorialAG:FilterAbilityTuningValue( filterTable )
+--	for k, v in pairs( filterTable ) do
+--		print("AbilityValue: " .. k .. " " .. tostring(v) )
+--	end
+end
 
 function CTutorialAG:FilterTrackingProjectile( filterTable )
 --	for k, v in pairs( filterTable ) do
