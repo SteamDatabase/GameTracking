@@ -2516,6 +2516,7 @@
  D typeinfo for CConsoleProcessorForTestScripts
  D typeinfo for CCreateGameClientPrerequisite
  D typeinfo for CCvarQuery
+ D typeinfo for CDebugVisualizerAbsTime
  D typeinfo for CDebugVisualizerMgr
  D typeinfo for CDefaultAccessor
  D typeinfo for CDefaultClientConfig
@@ -2579,6 +2580,7 @@
  D typeinfo for CEngineServer
  D typeinfo for CEngineServiceMgr
  D typeinfo for CEngineSoundServices
+ D typeinfo for CEngineSoundServicesDebugVisualizer
  D typeinfo for CEngineVGui
  D typeinfo for CEntityInfo
  D typeinfo for CEntityReadInfo
@@ -2912,7 +2914,6 @@
  D typeinfo for CNetworkServerSpawnGroup_WaitForAssetLoadPrerequisite
  D typeinfo for CNetworkServerSpawnGroup_WaitForChildSpawnGroups
  D typeinfo for CNetworkServerSpawnGroup_WaitForClients
- D typeinfo for CNetworkServerSpawnGroup_WaitForMinimumLoadTime
  D typeinfo for CNetworkService
  D typeinfo for CNetworkStringDict
  D typeinfo for CNetworkStringTable
@@ -4355,6 +4356,7 @@
  D vtable for CConsoleProcessorForTestScripts
  D vtable for CCreateGameClientPrerequisite
  D vtable for CCvarQuery
+ D vtable for CDebugVisualizerAbsTime
  D vtable for CDebugVisualizerMgr
  D vtable for CDefaultAccessor
  D vtable for CDefaultClientConfig
@@ -4418,6 +4420,7 @@
  D vtable for CEngineServer
  D vtable for CEngineServiceMgr
  D vtable for CEngineSoundServices
+ D vtable for CEngineSoundServicesDebugVisualizer
  D vtable for CEngineVGui
  D vtable for CEntityReadInfo
  D vtable for CEntityReport
@@ -4704,7 +4707,6 @@
  D vtable for CNetworkServerSpawnGroup_WaitForAssetLoadPrerequisite
  D vtable for CNetworkServerSpawnGroup_WaitForChildSpawnGroups
  D vtable for CNetworkServerSpawnGroup_WaitForClients
- D vtable for CNetworkServerSpawnGroup_WaitForMinimumLoadTime
  D vtable for CNetworkService
  D vtable for CNetworkStringDict
  D vtable for CNetworkStringTable
@@ -5262,6 +5264,7 @@
  Plat_CreateUUIDImpl
  Plat_CreateWindow
  Plat_DebugString
+ Plat_DesktopNotify
  Plat_DestroyGameInstanceMutex
  Plat_DestroyWindow
  Plat_DisableIOBuffering
@@ -5600,6 +5603,7 @@
  R typeinfo name for CConsoleProcessorForTestScripts
  R typeinfo name for CCreateGameClientPrerequisite
  R typeinfo name for CCvarQuery
+ R typeinfo name for CDebugVisualizerAbsTime
  R typeinfo name for CDebugVisualizerMgr
  R typeinfo name for CDefaultAccessor
  R typeinfo name for CDefaultClientConfig
@@ -5663,6 +5667,7 @@
  R typeinfo name for CEngineServer
  R typeinfo name for CEngineServiceMgr
  R typeinfo name for CEngineSoundServices
+ R typeinfo name for CEngineSoundServicesDebugVisualizer
  R typeinfo name for CEngineVGui
  R typeinfo name for CEntityInfo
  R typeinfo name for CEntityReadInfo
@@ -5996,7 +6001,6 @@
  R typeinfo name for CNetworkServerSpawnGroup_WaitForAssetLoadPrerequisite
  R typeinfo name for CNetworkServerSpawnGroup_WaitForChildSpawnGroups
  R typeinfo name for CNetworkServerSpawnGroup_WaitForClients
- R typeinfo name for CNetworkServerSpawnGroup_WaitForMinimumLoadTime
  R typeinfo name for CNetworkService
  R typeinfo name for CNetworkStringDict
  R typeinfo name for CNetworkStringTable
@@ -8669,6 +8673,10 @@
  T CCvarQuery::AreConVarsLinkable(ConVar const*, ConVar const*)
  T CCvarQuery::Init()
  T CCvarQuery::Shutdown()
+ T CDebugVisualizerAbsTime::AgeList(float, float)
+ T CDebugVisualizerAbsTime::DebugDraw(CFrustum*, ISceneView*, float, float)
+ T CDebugVisualizerAbsTime::SetOverlayStartTime(float, bool)
+ T CDebugVisualizerAbsTime::~CDebugVisualizerAbsTime()
  T CDebugVisualizerMgr::AddDebugVisualizer(CUtlStringToken, IDebugVisualizer*, DebugVisualizerType_t)
  T CDebugVisualizerMgr::AgeList(float, float)
  T CDebugVisualizerMgr::CDebugVisualizerMgr()
@@ -9231,6 +9239,7 @@
  T CEngineClient::DSPGetCurrentDASRoomSkyAbove()
  T CEngineClient::DSPGetCurrentDASRoomSkyPercent()
  T CEngineClient::DecompressBZipFile(char const*, char const*)
+ T CEngineClient::DesktopNotify(char const*, char const*)
  T CEngineClient::DrawSelectedPanel(vgui::VPanelHandle)
  T CEngineClient::EngineStats_BeginFrame()
  T CEngineClient::EngineStats_EndFrame()
@@ -9529,10 +9538,13 @@
  T CEngineSoundServices::GetSoundSpatialization(CEntityIndex, SpatializationInfo_t&)
  T CEngineSoundServices::GetSurfaceAudioReflectivity(CGameTrace const*)
  T CEngineSoundServices::GetToolSpatialization(int, SoundGuid_t, SpatializationInfo_t&)
+ T CEngineSoundServices::Init()
  T CEngineSoundServices::NotifySteamOfBadInstall()
  T CEngineSoundServices::OnChangeVoiceStatus(CEntityIndex, CSplitScreenSlot, bool)
  T CEngineSoundServices::ShouldSuppressNonUISounds()
+ T CEngineSoundServices::Shutdown()
  T CEngineSoundServices::TraceRay(Ray_t const&, RnQueryAttr_t, CGameTrace*)
+ T CEngineSoundServicesDebugVisualizer::~CEngineSoundServicesDebugVisualizer()
  T CEngineStats::BeginFrame()
  T CEngineStats::BeginRun()
  T CEngineStats::EndFrame()
@@ -13252,9 +13264,6 @@
  T CNetworkServerSpawnGroup_WaitForClients::GetName() const
  T CNetworkServerSpawnGroup_WaitForClients::GetPrerequisiteStatus()
  T CNetworkServerSpawnGroup_WaitForClients::~CNetworkServerSpawnGroup_WaitForClients()
- T CNetworkServerSpawnGroup_WaitForMinimumLoadTime::GetName() const
- T CNetworkServerSpawnGroup_WaitForMinimumLoadTime::GetPrerequisiteStatus()
- T CNetworkServerSpawnGroup_WaitForMinimumLoadTime::~CNetworkServerSpawnGroup_WaitForMinimumLoadTime()
  T CNetworkService::ConfigureSockets()
  T CNetworkService::GetDependencies()
  T CNetworkService::Init()
@@ -13337,7 +13346,7 @@
  T CNonFocusableMenu::~CNonFocusableMenu()
  T COM_CopyFile(char const*, char const*)
  T COM_CreatePath(char const*)
- T COM_ExplainDisconnection(char const*)
+ T COM_ExplainDisconnection(int, char const*)
  T COM_IsValidPath(char const*)
  T COM_LogString(char const*, char const*)
  T COM_MakeDir(char const*)
@@ -17640,6 +17649,7 @@
  T DmxElementUnpackStructure_t* vgui::DmxElementUnpackInitvgui<vgui::Button>(vgui::Button*)
  T DmxElementUnpackStructure_t* vgui::DmxElementUnpackInitvgui<vgui::Label>(vgui::Label*)
  T DmxElementUnpackStructure_t* vgui::DmxElementUnpackInitvgui<vgui::Panel>(vgui::Panel*)
+ T DoesServerAllowCheats()
  T DownloadCache::BuildKeyNames(char const*)
  T DownloadCache::GenerateCacheFilename(RequestContext const*, char*)
  T DownloadCache::GetCachedData(RequestContext*)
@@ -18495,6 +18505,7 @@
  T inflate_trees_dynamic(unsigned int, unsigned int, unsigned int*, unsigned int*, unsigned int*, inflate_huft_s**, inflate_huft_s**, inflate_huft_s*, z_stream_s*)
  T int CUtlSortVector<ProjectSize_t, ProjectSize_t, CUtlVector<ProjectSize_t, CUtlMemory<ProjectSize_t, int> > >::FindLessOrEqual<ProjectSize_t>(ProjectSize_t const&, bool*) const
  T int V_sprintf_safe<1024ul>(char (&) [1024ul], char const*, ...)
+ T int V_sprintf_safe<128ul>(char (&) [128ul], char const*, ...)
  T int V_sprintf_safe<256ul>(char (&) [256ul], char const*, ...)
  T int V_sprintf_safe<260ul>(char (&) [260ul], char const*, ...)
  T int V_sprintf_safe<512ul>(char (&) [512ul], char const*, ...)
@@ -21737,6 +21748,7 @@
  b CNetworkGameServerBase::UpdateMasterServer()::bUpdateMasterServers
  b CNetworkP2PService::GetDependencies()::s_pDependencies
  b CNetworkService::GetDependencies()::s_pDependencies
+ b COM_ExplainDisconnection(int, char const*)::buf
  b COM_SetupLogDir(char const*)::pathsetup
  b CPhysSurfaceProperties::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b CRenderMesh::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
@@ -21745,6 +21757,8 @@
  b CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::s_bNonVrStereoRenderingAvailable
  b CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::s_bSkipGameOverlay
  b CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::s_bSkipPostProcessing
+ b CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::vr_companion_window_zoom
+ b CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::vr_fxaa
  b CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::vr_ghost_correction_editing_enable
  b CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::vr_ghost_correction_enable
  b CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::vr_msaa
@@ -21754,6 +21768,7 @@
  b CSchemaAutoRegistration_engine2
  b CSchemaAutoRegistration_modellib
  b CServerRemoteAccess::LookupStringValue(CNetworkGameServer*, char const*)::s_ReturnBuf
+ b CSoundService::AsyncPollForVoiceData()::snd_mute_losefocus
  b CSoundService::OnClientProcessInput(EventClientProcessInput_t const&)::voice_vox_current_peak
  b CSoundService::UpdateVoiceLevels(short*, unsigned int)::voice_threshold_delay
  b CSteam3Client::OnGameServerChangeRequested(GameServerChangeRequested_t*)::password
@@ -21928,6 +21943,7 @@
  b RnSphereDesc_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b RnSphere_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b RnTriangle_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
+ b SV_CheatsChanged_f(IConVar*, char const*, float)::bDisallowingCheats
  b SceneObjectData_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b ServerTagsCleanUp()::s_nNoReentry
  b SkeletonBoneBbox_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
@@ -22246,11 +22262,14 @@
  b guard variable for CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::s_bNonVrStereoRenderingAvailable
  b guard variable for CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::s_bSkipGameOverlay
  b guard variable for CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::s_bSkipPostProcessing
+ b guard variable for CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::vr_companion_window_zoom
+ b guard variable for CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::vr_fxaa
  b guard variable for CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::vr_ghost_correction_editing_enable
  b guard variable for CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::vr_ghost_correction_enable
  b guard variable for CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::vr_msaa
  b guard variable for CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::vr_warp
  b guard variable for CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::vr_warp_using_mesh
+ b guard variable for CSoundService::AsyncPollForVoiceData()::snd_mute_losefocus
  b guard variable for CSoundService::OnClientProcessInput(EventClientProcessInput_t const&)::voice_vox_current_peak
  b guard variable for CSoundService::UpdateVoiceLevels(short*, unsigned int)::voice_threshold_delay
  b guard variable for CSteam3Client::OnGameServerChangeRequested(GameServerChangeRequested_t*)::password
@@ -24115,6 +24134,8 @@
  t __cxx_global_var_init142
  t __cxx_global_var_init143
  t __cxx_global_var_init144
+ t __cxx_global_var_init152
+ t __cxx_global_var_init153
  t __cxx_global_var_init154
  t __cxx_global_var_init155
  t __cxx_global_var_init156
@@ -24156,18 +24177,16 @@
  t __cxx_global_var_init19
  t __cxx_global_var_init190
  t __cxx_global_var_init191
- t __cxx_global_var_init192
- t __cxx_global_var_init193
  t __cxx_global_var_init20
+ t __cxx_global_var_init204
+ t __cxx_global_var_init205
+ t __cxx_global_var_init206
+ t __cxx_global_var_init207
+ t __cxx_global_var_init208
  t __cxx_global_var_init209
  t __cxx_global_var_init210
  t __cxx_global_var_init211
  t __cxx_global_var_init212
- t __cxx_global_var_init213
- t __cxx_global_var_init214
- t __cxx_global_var_init215
- t __cxx_global_var_init216
- t __cxx_global_var_init217
  t __cxx_global_var_init250
  t __cxx_global_var_init251
  t __cxx_global_var_init252
