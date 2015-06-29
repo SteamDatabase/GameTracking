@@ -35,12 +35,7 @@ ProcessDepot ()
 		
 		echo "> $baseFile"
 		
-		if [ "$2" = "dota_s2" ]
-		then
-			mono .support/ProtobufDumper.exe "$file" "Protobufs/$2/$baseFile/" > /dev/null
-		else
-			mono .support/ProtobufDumper.exe "$file" "Protobufs/$2/" > /dev/null
-		fi
+		mono .support/ProtobufDumper.exe "$file" "Protobufs/$2/" > /dev/null
 		
 		mkdir -p "BuildbotPaths/$2"
 		
