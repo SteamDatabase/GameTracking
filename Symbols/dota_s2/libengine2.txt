@@ -6889,6 +6889,7 @@
  T BlankImage::SetRotation(int)
  T BlankImage::SetSize(int, int)
  T BlankImage::~BlankImage()
+ T BuildFileList(char const*, char const*, char const*, bool, BuildFileListType_t, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
  T BuildFileList(char const*, char const*, char const*, bool, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
  T BuildFileList_R(CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&, char const*, char const*)
  T BuildGammaTable(float, float, float, int)
@@ -6931,9 +6932,9 @@
  T CAppConfigValue<float>::~CAppConfigValue()
  T CAppSystemDict::AddNonAppSystemFactory(void* (*)(char const*, int*))
  T CAppSystemDict::AddSystem(IAppSystem*, char const*)
- T CAppSystemDict::AddSystem(char const*, char const*)
+ T CAppSystemDict::AddSystem(char const*, char const*, ErrorResponse_t)
  T CAppSystemDict::AddSystem(void* (*)(char const*, int*), char const*)
- T CAppSystemDict::AddSystem(void*, char const*)
+ T CAppSystemDict::AddSystem(void*, char const*, ErrorResponse_t)
  T CAppSystemDict::AddSystems(int, AppSystemInfo_t const*)
  T CAppSystemDict::CAppSystemDict(bool, void*, void*, int, bool, bool)
  T CAppSystemDict::ChangeLogFileSuffix(char const*)
@@ -6947,7 +6948,7 @@
  T CAppSystemDict::GetInitializationPhase() const
  T CAppSystemDict::Init()
  T CAppSystemDict::LoadModuleInPath(char const*)
- T CAppSystemDict::LoadSystemAndDependencies(CUtlVector<CAppSystemDict::AppSystemRequest_t, CUtlMemory<CAppSystemDict::AppSystemRequest_t, int> >&)
+ T CAppSystemDict::LoadSystemAndDependencies(CUtlVector<CAppSystemDict::AppSystemRequest_t, CUtlMemory<CAppSystemDict::AppSystemRequest_t, int> >&, ErrorResponse_t)
  T CAppSystemDict::OnAppSystemLoaded()
  T CAppSystemDict::PreShutdown()
  T CAppSystemDict::RebuildSystemDictionary()
@@ -9907,7 +9908,7 @@
  T CGameUIFuncs::~CGameUIFuncs()
  T CGameUIRenderLayer::Render(ISceneView*, IRenderContext*, ISceneLayer*, SceneSystemPerFrameStats_t*)
  T CGameUIRenderLayer::~CGameUIRenderLayer()
- T CGameUIService::AddPanoramaView(int, char const*, panorama::IUIWindow*)
+ T CGameUIService::AddPanoramaView(char const*, panorama::IUIWindow*)
  T CGameUIService::AddViewsToSceneSystem(EngineLoopState_t const&, double, double, RenderViewport_t const&, RHBackColorBuffer_t const&)
  T CGameUIService::AllowScaleformToHandleESC()
  T CGameUIService::CGameUIService()
@@ -10139,7 +10140,6 @@
  T CHostStateMgr::RequestHS_ChangelevelReconnect(KeyValues*)
  T CHostStateMgr::RequestHS_Connect(char const*, KeyValues*)
  T CHostStateMgr::RequestHS_Idle(KeyValues*)
- T CHostStateMgr::RequestHS_IdleTools(KeyValues*)
  T CHostStateMgr::RequestHS_LoadSaveGame(char const*, KeyValues*)
  T CHostStateMgr::RequestHS_LoadSpawnGroup(char const*, char const*, bool, KeyValues*)
  T CHostStateMgr::RequestHS_PlayDemo(char const*, char const*, bool, KeyValues*)
@@ -13386,7 +13386,7 @@
  T CPanelMessageMapDictionary::CPanelMessageMapDictionary()
  T CPanelMessageMapDictionary::FindOrAddPanelMessageMap(char const*)
  T CPanelMessageMapDictionary::~CPanelMessageMapDictionary()
- T CPanoramaEngineHandler::AddPanoramaView(int, char const*, panorama::IUIWindow*)
+ T CPanoramaEngineHandler::AddPanoramaView(char const*, panorama::IUIWindow*)
  T CPanoramaEngineHandler::AddPanoramaViewToSceneSystem(bool, SwapChainHandle_t__*, RenderViewport_t const&, ISceneView*&, HSceneViewRenderTarget__*&)
  T CPanoramaEngineHandler::CreateAppWindow(char const*, bool, bool, int, int, int, int, bool, bool)
  T CPanoramaEngineHandler::HandleOtherWindowEvents(InputEvent_t const*, int)
@@ -18387,6 +18387,7 @@
  T VPhysXShapeCompoundHeader2_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)
  T VPhysics2ShapeDef_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)
  T VProf_LegacyTextMode_ExecuteDeferredOp()
+ T V_FixDoubleSlashes(char*)
  T V_FixSlashes(char*, char)
  T V_GetFileExtension(char const*)
  T V_GetFileExtensionSafe(char const*)
@@ -22564,6 +22565,7 @@
  b screenshot_prefix
  b screenshot_subdir
  b setinfo_command
+ b showmainmenu_command
  b snd_moviefix
  b splitscreen_mode
  b ss_voice_hearpartner
@@ -24430,6 +24432,7 @@
  t self_destruct
  t sep_downsample
  t setinfo(CCommandContext const&, CCommand const&)
+ t showmainmenu(CCommandContext const&, CCommand const&)
  t start_pass
  t start_pass_coef
  t start_pass_downsample
