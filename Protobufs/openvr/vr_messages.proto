@@ -84,6 +84,7 @@ message CVRMsg_GetProperty {
 		PropType_Int32 = 3;
 		PropType_Uint64 = 4;
 		PropType_Float = 5;
+		PropType_Matrix34 = 6;
 	}
 
 	optional uint32 tracked_device_index = 1;
@@ -98,6 +99,8 @@ message CVRMsg_GetPropertyResponse {
 	optional int32 int32_value = 4;
 	optional float float_value = 5;
 	optional uint64 uint64_value = 6;
+	repeated float matrix_value = 7;
+	optional double cache_time = 100;
 }
 
 message CVRMsg_CompositorConnect {
@@ -111,6 +114,18 @@ message CVRMsg_CompositorSetOverlay {
 	optional uint32 depth = 3;
 	optional bytes buffer = 4;
 	optional uint64 overlay_handle = 5;
+}
+
+message CVRMsg_CompositorShowDashboard {
+}
+
+message CVRMsg_CompositorShowDashboardResponse {
+}
+
+message CVRMsg_CompositorHideDashboard {
+}
+
+message CVRMsg_CompositorHideDashboardResponse {
 }
 
 message CVRMsg_CompositorConnectResponse {
@@ -172,5 +187,13 @@ message CVRMsg_DriverDebugRequest {
 
 message CVRMsg_DriverDebugResponse {
 	optional string response = 1;
+}
+
+message CVRMsg_QuitProcessRequest {
+	optional uint32 process_id = 1;
+}
+
+message CVRMsg_QuitProcessResponse {
+	optional bool response = 1;
 }
 
