@@ -20,6 +20,26 @@ end
 
 
 -- Backwards compatability glue.
+if PrecacheUnitByNameSync ~= nil then
+	PrecacheUnitByNameSync_Engine = PrecacheUnitByNameSync
+	PrecacheUnitByNameSync = function( szUnitName, hContext, nPlayerID )
+		if nPlayerID == nil then
+			nPlayerID = -1
+		end
+		PrecacheUnitByNameSync_Engine( szUnitName, hContext, nPlayerID )
+	end
+end
+
+if PrecacheUnitByNameAsync ~= nil then
+	PrecacheUnitByNameAsync_Engine = PrecacheUnitByNameAsync
+	PrecacheUnitByNameAsync = function( szUnitName, hCallback, nPlayerID)
+		if nPlayerID == nil then
+			nPlayerID = -1
+		end
+		PrecacheUnitByNameAsync_Engine( szUnitName, hCallback, nPlayerID )
+	end
+end
+
 if CDOTABaseAbility ~= nil then		
 	-- Ensure we always pass enough arguments to GetCastRange.
 	-- Passing nil as target is fine.
