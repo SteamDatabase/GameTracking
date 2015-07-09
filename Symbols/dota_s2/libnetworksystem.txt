@@ -136,8 +136,10 @@
  B SinCosTable
  B SteamDatagramTransport::LOG_STEAMDATAGRAM_CLIENT
  B SteamDatagramTransport::g_SteamDatagramNetwork
- B SteamDatagramTransport::sdt_client_fakeloss_recv
- B SteamDatagramTransport::sdt_client_fakeloss_send
+ B SteamDatagramTransport::steamdatagram_client_fakeloss_recv
+ B SteamDatagramTransport::steamdatagram_client_fakeloss_send
+ B SteamDatagramTransport::steamdatagram_client_min_pings_before_ping_accurate
+ B SteamDatagramTransport::steamdatagram_client_spew_level
  B colorcorrection
  B g_BitWriteMasks
  B g_ExpressionEvaluator
@@ -2938,6 +2940,7 @@
  T CNetworkSystem::GetPacket(int, unsigned char*)
  T CNetworkSystem::GetPublicAdr() const
  T CNetworkSystem::GetScratchBuffer()
+ T CNetworkSystem::GetSteamDatagramClient()
  T CNetworkSystem::GetUDPPort(int)
  T CNetworkSystem::Init()
  T CNetworkSystem::InitGameServer()
@@ -3672,6 +3675,8 @@
  T CUtlMap<unsigned int, CSchemaType*, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Insert(unsigned int const&, CSchemaType* const&)
  T CUtlMap<unsigned int, CUtlString, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Find(unsigned int const&) const
  T CUtlMap<unsigned int, CUtlString, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Insert(unsigned int const&, CUtlString const&)
+ T CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Insert(unsigned int const&)
+ T CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::~CUtlMap()
  T CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Insert(unsigned int const&, int const&)
  T CUtlMemory<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, int>::Grow(int)
  T CUtlMemory<CDeltaFieldPathTracer::Entry_t, int>::Grow(int)
@@ -3715,6 +3720,7 @@
  T CUtlMemory<CUtlSymbolTableLargeBase<CThreadsafeTree<true>, true, 2048ul>::StringPool_t*, int>::Grow(int)
  T CUtlMemory<CUtlVector<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CUtlMemory<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, int> >, int>::Grow(int)
  T CUtlMemory<ConCommand::CallbackInfo_t, int>::Grow(int)
+ T CUtlMemory<DatacenterGameserverSample, int>::Grow(int)
  T CUtlMemory<FlattenedSerializerField_t, int>::Grow(int)
  T CUtlMemory<IFlattenedSerializerSpewListener*, int>::Grow(int)
  T CUtlMemory<INetworkChannelNotify*, int>::Grow(int)
@@ -3739,8 +3745,6 @@
  T CUtlMemory<ServerWithSessionSort, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::CDatagramQueue::Channel, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::RouterDowntimeWarning, int>::Grow(int)
- T CUtlMemory<SteamDatagramTransport::SharedClusterData*, int>::Grow(int)
- T CUtlMemory<SteamDatagramTransport::SharedClusterData, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::SteamDatagramNetwork::AddressRange, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::SteamDatagramNetwork::DataCenter, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress, int>::Grow(int)
@@ -3766,6 +3770,7 @@
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Node_t, int>, int>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CSchemaType*, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CUtlString, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
+ T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, int>, int>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlSymbolTable::CStringPoolIndex, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlSymbolTableLargeBaseTreeEntry_t*, long long>, long long>::Grow(int)
@@ -3896,6 +3901,12 @@
  T CUtlRBTree<CUtlMap<unsigned int, CUtlString, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short, CUtlMap<unsigned int, CUtlString, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CUtlString, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
  T CUtlRBTree<CUtlMap<unsigned int, CUtlString, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short, CUtlMap<unsigned int, CUtlString, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CUtlString, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
  T CUtlRBTree<CUtlMap<unsigned int, CUtlString, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short, CUtlMap<unsigned int, CUtlString, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CUtlString, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
+ T CUtlRBTree<CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, int, CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, int>, int> >::InsertRebalance(int)
+ T CUtlRBTree<CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, int, CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, int>, int> >::RemoveRebalance(int)
+ T CUtlRBTree<CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, int, CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, int>, int> >::RotateLeft(int)
+ T CUtlRBTree<CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, int, CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, int>, int> >::RotateRight(int)
+ T CUtlRBTree<CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, int, CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, int>, int> >::Unlink(int)
+ T CUtlRBTree<CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, int, CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, int>, int> >::~CUtlRBTree()
  T CUtlRBTree<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short, CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
  T CUtlRBTree<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short, CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
  T CUtlRBTree<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short, CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
@@ -3977,8 +3988,8 @@
  T CUtlTSHashBase<CUtlSymbolTableLargeBaseTreeEntry_t*, 2048, CUtlSymbolTableLargeBaseTreeEntry_t*, CCThreadsafeTreeHashMethod<2048, CUtlSymbolTableLargeBaseTreeEntry_t*, true>, CThreadSpinRWLock>::Insert(CUtlSymbolTableLargeBaseTreeEntry_t*, CUtlSymbolTableLargeBaseTreeEntry_t* const&, bool*)
  T CUtlTSHashBase<NetworkFieldSerializerInfo_t const*, 4096, unsigned long long, CUtlTSHashPreHashedKeyMethod<unsigned long long>, CThreadSpinRWLock>::Insert(unsigned long long, NetworkFieldSerializerInfo_t const* const&, bool*)
  T CUtlTSHashBase<NetworkFieldSerializerInfo_t const*, 4096, unsigned long long, CUtlTSHashPreHashedKeyMethod<unsigned long long>, CThreadSpinRWLock>::RemoveAll()
+ T CUtlVector<DatacenterGameserverSample, CUtlMemory<DatacenterGameserverSample, int> >::~CUtlVector()
  T CUtlVector<SteamDatagramTransport::RouterDowntimeWarning, CUtlMemory<SteamDatagramTransport::RouterDowntimeWarning, int> >::~CUtlVector()
- T CUtlVector<SteamDatagramTransport::SharedClusterData, CUtlMemory<SteamDatagramTransport::SharedClusterData, int> >::~CUtlVector()
  T CUtlVectorBase<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CUtlMemory<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CDeltaFieldPathTracer::Entry_t, CUtlMemory<CDeltaFieldPathTracer::Entry_t, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CEventDispatcher_Base::EventListenerInfo_t, CUtlMemory<CEventDispatcher_Base::EventListenerInfo_t, int> >::~CUtlVectorBase()
@@ -4020,6 +4031,7 @@
  T CUtlVectorBase<CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048ul>::StringPool_t*, CUtlMemory<CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048ul>::StringPool_t*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CUtlVector<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CUtlMemory<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, int> >, CUtlMemory<CUtlVector<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CUtlMemory<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, int> >, int> >::~CUtlVectorBase()
  T CUtlVectorBase<ConCommand::CallbackInfo_t, CUtlMemory<ConCommand::CallbackInfo_t, int> >::~CUtlVectorBase()
+ T CUtlVectorBase<DatacenterGameserverSample, CUtlMemory<DatacenterGameserverSample, int> >::~CUtlVectorBase()
  T CUtlVectorBase<FlattenedSerializerField_t, CUtlMemory<FlattenedSerializerField_t, int> >::~CUtlVectorBase()
  T CUtlVectorBase<IFlattenedSerializerSpewListener*, CUtlMemory<IFlattenedSerializerSpewListener*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<INetworkChannelNotify*, CUtlMemory<INetworkChannelNotify*, int> >::~CUtlVectorBase()
@@ -4044,11 +4056,6 @@
  T CUtlVectorBase<ServerWithSessionSort, CUtlMemoryFixedGrowable<ServerWithSessionSort, 64ul, int> >::~CUtlVectorBase()
  T CUtlVectorBase<SteamDatagramTransport::CDatagramQueue::Channel, CUtlMemory<SteamDatagramTransport::CDatagramQueue::Channel, int> >::~CUtlVectorBase()
  T CUtlVectorBase<SteamDatagramTransport::RouterDowntimeWarning, CUtlMemory<SteamDatagramTransport::RouterDowntimeWarning, int> >::~CUtlVectorBase()
- T CUtlVectorBase<SteamDatagramTransport::SharedClusterData*, CUtlMemoryFixedGrowable<SteamDatagramTransport::SharedClusterData*, 64ul, int> >::~CUtlVectorBase()
- T CUtlVectorBase<SteamDatagramTransport::SharedClusterData, CUtlMemory<SteamDatagramTransport::SharedClusterData, int> >::InsertMultipleBefore(int, int)
- T CUtlVectorBase<SteamDatagramTransport::SharedClusterData, CUtlMemory<SteamDatagramTransport::SharedClusterData, int> >::RemoveAll()
- T CUtlVectorBase<SteamDatagramTransport::SharedClusterData, CUtlMemory<SteamDatagramTransport::SharedClusterData, int> >::RemoveMultipleFromTail(int)
- T CUtlVectorBase<SteamDatagramTransport::SharedClusterData, CUtlMemory<SteamDatagramTransport::SharedClusterData, int> >::~CUtlVectorBase()
  T CUtlVectorBase<SteamDatagramTransport::SteamDatagramNetwork::AddressRange, CUtlMemory<SteamDatagramTransport::SteamDatagramNetwork::AddressRange, int> >::~CUtlVectorBase()
  T CUtlVectorBase<SteamDatagramTransport::SteamDatagramNetwork::DataCenter, CUtlMemory<SteamDatagramTransport::SteamDatagramNetwork::DataCenter, int> >::~CUtlVectorBase()
  T CUtlVectorBase<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress, CUtlMemory<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress, int> >::~CUtlVectorBase()
@@ -4481,14 +4488,21 @@
  T SteamDatagramTransport::CSteamDatagramTransportClient::DetermineServiceDataCenterID()
  T SteamDatagramTransport::CSteamDatagramTransportClient::FindOrCreateServerDataForAddress(netadr_t const&, int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::FindOrCreateServerDataForCluster(int)
+ T SteamDatagramTransport::CSteamDatagramTransportClient::FindRouterByCode(char const*)
  T SteamDatagramTransport::CSteamDatagramTransportClient::GetConnectionStatus(ISteamDatagramTransportClient::ConnectionStatus&)
+ T SteamDatagramTransport::CSteamDatagramTransportClient::GetDataCenterByIndex(int, ISteamDatagramTransportClient::DataCenterStatus&)
+ T SteamDatagramTransport::CSteamDatagramTransportClient::GetDataCenterCount()
+ T SteamDatagramTransport::CSteamDatagramTransportClient::GetRouterByIndex(int, ISteamDatagramTransportClient::RouterStatus&)
+ T SteamDatagramTransport::CSteamDatagramTransportClient::GetRouterCount()
  T SteamDatagramTransport::CSteamDatagramTransportClient::LostSession(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, char const*)
  T SteamDatagramTransport::CSteamDatagramTransportClient::ProcessPacket(unsigned char const*, int, sockaddr_in const&)
  T SteamDatagramTransport::CSteamDatagramTransportClient::ReceivedPacketFromServer(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, int, unsigned long long)
  T SteamDatagramTransport::CSteamDatagramTransportClient::RecvDatagram(void*, unsigned int, int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::RecvStats(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, CMsgSteamDatagramConnectionStatsRouterToClient&, unsigned long long)
+ T SteamDatagramTransport::CSteamDatagramTransportClient::RestartPingMeasurement()
  T SteamDatagramTransport::CSteamDatagramTransportClient::SendDatagram(void const*, unsigned int, int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::SendPing(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, unsigned long long, bool)
+ T SteamDatagramTransport::CSteamDatagramTransportClient::SetDatacenterGameserverSample(int, DatacenterGameserverSample const*)
  T SteamDatagramTransport::CSteamDatagramTransportClient::SetGameServerAuthTicket(CMsgSteamDatagramGameServerAuthTicket const&, char (&) [1024])
  T SteamDatagramTransport::CSteamDatagramTransportClient::Start(char (&) [1024])
  T SteamDatagramTransport::CSteamDatagramTransportClient::Think()
@@ -4524,9 +4538,9 @@
  T SteamDatagramTransport::PingTracker::ReceivedPing(int, unsigned long long)
  T SteamDatagramTransport::PingTracker::Reset()
  T SteamDatagramTransport::SharedClusterData::GetPingToDataCenter(unsigned int, SteamDatagramTransport::SharedClusterData::EPingQuality&) const
- T SteamDatagramTransport::SharedClusterData::Init(int)
  T SteamDatagramTransport::SharedClusterData::ReceivedDataCenterPingTime(unsigned int, int, unsigned long long)
  T SteamDatagramTransport::SharedClusterData::SelectRandomAddress() const
+ T SteamDatagramTransport::SharedClusterData::SharedClusterData(int)
  T SteamDatagramTransport::SpewError(char const*, ...)
  T SteamDatagramTransport::SpewImportant(char const*, ...)
  T SteamDatagramTransport::SpewMsg(char const*, ...)
@@ -4534,6 +4548,7 @@
  T SteamDatagramTransport::SpewWarning(char const*, ...)
  T SteamDatagramTransport::SteamDatagramNetwork::BuildLookupTables(char (&) [1024])
  T SteamDatagramTransport::SteamDatagramNetwork::FindClusterByAddress(netadr_t const&, int*) const
+ T SteamDatagramTransport::SteamDatagramNetwork::FindClusterByCode(char const*) const
  T SteamDatagramTransport::SteamDatagramNetwork::FindDataCenterByServiceIP(unsigned int) const
  T SteamDatagramTransport::SteamDatagramNetwork::GetURLForUniverse(EUniverse)
  T SteamDatagramTransport::SteamDatagramNetwork::SetupFromJSON(char const*, int, char (&) [1024])
@@ -4627,8 +4642,8 @@
  T int GetBitCount<bf_read>(bf_read*)
  T int GetBitCount<bf_write>(bf_write*)
  T int V_sprintf_safe<1024ul>(char (&) [1024ul], char const*, ...)
- T int V_sprintf_safe<16ul>(char (&) [16ul], char const*, ...)
  T int V_sprintf_safe<32ul>(char (&) [32ul], char const*, ...)
+ T int V_sprintf_safe<4ul>(char (&) [4ul], char const*, ...)
  T int V_sprintf_safe<512ul>(char (&) [512ul], char const*, ...)
  T int V_sprintf_safe<64ul>(char (&) [64ul], char const*, ...)
  T int V_sprintfcat_safe<512ul>(char (&) [512ul], char const*, ...)
@@ -4755,17 +4770,20 @@
  T unsigned int CUtlHashtable<SerializerUniqueField_t, int, DefaultHashFunctor<SerializerUniqueField_t>, DefaultEqualFunctor<SerializerUniqueField_t>, undefined_t>::DoInsert<SerializerUniqueField_t const&>(SerializerUniqueField_t const&, int, unsigned int, bool*)
  T unsigned int CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::DoInsert<CFieldPath const&>(CFieldPath const&)
  T unsigned int std::__1::__sort3<std::__1::__less<ServerWithSessionSort, ServerWithSessionSort>&, ServerWithSessionSort*>(ServerWithSessionSort*, ServerWithSessionSort*, ServerWithSessionSort*, std::__1::__less<ServerWithSessionSort, ServerWithSessionSort>&)
+ T unsigned int std::__1::__sort3<std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup>&, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup>&)
  T unsigned int std::__1::__sort3<std::__1::__less<order_t, order_t>&, order_t*>(order_t*, order_t*, order_t*, std::__1::__less<order_t, order_t>&)
  T unsigned int std::__1::__sort4<std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress>&, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress>&)
- T unsigned int std::__1::__sort4<std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup>&, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup>&)
  T unsigned int std::__1::__sort4<std::__1::__less<order_t, order_t>&, order_t*>(order_t*, order_t*, order_t*, order_t*, std::__1::__less<order_t, order_t>&)
  T unsigned int std::__1::__sort5<std::__1::__less<ServerWithSessionSort, ServerWithSessionSort>&, ServerWithSessionSort*>(ServerWithSessionSort*, ServerWithSessionSort*, ServerWithSessionSort*, ServerWithSessionSort*, ServerWithSessionSort*, std::__1::__less<ServerWithSessionSort, ServerWithSessionSort>&)
+ T unsigned int std::__1::__sort5<std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress>&, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress>&)
+ T unsigned int std::__1::__sort5<std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup>&, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup>&)
  T unsigned int std::__1::__sort5<std::__1::__less<order_t, order_t>&, order_t*>(order_t*, order_t*, order_t*, order_t*, order_t*, std::__1::__less<order_t, order_t>&)
  T vcon_NetGraphData_t::ByteSwap(vcon_NetGraphData_t const&)
  T void CDeltaFieldPathWriter::DeltaEncode<true>(optype_t, CFieldPath const&, CFieldPath&, bf_write*) const
  T void CSchemaClassInfo::MetaGetAllPtrs<NetworkOverride_t*>(char const*, CUtlVector<NetworkOverride_t*, CUtlMemory<NetworkOverride_t*, int> >&, SchemaBaseClassTraversal_t, CSchemaClassInfo const*) const
  T void CSchemaClassInfo::MetaGetAllPtrs<NetworkUserGroupProxyInfo_t**>(char const*, CUtlVector<NetworkUserGroupProxyInfo_t**, CUtlMemory<NetworkUserGroupProxyInfo_t**, int> >&, SchemaBaseClassTraversal_t, CSchemaClassInfo const*) const
  T void CSchemaClassInfo::MetaGetAllPtrs<NetworkVarDecl_t*>(char const*, CUtlVector<NetworkVarDecl_t*, CUtlMemory<NetworkVarDecl_t*, int> >&, SchemaBaseClassTraversal_t, CSchemaClassInfo const*) const
+ T void std::__1::__insertion_sort_3<std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress>&, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress>&)
  T void std::__1::__insertion_sort_3<std::__1::__less<order_t, order_t>&, order_t*>(order_t*, order_t*, std::__1::__less<order_t, order_t>&)
  T void std::__1::__sort<std::__1::__less<ServerWithSessionSort, ServerWithSessionSort>&, ServerWithSessionSort*>(ServerWithSessionSort*, ServerWithSessionSort*, std::__1::__less<ServerWithSessionSort, ServerWithSessionSort>&)
  T void std::__1::__sort<std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress>&, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress>&)
@@ -5094,10 +5112,12 @@
  b SchemaToNetMapOwner_t::SchemaToNetMapOwner_t()::s_pNetSchemaFieldInfo
  b SteamDatagramTransport::s_eAvailAnyRouterCommunication
  b SteamDatagramTransport::s_eAvailNetworkConfig
+ b SteamDatagramTransport::s_mapSharedClusterData
+ b SteamDatagramTransport::s_nFakeNetworkConfigRevision
  b SteamDatagramTransport::s_steamDatagramTransportMutex
  b SteamDatagramTransport::s_usecRouterDowntime
  b SteamDatagramTransport::s_vecDowntimeWarnings
- b SteamDatagramTransport::s_vecSharedClusterData
+ b SteamDatagramTransport::s_vecFakeRouterClusters
  b UNSPECIFIED_LOGGING_COLOR
  b __g_InterfaceRegCFlattenedSerializersIFlattenedSerializers_reg
  b __g_InterfaceRegCNetworkMessagesINetworkMessages_reg
@@ -5219,6 +5239,7 @@
  d CNetworkSerializer::InitDataHelperField(NetworkFieldSerializerInfo_t*, CSchemaClassBindingBase const*, NetworkValidationMode_t, char const*, char const*)::m_nGenerated
  d CQueuedPacketSender::QueuePacket(INetChannel*, int, char const*, int, ns_address const&, ISteamNetworking*, ISteamDatagramTransportClient*, ISteamDatagramTransportGameserver*, unsigned int)::nWarnings
  d RegisterAtomicType_CNetworkedQuantizedFloat(ISchemaSystem*)::SID_AtomicMeta2_CNetworkedQuantizedFloat0_MNetworkSerializeAs_Value
+ d SteamDatagramTransport::CSteamDatagramTransportClient::SendPing(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, unsigned long long, bool)::pkt
  d g_AtomicCategories
  d g_BuiltInTypes
  d g_OpTypes
@@ -5469,7 +5490,8 @@
  t OnNetPublicAdrChanged(IConVar*, char const*, float)
  t ParseRouterAddress(char const*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress&)
  t SerializerNameCompletion(char const*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
- t SteamDatagramTransport::CSteamDatagramTransportClient::ThinkPingProbes(unsigned long long)::$_0::__invoke(SteamDatagramTransport::SharedClusterData* const*, SteamDatagramTransport::SharedClusterData* const*)
+ t SteamDatagramTransport::CSteamDatagramTransportClient::ThinkPingProbes(unsigned long long)::$_0::__invoke(int const*, int const*)
+ t SteamDatagramTransport::CreateSharedClusterData()
  t SteamDatagramTransport::ProcessDowntimeWarning(netadr_t const&, int, unsigned long long)
  t _GLOBAL__sub_I_bitbuf.cpp
  t _GLOBAL__sub_I_convar.cpp
