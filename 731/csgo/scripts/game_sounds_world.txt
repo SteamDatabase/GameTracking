@@ -1856,15 +1856,54 @@
 
 "de_overpass.train"
 {
-	"volume"	"0.6"
+	"channel"	"CHAN_STATIC"
+	"volume"	"1.0"
 	"pitch"		"100"
-	"soundlevel" 	"SNDLVL_85db"
+	"soundlevel" 	"SNDLVL_150db"
 	"rndwave"
 	{
 		"wave"		")ambient/machines/train_overpass.wav"
 		"wave"		")ambient/machines/train_overpass2.wav"
 		"wave"		")ambient/machines/train_overpass3.wav"
 		"wave"		")ambient/machines/train_overpass4.wav"
+	}
+	
+	"soundentry_version" "2"
+	"operator_stacks"
+	{
+		
+		"update_stack"
+		{
+			"get_opvar"
+			{
+				"operator" "get_opvar_float"
+				"opvar" "sosVarCustomVolume1"
+			}
+			
+			
+			"level_apply_mixer_trainTrigger"
+			{
+				"operator" "math_float"
+				"apply" "equals"	
+				"input1" "@get_opvar.output"
+				"input2" "1.0"
+			}
+			"trigger_switch"
+			{
+				"operator" "math_logic_switch"
+				"input_switch" "@level_apply_mixer_trainTrigger.output"
+				"input1" "0.16"
+				"input2" "1"
+			}
+			
+			"import_stack" "update_default"
+			
+			"volume_accumulate"
+			{
+				"input7" "@trigger_switch.output"
+			}
+
+		}
 	}
 }
 
