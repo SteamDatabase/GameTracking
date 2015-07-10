@@ -288,19 +288,31 @@
 
 ]
 
-@PointClass base(PlayerClass) studio("models/editor/playerstart.mdl") = info_player_start_goodguys :
+
+@BaseClass = DotaPlayerStart
+[
+	Disabled( boolean ) : "Disabled" : "0" : "If disabled this entity will not be used when picking a location to spawn a player at."
+	input SetEnabled( void ) : "Enable this player start location, allowing it to be picked as spawn location for players."
+	input SetDisabled( void ) : "Disable this player start location, preventing it from being picked as a location where players will spawn."
+	input SetEnabledExclusively( void ) : "Enabled this player start location and disable all others."
+	
+	output OnEnabled(void) : "Called when the player start is enabled."
+	output OnDisabled(void) : "Called when the player start is disabled."
+]
+
+@PointClass base(PlayerClass, DotaPlayerStart) studio("models/editor/playerstart.mdl") = info_player_start_goodguys :
 	"Spawn point for Radiant heroes."
 [
 
 ]
 
-@PointClass base(PlayerClass) studio("models/editor/playerstart.mdl") = info_player_start_badguys :
+@PointClass base(PlayerClass, DotaPlayerStart) studio("models/editor/playerstart.mdl") = info_player_start_badguys :
 	"Spawn point for Dire heroes."
 [
 
 ]
 
-@PointClass base(PlayerClass, teamnumber) studio("models/editor/playerstart.mdl") = info_player_start_dota :
+@PointClass base(PlayerClass, Targetname, teamnumber, DotaPlayerStart) studio("models/editor/playerstart.mdl") = info_player_start_dota :
 	"Spawn point for heroes of any team."
 [
 ]
@@ -646,7 +658,7 @@
 ]
 
 
-@PointClass base(Targetname) = dota_item_spawner :
+@PointClass base(Targetname) gameItemModel( ItemName )= dota_item_spawner :
 	"Spawn items."
 [
 	ItemName(gameitemclass) : "Item Name" : "" : "The name of the item to spawn."
@@ -854,6 +866,7 @@
 	input LevelAllHeroesToMax( void ) : "Level each hero in the game to the max level."
 	input LevelAllHeroesToLevel( integer ) : "Ensure all heroes are at least level."
 	input SetStashPurchasingDisabled( bool ) : "Turn purchasing items to the stash off/on. If purchasing to the stash is off the player must be at a shop to purchase items."
+	input SetFogOfWarDisabled( bool ) : "Enable or disable fog of war. When disabled all units are considered visible."
 	input SetUnseenFogOfWarEnabled( bool ) : "Enable or disable unseen fog of war. When unseen fog of war is enabled parts of the map the player has never seen will be blocked out."
 ]
 

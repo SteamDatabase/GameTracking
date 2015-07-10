@@ -28,10 +28,11 @@ function la_juggernaut_slash:OnAbilityPhaseInterrupted()
 end
 
 function la_juggernaut_slash:OnSpellStart()
+	local nDamageAmount = self:GetCaster():GetAverageTrueAttackDamage() + self:GetAbilityDamage() + RandomInt( 0, 10 ) - 5
 	ApplyDamage( {
 		victim = self:GetCursorTarget(),
 		attacker = self:GetCaster(),
-		damage = self:GetAbilityDamage(),
+		damage = nDamageAmount,
 		damage_type = DAMAGE_TYPE_PHYSICAL,
 		damage_flags = DOTA_DAMAGE_FLAG_NONE,
 		ability = self

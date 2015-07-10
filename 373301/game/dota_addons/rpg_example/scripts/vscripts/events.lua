@@ -6,8 +6,14 @@
 function CRPGExample:OnGameRulesStateChange()
 	local nNewState = GameRules:State_Get()
 
-	if nNewState == DOTA_GAMERULES_STATE_HERO_SELECTION then
+	if nNewState == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
+		print( "OnGameRulesStateChange: Custom Game Setup" )
+
+	elseif nNewState == DOTA_GAMERULES_STATE_HERO_SELECTION then
+		print( "OnGameRulesStateChange: Hero Selection" )
 		self:SpawnCreatures()
+		self:SpawnItems()
+
 	elseif nNewState == DOTA_GAMERULES_STATE_PRE_GAME then
 		print( "OnGameRulesStateChange: Pre Game Selection" )
 
@@ -25,7 +31,7 @@ function CRPGExample:OnNPCSpawned( event )
 
 	if hSpawnedUnit:IsOwnedByAnyPlayer() and hSpawnedUnit:IsRealHero() then
 		local hPlayerHero = hSpawnedUnit
-		self._GameMode:SetContextThink( "self:Think_InitializePlayerHero", function() return self:Think_InitializePlayerHero( hPlayerHero ) end, 0 )
+		self._GameMode:SetContextThink( "self:Think_InitializePlayerHero( hPlayerHero )", function() return self:Think_InitializePlayerHero( hPlayerHero ) end, 0 )
 	end
 end
 
@@ -38,7 +44,7 @@ function CRPGExample:OnEntityKilled( event )
 
 	if hDeadUnit:IsCreature() then
 		self:PlayDeathSound( hDeadUnit )
-		--self:GrantItemDrop( hDeadUnit:GetAbsOrigin() )
+		self:GrantItemDrop( hDeadUnit )
 
 		if hAttackerUnit.PlayKillEffect ~= nil then
 			hAttackerUnit:PlayKillEffect( hDeadUnit )
@@ -50,10 +56,14 @@ end
 --------------------------------------------------------------------------------
 -- GrantItemDrop
 --------------------------------------------------------------------------------
-function CRPGExample:GrantItemDrop( vPos )
-	local nRandInt = RandomInt( 1, 10 )
-	if nRandInt == 10 then
-		self:CreateWorldItemOnPosition( "item_flask", vPos )
+function CRPGExample:GrantItemDrop( hDeadUnit )
+	if hDeadUnit.itemTable == nil then
+		return
+	end
+
+	if RandomFloat( 0, 1 ) > 0.75 then
+		local sItemName = GetRandomElement( hDeadUnit.itemTable )
+		self:CreateWorldItemOnPosition( sItemName, hDeadUnit:GetAbsOrigin() )
 	end
 end
 
@@ -77,26 +87,27 @@ end
 -- Think_InitializePlayerHero
 --------------------------------------------------------------------------------
 function CRPGExample:Think_InitializePlayerHero( hPlayerHero )
-	if not hPlayerHero or hPlayerHero.bInitialized then
-		return
+	if not hPlayerHero then
+		return 0.1
 	end
 
-	hPlayerHero.bInitialized = true
-	hPlayerHero.PlayKillEffect = Juggernaut_PlayKillEffect
-	local nPlayerID = hPlayerHero:GetPlayerOwnerID()
-	PlayerResource:SetCameraTarget( nPlayerID, hPlayerHero )
-	PlayerResource:SetOverrideSelectionEntity( nPlayerID, hPlayerHero )
-	PlayerResource:SetGold( nPlayerID, 0, true )
-	PlayerResource:SetGold( nPlayerID, 0, false )
-	hPlayerHero:UpgradeAbility( hPlayerHero:GetAbilityByIndex( 0 ) )
-	hPlayerHero:SetIdleAcquire( false )
+	local nPlayerID = hPlayerHero:GetPlayerID()
 
-	if self._tPlayerHeroInitialized[ nPlayerID ] == false then
-		for i = 1, 2 do
-			local hSalve = CreateItem( "item_flask", nil, nil )
-			hPlayerHero:AddItem( hSalve )
-		end		
-		self._tPlayerHeroInitialized[ nPlayerID ] = true
+	if self._tPlayerHeroInitStatus[ nPlayerID ] == false then
+		hPlayerHero.PlayKillEffect = Juggernaut_PlayKillEffect
+		PlayerResource:SetCameraTarget( nPlayerID, hPlayerHero )
+		PlayerResource:SetOverrideSelectionEntity( nPlayerID, hPlayerHero )
+		PlayerResource:SetGold( nPlayerID, 0, true )
+		PlayerResource:SetGold( nPlayerID, 0, false )
+		hPlayerHero:UpgradeAbility( hPlayerHero:GetAbilityByIndex( 0 ) )
+		hPlayerHero:SetIdleAcquire( false )
+
+		if GetMapName() == "rpg_example" then
+			local nLightParticleID = ParticleManager:CreateParticle( "particles/addons_gameplay/player_deferred_light.vpcf", PATTACH_ABSORIGIN, hPlayerHero )
+			ParticleManager:SetParticleControlEnt( nLightParticleID, PATTACH_ABSORIGIN, hPlayerHero, PATTACH_ABSORIGIN, "attach_origin", hPlayerHero:GetAbsOrigin(), true )
+		end
+
+		self._tPlayerHeroInitStatus[ nPlayerID ] = true
 	end
 end
 

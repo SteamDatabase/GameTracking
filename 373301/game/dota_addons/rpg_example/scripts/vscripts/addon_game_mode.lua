@@ -34,6 +34,7 @@ end
 require( "utility_functions" ) -- require utility_functions first since some of the other required files may use its functions
 require( "events" )
 require( "rpg_example_spawning" )
+require( "worlditem_spawning" )
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Precache files and folders
@@ -41,7 +42,9 @@ require( "rpg_example_spawning" )
 function Precache( context )
     GameRules.rpg_example = CRPGExample()
     GameRules.rpg_example:PrecacheSpawners( context )
+    GameRules.rpg_example:PrecacheItemSpawners( context )
 
+    PrecacheResource( "particle", "particles/addons_gameplay/player_deferred_light.vpcf", context )
 	-- Particle systems to precache for onKill effects.
 	PrecacheResource( "particle", "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf", context )
 	PrecacheResource( "particle", "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact_mechanical.vpcf", context )
@@ -68,35 +71,34 @@ function CRPGExample:InitGameMode()
 	self._GameMode:SetAnnouncerDisabled( true )
 	self._GameMode:SetUnseenFogOfWarEnabled( true )
 	self._GameMode:SetFixedRespawnTime( 4 )
-	self._GameMode:SetContextThink( "CRPGExample:GameThink", function() return self:GameThink() end, 0 )
 	
 	GameRules:SetGoldPerTick( 0 )
 	GameRules:SetPreGameTime( 0 )
 	GameRules:SetCustomGameSetupTimeout( 0 ) -- skip the custom team UI with 0, or do indefinite duration with -1
 
-	SendToServerConsole( "dota_camera_pitch_max 55" )
-	SendToServerConsole( "dota_camera_distance 1234" )
-
-	-- Events
 	ListenToGameEvent( "game_rules_state_change", Dynamic_Wrap( CRPGExample, 'OnGameRulesStateChange' ), self )
 	ListenToGameEvent( "npc_spawned", Dynamic_Wrap( CRPGExample, "OnNPCSpawned" ), self )
 	ListenToGameEvent( "entity_killed", Dynamic_Wrap( CRPGExample, "OnEntityKilled" ), self )
 	ListenToGameEvent( "dota_player_gained_level", Dynamic_Wrap( CRPGExample, "OnPlayerGainedLevel" ), self )
 
-	self._tPlayerHeroInitialized = {}
-	for i = 0, DOTA_MAX_PLAYERS do
-		PlayerResource:SetCustomTeamAssignment( i, 2 ) -- put each player on Radiant team
-		self._tPlayerHeroInitialized[ i ] = false
-	end
-	self:SetupSpawners()
-end
+	self._tPlayerHeroInitStatus = {}	
 
+	for nPlayerID = 0, DOTA_MAX_PLAYERS do
+		PlayerResource:SetCustomTeamAssignment( nPlayerID, 2 ) -- put each player on Radiant team
+		self._tPlayerHeroInitStatus[ nPlayerID ] = false
+	end
+
+	self:SetupSpawners()
+	self:SetupItemSpawners()
+
+	self._GameMode:SetContextThink( "CRPGExample:GameThink", function() return self:GameThink() end, 0 )
+end
 
 --------------------------------------------------------------------------------
 -- Main Think
 --------------------------------------------------------------------------------
 function CRPGExample:GameThink()
 	local flThinkTick = 0.2
+
 	return flThinkTick
 end
-

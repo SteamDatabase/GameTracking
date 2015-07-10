@@ -24,7 +24,6 @@ function CRPGExample:SetupSpawners()
 	ListenToGameEvent( "entity_killed", Dynamic_Wrap( CRPGExample, "OnEntityKilled_Spawner" ), self )
 end
 
-
 --------------------------------------------------------------------------------
 -- OnEntityKilled_Spawner
 --------------------------------------------------------------------------------
@@ -36,15 +35,16 @@ function CRPGExample:OnEntityKilled_Spawner( event )
 		local sCreatureName = hDeadUnit:GetUnitName()
 		local hSpawner = hDeadUnit.hSpawner
 		local sState = hDeadUnit.sState
-		self._GameMode:SetContextThink( string.format( "CreatureThink_%d", event.entindex_killed ), function() return self:Think_RespawnCreature( sCreatureName, hSpawner, sState ) end, nCREATURE_RESPAWN_TIME )
+		local itemTable = hDeadUnit.itemTable
+		self._GameMode:SetContextThink( string.format( "CreatureThink_%d", event.entindex_killed ), function() return self:Think_RespawnCreature( sCreatureName, hSpawner, sState, itemTable ) end, nCREATURE_RESPAWN_TIME )
 	end
 end
 
 --------------------------------------------------------------------------------
 -- Think_RespawnCreature
 --------------------------------------------------------------------------------
-function CRPGExample:Think_RespawnCreature( sCreatureName, hSpawner, sState )
-	self:SpawnUnit( sCreatureName, nNEUTRAL_TEAM, hSpawner, sState, nil, nil, nROAMER_MAX_DIST_FROM_SPAWN )
+function CRPGExample:Think_RespawnCreature( sCreatureName, hSpawner, sState, itemTable )
+	self:SpawnUnit( sCreatureName, nNEUTRAL_TEAM, hSpawner, sState, nil, nil, nROAMER_MAX_DIST_FROM_SPAWN, itemTable )
 end
 
 --------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ function CRPGExample:SpawnCreatures()
 			local nUnitCount = RandomInt( tUnitGroup.minCount, tUnitGroup.maxCount )
 			for k = 1, nUnitCount do
 				local sUnitName = GetRandomElement( tUnitGroup.unitNames )
-				self:SpawnUnit( sUnitName, nNEUTRAL_TEAM, hSpawner, "RoamState", nil, nil, tUnitGroup.maxDistanceFromSpawn )
+				local hUnit = self:SpawnUnit( sUnitName, nNEUTRAL_TEAM, hSpawner, "RoamState", nil, nil, tUnitGroup.maxDistanceFromSpawn, tUnitGroup.itemTable )
 			end
 		end
 	end
@@ -67,7 +67,7 @@ end
 --------------------------------------------------------------------------------
 -- SpawnUnit
 --------------------------------------------------------------------------------
-function CRPGExample:SpawnUnit( sUnitName, nTeam, hSpawner, sUnitState, hInitialWaypoint, bKeepDefaultAcqRng, nMaxDistanceFromSpawner )
+function CRPGExample:SpawnUnit( sUnitName, nTeam, hSpawner, sUnitState, hInitialWaypoint, bKeepDefaultAcqRng, nMaxDistanceFromSpawner, itemTable )
 	if sUnitName == nil then
 		-- handle nil unitname passed
 	end
@@ -84,7 +84,7 @@ function CRPGExample:SpawnUnit( sUnitName, nTeam, hSpawner, sUnitState, hInitial
 	while vSpawnLoc == nil do
 		vSpawnLoc = hSpawner:GetOrigin() + RandomVector( RandomFloat( 0, nMaxDistanceFromSpawner ) )
 	    if ( GridNav:CanFindPath( hSpawner:GetOrigin(), vSpawnLoc ) == false ) then
-	        print( "  Bad spawnloc, choosing a new one.  Spawnloc attempted was: " .. tostring( vSpawnLoc ) )
+	        print( "Choosing new unit spawnloc.  Bad spawnloc was: " .. tostring( vSpawnLoc ) )
 	        vSpawnLoc = nil
 	    end
 	end
@@ -115,5 +115,9 @@ function CRPGExample:SpawnUnit( sUnitName, nTeam, hSpawner, sUnitState, hInitial
         if hUnit.hInitialWaypoint == nil then
         	print( "Couldn't find a path_corner within " .. nWaypointSearchRadius .. " units of " .. hUnit:GetUnitName() )
         end
-    end	
+    end
+
+    hUnit.itemTable = itemTable
+
+    return hUnit
 end
