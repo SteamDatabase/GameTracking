@@ -12,6 +12,7 @@
  B CVRMsg_CompositorQuit::default_instance_
  B CVRMsg_CompositorSetOverlay::default_instance_
  B CVRMsg_CompositorSetOverlayFromFile::default_instance_
+ B CVRMsg_CompositorSetOverlayFromFileResponse::default_instance_
  B CVRMsg_CompositorShowDashboard::default_instance_
  B CVRMsg_CompositorShowDashboardResponse::default_instance_
  B CVRMsg_ComputeDistortion::default_instance_
@@ -79,6 +80,7 @@
  D typeinfo for CVRMsg_CompositorQuit
  D typeinfo for CVRMsg_CompositorSetOverlay
  D typeinfo for CVRMsg_CompositorSetOverlayFromFile
+ D typeinfo for CVRMsg_CompositorSetOverlayFromFileResponse
  D typeinfo for CVRMsg_CompositorShowDashboard
  D typeinfo for CVRMsg_CompositorShowDashboardResponse
  D typeinfo for CVRMsg_ComputeDistortion
@@ -107,6 +109,7 @@
  D typeinfo for CVRMsg_TriggerHapticPulse
  D typeinfo for CVRMsg_TriggerHapticPulseResponse
  D typeinfo for CVROverlay_001
+ D typeinfo for CVROverlay_002
  D typeinfo for CVRSystemLatest
  D typeinfo for CVRSystem_001
  D typeinfo for CVRSystem_002
@@ -146,6 +149,7 @@
  D typeinfo for Json::ValueAllocator
  D typeinfo for Json::Writer
  D typeinfo for OverlayInterfaceRegistration<CVROverlay_001>
+ D typeinfo for OverlayInterfaceRegistration<CVROverlay_002>
  D typeinfo for SystemInterfaceRegistration<CHmdSystem_001>
  D typeinfo for SystemInterfaceRegistration<CHmdSystem_004>
  D typeinfo for SystemInterfaceRegistration<IHmdSystem_002>
@@ -204,6 +208,7 @@
  D vtable for CVRMsg_CompositorQuit
  D vtable for CVRMsg_CompositorSetOverlay
  D vtable for CVRMsg_CompositorSetOverlayFromFile
+ D vtable for CVRMsg_CompositorSetOverlayFromFileResponse
  D vtable for CVRMsg_CompositorShowDashboard
  D vtable for CVRMsg_CompositorShowDashboardResponse
  D vtable for CVRMsg_ComputeDistortion
@@ -232,6 +237,7 @@
  D vtable for CVRMsg_TriggerHapticPulse
  D vtable for CVRMsg_TriggerHapticPulseResponse
  D vtable for CVROverlay_001
+ D vtable for CVROverlay_002
  D vtable for CVRSystemLatest
  D vtable for CVRSystem_001
  D vtable for CVRSystem_002
@@ -265,6 +271,7 @@
  D vtable for Json::DefaultValueAllocator
  D vtable for Json::StyledWriter
  D vtable for OverlayInterfaceRegistration<CVROverlay_001>
+ D vtable for OverlayInterfaceRegistration<CVROverlay_002>
  D vtable for SystemInterfaceRegistration<CHmdSystem_001>
  D vtable for SystemInterfaceRegistration<CHmdSystem_004>
  D vtable for SystemInterfaceRegistration<IHmdSystem_002>
@@ -318,6 +325,7 @@
  R typeinfo name for CVRMsg_CompositorQuit
  R typeinfo name for CVRMsg_CompositorSetOverlay
  R typeinfo name for CVRMsg_CompositorSetOverlayFromFile
+ R typeinfo name for CVRMsg_CompositorSetOverlayFromFileResponse
  R typeinfo name for CVRMsg_CompositorShowDashboard
  R typeinfo name for CVRMsg_CompositorShowDashboardResponse
  R typeinfo name for CVRMsg_ComputeDistortion
@@ -346,6 +354,7 @@
  R typeinfo name for CVRMsg_TriggerHapticPulse
  R typeinfo name for CVRMsg_TriggerHapticPulseResponse
  R typeinfo name for CVROverlay_001
+ R typeinfo name for CVROverlay_002
  R typeinfo name for CVRSystemLatest
  R typeinfo name for CVRSystem_001
  R typeinfo name for CVRSystem_002
@@ -385,6 +394,7 @@
  R typeinfo name for Json::ValueAllocator
  R typeinfo name for Json::Writer
  R typeinfo name for OverlayInterfaceRegistration<CVROverlay_001>
+ R typeinfo name for OverlayInterfaceRegistration<CVROverlay_002>
  R typeinfo name for SystemInterfaceRegistration<CHmdSystem_001>
  R typeinfo name for SystemInterfaceRegistration<CHmdSystem_004>
  R typeinfo name for SystemInterfaceRegistration<IHmdSystem_002>
@@ -610,7 +620,9 @@
  T CRenderModelManager::UnrefTexture(CRenderModelManager::RMTexture_t*)
  T CRenderModelManager::~CRenderModelManager()
  T CSharedTextureHelper::AcquireSync()
+ T CSharedTextureHelper::GetSharedTextureData(void*, void*, unsigned int)
  T CSharedTextureHelper::GetSharedTextureHandle(vr::GraphicsAPIConvention, void*, vr::VRTextureBounds_t*, int, bool)
+ T CSharedTextureHelper::GetSharedTextureSize(void*, unsigned int*, unsigned int*)
  T CSharedTextureHelper::Init(int, void*)
  T CSharedTextureHelper::Release()
  T CSharedTextureHelper::ReleaseSync()
@@ -672,8 +684,11 @@
  T CVRCompositorClient::GetOverlayErrorNameFromEnum(vr::VROverlayError)
  T CVRCompositorClient::GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
  T CVRCompositorClient::GetOverlayGamma(unsigned long long, float*)
+ T CVRCompositorClient::GetOverlayImageData(unsigned long long, void*, unsigned int, unsigned int*, unsigned int*)
  T CVRCompositorClient::GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
+ T CVRCompositorClient::GetOverlayKey(unsigned long long, char*, unsigned int, vr::VROverlayError*)
  T CVRCompositorClient::GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
+ T CVRCompositorClient::GetOverlayName(unsigned long long, char*, unsigned int, vr::VROverlayError*)
  T CVRCompositorClient::GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
  T CVRCompositorClient::GetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin*, vr::HmdMatrix34_t*)
  T CVRCompositorClient::GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
@@ -703,6 +718,7 @@
  T CVRCompositorClient::SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
  T CVRCompositorClient::SetOverlayWidthInMeters(unsigned long long, float)
  T CVRCompositorClient::SetOverlay_DEPRECATED(void*, vr::Compositor_OverlaySettings*)
+ T CVRCompositorClient::ShowDashboard(char const*)
  T CVRCompositorClient::ShowOverlay(unsigned long long)
  T CVRCompositorClient::Submit(vr::Hmd_Eye, vr::GraphicsAPIConvention, void*, vr::VRTextureBounds_t const*)
  T CVRCompositorClient::WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
@@ -990,6 +1006,17 @@
  T CVRMsg_CompositorSetOverlayFromFile::SerializeWithCachedSizesToArray(unsigned char*) const
  T CVRMsg_CompositorSetOverlayFromFile::SetCachedSize(int) const
  T CVRMsg_CompositorSetOverlayFromFile::~CVRMsg_CompositorSetOverlayFromFile()
+ T CVRMsg_CompositorSetOverlayFromFileResponse::ByteSize() const
+ T CVRMsg_CompositorSetOverlayFromFileResponse::CVRMsg_CompositorSetOverlayFromFileResponse()
+ T CVRMsg_CompositorSetOverlayFromFileResponse::Clear()
+ T CVRMsg_CompositorSetOverlayFromFileResponse::GetCachedSize() const
+ T CVRMsg_CompositorSetOverlayFromFileResponse::GetMetadata() const
+ T CVRMsg_CompositorSetOverlayFromFileResponse::IsInitialized() const
+ T CVRMsg_CompositorSetOverlayFromFileResponse::MergeFrom(CVRMsg_CompositorSetOverlayFromFileResponse const&)
+ T CVRMsg_CompositorSetOverlayFromFileResponse::New() const
+ T CVRMsg_CompositorSetOverlayFromFileResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_CompositorSetOverlayFromFileResponse::SetCachedSize(int) const
+ T CVRMsg_CompositorSetOverlayFromFileResponse::~CVRMsg_CompositorSetOverlayFromFileResponse()
  T CVRMsg_CompositorShowDashboard::ByteSize() const
  T CVRMsg_CompositorShowDashboard::CVRMsg_CompositorShowDashboard()
  T CVRMsg_CompositorShowDashboard::Clear()
@@ -1328,6 +1355,51 @@
  T CVROverlay_001::SetOverlayVisibility(unsigned long long, VROverlayVisibility)
  T CVROverlay_001::SetOverlayWidthInMeters(unsigned long long, float)
  T CVROverlay_001::ShowOverlay(unsigned long long)
+ T CVROverlay_002::ClearOverlayTexture(unsigned long long)
+ T CVROverlay_002::ComputeOverlayIntersection(unsigned long long, vr::VROverlayIntersectionParams_t const*, vr::VROverlayIntersectionResults_t*)
+ T CVROverlay_002::CreateDashboardOverlay(char const*, char const*, unsigned long long*, unsigned long long*)
+ T CVROverlay_002::CreateOverlay(char const*, char const*, unsigned long long*)
+ T CVROverlay_002::DestroyOverlay(unsigned long long)
+ T CVROverlay_002::FindOverlay(char const*, unsigned long long*)
+ T CVROverlay_002::GetDashboardOverlaySceneProcess(unsigned long long, unsigned int*)
+ T CVROverlay_002::GetHighQualityOverlay()
+ T CVROverlay_002::GetOverlayAlpha(unsigned long long, float*)
+ T CVROverlay_002::GetOverlayColor(unsigned long long, float*, float*, float*)
+ T CVROverlay_002::GetOverlayErrorNameFromEnum(vr::VROverlayError)
+ T CVROverlay_002::GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
+ T CVROverlay_002::GetOverlayGamma(unsigned long long, float*)
+ T CVROverlay_002::GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
+ T CVROverlay_002::GetOverlayKey(unsigned long long, char*, unsigned int, vr::VROverlayError*)
+ T CVROverlay_002::GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
+ T CVROverlay_002::GetOverlayName(unsigned long long, char*, unsigned int, vr::VROverlayError*)
+ T CVROverlay_002::GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
+ T CVROverlay_002::GetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin*, vr::HmdMatrix34_t*)
+ T CVROverlay_002::GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
+ T CVROverlay_002::GetOverlayTransformType(unsigned long long, vr::VROverlayTransformType*)
+ T CVROverlay_002::GetOverlayWidthInMeters(unsigned long long, float*)
+ T CVROverlay_002::HandleControllerOverlayInteractionAsMouse(unsigned long long, unsigned int)
+ T CVROverlay_002::HideOverlay(unsigned long long)
+ T CVROverlay_002::IsActiveDashboardOverlay(unsigned long long)
+ T CVROverlay_002::IsDashboardVisible()
+ T CVROverlay_002::IsOverlayVisible(unsigned long long)
+ T CVROverlay_002::PollNextOverlayEvent(unsigned long long, vr::VREvent_t*)
+ T CVROverlay_002::SetDashboardOverlaySceneProcess(unsigned long long, unsigned int)
+ T CVROverlay_002::SetHighQualityOverlay(unsigned long long)
+ T CVROverlay_002::SetOverlayAlpha(unsigned long long, float)
+ T CVROverlay_002::SetOverlayColor(unsigned long long, float, float, float)
+ T CVROverlay_002::SetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool)
+ T CVROverlay_002::SetOverlayFromFile(unsigned long long, char const*)
+ T CVROverlay_002::SetOverlayGamma(unsigned long long, float)
+ T CVROverlay_002::SetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod)
+ T CVROverlay_002::SetOverlayMouseScale(unsigned long long, vr::HmdVector2_t const*)
+ T CVROverlay_002::SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
+ T CVROverlay_002::SetOverlayTexture(unsigned long long, vr::GraphicsAPIConvention, void*)
+ T CVROverlay_002::SetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t const*)
+ T CVROverlay_002::SetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ T CVROverlay_002::SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
+ T CVROverlay_002::SetOverlayWidthInMeters(unsigned long long, float)
+ T CVROverlay_002::ShowDashboard(char const*)
+ T CVROverlay_002::ShowOverlay(unsigned long long)
  T CVRPathRegistry::BLoadFromFile()
  T CVRPathRegistry::BSaveToFile() const
  T CVRPathRegistry::CVRPathRegistry()
@@ -1715,6 +1787,8 @@
  T NotifyVR_Shutdown()
  T OverlayInterfaceRegistration<CVROverlay_001>::GetInterface()
  T OverlayInterfaceRegistration<CVROverlay_001>::~OverlayInterfaceRegistration()
+ T OverlayInterfaceRegistration<CVROverlay_002>::GetInterface()
+ T OverlayInterfaceRegistration<CVROverlay_002>::~OverlayInterfaceRegistration()
  T Path_Compact(std::string const&, char)
  T Path_Exists(std::string const&)
  T Path_FixSlashes(std::string const&, char)
@@ -1766,6 +1840,7 @@
  T _findfirst(char const*, _finddata_t*)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_CompositorConnectResponse>(unsigned int, CVRMsg_CompositorConnectResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_CompositorHideDashboardResponse>(unsigned int, CVRMsg_CompositorHideDashboardResponse&, unsigned int)
+ T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_CompositorSetOverlayFromFileResponse>(unsigned int, CVRMsg_CompositorSetOverlayFromFileResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_CompositorShowDashboardResponse>(unsigned int, CVRMsg_CompositorShowDashboardResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_ComputeDistortionResponse>(unsigned int, CVRMsg_ComputeDistortionResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_ConnectResponse>(unsigned int, CVRMsg_ConnectResponse&, unsigned int)
@@ -1819,8 +1894,11 @@
  T non-virtual thunk to CVRCompositorClient::GetOverlayErrorNameFromEnum(vr::VROverlayError)
  T non-virtual thunk to CVRCompositorClient::GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayGamma(unsigned long long, float*)
+ T non-virtual thunk to CVRCompositorClient::GetOverlayImageData(unsigned long long, void*, unsigned int, unsigned int*, unsigned int*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
+ T non-virtual thunk to CVRCompositorClient::GetOverlayKey(unsigned long long, char*, unsigned int, vr::VROverlayError*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
+ T non-virtual thunk to CVRCompositorClient::GetOverlayName(unsigned long long, char*, unsigned int, vr::VROverlayError*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin*, vr::HmdMatrix34_t*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
@@ -1848,6 +1926,7 @@
  T non-virtual thunk to CVRCompositorClient::SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
  T non-virtual thunk to CVRCompositorClient::SetOverlayWidthInMeters(unsigned long long, float)
  T non-virtual thunk to CVRCompositorClient::SetOverlay_DEPRECATED(void*, vr::Compositor_OverlaySettings*)
+ T non-virtual thunk to CVRCompositorClient::ShowDashboard(char const*)
  T non-virtual thunk to CVRCompositorClient::ShowOverlay(unsigned long long)
  T non-virtual thunk to CVRSystemLatest::GenerateLocalMouseEvents(unsigned int, float, float, vr::VRControllerState001_t const&, bool, unsigned long long, unsigned long long)
  T non-virtual thunk to CVRSystemLatest::HandleAutomaticControllerOverlayInteractionAsMouse(vr::VROverlayEventSettings_t const*, unsigned int, vr::TrackingUniverseOrigin, vr::TrackedDevicePose_t*, unsigned int, unsigned long long, vr::HmdVector3_t*)
@@ -2086,22 +2165,26 @@
  T vr::CVRChaperoneLatest::SetWorkingTagPoseByName(char const*, vr::HmdMatrix34_t const&, float)
  T vr::CVRChaperoneLatest::ToJson() const
  T vr::CVRChaperoneLatest::~CVRChaperoneLatest()
+ T vr::CVRDashboardManagerLatest::ActivateNotification(unsigned int)
  T vr::CVRDashboardManagerLatest::BInit(CVRClient*, CVRCompositorClient*)
  T vr::CVRDashboardManagerLatest::CVRDashboardManagerLatest()
  T vr::CVRDashboardManagerLatest::CreateDashboardCoreOverlay(char const*, char const*, unsigned long long*)
+ T vr::CVRDashboardManagerLatest::GetActiveNotificationCount(unsigned long long, int*)
  T vr::CVRDashboardManagerLatest::GetDashboardOverlays(vr::DashboardOverlayState_t*, unsigned int)
+ T vr::CVRDashboardManagerLatest::GetNotificationSummary(vr::DashboardNotificationSummary_t*)
+ T vr::CVRDashboardManagerLatest::GetToastInfo(unsigned int, vr::DashboardNotificationInfo_t*)
  T vr::CVRDashboardManagerLatest::HideDashboard()
  T vr::CVRDashboardManagerLatest::SetDashboardManager(unsigned long long)
+ T vr::CVRDashboardManagerLatest::SetToastTexture(vr::GraphicsAPIConvention, void*)
  T vr::CVRDashboardManagerLatest::ShowDashboard()
  T vr::CVRDashboardManagerLatest::~CVRDashboardManagerLatest()
  T vr::CVRNotificationManager::BeginInteractionInternal(VRCompositorState_NotificationState_t*, unsigned int)
  T vr::CVRNotificationManager::ShowInternal(VRCompositorState_NotificationState_t*, unsigned int)
  T vr::CVRNotificationsLatest::BInit(CVRClient*, CVRCompositorClient*)
  T vr::CVRNotificationsLatest::CVRNotificationsLatest()
+ T vr::CVRNotificationsLatest::CreateNotification(unsigned long long, unsigned long long, char*, char*, char*, vr::NotificationBitmap*, unsigned int*)
  T vr::CVRNotificationsLatest::DismissNotification(unsigned int)
  T vr::CVRNotificationsLatest::GetErrorString(vr::NotificationError_t, char*, unsigned int)
- T vr::CVRNotificationsLatest::NotificationStart(unsigned long long, char*, void*, unsigned long long, unsigned int*)
- T vr::CVRNotificationsLatest::UpdateTexture(unsigned int, void*)
  T vr::CVRNotificationsLatest::~CVRNotificationsLatest()
  T vr::ChaperoneInfo::CopyCalibrationData(vr::ChaperoneInfo const&)
  T vr::ChaperoneInfo::FromJson(Json::Value const&, unsigned int)
@@ -2170,6 +2253,8 @@
  b (anonymous namespace)::CVRMsg_CompositorHideDashboard_reflection_
  b (anonymous namespace)::CVRMsg_CompositorQuit_descriptor_
  b (anonymous namespace)::CVRMsg_CompositorQuit_reflection_
+ b (anonymous namespace)::CVRMsg_CompositorSetOverlayFromFileResponse_descriptor_
+ b (anonymous namespace)::CVRMsg_CompositorSetOverlayFromFileResponse_reflection_
  b (anonymous namespace)::CVRMsg_CompositorSetOverlayFromFile_descriptor_
  b (anonymous namespace)::CVRMsg_CompositorSetOverlayFromFile_reflection_
  b (anonymous namespace)::CVRMsg_CompositorSetOverlay_descriptor_
@@ -2282,6 +2367,7 @@
  b systemTimeInitialized
  b vrcompositor006
  b vroverlay001
+ b vroverlay002
  b vrsystem001
  b vrsystem002
  b vrsystem003
@@ -2379,6 +2465,7 @@
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_CompositorHideDashboardResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_CompositorHideDashboard_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_CompositorQuit_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_CompositorSetOverlayFromFileResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_CompositorSetOverlayFromFile_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_CompositorSetOverlay_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_CompositorShowDashboardResponse_offsets_
