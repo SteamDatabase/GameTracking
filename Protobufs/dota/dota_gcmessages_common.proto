@@ -436,8 +436,6 @@ enum EDOTAGCMsg {
 	k_EMsgGCPracticeLobbyToggleBroadcastChannelCameramanStatus = 7505;
 	k_EMsgGCToGCCreateWeekendTourneyRequest = 7506;
 	k_EMsgGCToGCCreateWeekendTourneyResponse = 7507;
-	k_EMsgGCHeroPickStatsRequest = 7508;
-	k_EMsgGCHeroPickStatsResponse = 7509;
 	k_EMsgGCToGCCreateGenericTeamsRequest = 7510;
 	k_EMsgGCToGCCreateGenericTeamsResponse = 7511;
 	k_EMsgSQLLaunchOneWeekendTourney = 7512;
@@ -525,6 +523,8 @@ enum EDOTAGCMsg {
 	k_EMsgServerToGCHoldEventPoints = 7596;
 	k_EMsgSignOutReleaseEventPointHolds = 7597;
 	k_EMsgGCToGCChatNewUserSession = 7598;
+	k_EMsgClientToGCGetLeagueSeries = 7599;
+	k_EMsgClientToGCGetLeagueSeriesResponse = 7600;
 	k_EMsgGCDev_GrantWarKill = 8001;
 	k_EMsgClientToGCCreateTeamShowcase = 8002;
 	k_EMsgGCToClientTeamShowcaseCreateResult = 8003;
@@ -1188,6 +1188,8 @@ message CSODOTALobby {
 	optional .DOTALobbyVisibility visibility = 75 [default = DOTALobbyVisibility_Public];
 	optional fixed64 custom_game_crc = 76;
 	optional bool custom_game_auto_created_lobby = 77;
+	optional uint32 league_series_id = 78;
+	optional uint32 league_game_id = 79;
 }
 
 message CMsgLobbyEventPoints {
@@ -1618,6 +1620,8 @@ message CMsgDOTARealtimeGameStats {
 		optional uint32 id = 1;
 		optional string name = 2;
 		optional uint32 level = 3;
+		optional float cooldown = 4;
+		optional float cooldown_max = 5;
 	}
 
 	message HeroToHeroStats {
@@ -1678,6 +1682,8 @@ message CMsgDOTARealtimeGameStats {
 		repeated .CMsgDOTARealtimeGameStats.ItemDetails itemshoppinglist = 45;
 		repeated .CMsgDOTARealtimeGameStats.AbilityList levelpoints = 46;
 		repeated .CMsgDOTARealtimeGameStats.HeroToHeroStats hero_to_hero_stats = 47;
+		optional bool has_ultimate = 48;
+		optional bool has_ultimate_mana = 49;
 	}
 
 	message BuildingDetails {
