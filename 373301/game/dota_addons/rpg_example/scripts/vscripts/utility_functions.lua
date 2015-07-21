@@ -101,20 +101,3 @@ function TableLength( t )
 	end
 	return nCount
 end
-
----------------------------------------------------------------------------
--- CreateWorldItemOnUnit
----------------------------------------------------------------------------
-function CRPGExample:CreateWorldItemOnUnit( itemName, unit )
-    local newItem = CreateItem( itemName, nil, nil )
-	CreateItemOnPositionSync( unit:GetAbsOrigin(), newItem )
-end
-
----------------------------------------------------------------------------
--- CreateWorldItemOnPosition
----------------------------------------------------------------------------
-function CRPGExample:CreateWorldItemOnPosition( itemName, vPos )
-    local newItem = CreateItem( itemName, nil, nil )
-	CreateItemOnPositionSync( vPos, newItem )
-	print( "Creating item " .. newItem:GetName() .. " on position: " .. tostring( vPos ) )
-end

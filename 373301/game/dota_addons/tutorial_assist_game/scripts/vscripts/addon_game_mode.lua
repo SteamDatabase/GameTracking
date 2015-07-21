@@ -51,6 +51,7 @@ ALERT_PICKED_UP_RUNE = 12
 ALERT_ROSHAN = 13
 ALERT_SIDE_SHOP = 14
 ALERT_FIRST_PURCHASE = 15
+ALERT_NEUTRAL_CREEP = 16
 
 ALERT_STYLE_CONTINUE = 1
 ALERT_STYLE_FORCE = 2
@@ -161,6 +162,7 @@ function CTutorialAG:InitGameMode()
 	self._bStayPausedForDetails = false
 	self._bGameStarted = false
 	self._bLateGame = false
+	self._hPickupRune = nil 
 
 
 	-- Most of these tick are checked every second. Tower hits are checked as they come in.
@@ -181,6 +183,7 @@ function CTutorialAG:InitGameMode()
 	self._vAlertTable[ALERT_PICKED_UP_RUNE] =		{ nNagCount = 1, flAlertLevel = 0, flAlertThreshold = 1,	nCoolDown = 180, style = ALERT_STYLE_CONTINUE,	title = "ag_info_FoundARuneTitle",			body = "ag_info_FoundARuneBody" }
 	self._vAlertTable[ALERT_ROSHAN] =				{ nNagCount = 1, flAlertLevel = 0, flAlertThreshold = 1,	nCoolDown = 180, style = ALERT_STYLE_CONTINUE,	title = "ag_info_RoshanTitle",				body = "ag_info_RoshanBody" }
 	self._vAlertTable[ALERT_SIDE_SHOP] =			{ nNagCount = 1, flAlertLevel = 0, flAlertThreshold = 1,	nCoolDown = 180, style = ALERT_STYLE_CONTINUE,	title = "ag_info_SideShopTitle",			body = "ag_info_SideShopBody" }
+	self._vAlertTable[ALERT_NEUTRAL_CREEP] =		{ nNagCount = 1, flAlertLevel = 0, flAlertThreshold = 1,	nCoolDown = 180, style = ALERT_STYLE_CONTINUE,	title = "ag_info_CreepCampsTitle",			body = "ag_info_CreepCampsBody" }
 
 	self._hPlayerHero = nil
 	self._bShowedSalveTip = nil
@@ -388,6 +391,8 @@ function CTutorialAG:FilterDamage( filterTable )
 	if ( hVictim ~= nil ) then
 		if ( hVictim:IsBoss() ) then
 			self:_IncrementAlert( ALERT_ROSHAN, 1.0 )
+		elseif ( hVictim:IsNeutralUnitType() ) then
+			self:_IncrementAlert( ALERT_NEUTRAL_CREEP, 1.0 )			
 		end
 	end
 
@@ -438,6 +443,26 @@ function CTutorialAG:FilterExecuteOrder( filterTable )
 		return false
 	end
 
+	if ( filterTable["issuer_player_id_const"] == 0 ) then
+		local orderType = filterTable["order_type"]
+		if ( orderType == DOTA_UNIT_ORDER_PICKUP_RUNE ) then
+			local rune = EntIndexToHScript( filterTable["entindex_target"] )
+			self._hPickupRune = rune
+			self:CheckRuneTip()
+
+
+--			if ( rune ~= nil and not rune:IsNull() and self._hPlayerHero ~= nil ) then
+--				if ( self._hPlayerHero:IsPositionInRange( rune:GetAbsOrigin(), 400 ) == true ) then
+--					self:_IncrementAlert( ALERT_PICKED_UP_RUNE, 1.0 )
+--					self._hPickupRune = nil
+--				end
+--			end
+		else
+			self._hPickupRune = nil
+		end
+	end
+
+
 	-- We don't need to prevent any orders if the player is finished with their build
 	if ( not self._bWhiteListEnabled ) then
 		return true
@@ -446,14 +471,12 @@ function CTutorialAG:FilterExecuteOrder( filterTable )
 	-- The player isn't allowed to do actions that may break the tutorial.
 	if ( filterTable["issuer_player_id_const"] == 0 ) then
 		local orderType = filterTable["order_type"]
-		if ( orderType == DOTA_UNIT_ORDER_PICKUP_RUNE ) then
-			self:_IncrementAlert( ALERT_PICKED_UP_RUNE, 1.0 )
-		elseif (orderType == DOTA_UNIT_ORDER_DROP_ITEM or
-				orderType == DOTA_UNIT_ORDER_GIVE_ITEM or
-				orderType == DOTA_UNIT_ORDER_SELL_ITEM or
-				orderType == DOTA_UNIT_ORDER_DISASSEMBLE_ITEM or
-				orderType == DOTA_UNIT_ORDER_BUYBACK or
-				orderType == DOTA_UNIT_ORDER_EJECT_ITEM_FROM_STASH ) then
+		if (orderType == DOTA_UNIT_ORDER_DROP_ITEM or
+			orderType == DOTA_UNIT_ORDER_GIVE_ITEM or
+			orderType == DOTA_UNIT_ORDER_SELL_ITEM or
+			orderType == DOTA_UNIT_ORDER_DISASSEMBLE_ITEM or
+			orderType == DOTA_UNIT_ORDER_BUYBACK or
+			orderType == DOTA_UNIT_ORDER_EJECT_ITEM_FROM_STASH ) then
 
 			print("Skipping command from" .. tostring(issuer) )
 			return false
@@ -855,6 +878,15 @@ end
 --	print("Shop Toggled")
 --end
 
+function CTutorialAG:CheckRuneTip()
+	if ( self._hPickupRune ~= nil and not self._hPickupRune:IsNull() and self._hPlayerHero ~= nil ) then
+		if ( self._hPlayerHero:IsPositionInRange( self._hPickupRune:GetAbsOrigin(), 400 ) == true ) then
+			self:_IncrementAlert( ALERT_PICKED_UP_RUNE, 1.0 )
+			self._hPickupRune = nil
+		end
+	end
+end
+
 -----------------------------------------------------------------------------------------
 -- State Management
 -----------------------------------------------------------------------------------------
@@ -864,6 +896,8 @@ function CTutorialAG:OnThink()
 	if ( GameRules:IsGamePaused() ) then
 		return 0.25
 	end
+
+	self:CheckRuneTip()
 
 	if ( self._flDialogFadeInTime > 0 ) then
 		self._flDialogFadeInTime = self._flDialogFadeInTime - 0.25
