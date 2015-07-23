@@ -1,4 +1,6 @@
-juggernaut_slash = class({})
+if juggernaut_slash == nil then
+	juggernaut_slash = class({})
+end
 
 function juggernaut_slash:StopSwingGesture()
 	if self.nCurrentGesture ~= nil then

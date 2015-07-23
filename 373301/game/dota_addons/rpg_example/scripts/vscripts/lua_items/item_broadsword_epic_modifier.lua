@@ -1,4 +1,6 @@
-item_broadsword_epic_modifier = class({})
+if item_broadsword_epic_modifier == nil then
+	item_broadsword_epic_modifier = class({})
+end
 
 function item_broadsword_epic_modifier:DeclareFunctions()
 	local funcs = {

@@ -1,4 +1,6 @@
-juggernaut_cleave = class({})
+if juggernaut_cleave == nil then
+	juggernaut_cleave = class({})
+end
 
 function juggernaut_cleave:OnSpellStart()
 	local modifierData = {

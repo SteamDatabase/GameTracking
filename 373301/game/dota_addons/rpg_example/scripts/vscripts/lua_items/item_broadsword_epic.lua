@@ -1,4 +1,6 @@
-item_broadsword_epic = class({})
+if item_broadsword_epic == nil then
+	item_broadsword_epic = class({})
+end
 
 LinkLuaModifier( "item_broadsword_epic", "lua_items/item_broadsword_epic_modifier.lua", LUA_MODIFIER_MOTION_NONE )
 

@@ -5,15 +5,15 @@
 --------------------------------------------------------------------------------
 
 local tTIER_01_ITEMS_ALL = {
-	"item_flask", "item_tango", "item_quelling_blade", "item_broadsword_tier1"
+	"item_teleport", "item_flask", "item_enchanted_mango", "item_arboreal_refreshment"
 }
 
 local tTIER_02_ITEMS_ALL = {
-	"item_javelin", "item_broadsword_tier2", "item_ring_of_health"
+	"item_broadsword_tier1", "item_broadsword_tier2", "item_ring_of_health", "item_saprophytic_blade", "item_ritual_dirk"
 }
 
 local tTIER_03_ITEMS_ALL = {
-	"item_invis_sword", "item_phase_boots", "item_broadsword_tier3", "item_bfury"
+	"item_invis_sword", "item_phase_boots", "item_broadsword_tier3", "item_bfury", "item_staff_of_the_ruminant"
 }
 
 local tKEY_GATE01 = {
