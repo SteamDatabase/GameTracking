@@ -5,6 +5,8 @@ print( "Entering rpg_example's addon_game_mode.lua file." )
 --------------------------------------------------------------------------------
 -- Integer constants
 --------------------------------------------------------------------------------
+_G.nGOOD_TEAM = 2
+_G.nBAD_TEAM = 3
 _G.nNEUTRAL_TEAM = 4
 _G.nDOTA_MAX_ABILITIES = 16
 _G.nHERO_MAX_LEVEL = 25
@@ -14,11 +16,6 @@ _G.nCAMPER_MAX_DIST_FROM_SPAWN = 256
 _G.nPATROLLER_MAX_DIST_FROM_SPAWN = 128
 _G.nBOSS_MAX_DIST_FROM_SPAWN = 0
 _G.nCREATURE_RESPAWN_TIME = 60
-
---------------------------------------------------------------------------------
--- Lua abilities and modifiers declarations
---------------------------------------------------------------------------------
-LinkLuaModifier( "lm_take_no_damage", LUA_MODIFIER_MOTION_NONE )
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 -- RPGExample class
@@ -44,11 +41,15 @@ function Precache( context )
     GameRules.rpg_example:PrecacheSpawners( context )
     GameRules.rpg_example:PrecacheItemSpawners( context )
 
-    PrecacheResource( "particle", "particles/addons_gameplay/player_deferred_light.vpcf", context )
-	-- Particle systems to precache for onKill effects.
-	PrecacheResource( "particle", "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf", context )
+	PrecacheResource( "particle", "particles/addons_gameplay/player_deferred_light.vpcf", context )
+	PrecacheResource( "particle", "particles/hw_fx/hw_rosh_fireball_fire_launch.vpcf", context )
+
+    PrecacheResource( "particle", "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf", context )
 	PrecacheResource( "particle", "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact_mechanical.vpcf", context )
 	PrecacheResource( "particle", "particles/units/heroes/hero_life_stealer/life_stealer_infest_emerge_bloody.vpcf", context )
+
+	PrecacheResource( "soundfile", "soundevents/game_sounds_main.vsndevts", context )
+	PrecacheResource( "soundfile", "soundevents/game_sounds_triggers.vsndevts", context )
 end
 
 --------------------------------------------------------------------------------
@@ -80,6 +81,7 @@ function CRPGExample:InitGameMode()
 	ListenToGameEvent( "npc_spawned", Dynamic_Wrap( CRPGExample, "OnNPCSpawned" ), self )
 	ListenToGameEvent( "entity_killed", Dynamic_Wrap( CRPGExample, "OnEntityKilled" ), self )
 	ListenToGameEvent( "dota_player_gained_level", Dynamic_Wrap( CRPGExample, "OnPlayerGainedLevel" ), self )
+	ListenToGameEvent( "dota_item_picked_up", Dynamic_Wrap( CRPGExample, "OnItemPickedUp" ), self )
 
 	self._tPlayerHeroInitStatus = {}	
 
@@ -101,4 +103,36 @@ function CRPGExample:GameThink()
 	local flThinkTick = 0.2
 
 	return flThinkTick
+end
+
+---------------------------------------------------------------------------
+-- CreateWorldItemOnUnit
+---------------------------------------------------------------------------
+function CRPGExample:CreateWorldItemOnUnit( sItemName, unit )
+    local newItem = CreateItem( sItemName, nil, nil )
+	CreateItemOnPositionSync( unit:GetAbsOrigin(), newItem )
+end
+
+---------------------------------------------------------------------------
+-- CreateWorldItemOnPosition
+---------------------------------------------------------------------------
+function CRPGExample:CreateWorldItemOnPosition( sItemName, vPos )
+    local newItem = CreateItem( sItemName, nil, nil )
+	CreateItemOnPositionSync( vPos, newItem )
+	print( "Creating item " .. newItem:GetName() .. " on position: " .. tostring( vPos ) )
+end
+
+---------------------------------------------------------------------------
+-- LaunchWorldItemFromUnit
+---------------------------------------------------------------------------
+function CRPGExample:LaunchWorldItemFromUnit( sItemName, flLaunchHeight, flDuration, hUnit )
+    local newItem = CreateItem( sItemName, nil, nil )
+    local newWorldItem = CreateItemOnPositionSync( hUnit:GetOrigin(), newItem )
+	newItem:LaunchLoot( false, flLaunchHeight, flDuration, hUnit:GetOrigin() + RandomVector( RandomFloat( 200, 300 ) ) )
+	print( "Launching " .. newItem:GetName() .. " near " .. hUnit:GetUnitName() )
+	self._GameMode:SetContextThink( "CRPGExample:Think_PlayItemLandSound", function() return self:Think_PlayItemLandSound() end, flDuration )
+end
+
+function CRPGExample:Think_PlayItemLandSound()
+	EmitGlobalSound( "ui.inv_drop_highvalue" )
 end

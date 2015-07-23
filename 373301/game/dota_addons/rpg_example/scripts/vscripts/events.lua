@@ -8,6 +8,8 @@ function CRPGExample:OnGameRulesStateChange()
 
 	if nNewState == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
 		print( "OnGameRulesStateChange: Custom Game Setup" )
+		GameRules:SetTimeOfDay( 0.25 )
+		SendToServerConsole( "dota_daynightcycle_pause 1" )
 
 	elseif nNewState == DOTA_GAMERULES_STATE_HERO_SELECTION then
 		print( "OnGameRulesStateChange: Hero Selection" )
@@ -52,7 +54,6 @@ function CRPGExample:OnEntityKilled( event )
 	end
 end
 
-
 --------------------------------------------------------------------------------
 -- GrantItemDrop
 --------------------------------------------------------------------------------
@@ -61,9 +62,11 @@ function CRPGExample:GrantItemDrop( hDeadUnit )
 		return
 	end
 
-	if RandomFloat( 0, 1 ) > 0.75 then
+	local flMaxHeight = RandomFloat( 300, 450 )
+
+	if RandomFloat( 0, 1 ) > 0.6 then
 		local sItemName = GetRandomElement( hDeadUnit.itemTable )
-		self:CreateWorldItemOnPosition( sItemName, hDeadUnit:GetAbsOrigin() )
+		self:LaunchWorldItemFromUnit( sItemName, flMaxHeight, 0.5, hDeadUnit )
 	end
 end
 
@@ -99,7 +102,9 @@ function CRPGExample:Think_InitializePlayerHero( hPlayerHero )
 		PlayerResource:SetOverrideSelectionEntity( nPlayerID, hPlayerHero )
 		PlayerResource:SetGold( nPlayerID, 0, true )
 		PlayerResource:SetGold( nPlayerID, 0, false )
+		hPlayerHero:HeroLevelUp( false )
 		hPlayerHero:UpgradeAbility( hPlayerHero:GetAbilityByIndex( 0 ) )
+		hPlayerHero:UpgradeAbility( hPlayerHero:GetAbilityByIndex( 1 ) )
 		hPlayerHero:SetIdleAcquire( false )
 
 		if GetMapName() == "rpg_example" then
@@ -120,6 +125,11 @@ function CRPGExample:OnPlayerGainedLevel( event )
 
 	hPlayerHero:SetHealth( hPlayerHero:GetMaxHealth() )
 	hPlayerHero:SetMana( hPlayerHero:GetMaxMana() )
+end
+
+function CRPGExample:OnItemPickedUp( event )
+	local hPlayerHero = EntIndexToHScript( event.HeroEntityIndex )
+	EmitGlobalSound( "ui.inv_equip_highvalue" )
 end
 
 

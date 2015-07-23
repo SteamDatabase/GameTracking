@@ -135,6 +135,9 @@ if CDOTA_PlayerResource ~= nil then
 		return CDOTA_PlayerResource.IncrementTotalEarnedXP_Engine( self, nPlayerID, nXP, nReason )
 	end
 
+	CDOTA_PlayerResource.HeroLevelUp = function( self, nPlayerID )
+		print("DEPRICATED FUNCTION CALLED: PlayerResource:HeroLevelUp, remove before the end of BETA to prevent script errors")
+	end
 end
 
 -- Lua ability binding glue-

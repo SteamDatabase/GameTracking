@@ -52,6 +52,7 @@ ALERT_ROSHAN = 13
 ALERT_SIDE_SHOP = 14
 ALERT_FIRST_PURCHASE = 15
 ALERT_NEUTRAL_CREEP = 16
+ALERT_FOUNTAIN = 17
 
 ALERT_STYLE_CONTINUE = 1
 ALERT_STYLE_FORCE = 2
@@ -184,6 +185,7 @@ function CTutorialAG:InitGameMode()
 	self._vAlertTable[ALERT_ROSHAN] =				{ nNagCount = 1, flAlertLevel = 0, flAlertThreshold = 1,	nCoolDown = 180, style = ALERT_STYLE_CONTINUE,	title = "ag_info_RoshanTitle",				body = "ag_info_RoshanBody" }
 	self._vAlertTable[ALERT_SIDE_SHOP] =			{ nNagCount = 1, flAlertLevel = 0, flAlertThreshold = 1,	nCoolDown = 180, style = ALERT_STYLE_CONTINUE,	title = "ag_info_SideShopTitle",			body = "ag_info_SideShopBody" }
 	self._vAlertTable[ALERT_NEUTRAL_CREEP] =		{ nNagCount = 1, flAlertLevel = 0, flAlertThreshold = 1,	nCoolDown = 180, style = ALERT_STYLE_CONTINUE,	title = "ag_info_CreepCampsTitle",			body = "ag_info_CreepCampsBody" }
+	self._vAlertTable[ALERT_FOUNTAIN] =				{ nNagCount = 1, flAlertLevel = 0, flAlertThreshold = 1,	nCoolDown = 180, style = ALERT_STYLE_CONTINUE,	title = "ag_alert_FountainTitle",			body = "ag_alert_FountainBody" }
 
 	self._hPlayerHero = nil
 	self._bShowedSalveTip = nil
@@ -388,7 +390,7 @@ function CTutorialAG:FilterDamage( filterTable )
 	local hVictim = EntIndexToHScript( filterTable["entindex_victim_const"] )
 	local hAttacker = EntIndexToHScript( filterTable["entindex_attacker_const"] )
 
-	if ( hVictim ~= nil ) then
+	if ( hAttacker:GetPlayerOwnerID() == 0 and hVictim ~= nil ) then
 		if ( hVictim:IsBoss() ) then
 			self:_IncrementAlert( ALERT_ROSHAN, 1.0 )
 		elseif ( hVictim:IsNeutralUnitType() ) then
@@ -589,12 +591,6 @@ function CTutorialAG:OnPlayerLearnedAbility( event )
 --	print( event.player )
 --	print( event.abilityname )
 
-
-	if ( self._nAbilityIndex == -1 ) then
-		return
-	end
-
-
 	local player = EntIndexToHScript( event.player )
 	local playerID = player:GetPlayerID()
 
@@ -615,9 +611,17 @@ function CTutorialAG:OnPlayerLearnedAbility( event )
 
 	if heroUnit:IsRealHero() then
 		local upgradeAbility = heroUnit:FindAbilityByName( event.abilityname )
-		local buildAbility = heroUnit:GetAbilityByIndex( self._vSkillBuild[self._nSkillIndex] )
+		local buildAbility = nil
+		local bBuildStats = false
 
-		if ( upgradeAbility ~= nil and upgradeAbility == buildAbility ) then
+		if ( self._vSkillBuild[self._nSkillIndex] == -1 ) then 
+			bBuildStats = true
+		else
+			buildAbility = heroUnit:GetAbilityByIndex( self._vSkillBuild[self._nSkillIndex] )			
+		end
+
+		-- Type 2 is the attributes ability
+		if ( upgradeAbility ~= nil and ( ( upgradeAbility == buildAbility ) or ( upgradeAbility:GetAbilityType() == 2 and bBuildStats ) ) ) then
 			self:_AdvanceAbilityBuild()
 		end
 	end
@@ -871,6 +875,10 @@ function CTutorialAG:OnNPCSpawned( event )
 			self._hPlayerHero = spawnedUnit
 		end
 		self:_FireEvent( ON_HERO_SPAWNED )
+
+		if ( self._bGameStarted ) then
+			self:_IncrementAlert( ALERT_FOUNTAIN, 1.0 )
+		end
 	end
 end
 
@@ -1551,7 +1559,11 @@ function CTutorialAG:_AdvanceAbilityBuild()
 		return
 	end
 
-	Tutorial:SetTutorialConvar( "dota_tutorial_force_learn_ability", tostring( newSkill ) )
+	if ( self._nSkillIndex >= 14 ) then
+		Tutorial:SetTutorialConvar( "dota_tutorial_force_learn_ability", "-1" )
+	else
+		Tutorial:SetTutorialConvar( "dota_tutorial_force_learn_ability", tostring( newSkill ) )
+	end
 end
 
 function CTutorialAG:_TryAnnounceBuild( nLevel )
@@ -1634,11 +1646,11 @@ function CTutorialAG:_SelectLuna()
 	self._vSkillBuild[4] = 0
 	self._vSkillBuild[5] = 3
 	self._vSkillBuild[6] = 0
-	self._vSkillBuild[7] = 2
-	self._vSkillBuild[8] = 2
-	self._vSkillBuild[9] = 1
+	self._vSkillBuild[7] = 1
+	self._vSkillBuild[8] = 1
+	self._vSkillBuild[9] = 2
 	self._vSkillBuild[10] = 3
-	self._vSkillBuild[11] = 1
+	self._vSkillBuild[11] = 2
 	self._vSkillBuild[12] = 1
 	self._vSkillBuild[13] = 1
 	self._vSkillBuild[14] = -1
@@ -1656,7 +1668,8 @@ function CTutorialAG:_SelectLuna()
 	self._vSkillBuildTxt[0] = { title = "ag_detail_BuildLunarBlessingTitle",body = "ag_detail_BuildLunarBlessingBody",	imageClass="" }
 	self._vSkillBuildTxt[1] = { title = "ag_detail_BuildLucentBeamTitle",	body = "ag_detail_BuildLucentBeamBody",		imageClass="" }
 	self._vSkillBuildTxt[5] = { title = "ag_detail_BuildEclipseTitle",		body = "ag_detail_BuildEclipseBody",		imageClass="" }
-	self._vSkillBuildTxt[9] = { title = "ag_detail_BuildMoonGlaiveTitle",	body = "ag_detail_BuildMoonGlaiveBody",		imageClass="" }
+	self._vSkillBuildTxt[7] = { title = "ag_detail_BuildMoonGlaiveTitle",	body = "ag_detail_BuildMoonGlaiveBody",		imageClass="" }
+	self._vSkillBuildTxt[14] = { title = "ag_detail_BaseStatsTitle",		body = "ag_detail_BaseStatsBody",			imageClass=""  }
 
 end
 
@@ -1713,11 +1726,11 @@ function CTutorialAG:_SelectSven()
 	self._vSkillBuild[4] = 0
 	self._vSkillBuild[5] = 3
 	self._vSkillBuild[6] = 0
-	self._vSkillBuild[7] = 2
-	self._vSkillBuild[8] = 2
-	self._vSkillBuild[9] = 1
+	self._vSkillBuild[7] = 1
+	self._vSkillBuild[8] = 1
+	self._vSkillBuild[9] = 2
 	self._vSkillBuild[10] = 3
-	self._vSkillBuild[11] = 1
+	self._vSkillBuild[11] = 2
 	self._vSkillBuild[12] = 1
 	self._vSkillBuild[13] = 1
 	self._vSkillBuild[14] = -1
@@ -1735,7 +1748,9 @@ function CTutorialAG:_SelectSven()
 	self._vSkillBuildTxt[0] = { title = "ag_detail_BuildStormHammerTitle",	body = "ag_detail_BuildStormHammerBody",	imageClass=""  }
 	self._vSkillBuildTxt[1] = { title = "ag_detail_BuildWarCryTitle",		body = "ag_detail_BuildWarCryBody",			imageClass=""  }
 	self._vSkillBuildTxt[5] = { title = "ag_detail_BuildGodsStrengthTitle",	body = "ag_detail_BuildGodsStrengthBody",	imageClass=""  }
-	self._vSkillBuildTxt[9] = { title = "ag_detail_BuildGreatCleaveTitle",	body = "ag_detail_BuildGreatCleaveBody",	imageClass=""  }
+	self._vSkillBuildTxt[7] = { title = "ag_detail_BuildGreatCleaveTitle",	body = "ag_detail_BuildGreatCleaveBody",	imageClass=""  }
+	self._vSkillBuildTxt[14] = { title = "ag_detail_BaseStatsTitle",		body = "ag_detail_BaseStatsBody",			imageClass=""  }
+
 end
 
 function CTutorialAG:_SelectLina()
@@ -1784,11 +1799,11 @@ function CTutorialAG:_SelectLina()
 	self._vSkillBuild[4] = 0
 	self._vSkillBuild[5] = 3
 	self._vSkillBuild[6] = 0
-	self._vSkillBuild[7] = 1
-	self._vSkillBuild[8] = 1
-	self._vSkillBuild[9] = 2
+	self._vSkillBuild[7] = 2
+	self._vSkillBuild[8] = 2
+	self._vSkillBuild[9] = 1
 	self._vSkillBuild[10] = 3
-	self._vSkillBuild[11] = 2
+	self._vSkillBuild[11] = 1
 	self._vSkillBuild[12] = 2
 	self._vSkillBuild[13] = 2
 	self._vSkillBuild[14] = -1
@@ -1806,7 +1821,8 @@ function CTutorialAG:_SelectLina()
 	self._vSkillBuildTxt[0] = { title = "ag_detail_BuildDragonSlaveTitle",	body = "ag_detail_BuildDragonSlaveBody",	imageClass=""  }
 	self._vSkillBuildTxt[1] = { title = "ag_detail_BuildLightStrikeTitle",	body = "ag_detail_BuildLightStrikeBody",	imageClass=""  }
 	self._vSkillBuildTxt[5] = { title = "ag_detail_BuildLagunaBladeTitle",	body = "ag_detail_BuildLagunaBladeBody",	imageClass=""  }
-	self._vSkillBuildTxt[9] = { title = "ag_detail_BuildFireySoulTitle",	body = "ag_detail_BuildFireySoulBody",		imageClass=""  }
+	self._vSkillBuildTxt[7] = { title = "ag_detail_BuildFireySoulTitle",	body = "ag_detail_BuildFireySoulBody",		imageClass=""  }
+	self._vSkillBuildTxt[14] = { title = "ag_detail_BaseStatsTitle",		body = "ag_detail_BaseStatsBody",			imageClass=""  }
 end
 
 function CTutorialAG:_Setup()

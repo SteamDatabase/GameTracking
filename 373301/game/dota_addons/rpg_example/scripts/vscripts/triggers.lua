@@ -27,8 +27,12 @@ end
 function Checkpoint_OnStartTouch( trigger )
 	local hHero = trigger.activator
 	local sCheckpointTriggerName = thisEntity:GetName()
+	local hBuilding = Entities:FindByName( nil, sCheckpointTriggerName .. "_building" )
+
+	hBuilding:SetTeam( nGOOD_TEAM )
 
 	if sCheckpointTriggerName ~= "checkpoint00" then
 		BroadcastMessage( "Activated " .. sCheckpointTriggerName, 3 )
+		EmitGlobalSound( "DOTA_Item.Refresher.Activate" ) -- Checkpoint.Activate
 	end
 end

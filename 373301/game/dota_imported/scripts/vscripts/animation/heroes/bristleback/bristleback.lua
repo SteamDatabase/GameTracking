@@ -14,12 +14,32 @@ model:CreateWeightlist(
 		{ "quill915_0", 1 },
 		{ "quill612_0", 1 },
 		{ "quill713_0", 1 },
-		{ "backtop5_0", 1 },
 		{ "Spine_2", 0 },
 		{ "Head_0", 0 },
 		{ "clavicle_R", 0 },
 		{ "clavicle_L", 0 },
-		{ "Spine_3", 0 }
+		{ "Spine_3", 0 },
+		{ "quill28_0", 1 },
+		{ "quill10_0", 1 },
+		{ "quill410_0", 1 },
+		{ "quill511_0", 1 },
+		{ "quill39_0", 1 }
+	}
+)
+
+model:CreateWeightlist(
+	"spike_quills",
+	{
+		{ "quill28_0", 1 },
+		{ "quill10_0", 1 },
+		{ "quill410_0", 1 },
+		{ "quill39_0", 1 },
+		{ "quill915_0", 1 },
+		{ "quill713_0", 1 },
+		{ "quill612_0", 1 },
+		{ "quill814_0", 1 },
+		{ "backtop5_0", 1 },
+		{ "quill511_0", 0 }
 	}
 )
 
@@ -106,6 +126,21 @@ model:CreateSequence(
 		},
 		activities = {
 			{ name = "ACT_DOTA_RUN", weight = 1 }
+		}
+	}
+)
+
+
+model:CreateSequence(
+	{
+		name = "spike_quill_spray",
+		sequences = {
+			{ "@spike_quill_spray" }
+		},
+		weightlist = "spike_quills",
+		activities = {
+			{ name = "ACT_DOTA_CAST_ABILITY_2", weight = 1 },
+			{ name = "spike", weight = 1 }
 		}
 	}
 )

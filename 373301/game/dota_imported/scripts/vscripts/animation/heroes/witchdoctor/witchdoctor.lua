@@ -29,3 +29,18 @@ model:CreateSequence(
 		}
 	}
 )
+
+
+model:CreateSequence(
+	{
+		name = "bonkers_voodoo_restoration",
+		sequences = {
+			{ "@bonkers_voodoo_restoration" }
+		},
+		weightlist = "upperBody",
+		activities = {
+			{ name = "ACT_DOTA_VOODOO_REST", weight = 1 },
+			{ name = "bonkers_the_mad", weight = 1 }
+		}
+	}
+)

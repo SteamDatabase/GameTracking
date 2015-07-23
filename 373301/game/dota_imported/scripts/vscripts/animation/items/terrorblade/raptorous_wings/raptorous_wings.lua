@@ -77,9 +77,9 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "agg_run",
+		name = "run",
 		sequences = {
-			{ "@agg_run" }
+			{ "@run" }
 		},
 		addlayer = {
 			"turns"

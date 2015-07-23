@@ -88,7 +88,8 @@ model:CreateSequence(
 		},
 		weightlist = "topHalf",
 		activities = {
-			{ name = "ACT_TINY_AVALANCHE", weight = 1 }
+			{ name = "ACT_TINY_AVALANCHE", weight = 1 },
+			{ name = "tree", weight = 1 }
 		}
 	}
 )
@@ -102,7 +103,8 @@ model:CreateSequence(
 		},
 		weightlist = "topHalf",
 		activities = {
-			{ name = "ACT_TINY_TOSS", weight = 1 }
+			{ name = "ACT_TINY_TOSS", weight = 1 },
+			{ name = "tree", weight = 1 }
 		}
 	}
 )

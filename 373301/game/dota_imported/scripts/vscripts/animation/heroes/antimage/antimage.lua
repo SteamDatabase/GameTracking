@@ -8,6 +8,7 @@
 --=============================================================================
 
 
+
 -- AsLookLayer
 model:CreateSequence(
 	{
@@ -55,13 +56,14 @@ model:CreateSequence(
 	{
 		name = "turns",
 		delta = true,
-		poseParamX = model:CreatePoseParameter( "TURN", -1, 1, 0, false ),
+		poseParamX = model:CreatePoseParameter( "turn", -1, 1, 0, false ),
 		sequences = {
 			{ "@turns_lookFrame_0", "@turns_lookFrame_1", "@turns_lookFrame_2" }
 		}
 	}
 )
 
+-- AsTurningRun
 
 model:CreateSequence(
 	{
@@ -79,6 +81,8 @@ model:CreateSequence(
 )
 
 
+-- AsTurningRun
+
 model:CreateSequence(
 	{
 		name = "run_angry",
@@ -95,6 +99,8 @@ model:CreateSequence(
 	}
 )
 
+
+-- AsTurningRun
 
 model:CreateSequence(
 	{

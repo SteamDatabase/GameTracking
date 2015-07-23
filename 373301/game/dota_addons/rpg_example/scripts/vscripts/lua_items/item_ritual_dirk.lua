@@ -1,4 +1,6 @@
-item_ritual_dirk = class({})
+if item_ritual_dirk == nil then
+	item_ritual_dirk = class({})
+end
 
 LinkLuaModifier( "item_ritual_dirk_modifier", "lua_items/item_ritual_dirk_modifier.lua", LUA_MODIFIER_MOTION_NONE )
 
