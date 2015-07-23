@@ -15,8 +15,6 @@
  B CBidirMsg_RelayPacket_SignedDestinationAddress_t::default_instance_
  B CBorderData::default_instance_
  B CBorderData_CBorderSide::default_instance_
- B CBorderImageData::default_instance_
- B CBorderImageData_CBorderWidthData::default_instance_
  B CBoxShadowData::default_instance_
  B CBuilderModelInfo::s_pSchemaBinding
  B CCLCMsg_BaselineAck::default_instance_
@@ -101,6 +99,9 @@
  B CMsgBoxShadow::animation_frame_data
  B CMsgBoxShadow::default_instance_
  B CMsgBoxShadow_AnimationFrameData::default_instance_
+ B CMsgBrightness::animation_frame_data
+ B CMsgBrightness::default_instance_
+ B CMsgBrightness_AnimationFrameData::default_instance_
  B CMsgClearBackbuffer::default_instance_
  B CMsgClip::animation_frame_data
  B CMsgClip::default_instance_
@@ -110,12 +111,12 @@
  B CMsgColor::default_instance_
  B CMsgColorStop::default_instance_
  B CMsgColor_AnimationFrameData::default_instance_
+ B CMsgContrast::animation_frame_data
+ B CMsgContrast::default_instance_
+ B CMsgContrast_AnimationFrameData::default_instance_
  B CMsgDeletePanel::default_instance_
  B CMsgDeleteParticleSystem::default_instance_
  B CMsgDeleteTexture::default_instance_
- B CMsgDesaturation::animation_frame_data
- B CMsgDesaturation::default_instance_
- B CMsgDesaturation_AnimationFrameData::default_instance_
  B CMsgDrawDoubleBufferedRect::default_instance_
  B CMsgDrawFilledRect::default_instance_
  B CMsgDrawTextRegion::default_instance_
@@ -133,6 +134,9 @@
  B CMsgGaussianBlur::default_instance_
  B CMsgGaussianBlur_AnimationFrameData::default_instance_
  B CMsgGaussianValues::default_instance_
+ B CMsgHueShift::animation_frame_data
+ B CMsgHueShift::default_instance_
+ B CMsgHueShift_AnimationFrameData::default_instance_
  B CMsgIPCAddress::default_instance_
  B CMsgLinearGradient::default_instance_
  B CMsgLockTexture::default_instance_
@@ -172,6 +176,9 @@
  B CMsgRotate2D::animation_frame_data
  B CMsgRotate2D::default_instance_
  B CMsgRotate2D_AnimationFrameData::default_instance_
+ B CMsgSaturation::animation_frame_data
+ B CMsgSaturation::default_instance_
+ B CMsgSaturation_AnimationFrameData::default_instance_
  B CMsgServerPeer::default_instance_
  B CMsgTextFormat::default_instance_
  B CMsgTextInlineObject::default_instance_
@@ -187,9 +194,7 @@
  B CMsg_CVars::default_instance_
  B CMsg_CVars_CVar::default_instance_
  B CNETMsg_Disconnect::default_instance_
- B CNETMsg_File::default_instance_
  B CNETMsg_NOP::default_instance_
- B CNETMsg_ReliableMessageEndMarker::default_instance_
  B CNETMsg_SetConVar::default_instance_
  B CNETMsg_SignonState::default_instance_
  B CNETMsg_SpawnGroup_Load::default_instance_
@@ -356,10 +361,6 @@
  B ModelSkeletonData_t::s_pSchemaBinding
  B NetMessageConnectionClosed::default_instance_
  B NetMessageConnectionCrashed::default_instance_
- B NetMessageFileDenied::default_instance_
- B NetMessageFileReceived::default_instance_
- B NetMessageFileRequested::default_instance_
- B NetMessageFileSent::default_instance_
  B NetMessagePacketEnd::default_instance_
  B NetMessagePacketStart::default_instance_
  B NetMessageSplitscreenUserChanged::default_instance_
@@ -446,7 +447,6 @@
  B cl_elights
  B cl_interpolate
  B cl_language
- B cl_logofile
  B cl_movieinfo
  B cl_sendtable_cache_filename
  B cl_spawngroup_spewresources
@@ -2443,8 +2443,6 @@
  D typeinfo for CBoolProperty
  D typeinfo for CBorderData
  D typeinfo for CBorderData_CBorderSide
- D typeinfo for CBorderImageData
- D typeinfo for CBorderImageData_CBorderWidthData
  D typeinfo for CBoundedCvar_CmdRate
  D typeinfo for CBoundedCvar_Rate
  D typeinfo for CBoundedCvar_UpdateRate
@@ -2682,6 +2680,8 @@
  D typeinfo for CMsgBorder_AnimationFrameData
  D typeinfo for CMsgBoxShadow
  D typeinfo for CMsgBoxShadow_AnimationFrameData
+ D typeinfo for CMsgBrightness
+ D typeinfo for CMsgBrightness_AnimationFrameData
  D typeinfo for CMsgClearBackbuffer
  D typeinfo for CMsgClip
  D typeinfo for CMsgClipData
@@ -2689,11 +2689,11 @@
  D typeinfo for CMsgColor
  D typeinfo for CMsgColorStop
  D typeinfo for CMsgColor_AnimationFrameData
+ D typeinfo for CMsgContrast
+ D typeinfo for CMsgContrast_AnimationFrameData
  D typeinfo for CMsgDeletePanel
  D typeinfo for CMsgDeleteParticleSystem
  D typeinfo for CMsgDeleteTexture
- D typeinfo for CMsgDesaturation
- D typeinfo for CMsgDesaturation_AnimationFrameData
  D typeinfo for CMsgDrawDoubleBufferedRect
  D typeinfo for CMsgDrawFilledRect
  D typeinfo for CMsgDrawTextRegion
@@ -2709,6 +2709,8 @@
  D typeinfo for CMsgGaussianBlur
  D typeinfo for CMsgGaussianBlur_AnimationFrameData
  D typeinfo for CMsgGaussianValues
+ D typeinfo for CMsgHueShift
+ D typeinfo for CMsgHueShift_AnimationFrameData
  D typeinfo for CMsgIPCAddress
  D typeinfo for CMsgLinearGradient
  D typeinfo for CMsgLockTexture
@@ -2743,6 +2745,8 @@
  D typeinfo for CMsgRequestRenderCallback
  D typeinfo for CMsgRotate2D
  D typeinfo for CMsgRotate2D_AnimationFrameData
+ D typeinfo for CMsgSaturation
+ D typeinfo for CMsgSaturation_AnimationFrameData
  D typeinfo for CMsgServerPeer
  D typeinfo for CMsgTextFormat
  D typeinfo for CMsgTextInlineObject
@@ -2757,9 +2761,7 @@
  D typeinfo for CMsg_CVars
  D typeinfo for CMsg_CVars_CVar
  D typeinfo for CNETMsg_Disconnect
- D typeinfo for CNETMsg_File
  D typeinfo for CNETMsg_NOP
- D typeinfo for CNETMsg_ReliableMessageEndMarker
  D typeinfo for CNETMsg_SetConVar
  D typeinfo for CNETMsg_SetConVar_t
  D typeinfo for CNETMsg_SignonState
@@ -3613,10 +3615,6 @@
  D typeinfo for MenuItemCheckImage
  D typeinfo for NetMessageConnectionClosed
  D typeinfo for NetMessageConnectionCrashed
- D typeinfo for NetMessageFileDenied
- D typeinfo for NetMessageFileReceived
- D typeinfo for NetMessageFileRequested
- D typeinfo for NetMessageFileSent
  D typeinfo for NetMessagePacketEnd
  D typeinfo for NetMessagePacketStart
  D typeinfo for NetMessageSplitscreenUserChanged
@@ -4284,8 +4282,6 @@
  D vtable for CBoolProperty
  D vtable for CBorderData
  D vtable for CBorderData_CBorderSide
- D vtable for CBorderImageData
- D vtable for CBorderImageData_CBorderWidthData
  D vtable for CBoundedCvar_CmdRate
  D vtable for CBoundedCvar_Rate
  D vtable for CBoundedCvar_UpdateRate
@@ -4519,6 +4515,8 @@
  D vtable for CMsgBorder_AnimationFrameData
  D vtable for CMsgBoxShadow
  D vtable for CMsgBoxShadow_AnimationFrameData
+ D vtable for CMsgBrightness
+ D vtable for CMsgBrightness_AnimationFrameData
  D vtable for CMsgClearBackbuffer
  D vtable for CMsgClip
  D vtable for CMsgClipData
@@ -4526,11 +4524,11 @@
  D vtable for CMsgColor
  D vtable for CMsgColorStop
  D vtable for CMsgColor_AnimationFrameData
+ D vtable for CMsgContrast
+ D vtable for CMsgContrast_AnimationFrameData
  D vtable for CMsgDeletePanel
  D vtable for CMsgDeleteParticleSystem
  D vtable for CMsgDeleteTexture
- D vtable for CMsgDesaturation
- D vtable for CMsgDesaturation_AnimationFrameData
  D vtable for CMsgDrawDoubleBufferedRect
  D vtable for CMsgDrawFilledRect
  D vtable for CMsgDrawTextRegion
@@ -4546,6 +4544,8 @@
  D vtable for CMsgGaussianBlur
  D vtable for CMsgGaussianBlur_AnimationFrameData
  D vtable for CMsgGaussianValues
+ D vtable for CMsgHueShift
+ D vtable for CMsgHueShift_AnimationFrameData
  D vtable for CMsgIPCAddress
  D vtable for CMsgLinearGradient
  D vtable for CMsgLockTexture
@@ -4580,6 +4580,8 @@
  D vtable for CMsgRequestRenderCallback
  D vtable for CMsgRotate2D
  D vtable for CMsgRotate2D_AnimationFrameData
+ D vtable for CMsgSaturation
+ D vtable for CMsgSaturation_AnimationFrameData
  D vtable for CMsgServerPeer
  D vtable for CMsgTextFormat
  D vtable for CMsgTextInlineObject
@@ -4594,9 +4596,7 @@
  D vtable for CMsg_CVars
  D vtable for CMsg_CVars_CVar
  D vtable for CNETMsg_Disconnect
- D vtable for CNETMsg_File
  D vtable for CNETMsg_NOP
- D vtable for CNETMsg_ReliableMessageEndMarker
  D vtable for CNETMsg_SetConVar
  D vtable for CNETMsg_SetConVar_t
  D vtable for CNETMsg_SignonState
@@ -5109,10 +5109,6 @@
  D vtable for MenuItemCheckImage
  D vtable for NetMessageConnectionClosed
  D vtable for NetMessageConnectionCrashed
- D vtable for NetMessageFileDenied
- D vtable for NetMessageFileReceived
- D vtable for NetMessageFileRequested
- D vtable for NetMessageFileSent
  D vtable for NetMessagePacketEnd
  D vtable for NetMessagePacketStart
  D vtable for NetMessageSplitscreenUserChanged
@@ -5278,6 +5274,7 @@
  Plat_GetCPUUsage
  Plat_GetClockStart
  Plat_GetDefaultMonitorIndex
+ Plat_GetDesktopBounds
  Plat_GetDesktopResolution
  Plat_GetEnv
  Plat_GetLocalTime
@@ -5289,6 +5286,8 @@
  Plat_GetTimeString
  Plat_GetWindowBounds
  Plat_GetWindowClientSize
+ Plat_GetWindowMonitorIndex
+ Plat_HasDefaultMonitorIndexChanged
  Plat_IgnoreContentAsserts
  Plat_InitializeCOM
  Plat_InstallUrlHandler
@@ -5310,6 +5309,8 @@
  Plat_ScreenToWindowCoords
  Plat_SetActiveWindow
  Plat_SetCurrentFrame
+ Plat_SetDefaultMonitorIndex
+ Plat_SetFullscreenMinimizeOnFocusLoss
  Plat_SetWindowIcon
  Plat_SetWindowPos
  Plat_SetWindowTitle
@@ -5532,8 +5533,6 @@
  R typeinfo name for CBoolProperty
  R typeinfo name for CBorderData
  R typeinfo name for CBorderData_CBorderSide
- R typeinfo name for CBorderImageData
- R typeinfo name for CBorderImageData_CBorderWidthData
  R typeinfo name for CBoundedCvar_CmdRate
  R typeinfo name for CBoundedCvar_Rate
  R typeinfo name for CBoundedCvar_UpdateRate
@@ -5771,6 +5770,8 @@
  R typeinfo name for CMsgBorder_AnimationFrameData
  R typeinfo name for CMsgBoxShadow
  R typeinfo name for CMsgBoxShadow_AnimationFrameData
+ R typeinfo name for CMsgBrightness
+ R typeinfo name for CMsgBrightness_AnimationFrameData
  R typeinfo name for CMsgClearBackbuffer
  R typeinfo name for CMsgClip
  R typeinfo name for CMsgClipData
@@ -5778,11 +5779,11 @@
  R typeinfo name for CMsgColor
  R typeinfo name for CMsgColorStop
  R typeinfo name for CMsgColor_AnimationFrameData
+ R typeinfo name for CMsgContrast
+ R typeinfo name for CMsgContrast_AnimationFrameData
  R typeinfo name for CMsgDeletePanel
  R typeinfo name for CMsgDeleteParticleSystem
  R typeinfo name for CMsgDeleteTexture
- R typeinfo name for CMsgDesaturation
- R typeinfo name for CMsgDesaturation_AnimationFrameData
  R typeinfo name for CMsgDrawDoubleBufferedRect
  R typeinfo name for CMsgDrawFilledRect
  R typeinfo name for CMsgDrawTextRegion
@@ -5798,6 +5799,8 @@
  R typeinfo name for CMsgGaussianBlur
  R typeinfo name for CMsgGaussianBlur_AnimationFrameData
  R typeinfo name for CMsgGaussianValues
+ R typeinfo name for CMsgHueShift
+ R typeinfo name for CMsgHueShift_AnimationFrameData
  R typeinfo name for CMsgIPCAddress
  R typeinfo name for CMsgLinearGradient
  R typeinfo name for CMsgLockTexture
@@ -5832,6 +5835,8 @@
  R typeinfo name for CMsgRequestRenderCallback
  R typeinfo name for CMsgRotate2D
  R typeinfo name for CMsgRotate2D_AnimationFrameData
+ R typeinfo name for CMsgSaturation
+ R typeinfo name for CMsgSaturation_AnimationFrameData
  R typeinfo name for CMsgServerPeer
  R typeinfo name for CMsgTextFormat
  R typeinfo name for CMsgTextInlineObject
@@ -5846,9 +5851,7 @@
  R typeinfo name for CMsg_CVars
  R typeinfo name for CMsg_CVars_CVar
  R typeinfo name for CNETMsg_Disconnect
- R typeinfo name for CNETMsg_File
  R typeinfo name for CNETMsg_NOP
- R typeinfo name for CNETMsg_ReliableMessageEndMarker
  R typeinfo name for CNETMsg_SetConVar
  R typeinfo name for CNETMsg_SetConVar_t
  R typeinfo name for CNETMsg_SignonState
@@ -6702,10 +6705,6 @@
  R typeinfo name for MenuItemCheckImage
  R typeinfo name for NetMessageConnectionClosed
  R typeinfo name for NetMessageConnectionCrashed
- R typeinfo name for NetMessageFileDenied
- R typeinfo name for NetMessageFileReceived
- R typeinfo name for NetMessageFileRequested
- R typeinfo name for NetMessageFileSent
  R typeinfo name for NetMessagePacketEnd
  R typeinfo name for NetMessagePacketStart
  R typeinfo name for NetMessageSplitscreenUserChanged
@@ -6942,7 +6941,7 @@
  T CAppSystemDict::CAppSystemDict(bool, void*, void*, int, bool, bool)
  T CAppSystemDict::ChangeLogFileSuffix(char const*)
  T CAppSystemDict::ComputeDependencies(CUtlStringMap<CAppSystemDict::InterfaceInfo_t, CUtlSymbolTable>&)
- T CAppSystemDict::CreateAppWindow(char const*, bool, bool, int, int, int, int, bool, bool)
+ T CAppSystemDict::CreateAppWindow(char const*, int, int, int, int, int)
  T CAppSystemDict::CreateApplication()
  T CAppSystemDict::DictSortLessFunc(CUtlStringMap<CAppSystemDict::InterfaceInfo_t, CUtlSymbolTable>&, int const&, int const&)
  T CAppSystemDict::FindSystem(char const*)
@@ -8232,26 +8231,6 @@
  T CBorderData_CBorderSide::SerializeWithCachedSizesToArray(unsigned char*) const
  T CBorderData_CBorderSide::SetCachedSize(int) const
  T CBorderData_CBorderSide::~CBorderData_CBorderSide()
- T CBorderImageData::ByteSize() const
- T CBorderImageData::Clear()
- T CBorderImageData::GetCachedSize() const
- T CBorderImageData::GetMetadata() const
- T CBorderImageData::IsInitialized() const
- T CBorderImageData::MergeFrom(CBorderImageData const&)
- T CBorderImageData::New() const
- T CBorderImageData::SerializeWithCachedSizesToArray(unsigned char*) const
- T CBorderImageData::SetCachedSize(int) const
- T CBorderImageData::~CBorderImageData()
- T CBorderImageData_CBorderWidthData::ByteSize() const
- T CBorderImageData_CBorderWidthData::Clear()
- T CBorderImageData_CBorderWidthData::GetCachedSize() const
- T CBorderImageData_CBorderWidthData::GetMetadata() const
- T CBorderImageData_CBorderWidthData::IsInitialized() const
- T CBorderImageData_CBorderWidthData::MergeFrom(CBorderImageData_CBorderWidthData const&)
- T CBorderImageData_CBorderWidthData::New() const
- T CBorderImageData_CBorderWidthData::SerializeWithCachedSizesToArray(unsigned char*) const
- T CBorderImageData_CBorderWidthData::SetCachedSize(int) const
- T CBorderImageData_CBorderWidthData::~CBorderImageData_CBorderWidthData()
  T CBoundedCvar_CmdRate::GetFloat() const
  T CBoundedCvar_CmdRate::~CBoundedCvar_CmdRate()
  T CBoundedCvar_Rate::GetFloat() const
@@ -9335,7 +9314,7 @@
  T CEngineClient::NextValidSplitScreenSlot(CSplitScreenSlot)
  T CEngineClient::OnStorageDeviceAttached(int)
  T CEngineClient::OnStorageDeviceDetached(int)
- T CEngineClient::PostReceivedNetMessage(NetMessageHandle_t__*, void const*)
+ T CEngineClient::PostReceivedNetMessage(NetMessageHandle_t__*, void const*, NetChannelBufType_t)
  T CEngineClient::ReadConfiguration(CSplitScreenSlot)
  T CEngineClient::RecordDemoCustomData(void (*)(unsigned char*, unsigned long), void const*, unsigned long)
  T CEngineClient::RegisterDemoCustomDataCallback(CUtlSymbolLarge, void (*)(unsigned char*, unsigned long))
@@ -9491,12 +9470,13 @@
  T CEngineServiceMgr::GetAddonCount() const
  T CEngineServiceMgr::GetAddonsString() const
  T CEngineServiceMgr::GetDebugVisualizerMgr()
+ T CEngineServiceMgr::GetEngineDeviceHeight() const
+ T CEngineServiceMgr::GetEngineDeviceInfo() const
+ T CEngineServiceMgr::GetEngineDeviceWidth() const
  T CEngineServiceMgr::GetEngineInputContext() const
  T CEngineServiceMgr::GetEngineSwapChain() const
+ T CEngineServiceMgr::GetEngineSwapChainSize(int*, int*) const
  T CEngineServiceMgr::GetEngineWindow() const
- T CEngineServiceMgr::GetEngineWindowHeight() const
- T CEngineServiceMgr::GetEngineWindowInfo() const
- T CEngineServiceMgr::GetEngineWindowWidth() const
  T CEngineServiceMgr::GetEventDispatcher()
  T CEngineServiceMgr::GetVideoModeChange()
  T CEngineServiceMgr::Init()
@@ -9939,6 +9919,7 @@
  T CGameUIService::OnFrameBoundary(EventFrameBoundary_t const&)
  T CGameUIService::OnLoopActivate(EngineLoopState_t const&, CEventDispatcher<CEventIDManager_Default>*)
  T CGameUIService::OnLoopDeactivate(EngineLoopState_t const&, CEventDispatcher<CEventIDManager_Default>*)
+ T CGameUIService::OnUIScaleChanged(float, float)
  T CGameUIService::PostInit()
  T CGameUIService::RegisterEventMap(CEventDispatcher<CEventIDManager_Default>*, EventMapRegistrationType_t)
  T CGameUIService::SetVGuiRendersAfterScaleform(bool)
@@ -9955,10 +9936,6 @@
  T CHLTVClient::CHLTVClient(CNetworkGameServerBase*, CPlayerSlot)
  T CHLTVClient::Clear()
  T CHLTVClient::ExecuteStringCommand(char const*)
- T CHLTVClient::FileDenied(NetMessageFileDenied_t const&)
- T CHLTVClient::FileReceived(NetMessageFileReceived_t const&)
- T CHLTVClient::FileRequested(NetMessageFileRequested_t const&)
- T CHLTVClient::FileSent(NetMessageFileSent_t const&)
  T CHLTVClient::GetDeltaFrame(int)
  T CHLTVClient::ProcessClientInfo(CCLCMsg_ClientInfo_t const&)
  T CHLTVClient::ProcessConnectionClosed(NetMessageConnectionClosed_t const&)
@@ -10217,7 +10194,7 @@
  T CInputService::ProcessCommandBuffers(CInputService::ProcessCommandBuffersType_t)
  T CInputService::ProcessConfigurationValue(ClientServerMode_t, unsigned int, CCommand const&)
  T CInputService::ProcessInputValueCommand(CSplitScreenSlot, CCommand const&)
- T CInputService::ReadArchivedConvars(CUtlBuffer&)
+ T CInputService::ReadArchivedConvars(char const*, CUtlBuffer&, bool)
  T CInputService::ReadCheatCommands(CUtlBuffer&)
  T CInputService::ReadKeyBindings(CUtlBuffer&, CSplitScreenSlot)
  T CInputService::ReadKeyBindingsForSlot(CSplitScreenSlot)
@@ -10341,8 +10318,6 @@
  T CL_CreateClientClassInfosFromServerClasses(ServerClass*, C_ServerClassInfo**, int*)
  T CL_DecompressBZipFile(char const*, char const*)
  T CL_DownloadUpdate()
- T CL_FileDenied(char const*, unsigned int)
- T CL_FileReceived(char const*, unsigned int)
  T CL_GetBackgroundLevelName(char*, int, bool)
  T CL_GetBackgroundMovie(char*, int)
  T CL_GetBackgroundMusic(char*, int, bool)
@@ -10796,6 +10771,26 @@
  T CMsgBoxShadow_AnimationFrameData::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgBoxShadow_AnimationFrameData::SetCachedSize(int) const
  T CMsgBoxShadow_AnimationFrameData::~CMsgBoxShadow_AnimationFrameData()
+ T CMsgBrightness::ByteSize() const
+ T CMsgBrightness::Clear()
+ T CMsgBrightness::GetCachedSize() const
+ T CMsgBrightness::GetMetadata() const
+ T CMsgBrightness::IsInitialized() const
+ T CMsgBrightness::MergeFrom(CMsgBrightness const&)
+ T CMsgBrightness::New() const
+ T CMsgBrightness::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgBrightness::SetCachedSize(int) const
+ T CMsgBrightness::~CMsgBrightness()
+ T CMsgBrightness_AnimationFrameData::ByteSize() const
+ T CMsgBrightness_AnimationFrameData::Clear()
+ T CMsgBrightness_AnimationFrameData::GetCachedSize() const
+ T CMsgBrightness_AnimationFrameData::GetMetadata() const
+ T CMsgBrightness_AnimationFrameData::IsInitialized() const
+ T CMsgBrightness_AnimationFrameData::MergeFrom(CMsgBrightness_AnimationFrameData const&)
+ T CMsgBrightness_AnimationFrameData::New() const
+ T CMsgBrightness_AnimationFrameData::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgBrightness_AnimationFrameData::SetCachedSize(int) const
+ T CMsgBrightness_AnimationFrameData::~CMsgBrightness_AnimationFrameData()
  T CMsgClearBackbuffer::ByteSize() const
  T CMsgClearBackbuffer::Clear()
  T CMsgClearBackbuffer::GetCachedSize() const
@@ -10866,6 +10861,26 @@
  T CMsgColor_AnimationFrameData::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgColor_AnimationFrameData::SetCachedSize(int) const
  T CMsgColor_AnimationFrameData::~CMsgColor_AnimationFrameData()
+ T CMsgContrast::ByteSize() const
+ T CMsgContrast::Clear()
+ T CMsgContrast::GetCachedSize() const
+ T CMsgContrast::GetMetadata() const
+ T CMsgContrast::IsInitialized() const
+ T CMsgContrast::MergeFrom(CMsgContrast const&)
+ T CMsgContrast::New() const
+ T CMsgContrast::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgContrast::SetCachedSize(int) const
+ T CMsgContrast::~CMsgContrast()
+ T CMsgContrast_AnimationFrameData::ByteSize() const
+ T CMsgContrast_AnimationFrameData::Clear()
+ T CMsgContrast_AnimationFrameData::GetCachedSize() const
+ T CMsgContrast_AnimationFrameData::GetMetadata() const
+ T CMsgContrast_AnimationFrameData::IsInitialized() const
+ T CMsgContrast_AnimationFrameData::MergeFrom(CMsgContrast_AnimationFrameData const&)
+ T CMsgContrast_AnimationFrameData::New() const
+ T CMsgContrast_AnimationFrameData::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgContrast_AnimationFrameData::SetCachedSize(int) const
+ T CMsgContrast_AnimationFrameData::~CMsgContrast_AnimationFrameData()
  T CMsgDeletePanel::ByteSize() const
  T CMsgDeletePanel::Clear()
  T CMsgDeletePanel::GetCachedSize() const
@@ -10896,26 +10911,6 @@
  T CMsgDeleteTexture::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgDeleteTexture::SetCachedSize(int) const
  T CMsgDeleteTexture::~CMsgDeleteTexture()
- T CMsgDesaturation::ByteSize() const
- T CMsgDesaturation::Clear()
- T CMsgDesaturation::GetCachedSize() const
- T CMsgDesaturation::GetMetadata() const
- T CMsgDesaturation::IsInitialized() const
- T CMsgDesaturation::MergeFrom(CMsgDesaturation const&)
- T CMsgDesaturation::New() const
- T CMsgDesaturation::SerializeWithCachedSizesToArray(unsigned char*) const
- T CMsgDesaturation::SetCachedSize(int) const
- T CMsgDesaturation::~CMsgDesaturation()
- T CMsgDesaturation_AnimationFrameData::ByteSize() const
- T CMsgDesaturation_AnimationFrameData::Clear()
- T CMsgDesaturation_AnimationFrameData::GetCachedSize() const
- T CMsgDesaturation_AnimationFrameData::GetMetadata() const
- T CMsgDesaturation_AnimationFrameData::IsInitialized() const
- T CMsgDesaturation_AnimationFrameData::MergeFrom(CMsgDesaturation_AnimationFrameData const&)
- T CMsgDesaturation_AnimationFrameData::New() const
- T CMsgDesaturation_AnimationFrameData::SerializeWithCachedSizesToArray(unsigned char*) const
- T CMsgDesaturation_AnimationFrameData::SetCachedSize(int) const
- T CMsgDesaturation_AnimationFrameData::~CMsgDesaturation_AnimationFrameData()
  T CMsgDrawDoubleBufferedRect::ByteSize() const
  T CMsgDrawDoubleBufferedRect::Clear()
  T CMsgDrawDoubleBufferedRect::GetCachedSize() const
@@ -11065,6 +11060,26 @@
  T CMsgGaussianValues::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgGaussianValues::SetCachedSize(int) const
  T CMsgGaussianValues::~CMsgGaussianValues()
+ T CMsgHueShift::ByteSize() const
+ T CMsgHueShift::Clear()
+ T CMsgHueShift::GetCachedSize() const
+ T CMsgHueShift::GetMetadata() const
+ T CMsgHueShift::IsInitialized() const
+ T CMsgHueShift::MergeFrom(CMsgHueShift const&)
+ T CMsgHueShift::New() const
+ T CMsgHueShift::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgHueShift::SetCachedSize(int) const
+ T CMsgHueShift::~CMsgHueShift()
+ T CMsgHueShift_AnimationFrameData::ByteSize() const
+ T CMsgHueShift_AnimationFrameData::Clear()
+ T CMsgHueShift_AnimationFrameData::GetCachedSize() const
+ T CMsgHueShift_AnimationFrameData::GetMetadata() const
+ T CMsgHueShift_AnimationFrameData::IsInitialized() const
+ T CMsgHueShift_AnimationFrameData::MergeFrom(CMsgHueShift_AnimationFrameData const&)
+ T CMsgHueShift_AnimationFrameData::New() const
+ T CMsgHueShift_AnimationFrameData::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgHueShift_AnimationFrameData::SetCachedSize(int) const
+ T CMsgHueShift_AnimationFrameData::~CMsgHueShift_AnimationFrameData()
  T CMsgIPCAddress::ByteSize() const
  T CMsgIPCAddress::Clear()
  T CMsgIPCAddress::GetCachedSize() const
@@ -11414,6 +11429,26 @@
  T CMsgRotate2D_AnimationFrameData::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgRotate2D_AnimationFrameData::SetCachedSize(int) const
  T CMsgRotate2D_AnimationFrameData::~CMsgRotate2D_AnimationFrameData()
+ T CMsgSaturation::ByteSize() const
+ T CMsgSaturation::Clear()
+ T CMsgSaturation::GetCachedSize() const
+ T CMsgSaturation::GetMetadata() const
+ T CMsgSaturation::IsInitialized() const
+ T CMsgSaturation::MergeFrom(CMsgSaturation const&)
+ T CMsgSaturation::New() const
+ T CMsgSaturation::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgSaturation::SetCachedSize(int) const
+ T CMsgSaturation::~CMsgSaturation()
+ T CMsgSaturation_AnimationFrameData::ByteSize() const
+ T CMsgSaturation_AnimationFrameData::Clear()
+ T CMsgSaturation_AnimationFrameData::GetCachedSize() const
+ T CMsgSaturation_AnimationFrameData::GetMetadata() const
+ T CMsgSaturation_AnimationFrameData::IsInitialized() const
+ T CMsgSaturation_AnimationFrameData::MergeFrom(CMsgSaturation_AnimationFrameData const&)
+ T CMsgSaturation_AnimationFrameData::New() const
+ T CMsgSaturation_AnimationFrameData::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgSaturation_AnimationFrameData::SetCachedSize(int) const
+ T CMsgSaturation_AnimationFrameData::~CMsgSaturation_AnimationFrameData()
  T CMsgServerPeer::ByteSize() const
  T CMsgServerPeer::CMsgServerPeer()
  T CMsgServerPeer::Clear()
@@ -11562,17 +11597,6 @@
  T CNETMsg_Disconnect::SerializeWithCachedSizesToArray(unsigned char*) const
  T CNETMsg_Disconnect::SetCachedSize(int) const
  T CNETMsg_Disconnect::~CNETMsg_Disconnect()
- T CNETMsg_File::ByteSize() const
- T CNETMsg_File::CNETMsg_File()
- T CNETMsg_File::Clear()
- T CNETMsg_File::GetCachedSize() const
- T CNETMsg_File::GetMetadata() const
- T CNETMsg_File::IsInitialized() const
- T CNETMsg_File::MergeFrom(CNETMsg_File const&)
- T CNETMsg_File::New() const
- T CNETMsg_File::SerializeWithCachedSizesToArray(unsigned char*) const
- T CNETMsg_File::SetCachedSize(int) const
- T CNETMsg_File::~CNETMsg_File()
  T CNETMsg_NOP::ByteSize() const
  T CNETMsg_NOP::Clear()
  T CNETMsg_NOP::GetCachedSize() const
@@ -11582,15 +11606,6 @@
  T CNETMsg_NOP::SerializeWithCachedSizesToArray(unsigned char*) const
  T CNETMsg_NOP::SetCachedSize(int) const
  T CNETMsg_NOP::~CNETMsg_NOP()
- T CNETMsg_ReliableMessageEndMarker::ByteSize() const
- T CNETMsg_ReliableMessageEndMarker::Clear()
- T CNETMsg_ReliableMessageEndMarker::GetCachedSize() const
- T CNETMsg_ReliableMessageEndMarker::GetMetadata() const
- T CNETMsg_ReliableMessageEndMarker::IsInitialized() const
- T CNETMsg_ReliableMessageEndMarker::New() const
- T CNETMsg_ReliableMessageEndMarker::SerializeWithCachedSizesToArray(unsigned char*) const
- T CNETMsg_ReliableMessageEndMarker::SetCachedSize(int) const
- T CNETMsg_ReliableMessageEndMarker::~CNETMsg_ReliableMessageEndMarker()
  T CNETMsg_SetConVar::ByteSize() const
  T CNETMsg_SetConVar::CNETMsg_SetConVar()
  T CNETMsg_SetConVar::CNETMsg_SetConVar(CNETMsg_SetConVar const&)
@@ -12637,7 +12652,6 @@
  T CNetworkFieldScratchData::Init(unsigned int, int)
  T CNetworkFieldScratchData::Purge()
  T CNetworkFieldScratchData::~CNetworkFieldScratchData()
- T CNetworkGameClient::AddCustomFile(char const*)
  T CNetworkGameClient::ApplyClockDrift(int, int)
  T CNetworkGameClient::CL_AllocDlight(int)
  T CNetworkGameClient::CL_AllocElight(int)
@@ -12660,7 +12674,6 @@
  T CNetworkGameClient::CNetworkGameClient()
  T CNetworkGameClient::ChangePVSSpawnGroupHandle(unsigned int)
  T CNetworkGameClient::CheckFileCRCsWithServer()
- T CNetworkGameClient::CheckOthersCustomFile(unsigned int)
  T CNetworkGameClient::CheckUpdatingSteamResources()
  T CNetworkGameClient::Clear(bool)
  T CNetworkGameClient::ClientPollNetworking(EventClientPollNetworking_t const&)
@@ -12668,9 +12681,6 @@
  T CNetworkGameClient::ConsistencyCheck(bool)
  T CNetworkGameClient::DisconnectGame(ENetworkDisconnectionReason)
  T CNetworkGameClient::DumpPrecacheStats(char const*)
- T CNetworkGameClient::FileDenied(NetMessageFileDenied_t const&)
- T CNetworkGameClient::FileReceived(NetMessageFileReceived_t const&)
- T CNetworkGameClient::FileRequested(NetMessageFileRequested_t const&)
  T CNetworkGameClient::FinishSignonState_New()
  T CNetworkGameClient::FullConnect(ns_address const&)
  T CNetworkGameClient::GetClientInterpAmount()
@@ -12705,6 +12715,7 @@
  T CNetworkGameClient::SendClientInfo()
  T CNetworkGameClient::SendLoadingProgress(int)
  T CNetworkGameClient::SendServerCmdKeyValues(CSplitScreenSlot, KeyValues*)
+ T CNetworkGameClient::SetAllowProcessNetworking(bool)
  T CNetworkGameClient::SetFrameTime(float)
  T CNetworkGameClient::SetPreviousServerTickCount(int)
  T CNetworkGameClient::SetSignonState(SignonState_t, int, CNETMsg_SignonState_t const*)
@@ -12739,10 +12750,6 @@
  T CNetworkGameClientBase::DisconnectGame(ENetworkDisconnectionReason)
  T CNetworkGameClientBase::DumpStringTable(char const*, int) const
  T CNetworkGameClientBase::EntityClassCompletion(char const*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
- T CNetworkGameClientBase::FileDenied(NetMessageFileDenied_t const&)
- T CNetworkGameClientBase::FileReceived(NetMessageFileReceived_t const&)
- T CNetworkGameClientBase::FileRequested(NetMessageFileRequested_t const&)
- T CNetworkGameClientBase::FileSent(NetMessageFileSent_t const&)
  T CNetworkGameClientBase::FilterMessage(NetMessageHandle_t__*, void const*) const
  T CNetworkGameClientBase::FindClientClass(char const*) const
  T CNetworkGameClientBase::FindSpawnGroupByName(char const*)
@@ -13348,7 +13355,6 @@
  T CNonFocusableMenu::GetMessageMap()
  T CNonFocusableMenu::GetPanelClassName()
  T CNonFocusableMenu::~CNonFocusableMenu()
- T COM_CopyFile(char const*, char const*)
  T COM_CreatePath(char const*)
  T COM_ExplainDisconnection(int, char const*)
  T COM_IsValidPath(char const*)
@@ -13392,7 +13398,7 @@
  T CPanelMessageMapDictionary::~CPanelMessageMapDictionary()
  T CPanoramaEngineHandler::AddPanoramaView(char const*, panorama::IUIWindow*)
  T CPanoramaEngineHandler::AddPanoramaViewToSceneSystem(bool, SwapChainHandle_t__*, RenderViewport_t const&, ISceneView*&, HSceneViewRenderTarget__*&)
- T CPanoramaEngineHandler::CreateAppWindow(char const*, bool, bool, int, int, int, int, bool, bool)
+ T CPanoramaEngineHandler::CreateAppWindow(char const*, int, int, int, int, int)
  T CPanoramaEngineHandler::HandleOtherWindowEvents(InputEvent_t const*, int)
  T CPanoramaEngineHandler::Init()
  T CPanoramaEngineHandler::OnActivateMainWindow()
@@ -13469,7 +13475,6 @@
  T CRC32_Final(unsigned int*)
  T CRC32_Init(unsigned int*)
  T CRC32_ProcessBuffer(unsigned int*, void const*, int)
- T CRC_File(unsigned int*, char const*)
  T CRC_MapFile(unsigned int*, char const*)
  T CRConClient::CRConClient()
  T CRConClient::OnSocketAccepted(int, netadr_t const&, void**)
@@ -13555,7 +13560,7 @@
  T CRenderAttributes::CRenderAttributes()
  T CRenderAttributes::MergeTo(CRenderAttributes&) const
  T CRenderAttributes::~CRenderAttributes()
- T CRenderContextPtr::CRenderContextPtr(IRenderDevice*, RenderTargetDesc_t const&, char const*, ...)
+ T CRenderContextPtr::CRenderContextPtr(unsigned int, IRenderDevice*, RenderTargetDesc_t const&, char const*, ...)
  T CRenderMesh::CRenderMesh()
  T CRenderMesh::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)
  T CRenderMesh::~CRenderMesh()
@@ -15817,12 +15822,7 @@
  T CServerSideClient::Clear()
  T CServerSideClient::Connect(int, char const*, int, INetChannel*, bool, bool, int)
  T CServerSideClient::Disconnect(ENetworkDisconnectionReason)
- T CServerSideClient::DownloadCustomizations()
  T CServerSideClient::ExecuteStringCommand(char const*)
- T CServerSideClient::FileDenied(NetMessageFileDenied_t const&)
- T CServerSideClient::FileReceived(NetMessageFileReceived_t const&)
- T CServerSideClient::FileRequested(NetMessageFileRequested_t const&)
- T CServerSideClient::FileSent(NetMessageFileSent_t const&)
  T CServerSideClient::GetDeltaFrame(int)
  T CServerSideClient::GetSendFrame()
  T CServerSideClient::Inactivate()
@@ -15867,10 +15867,6 @@
  T CServerSideClientBase::DisconnectSplitScreenUser(CServerSideClientBase*)
  T CServerSideClientBase::EndTrace(bf_write&)
  T CServerSideClientBase::ExecuteStringCommand(char const*)
- T CServerSideClientBase::FileDenied(NetMessageFileDenied_t const&)
- T CServerSideClientBase::FileReceived(NetMessageFileReceived_t const&)
- T CServerSideClientBase::FileRequested(NetMessageFileRequested_t const&)
- T CServerSideClientBase::FileSent(NetMessageFileSent_t const&)
  T CServerSideClientBase::FillSignOnFullServerInfo(CNETMsg_SignonState_t&)
  T CServerSideClientBase::FillUserInfo(CMsgPlayerInfo&)
  T CServerSideClientBase::FreeBaselines()
@@ -16204,6 +16200,7 @@
  T CTier1Application::GetModGameSubdir() const
  T CTier1Application::GetModPath() const
  T CTier1Application::GetMountedAddons(CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
+ T CTier1Application::GetMountedAddons(char const**, int)
  T CTier1Application::GetRestrictAddonsTo() const
  T CTier1Application::IsConsoleApp() const
  T CTier1Application::IsFileInAddon(char const*)
@@ -16377,6 +16374,7 @@
  T CTier2Application::GetFullAddonPathFromAddonName(char const*) const
  T CTier2Application::GetIDFromAddonName(char const*) const
  T CTier2Application::GetMountedAddons(CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
+ T CTier2Application::GetMountedAddons(char const**, int)
  T CTier2Application::GetRestrictAddonsTo() const
  T CTier2Application::IsFileInAddon(char const*)
  T CTier2Application::MountAddon(char const*)
@@ -16661,7 +16659,6 @@
  T CUtlMemory<CMesh, int>::Grow(int)
  T CUtlMemory<CNetworkClientService::CNetMessageRelay*, int>::Grow(int)
  T CUtlMemory<CNetworkClientSpawnGroup*, int>::Grow(int)
- T CUtlMemory<CNetworkGameClient::CustomFile_t, int>::Grow(int)
  T CUtlMemory<CNetworkGameServerBase::SplitDisconnect_t, int>::Grow(int)
  T CUtlMemory<CNetworkP2PService::CPeerToPeerMessageRelay*, int>::Grow(int)
  T CUtlMemory<CNetworkP2PService::QueuedBroadcastMessage_t, int>::Grow(int)
@@ -16686,7 +16683,6 @@
  T CUtlMemory<CScreenshotRequest*, int>::Grow(int)
  T CUtlMemory<CSendProxyData, int>::Grow(int)
  T CUtlMemory<CServerSideClientBase*, int>::Grow(int)
- T CUtlMemory<CServerSideClientBase::CustomFile_s, int>::Grow(int)
  T CUtlMemory<CSocketCreator::AcceptedSocket_t, int>::Grow(int)
  T CUtlMemory<CSoundService::RecentlyPlayedNetworkVoice_t, int>::Grow(int)
  T CUtlMemory<CSoundService::RecentlyPlayedNetworkVoice_t::BufferedVoiceData_t, int>::Grow(int)
@@ -17200,7 +17196,6 @@
  T CUtlVectorBase<CNetworkClientSpawnGroup*, CUtlMemory<CNetworkClientSpawnGroup*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CNetworkFieldDeallocRecord, CUtlMemoryFixedGrowable<CNetworkFieldDeallocRecord, 4ul, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CNetworkFieldReallocRecord, CUtlMemoryFixedGrowable<CNetworkFieldReallocRecord, 4ul, int> >::~CUtlVectorBase()
- T CUtlVectorBase<CNetworkGameClient::CustomFile_t, CUtlMemory<CNetworkGameClient::CustomFile_t, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CNetworkGameServerBase::SplitDisconnect_t, CUtlMemory<CNetworkGameServerBase::SplitDisconnect_t, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CNetworkP2PService::CPeerToPeerMessageRelay*, CUtlMemory<CNetworkP2PService::CPeerToPeerMessageRelay*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CNetworkP2PService::QueuedBroadcastMessage_t, CUtlMemory<CNetworkP2PService::QueuedBroadcastMessage_t, int> >::~CUtlVectorBase()
@@ -17228,7 +17223,6 @@
  T CUtlVectorBase<CScreenshotRequest*, CUtlMemory<CScreenshotRequest*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CSendProxyData, CUtlMemory<CSendProxyData, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CServerSideClientBase*, CUtlMemory<CServerSideClientBase*, int> >::~CUtlVectorBase()
- T CUtlVectorBase<CServerSideClientBase::CustomFile_s, CUtlMemory<CServerSideClientBase::CustomFile_s, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CSocketCreator::AcceptedSocket_t, CUtlMemory<CSocketCreator::AcceptedSocket_t, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CSoundService::RecentlyPlayedNetworkVoice_t, CUtlMemory<CSoundService::RecentlyPlayedNetworkVoice_t, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CSoundService::RecentlyPlayedNetworkVoice_t::BufferedVoiceData_t, CUtlMemory<CSoundService::RecentlyPlayedNetworkVoice_t::BufferedVoiceData_t, int> >::~CUtlVectorBase()
@@ -17257,6 +17251,7 @@
  T CUtlVectorBase<CUtlSymbolTableLargeBase<CThreadsafeTree<false>, false, 2048ul>::StringPool_t*, CUtlMemory<CUtlSymbolTableLargeBase<CThreadsafeTree<false>, false, 2048ul>::StringPool_t*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CVisRender::vis_error_t, CUtlMemory<CVisRender::vis_error_t, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CWin32UploadGameStats::FSMState_t, CUtlMemory<CWin32UploadGameStats::FSMState_t, int> >::~CUtlVectorBase()
+ T CUtlVectorBase<ColorCorrectionInfo_t, CUtlMemory<ColorCorrectionInfo_t, int> >::InsertMultipleBefore(int, int)
  T CUtlVectorBase<ColorCorrectionInfo_t, CUtlMemory<ColorCorrectionInfo_t, int> >::~CUtlVectorBase()
  T CUtlVectorBase<ConCommand::CallbackInfo_t, CUtlMemory<ConCommand::CallbackInfo_t, int> >::~CUtlVectorBase()
  T CUtlVectorBase<ConstraintSlave_t, CUtlMemory<ConstraintSlave_t, int> >::operator=(CUtlVectorBase<ConstraintSlave_t, CUtlMemory<ConstraintSlave_t, int> > const&)
@@ -17661,13 +17656,10 @@
  T DownloadCache::PersistToDisk(RequestContext const*)
  T DownloadListGenerator()
  T DownloadManager::CheckActiveDownload()
- T DownloadManager::FileDenied(char const*, unsigned int)
- T DownloadManager::FileReceived(char const*, unsigned int)
  T DownloadManager::Queue(char const*, char const*)
  T DownloadManager::Reset()
  T DownloadManager::StartNewDownload()
  T DownloadManager::Update()
- T DownloadManager::UpdateProgressBar()
  T DownloadManager::~DownloadManager()
  T DownloadThread(void*)
  T Dragger::OnCursorMoved(int, int)
@@ -17997,50 +17989,6 @@
  T NetMessageConnectionCrashed::SerializeWithCachedSizesToArray(unsigned char*) const
  T NetMessageConnectionCrashed::SetCachedSize(int) const
  T NetMessageConnectionCrashed::~NetMessageConnectionCrashed()
- T NetMessageFileDenied::ByteSize() const
- T NetMessageFileDenied::Clear()
- T NetMessageFileDenied::GetCachedSize() const
- T NetMessageFileDenied::GetMetadata() const
- T NetMessageFileDenied::IsInitialized() const
- T NetMessageFileDenied::MergeFrom(NetMessageFileDenied const&)
- T NetMessageFileDenied::NetMessageFileDenied()
- T NetMessageFileDenied::New() const
- T NetMessageFileDenied::SerializeWithCachedSizesToArray(unsigned char*) const
- T NetMessageFileDenied::SetCachedSize(int) const
- T NetMessageFileDenied::~NetMessageFileDenied()
- T NetMessageFileReceived::ByteSize() const
- T NetMessageFileReceived::Clear()
- T NetMessageFileReceived::GetCachedSize() const
- T NetMessageFileReceived::GetMetadata() const
- T NetMessageFileReceived::IsInitialized() const
- T NetMessageFileReceived::MergeFrom(NetMessageFileReceived const&)
- T NetMessageFileReceived::NetMessageFileReceived()
- T NetMessageFileReceived::New() const
- T NetMessageFileReceived::SerializeWithCachedSizesToArray(unsigned char*) const
- T NetMessageFileReceived::SetCachedSize(int) const
- T NetMessageFileReceived::~NetMessageFileReceived()
- T NetMessageFileRequested::ByteSize() const
- T NetMessageFileRequested::Clear()
- T NetMessageFileRequested::GetCachedSize() const
- T NetMessageFileRequested::GetMetadata() const
- T NetMessageFileRequested::IsInitialized() const
- T NetMessageFileRequested::MergeFrom(NetMessageFileRequested const&)
- T NetMessageFileRequested::NetMessageFileRequested()
- T NetMessageFileRequested::New() const
- T NetMessageFileRequested::SerializeWithCachedSizesToArray(unsigned char*) const
- T NetMessageFileRequested::SetCachedSize(int) const
- T NetMessageFileRequested::~NetMessageFileRequested()
- T NetMessageFileSent::ByteSize() const
- T NetMessageFileSent::Clear()
- T NetMessageFileSent::GetCachedSize() const
- T NetMessageFileSent::GetMetadata() const
- T NetMessageFileSent::IsInitialized() const
- T NetMessageFileSent::MergeFrom(NetMessageFileSent const&)
- T NetMessageFileSent::NetMessageFileSent()
- T NetMessageFileSent::New() const
- T NetMessageFileSent::SerializeWithCachedSizesToArray(unsigned char*) const
- T NetMessageFileSent::SetCachedSize(int) const
- T NetMessageFileSent::~NetMessageFileSent()
  T NetMessagePacketEnd::ByteSize() const
  T NetMessagePacketEnd::Clear()
  T NetMessagePacketEnd::CopyFrom(NetMessagePacketEnd const&)
@@ -21228,10 +21176,6 @@
  b (anonymous namespace)::CBorderData_CBorderSide_reflection_
  b (anonymous namespace)::CBorderData_descriptor_
  b (anonymous namespace)::CBorderData_reflection_
- b (anonymous namespace)::CBorderImageData_CBorderWidthData_descriptor_
- b (anonymous namespace)::CBorderImageData_CBorderWidthData_reflection_
- b (anonymous namespace)::CBorderImageData_descriptor_
- b (anonymous namespace)::CBorderImageData_reflection_
  b (anonymous namespace)::CBoxShadowData_descriptor_
  b (anonymous namespace)::CBoxShadowData_reflection_
  b (anonymous namespace)::CCLCMsg_BaselineAck_descriptor_
@@ -21347,6 +21291,10 @@
  b (anonymous namespace)::CMsgBoxShadow_AnimationFrameData_reflection_
  b (anonymous namespace)::CMsgBoxShadow_descriptor_
  b (anonymous namespace)::CMsgBoxShadow_reflection_
+ b (anonymous namespace)::CMsgBrightness_AnimationFrameData_descriptor_
+ b (anonymous namespace)::CMsgBrightness_AnimationFrameData_reflection_
+ b (anonymous namespace)::CMsgBrightness_descriptor_
+ b (anonymous namespace)::CMsgBrightness_reflection_
  b (anonymous namespace)::CMsgClearBackbuffer_descriptor_
  b (anonymous namespace)::CMsgClearBackbuffer_reflection_
  b (anonymous namespace)::CMsgClipData_descriptor_
@@ -21361,16 +21309,16 @@
  b (anonymous namespace)::CMsgColor_AnimationFrameData_reflection_
  b (anonymous namespace)::CMsgColor_descriptor_
  b (anonymous namespace)::CMsgColor_reflection_
+ b (anonymous namespace)::CMsgContrast_AnimationFrameData_descriptor_
+ b (anonymous namespace)::CMsgContrast_AnimationFrameData_reflection_
+ b (anonymous namespace)::CMsgContrast_descriptor_
+ b (anonymous namespace)::CMsgContrast_reflection_
  b (anonymous namespace)::CMsgDeletePanel_descriptor_
  b (anonymous namespace)::CMsgDeletePanel_reflection_
  b (anonymous namespace)::CMsgDeleteParticleSystem_descriptor_
  b (anonymous namespace)::CMsgDeleteParticleSystem_reflection_
  b (anonymous namespace)::CMsgDeleteTexture_descriptor_
  b (anonymous namespace)::CMsgDeleteTexture_reflection_
- b (anonymous namespace)::CMsgDesaturation_AnimationFrameData_descriptor_
- b (anonymous namespace)::CMsgDesaturation_AnimationFrameData_reflection_
- b (anonymous namespace)::CMsgDesaturation_descriptor_
- b (anonymous namespace)::CMsgDesaturation_reflection_
  b (anonymous namespace)::CMsgDrawDoubleBufferedRect_descriptor_
  b (anonymous namespace)::CMsgDrawDoubleBufferedRect_reflection_
  b (anonymous namespace)::CMsgDrawFilledRect_descriptor_
@@ -21401,6 +21349,10 @@
  b (anonymous namespace)::CMsgGaussianBlur_reflection_
  b (anonymous namespace)::CMsgGaussianValues_descriptor_
  b (anonymous namespace)::CMsgGaussianValues_reflection_
+ b (anonymous namespace)::CMsgHueShift_AnimationFrameData_descriptor_
+ b (anonymous namespace)::CMsgHueShift_AnimationFrameData_reflection_
+ b (anonymous namespace)::CMsgHueShift_descriptor_
+ b (anonymous namespace)::CMsgHueShift_reflection_
  b (anonymous namespace)::CMsgIPCAddress_descriptor_
  b (anonymous namespace)::CMsgIPCAddress_reflection_
  b (anonymous namespace)::CMsgLinearGradient_descriptor_
@@ -21469,6 +21421,10 @@
  b (anonymous namespace)::CMsgRotate2D_AnimationFrameData_reflection_
  b (anonymous namespace)::CMsgRotate2D_descriptor_
  b (anonymous namespace)::CMsgRotate2D_reflection_
+ b (anonymous namespace)::CMsgSaturation_AnimationFrameData_descriptor_
+ b (anonymous namespace)::CMsgSaturation_AnimationFrameData_reflection_
+ b (anonymous namespace)::CMsgSaturation_descriptor_
+ b (anonymous namespace)::CMsgSaturation_reflection_
  b (anonymous namespace)::CMsgServerPeer_descriptor_
  b (anonymous namespace)::CMsgServerPeer_reflection_
  b (anonymous namespace)::CMsgTextFormat_descriptor_
@@ -21497,12 +21453,8 @@
  b (anonymous namespace)::CMsg_CVars_reflection_
  b (anonymous namespace)::CNETMsg_Disconnect_descriptor_
  b (anonymous namespace)::CNETMsg_Disconnect_reflection_
- b (anonymous namespace)::CNETMsg_File_descriptor_
- b (anonymous namespace)::CNETMsg_File_reflection_
  b (anonymous namespace)::CNETMsg_NOP_descriptor_
  b (anonymous namespace)::CNETMsg_NOP_reflection_
- b (anonymous namespace)::CNETMsg_ReliableMessageEndMarker_descriptor_
- b (anonymous namespace)::CNETMsg_ReliableMessageEndMarker_reflection_
  b (anonymous namespace)::CNETMsg_SetConVar_descriptor_
  b (anonymous namespace)::CNETMsg_SetConVar_reflection_
  b (anonymous namespace)::CNETMsg_SignonState_descriptor_
@@ -21627,14 +21579,6 @@
  b (anonymous namespace)::NetMessageConnectionClosed_reflection_
  b (anonymous namespace)::NetMessageConnectionCrashed_descriptor_
  b (anonymous namespace)::NetMessageConnectionCrashed_reflection_
- b (anonymous namespace)::NetMessageFileDenied_descriptor_
- b (anonymous namespace)::NetMessageFileDenied_reflection_
- b (anonymous namespace)::NetMessageFileReceived_descriptor_
- b (anonymous namespace)::NetMessageFileReceived_reflection_
- b (anonymous namespace)::NetMessageFileRequested_descriptor_
- b (anonymous namespace)::NetMessageFileRequested_reflection_
- b (anonymous namespace)::NetMessageFileSent_descriptor_
- b (anonymous namespace)::NetMessageFileSent_reflection_
  b (anonymous namespace)::NetMessagePacketEnd_descriptor_
  b (anonymous namespace)::NetMessagePacketEnd_reflection_
  b (anonymous namespace)::NetMessagePacketStart_descriptor_
@@ -22076,7 +22020,6 @@
  b blackbox_record_command
  b build_number()::b
  b cl_address_try_count
- b cl_allowdownload
  b cl_allowupload
  b cl_break_on_missing_resource
  b cl_cmdrate_var
@@ -22095,7 +22038,6 @@
  b cl_resend
  b cl_retire_low_priority_lights
  b cl_showdemooverlay
- b cl_soundfile
  b cl_spectator_cmdrate_factor
  b cl_spewserializers_command
  b cl_updaterate_var
@@ -22130,6 +22072,7 @@
  b demos_command
  b dumpstringtable_command
  b engine_max_resource_system_update_time
+ b engine_show_frame_ticks
  b escape_command
  b fog_override_color_command
  b force_assert_command
@@ -22577,8 +22520,6 @@
  b stats_display
  b stop_command
  b stopdemos_command
- b sv_allowdownload
- b sv_allowupload
  b sv_banid_dev_enabled
  b sv_banid_enabled
  b sv_contact
@@ -23430,9 +23371,7 @@
  r protobuf_AssignDesc_networkbasetypes_2eproto()::CMsg_CVars_CVar_offsets_
  r protobuf_AssignDesc_networkbasetypes_2eproto()::CMsg_CVars_offsets_
  r protobuf_AssignDesc_networkbasetypes_2eproto()::CNETMsg_Disconnect_offsets_
- r protobuf_AssignDesc_networkbasetypes_2eproto()::CNETMsg_File_offsets_
  r protobuf_AssignDesc_networkbasetypes_2eproto()::CNETMsg_NOP_offsets_
- r protobuf_AssignDesc_networkbasetypes_2eproto()::CNETMsg_ReliableMessageEndMarker_offsets_
  r protobuf_AssignDesc_networkbasetypes_2eproto()::CNETMsg_SetConVar_offsets_
  r protobuf_AssignDesc_networkbasetypes_2eproto()::CNETMsg_SignonState_offsets_
  r protobuf_AssignDesc_networkbasetypes_2eproto()::CNETMsg_SpawnGroup_LoadCompleted_offsets_
@@ -23453,17 +23392,11 @@
  r protobuf_AssignDesc_networkbasetypes_2eproto()::CSVCMsg_UserMessage_offsets_
  r protobuf_AssignDesc_networksystem_5fprotomessages_2eproto()::NetMessageConnectionClosed_offsets_
  r protobuf_AssignDesc_networksystem_5fprotomessages_2eproto()::NetMessageConnectionCrashed_offsets_
- r protobuf_AssignDesc_networksystem_5fprotomessages_2eproto()::NetMessageFileDenied_offsets_
- r protobuf_AssignDesc_networksystem_5fprotomessages_2eproto()::NetMessageFileReceived_offsets_
- r protobuf_AssignDesc_networksystem_5fprotomessages_2eproto()::NetMessageFileRequested_offsets_
- r protobuf_AssignDesc_networksystem_5fprotomessages_2eproto()::NetMessageFileSent_offsets_
  r protobuf_AssignDesc_networksystem_5fprotomessages_2eproto()::NetMessagePacketEnd_offsets_
  r protobuf_AssignDesc_networksystem_5fprotomessages_2eproto()::NetMessagePacketStart_offsets_
  r protobuf_AssignDesc_networksystem_5fprotomessages_2eproto()::NetMessageSplitscreenUserChanged_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CBorderData_CBorderSide_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CBorderData_offsets_
- r protobuf_AssignDesc_rendermessages_2eproto()::CBorderImageData_CBorderWidthData_offsets_
- r protobuf_AssignDesc_rendermessages_2eproto()::CBorderImageData_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CBoxShadowData_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsg3DTransformMatrix_AnimationFrameData_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsg3DTransformMatrix_offsets_
@@ -23484,6 +23417,8 @@
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgBorder_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgBoxShadow_AnimationFrameData_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgBoxShadow_offsets_
+ r protobuf_AssignDesc_rendermessages_2eproto()::CMsgBrightness_AnimationFrameData_offsets_
+ r protobuf_AssignDesc_rendermessages_2eproto()::CMsgBrightness_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgClearBackbuffer_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgClipData_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgClip_AnimationFrameData_offsets_
@@ -23491,11 +23426,11 @@
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgColorStop_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgColor_AnimationFrameData_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgColor_offsets_
+ r protobuf_AssignDesc_rendermessages_2eproto()::CMsgContrast_AnimationFrameData_offsets_
+ r protobuf_AssignDesc_rendermessages_2eproto()::CMsgContrast_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgDeletePanel_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgDeleteParticleSystem_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgDeleteTexture_offsets_
- r protobuf_AssignDesc_rendermessages_2eproto()::CMsgDesaturation_AnimationFrameData_offsets_
- r protobuf_AssignDesc_rendermessages_2eproto()::CMsgDesaturation_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgDrawDoubleBufferedRect_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgDrawFilledRect_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgDrawTextRegion_offsets_
@@ -23511,6 +23446,8 @@
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgGaussianBlur_AnimationFrameData_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgGaussianBlur_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgGaussianValues_offsets_
+ r protobuf_AssignDesc_rendermessages_2eproto()::CMsgHueShift_AnimationFrameData_offsets_
+ r protobuf_AssignDesc_rendermessages_2eproto()::CMsgHueShift_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgLinearGradient_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgLockTexture_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgMatrix4x4_offsets_
@@ -23542,6 +23479,8 @@
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgRequestRenderCallback_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgRotate2D_AnimationFrameData_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgRotate2D_offsets_
+ r protobuf_AssignDesc_rendermessages_2eproto()::CMsgSaturation_AnimationFrameData_offsets_
+ r protobuf_AssignDesc_rendermessages_2eproto()::CMsgSaturation_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgTextFormat_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgTextInlineObject_offsets_
  r protobuf_AssignDesc_rendermessages_2eproto()::CMsgTextRangeFormat_offsets_
@@ -23656,7 +23595,6 @@
  std::__1::regex_error::~regex_error()
  std::exception::~exception()
  std::terminate()
- strcasecmp
  strcat
  strchr
  strcmp
@@ -24141,6 +24079,10 @@
  t __cxx_global_var_init142
  t __cxx_global_var_init143
  t __cxx_global_var_init144
+ t __cxx_global_var_init148
+ t __cxx_global_var_init149
+ t __cxx_global_var_init150
+ t __cxx_global_var_init151
  t __cxx_global_var_init152
  t __cxx_global_var_init153
  t __cxx_global_var_init154
@@ -24179,21 +24121,17 @@
  t __cxx_global_var_init185
  t __cxx_global_var_init186
  t __cxx_global_var_init187
- t __cxx_global_var_init188
- t __cxx_global_var_init189
  t __cxx_global_var_init19
  t __cxx_global_var_init190
  t __cxx_global_var_init191
+ t __cxx_global_var_init192
+ t __cxx_global_var_init193
+ t __cxx_global_var_init194
+ t __cxx_global_var_init195
+ t __cxx_global_var_init196
+ t __cxx_global_var_init197
+ t __cxx_global_var_init198
  t __cxx_global_var_init20
- t __cxx_global_var_init204
- t __cxx_global_var_init205
- t __cxx_global_var_init206
- t __cxx_global_var_init207
- t __cxx_global_var_init208
- t __cxx_global_var_init209
- t __cxx_global_var_init210
- t __cxx_global_var_init211
- t __cxx_global_var_init212
  t __cxx_global_var_init250
  t __cxx_global_var_init251
  t __cxx_global_var_init252
@@ -24280,7 +24218,6 @@
  t __cxx_global_var_init82
  t __cxx_global_var_init83
  t __cxx_global_var_init84
- t __cxx_global_var_init85
  t __cxx_global_var_init9
  t _record(CCommandContext const&, CCommand const&)
  t access_virt_barray
