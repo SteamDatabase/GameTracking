@@ -2775,6 +2775,7 @@
  B sv_unlag_debug
  B sv_unlag_fixstuck
  B sv_unlockedchapters
+ B sv_usercmd_custom_random_seed
  B sv_vehicle_autoaim_scale
  B sv_vote_allow_spectators
  B sv_vote_command_delay
@@ -3564,6 +3565,7 @@
  D CBaseEntity::m_nDebugPlayer
  D CBaseEntity::m_nDebugSteps
  D CBaseEntity::m_nPredictionRandomSeed
+ D CBaseEntity::m_nPredictionRandomSeedServer
  D CBaseEntity::m_pClassSendTable
  D CBaseEntity::sm_bAccurateTriggerBboxChecks
  D CBaseEntityOutput::m_DataMap
@@ -8287,6 +8289,7 @@
  D typeinfo for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, true>
  D typeinfo for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, true>
  D typeinfo for CCallback<CTFMapsWorkshop, DownloadItemResult_t, true>
+ D typeinfo for CCallback<CTFMapsWorkshop, ItemInstalled_t, true>
  D typeinfo for CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>
  D typeinfo for CCallbackBase
  D typeinfo for CCaptureFlag
@@ -11197,6 +11200,7 @@
  D vtable for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, true>
  D vtable for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, true>
  D vtable for CCallback<CTFMapsWorkshop, DownloadItemResult_t, true>
+ D vtable for CCallback<CTFMapsWorkshop, ItemInstalled_t, true>
  D vtable for CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>
  D vtable for CCaptureFlag
  D vtable for CCaptureFlagReturnIcon
@@ -13923,6 +13927,7 @@
  R typeinfo name for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, true>
  R typeinfo name for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, true>
  R typeinfo name for CCallback<CTFMapsWorkshop, DownloadItemResult_t, true>
+ R typeinfo name for CCallback<CTFMapsWorkshop, ItemInstalled_t, true>
  R typeinfo name for CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>
  R typeinfo name for CCallbackBase
  R typeinfo name for CCaptureFlag
@@ -22204,6 +22209,9 @@
  T CCallback<CTFMapsWorkshop, DownloadItemResult_t, true>::GetCallbackSizeBytes()
  T CCallback<CTFMapsWorkshop, DownloadItemResult_t, true>::Run(void*)
  T CCallback<CTFMapsWorkshop, DownloadItemResult_t, true>::Run(void*, bool, unsigned long long)
+ T CCallback<CTFMapsWorkshop, ItemInstalled_t, true>::GetCallbackSizeBytes()
+ T CCallback<CTFMapsWorkshop, ItemInstalled_t, true>::Run(void*)
+ T CCallback<CTFMapsWorkshop, ItemInstalled_t, true>::Run(void*, bool, unsigned long long)
  T CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>::GetCallbackSizeBytes()
  T CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>::Run(void*)
  T CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>::Run(void*, bool, unsigned long long)
@@ -31765,6 +31773,7 @@
  T CObjectSentrygun::GetAssistingTeammate(float) const
  T CObjectSentrygun::GetBaseHealth()
  T CObjectSentrygun::GetDataDescMap()
+ T CObjectSentrygun::GetEnemyAimPosition(CBaseEntity*) const
  T CObjectSentrygun::GetMaxHealthForCurrentLevel()
  T CObjectSentrygun::GetMaxUpgradeLevel()
  T CObjectSentrygun::GetMiniBuildingStartingHealth()
@@ -36621,6 +36630,7 @@
  T CTFMinigun::ShouldDoMuzzleFlash()
  T CTFMinigun::Spawn()
  T CTFMinigun::UpdateTransmitState()
+ T CTFMinigun::UseServerRandomSeed() const
  T CTFMinigun::WeaponIdle()
  T CTFMinigun::WeaponReset()
  T CTFMinigun::WindDown()
@@ -37163,6 +37173,7 @@
  T CTFPlayer::WantsLagCompensationOnEntity(CBasePlayer const*, CUserCmd const*, CBitVec<2048> const*) const
  T CTFPlayer::Weapon_CanSwitchTo(CBaseCombatWeapon*)
  T CTFPlayer::Weapon_Drop(CBaseCombatWeapon*, Vector const*, Vector const*)
+ T CTFPlayer::Weapon_Equip(CBaseCombatWeapon*)
  T CTFPlayer::Weapon_FrameUpdate()
  T CTFPlayer::Weapon_GetWeaponByType(int)
  T CTFPlayer::Weapon_HandleAnimEvent(animevent_t*)
@@ -38788,6 +38799,7 @@
  T CTFWeaponBase::UpdateOnRemove()
  T CTFWeaponBase::UpdateWeaponBodyGroups(CTFPlayer*, bool)
  T CTFWeaponBase::Use(CBaseEntity*, CBaseEntity*, USE_TYPE, float)
+ T CTFWeaponBase::UseServerRandomSeed() const
  T CTFWeaponBase::UsesPrimaryAmmo()
  T CTFWeaponBase::VisibleInWeaponSelection()
  T CTFWeaponBase::WeaponIdle()
@@ -39082,7 +39094,7 @@
  T CTFWearableVM::~CTFWearableVM()
  T CTFWorkshopMap::CTFWorkshopMap(unsigned long long)
  T CTFWorkshopMap::GetLocalFile(CUtlString&)
- T CTFWorkshopMap::Refresh()
+ T CTFWorkshopMap::Refresh(CTFWorkshopMap::eRefreshType)
  T CTFWorkshopMap::Steam_OnQueryUGCDetails(SteamUGCQueryCompleted_t*, bool)
  T CTFWrench::ApplyBuildingHealthUpgrade()
  T CTFWrench::Detach()
@@ -50668,6 +50680,7 @@
  b sv_ignore_hitboxes
  b sv_lagcompensation_teleport_dist
  b sv_maxusrcmdprocessticks
+ b sv_maxusrcmdprocessticks_holdaim
  b sv_optimizedmovement
  b sv_playerperfhistorycount
  b sv_querycache_stats_command
@@ -51882,6 +51895,7 @@
  t __cxx_global_array_dtor118
  t __cxx_global_array_dtor120
  t __cxx_global_array_dtor121
+ t __cxx_global_array_dtor122
  t __cxx_global_array_dtor14
  t __cxx_global_array_dtor140
  t __cxx_global_array_dtor153
@@ -51929,8 +51943,8 @@
  t __cxx_global_array_dtor369
  t __cxx_global_array_dtor37
  t __cxx_global_array_dtor39
- t __cxx_global_array_dtor394
- t __cxx_global_array_dtor405
+ t __cxx_global_array_dtor397
+ t __cxx_global_array_dtor408
  t __cxx_global_array_dtor41
  t __cxx_global_array_dtor412
  t __cxx_global_array_dtor42
