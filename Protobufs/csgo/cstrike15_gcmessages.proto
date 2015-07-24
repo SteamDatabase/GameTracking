@@ -74,6 +74,8 @@ enum ECsgoGCMsg {
 	k_EMsgGC_GlobalGame_Play = 9170;
 	k_EMsgGCCStrike15_v2_AcknowledgePenalty = 9171;
 	k_EMsgGCCStrike15_v2_Client2GCRequestPrestigeCoin = 9172;
+	k_EMsgGCCStrike15_v2_GC2ClientGlobalStats = 9173;
+	k_EMsgGCCStrike15_v2_Client2GCStreamUnlock = 9174;
 }
 
 message GameServerPing {
@@ -715,7 +717,8 @@ message CDataGCCStrike15_v2_MatchInfo {
 	optional uint64 matchid = 1;
 	optional uint32 matchtime = 2;
 	optional .WatchableMatchInfo watchablematchinfo = 3;
-	optional .CMsgGCCStrike15_v2_MatchmakingServerRoundStats roundstats = 4;
+	optional .CMsgGCCStrike15_v2_MatchmakingServerRoundStats roundstats_legacy = 4;
+	repeated .CMsgGCCStrike15_v2_MatchmakingServerRoundStats roundstatsall = 5;
 }
 
 message CDataGCCStrike15_v2_TournamentGroupTeam {
@@ -881,5 +884,10 @@ message CMsgGCCStrike15_v2_AcknowledgePenalty {
 }
 
 message CMsgGCCStrike15_v2_Client2GCRequestPrestigeCoin {
+}
+
+message CMsgGCCStrike15_v2_Client2GCStreamUnlock {
+	optional uint64 ticket = 1;
+	optional int32 os = 2;
 }
 
