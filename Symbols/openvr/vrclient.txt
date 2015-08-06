@@ -38,6 +38,10 @@
  B CVRMsg_InputCaptureResponse::default_instance_
  B CVRMsg_QuitProcessRequest::default_instance_
  B CVRMsg_QuitProcessResponse::default_instance_
+ B CVRMsg_SetMasterProcess::default_instance_
+ B CVRMsg_SetMasterProcessResponse::default_instance_
+ B CVRMsg_StartProcess::default_instance_
+ B CVRMsg_StartProcessResponse::default_instance_
  B CVRMsg_TriggerHapticPulse::default_instance_
  B CVRMsg_TriggerHapticPulseResponse::default_instance_
  B InterfaceRegistrationBase::s_pFirst
@@ -106,6 +110,10 @@
  D typeinfo for CVRMsg_InputCaptureResponse
  D typeinfo for CVRMsg_QuitProcessRequest
  D typeinfo for CVRMsg_QuitProcessResponse
+ D typeinfo for CVRMsg_SetMasterProcess
+ D typeinfo for CVRMsg_SetMasterProcessResponse
+ D typeinfo for CVRMsg_StartProcess
+ D typeinfo for CVRMsg_StartProcessResponse
  D typeinfo for CVRMsg_TriggerHapticPulse
  D typeinfo for CVRMsg_TriggerHapticPulseResponse
  D typeinfo for CVROverlay_001
@@ -234,6 +242,10 @@
  D vtable for CVRMsg_InputCaptureResponse
  D vtable for CVRMsg_QuitProcessRequest
  D vtable for CVRMsg_QuitProcessResponse
+ D vtable for CVRMsg_SetMasterProcess
+ D vtable for CVRMsg_SetMasterProcessResponse
+ D vtable for CVRMsg_StartProcess
+ D vtable for CVRMsg_StartProcessResponse
  D vtable for CVRMsg_TriggerHapticPulse
  D vtable for CVRMsg_TriggerHapticPulseResponse
  D vtable for CVROverlay_001
@@ -351,6 +363,10 @@
  R typeinfo name for CVRMsg_InputCaptureResponse
  R typeinfo name for CVRMsg_QuitProcessRequest
  R typeinfo name for CVRMsg_QuitProcessResponse
+ R typeinfo name for CVRMsg_SetMasterProcess
+ R typeinfo name for CVRMsg_SetMasterProcessResponse
+ R typeinfo name for CVRMsg_StartProcess
+ R typeinfo name for CVRMsg_StartProcessResponse
  R typeinfo name for CVRMsg_TriggerHapticPulse
  R typeinfo name for CVRMsg_TriggerHapticPulseResponse
  R typeinfo name for CVROverlay_001
@@ -422,7 +438,7 @@
  R typeinfo name for vr::IVRSystem
  T BCreateDirectory(char const*)
  T BCreateDirectoryRecursive(char const*)
- T BCreateProcess(char const*, char const**, bool)
+ T BCreateProcess(char const*, char const**, unsigned int*, bool)
  T BDeleteFileIfExists(char const*)
  T BKillProcess(char const*)
  T BProcessRunning(char const*)
@@ -478,6 +494,8 @@
  T CHmdSystemLatest::LoadSharedResource(char const*, char*, unsigned int)
  T CHmdSystemLatest::QuitProcess(unsigned int)
  T CHmdSystemLatest::SetIPD(float)
+ T CHmdSystemLatest::SetMasterProcessToThis()
+ T CHmdSystemLatest::StartVRProcess(char const*, char const**, unsigned int, char const*)
  T CHmdSystemLatest::~CHmdSystemLatest()
  T CHmdSystem_001::Cleanup()
  T CHmdSystem_001::GetControlPanel(char const*, vr::HmdError*)
@@ -1295,6 +1313,51 @@
  T CVRMsg_QuitProcessResponse::SerializeWithCachedSizesToArray(unsigned char*) const
  T CVRMsg_QuitProcessResponse::SetCachedSize(int) const
  T CVRMsg_QuitProcessResponse::~CVRMsg_QuitProcessResponse()
+ T CVRMsg_SetMasterProcess::ByteSize() const
+ T CVRMsg_SetMasterProcess::CVRMsg_SetMasterProcess()
+ T CVRMsg_SetMasterProcess::Clear()
+ T CVRMsg_SetMasterProcess::GetCachedSize() const
+ T CVRMsg_SetMasterProcess::GetMetadata() const
+ T CVRMsg_SetMasterProcess::IsInitialized() const
+ T CVRMsg_SetMasterProcess::MergeFrom(CVRMsg_SetMasterProcess const&)
+ T CVRMsg_SetMasterProcess::New() const
+ T CVRMsg_SetMasterProcess::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_SetMasterProcess::SetCachedSize(int) const
+ T CVRMsg_SetMasterProcess::~CVRMsg_SetMasterProcess()
+ T CVRMsg_SetMasterProcessResponse::ByteSize() const
+ T CVRMsg_SetMasterProcessResponse::CVRMsg_SetMasterProcessResponse()
+ T CVRMsg_SetMasterProcessResponse::Clear()
+ T CVRMsg_SetMasterProcessResponse::GetCachedSize() const
+ T CVRMsg_SetMasterProcessResponse::GetMetadata() const
+ T CVRMsg_SetMasterProcessResponse::IsInitialized() const
+ T CVRMsg_SetMasterProcessResponse::MergeFrom(CVRMsg_SetMasterProcessResponse const&)
+ T CVRMsg_SetMasterProcessResponse::New() const
+ T CVRMsg_SetMasterProcessResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_SetMasterProcessResponse::SetCachedSize(int) const
+ T CVRMsg_SetMasterProcessResponse::~CVRMsg_SetMasterProcessResponse()
+ T CVRMsg_StartProcess::ByteSize() const
+ T CVRMsg_StartProcess::CVRMsg_StartProcess()
+ T CVRMsg_StartProcess::Clear()
+ T CVRMsg_StartProcess::GetCachedSize() const
+ T CVRMsg_StartProcess::GetMetadata() const
+ T CVRMsg_StartProcess::IsInitialized() const
+ T CVRMsg_StartProcess::MergeFrom(CVRMsg_StartProcess const&)
+ T CVRMsg_StartProcess::New() const
+ T CVRMsg_StartProcess::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_StartProcess::SetCachedSize(int) const
+ T CVRMsg_StartProcess::SharedDtor()
+ T CVRMsg_StartProcess::~CVRMsg_StartProcess()
+ T CVRMsg_StartProcessResponse::ByteSize() const
+ T CVRMsg_StartProcessResponse::CVRMsg_StartProcessResponse()
+ T CVRMsg_StartProcessResponse::Clear()
+ T CVRMsg_StartProcessResponse::GetCachedSize() const
+ T CVRMsg_StartProcessResponse::GetMetadata() const
+ T CVRMsg_StartProcessResponse::IsInitialized() const
+ T CVRMsg_StartProcessResponse::MergeFrom(CVRMsg_StartProcessResponse const&)
+ T CVRMsg_StartProcessResponse::New() const
+ T CVRMsg_StartProcessResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_StartProcessResponse::SetCachedSize(int) const
+ T CVRMsg_StartProcessResponse::~CVRMsg_StartProcessResponse()
  T CVRMsg_TriggerHapticPulse::ByteSize() const
  T CVRMsg_TriggerHapticPulse::CVRMsg_TriggerHapticPulse()
  T CVRMsg_TriggerHapticPulse::Clear()
@@ -1852,6 +1915,8 @@
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_GetPropertyResponse>(unsigned int, CVRMsg_GetPropertyResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_InputCaptureResponse>(unsigned int, CVRMsg_InputCaptureResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_QuitProcessResponse>(unsigned int, CVRMsg_QuitProcessResponse&, unsigned int)
+ T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_SetMasterProcessResponse>(unsigned int, CVRMsg_SetMasterProcessResponse&, unsigned int)
+ T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_StartProcessResponse>(unsigned int, CVRMsg_StartProcessResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TriggerHapticPulseResponse>(unsigned int, CVRMsg_TriggerHapticPulseResponse&, unsigned int)
  T char* std::string::_S_construct<char*>(char*, char*, std::allocator<char> const&, std::forward_iterator_tag)
  T dyld_stub_binding_helper
@@ -1879,6 +1944,8 @@
  T non-virtual thunk to CHmdSystemLatest::LoadSharedResource(char const*, char*, unsigned int)
  T non-virtual thunk to CHmdSystemLatest::QuitProcess(unsigned int)
  T non-virtual thunk to CHmdSystemLatest::SetIPD(float)
+ T non-virtual thunk to CHmdSystemLatest::SetMasterProcessToThis()
+ T non-virtual thunk to CHmdSystemLatest::StartVRProcess(char const*, char const**, unsigned int, char const*)
  T non-virtual thunk to CVRCompositorClient::BeginFrame_DEPRECATED(vr::Hmd_Eye, vr::TrackedDevicePose_t*, unsigned int)
  T non-virtual thunk to CVRCompositorClient::ClearOverlayTexture(unsigned long long)
  T non-virtual thunk to CVRCompositorClient::ComputeOverlayIntersection(unsigned long long, vr::VROverlayIntersectionParams_t const*, vr::VROverlayIntersectionResults_t*)
@@ -2128,6 +2195,7 @@
  T void std::make_heap<__gnu_cxx::__normal_iterator<CDriverManager::HmdDriver_t*, std::vector<CDriverManager::HmdDriver_t, std::allocator<CDriverManager::HmdDriver_t> > >, bool (*)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&)>(__gnu_cxx::__normal_iterator<CDriverManager::HmdDriver_t*, std::vector<CDriverManager::HmdDriver_t, std::allocator<CDriverManager::HmdDriver_t> > >, __gnu_cxx::__normal_iterator<CDriverManager::HmdDriver_t*, std::vector<CDriverManager::HmdDriver_t, std::allocator<CDriverManager::HmdDriver_t> > >, bool (*)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&))
  T void std::pop_heap<__gnu_cxx::__normal_iterator<CDriverManager::HmdDriver_t*, std::vector<CDriverManager::HmdDriver_t, std::allocator<CDriverManager::HmdDriver_t> > >, bool (*)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&)>(__gnu_cxx::__normal_iterator<CDriverManager::HmdDriver_t*, std::vector<CDriverManager::HmdDriver_t, std::allocator<CDriverManager::HmdDriver_t> > >, __gnu_cxx::__normal_iterator<CDriverManager::HmdDriver_t*, std::vector<CDriverManager::HmdDriver_t, std::allocator<CDriverManager::HmdDriver_t> > >, bool (*)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&))
  T void std::swap<CDriverManager::HmdDriver_t>(CDriverManager::HmdDriver_t&, CDriverManager::HmdDriver_t&)
+ T vr::CHmdDistort::GetDashboardState(unsigned long long*)
  T vr::CHmdDistort::Present(vr::IGraphicsDevice::PresentResults_t*)
  T vr::CHmdDistort::Shutdown()
  T vr::CHmdDistort::StartFade(float, bool)
@@ -2166,15 +2234,17 @@
  T vr::CVRChaperoneLatest::ToJson() const
  T vr::CVRChaperoneLatest::~CVRChaperoneLatest()
  T vr::CVRDashboardManagerLatest::ActivateNotification(unsigned int)
- T vr::CVRDashboardManagerLatest::BInit(CVRClient*, CVRCompositorClient*)
+ T vr::CVRDashboardManagerLatest::BInit(CVRSystemLatest*, CVRClient*, CVRCompositorClient*)
  T vr::CVRDashboardManagerLatest::CVRDashboardManagerLatest()
  T vr::CVRDashboardManagerLatest::CreateDashboardCoreOverlay(char const*, char const*, unsigned long long*)
  T vr::CVRDashboardManagerLatest::GetActiveNotificationCount(unsigned long long, int*)
  T vr::CVRDashboardManagerLatest::GetDashboardOverlays(vr::DashboardOverlayState_t*, unsigned int)
  T vr::CVRDashboardManagerLatest::GetNotificationSummary(vr::DashboardNotificationSummary_t*)
  T vr::CVRDashboardManagerLatest::GetToastInfo(unsigned int, vr::DashboardNotificationInfo_t*)
+ T vr::CVRDashboardManagerLatest::GetToastOverlayHandle(unsigned long long*)
  T vr::CVRDashboardManagerLatest::HideDashboard()
  T vr::CVRDashboardManagerLatest::SetDashboardManager(unsigned long long)
+ T vr::CVRDashboardManagerLatest::SetToastOverlayRendererToThis()
  T vr::CVRDashboardManagerLatest::SetToastTexture(vr::GraphicsAPIConvention, void*)
  T vr::CVRDashboardManagerLatest::ShowDashboard()
  T vr::CVRDashboardManagerLatest::~CVRDashboardManagerLatest()
@@ -2310,6 +2380,14 @@
  b (anonymous namespace)::CVRMsg_QuitProcessRequest_reflection_
  b (anonymous namespace)::CVRMsg_QuitProcessResponse_descriptor_
  b (anonymous namespace)::CVRMsg_QuitProcessResponse_reflection_
+ b (anonymous namespace)::CVRMsg_SetMasterProcessResponse_descriptor_
+ b (anonymous namespace)::CVRMsg_SetMasterProcessResponse_reflection_
+ b (anonymous namespace)::CVRMsg_SetMasterProcess_descriptor_
+ b (anonymous namespace)::CVRMsg_SetMasterProcess_reflection_
+ b (anonymous namespace)::CVRMsg_StartProcessResponse_descriptor_
+ b (anonymous namespace)::CVRMsg_StartProcessResponse_reflection_
+ b (anonymous namespace)::CVRMsg_StartProcess_descriptor_
+ b (anonymous namespace)::CVRMsg_StartProcess_reflection_
  b (anonymous namespace)::CVRMsg_TriggerHapticPulseResponse_descriptor_
  b (anonymous namespace)::CVRMsg_TriggerHapticPulseResponse_reflection_
  b (anonymous namespace)::CVRMsg_TriggerHapticPulse_descriptor_
@@ -2388,6 +2466,7 @@
  d h2l_gamma_i
  d h2l_scale_i
  d parse_png_file(png*, int, int)::invalid_chunk
+ d s_mat34Identity
  d stbi_stdio_callbacks
  dladdr
  dlclose
@@ -2493,6 +2572,10 @@
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_InputCaptureResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_QuitProcessRequest_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_QuitProcessResponse_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_SetMasterProcessResponse_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_SetMasterProcess_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_StartProcessResponse_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_StartProcess_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TriggerHapticPulseResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TriggerHapticPulse_offsets_
  r s_mat34Identity
