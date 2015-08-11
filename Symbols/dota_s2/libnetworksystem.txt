@@ -136,6 +136,7 @@
  B SteamDatagramTransport::steamdatagram_client_fakeloss_recv
  B SteamDatagramTransport::steamdatagram_client_fakeloss_send
  B SteamDatagramTransport::steamdatagram_client_min_pings_before_ping_accurate
+ B SteamDatagramTransport::steamdatagram_client_single_socket
  B SteamDatagramTransport::steamdatagram_client_spew_level
  B colorcorrection
  B g_BitWriteMasks
@@ -3481,6 +3482,7 @@
  T CUtlMap<FlattenedSerializerHandle_t__*, CDTISerializerInfo*, unsigned short, bool (*)(FlattenedSerializerHandle_t__* const&, FlattenedSerializerHandle_t__* const&)>::Insert(FlattenedSerializerHandle_t__* const&, CDTISerializerInfo* const&)
  T CUtlMap<int, INetworkMessageInternal*, unsigned short, bool (*)(int const&, int const&)>::Insert(int const&, INetworkMessageInternal* const&)
  T CUtlMap<int, int, unsigned short, bool (*)(int const&, int const&)>::Insert(int const&, int const&)
+ T CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Find(netadr_t const&) const
  T CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Insert(netadr_t const&)
  T CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Node_t::Node_t()
  T CUtlMap<unsigned int, CSchemaType*, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Insert(unsigned int const&, CSchemaType* const&)
@@ -3555,6 +3557,7 @@
  T CUtlMemory<SerializerUniqueField_t, int>::Grow(int)
  T CUtlMemory<ServerWithSessionSort, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::CDatagramQueue::Channel, int>::Grow(int)
+ T CUtlMemory<SteamDatagramTransport::CSteamDatagramTransportClient::SavedServerQualityMetrics, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::RouterDowntimeWarning, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::SteamDatagramNetwork::AddressRange, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::SteamDatagramNetwork::DataCenter, int>::Grow(int)
@@ -3595,6 +3598,7 @@
  T CUtlMemory<char, int>::Grow(int)
  T CUtlMemory<int, int>::Grow(int)
  T CUtlMemory<order_t, int>::Grow(int)
+ T CUtlMemory<pollfd, int>::Grow(int)
  T CUtlMemory<unsigned char, int>::Grow(int)
  T CUtlMemory<unsigned int, int>::Grow(int)
  T CUtlMemory<unsigned short, int>::Grow(int)
@@ -3696,6 +3700,7 @@
  T CUtlRBTree<CUtlMap<int, int, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short, CUtlMap<int, int, unsigned short, bool (*)(int const&, int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, int, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
  T CUtlRBTree<CUtlMap<int, int, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short, CUtlMap<int, int, unsigned short, bool (*)(int const&, int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, int, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
  T CUtlRBTree<CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Node_t, int, CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Node_t, int>, int> >::InsertRebalance(int)
+ T CUtlRBTree<CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Node_t, int, CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Node_t, int>, int> >::RemoveAll()
  T CUtlRBTree<CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Node_t, int, CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Node_t, int>, int> >::RemoveRebalance(int)
  T CUtlRBTree<CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Node_t, int, CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Node_t, int>, int> >::RotateLeft(int)
  T CUtlRBTree<CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Node_t, int, CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Node_t, int>, int> >::RotateRight(int)
@@ -3864,8 +3869,9 @@
  T CUtlVectorBase<NetworkVarDecl_t*, CUtlMemory<NetworkVarDecl_t*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<SerializedEntityMetadata_t, CUtlMemory<SerializedEntityMetadata_t, int> >::~CUtlVectorBase()
  T CUtlVectorBase<SerializerUniqueField_t, CUtlMemory<SerializerUniqueField_t, int> >::~CUtlVectorBase()
- T CUtlVectorBase<ServerWithSessionSort, CUtlMemoryFixedGrowable<ServerWithSessionSort, 64ul, int> >::~CUtlVectorBase()
+ T CUtlVectorBase<ServerWithSessionSort, CUtlMemory<ServerWithSessionSort, int> >::~CUtlVectorBase()
  T CUtlVectorBase<SteamDatagramTransport::CDatagramQueue::Channel, CUtlMemory<SteamDatagramTransport::CDatagramQueue::Channel, int> >::~CUtlVectorBase()
+ T CUtlVectorBase<SteamDatagramTransport::CSteamDatagramTransportClient::SavedServerQualityMetrics, CUtlMemory<SteamDatagramTransport::CSteamDatagramTransportClient::SavedServerQualityMetrics, int> >::~CUtlVectorBase()
  T CUtlVectorBase<SteamDatagramTransport::RouterDowntimeWarning, CUtlMemory<SteamDatagramTransport::RouterDowntimeWarning, int> >::~CUtlVectorBase()
  T CUtlVectorBase<SteamDatagramTransport::SteamDatagramNetwork::AddressRange, CUtlMemory<SteamDatagramTransport::SteamDatagramNetwork::AddressRange, int> >::~CUtlVectorBase()
  T CUtlVectorBase<SteamDatagramTransport::SteamDatagramNetwork::DataCenter, CUtlMemory<SteamDatagramTransport::SteamDatagramNetwork::DataCenter, int> >::~CUtlVectorBase()
@@ -3880,6 +3886,7 @@
  T CUtlVectorBase<int, CUtlMemory<int, int> >::~CUtlVectorBase()
  T CUtlVectorBase<int, CUtlMemoryFixedGrowable<int, 4ul, int> >::~CUtlVectorBase()
  T CUtlVectorBase<order_t, CUtlMemory<order_t, int> >::~CUtlVectorBase()
+ T CUtlVectorBase<pollfd, CUtlMemory<pollfd, int> >::~CUtlVectorBase()
  T CUtlVectorBase<unsigned char, CUtlMemory<unsigned char, int> >::~CUtlVectorBase()
  T CUtlVectorBase<unsigned int, CUtlMemory<unsigned int, int> >::~CUtlVectorBase()
  T CUtlVectorBase<unsigned short, CUtlMemory<unsigned short, int> >::~CUtlVectorBase()
@@ -4258,6 +4265,7 @@
  T SteamDatagramTransport::CSteamDatagramTransportClient::ReceivedPacketFromServer(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, int, unsigned long long)
  T SteamDatagramTransport::CSteamDatagramTransportClient::RecvDatagram(void*, unsigned int, int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::RecvStats(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, CMsgSteamDatagramConnectionStatsRouterToClient&, unsigned long long)
+ T SteamDatagramTransport::CSteamDatagramTransportClient::RemoveServer(int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::RestartPingMeasurement()
  T SteamDatagramTransport::CSteamDatagramTransportClient::SendDatagram(void const*, unsigned int, int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::SendPing(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, unsigned long long, bool)
