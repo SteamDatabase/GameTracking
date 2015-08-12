@@ -4,6 +4,8 @@ option cc_generic_services = false;
 message CVRMsg_Connect {
 	optional string hmd_interface_version = 1;
 	optional uint32 pid = 2;
+	optional string binary_path = 3;
+	optional uint32 application_type = 4;
 }
 
 message CVRMsg_ConnectResponse {
@@ -216,5 +218,88 @@ message CVRMsg_SetMasterProcess {
 }
 
 message CVRMsg_SetMasterProcessResponse {
+}
+
+message CVRMsg_GetApplicationInfo {
+	optional string app_key = 1;
+}
+
+message CVRMsg_ApplicationInfo_Manifest {
+	optional string app_key = 1;
+	optional string name = 2;
+	optional string launch_type = 3;
+	optional string binary_path = 4;
+	optional string working_directory = 5;
+	optional string arguments = 6;
+	optional string url = 7;
+	optional string description = 8;
+	optional string news_url = 9;
+	optional string image_path = 10;
+	optional bool is_dashboard_overlay = 11;
+	optional string manifest_path = 12;
+	optional string source = 13;
+}
+
+message CVRMsg_ApplicationInfo_Options {
+	optional bool is_autolaunch = 1;
+}
+
+message CVRMsg_ApplicationInfo {
+	optional uint32 result = 1;
+	optional .CVRMsg_ApplicationInfo_Manifest manifest = 2;
+	optional .CVRMsg_ApplicationInfo_Options options = 3;
+	optional uint32 data_revision = 4;
+}
+
+message CVRMsg_ApplicationManifestRequest {
+	optional string manifest_path = 1;
+	optional bool temporary = 2;
+}
+
+message CVRMsg_ApplicationManifestResponse {
+	optional uint32 result = 1;
+}
+
+message CVRMsg_LaunchApplication {
+	optional string app_key = 1;
+	optional bool dashboard_overlay = 2;
+}
+
+message CVRMsg_LaunchApplicationResponse {
+	optional uint32 result = 1;
+}
+
+message CVRMsg_SetApplicationOptions {
+	optional string app_key = 1;
+	optional .CVRMsg_ApplicationInfo_Options options = 2;
+}
+
+message CVRMsg_SetApplicationOptionsResponse {
+	optional uint32 result = 1;
+}
+
+message CVRMsg_SetHomeApplication {
+	optional string app_key = 1;
+}
+
+message CVRMsg_SetHomeApplicationResponse {
+	optional uint32 result = 1;
+}
+
+message CVRMsg_SetApplicationProcessId {
+	optional string app_key = 1;
+	optional uint32 processid = 2;
+}
+
+message CVRMsg_SetApplicationProcessIdResponse {
+	optional uint32 result = 1;
+}
+
+message CVRMsg_SetNotificationImage {
+	optional uint32 notification_id = 1;
+}
+
+message CVRMsg_SetNotificationImageResponse {
+	optional bool result = 1;
 }
 
