@@ -15,9 +15,9 @@ model:CreateSequence(
 		fadeInTime = 0,
 		fadeOutTime = 0,
 		fps = 30,
-		framerangesequence = "green_jade_dragon_anim_turnposecenter.dmx",
+		framerangesequence = "green_jade_dragon_anim_center_pose.dmx",
 		cmds = {
-			{ cmd = "sequence", sequence = "green_jade_dragon_anim_turnposecenter.dmx", dst = 1 },
+			{ cmd = "sequence", sequence = "green_jade_dragon_anim_center_pose.dmx", dst = 1 },
 			{ cmd = "fetchframe", sequence = "center_pose", frame = 0, dst = 2 },
 			{ cmd = "subtract", dst = 1, src = 2 },
 			{ cmd = "slerp", dst = 0, src = 1 }
@@ -32,9 +32,9 @@ model:CreateSequence(
 		fadeInTime = 0,
 		fadeOutTime = 0,
 		fps = 30,
-		framerangesequence = "green_jade_dragon_anim_turnposeleft.dmx",
+		framerangesequence = "green_jade_dragon_anim_left_pose.dmx",
 		cmds = {
-			{ cmd = "sequence", sequence = "green_jade_dragon_anim_turnposeleft.dmx", dst = 1 },
+			{ cmd = "sequence", sequence = "green_jade_dragon_anim_left_pose.dmx", dst = 1 },
 			{ cmd = "fetchframe", sequence = "center_pose", frame = 0, dst = 2 },
 			{ cmd = "subtract", dst = 1, src = 2 },
 			{ cmd = "slerp", dst = 0, src = 1 }
@@ -49,9 +49,9 @@ model:CreateSequence(
 		fadeInTime = 0,
 		fadeOutTime = 0,
 		fps = 30,
-		framerangesequence = "green_jade_dragon_anim_turnposeright.dmx",
+		framerangesequence = "green_jade_dragon_anim_right_pose.dmx",
 		cmds = {
-			{ cmd = "sequence", sequence = "green_jade_dragon_anim_turnposeright.dmx", dst = 1 },
+			{ cmd = "sequence", sequence = "green_jade_dragon_anim_right_pose.dmx", dst = 1 },
 			{ cmd = "fetchframe", sequence = "center_pose", frame = 0, dst = 2 },
 			{ cmd = "subtract", dst = 1, src = 2 },
 			{ cmd = "slerp", dst = 0, src = 1 }

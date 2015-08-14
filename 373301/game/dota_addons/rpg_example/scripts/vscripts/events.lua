@@ -10,7 +10,9 @@ function CRPGExample:OnGameRulesStateChange()
 		print( "OnGameRulesStateChange: Custom Game Setup" )
 		GameRules:SetTimeOfDay( 0.25 )
 		SendToServerConsole( "dota_daynightcycle_pause 1" )
-
+		for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS do
+			PlayerResource:SetCustomTeamAssignment( nPlayerID, 2 ) -- put each player on Radiant team
+		end
 	elseif nNewState == DOTA_GAMERULES_STATE_HERO_SELECTION then
 		print( "OnGameRulesStateChange: Hero Selection" )
 		self:SpawnCreatures()

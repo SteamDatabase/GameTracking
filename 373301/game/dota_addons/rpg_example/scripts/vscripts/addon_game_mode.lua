@@ -86,7 +86,6 @@ function CRPGExample:InitGameMode()
 	self._tPlayerHeroInitStatus = {}	
 
 	for nPlayerID = 0, DOTA_MAX_PLAYERS do
-		PlayerResource:SetCustomTeamAssignment( nPlayerID, 2 ) -- put each player on Radiant team
 		self._tPlayerHeroInitStatus[ nPlayerID ] = false
 	end
 
