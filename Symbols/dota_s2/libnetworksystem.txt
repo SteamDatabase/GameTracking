@@ -117,8 +117,10 @@
  B INT_VECTOR3_ORIGIN
  B LOG_NETWORKING
  B LOG_NETWORKING_RELIABLE
+ B LOG_NETWORKING_SPLITPACKET
  B LOG_STEAMDATAGRAM_SERVER
  B LOG_VSCRIPT
+ B LOG_VSCRIPT_DBG
  B NetMessageConnectionClosed::default_instance_
  B NetMessageConnectionCrashed::default_instance_
  B NetMessagePacketEnd::default_instance_
@@ -149,6 +151,7 @@
  B g_VBAllocTracker
  B g_bDTIEnabled
  B g_bUpdateStringTokenDatabase
+ B g_fieldMetadataPacker
  B g_fieldPathPacker
  B g_nLinkerHack_SchemaAnchor_RegistrationCountFor_networksystem
  B g_nResourceFrameCount
@@ -323,10 +326,12 @@
  CThreadEvent::CThreadEvent(bool)
  CThreadEvent::Set()
  CThreadFastMutex::Lock(unsigned long long, unsigned int) volatile
+ CThreadMultiWaitEvent::Set()
  CThreadRWLock::LockForWrite()
  CThreadRWLock::UnlockWrite()
  CThreadRWLock::WaitForRead()
  CThreadRWLock_FastRead::CThreadRWLock_FastRead()
+ CThreadRWLock_FastRead::HandleFirstWriteLockTransition()
  CThreadRWLock_FastRead::UnlockRead_LockForWrite()
  CThreadRWLock_FastRead::WaitForReadLockTransition(int)
  CThreadSemaphore::Release(int, int*)
@@ -361,6 +366,7 @@
  D CAtomicManipulator<matrix3x4a_t>::Get()::val
  D CFieldPathHuffmanEncoder::s_FieldOps
  D CFmtStrN<256, false>::CFmtStrN(char const*, ...)::scAsserted
+ D CFmtStrN<256, false>::Format(char const*, ...)::scAsserted
  D CNetMessagePB<-1, NetMessageConnectionClosed, (SignonGroup_t)11, (NetChannelBufType_t)1, false>::CProtobufBinding::s_typeName
  D CNetMessagePB<-1, NetMessageConnectionClosed, (SignonGroup_t)11, (NetChannelBufType_t)1, false>::s_ProtobufBinding
  D CNetMessagePB<-1, NetMessageConnectionCrashed, (SignonGroup_t)11, (NetChannelBufType_t)1, false>::CProtobufBinding::s_typeName
@@ -408,8 +414,11 @@
  D NetMessageHandle_t__* INetworkMessages::FindOrCreateNetMessage<NetMessagePacketStart_t>(INetworkSerializerBindingBuildFilter*, bool, bool)::nMessageHandle
  D NetMessageHandle_t__* INetworkMessages::FindOrCreateNetMessage<NetMessageSplitscreenUserChanged_t>(INetworkSerializerBindingBuildFilter*, bool, bool)::nMessageHandle
  D g_HuffmanEncoder
+ D g_NSPacketReasons
+ D g_PacketFlowNames
  D g_nCPUSIMDLevel
  D g_nSteamDatagramSocketBufferSize
+ D g_pFieldMetadataPacker
  D g_pFieldPathPacker
  D g_pFlattenedSerializersInternal
  D g_pNetworkEncodingStats
@@ -431,7 +440,9 @@
  D int CUtlSortVector<int, CNetworkMessages::CPriorityLess, CUtlVector<int, CUtlMemory<int, int> > >::Find<int>(int const&) const::_assertionStatics
  D int CUtlSortVector<int, CNetworkMessages::CPriorityLess, CUtlVector<int, CUtlMemory<int, int> > >::FindLessOrEqual<int>(int const&, bool*) const::_assertionConstants
  D int CUtlSortVector<int, CNetworkMessages::CPriorityLess, CUtlVector<int, CUtlMemory<int, int> > >::FindLessOrEqual<int>(int const&, bool*) const::_assertionStatics
+ D tokenset_t<NSPacketReason_t>::GetNameByToken(NSPacketReason_t) const::unknown
  D tokenset_t<NetworkOverrideType_t>::GetNameByToken(NetworkOverrideType_t) const::unknown
+ D tokenset_t<PacketFlow_t>::GetNameByToken(PacketFlow_t) const::unknown
  D tokenset_t<SchemaAtomicCategory_t>::GetNameByToken(SchemaAtomicCategory_t) const::unknown
  D tokenset_t<SchemaBuiltinType_t>::GetNameByToken(SchemaBuiltinType_t) const::unknown
  D tokenset_t<SchemaTypeCategory_t>::GetNameByToken(SchemaTypeCategory_t) const::unknown
@@ -903,7 +914,9 @@
  Plat_IsInDebugSession
  Plat_IsInTestMode
  Plat_MSTime
+ Plat_RelativeTicks
  Plat_ShouldCollectMiniDumpsForFatalErrors
+ Plat_TickDiffMilliSecF
  Plat_USTime
  Plat_getwd
  R CFieldPathPacker::s_nDepthMask
@@ -1179,6 +1192,7 @@
  T AngleNormalize(float)
  T AngleQuaternion(QAngle const&, Quaternion&)
  T AppIsDedicatedServer()
+ T BinaryProperties_GetValue
  T BuildGammaTable(float, float, float, int)
  T BuildVerboseSpew(int, int, int, CFieldPath const&, void const*)
  T CAtomicManipulator<CTransform>::Allocate()
@@ -1531,6 +1545,7 @@
  T CDefOps<CSchemaClassInfo const*>::LessFunc(CSchemaClassInfo const* const&, CSchemaClassInfo const* const&)
  T CDefOps<CSchemaType const*>::LessFunc(CSchemaType const* const&, CSchemaType const* const&)
  T CDefOps<FlattenedSerializerHandle_t__*>::LessFunc(FlattenedSerializerHandle_t__* const&, FlattenedSerializerHandle_t__* const&)
+ T CDefOps<NSPacketReason_t>::LessFunc(NSPacketReason_t const&, NSPacketReason_t const&)
  T CDefOps<NetworkFieldSerializerInfo_t const*>::LessFunc(NetworkFieldSerializerInfo_t const* const&, NetworkFieldSerializerInfo_t const* const&)
  T CDefOps<int>::LessFunc(int const&, int const&)
  T CDefOps<netadr_t>::LessFunc(netadr_t const&, netadr_t const&)
@@ -1563,8 +1578,16 @@
  T CExpressionEvaluator::CExpressionEvaluator()
  T CExpressionEvaluator::FreeTree(ExprNode*&)
  T CExpressionEvaluator::~CExpressionEvaluator()
+ T CFakeFieldSchemaInstantiator::Add(char const*)
+ T CFakeFieldSchemaInstantiator::~CFakeFieldSchemaInstantiator()
  T CFieldListEncoderIterator::SeekToFieldAndEncode(int, CFieldPath const&, CSerializedEntity*, bool&, int, int, bf_write*, int)
  T CFieldListEncoderIterator::~CFieldListEncoderIterator()
+ T CFieldMetadataPacker::AddFieldMetadata(int&, unsigned int, int)
+ T CFieldMetadataPacker::CFieldMetadataPacker()
+ T CFieldMetadataPacker::Element(int)
+ T CFieldMetadataPacker::FreeFieldMetadataList(int)
+ T CFieldMetadataPacker::Next(int)
+ T CFieldMetadataPacker::~CFieldMetadataPacker()
  T CFieldPath::ToString() const
  T CFieldPathHuffmanEncoder::BuildFixedTree()
  T CFieldPathHuffmanEncoder::BuildFixedTree_R(CFieldPathHuffmanEncoder::INode const*)
@@ -1617,8 +1640,8 @@
  T CFlattenedSerializer::DecodeSimpleField(void*, bool, int, NetworkSerializationMode_t, NetworkUnserializerInfo_t&, bf_read*, int*, NetworkFieldSerializerInfo_t const&, CFieldPath const*, int, int, CBitVec<32>&, CNetworkFieldChangedEventQueue*, bool, int, CAutoNetworkableData_t<2048ul>&, int)
  T CFlattenedSerializer::DeleteSendNodes_R(CSendNode*)
  T CFlattenedSerializer::Encode(FlattenedSerializerSpewType_t, CSerializedEntity*, void const*, int, NetworkSerializationMode_t, CSendProxyDataList*, INetworkProceduralDataHelper*, void*)
- T CFlattenedSerializer::EncodeField(bool, CFieldPath&, CEncodeInfo*, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short>*, CUtlVector<unsigned int, CUtlMemory<unsigned int, int> >*, unsigned long, int, NetworkSerializationMode_t, CAutoNetworkableData_t<2048ul>&, INetworkProceduralDataHelper*, void*)
- T CFlattenedSerializer::Encode_R(bool, CFieldPath&, CSerializedEntity*, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short>*, CUtlVector<unsigned int, CUtlMemory<unsigned int, int> >*, bf_write*, void const*, void const*, int, NetworkSerializationMode_t, CSendProxyDataList*, CAutoNetworkableData_t<2048ul>&, INetworkProceduralDataHelper*, void*)
+ T CFlattenedSerializer::EncodeField(bool, CFieldPath&, CEncodeInfo*, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short>*, CUtlVector<unsigned int, CUtlMemory<unsigned int, int> >*, unsigned long, int, NetworkSerializationMode_t, CAutoNetworkableData_t<2048ul>&, INetworkProceduralDataHelper*, void*, int*)
+ T CFlattenedSerializer::Encode_R(bool, CFieldPath&, CSerializedEntity*, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short>*, CUtlVector<unsigned int, CUtlMemory<unsigned int, int> >*, bf_write*, void const*, void const*, int, NetworkSerializationMode_t, CSendProxyDataList*, CAutoNetworkableData_t<2048ul>&, INetworkProceduralDataHelper*, void*, int*)
  T CFlattenedSerializer::EnsureChainsToIncludedFieldsAreAlsoIncluded_R(int)
  T CFlattenedSerializer::FillPathEntries_R(CSendNode*, CSendNode*, int&)
  T CFlattenedSerializer::Finalize_R(int, bool)
@@ -1638,6 +1661,7 @@
  T CFlattenedSerializer::GetFieldPrioritiesToPath(CFieldPath const&, CUtlVector<unsigned char, CUtlMemory<unsigned char, int> >&) const
  T CFlattenedSerializer::GetFieldUserGroup(CFieldPath const&, NetworkSerializationMode_t) const
  T CFlattenedSerializer::GetFullFieldName(CFieldPath const&, bool) const
+ T CFlattenedSerializer::InitFakeField(NetworkFieldSerializerInfo_t*, ProtoFlattenedSerializerField_t const&, char const*, char const*, char const*)
  T CFlattenedSerializer::Init_R(int, BuildFlattenedSerializerInfo_t const&, bool, bool)
  T CFlattenedSerializer::IsEqualSerializer(CFlattenedSerializer const*) const
  T CFlattenedSerializer::IsFieldIncluded(NetworkFieldSerializerInfo_t const*) const
@@ -1649,7 +1673,7 @@
  T CFlattenedSerializer::MarkFieldsByFieldName_R(int, char const*, bool, char*, int, int)
  T CFlattenedSerializer::MarkFieldsByUserGroup_R(int, char const*, bool, char*, int, int)
  T CFlattenedSerializer::MatchToSerializer(FlattenedSerializerSpewType_t, CFlattenedSerializer const*)
- T CFlattenedSerializer::MatchToSerializerByMeta(FlattenedSerializerSpewType_t, CServerSerializerMeta const*, ProtoFlattenedSerializer_t const*)
+ T CFlattenedSerializer::MatchToSerializerByMeta(FlattenedSerializerSpewType_t, CServerSerializerMeta const*, ProtoFlattenedSerializer_t const*, bool)
  T CFlattenedSerializer::MaybeWriteFlattenedSerializers_R(CSVCMsg_FlattenedSerializer*, char const*, CUtlStringMap<bool, CUtlSymbolTable>&, CUniqueFieldsLookup&) const
  T CFlattenedSerializer::MergeDeltas(FlattenedSerializerSpewType_t, CSerializedEntity*, CSerializedEntity*, CSerializedEntity*, int, NetworkSerializationMode_t, INetworkProceduralDataHelper*, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short>*)
  T CFlattenedSerializer::OffsetToFieldIndexHashtable_t::operator==(CFlattenedSerializer::OffsetToFieldIndexHashtable_t const&) const
@@ -1663,6 +1687,7 @@
  T CFlattenedSerializer::RebuildFieldRunsUserGroup_R(CFlattenedSerializer::UserGroupProxy_t&, CFieldPath&, CFieldPathList&)
  T CFlattenedSerializer::RebuildFieldUserGroups()
  T CFlattenedSerializer::RebuildSendProxyRecipientFilterFields()
+ T CFlattenedSerializer::RemoveFakeFields()
  T CFlattenedSerializer::RemoveFinalOffsetsFromIgnoreList_R(int)
  T CFlattenedSerializer::ResolveChangeByOffset(CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short> const&, VarChangeInfo_t*, CFieldPath&)
  T CFlattenedSerializer::ResolveChanges(CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short> const&, VarChangeInfo_t*, int, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short>&)
@@ -1682,21 +1707,21 @@
  T CFlattenedSerializers::AllocateSerializedEntity(FlattenedSerializerHandle_t__*)
  T CFlattenedSerializers::AssignChangeAccessorPathIds(FlattenedSerializerHandle_t__*, CSchemaClassBindingBase const*, ChangeAccessorFieldPathIndexInfo_t&, void*)
  T CFlattenedSerializers::BuildDeltaProperties(FlattenedSerializerHandle_t__*, void const*, int, NetworkSerializationMode_t, long long, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short> const&, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short>&, CSendProxyDataList*, bool&, bool&, INetworkProceduralDataHelper*, void*)
- T CFlattenedSerializers::BuildMergedSerializedEntity(int, void const*, long long, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short>&, bool, CUtlScratchMemoryPool*)
+ T CFlattenedSerializers::BuildMergedSerializedEntity(void const*, long long, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short>&, bool, CUtlScratchMemoryPool*)
  T CFlattenedSerializers::CFlattenedSerializers()
  T CFlattenedSerializers::CalcDelta(FlattenedSerializerHandle_t__*, long long, long long, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short>&, int, NetworkSerializationMode_t, INetworkProceduralDataHelper*, void*)
  T CFlattenedSerializers::CheckForDuplication(CFlattenedSerializer*)
  T CFlattenedSerializers::ClearSerializerInfos(SerializerServerInfoHandle_t__*)
  T CFlattenedSerializers::CompareSerializedEntities(long long, long long)
  T CFlattenedSerializers::CopySerializedEntity(long long, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short> const*)
- T CFlattenedSerializers::CreateSerializedEntityBlob(int, long long, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short> const*, CUtlScratchMemoryPool*) const
+ T CFlattenedSerializers::CreateSerializedEntityBlob(long long, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short> const*, CUtlScratchMemoryPool*) const
  T CFlattenedSerializers::CullFields(FlattenedSerializerHandle_t__*, CPlayerSlot, int, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short> const&, CSendProxyDataList const&, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short>&)
  T CFlattenedSerializers::Decode(FlattenedSerializerHandle_t__*, long long, void*, int, NetworkSerializationMode_t, CNetworkFieldChangedEventQueue*, bool, INetworkProceduralDataHelper*, void*)
  T CFlattenedSerializers::Encode(FlattenedSerializerHandle_t__*, long long, void const*, int, NetworkSerializationMode_t, CSendProxyDataList*, INetworkProceduralDataHelper*, void*)
  T CFlattenedSerializers::FindFieldPathByAddress(FlattenedSerializerHandle_t__*, void const*, void const*, bool*) const
  T CFlattenedSerializers::FindOrCreateCreateFlattenedSerializers(BuildFlattenedSerializerInfo_t*, int)
  T CFlattenedSerializers::FindOrCreateFlattenedSerializer_R(int, CFieldPath&, BuildFlattenedSerializerInfo_t&, bool)
- T CFlattenedSerializers::FreeSerializedEntityBlob(int, void*) const
+ T CFlattenedSerializers::FreeSerializedEntityBlob(void*) const
  T CFlattenedSerializers::GetFieldCount(FlattenedSerializerHandle_t__*) const
  T CFlattenedSerializers::GetFieldInfo(FlattenedSerializerHandle_t__*, int, DirectEncodeFieldInfo_t*) const
  T CFlattenedSerializers::GetFieldName(FlattenedSerializerHandle_t__*, CFieldPath const&, NetworkSerializationMode_t) const
@@ -1714,7 +1739,7 @@
  T CFlattenedSerializers::IsUnflattenedField(FlattenedSerializerHandle_t__*, char const*)
  T CFlattenedSerializers::LookupOffsetsToIgnoreForPath(FlattenedSerializerHandle_t__*, CFieldPath const&) const
  T CFlattenedSerializers::MakeSerializersMatch(FlattenedSerializerHandle_t__*, FlattenedSerializerHandle_t__*)
- T CFlattenedSerializers::MakeSerializersMatchByMeta(SerializerServerInfoHandle_t__*, char const*, FlattenedSerializerHandle_t__*)
+ T CFlattenedSerializers::MakeSerializersMatchByMeta(SerializerServerInfoHandle_t__*, char const*, FlattenedSerializerHandle_t__*, bool)
  T CFlattenedSerializers::MarkSerializerCounts(FlattenedSerializerHandle_t__*, int, int)
  T CFlattenedSerializers::MergeDeltas(FlattenedSerializerHandle_t__*, long long, long long, long long, int, NetworkSerializationMode_t, INetworkProceduralDataHelper*, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short>*)
  T CFlattenedSerializers::PackFieldPathSlow(CFieldPath const&)
@@ -1724,7 +1749,7 @@
  T CFlattenedSerializers::ReadSerializerInfos(CSVCMsg_FlattenedSerializer*)
  T CFlattenedSerializers::RegisterSerializer(char const*, CFlattenedSerializer*)
  T CFlattenedSerializers::ReleaseSerializedEntity(long long)
- T CFlattenedSerializers::ReleaseSerializedEntityBlobResources(int, void*) const
+ T CFlattenedSerializers::ReleaseSerializedEntityBlobResources(void*) const
  T CFlattenedSerializers::RemoveSpewListener(IFlattenedSerializerSpewListener*)
  T CFlattenedSerializers::ReplaceSerializedEntity(long long, long long)
  T CFlattenedSerializers::Report()
@@ -1742,6 +1767,7 @@
  T CFlattenedSerializers::WriteSerializerInfos(CUtlVector<SerializerMatchInfo_t, CUtlMemory<SerializerMatchInfo_t, int> > const&, CSVCMsg_FlattenedSerializer*)
  T CFlattenedSerializers::~CFlattenedSerializers()
  T CFmtStrN<256, false>::CFmtStrN(char const*, ...)
+ T CFmtStrN<256, false>::Format(char const*, ...)
  T CFmtStrN<256, false>::InitQuietTruncation()
  T CKeyValues_Data::Internal_ClearData()
  T CKeyValues_Data::Internal_GetString(char const*, char*, unsigned long)
@@ -2247,12 +2273,15 @@
  T CNetChan::AttachSplitPlayer(CSplitScreenSlot, INetChannel*)
  T CNetChan::CNetChan()
  T CNetChan::CanPacket() const
+ T CNetChan::CheckForPacketIssues(PacketFlow_t)
  T CNetChan::Clear()
- T CNetChan::DecrementQueuedPackets()
+ T CNetChan::ConnectionCrashed(ENetworkDisconnectionReason, int, char const*, ...)
+ T CNetChan::Describe() const
+ T CNetChan::DescribeSplitPacketMissingChunks(CUtlVector<short, CUtlMemory<short, int> >&) const
  T CNetChan::DetachSplitPlayer(CSplitScreenSlot)
  T CNetChan::FinishRegisteringMessageHandlers()
- T CNetChan::FlowNewPacket(int, int, int, int, int, int)
- T CNetChan::FlowUpdate(int, int)
+ T CNetChan::FlowNewPacket(PacketFlow_t, int, int, int, int, int)
+ T CNetChan::FlowUpdate(PacketFlow_t, int)
  T CNetChan::GenerateConnectionID(int*, unsigned long)
  T CNetChan::GetAddress() const
  T CNetChan::GetAvgChoke(int) const
@@ -2293,8 +2322,6 @@
  T CNetChan::HasPendingReliableData()
  T CNetChan::HasQueuedPackets() const
  T CNetChan::HasSendableData(double)
- T CNetChan::IncrementQueuedPackets()
- T CNetChan::IncrementSplitPacketSequence()
  T CNetChan::InsertReplayMessage(InstantReplayMessage_t&)
  T CNetChan::InstallMessageFilter(INetworkMessageProcessingPreFilter*)
  T CNetChan::IsLocalHost() const
@@ -2306,8 +2333,10 @@
  T CNetChan::IsTimedOut() const
  T CNetChan::IsTimingOut() const
  T CNetChan::IsValidPacket(int, int) const
+ T CNetChan::MarkPacketAttempt(PacketFlow_t, NSPacketReason_t, int, bool)
  T CNetChan::MaybeAppendBuffer(NetChannelBufType_t, bf_write&, CNetChan::SplitPlayer_t&, bf_write&, CSplitScreenSlot*)
  T CNetChan::MergeSplitUserBuffers(NetChannelBufType_t, bf_write&)
+ T CNetChan::NetFlow_t::NetFlow_t()
  T CNetChan::OnNetMessageDisconnect(CNETMsg_Disconnect_t const&)
  T CNetChan::OnNetMessageSplitscreenUser(CNETMsg_SplitScreenUser_t const&)
  T CNetChan::ParseMessages(bf_read&, NetChannelBufType_t)
@@ -2319,16 +2348,23 @@
  T CNetChan::ProcessPacket(NetPacket_t*, bool, bool)
  T CNetChan::ProcessPacket(bf_read&, bool)
  T CNetChan::ProcessPacketHeader(NetPacket_t*)
+ T CNetChan::ProcessSplitPacketAck(unsigned char, SplitPacket_t*, int)
  T CNetChan::QueueReliableSend(bf_write&)
  T CNetChan::ReadReliableData(bf_read&)
  T CNetChan::RegisterNetMessageHandlerAbstract(CUtlSlot*, CUtlAbstractDelegate const&, int, NetMessageHandle_t__*, int)
  T CNetChan::RemoteIsWaitingForAck() const
+ T CNetChan::RequestMissingIncomingSplitpacketChunks(float)
+ T CNetChan::RequireAcksForSplitPacket(int, char const*, int, int, float)
+ T CNetChan::ResendSplitPacketChunks(CUtlVector<short, CUtlMemory<short, int> >&)
  T CNetChan::Reset()
  T CNetChan::ResetLatencyStats(int)
  T CNetChan::SendData(bf_write&, NetChannelBufType_t)
  T CNetChan::SendDatagram(bf_write*)
  T CNetChan::SendNetMessage(NetMessageHandle_t__*, void const*, NetChannelBufType_t)
  T CNetChan::SendReliableData(bf_write&)
+ T CNetChan::SendSplitPacket(char const*, int, int)
+ T CNetChan::SendSplitPacketAck(int)
+ T CNetChan::SendSplitPacketMissingChunkRange(int, CUtlVector<short, CUtlMemory<short, int> >&)
  T CNetChan::SetActiveChannel(INetChannel*)
  T CNetChan::SetChallengeNr(unsigned int)
  T CNetChan::SetChoked()
@@ -2351,12 +2387,14 @@
  T CNetChan::SetUsesMaxRoutablePayload(bool)
  T CNetChan::Setup(int, ns_address const&, char const*, unsigned int, unsigned int)
  T CNetChan::Shutdown(ENetworkDisconnectionReason)
+ T CNetChan::SplitPacketResender_t::SplitPacketResender_t()
  T CNetChan::SplitPlayer_t::Less(CNetChan::SplitPlayer_t const&, CNetChan::SplitPlayer_t const&)
  T CNetChan::StartRegisteringMessageHandlers()
  T CNetChan::Transmit(bool)
  T CNetChan::UninstallMessageFilter(INetworkMessageProcessingPreFilter*)
  T CNetChan::UnregisterNetMessageHandlerAbstract(CUtlSlot*, CUtlAbstractDelegate const&, NetMessageHandle_t__*)
  T CNetChan::UpdateMessageStats(int, unsigned int, bool)
+ T CNetChan::UpdateSplitPackets(float)
  T CNetChan::WasLastMessageReliable() const
  T CNetChan::~CNetChan()
  T CNetMessagePB<-1, NetMessageConnectionClosed, (SignonGroup_t)11, (NetChannelBufType_t)1, false>::CProtobufBinding::AllocateAndCopyConstructNetMessage(void const*) const
@@ -2687,6 +2725,7 @@
  T CNetworkSerializer::DetermineArrayFieldSerializer(FieldMetaInfo_t const&, char const*, NetworkFieldSerializerInfo_t*, NetworkSerializationMode_t)
  T CNetworkSerializer::DetermineFieldSerializerGroup(FieldMetaInfo_t const&, char const*, NetworkFieldSerializerInfo_t*)
  T CNetworkSerializer::FindFieldIndexByName(char const*) const
+ T CNetworkSerializer::FindNetworkEncoder(char const*, NetworkableDataType_t)
  T CNetworkSerializer::GetNetMessageInfo() const
  T CNetworkSerializer::GetUnscopedName() const
  T CNetworkSerializer::Init(CSchemaClassBindingBase const*, NetworkValidationMode_t, INetworkSerializerBindingBuildFilter*, bool)
@@ -2721,6 +2760,7 @@
  T CNetworkSystem::AddNetworkFileSendCompletedCallback(INetworkFileSendCompleted*)
  T CNetworkSystem::AddNetworkPacketFilterCallback(INetworkPacketFilter*)
  T CNetworkSystem::AddNetworkPrepareStartupParamsCallback(INetworkPrepareStartupParams*)
+ T CNetworkSystem::AddSplitPacketRecord(int, ns_address const&, bool, float, int, int)
  T CNetworkSystem::AddToLagged(CUtlLinkedList<NetPacket_t*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<NetPacket_t*, unsigned short>, unsigned short> >&, NetPacket_t*)
  T CNetworkSystem::BufferToBufferCompress(char*, unsigned int*, char const*, unsigned int)
  T CNetworkSystem::BufferToBufferDecompress(char*, unsigned int*, char const*, unsigned int)
@@ -2728,9 +2768,11 @@
  T CNetworkSystem::CNetworkSystem()
  T CNetworkSystem::CanRedownloadFile(char const*)
  T CNetworkSystem::ClearLoopbackBuffers()
+ T CNetworkSystem::ClearQueuedPacketsForChannel(INetChannel const*)
  T CNetworkSystem::CloseAllSockets()
  T CNetworkSystem::CloseNetworkSocket(int, int)
  T CNetworkSystem::CloseSocket(int)
+ T CNetworkSystem::ComputeNumberOfSplitsForPacket(int, int) const
  T CNetworkSystem::Connect(void* (*)(char const*, int*))
  T CNetworkSystem::ConnectSocket(int, netadr_t const&)
  T CNetworkSystem::CreateNetChannel(int, CPeerToPeerAddress const&, char const*)
@@ -2739,22 +2781,23 @@
  T CNetworkSystem::DescribeSocket(int) const
  T CNetworkSystem::EnableLoopbackBetweenSockets(int, int)
  T CNetworkSystem::FindNetChannel(int, ns_address const&)
- T CNetworkSystem::FindOrCreateSplitPacketEntry(int, ns_address const&)
  T CNetworkSystem::FindSocket(CUtlStringToken const&)
+ T CNetworkSystem::FindSplitPacketEntry(int, ns_address const&, bool)
  T CNetworkSystem::FlushPeerToPeerChannels(int)
  T CNetworkSystem::ForceReopenSocket(int, int)
  T CNetworkSystem::GetDependencies()
  T CNetworkSystem::GetFakeLag() const
  T CNetworkSystem::GetLocalAddress()
  T CNetworkSystem::GetLocalAdr() const
- T CNetworkSystem::GetLong(int, NetPacket_t*)
  T CNetworkSystem::GetLoopPacket(NetPacket_t*)
  T CNetworkSystem::GetNetTime() const
  T CNetworkSystem::GetPacket(int, unsigned char*)
  T CNetworkSystem::GetPublicAdr() const
  T CNetworkSystem::GetScratchBuffer()
+ T CNetworkSystem::GetSplitPacket(int, NetPacket_t*, int*)
  T CNetworkSystem::GetSteamDatagramClient()
  T CNetworkSystem::GetUDPPort(int)
+ T CNetworkSystem::HasQeueuedPackets(INetChannel const*) const
  T CNetworkSystem::Init()
  T CNetworkSystem::InitGameServer()
  T CNetworkSystem::InitPeerToPeerNetworking(IPeerToPeerCallbacks*)
@@ -2783,7 +2826,7 @@
  T CNetworkSystem::ProcessSocketMessages(int)
  T CNetworkSystem::PutScratchBuffer(NetScratchBuffer_t*)
  T CNetworkSystem::QueryInterface(char const*)
- T CNetworkSystem::QueuePacketForSend(CNetChan*, bool, char const*, int, ns_address const&, unsigned int)
+ T CNetworkSystem::QueuePacketForSend(CNetChan*, int, bool, char const*, int, ns_address const&, unsigned int)
  T CNetworkSystem::ReceiveDatagram(int, NetPacket_t*)
  T CNetworkSystem::ReceivedSteamDatagramTicket(CMsgSteamDatagramGameServerAuthTicket const&)
  T CNetworkSystem::RemoveAllExtraSockets()
@@ -2796,10 +2839,10 @@
  T CNetworkSystem::RemoveNetworkPacketFilterCallback(INetworkPacketFilter*)
  T CNetworkSystem::RemoveNetworkPrepareStartupParamsCallback(INetworkPrepareStartupParams*)
  T CNetworkSystem::RunFrame(double)
- T CNetworkSystem::SendLong(CNetChan*, int, ns_address const&, char const*, int, int)
  T CNetworkSystem::SendLoopPacket(int, int, unsigned char const*, ns_address const&)
  T CNetworkSystem::SendPacket(INetChannel*, int, ns_address const&, unsigned char const*, int, bf_write*, bool, unsigned int)
  T CNetworkSystem::SendQueuedPackets()
+ T CNetworkSystem::SendSplitPacket(CNetChan*, bool, int, int, ns_address const&, char const*, int, int, float)
  T CNetworkSystem::SendToNsAddress(ns_address const&, NetSocket_t&, void const*, int, int)
  T CNetworkSystem::SetDefaultBroadcastPort(int)
  T CNetworkSystem::SetRemoteSteamChannel(int, int)
@@ -2817,6 +2860,7 @@
  T CNetworkSystem::TerminatePeerToPeerSockets(int)
  T CNetworkSystem::UnpackDatagram(int, NetPacket_t*)
  T CNetworkSystem::UpdateNetGraph(float)
+ T CNetworkSystem::UpdateSplitPackets()
  T CNetworkSystem::~CNetworkSystem()
  T CNetworkSystemUtils::GetDependencies()
  T CNetworkSystemUtils::Init()
@@ -2835,10 +2879,10 @@
  T CProtobufLogHandler::~CProtobufLogHandler()
  T CQueuedPacketSender::CQueuedPacket::LessFunc(CQueuedPacketSender::CQueuedPacket* const&, CQueuedPacketSender::CQueuedPacket* const&)
  T CQueuedPacketSender::CQueuedPacketSender()
- T CQueuedPacketSender::ClearQueuedPacketsForChannel(INetChannel*)
- T CQueuedPacketSender::HasQueuedPackets(INetChannel const*) const
+ T CQueuedPacketSender::ClearQueuedPacketsForChannel(void const*)
+ T CQueuedPacketSender::HasQueuedPackets(void const*) const
  T CQueuedPacketSender::IsRunning()
- T CQueuedPacketSender::QueuePacket(INetChannel*, int, char const*, int, ns_address const&, ISteamNetworking*, ISteamDatagramTransportClient*, ISteamDatagramTransportGameserver*, unsigned int)
+ T CQueuedPacketSender::QueuePacket(void const*, int, char const*, int, ns_address const&, ISteamNetworking*, ISteamDatagramTransportClient*, ISteamDatagramTransportGameserver*, unsigned int)
  T CQueuedPacketSender::Run()
  T CQueuedPacketSender::Setup()
  T CQueuedPacketSender::Shutdown()
@@ -3343,7 +3387,7 @@
  T CSendSerializerStack::CallUserGroupProxies(CFieldPath const&, CFlattenedSerializer*, void*)
  T CSendSerializerStack::Init()
  T CSendSerializerStack::IsFieldProxyValid(int) const
- T CSerializedEntity::AddFieldMetadata(int, int)
+ T CSerializedEntity::AddFieldMetadata(unsigned int, int)
  T CSerializedEntity::CSerializedEntity()
  T CSerializedEntity::Clear()
  T CSerializedEntity::Copy(CSerializedEntity const&, bool)
@@ -3420,6 +3464,8 @@
  T CUtlCStringConversion::FindConversion(char const*, int*)
  T CUtlCharConversion::FindConversion(char const*, int*)
  T CUtlDict<CFlattenedSerializer*, int>::Purge()
+ T CUtlDict<CSchemaClassField_Dynamic*, int>::Purge()
+ T CUtlDict<CSchemaClassField_Dynamic*, int>::PurgeAndDeleteElements()
  T CUtlDict<FieldMatch_t, int>::Purge()
  T CUtlHashtable<CSchemaClassInfo const*, empty_t, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t>::BumpEntry(unsigned int)
  T CUtlHashtable<CSchemaClassInfo const*, empty_t, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
@@ -3472,9 +3518,6 @@
  T CUtlLeanVectorImpl<CUtlLeanVectorFixedGrowableBase<unsigned int, (unsigned short)3, short>, unsigned int, short>::AddToTailGetPtr()
  T CUtlLinkedList<CUtlKeyValuePair<CFieldPath, empty_t>, unsigned int, false, unsigned int, CUtlMemory<UtlLinkedListElem_t<CUtlKeyValuePair<CFieldPath, empty_t>, unsigned int>, unsigned int> >::AllocInternal(bool)
  T CUtlLinkedList<NetPacket_t*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<NetPacket_t*, unsigned short>, unsigned short> >::AllocInternal(bool)
- T CUtlLinkedList<SendQueueItem_t, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<SendQueueItem_t, unsigned short>, unsigned short> >::AllocInternal(bool)
- T CUtlLinkedList<SendQueueItem_t, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<SendQueueItem_t, unsigned short>, unsigned short> >::Free(unsigned short)
- T CUtlLinkedList<SendQueueItem_t, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<SendQueueItem_t, unsigned short>, unsigned short> >::RemoveAll()
  T CUtlMap<CFieldPath, CDTIField, unsigned short, bool (*)(CFieldPath const&, CFieldPath const&)>::Find(CFieldPath const&) const
  T CUtlMap<CFieldPath, CDTIField, unsigned short, bool (*)(CFieldPath const&, CFieldPath const&)>::Insert(CFieldPath const&)
  T CUtlMap<CFieldPath, CDTIField, unsigned short, bool (*)(CFieldPath const&, CFieldPath const&)>::Node_t::Node_t(CUtlMap<CFieldPath, CDTIField, unsigned short, bool (*)(CFieldPath const&, CFieldPath const&)>::Node_t const&)
@@ -3530,6 +3573,7 @@
  T CUtlMemory<CUtlString, int>::Grow(int)
  T CUtlMemory<CUtlSymbolTable::StringPool_t*, int>::Grow(int)
  T CUtlMemory<CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048ul>::StringPool_t*, int>::Grow(int)
+ T CUtlMemory<CUtlSymbolTableLargeBase<CThreadsafeTree<false>, false, 2048ul>::StringPool_t*, int>::Grow(int)
  T CUtlMemory<CUtlSymbolTableLargeBase<CThreadsafeTree<true>, true, 2048ul>::StringPool_t*, int>::Grow(int)
  T CUtlMemory<CUtlVector<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CUtlMemory<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, int> >, int>::Grow(int)
  T CUtlMemory<ConCommand::CallbackInfo_t, int>::Grow(int)
@@ -3553,7 +3597,7 @@
  T CUtlMemory<NetworkUserGroupProxyInfo_t**, int>::Grow(int)
  T CUtlMemory<NetworkVarDecl_t*, int>::Grow(int)
  T CUtlMemory<OffsetIgnore_t const*, int>::Grow(int)
- T CUtlMemory<SerializedEntityMetadata_t, int>::Grow(int)
+ T CUtlMemory<SendQueueItem_t*, int>::Grow(int)
  T CUtlMemory<SerializerUniqueField_t, int>::Grow(int)
  T CUtlMemory<ServerWithSessionSort, int>::Grow(int)
  T CUtlMemory<SteamDatagramTransport::CDatagramQueue::Channel, int>::Grow(int)
@@ -3566,7 +3610,6 @@
  T CUtlMemory<SteamDatagramTransport::SteamDatagramNetwork::RouterCluster, int>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<CUtlKeyValuePair<CFieldPath, empty_t>, unsigned int>, unsigned int>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<NetPacket_t*, unsigned short>, unsigned short>::Grow(int)
- T CUtlMemory<UtlLinkedListElem_t<SendQueueItem_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CBucketTree::Spew(char const*)::s_t, int>, int>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CNetChan::SplitPlayer_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CProceduralDataContextMgr::Entry_t, unsigned short>, unsigned short>::Grow(int)
@@ -3577,7 +3620,9 @@
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSchemaType const*, NetworkFieldSerializerGroup_t*, unsigned short, bool (*)(CSchemaType const* const&, CSchemaType const* const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<FlattenedSerializerHandle_t__*, CDTISerializerInfo*, unsigned short, bool (*)(FlattenedSerializerHandle_t__* const&, FlattenedSerializerHandle_t__* const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<IProtobufBinding const*, CCopyableUtlVector<CEventDispatcher_Base::EventListenerInfo_t>, unsigned int, bool (*)(IProtobufBinding const* const&, IProtobufBinding const* const&)>::Node_t, unsigned int>, unsigned int>::Grow(int)
+ T CUtlMemory<UtlRBTreeNode_t<CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int>::Grow(int)
+ T CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, INetworkMessageInternal*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, int, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
@@ -3598,6 +3643,8 @@
  T CUtlMemory<char, int>::Grow(int)
  T CUtlMemory<int, int>::Grow(int)
  T CUtlMemory<order_t, int>::Grow(int)
+ T CUtlMemory<pollfd, int>::Grow(int)
+ T CUtlMemory<short, int>::Grow(int)
  T CUtlMemory<unsigned char, int>::Grow(int)
  T CUtlMemory<unsigned int, int>::Grow(int)
  T CUtlMemory<unsigned short, int>::Grow(int)
@@ -3612,6 +3659,8 @@
  T CUtlMemoryPoolMT<CSerializedEntity>::Alloc()
  T CUtlMemoryPoolMT<CSerializedEntity>::Clear()
  T CUtlMemoryPoolMT<CSerializedEntity>::Free(CSerializedEntity*)
+ T CUtlMemoryPoolMT<CUtlTSHashBase<CUtlSymbolTableLargeBaseTreeEntry_t*, 2048, CUtlSymbolTableLargeBaseTreeEntry_t*, CCThreadsafeTreeHashMethod<2048, CUtlSymbolTableLargeBaseTreeEntry_t*, false>, CThreadSpinRWLock>::HashFixedDataInternal_t<CUtlSymbolTableLargeBaseTreeEntry_t*> >::Alloc()
+ T CUtlMemoryPoolMT<CUtlTSHashBase<CUtlSymbolTableLargeBaseTreeEntry_t*, 2048, CUtlSymbolTableLargeBaseTreeEntry_t*, CCThreadsafeTreeHashMethod<2048, CUtlSymbolTableLargeBaseTreeEntry_t*, false>, CThreadSpinRWLock>::HashFixedDataInternal_t<CUtlSymbolTableLargeBaseTreeEntry_t*> >::Clear()
  T CUtlMemoryPoolMT<CUtlTSHashBase<CUtlSymbolTableLargeBaseTreeEntry_t*, 2048, CUtlSymbolTableLargeBaseTreeEntry_t*, CCThreadsafeTreeHashMethod<2048, CUtlSymbolTableLargeBaseTreeEntry_t*, true>, CThreadSpinRWLock>::HashFixedDataInternal_t<CUtlSymbolTableLargeBaseTreeEntry_t*> >::Alloc()
  T CUtlMemoryPoolMT<CUtlTSHashBase<NetworkFieldSerializerInfo_t const*, 4096, unsigned long long, CUtlTSHashPreHashedKeyMethod<unsigned long long>, CThreadSpinRWLock>::HashFixedDataInternal_t<NetworkFieldSerializerInfo_t const*> >::Alloc()
  T CUtlMemoryPoolMT<CUtlTSHashBase<NetworkFieldSerializerInfo_t const*, 4096, unsigned long long, CUtlTSHashPreHashedKeyMethod<unsigned long long>, CThreadSpinRWLock>::HashFixedDataInternal_t<NetworkFieldSerializerInfo_t const*> >::Clear()
@@ -3620,6 +3669,8 @@
  T CUtlNoEscConversion::FindConversion(char const*, int*)
  T CUtlPriorityQueue<CQueuedPacketSender::CQueuedPacket*, CDefUtlPriorityQueueLessFunc<CQueuedPacketSender::CQueuedPacket*>, CUtlMemory<CQueuedPacketSender::CQueuedPacket*, int>, CDefUtlPriorityQueueSetIndexFunc<CQueuedPacketSender::CQueuedPacket*> >::RemoveAtHead()
  T CUtlPriorityQueue<CQueuedPacketSender::CQueuedPacket*, CDefUtlPriorityQueueLessFunc<CQueuedPacketSender::CQueuedPacket*>, CUtlMemory<CQueuedPacketSender::CQueuedPacket*, int>, CDefUtlPriorityQueueSetIndexFunc<CQueuedPacketSender::CQueuedPacket*> >::RevaluateElement(int)
+ T CUtlPriorityQueue<SendQueueItem_t*, CDefUtlPriorityQueueLessFunc<SendQueueItem_t*>, CUtlMemory<SendQueueItem_t*, int>, CDefUtlPriorityQueueSetIndexFunc<SendQueueItem_t*> >::RemoveAtHead()
+ T CUtlPriorityQueue<SendQueueItem_t*, CDefUtlPriorityQueueLessFunc<SendQueueItem_t*>, CUtlMemory<SendQueueItem_t*, int>, CDefUtlPriorityQueueSetIndexFunc<SendQueueItem_t*> >::RevaluateElement(int)
  T CUtlRBTree<CBucketTree::Spew(char const*)::s_t, int, bool (*)(CBucketTree::Spew(char const*)::s_t const&, CBucketTree::Spew(char const*)::s_t const&), CUtlMemory<UtlRBTreeNode_t<CBucketTree::Spew(char const*)::s_t, int>, int> >::InsertAt(int, bool, CBucketTree::Spew(char const*)::s_t const*)
  T CUtlRBTree<CBucketTree::Spew(char const*)::s_t, int, bool (*)(CBucketTree::Spew(char const*)::s_t const&, CBucketTree::Spew(char const*)::s_t const&), CUtlMemory<UtlRBTreeNode_t<CBucketTree::Spew(char const*)::s_t, int>, int> >::InsertRebalance(int)
  T CUtlRBTree<CBucketTree::Spew(char const*)::s_t, int, bool (*)(CBucketTree::Spew(char const*)::s_t const&, CBucketTree::Spew(char const*)::s_t const&), CUtlMemory<UtlRBTreeNode_t<CBucketTree::Spew(char const*)::s_t, int>, int> >::RotateLeft(int)
@@ -3678,12 +3729,24 @@
  T CUtlRBTree<CUtlMap<IProtobufBinding const*, CCopyableUtlVector<CEventDispatcher_Base::EventListenerInfo_t>, unsigned int, bool (*)(IProtobufBinding const* const&, IProtobufBinding const* const&)>::Node_t, unsigned int, CUtlMap<IProtobufBinding const*, CCopyableUtlVector<CEventDispatcher_Base::EventListenerInfo_t>, unsigned int, bool (*)(IProtobufBinding const* const&, IProtobufBinding const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<IProtobufBinding const*, CCopyableUtlVector<CEventDispatcher_Base::EventListenerInfo_t>, unsigned int, bool (*)(IProtobufBinding const* const&, IProtobufBinding const* const&)>::Node_t, unsigned int>, unsigned int> >::RotateLeft(unsigned int)
  T CUtlRBTree<CUtlMap<IProtobufBinding const*, CCopyableUtlVector<CEventDispatcher_Base::EventListenerInfo_t>, unsigned int, bool (*)(IProtobufBinding const* const&, IProtobufBinding const* const&)>::Node_t, unsigned int, CUtlMap<IProtobufBinding const*, CCopyableUtlVector<CEventDispatcher_Base::EventListenerInfo_t>, unsigned int, bool (*)(IProtobufBinding const* const&, IProtobufBinding const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<IProtobufBinding const*, CCopyableUtlVector<CEventDispatcher_Base::EventListenerInfo_t>, unsigned int, bool (*)(IProtobufBinding const* const&, IProtobufBinding const* const&)>::Node_t, unsigned int>, unsigned int> >::RotateRight(unsigned int)
  T CUtlRBTree<CUtlMap<IProtobufBinding const*, CCopyableUtlVector<CEventDispatcher_Base::EventListenerInfo_t>, unsigned int, bool (*)(IProtobufBinding const* const&, IProtobufBinding const* const&)>::Node_t, unsigned int, CUtlMap<IProtobufBinding const*, CCopyableUtlVector<CEventDispatcher_Base::EventListenerInfo_t>, unsigned int, bool (*)(IProtobufBinding const* const&, IProtobufBinding const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<IProtobufBinding const*, CCopyableUtlVector<CEventDispatcher_Base::EventListenerInfo_t>, unsigned int, bool (*)(IProtobufBinding const* const&, IProtobufBinding const* const&)>::Node_t, unsigned int>, unsigned int> >::~CUtlRBTree()
+ T CUtlRBTree<CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t, unsigned short, CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t const&, ERBTreeInsertBehavior)
+ T CUtlRBTree<CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t, unsigned short, CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
+ T CUtlRBTree<CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t, unsigned short, CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t, unsigned short>, unsigned short> >::NewNode(CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t const*)
+ T CUtlRBTree<CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t, unsigned short, CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
+ T CUtlRBTree<CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t, unsigned short, CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
+ T CUtlRBTree<CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t, unsigned short, CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<NSPacketReason_t, int, unsigned short, bool (*)(NSPacketReason_t const&, NSPacketReason_t const&)>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
  T CUtlRBTree<CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::Insert(CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t const&, ERBTreeInsertBehavior)
  T CUtlRBTree<CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::InsertRebalance(int)
  T CUtlRBTree<CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::NewNode(CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t const*)
  T CUtlRBTree<CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::RotateLeft(int)
  T CUtlRBTree<CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::RotateRight(int)
  T CUtlRBTree<CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::~CUtlRBTree()
+ T CUtlRBTree<CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::Insert(CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t const&, ERBTreeInsertBehavior)
+ T CUtlRBTree<CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::InsertRebalance(int)
+ T CUtlRBTree<CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::NewNode(CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t const*)
+ T CUtlRBTree<CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::RotateLeft(int)
+ T CUtlRBTree<CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::RotateRight(int)
+ T CUtlRBTree<CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::~CUtlRBTree()
  T CUtlRBTree<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::Insert(CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t const&, ERBTreeInsertBehavior)
  T CUtlRBTree<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::InsertRebalance(int)
  T CUtlRBTree<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::NewNode(CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t const*)
@@ -3794,11 +3857,17 @@
  T CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048ul>::AddString(char const*, int)
  T CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048ul>::Find(char const*, int) const
  T CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048ul>::~CUtlSymbolTableLargeBase()
+ T CUtlSymbolTableLargeBase<CThreadsafeTree<false>, false, 2048ul>::AddString(char const*, int)
+ T CUtlSymbolTableLargeBase<CThreadsafeTree<false>, false, 2048ul>::Find(char const*, int) const
+ T CUtlSymbolTableLargeBase<CThreadsafeTree<false>, false, 2048ul>::~CUtlSymbolTableLargeBase()
  T CUtlSymbolTableLargeBase<CThreadsafeTree<true>, true, 2048ul>::AddString(char const*, int)
  T CUtlSymbolTableLargeBase<CThreadsafeTree<true>, true, 2048ul>::Find(char const*, int) const
  T CUtlSymbolTableMT::CUtlSymbolTableMT(int, int, bool)
  T CUtlSymbolTableMT::String(CUtlSymbol) const
  T CUtlSymbolTableMT::~CUtlSymbolTableMT()
+ T CUtlTSHashBase<CUtlSymbolTableLargeBaseTreeEntry_t*, 2048, CUtlSymbolTableLargeBaseTreeEntry_t*, CCThreadsafeTreeHashMethod<2048, CUtlSymbolTableLargeBaseTreeEntry_t*, false>, CThreadSpinRWLock>::Find(CUtlSymbolTableLargeBaseTreeEntry_t*) const
+ T CUtlTSHashBase<CUtlSymbolTableLargeBaseTreeEntry_t*, 2048, CUtlSymbolTableLargeBaseTreeEntry_t*, CCThreadsafeTreeHashMethod<2048, CUtlSymbolTableLargeBaseTreeEntry_t*, false>, CThreadSpinRWLock>::Insert(CUtlSymbolTableLargeBaseTreeEntry_t*, CUtlSymbolTableLargeBaseTreeEntry_t* const&, bool*)
+ T CUtlTSHashBase<CUtlSymbolTableLargeBaseTreeEntry_t*, 2048, CUtlSymbolTableLargeBaseTreeEntry_t*, CCThreadsafeTreeHashMethod<2048, CUtlSymbolTableLargeBaseTreeEntry_t*, false>, CThreadSpinRWLock>::RemoveAll()
  T CUtlTSHashBase<CUtlSymbolTableLargeBaseTreeEntry_t*, 2048, CUtlSymbolTableLargeBaseTreeEntry_t*, CCThreadsafeTreeHashMethod<2048, CUtlSymbolTableLargeBaseTreeEntry_t*, true>, CThreadSpinRWLock>::Find(CUtlSymbolTableLargeBaseTreeEntry_t*) const
  T CUtlTSHashBase<CUtlSymbolTableLargeBaseTreeEntry_t*, 2048, CUtlSymbolTableLargeBaseTreeEntry_t*, CCThreadsafeTreeHashMethod<2048, CUtlSymbolTableLargeBaseTreeEntry_t*, true>, CThreadSpinRWLock>::Insert(CUtlSymbolTableLargeBaseTreeEntry_t*, CUtlSymbolTableLargeBaseTreeEntry_t* const&, bool*)
  T CUtlTSHashBase<NetworkFieldSerializerInfo_t const*, 4096, unsigned long long, CUtlTSHashPreHashedKeyMethod<unsigned long long>, CThreadSpinRWLock>::Insert(unsigned long long, NetworkFieldSerializerInfo_t const* const&, bool*)
@@ -3834,6 +3903,7 @@
  T CUtlVectorBase<CSchemaInheritanceIterator::ClassToTraverse_t, CUtlMemoryFixedGrowable<CSchemaInheritanceIterator::ClassToTraverse_t, 8ul, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CSendNode*, CUtlMemory<CSendNode*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CSendProxyData, CUtlMemory<CSendProxyData, int> >::~CUtlVectorBase()
+ T CUtlVectorBase<CSplitPacketEntry, CUtlMemory<CSplitPacketEntry, int> >::AddToTail()
  T CUtlVectorBase<CSplitPacketEntry, CUtlMemory<CSplitPacketEntry, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CStackPair*, CUtlMemoryFixedGrowable<CStackPair*, 256ul, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CSteamID, CUtlMemoryFixedGrowable<CSteamID, 4ul, int> >::~CUtlVectorBase()
@@ -3844,6 +3914,7 @@
  T CUtlVectorBase<CUtlString, CUtlMemory<CUtlString, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CUtlSymbolTable::StringPool_t*, CUtlMemory<CUtlSymbolTable::StringPool_t*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048ul>::StringPool_t*, CUtlMemory<CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048ul>::StringPool_t*, int> >::~CUtlVectorBase()
+ T CUtlVectorBase<CUtlSymbolTableLargeBase<CThreadsafeTree<false>, false, 2048ul>::StringPool_t*, CUtlMemory<CUtlSymbolTableLargeBase<CThreadsafeTree<false>, false, 2048ul>::StringPool_t*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CUtlVector<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CUtlMemory<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, int> >, CUtlMemory<CUtlVector<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CUtlMemory<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, int> >, int> >::~CUtlVectorBase()
  T CUtlVectorBase<ConCommand::CallbackInfo_t, CUtlMemory<ConCommand::CallbackInfo_t, int> >::~CUtlVectorBase()
  T CUtlVectorBase<DatacenterGameserverSample, CUtlMemory<DatacenterGameserverSample, int> >::~CUtlVectorBase()
@@ -3866,7 +3937,7 @@
  T CUtlVectorBase<NetworkOverride_t*, CUtlMemory<NetworkOverride_t*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<NetworkUserGroupProxyInfo_t**, CUtlMemory<NetworkUserGroupProxyInfo_t**, int> >::~CUtlVectorBase()
  T CUtlVectorBase<NetworkVarDecl_t*, CUtlMemory<NetworkVarDecl_t*, int> >::~CUtlVectorBase()
- T CUtlVectorBase<SerializedEntityMetadata_t, CUtlMemory<SerializedEntityMetadata_t, int> >::~CUtlVectorBase()
+ T CUtlVectorBase<SendQueueItem_t*, CUtlMemory<SendQueueItem_t*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<SerializerUniqueField_t, CUtlMemory<SerializerUniqueField_t, int> >::~CUtlVectorBase()
  T CUtlVectorBase<ServerWithSessionSort, CUtlMemory<ServerWithSessionSort, int> >::~CUtlVectorBase()
  T CUtlVectorBase<SteamDatagramTransport::CDatagramQueue::Channel, CUtlMemory<SteamDatagramTransport::CDatagramQueue::Channel, int> >::~CUtlVectorBase()
@@ -3885,6 +3956,8 @@
  T CUtlVectorBase<int, CUtlMemory<int, int> >::~CUtlVectorBase()
  T CUtlVectorBase<int, CUtlMemoryFixedGrowable<int, 4ul, int> >::~CUtlVectorBase()
  T CUtlVectorBase<order_t, CUtlMemory<order_t, int> >::~CUtlVectorBase()
+ T CUtlVectorBase<pollfd, CUtlMemoryFixedGrowable<pollfd, 64ul, int> >::~CUtlVectorBase()
+ T CUtlVectorBase<short, CUtlMemory<short, int> >::~CUtlVectorBase()
  T CUtlVectorBase<unsigned char, CUtlMemory<unsigned char, int> >::~CUtlVectorBase()
  T CUtlVectorBase<unsigned int, CUtlMemory<unsigned int, int> >::~CUtlVectorBase()
  T CUtlVectorBase<unsigned short, CUtlMemory<unsigned short, int> >::~CUtlVectorBase()
@@ -4039,6 +4112,7 @@
  T FlattenedSerializerSpew_t::~FlattenedSerializerSpew_t()
  T GetNameOfModule()
  T GetNetInfoForSchemaType(CSchemaType const*)
+ T GetNetInfoForSchemaTypeByName(char const*)
  T GetNetworkGroupColor(char const*)
  T GetResourceManifestCount
  T GetResourceManifests
@@ -4210,6 +4284,7 @@
  T SchemaToNetMapOwner_t::SchemaToNetMapOwner_t()
  T SchemaToNetMapOwner_t::~SchemaToNetMapOwner_t()
  T SeedRandSIMD(unsigned int)
+ T SendQueueItem_t::LessFunc(SendQueueItem_t* const&, SendQueueItem_t* const&)
  T SendQueueItem_t::SendQueueItem_t()
  T SerializedNetAddress_t::ByteSize() const
  T SerializedNetAddress_t::Clear()
@@ -4362,6 +4437,7 @@
  T bf_read::ReadUBitVarInternal(int)
  T bf_read::ReadVarInt32()
  T bf_read::ReadVarInt64()
+ T bf_read::Reset()
  T bf_read::SetDebugName(char const*)
  T bf_read::SetOverflowFlag()
  T bf_read::StartReading(void const*, int, int, int)
@@ -4438,10 +4514,10 @@
  T non-virtual thunk to CMemberFunctor1<CParallelProcessorAbstract<CParallelProcessor<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CMemberFuncJobItemProcessor<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1> >*, void (CParallelProcessorAbstract<CParallelProcessor<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CMemberFuncJobItemProcessor<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1> >::*)(int), int, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>::~CMemberFunctor1()
  T non-virtual thunk to CNetworkEncodingStats::MessageData(unsigned int, unsigned short, unsigned int, unsigned char*)
  T non-virtual thunk to CNetworkSystem::MessageData(unsigned int, unsigned short, unsigned int, unsigned char*)
- T non-virtual thunk to CQueuedPacketSender::ClearQueuedPacketsForChannel(INetChannel*)
- T non-virtual thunk to CQueuedPacketSender::HasQueuedPackets(INetChannel const*) const
+ T non-virtual thunk to CQueuedPacketSender::ClearQueuedPacketsForChannel(void const*)
+ T non-virtual thunk to CQueuedPacketSender::HasQueuedPackets(void const*) const
  T non-virtual thunk to CQueuedPacketSender::IsRunning()
- T non-virtual thunk to CQueuedPacketSender::QueuePacket(INetChannel*, int, char const*, int, ns_address const&, ISteamNetworking*, ISteamDatagramTransportClient*, ISteamDatagramTransportGameserver*, unsigned int)
+ T non-virtual thunk to CQueuedPacketSender::QueuePacket(void const*, int, char const*, int, ns_address const&, ISteamNetworking*, ISteamDatagramTransportClient*, ISteamDatagramTransportGameserver*, unsigned int)
  T non-virtual thunk to CQueuedPacketSender::Setup()
  T non-virtual thunk to CQueuedPacketSender::Shutdown()
  T non-virtual thunk to ConVar::AddFlags(long long)
@@ -4868,6 +4944,7 @@
  b CNetworkMessages::ComputeOrderForPriority(int) const::_assertionStatics
  b CNetworkMessages::RegisterFieldChangeCallbackPriority(int)::_assertionStatics
  b CNetworkSystem::CreateSocket(int, int, int, int, int, char const*)::bInittedNetwork
+ b CNetworkSystem::GetSplitPacket(int, NetPacket_t*, int*)::s_nSplitPacketLossCounter
  b CNetworkSystem::PollSocket(int, IConnectionlessPacketHandler*)::__executeCount
  b CNetworkSystem::SetTime(double)::s_last_realtime
  b CNetworkSystem::UpdateNetGraph(float)::cl_cmdrate_var
@@ -4878,7 +4955,7 @@
  b CSteamID::Render() const::nBuf
  b CSteamID::Render() const::rgchBuf
  b ConVarRef::Init(char const*, bool)::bFirst
- b GetNetInfoForSchemaType(CSchemaType const*)::s_MapOwner
+ b GetSchemaToNetMapOwner()::s_MapOwner
  b INT_VECTOR2_ORIGIN
  b RegisterAtomicType_CNetworkedQuantizedFloat(ISchemaSystem*)::SID_AtomicMeta2_CNetworkedQuantizedFloat
  b RegisterAtomicType_CNetworkedQuantizedFloat(ISchemaSystem*)::s_AtomicTypeInfoCNetworkedQuantizedFloat
@@ -4906,6 +4983,7 @@
  b fakeloss
  b fp_trace_command
  b g_CleanupSymbolTable
+ b g_FakeFieldAndTypeNames
  b g_FieldSerializerPool
  b g_KVMutex
  b g_Mathlib_GammaToLinear
@@ -4923,7 +5001,7 @@
  b guard variable for CNetworkSystem::UpdateNetGraph(float)::cl_interp
  b guard variable for CNetworkSystem::UpdateNetGraph(float)::cl_interp_ratio
  b guard variable for CNetworkSystem::UpdateNetGraph(float)::cl_updaterate_var
- b guard variable for GetNetInfoForSchemaType(CSchemaType const*)::s_MapOwner
+ b guard variable for GetSchemaToNetMapOwner()::s_MapOwner
  b guard variable for RegisterAtomicType_CNetworkedQuantizedFloat(ISchemaSystem*)::SID_AtomicMeta2_CNetworkedQuantizedFloat
  b guard variable for RegisterAtomicType_CNetworkedQuantizedFloat(ISchemaSystem*)::s_AtomicTypeInfoCNetworkedQuantizedFloat
  b guard variable for RegisterAtomicType_CUtlSymbolLarge(ISchemaSystem*)::s_AtomicTypeInfoCUtlSymbolLarge
@@ -4947,6 +5025,7 @@
  b net_port_try
  b net_public_adr
  b net_qosinterval_spew
+ b net_qospacketloss_percentage_threshold
  b net_restrict_showmsg_socket
  b net_serializedentitymemory_command
  b net_showdrop
@@ -4958,7 +5037,12 @@
  b net_showsplits
  b net_spewcounts_command
  b net_spewserializer_command
+ b net_splitpacket_minimum_ack_rtt_msecs
+ b net_splitpacket_require_acks_threshold
+ b net_splitpacket_resend_time_msecs
+ b net_splitpacket_success_ack_count
  b net_splitrate
+ b net_splitspacket_warning_threshold
  b net_status_command
  b net_steamdatagramtransport_forceproxyaddr
  b net_usesocketsforloopback
@@ -4972,6 +5056,7 @@
  b protobuf_AddDesc_steamdatagram_5fmessages_2eproto()::already_here
  b s_EmptyConVar
  b s_ErrorNetMessageInfo
+ b s_FakeFieldSchema
  b s_FlattenedSerializers
  b s_NetworkMessages
  b s_NetworkSystem
@@ -5012,7 +5097,7 @@
  d CNetworkMessages::ComputeOrderForPriority(int) const::_assertionConstants
  d CNetworkMessages::RegisterFieldChangeCallbackPriority(int)::_assertionConstants
  d CNetworkSerializer::InitDataHelperField(NetworkFieldSerializerInfo_t*, CSchemaClassBindingBase const*, NetworkValidationMode_t, char const*, char const*)::m_nGenerated
- d CQueuedPacketSender::QueuePacket(INetChannel*, int, char const*, int, ns_address const&, ISteamNetworking*, ISteamDatagramTransportClient*, ISteamDatagramTransportGameserver*, unsigned int)::nWarnings
+ d CQueuedPacketSender::QueuePacket(void const*, int, char const*, int, ns_address const&, ISteamNetworking*, ISteamDatagramTransportClient*, ISteamDatagramTransportGameserver*, unsigned int)::nWarnings
  d RegisterAtomicType_CNetworkedQuantizedFloat(ISchemaSystem*)::SID_AtomicMeta2_CNetworkedQuantizedFloat0_MNetworkSerializeAs_Value
  d SteamDatagramTransport::CSteamDatagramTransportClient::SendPing(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, unsigned long long, bool)::pkt
  d g_AtomicCategories
@@ -5050,7 +5135,6 @@
  fseek
  ftell
  fwrite
- g_ClockSpeedMillisecondsMultiplier
  g_VProfCurrentProfile
  g_pMemAlloc
  g_pSteamClientGameServer
@@ -5202,7 +5286,6 @@
  recvfrom
  remove
  sched_yield
- select$DARWIN_EXTSN
  sendto
  setsockopt
  sin
@@ -5267,6 +5350,7 @@
  t _GLOBAL__sub_I_csteamdatagramclient.cpp
  t _GLOBAL__sub_I_csteamdatagramserver.cpp
  t _GLOBAL__sub_I_dt_instrumentation.cpp
+ t _GLOBAL__sub_I_fieldmetadatapacker.cpp
  t _GLOBAL__sub_I_fieldpath.cpp
  t _GLOBAL__sub_I_fieldpathpacker.cpp
  t _GLOBAL__sub_I_flattenedserializers.cpp
@@ -5299,22 +5383,22 @@
  t __CreateCNetworkMessagesINetworkMessages_interface()
  t __CreateCNetworkSystemINetworkSystem_interface()
  t __CreateCNetworkSystemUtilsINetworkSystemUtils_interface()
- t __cxx_global_var_init125
- t __cxx_global_var_init126
- t __cxx_global_var_init127
- t __cxx_global_var_init128
- t __cxx_global_var_init129
- t __cxx_global_var_init130
- t __cxx_global_var_init131
- t __cxx_global_var_init132
- t __cxx_global_var_init76
- t __cxx_global_var_init77
+ t __cxx_global_var_init176
+ t __cxx_global_var_init177
+ t __cxx_global_var_init178
+ t __cxx_global_var_init179
+ t __cxx_global_var_init180
+ t __cxx_global_var_init181
+ t __cxx_global_var_init182
+ t __cxx_global_var_init183
  t __cxx_global_var_init78
  t __cxx_global_var_init79
  t __cxx_global_var_init80
  t __cxx_global_var_init81
  t __cxx_global_var_init82
  t __cxx_global_var_init83
+ t __cxx_global_var_init84
+ t __cxx_global_var_init85
  t bool std::__1::__insertion_sort_incomplete<std::__1::__less<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort, SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort>&, SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*>(SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*, SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*, std::__1::__less<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort, SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort>&)
  t fp_trace(CCommandContext const&, CCommand const&)
  t global constructors keyed to a

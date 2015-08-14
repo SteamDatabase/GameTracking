@@ -354,6 +354,7 @@
  B LOG_VPROF
  B LOG_VR
  B LOG_VSCRIPT
+ B LOG_VSCRIPT_DBG
  B MaterialDrawDescriptor_t::s_pSchemaBinding
  B MaterialGroup_t::s_pSchemaBinding
  B ModelBoneFlexDriverControl_t::s_pSchemaBinding
@@ -911,6 +912,7 @@
  CThreadEvent::CThreadEvent(bool)
  CThreadEvent::Set()
  CThreadFastMutex::Lock(unsigned long long, unsigned int) volatile
+ CThreadMultiWaitEvent::Set()
  CThreadRWLock::LockForWrite()
  CThreadRWLock::UnlockWrite()
  CThreadRWLock::WaitForRead()
@@ -2917,6 +2919,7 @@
  D typeinfo for CNetworkServerSpawnGroup_WaitForAssetLoadPrerequisite
  D typeinfo for CNetworkServerSpawnGroup_WaitForChildSpawnGroups
  D typeinfo for CNetworkServerSpawnGroup_WaitForClients
+ D typeinfo for CNetworkServerSpawnGroup_WaitForManualCompletionPrerequisite
  D typeinfo for CNetworkService
  D typeinfo for CNetworkStringDict
  D typeinfo for CNetworkStringTable
@@ -4708,6 +4711,7 @@
  D vtable for CNetworkServerSpawnGroup_WaitForAssetLoadPrerequisite
  D vtable for CNetworkServerSpawnGroup_WaitForChildSpawnGroups
  D vtable for CNetworkServerSpawnGroup_WaitForClients
+ D vtable for CNetworkServerSpawnGroup_WaitForManualCompletionPrerequisite
  D vtable for CNetworkService
  D vtable for CNetworkStringDict
  D vtable for CNetworkStringTable
@@ -5304,9 +5308,11 @@
  Plat_LoadSDL
  Plat_MSTime
  Plat_MessageBox
+ Plat_MilliSecTickDiff
  Plat_MinimizeWindow
  Plat_NeedsLowFragmentation
  Plat_Printf
+ Plat_RelativeTicks
  Plat_RequireSDL
  Plat_ScreenToWindowCoords
  Plat_SetActiveWindow
@@ -5318,6 +5324,7 @@
  Plat_SetWindowTitle
  Plat_ShouldCollectMiniDumpsForFatalErrors
  Plat_ShutdownCOM
+ Plat_TickDiffMilliSecF
  Plat_TranslateSymbolicLinks
  Plat_UnloadModule
  Plat_UnloadSDL
@@ -6009,6 +6016,7 @@
  R typeinfo name for CNetworkServerSpawnGroup_WaitForAssetLoadPrerequisite
  R typeinfo name for CNetworkServerSpawnGroup_WaitForChildSpawnGroups
  R typeinfo name for CNetworkServerSpawnGroup_WaitForClients
+ R typeinfo name for CNetworkServerSpawnGroup_WaitForManualCompletionPrerequisite
  R typeinfo name for CNetworkService
  R typeinfo name for CNetworkStringDict
  R typeinfo name for CNetworkStringTable
@@ -6880,6 +6888,7 @@
  T BaseConstraint_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)
  T BaseUI_ProgressEnabled_f(CCommandContext const&, CCommand const&)
  T Bidirectional_Messages_descriptor()
+ T BinaryProperties_GetValue
  T BlackBox_Record(char const*, char const*, ...)
  T BlankImage::Evict()
  T BlankImage::GetContentSize(int&, int&)
@@ -8087,6 +8096,7 @@
  T CBaseSpawnGroup::Describe() const
  T CBaseSpawnGroup::DontSpawnEntities() const
  T CBaseSpawnGroup::EntityPrerequisitesSatisfied()
+ T CBaseSpawnGroup::FlagManualCreation()
  T CBaseSpawnGroup::ForceBlockingLoad()
  T CBaseSpawnGroup::GetChildSpawnGroupCount() const
  T CBaseSpawnGroup::GetEntityFilterName() const
@@ -8693,6 +8703,7 @@
  T CDefaultServerConfig::GetHostStateLoopModeInfo(HostStateLoopModeType_t, CUtlString&, KeyValues**)
  T CDefaultServerConfig::GetMaxHumanPlayers()
  T CDefaultServerConfig::GetMaxSplitscreenPlayers()
+ T CDefaultServerConfig::GetNetworkVersion() const
  T CDefaultServerConfig::GetPlayerLimits(int&, int&, int&, bool&)
  T CDefaultServerConfig::GetTickInterval()
  T CDefaultServerConfig::OnClientFullyConnect(CEntityIndex)
@@ -9243,7 +9254,7 @@
  T CEngineClient::GetBackgroundMovie(char*, int)
  T CEngineClient::GetBackgroundMusic(char*, int, bool)
  T CEngineClient::GetBugSubmissionCount() const
- T CEngineClient::GetClientVersion() const
+ T CEngineClient::GetBuildVersion() const
  T CEngineClient::GetDemoPlaybackFileName()
  T CEngineClient::GetDemoPlaybackStartTick()
  T CEngineClient::GetDemoPlaybackTick()
@@ -9389,6 +9400,7 @@
  T CEngineServer::GetAchievementMgr()
  T CEngineServer::GetAllSpawnGroupsWithPVS(CUtlVector<unsigned int, CUtlMemory<unsigned int, int> >*, CUtlVector<IPVS*, CUtlMemory<IPVS*, int> >*)
  T CEngineServer::GetAppID()
+ T CEngineServer::GetBuildVersion() const
  T CEngineServer::GetClientConVarValue(CEntityIndex, char const*)
  T CEngineServer::GetClientSteamID(CEntityIndex)
  T CEngineServer::GetClientXUID(CEntityIndex)
@@ -9406,7 +9418,6 @@
  T CEngineServer::GetPlayerUserId(CPlayerSlot)
  T CEngineServer::GetPrecachedDecalIndex(char const*) const
  T CEngineServer::GetServerGlobals()
- T CEngineServer::GetServerVersion() const
  T CEngineServer::GetSharedEdictChangeInfo()
  T CEngineServer::GetSinglePlayerSharedMemorySpace(char const*, int)
  T CEngineServer::GetSplitScreenPlayerAttachToEdict(CEntityIndex)
@@ -10111,6 +10122,7 @@
  T CHeapCompactionService::OnFrameBoundary(EventFrameBoundary_t const&)
  T CHeapCompactionService::RegisterEventMap(CEventDispatcher<CEventIDManager_Default>*, EventMapRegistrationType_t)
  T CHeapCompactionService::~CHeapCompactionService()
+ T CHitBox::CHitBox()
  T CHitBox::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)
  T CHitBoxSet::CHitBoxSet()
  T CHitBoxSetList::CHitBoxSetList()
@@ -12873,6 +12885,7 @@
  T CNetworkGameClientBase::ReserveServer(netadr_t const&, netadr_t const&, unsigned long long, KeyValues*, IMatchAsyncOperationCallback*, IMatchAsyncOperation**)
  T CNetworkGameClientBase::ResumeActivate()
  T CNetworkGameClientBase::RunFrame()
+ T CNetworkGameClientBase::SendDeltaTickToServer()
  T CNetworkGameClientBase::SendStringCmd(CSplitScreenSlot, char const*)
  T CNetworkGameClientBase::ServerCmd(InputCommandSource_t, CCommand const&)
  T CNetworkGameClientBase::ServerCmd(InputCommandSource_t, char const*)
@@ -13222,6 +13235,7 @@
  T CNetworkServerService::~CNetworkServerService()
  T CNetworkServerSpawnGroup::BuildSpawnGroupLoadMessage(CNETMsg_SpawnGroup_Load_t&)
  T CNetworkServerSpawnGroup::EnumSaveRestoreMapClasses(void const*, unsigned long, IClassnameForMapClassCallback*)
+ T CNetworkServerSpawnGroup::FlagManualCreation()
  T CNetworkServerSpawnGroup::GetCreationTick() const
  T CNetworkServerSpawnGroup::GetDestructionTick() const
  T CNetworkServerSpawnGroup::GetEntityPrerequisites(HGameResourceManifest__*)
@@ -13276,6 +13290,9 @@
  T CNetworkServerSpawnGroup_WaitForClients::GetName() const
  T CNetworkServerSpawnGroup_WaitForClients::GetPrerequisiteStatus()
  T CNetworkServerSpawnGroup_WaitForClients::~CNetworkServerSpawnGroup_WaitForClients()
+ T CNetworkServerSpawnGroup_WaitForManualCompletionPrerequisite::GetName() const
+ T CNetworkServerSpawnGroup_WaitForManualCompletionPrerequisite::GetPrerequisiteStatus()
+ T CNetworkServerSpawnGroup_WaitForManualCompletionPrerequisite::~CNetworkServerSpawnGroup_WaitForManualCompletionPrerequisite()
  T CNetworkService::ConfigureSockets()
  T CNetworkService::GetDependencies()
  T CNetworkService::Init()
@@ -13491,6 +13508,7 @@
  T CRConServer::IsPassword(char const*) const
  T CRConServer::OnSocketAccepted(int, netadr_t const&, void**)
  T CRConServer::OnSocketClosed(int, netadr_t const&, void*)
+ T CRConServer::RunFrame()
  T CRConServer::SendRCONResponse(int, void const*, int, bool)
  T CRConServer::SetRequestID(unsigned int, int)
  T CRConServer::ShouldAcceptSocket(int, netadr_t const&)
@@ -15793,6 +15811,7 @@
  T CServerGameSessionManifestPrerequisite::~CServerGameSessionManifestPrerequisite()
  T CServerRemoteAccess::BadPassword(CRConServer*, unsigned int)
  T CServerRemoteAccess::CheckPassword(CRConServer*, unsigned int, int, char const*)
+ T CServerRemoteAccess::GetDataResponseSize(unsigned int)
  T CServerRemoteAccess::GetMapList(CUtlBuffer&)
  T CServerRemoteAccess::GetNextListenerID(bool, netadr_t const*)
  T CServerRemoteAccess::GetPlayerList(CNetworkGameServer*, CUtlBuffer&)
@@ -15804,7 +15823,7 @@
  T CServerRemoteAccess::RegisterAdminUIID(unsigned int)
  T CServerRemoteAccess::RequestValue(CNetworkGameServer*, unsigned int, int, char const*)
  T CServerRemoteAccess::SetValue(char const*, char const*)
- T CServerRemoteAccess::WriteDataRequest(CRConServer*, unsigned int, void const*, int)
+ T CServerRemoteAccess::WriteDataRequest(CRConServer*, unsigned int, void const*, int, netadr_t const&)
  T CServerRemoteAccess::WriteDataRequest(unsigned int, void const*, int)
  T CServerRemoteAccess::~CServerRemoteAccess()
  T CServerReservation::CAsyncOperation_ReserveServer::Abort()
@@ -15970,6 +15989,7 @@
  T CSocketCreator::CSocketCreator(ISocketCreatorListener*)
  T CSocketCreator::CloseAcceptedSocket(int)
  T CSocketCreator::CloseAllAcceptedSockets()
+ T CSocketCreator::CloseListenSocket()
  T CSocketCreator::CreateListenSocket(netadr_t const&, bool)
  T CSocketCreator::Disconnect()
  T CSocketCreator::GetAcceptedSocketAddress(int) const
@@ -16564,7 +16584,6 @@
  T CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t>::DoRealloc(int)
  T CUtlLeanVectorFixedGrowableBase<unsigned int, (unsigned short)3, short>::EnsureCapacity(int, bool)
  T CUtlLeanVectorImpl<CUtlLeanVectorFixedGrowableBase<unsigned int, (unsigned short)3, short>, unsigned int, short>::AddToTailGetPtr()
- T CUtlLinkedList<CChangeTrack*, int, false, int, CUtlMemory<UtlLinkedListElem_t<CChangeTrack*, int>, int> >::~CUtlLinkedList()
  T CUtlLinkedList<CClientFrame*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CClientFrame*, unsigned short>, unsigned short> >::AllocInternal(bool)
  T CUtlLinkedList<CCommandBuffer::Command_t, long long, true, long long, CUtlFixedMemory<UtlLinkedListElem_t<CCommandBuffer::Command_t, long long> > >::AllocInternal(bool)
  T CUtlLinkedList<CCommandBuffer::Command_t, long long, true, long long, CUtlFixedMemory<UtlLinkedListElem_t<CCommandBuffer::Command_t, long long> > >::LinkBefore(long long, long long)
@@ -16580,6 +16599,7 @@
  T CUtlLinkedList<CServerRemoteAccess::DataResponse_t, int, false, int, CUtlMemory<UtlLinkedListElem_t<CServerRemoteAccess::DataResponse_t, int>, int> >::~CUtlLinkedList()
  T CUtlLinkedList<CServerRemoteAccess::ListenerStore_t, int, false, int, CUtlMemory<UtlLinkedListElem_t<CServerRemoteAccess::ListenerStore_t, int>, int> >::AllocInternal(bool)
  T CUtlLinkedList<CUtlBuffer, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CUtlBuffer, unsigned short>, unsigned short> >::AllocInternal(bool)
+ T CUtlLinkedList<CUtlBuffer, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CUtlBuffer, unsigned short>, unsigned short> >::Free(unsigned short)
  T CUtlLinkedList<CUtlBuffer, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CUtlBuffer, unsigned short>, unsigned short> >::~CUtlLinkedList()
  T CUtlLinkedList<CUtlString, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CUtlString, unsigned short>, unsigned short> >::AllocInternal(bool)
  T CUtlLinkedList<CUtlString, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CUtlString, unsigned short>, unsigned short> >::Free(unsigned short)
@@ -17770,6 +17790,7 @@
  T GameSessionConfiguration_t::~GameSessionConfiguration_t()
  T GenericThreadLocals::CThreadLocal<unsigned int>::~CThreadLocal()
  T GenericThreadLocals::CThreadLocalPtr<CSplitScreenService::SplitSlot_t>::~CThreadLocalPtr()
+ T GetBuildVersion()
  T GetCStringCharConversion()
  T GetCurrentMod()
  T GetFixedDirectorySoundName(char const*, char*, unsigned long, bool)
@@ -17850,7 +17871,6 @@
  T InterfaceReg::InterfaceReg(void* (*)(), char const*)
  T IntersectRayWithBox(Vector const&, Vector const&, Vector const&, Vector const&, float, BoxTraceInfo_t*)
  T InvalidateSharedEdictChangeInfos()
- T IsNetworkVersionCompatible(int)
  T IsPointInBox(Vector const&, Vector const&, Vector const&)
  T IsSpawnGroupMessage(NetMessageInfo_t const*)
  T IsValidFileExtension(char const*)
@@ -18178,6 +18198,7 @@
  T SignedPayload_t::SetCachedSize(int) const
  T SignedPayload_t::SignedPayload_t()
  T SignedPayload_t::~SignedPayload_t()
+ T SocketErrorString(int)
  T SocketWouldBlock()
  T SortServerTags(char* const*, char* const*)
  T Source2BitBufErrorHandler(BitBufErrorType, char const*)
@@ -18414,6 +18435,8 @@
  T bf_read::ReadString(char*, int, bool, int*)
  T bf_read::ReadUBitVarInternal(int)
  T bf_read::ReadVarInt32()
+ T bf_read::Reset()
+ T bf_read::SetDebugName(char const*)
  T bf_read::SetOverflowFlag()
  T bf_read::StartReading(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const*)
  T bf_read::StartReading(void const*, int, int, int)
@@ -21108,10 +21131,12 @@
  T zcalloc(void*, unsigned int, unsigned int)
  T zcfree(void*, void*)
  ThreadGetCurrentId
+ ThreadGetCurrentProcessHandle
  ThreadInMainThread
  ThreadInterlockedExchange64
  ThreadSetDebugNameS2
  ThreadSetPriority
+ ThreadSetProcessPriority
  ThreadSleep
  Tier0DebugDrawAge
  Tier0DebugDrawLockLines
@@ -21702,6 +21727,7 @@
  b COM_ExplainDisconnection(int, char const*)::buf
  b COM_SetupLogDir(char const*)::pathsetup
  b CPhysSurfaceProperties::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
+ b CRConServer::RunFrame()::s_bHasUseConParm
  b CRenderMesh::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b CRenderSkeleton::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::__executeCount
@@ -22140,7 +22166,6 @@
  b g_TextEntry_Helper
  b g_TimeLastMemTest
  b g_ToggleButton_Helper
- b g_Tracks
  b g_TreeView_Helper
  b g_URLLabel_Helper
  b g_VProfServiceRegister
@@ -22209,6 +22234,7 @@
  b guard variable for CNetworkGameServerBase::UpdateMasterServer()::bUpdateMasterServers
  b guard variable for CNetworkP2PService::GetDependencies()::s_pDependencies
  b guard variable for CNetworkService::GetDependencies()::s_pDependencies
+ b guard variable for CRConServer::RunFrame()::s_bHasUseConParm
  b guard variable for CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::s_bNonVrStereoRenderingAvailable
  b guard variable for CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::s_bSkipGameOverlay
  b guard variable for CRenderingWorldSession::AddViewsToSceneSystemForSplitScreenSlot(CRenderingWorldSession::SplitscreenViewParams_t const&)::s_bSkipPostProcessing
@@ -22401,11 +22427,14 @@
  b rateChecker
  b rcon_address
  b record_command
+ b redirectend_command
+ b redirectstart_command
  b removeid_command
  b removeip_command
  b reset_gameconvars_command
  b resource_dump_command
  b restart_command
+ b sBuildVersion
  b s_BenchmarkService
  b s_BenchmarkServiceRegister
  b s_BreakSet
@@ -22526,8 +22555,6 @@
  b sv_banid_dev_enabled
  b sv_banid_enabled
  b sv_contact
- b sv_deltaprint
- b sv_deltatime
  b sv_enableoldqueries
  b sv_extra_client_connect_time
  b sv_filterban
@@ -23156,7 +23183,6 @@
  d p_floatconverter
  d p_intconverter
  d sHostVersion
- d sNetworkVersion
  d s_ConsoleProcessorForTestScripts
  d s_DefaultAccessor
  d s_DefaultClientConfig
@@ -23215,8 +23241,6 @@
  fstat$INODE64
  futimes
  fwrite
- g_ClockSpeed
- g_ClockSpeedMillisecondsMultiplier
  g_VProfCurrentProfile
  g_pMemAlloc
  g_pPerfTraceDepot
@@ -23226,6 +23250,7 @@
  getenv
  gethostbyname
  getpwuid
+ getrlimit
  getuid
  ioctl
  isatty
@@ -23543,6 +23568,7 @@
  sendto
  setbuf
  setlocale
+ setrlimit
  setsockopt
  sigprocmask
  sin
@@ -24041,8 +24067,6 @@
  t __CreateCXboxSystemIXboxSystem_interface()
  t __cxx_global_array_dtor
  t __cxx_global_var_init10
- t __cxx_global_var_init100
- t __cxx_global_var_init101
  t __cxx_global_var_init102
  t __cxx_global_var_init103
  t __cxx_global_var_init104
@@ -24076,14 +24100,14 @@
  t __cxx_global_var_init13
  t __cxx_global_var_init130
  t __cxx_global_var_init131
+ t __cxx_global_var_init132
+ t __cxx_global_var_init133
  t __cxx_global_var_init14
- t __cxx_global_var_init140
- t __cxx_global_var_init141
  t __cxx_global_var_init142
  t __cxx_global_var_init143
  t __cxx_global_var_init144
- t __cxx_global_var_init148
- t __cxx_global_var_init149
+ t __cxx_global_var_init145
+ t __cxx_global_var_init146
  t __cxx_global_var_init150
  t __cxx_global_var_init151
  t __cxx_global_var_init152
@@ -24104,7 +24128,6 @@
  t __cxx_global_var_init167
  t __cxx_global_var_init168
  t __cxx_global_var_init169
- t __cxx_global_var_init17
  t __cxx_global_var_init170
  t __cxx_global_var_init171
  t __cxx_global_var_init172
@@ -24115,7 +24138,6 @@
  t __cxx_global_var_init177
  t __cxx_global_var_init178
  t __cxx_global_var_init179
- t __cxx_global_var_init18
  t __cxx_global_var_init180
  t __cxx_global_var_init181
  t __cxx_global_var_init182
@@ -24124,9 +24146,9 @@
  t __cxx_global_var_init185
  t __cxx_global_var_init186
  t __cxx_global_var_init187
+ t __cxx_global_var_init188
+ t __cxx_global_var_init189
  t __cxx_global_var_init19
- t __cxx_global_var_init190
- t __cxx_global_var_init191
  t __cxx_global_var_init192
  t __cxx_global_var_init193
  t __cxx_global_var_init194
@@ -24134,10 +24156,11 @@
  t __cxx_global_var_init196
  t __cxx_global_var_init197
  t __cxx_global_var_init198
+ t __cxx_global_var_init199
  t __cxx_global_var_init20
- t __cxx_global_var_init250
- t __cxx_global_var_init251
- t __cxx_global_var_init252
+ t __cxx_global_var_init21
+ t __cxx_global_var_init22
+ t __cxx_global_var_init23
  t __cxx_global_var_init253
  t __cxx_global_var_init254
  t __cxx_global_var_init255
@@ -24152,18 +24175,21 @@
  t __cxx_global_var_init264
  t __cxx_global_var_init265
  t __cxx_global_var_init266
+ t __cxx_global_var_init267
+ t __cxx_global_var_init268
+ t __cxx_global_var_init269
  t __cxx_global_var_init3
  t __cxx_global_var_init30
  t __cxx_global_var_init31
- t __cxx_global_var_init314
- t __cxx_global_var_init315
- t __cxx_global_var_init316
  t __cxx_global_var_init317
  t __cxx_global_var_init318
  t __cxx_global_var_init319
  t __cxx_global_var_init32
  t __cxx_global_var_init320
  t __cxx_global_var_init321
+ t __cxx_global_var_init322
+ t __cxx_global_var_init323
+ t __cxx_global_var_init324
  t __cxx_global_var_init33
  t __cxx_global_var_init34
  t __cxx_global_var_init35
@@ -24221,6 +24247,8 @@
  t __cxx_global_var_init82
  t __cxx_global_var_init83
  t __cxx_global_var_init84
+ t __cxx_global_var_init85
+ t __cxx_global_var_init86
  t __cxx_global_var_init9
  t _record(CCommandContext const&, CCommand const&)
  t access_virt_barray
@@ -24361,6 +24389,8 @@
  t quit(CCommandContext const&, CCommand const&)
  t realize_virt_arrays
  t record(CCommandContext const&, CCommand const&)
+ t redirectend(CCommandContext const&, CCommand const&)
+ t redirectstart(CCommandContext const&, CCommand const&)
  t removeid(CCommandContext const&, CCommand const&)
  t removeip(CCommandContext const&, CCommand const&)
  t request_virt_barray
