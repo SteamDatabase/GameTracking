@@ -255,6 +255,7 @@
  B CFilterName_DataDescInit::g_DataMapHolder
  B CFilterTFBotHasTag_DataDescInit::g_DataMapHolder
  B CFilterTFCanCap_DataDescInit::g_DataMapHolder
+ B CFilterTFClass_DataDescInit::g_DataMapHolder
  B CFilterTFCondition_DataDescInit::g_DataMapHolder
  B CFilterTFTeam_DataDescInit::g_DataMapHolder
  B CFireSmoke_DataDescInit::g_DataMapHolder
@@ -287,6 +288,9 @@
  B CFuncNavPrerequisite_DataDescInit::g_DataMapHolder
  B CFuncNoBuild_DataDescInit::g_DataMapHolder
  B CFuncOccluder_DataDescInit::g_DataMapHolder
+ B CFuncPasstimeGoal_DataDescInit::g_DataMapHolder
+ B CFuncPasstimeGoalieZone_DataDescInit::g_DataMapHolder
+ B CFuncPasstimeNoBallZone_DataDescInit::g_DataMapHolder
  B CFuncPlatRot_DataDescInit::g_DataMapHolder
  B CFuncPlat_DataDescInit::g_DataMapHolder
  B CFuncReflectiveGlass_DataDescInit::g_DataMapHolder
@@ -820,6 +824,7 @@
  B CParticlePerformanceMonitor_DataDescInit::g_DataMapHolder
  B CParticleSystem_DataDescInit::g_DataMapHolder
  B CPassengerInfo_DataDescInit::g_DataMapHolder
+ B CPasstimeBallSpawn_DataDescInit::g_DataMapHolder
  B CPathCorner_DataDescInit::g_DataMapHolder
  B CPathKeyFrame_DataDescInit::g_DataMapHolder
  B CPathTrack::s_bIsIterating
@@ -1033,6 +1038,7 @@
  B CTFMinigun_DataDescInit::g_DataMapHolder
  B CTFObjectiveResource_DataDescInit::g_DataMapHolder
  B CTFParticleCannon_DataDescInit::g_DataMapHolder
+ B CTFPasstimeLogic_DataDescInit::g_DataMapHolder
  B CTFPipebombLauncher_DataDescInit::g_DataMapHolder
  B CTFPistol_DataDescInit::g_DataMapHolder
  B CTFPlayer_DataDescInit::g_DataMapHolder
@@ -1106,12 +1112,14 @@
  B CTriggerBotTag_DataDescInit::g_DataMapHolder
  B CTriggerBrush_DataDescInit::g_DataMapHolder
  B CTriggerCamera_DataDescInit::g_DataMapHolder
+ B CTriggerCatapult_DataDescInit::g_DataMapHolder
  B CTriggerGravity_DataDescInit::g_DataMapHolder
  B CTriggerHurt_DataDescInit::g_DataMapHolder
  B CTriggerIgniteArrows_DataDescInit::g_DataMapHolder
  B CTriggerImpact_DataDescInit::g_DataMapHolder
  B CTriggerLook_DataDescInit::g_DataMapHolder
  B CTriggerMultiple_DataDescInit::g_DataMapHolder
+ B CTriggerPasstimeBall_DataDescInit::g_DataMapHolder
  B CTriggerPlayerMovement_DataDescInit::g_DataMapHolder
  B CTriggerPlayerRespawnOverride_DataDescInit::g_DataMapHolder
  B CTriggerProximity_DataDescInit::g_DataMapHolder
@@ -1315,6 +1323,8 @@
  B DT_FuncMonitor::g_SendTableInit
  B DT_FuncOccluder::g_SendTable
  B DT_FuncOccluder::g_SendTableInit
+ B DT_FuncPasstimeGoal::g_SendTable
+ B DT_FuncPasstimeGoal::g_SendTableInit
  B DT_FuncReflectiveGlass::g_SendTable
  B DT_FuncReflectiveGlass::g_SendTableInit
  B DT_FuncRespawnRoom::g_SendTable
@@ -1405,6 +1415,10 @@
  B DT_ParticleSmokeGrenade::g_SendTableInit
  B DT_ParticleSystem::g_SendTable
  B DT_ParticleSystem::g_SendTableInit
+ B DT_PasstimeBall::g_SendTable
+ B DT_PasstimeBall::g_SendTableInit
+ B DT_PasstimeGun::g_SendTable
+ B DT_PasstimeGun::g_SendTableInit
  B DT_PhysBox::g_SendTable
  B DT_PhysBox::g_SendTableInit
  B DT_PhysBoxMultiplayer::g_SendTable
@@ -1637,6 +1651,8 @@
  B DT_TFParachute_Primary::g_SendTableInit
  B DT_TFParachute_Secondary::g_SendTable
  B DT_TFParachute_Secondary::g_SendTableInit
+ B DT_TFPasstimeLogic::g_SendTable
+ B DT_TFPasstimeLogic::g_SendTableInit
  B DT_TFPlayer::g_SendTable
  B DT_TFPlayer::g_SendTableInit
  B DT_TFPlayerClassShared::g_SendTable
@@ -1957,12 +1973,17 @@
  B IFuncForceFieldAutoList::m_IFuncForceFieldAutoListAutoList
  B IFuncNavPrerequisiteAutoList::m_IFuncNavPrerequisiteAutoListAutoList
  B IFuncNoBuildAutoList::m_IFuncNoBuildAutoListAutoList
+ B IFuncPasstimeGoalAutoList::m_IFuncPasstimeGoalAutoListAutoList
+ B IFuncPasstimeGoalieZoneAutoList::m_IFuncPasstimeGoalieZoneAutoListAutoList
+ B IFuncPasstimeNoBallZoneAutoList::m_IFuncPasstimeNoBallZoneAutoListAutoList
  B IFuncPowerupVolumeAutoList::m_IFuncPowerupVolumeAutoListAutoList
  B IFuncRespawnRoomAutoList::m_IFuncRespawnRoomAutoListAutoList
  B IFuncRespawnRoomVisualizerAutoList::m_IFuncRespawnRoomVisualizerAutoListAutoList
  B IInfoPowerupSpawnAutoList::m_IInfoPowerupSpawnAutoListAutoList
  B IMinigameAutoList::m_IMinigameAutoListAutoList
  B IMoveHelper::sm_pSingleton
+ B IPasstimeBallControllerAutoList::m_IPasstimeBallControllerAutoListAutoList
+ B IPasstimeBallSpawnAutoList::m_IPasstimeBallSpawnAutoListAutoList
  B IPhysicsPropAutoList::m_IPhysicsPropAutoListAutoList
  B IPredictionSystem::g_pPredictionSystems
  B IRobotDestructionGroupAutoList::m_IRobotDestructionGroupAutoListAutoList
@@ -2151,6 +2172,7 @@
  B bot_selectweaponslot
  B breakable_disable_gib_limit
  B breakable_multiplayer
+ B catapult_physics_drag_boost
  B cc_CreatePredictionError
  B cc_TestSpawns
  B cc_Test_CreateEntity
@@ -2402,6 +2424,7 @@
  B g_pNavVisPairHash
  B g_pNetworkSystem
  B g_pObjectiveResource
+ B g_pPasstimeLogic
  B g_pPhysicsCollision
  B g_pPlayerResource
  B g_pPopulationManager
@@ -3041,6 +3064,7 @@
  B tf_gamemode_cp
  B tf_gamemode_ctf
  B tf_gamemode_mvm
+ B tf_gamemode_passtime
  B tf_gamemode_payload
  B tf_gamemode_rd
  B tf_gamemode_sd
@@ -3219,6 +3243,31 @@
  B tf_parachute_maxspeed_onfire_z
  B tf_parachute_maxspeed_xy
  B tf_parachute_maxspeed_z
+ B tf_passtime_ball_carrier_regen_dmgtime
+ B tf_passtime_ball_carrier_regen_interval
+ B tf_passtime_ball_carrier_regen_maxpct
+ B tf_passtime_ball_carrier_regen_scale
+ B tf_passtime_ball_damping_scale
+ B tf_passtime_ball_drag_coefficient
+ B tf_passtime_ball_inertia_scale
+ B tf_passtime_ball_mass
+ B tf_passtime_ball_radius
+ B tf_passtime_ball_rotdamping_scale
+ B tf_passtime_ball_seek_range
+ B tf_passtime_ball_seek_speed_factor
+ B tf_passtime_ball_takedamage
+ B tf_passtime_ball_takedamage_force
+ B tf_passtime_flinch_boost
+ B tf_passtime_mode_homing_lock_sec
+ B tf_passtime_mode_homing_speed
+ B tf_passtime_mode_launch_charge_sec
+ B tf_passtime_mode_launch_speed_max
+ B tf_passtime_mode_launch_speed_min
+ B tf_passtime_player_reticles_enemies
+ B tf_passtime_player_reticles_friends
+ B tf_passtime_score_crit_sec
+ B tf_passtime_speedboost_on_get_ball_time
+ B tf_passtime_steal_on_melee
  B tf_pipebomb_deflect_reset_time
  B tf_pipebomb_force_to_move
  B tf_player_drop_bonus_ducks
@@ -3690,6 +3739,7 @@
  D CFilterName::m_DataMap
  D CFilterTFBotHasTag::m_DataMap
  D CFilterTFCanCap::m_DataMap
+ D CFilterTFClass::m_DataMap
  D CFilterTFCondition::m_DataMap
  D CFilterTFTeam::m_DataMap
  D CFire::m_DataMap
@@ -3724,6 +3774,9 @@
  D CFuncNavPrerequisite::m_DataMap
  D CFuncNoBuild::m_DataMap
  D CFuncOccluder::m_DataMap
+ D CFuncPasstimeGoal::m_DataMap
+ D CFuncPasstimeGoalieZone::m_DataMap
+ D CFuncPasstimeNoBallZone::m_DataMap
  D CFuncPlat::m_DataMap
  D CFuncPlatRot::m_DataMap
  D CFuncReflectiveGlass::m_DataMap
@@ -3826,6 +3879,7 @@
  D CParticlePerformanceMonitor::m_DataMap
  D CParticleSystem::m_DataMap
  D CPassengerInfo::m_DataMap
+ D CPasstimeBallSpawn::m_DataMap
  D CPathCorner::m_DataMap
  D CPathKeyFrame::m_DataMap
  D CPathTrack::m_DataMap
@@ -3997,6 +4051,7 @@
  D CTFObjectiveResource::m_DataMap
  D CTFParachute::m_pClassSendTable
  D CTFParticleCannon::m_DataMap
+ D CTFPasstimeLogic::m_DataMap
  D CTFPipebombLauncher::m_DataMap
  D CTFPipebombLauncher::m_pClassSendTable
  D CTFPistol::m_DataMap
@@ -4095,12 +4150,15 @@
  D CTriggerBotTag::m_DataMap
  D CTriggerBrush::m_DataMap
  D CTriggerCamera::m_DataMap
+ D CTriggerCatapult::m_DataMap
+ D CTriggerCatapult::s_szPlayerPassesTriggerFiltersThinkContext
  D CTriggerGravity::m_DataMap
  D CTriggerHurt::m_DataMap
  D CTriggerIgniteArrows::m_DataMap
  D CTriggerImpact::m_DataMap
  D CTriggerLook::m_DataMap
  D CTriggerMultiple::m_DataMap
+ D CTriggerPasstimeBall::m_DataMap
  D CTriggerPlayerMovement::m_DataMap
  D CTriggerPlayerRespawnOverride::m_DataMap
  D CTriggerProximity::m_DataMap
@@ -4844,6 +4902,8 @@
  D datamap_t* DataMapInit<CFilterTFBotHasTag>(CFilterTFBotHasTag*)::nameHolder
  D datamap_t* DataMapInit<CFilterTFCanCap>(CFilterTFCanCap*)::dataDesc
  D datamap_t* DataMapInit<CFilterTFCanCap>(CFilterTFCanCap*)::nameHolder
+ D datamap_t* DataMapInit<CFilterTFClass>(CFilterTFClass*)::dataDesc
+ D datamap_t* DataMapInit<CFilterTFClass>(CFilterTFClass*)::nameHolder
  D datamap_t* DataMapInit<CFilterTFCondition>(CFilterTFCondition*)::dataDesc
  D datamap_t* DataMapInit<CFilterTFCondition>(CFilterTFCondition*)::nameHolder
  D datamap_t* DataMapInit<CFilterTFTeam>(CFilterTFTeam*)::dataDesc
@@ -4900,6 +4960,12 @@
  D datamap_t* DataMapInit<CFuncNoBuild>(CFuncNoBuild*)::nameHolder
  D datamap_t* DataMapInit<CFuncOccluder>(CFuncOccluder*)::dataDesc
  D datamap_t* DataMapInit<CFuncOccluder>(CFuncOccluder*)::nameHolder
+ D datamap_t* DataMapInit<CFuncPasstimeGoal>(CFuncPasstimeGoal*)::dataDesc
+ D datamap_t* DataMapInit<CFuncPasstimeGoal>(CFuncPasstimeGoal*)::nameHolder
+ D datamap_t* DataMapInit<CFuncPasstimeGoalieZone>(CFuncPasstimeGoalieZone*)::dataDesc
+ D datamap_t* DataMapInit<CFuncPasstimeGoalieZone>(CFuncPasstimeGoalieZone*)::nameHolder
+ D datamap_t* DataMapInit<CFuncPasstimeNoBallZone>(CFuncPasstimeNoBallZone*)::dataDesc
+ D datamap_t* DataMapInit<CFuncPasstimeNoBallZone>(CFuncPasstimeNoBallZone*)::nameHolder
  D datamap_t* DataMapInit<CFuncPlat>(CFuncPlat*)::dataDesc
  D datamap_t* DataMapInit<CFuncPlat>(CFuncPlat*)::nameHolder
  D datamap_t* DataMapInit<CFuncPlatRot>(CFuncPlatRot*)::dataDesc
@@ -5082,6 +5148,8 @@
  D datamap_t* DataMapInit<CParticleSystem>(CParticleSystem*)::nameHolder
  D datamap_t* DataMapInit<CPassengerInfo>(CPassengerInfo*)::dataDesc
  D datamap_t* DataMapInit<CPassengerInfo>(CPassengerInfo*)::nameHolder
+ D datamap_t* DataMapInit<CPasstimeBallSpawn>(CPasstimeBallSpawn*)::dataDesc
+ D datamap_t* DataMapInit<CPasstimeBallSpawn>(CPasstimeBallSpawn*)::nameHolder
  D datamap_t* DataMapInit<CPathCorner>(CPathCorner*)::dataDesc
  D datamap_t* DataMapInit<CPathCorner>(CPathCorner*)::nameHolder
  D datamap_t* DataMapInit<CPathKeyFrame>(CPathKeyFrame*)::dataDesc
@@ -5366,6 +5434,8 @@
  D datamap_t* DataMapInit<CTFObjectiveResource>(CTFObjectiveResource*)::nameHolder
  D datamap_t* DataMapInit<CTFParticleCannon>(CTFParticleCannon*)::dataDesc
  D datamap_t* DataMapInit<CTFParticleCannon>(CTFParticleCannon*)::nameHolder
+ D datamap_t* DataMapInit<CTFPasstimeLogic>(CTFPasstimeLogic*)::dataDesc
+ D datamap_t* DataMapInit<CTFPasstimeLogic>(CTFPasstimeLogic*)::nameHolder
  D datamap_t* DataMapInit<CTFPipebombLauncher>(CTFPipebombLauncher*)::dataDesc
  D datamap_t* DataMapInit<CTFPipebombLauncher>(CTFPipebombLauncher*)::nameHolder
  D datamap_t* DataMapInit<CTFPistol>(CTFPistol*)::dataDesc
@@ -5502,6 +5572,8 @@
  D datamap_t* DataMapInit<CTriggerBrush>(CTriggerBrush*)::nameHolder
  D datamap_t* DataMapInit<CTriggerCamera>(CTriggerCamera*)::dataDesc
  D datamap_t* DataMapInit<CTriggerCamera>(CTriggerCamera*)::nameHolder
+ D datamap_t* DataMapInit<CTriggerCatapult>(CTriggerCatapult*)::dataDesc
+ D datamap_t* DataMapInit<CTriggerCatapult>(CTriggerCatapult*)::nameHolder
  D datamap_t* DataMapInit<CTriggerGravity>(CTriggerGravity*)::dataDesc
  D datamap_t* DataMapInit<CTriggerGravity>(CTriggerGravity*)::nameHolder
  D datamap_t* DataMapInit<CTriggerHurt>(CTriggerHurt*)::dataDesc
@@ -5514,6 +5586,8 @@
  D datamap_t* DataMapInit<CTriggerLook>(CTriggerLook*)::nameHolder
  D datamap_t* DataMapInit<CTriggerMultiple>(CTriggerMultiple*)::dataDesc
  D datamap_t* DataMapInit<CTriggerMultiple>(CTriggerMultiple*)::nameHolder
+ D datamap_t* DataMapInit<CTriggerPasstimeBall>(CTriggerPasstimeBall*)::dataDesc
+ D datamap_t* DataMapInit<CTriggerPasstimeBall>(CTriggerPasstimeBall*)::nameHolder
  D datamap_t* DataMapInit<CTriggerPlayerMovement>(CTriggerPlayerMovement*)::dataDesc
  D datamap_t* DataMapInit<CTriggerPlayerMovement>(CTriggerPlayerMovement*)::nameHolder
  D datamap_t* DataMapInit<CTriggerPlayerRespawnOverride>(CTriggerPlayerRespawnOverride*)::dataDesc
@@ -6295,6 +6369,7 @@
  D guard variable for datamap_t* DataMapInit<CFilterName>(CFilterName*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CFilterTFBotHasTag>(CFilterTFBotHasTag*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CFilterTFCanCap>(CFilterTFCanCap*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CFilterTFClass>(CFilterTFClass*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CFilterTFCondition>(CFilterTFCondition*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CFilterTFTeam>(CFilterTFTeam*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CFire>(CFire*)::dataDesc
@@ -6331,6 +6406,10 @@
  D guard variable for datamap_t* DataMapInit<CFuncNavPrerequisite>(CFuncNavPrerequisite*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CFuncNoBuild>(CFuncNoBuild*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CFuncOccluder>(CFuncOccluder*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CFuncPasstimeGoal>(CFuncPasstimeGoal*)::dataDesc
+ D guard variable for datamap_t* DataMapInit<CFuncPasstimeGoal>(CFuncPasstimeGoal*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CFuncPasstimeGoalieZone>(CFuncPasstimeGoalieZone*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CFuncPasstimeNoBallZone>(CFuncPasstimeNoBallZone*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CFuncPlat>(CFuncPlat*)::dataDesc
  D guard variable for datamap_t* DataMapInit<CFuncPlat>(CFuncPlat*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CFuncPlatRot>(CFuncPlatRot*)::nameHolder
@@ -6467,6 +6546,8 @@
  D guard variable for datamap_t* DataMapInit<CParticleSystem>(CParticleSystem*)::dataDesc
  D guard variable for datamap_t* DataMapInit<CParticleSystem>(CParticleSystem*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CPassengerInfo>(CPassengerInfo*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CPasstimeBallSpawn>(CPasstimeBallSpawn*)::dataDesc
+ D guard variable for datamap_t* DataMapInit<CPasstimeBallSpawn>(CPasstimeBallSpawn*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CPathCorner>(CPathCorner*)::dataDesc
  D guard variable for datamap_t* DataMapInit<CPathCorner>(CPathCorner*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CPathKeyFrame>(CPathKeyFrame*)::nameHolder
@@ -6670,6 +6751,8 @@
  D guard variable for datamap_t* DataMapInit<CTFMinigun>(CTFMinigun*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFObjectiveResource>(CTFObjectiveResource*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFParticleCannon>(CTFParticleCannon*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CTFPasstimeLogic>(CTFPasstimeLogic*)::dataDesc
+ D guard variable for datamap_t* DataMapInit<CTFPasstimeLogic>(CTFPasstimeLogic*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFPipebombLauncher>(CTFPipebombLauncher*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFPistol>(CTFPistol*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFPlayer>(CTFPlayer*)::nameHolder
@@ -6765,6 +6848,8 @@
  D guard variable for datamap_t* DataMapInit<CTriggerBrush>(CTriggerBrush*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTriggerCamera>(CTriggerCamera*)::dataDesc
  D guard variable for datamap_t* DataMapInit<CTriggerCamera>(CTriggerCamera*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CTriggerCatapult>(CTriggerCatapult*)::dataDesc
+ D guard variable for datamap_t* DataMapInit<CTriggerCatapult>(CTriggerCatapult*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTriggerGravity>(CTriggerGravity*)::dataDesc
  D guard variable for datamap_t* DataMapInit<CTriggerGravity>(CTriggerGravity*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTriggerHurt>(CTriggerHurt*)::dataDesc
@@ -6776,6 +6861,8 @@
  D guard variable for datamap_t* DataMapInit<CTriggerLook>(CTriggerLook*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTriggerMultiple>(CTriggerMultiple*)::dataDesc
  D guard variable for datamap_t* DataMapInit<CTriggerMultiple>(CTriggerMultiple*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CTriggerPasstimeBall>(CTriggerPasstimeBall*)::dataDesc
+ D guard variable for datamap_t* DataMapInit<CTriggerPasstimeBall>(CTriggerPasstimeBall*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTriggerPlayerMovement>(CTriggerPlayerMovement*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTriggerPlayerRespawnOverride>(CTriggerPlayerRespawnOverride*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTriggerProximity>(CTriggerProximity*)::dataDesc
@@ -6943,6 +7030,7 @@
  D guard variable for int ServerClassInit<DT_FuncLadder::ignored>(DT_FuncLadder::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_FuncMonitor::ignored>(DT_FuncMonitor::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_FuncOccluder::ignored>(DT_FuncOccluder::ignored*)::g_SendProps
+ D guard variable for int ServerClassInit<DT_FuncPasstimeGoal::ignored>(DT_FuncPasstimeGoal::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_FuncReflectiveGlass::ignored>(DT_FuncReflectiveGlass::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_FuncRespawnRoom::ignored>(DT_FuncRespawnRoom::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_FuncRespawnRoomVisualizer::ignored>(DT_FuncRespawnRoomVisualizer::ignored*)::g_SendProps
@@ -6988,6 +7076,8 @@
  D guard variable for int ServerClassInit<DT_ParticlePerformanceMonitor::ignored>(DT_ParticlePerformanceMonitor::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_ParticleSmokeGrenade::ignored>(DT_ParticleSmokeGrenade::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_ParticleSystem::ignored>(DT_ParticleSystem::ignored*)::g_SendProps
+ D guard variable for int ServerClassInit<DT_PasstimeBall::ignored>(DT_PasstimeBall::ignored*)::g_SendProps
+ D guard variable for int ServerClassInit<DT_PasstimeGun::ignored>(DT_PasstimeGun::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_PhysBox::ignored>(DT_PhysBox::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_PhysBoxMultiplayer::ignored>(DT_PhysBoxMultiplayer::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_PhysMagnet::ignored>(DT_PhysMagnet::ignored*)::g_SendProps
@@ -7104,6 +7194,7 @@
  D guard variable for int ServerClassInit<DT_TFParachute::ignored>(DT_TFParachute::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFParachute_Primary::ignored>(DT_TFParachute_Primary::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFParachute_Secondary::ignored>(DT_TFParachute_Secondary::ignored*)::g_SendProps
+ D guard variable for int ServerClassInit<DT_TFPasstimeLogic::ignored>(DT_TFPasstimeLogic::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFPlayer::ignored>(DT_TFPlayer::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFPlayerClassShared::ignored>(DT_TFPlayerClassShared::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFPlayerConditionListExclusive::ignored>(DT_TFPlayerConditionListExclusive::ignored*)::g_SendProps
@@ -7411,6 +7502,8 @@
  D int ServerClassInit<DT_FuncMonitor::ignored>(DT_FuncMonitor::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_FuncOccluder::ignored>(DT_FuncOccluder::ignored*)::g_SendProps
  D int ServerClassInit<DT_FuncOccluder::ignored>(DT_FuncOccluder::ignored*)::g_pSendTableName
+ D int ServerClassInit<DT_FuncPasstimeGoal::ignored>(DT_FuncPasstimeGoal::ignored*)::g_SendProps
+ D int ServerClassInit<DT_FuncPasstimeGoal::ignored>(DT_FuncPasstimeGoal::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_FuncReflectiveGlass::ignored>(DT_FuncReflectiveGlass::ignored*)::g_SendProps
  D int ServerClassInit<DT_FuncReflectiveGlass::ignored>(DT_FuncReflectiveGlass::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_FuncRespawnRoom::ignored>(DT_FuncRespawnRoom::ignored*)::g_SendProps
@@ -7501,6 +7594,10 @@
  D int ServerClassInit<DT_ParticleSmokeGrenade::ignored>(DT_ParticleSmokeGrenade::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_ParticleSystem::ignored>(DT_ParticleSystem::ignored*)::g_SendProps
  D int ServerClassInit<DT_ParticleSystem::ignored>(DT_ParticleSystem::ignored*)::g_pSendTableName
+ D int ServerClassInit<DT_PasstimeBall::ignored>(DT_PasstimeBall::ignored*)::g_SendProps
+ D int ServerClassInit<DT_PasstimeBall::ignored>(DT_PasstimeBall::ignored*)::g_pSendTableName
+ D int ServerClassInit<DT_PasstimeGun::ignored>(DT_PasstimeGun::ignored*)::g_SendProps
+ D int ServerClassInit<DT_PasstimeGun::ignored>(DT_PasstimeGun::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_PhysBox::ignored>(DT_PhysBox::ignored*)::g_SendProps
  D int ServerClassInit<DT_PhysBox::ignored>(DT_PhysBox::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_PhysBoxMultiplayer::ignored>(DT_PhysBoxMultiplayer::ignored*)::g_SendProps
@@ -7733,6 +7830,8 @@
  D int ServerClassInit<DT_TFParachute_Primary::ignored>(DT_TFParachute_Primary::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_TFParachute_Secondary::ignored>(DT_TFParachute_Secondary::ignored*)::g_SendProps
  D int ServerClassInit<DT_TFParachute_Secondary::ignored>(DT_TFParachute_Secondary::ignored*)::g_pSendTableName
+ D int ServerClassInit<DT_TFPasstimeLogic::ignored>(DT_TFPasstimeLogic::ignored*)::g_SendProps
+ D int ServerClassInit<DT_TFPasstimeLogic::ignored>(DT_TFPasstimeLogic::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_TFPlayer::ignored>(DT_TFPlayer::ignored*)::g_SendProps
  D int ServerClassInit<DT_TFPlayer::ignored>(DT_TFPlayer::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_TFPlayerClassShared::ignored>(DT_TFPlayerClassShared::ignored*)::g_SendProps
@@ -8197,6 +8296,7 @@
  D typeinfo for CAttribute_WorldItemPlacement
  D typeinfo for CAutoGameSystem
  D typeinfo for CAutoGameSystemPerFrame
+ D typeinfo for CBallPlayerToucher
  D typeinfo for CBaseAchievement
  D typeinfo for CBaseAnimating
  D typeinfo for CBaseAnimatingOverlay
@@ -8288,10 +8388,16 @@
  D typeinfo for CCallback<CGCClientSystem, SteamServersConnected_t, true>
  D typeinfo for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, true>
  D typeinfo for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, true>
+ D typeinfo for CCallback<CTFMapsWorkshop, DownloadItemResult_t, false>
  D typeinfo for CCallback<CTFMapsWorkshop, DownloadItemResult_t, true>
+ D typeinfo for CCallback<CTFMapsWorkshop, ItemInstalled_t, false>
  D typeinfo for CCallback<CTFMapsWorkshop, ItemInstalled_t, true>
  D typeinfo for CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>
  D typeinfo for CCallbackBase
+ D typeinfo for CCallbackImpl<12>
+ D typeinfo for CCallbackImpl<16>
+ D typeinfo for CCallbackImpl<1>
+ D typeinfo for CCallbackImpl<4>
  D typeinfo for CCaptureFlag
  D typeinfo for CCaptureFlagReturnIcon
  D typeinfo for CCaptureZone
@@ -8458,6 +8564,7 @@
  D typeinfo for CEntityFactory<CArenaLogic>
  D typeinfo for CEntityFactory<CArmor>
  D typeinfo for CEntityFactory<CAssaultPoint>
+ D typeinfo for CEntityFactory<CBallPlayerToucher>
  D typeinfo for CEntityFactory<CBaseButton>
  D typeinfo for CEntityFactory<CBaseDMStart>
  D typeinfo for CEntityFactory<CBaseDoor>
@@ -8561,6 +8668,7 @@
  D typeinfo for CEntityFactory<CFilterName>
  D typeinfo for CEntityFactory<CFilterTFBotHasTag>
  D typeinfo for CEntityFactory<CFilterTFCanCap>
+ D typeinfo for CEntityFactory<CFilterTFClass>
  D typeinfo for CEntityFactory<CFilterTFCondition>
  D typeinfo for CEntityFactory<CFilterTFTeam>
  D typeinfo for CEntityFactory<CFire>
@@ -8588,6 +8696,9 @@
  D typeinfo for CEntityFactory<CFuncNavPrerequisite>
  D typeinfo for CEntityFactory<CFuncNoBuild>
  D typeinfo for CEntityFactory<CFuncOccluder>
+ D typeinfo for CEntityFactory<CFuncPasstimeGoal>
+ D typeinfo for CEntityFactory<CFuncPasstimeGoalieZone>
+ D typeinfo for CEntityFactory<CFuncPasstimeNoBallZone>
  D typeinfo for CEntityFactory<CFuncPlat>
  D typeinfo for CEntityFactory<CFuncPlatRot>
  D typeinfo for CEntityFactory<CFuncReflectiveGlass>
@@ -8698,6 +8809,9 @@
  D typeinfo for CEntityFactory<CParticleLight>
  D typeinfo for CEntityFactory<CParticlePerformanceMonitor>
  D typeinfo for CEntityFactory<CParticleSystem>
+ D typeinfo for CEntityFactory<CPasstimeBall>
+ D typeinfo for CEntityFactory<CPasstimeBallSpawn>
+ D typeinfo for CEntityFactory<CPasstimeGun>
  D typeinfo for CEntityFactory<CPathCorner>
  D typeinfo for CEntityFactory<CPathCornerCrash>
  D typeinfo for CEntityFactory<CPathKeyFrame>
@@ -8867,6 +8981,7 @@
  D typeinfo for CEntityFactory<CTFParachute_Primary>
  D typeinfo for CEntityFactory<CTFParachute_Secondary>
  D typeinfo for CEntityFactory<CTFParticleCannon>
+ D typeinfo for CEntityFactory<CTFPasstimeLogic>
  D typeinfo for CEntityFactory<CTFPipebombLauncher>
  D typeinfo for CEntityFactory<CTFPistol>
  D typeinfo for CEntityFactory<CTFPistol_Scout>
@@ -8997,6 +9112,7 @@
  D typeinfo for CEntityFactory<CTriggerBrush>
  D typeinfo for CEntityFactory<CTriggerCDAudio>
  D typeinfo for CEntityFactory<CTriggerCamera>
+ D typeinfo for CEntityFactory<CTriggerCatapult>
  D typeinfo for CEntityFactory<CTriggerGravity>
  D typeinfo for CEntityFactory<CTriggerHurt>
  D typeinfo for CEntityFactory<CTriggerIgniteArrows>
@@ -9004,6 +9120,7 @@
  D typeinfo for CEntityFactory<CTriggerLook>
  D typeinfo for CEntityFactory<CTriggerMultiple>
  D typeinfo for CEntityFactory<CTriggerOnce>
+ D typeinfo for CEntityFactory<CTriggerPasstimeBall>
  D typeinfo for CEntityFactory<CTriggerPlayerMovement>
  D typeinfo for CEntityFactory<CTriggerPlayerRespawnOverride>
  D typeinfo for CEntityFactory<CTriggerProximity>
@@ -9124,6 +9241,7 @@
  D typeinfo for CFilterName
  D typeinfo for CFilterTFBotHasTag
  D typeinfo for CFilterTFCanCap
+ D typeinfo for CFilterTFClass
  D typeinfo for CFilterTFCondition
  D typeinfo for CFilterTFTeam
  D typeinfo for CFindMostInjuredNeighbor
@@ -9167,6 +9285,10 @@
  D typeinfo for CFuncNavPrerequisite
  D typeinfo for CFuncNoBuild
  D typeinfo for CFuncOccluder
+ D typeinfo for CFuncPasstimeGoal
+ D typeinfo for CFuncPasstimeGoalShim
+ D typeinfo for CFuncPasstimeGoalieZone
+ D typeinfo for CFuncPasstimeNoBallZone
  D typeinfo for CFuncPlat
  D typeinfo for CFuncPlatRot
  D typeinfo for CFuncReflectiveGlass
@@ -9704,6 +9826,12 @@
  D typeinfo for CParticlePerformanceMonitor
  D typeinfo for CParticleSystem
  D typeinfo for CParticleSystemQuery
+ D typeinfo for CPasstimeBall
+ D typeinfo for CPasstimeBallController
+ D typeinfo for CPasstimeBallControllerHoming
+ D typeinfo for CPasstimeBallControllerPlayerSeek
+ D typeinfo for CPasstimeBallSpawn
+ D typeinfo for CPasstimeGun
  D typeinfo for CPathCorner
  D typeinfo for CPathCornerCrash
  D typeinfo for CPathKeyFrame
@@ -10162,6 +10290,7 @@
  D typeinfo for CTFParachute_Primary
  D typeinfo for CTFParachute_Secondary
  D typeinfo for CTFParticleCannon
+ D typeinfo for CTFPasstimeLogic
  D typeinfo for CTFPhysicsPushEntities
  D typeinfo for CTFPipebombLauncher
  D typeinfo for CTFPistol
@@ -10404,6 +10533,7 @@
  D typeinfo for CTriggerBrush
  D typeinfo for CTriggerCDAudio
  D typeinfo for CTriggerCamera
+ D typeinfo for CTriggerCatapult
  D typeinfo for CTriggerGravity
  D typeinfo for CTriggerHurt
  D typeinfo for CTriggerHurtShim
@@ -10412,6 +10542,7 @@
  D typeinfo for CTriggerLook
  D typeinfo for CTriggerMultiple
  D typeinfo for CTriggerOnce
+ D typeinfo for CTriggerPasstimeBall
  D typeinfo for CTriggerPlayerMovement
  D typeinfo for CTriggerPlayerRespawnOverride
  D typeinfo for CTriggerProximity
@@ -10839,6 +10970,9 @@
  D typeinfo for IFuncForceFieldAutoList
  D typeinfo for IFuncNavPrerequisiteAutoList
  D typeinfo for IFuncNoBuildAutoList
+ D typeinfo for IFuncPasstimeGoalAutoList
+ D typeinfo for IFuncPasstimeGoalieZoneAutoList
+ D typeinfo for IFuncPasstimeNoBallZoneAutoList
  D typeinfo for IFuncPowerupVolumeAutoList
  D typeinfo for IFuncRespawnRoomAutoList
  D typeinfo for IFuncRespawnRoomVisualizerAutoList
@@ -10883,6 +11017,8 @@
  D typeinfo for IParticleSystemQuery
  D typeinfo for IPartitionEnumerator
  D typeinfo for IPartitionQueryCallback
+ D typeinfo for IPasstimeBallControllerAutoList
+ D typeinfo for IPasstimeBallSpawnAutoList
  D typeinfo for IPathCost
  D typeinfo for IPhysSaveRestoreManager
  D typeinfo for IPhysicsCollisionEvent
@@ -11114,6 +11250,7 @@
  D vtable for CAttribute_WorldItemPlacement
  D vtable for CAutoGameSystem
  D vtable for CAutoGameSystemPerFrame
+ D vtable for CBallPlayerToucher
  D vtable for CBaseAchievement
  D vtable for CBaseAnimating
  D vtable for CBaseAnimatingOverlay
@@ -11199,9 +11336,15 @@
  D vtable for CCallback<CGCClientSystem, SteamServersConnected_t, true>
  D vtable for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, true>
  D vtable for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, true>
+ D vtable for CCallback<CTFMapsWorkshop, DownloadItemResult_t, false>
  D vtable for CCallback<CTFMapsWorkshop, DownloadItemResult_t, true>
+ D vtable for CCallback<CTFMapsWorkshop, ItemInstalled_t, false>
  D vtable for CCallback<CTFMapsWorkshop, ItemInstalled_t, true>
  D vtable for CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>
+ D vtable for CCallbackImpl<12>
+ D vtable for CCallbackImpl<16>
+ D vtable for CCallbackImpl<1>
+ D vtable for CCallbackImpl<4>
  D vtable for CCaptureFlag
  D vtable for CCaptureFlagReturnIcon
  D vtable for CCaptureZone
@@ -11363,6 +11506,7 @@
  D vtable for CEntityFactory<CArenaLogic>
  D vtable for CEntityFactory<CArmor>
  D vtable for CEntityFactory<CAssaultPoint>
+ D vtable for CEntityFactory<CBallPlayerToucher>
  D vtable for CEntityFactory<CBaseButton>
  D vtable for CEntityFactory<CBaseDMStart>
  D vtable for CEntityFactory<CBaseDoor>
@@ -11466,6 +11610,7 @@
  D vtable for CEntityFactory<CFilterName>
  D vtable for CEntityFactory<CFilterTFBotHasTag>
  D vtable for CEntityFactory<CFilterTFCanCap>
+ D vtable for CEntityFactory<CFilterTFClass>
  D vtable for CEntityFactory<CFilterTFCondition>
  D vtable for CEntityFactory<CFilterTFTeam>
  D vtable for CEntityFactory<CFire>
@@ -11493,6 +11638,9 @@
  D vtable for CEntityFactory<CFuncNavPrerequisite>
  D vtable for CEntityFactory<CFuncNoBuild>
  D vtable for CEntityFactory<CFuncOccluder>
+ D vtable for CEntityFactory<CFuncPasstimeGoal>
+ D vtable for CEntityFactory<CFuncPasstimeGoalieZone>
+ D vtable for CEntityFactory<CFuncPasstimeNoBallZone>
  D vtable for CEntityFactory<CFuncPlat>
  D vtable for CEntityFactory<CFuncPlatRot>
  D vtable for CEntityFactory<CFuncReflectiveGlass>
@@ -11603,6 +11751,9 @@
  D vtable for CEntityFactory<CParticleLight>
  D vtable for CEntityFactory<CParticlePerformanceMonitor>
  D vtable for CEntityFactory<CParticleSystem>
+ D vtable for CEntityFactory<CPasstimeBall>
+ D vtable for CEntityFactory<CPasstimeBallSpawn>
+ D vtable for CEntityFactory<CPasstimeGun>
  D vtable for CEntityFactory<CPathCorner>
  D vtable for CEntityFactory<CPathCornerCrash>
  D vtable for CEntityFactory<CPathKeyFrame>
@@ -11772,6 +11923,7 @@
  D vtable for CEntityFactory<CTFParachute_Primary>
  D vtable for CEntityFactory<CTFParachute_Secondary>
  D vtable for CEntityFactory<CTFParticleCannon>
+ D vtable for CEntityFactory<CTFPasstimeLogic>
  D vtable for CEntityFactory<CTFPipebombLauncher>
  D vtable for CEntityFactory<CTFPistol>
  D vtable for CEntityFactory<CTFPistol_Scout>
@@ -11902,6 +12054,7 @@
  D vtable for CEntityFactory<CTriggerBrush>
  D vtable for CEntityFactory<CTriggerCDAudio>
  D vtable for CEntityFactory<CTriggerCamera>
+ D vtable for CEntityFactory<CTriggerCatapult>
  D vtable for CEntityFactory<CTriggerGravity>
  D vtable for CEntityFactory<CTriggerHurt>
  D vtable for CEntityFactory<CTriggerIgniteArrows>
@@ -11909,6 +12062,7 @@
  D vtable for CEntityFactory<CTriggerLook>
  D vtable for CEntityFactory<CTriggerMultiple>
  D vtable for CEntityFactory<CTriggerOnce>
+ D vtable for CEntityFactory<CTriggerPasstimeBall>
  D vtable for CEntityFactory<CTriggerPlayerMovement>
  D vtable for CEntityFactory<CTriggerPlayerRespawnOverride>
  D vtable for CEntityFactory<CTriggerProximity>
@@ -12028,6 +12182,7 @@
  D vtable for CFilterName
  D vtable for CFilterTFBotHasTag
  D vtable for CFilterTFCanCap
+ D vtable for CFilterTFClass
  D vtable for CFilterTFCondition
  D vtable for CFilterTFTeam
  D vtable for CFindMostInjuredNeighbor
@@ -12070,6 +12225,10 @@
  D vtable for CFuncNavPrerequisite
  D vtable for CFuncNoBuild
  D vtable for CFuncOccluder
+ D vtable for CFuncPasstimeGoal
+ D vtable for CFuncPasstimeGoalShim
+ D vtable for CFuncPasstimeGoalieZone
+ D vtable for CFuncPasstimeNoBallZone
  D vtable for CFuncPlat
  D vtable for CFuncPlatRot
  D vtable for CFuncReflectiveGlass
@@ -12603,6 +12762,12 @@
  D vtable for CParticlePerformanceMonitor
  D vtable for CParticleSystem
  D vtable for CParticleSystemQuery
+ D vtable for CPasstimeBall
+ D vtable for CPasstimeBallController
+ D vtable for CPasstimeBallControllerHoming
+ D vtable for CPasstimeBallControllerPlayerSeek
+ D vtable for CPasstimeBallSpawn
+ D vtable for CPasstimeGun
  D vtable for CPathCorner
  D vtable for CPathCornerCrash
  D vtable for CPathKeyFrame
@@ -13039,6 +13204,7 @@
  D vtable for CTFParachute_Primary
  D vtable for CTFParachute_Secondary
  D vtable for CTFParticleCannon
+ D vtable for CTFPasstimeLogic
  D vtable for CTFPhysicsPushEntities
  D vtable for CTFPipebombLauncher
  D vtable for CTFPistol
@@ -13270,6 +13436,7 @@
  D vtable for CTriggerBrush
  D vtable for CTriggerCDAudio
  D vtable for CTriggerCamera
+ D vtable for CTriggerCatapult
  D vtable for CTriggerGravity
  D vtable for CTriggerHurt
  D vtable for CTriggerHurtShim
@@ -13278,6 +13445,7 @@
  D vtable for CTriggerLook
  D vtable for CTriggerMultiple
  D vtable for CTriggerOnce
+ D vtable for CTriggerPasstimeBall
  D vtable for CTriggerPlayerMovement
  D vtable for CTriggerPlayerRespawnOverride
  D vtable for CTriggerProximity
@@ -13614,6 +13782,9 @@
  D vtable for IFuncForceFieldAutoList
  D vtable for IFuncNavPrerequisiteAutoList
  D vtable for IFuncNoBuildAutoList
+ D vtable for IFuncPasstimeGoalAutoList
+ D vtable for IFuncPasstimeGoalieZoneAutoList
+ D vtable for IFuncPasstimeNoBallZoneAutoList
  D vtable for IFuncPowerupVolumeAutoList
  D vtable for IFuncRespawnRoomAutoList
  D vtable for IFuncRespawnRoomVisualizerAutoList
@@ -13627,6 +13798,8 @@
  D vtable for IModelLoadCallback
  D vtable for INextBot
  D vtable for INextBotComponent
+ D vtable for IPasstimeBallControllerAutoList
+ D vtable for IPasstimeBallSpawnAutoList
  D vtable for IPhysicsPropAutoList
  D vtable for IPopulator
  D vtable for IPredictionSystem
@@ -13834,6 +14007,7 @@
  R typeinfo name for CAttribute_WorldItemPlacement
  R typeinfo name for CAutoGameSystem
  R typeinfo name for CAutoGameSystemPerFrame
+ R typeinfo name for CBallPlayerToucher
  R typeinfo name for CBaseAchievement
  R typeinfo name for CBaseAnimating
  R typeinfo name for CBaseAnimatingOverlay
@@ -13926,10 +14100,16 @@
  R typeinfo name for CCallback<CGCClientSystem, SteamServersConnected_t, true>
  R typeinfo name for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, true>
  R typeinfo name for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, true>
+ R typeinfo name for CCallback<CTFMapsWorkshop, DownloadItemResult_t, false>
  R typeinfo name for CCallback<CTFMapsWorkshop, DownloadItemResult_t, true>
+ R typeinfo name for CCallback<CTFMapsWorkshop, ItemInstalled_t, false>
  R typeinfo name for CCallback<CTFMapsWorkshop, ItemInstalled_t, true>
  R typeinfo name for CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>
  R typeinfo name for CCallbackBase
+ R typeinfo name for CCallbackImpl<12>
+ R typeinfo name for CCallbackImpl<16>
+ R typeinfo name for CCallbackImpl<1>
+ R typeinfo name for CCallbackImpl<4>
  R typeinfo name for CCaptureFlag
  R typeinfo name for CCaptureFlagReturnIcon
  R typeinfo name for CCaptureZone
@@ -14096,6 +14276,7 @@
  R typeinfo name for CEntityFactory<CArenaLogic>
  R typeinfo name for CEntityFactory<CArmor>
  R typeinfo name for CEntityFactory<CAssaultPoint>
+ R typeinfo name for CEntityFactory<CBallPlayerToucher>
  R typeinfo name for CEntityFactory<CBaseButton>
  R typeinfo name for CEntityFactory<CBaseDMStart>
  R typeinfo name for CEntityFactory<CBaseDoor>
@@ -14199,6 +14380,7 @@
  R typeinfo name for CEntityFactory<CFilterName>
  R typeinfo name for CEntityFactory<CFilterTFBotHasTag>
  R typeinfo name for CEntityFactory<CFilterTFCanCap>
+ R typeinfo name for CEntityFactory<CFilterTFClass>
  R typeinfo name for CEntityFactory<CFilterTFCondition>
  R typeinfo name for CEntityFactory<CFilterTFTeam>
  R typeinfo name for CEntityFactory<CFire>
@@ -14226,6 +14408,9 @@
  R typeinfo name for CEntityFactory<CFuncNavPrerequisite>
  R typeinfo name for CEntityFactory<CFuncNoBuild>
  R typeinfo name for CEntityFactory<CFuncOccluder>
+ R typeinfo name for CEntityFactory<CFuncPasstimeGoal>
+ R typeinfo name for CEntityFactory<CFuncPasstimeGoalieZone>
+ R typeinfo name for CEntityFactory<CFuncPasstimeNoBallZone>
  R typeinfo name for CEntityFactory<CFuncPlat>
  R typeinfo name for CEntityFactory<CFuncPlatRot>
  R typeinfo name for CEntityFactory<CFuncReflectiveGlass>
@@ -14336,6 +14521,9 @@
  R typeinfo name for CEntityFactory<CParticleLight>
  R typeinfo name for CEntityFactory<CParticlePerformanceMonitor>
  R typeinfo name for CEntityFactory<CParticleSystem>
+ R typeinfo name for CEntityFactory<CPasstimeBall>
+ R typeinfo name for CEntityFactory<CPasstimeBallSpawn>
+ R typeinfo name for CEntityFactory<CPasstimeGun>
  R typeinfo name for CEntityFactory<CPathCorner>
  R typeinfo name for CEntityFactory<CPathCornerCrash>
  R typeinfo name for CEntityFactory<CPathKeyFrame>
@@ -14505,6 +14693,7 @@
  R typeinfo name for CEntityFactory<CTFParachute_Primary>
  R typeinfo name for CEntityFactory<CTFParachute_Secondary>
  R typeinfo name for CEntityFactory<CTFParticleCannon>
+ R typeinfo name for CEntityFactory<CTFPasstimeLogic>
  R typeinfo name for CEntityFactory<CTFPipebombLauncher>
  R typeinfo name for CEntityFactory<CTFPistol>
  R typeinfo name for CEntityFactory<CTFPistol_Scout>
@@ -14635,6 +14824,7 @@
  R typeinfo name for CEntityFactory<CTriggerBrush>
  R typeinfo name for CEntityFactory<CTriggerCDAudio>
  R typeinfo name for CEntityFactory<CTriggerCamera>
+ R typeinfo name for CEntityFactory<CTriggerCatapult>
  R typeinfo name for CEntityFactory<CTriggerGravity>
  R typeinfo name for CEntityFactory<CTriggerHurt>
  R typeinfo name for CEntityFactory<CTriggerIgniteArrows>
@@ -14642,6 +14832,7 @@
  R typeinfo name for CEntityFactory<CTriggerLook>
  R typeinfo name for CEntityFactory<CTriggerMultiple>
  R typeinfo name for CEntityFactory<CTriggerOnce>
+ R typeinfo name for CEntityFactory<CTriggerPasstimeBall>
  R typeinfo name for CEntityFactory<CTriggerPlayerMovement>
  R typeinfo name for CEntityFactory<CTriggerPlayerRespawnOverride>
  R typeinfo name for CEntityFactory<CTriggerProximity>
@@ -14762,6 +14953,7 @@
  R typeinfo name for CFilterName
  R typeinfo name for CFilterTFBotHasTag
  R typeinfo name for CFilterTFCanCap
+ R typeinfo name for CFilterTFClass
  R typeinfo name for CFilterTFCondition
  R typeinfo name for CFilterTFTeam
  R typeinfo name for CFindMostInjuredNeighbor
@@ -14805,6 +14997,10 @@
  R typeinfo name for CFuncNavPrerequisite
  R typeinfo name for CFuncNoBuild
  R typeinfo name for CFuncOccluder
+ R typeinfo name for CFuncPasstimeGoal
+ R typeinfo name for CFuncPasstimeGoalShim
+ R typeinfo name for CFuncPasstimeGoalieZone
+ R typeinfo name for CFuncPasstimeNoBallZone
  R typeinfo name for CFuncPlat
  R typeinfo name for CFuncPlatRot
  R typeinfo name for CFuncReflectiveGlass
@@ -15342,6 +15538,12 @@
  R typeinfo name for CParticlePerformanceMonitor
  R typeinfo name for CParticleSystem
  R typeinfo name for CParticleSystemQuery
+ R typeinfo name for CPasstimeBall
+ R typeinfo name for CPasstimeBallController
+ R typeinfo name for CPasstimeBallControllerHoming
+ R typeinfo name for CPasstimeBallControllerPlayerSeek
+ R typeinfo name for CPasstimeBallSpawn
+ R typeinfo name for CPasstimeGun
  R typeinfo name for CPathCorner
  R typeinfo name for CPathCornerCrash
  R typeinfo name for CPathKeyFrame
@@ -15800,6 +16002,7 @@
  R typeinfo name for CTFParachute_Primary
  R typeinfo name for CTFParachute_Secondary
  R typeinfo name for CTFParticleCannon
+ R typeinfo name for CTFPasstimeLogic
  R typeinfo name for CTFPhysicsPushEntities
  R typeinfo name for CTFPipebombLauncher
  R typeinfo name for CTFPistol
@@ -16042,6 +16245,7 @@
  R typeinfo name for CTriggerBrush
  R typeinfo name for CTriggerCDAudio
  R typeinfo name for CTriggerCamera
+ R typeinfo name for CTriggerCatapult
  R typeinfo name for CTriggerGravity
  R typeinfo name for CTriggerHurt
  R typeinfo name for CTriggerHurtShim
@@ -16050,6 +16254,7 @@
  R typeinfo name for CTriggerLook
  R typeinfo name for CTriggerMultiple
  R typeinfo name for CTriggerOnce
+ R typeinfo name for CTriggerPasstimeBall
  R typeinfo name for CTriggerPlayerMovement
  R typeinfo name for CTriggerPlayerRespawnOverride
  R typeinfo name for CTriggerProximity
@@ -16477,6 +16682,9 @@
  R typeinfo name for IFuncForceFieldAutoList
  R typeinfo name for IFuncNavPrerequisiteAutoList
  R typeinfo name for IFuncNoBuildAutoList
+ R typeinfo name for IFuncPasstimeGoalAutoList
+ R typeinfo name for IFuncPasstimeGoalieZoneAutoList
+ R typeinfo name for IFuncPasstimeNoBallZoneAutoList
  R typeinfo name for IFuncPowerupVolumeAutoList
  R typeinfo name for IFuncRespawnRoomAutoList
  R typeinfo name for IFuncRespawnRoomVisualizerAutoList
@@ -16521,6 +16729,8 @@
  R typeinfo name for IParticleSystemQuery
  R typeinfo name for IPartitionEnumerator
  R typeinfo name for IPartitionQueryCallback
+ R typeinfo name for IPasstimeBallControllerAutoList
+ R typeinfo name for IPasstimeBallSpawnAutoList
  R typeinfo name for IPathCost
  R typeinfo name for IPhysSaveRestoreManager
  R typeinfo name for IPhysicsCollisionEvent
@@ -16638,6 +16848,7 @@
  SteamAPI_GetHSteamUser
  SteamAPI_RegisterCallResult
  SteamAPI_RegisterCallback
+ SteamAPI_RunCallbacks
  SteamAPI_UnregisterCallResult
  SteamAPI_UnregisterCallback
  SteamClient
@@ -19610,6 +19821,10 @@
  T CAutoGameSystemPerFrame::CAutoGameSystemPerFrame(char const*)
  T CAutoGameSystemPerFrame::Name()
  T CAutoGameSystemPerFrame::~CAutoGameSystemPerFrame()
+ T CBallPlayerToucher::OnTouch(CBaseEntity*)
+ T CBallPlayerToucher::ShouldCollide(int, int) const
+ T CBallPlayerToucher::Spawn()
+ T CBallPlayerToucher::~CBallPlayerToucher()
  T CBaseAchievement::AlwaysEnabled()
  T CBaseAchievement::AlwaysListen()
  T CBaseAchievement::ApplySettings(KeyValues*)
@@ -21675,6 +21890,7 @@
  T CBaseTrigger::DrawDebugTextOverlays()
  T CBaseTrigger::Enable()
  T CBaseTrigger::EndTouch(CBaseEntity*)
+ T CBaseTrigger::EndTouchAll()
  T CBaseTrigger::GetDataDescMap()
  T CBaseTrigger::InitTrigger()
  T CBaseTrigger::InputDisable(inputdata_t&)
@@ -21689,6 +21905,7 @@
  T CBaseTrigger::PostClientActive()
  T CBaseTrigger::Spawn()
  T CBaseTrigger::StartTouch(CBaseEntity*)
+ T CBaseTrigger::StartTouchAll()
  T CBaseTrigger::UpdateOnRemove()
  T CBaseTrigger::UsesFilter()
  T CBaseTrigger::~CBaseTrigger()
@@ -22197,24 +22414,22 @@
  T CCallResult<CTFWorkshopMap, SteamUGCQueryCompleted_t>::GetCallbackSizeBytes()
  T CCallResult<CTFWorkshopMap, SteamUGCQueryCompleted_t>::Run(void*)
  T CCallResult<CTFWorkshopMap, SteamUGCQueryCompleted_t>::Run(void*, bool, unsigned long long)
- T CCallback<CGCClientSystem, SteamServersConnected_t, true>::GetCallbackSizeBytes()
  T CCallback<CGCClientSystem, SteamServersConnected_t, true>::Run(void*)
- T CCallback<CGCClientSystem, SteamServersConnected_t, true>::Run(void*, bool, unsigned long long)
- T CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, true>::GetCallbackSizeBytes()
  T CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, true>::Run(void*)
- T CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, true>::Run(void*, bool, unsigned long long)
- T CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, true>::GetCallbackSizeBytes()
  T CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, true>::Run(void*)
- T CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, true>::Run(void*, bool, unsigned long long)
- T CCallback<CTFMapsWorkshop, DownloadItemResult_t, true>::GetCallbackSizeBytes()
+ T CCallback<CTFMapsWorkshop, DownloadItemResult_t, false>::Run(void*)
  T CCallback<CTFMapsWorkshop, DownloadItemResult_t, true>::Run(void*)
- T CCallback<CTFMapsWorkshop, DownloadItemResult_t, true>::Run(void*, bool, unsigned long long)
- T CCallback<CTFMapsWorkshop, ItemInstalled_t, true>::GetCallbackSizeBytes()
+ T CCallback<CTFMapsWorkshop, ItemInstalled_t, false>::Run(void*)
  T CCallback<CTFMapsWorkshop, ItemInstalled_t, true>::Run(void*)
- T CCallback<CTFMapsWorkshop, ItemInstalled_t, true>::Run(void*, bool, unsigned long long)
- T CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>::GetCallbackSizeBytes()
  T CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>::Run(void*)
- T CCallback<GCSDK::CGCClient, GCMessageAvailable_t, false>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<12>::GetCallbackSizeBytes()
+ T CCallbackImpl<12>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<16>::GetCallbackSizeBytes()
+ T CCallbackImpl<16>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<1>::GetCallbackSizeBytes()
+ T CCallbackImpl<1>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<4>::GetCallbackSizeBytes()
+ T CCallbackImpl<4>::Run(void*, bool, unsigned long long)
  T CCaptureFlag::Activate()
  T CCaptureFlag::AddFollower(CTFBot*)
  T CCaptureFlag::AddPointValue(int)
@@ -22657,6 +22872,7 @@
  T CCoroutineMgr::CCoroutineMgr()
  T CCountUserGeneratedAttributeIterator::OnIterateAttributeValueUntyped(CEconItemAttributeDefinition const*)
  T CCountUserGeneratedAttributeIterator::~CCountUserGeneratedAttributeIterator()
+ T CCountdownAnnouncer::Tick(float)
  T CCredits::GetDataDescMap()
  T CCredits::InputRollCredits(inputdata_t&)
  T CCredits::InputRollOutroCredits(inputdata_t&)
@@ -23474,6 +23690,9 @@
  T CEntityFactory<CAssaultPoint>::Create(char const*)
  T CEntityFactory<CAssaultPoint>::Destroy(IServerNetworkable*)
  T CEntityFactory<CAssaultPoint>::GetEntitySize()
+ T CEntityFactory<CBallPlayerToucher>::Create(char const*)
+ T CEntityFactory<CBallPlayerToucher>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CBallPlayerToucher>::GetEntitySize()
  T CEntityFactory<CBaseButton>::Create(char const*)
  T CEntityFactory<CBaseButton>::Destroy(IServerNetworkable*)
  T CEntityFactory<CBaseButton>::GetEntitySize()
@@ -23783,6 +24002,9 @@
  T CEntityFactory<CFilterTFCanCap>::Create(char const*)
  T CEntityFactory<CFilterTFCanCap>::Destroy(IServerNetworkable*)
  T CEntityFactory<CFilterTFCanCap>::GetEntitySize()
+ T CEntityFactory<CFilterTFClass>::Create(char const*)
+ T CEntityFactory<CFilterTFClass>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CFilterTFClass>::GetEntitySize()
  T CEntityFactory<CFilterTFCondition>::Create(char const*)
  T CEntityFactory<CFilterTFCondition>::Destroy(IServerNetworkable*)
  T CEntityFactory<CFilterTFCondition>::GetEntitySize()
@@ -23864,6 +24086,15 @@
  T CEntityFactory<CFuncOccluder>::Create(char const*)
  T CEntityFactory<CFuncOccluder>::Destroy(IServerNetworkable*)
  T CEntityFactory<CFuncOccluder>::GetEntitySize()
+ T CEntityFactory<CFuncPasstimeGoal>::Create(char const*)
+ T CEntityFactory<CFuncPasstimeGoal>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CFuncPasstimeGoal>::GetEntitySize()
+ T CEntityFactory<CFuncPasstimeGoalieZone>::Create(char const*)
+ T CEntityFactory<CFuncPasstimeGoalieZone>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CFuncPasstimeGoalieZone>::GetEntitySize()
+ T CEntityFactory<CFuncPasstimeNoBallZone>::Create(char const*)
+ T CEntityFactory<CFuncPasstimeNoBallZone>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CFuncPasstimeNoBallZone>::GetEntitySize()
  T CEntityFactory<CFuncPlat>::Create(char const*)
  T CEntityFactory<CFuncPlat>::Destroy(IServerNetworkable*)
  T CEntityFactory<CFuncPlat>::GetEntitySize()
@@ -24194,6 +24425,15 @@
  T CEntityFactory<CParticleSystem>::Create(char const*)
  T CEntityFactory<CParticleSystem>::Destroy(IServerNetworkable*)
  T CEntityFactory<CParticleSystem>::GetEntitySize()
+ T CEntityFactory<CPasstimeBall>::Create(char const*)
+ T CEntityFactory<CPasstimeBall>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CPasstimeBall>::GetEntitySize()
+ T CEntityFactory<CPasstimeBallSpawn>::Create(char const*)
+ T CEntityFactory<CPasstimeBallSpawn>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CPasstimeBallSpawn>::GetEntitySize()
+ T CEntityFactory<CPasstimeGun>::Create(char const*)
+ T CEntityFactory<CPasstimeGun>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CPasstimeGun>::GetEntitySize()
  T CEntityFactory<CPathCorner>::Create(char const*)
  T CEntityFactory<CPathCorner>::Destroy(IServerNetworkable*)
  T CEntityFactory<CPathCorner>::GetEntitySize()
@@ -24701,6 +24941,9 @@
  T CEntityFactory<CTFParticleCannon>::Create(char const*)
  T CEntityFactory<CTFParticleCannon>::Destroy(IServerNetworkable*)
  T CEntityFactory<CTFParticleCannon>::GetEntitySize()
+ T CEntityFactory<CTFPasstimeLogic>::Create(char const*)
+ T CEntityFactory<CTFPasstimeLogic>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CTFPasstimeLogic>::GetEntitySize()
  T CEntityFactory<CTFPipebombLauncher>::Create(char const*)
  T CEntityFactory<CTFPipebombLauncher>::Destroy(IServerNetworkable*)
  T CEntityFactory<CTFPipebombLauncher>::GetEntitySize()
@@ -25091,6 +25334,9 @@
  T CEntityFactory<CTriggerCamera>::Create(char const*)
  T CEntityFactory<CTriggerCamera>::Destroy(IServerNetworkable*)
  T CEntityFactory<CTriggerCamera>::GetEntitySize()
+ T CEntityFactory<CTriggerCatapult>::Create(char const*)
+ T CEntityFactory<CTriggerCatapult>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CTriggerCatapult>::GetEntitySize()
  T CEntityFactory<CTriggerGravity>::Create(char const*)
  T CEntityFactory<CTriggerGravity>::Destroy(IServerNetworkable*)
  T CEntityFactory<CTriggerGravity>::GetEntitySize()
@@ -25112,6 +25358,9 @@
  T CEntityFactory<CTriggerOnce>::Create(char const*)
  T CEntityFactory<CTriggerOnce>::Destroy(IServerNetworkable*)
  T CEntityFactory<CTriggerOnce>::GetEntitySize()
+ T CEntityFactory<CTriggerPasstimeBall>::Create(char const*)
+ T CEntityFactory<CTriggerPasstimeBall>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CTriggerPasstimeBall>::GetEntitySize()
  T CEntityFactory<CTriggerPlayerMovement>::Create(char const*)
  T CEntityFactory<CTriggerPlayerMovement>::Destroy(IServerNetworkable*)
  T CEntityFactory<CTriggerPlayerMovement>::GetEntitySize()
@@ -25823,6 +26072,9 @@
  T CFilterTFCanCap::GetDataDescMap()
  T CFilterTFCanCap::PassesFilterImpl(CBaseEntity*, CBaseEntity*)
  T CFilterTFCanCap::~CFilterTFCanCap()
+ T CFilterTFClass::GetDataDescMap()
+ T CFilterTFClass::PassesFilterImpl(CBaseEntity*, CBaseEntity*)
+ T CFilterTFClass::~CFilterTFClass()
  T CFilterTFCondition::GetDataDescMap()
  T CFilterTFCondition::PassesFilterImpl(CBaseEntity*, CBaseEntity*)
  T CFilterTFCondition::~CFilterTFCondition()
@@ -26173,6 +26425,27 @@
  T CFuncOccluder::UpdateTransmitState()
  T CFuncOccluder::YouForgotToImplementOrDeclareServerClass()
  T CFuncOccluder::~CFuncOccluder()
+ T CFuncPasstimeGoal::CFuncPasstimeGoal()
+ T CFuncPasstimeGoal::GetDataDescMap()
+ T CFuncPasstimeGoal::GetServerClass()
+ T CFuncPasstimeGoal::GoalThink()
+ T CFuncPasstimeGoal::OnScore(int)
+ T CFuncPasstimeGoal::ShimEndTouch(CBaseEntity*)
+ T CFuncPasstimeGoal::ShimStartTouch(CBaseEntity*)
+ T CFuncPasstimeGoal::Spawn()
+ T CFuncPasstimeGoal::UpdateTransmitState()
+ T CFuncPasstimeGoal::YouForgotToImplementOrDeclareServerClass()
+ T CFuncPasstimeGoal::~CFuncPasstimeGoal()
+ T CFuncPasstimeGoalShim::EndTouch(CBaseEntity*)
+ T CFuncPasstimeGoalShim::StartTouch(CBaseEntity*)
+ T CFuncPasstimeGoalShim::~CFuncPasstimeGoalShim()
+ T CFuncPasstimeGoalieZone::BPlayerInAny(CTFPlayer*)
+ T CFuncPasstimeGoalieZone::GetDataDescMap()
+ T CFuncPasstimeGoalieZone::Spawn()
+ T CFuncPasstimeGoalieZone::~CFuncPasstimeGoalieZone()
+ T CFuncPasstimeNoBallZone::GetDataDescMap()
+ T CFuncPasstimeNoBallZone::Spawn()
+ T CFuncPasstimeNoBallZone::~CFuncPasstimeNoBallZone()
  T CFuncPlat::Blocked(CBaseEntity*)
  T CFuncPlat::CallGoDown()
  T CFuncPlat::CallHitBottom()
@@ -31163,8 +31436,8 @@
  T CMultiplayRules::IsMultiplayer()
  T CMultiplayRules::ItemShouldRespawn(CItem*)
  T CMultiplayRules::LoadMapCycleFile()
+ T CMultiplayRules::LoadMapCycleFileIntoVector(char const*, CUtlVector<char*, CUtlMemory<char*, int> >&)
  T CMultiplayRules::LoadVoiceCommandScript()
- T CMultiplayRules::LoapMapCycleFileIntoVector(char const*, CUtlVector<char*, CUtlMemory<char*, int> >&)
  T CMultiplayRules::PlayFootstepSounds(CBasePlayer*)
  T CMultiplayRules::PlayTextureSounds()
  T CMultiplayRules::PlayerCanHearChat(CBasePlayer*, CBasePlayer*)
@@ -31175,6 +31448,7 @@
  T CMultiplayRules::PlayerSpawn(CBasePlayer*)
  T CMultiplayRules::PlayerThink(CBasePlayer*)
  T CMultiplayRules::RandomPlayersSpeakConceptIfAllowed(int, int, int, char const*)
+ T CMultiplayRules::RawLoadMapCycleFileIntoVector(char const*, CUtlVector<char*, CUtlMemory<char*, int> >&)
  T CMultiplayRules::RefreshSkillData(bool)
  T CMultiplayRules::ResetMapCycleTimeStamp()
  T CMultiplayRules::ShouldDrawHeadLabels()
@@ -31598,6 +31872,8 @@
  T CNetworkHandleBase<CBasePlayer, CTFTeam::NetworkVar_m_hLeader>::operator=(CBasePlayer const*)
  T CNetworkHandleBase<CTFMiniGame, CTFMinigameLogic::NetworkVar_m_hActiveMinigame>::operator=(CTFMiniGame const*)
  T CNetworkHandleBase<CTFPlayer, CObjectSentrygun::NetworkVar_m_hAutoAimTarget>::operator=(CTFPlayer const*)
+ T CNetworkHandleBase<CTFPlayer, CPasstimeBall::NetworkVar_m_hCarrier>::operator=(CTFPlayer const*)
+ T CNetworkHandleBase<CTFPlayer, CPasstimeBall::NetworkVar_m_hPrevCarrier>::operator=(CTFPlayer const*)
  T CNetworkHandleBase<CTFPlayer, CTFPlayer::NetworkVar_m_hHighFivePartner>::operator=(CTFPlayer const*)
  T CNetworkVarBase<Vector, CPropVehicleDriveable::NetworkVar_m_vecEyeExitEndpoint>::NetworkStateChanged()
  T CNetworkVarBase<bool, CPropVehicleDriveable::NetworkVar_m_bEnterAnimOn>::NetworkStateChanged()
@@ -31956,6 +32232,113 @@
  T CParticleSystemQuery::MovePointInsideControllingObject(CParticleCollection*, void*, Vector*)
  T CParticleSystemQuery::SetUpLightingEnvironment(Vector const&)
  T CParticleSystemQuery::TraceLine(Vector const&, Vector const&, unsigned int, IHandleEntity const*, int, CBaseTrace*)
+ T CPasstimeBall::BIgnorePlayer(CTFPlayer*)
+ T CPasstimeBall::BOutOfPlay() const
+ T CPasstimeBall::BlockDamage(CTFPlayer*, Vector const&)
+ T CPasstimeBall::BlockReflect(CTFPlayer*, Vector const&, Vector const&)
+ T CPasstimeBall::CarrierRegenThink()
+ T CPasstimeBall::ChangeTeam(int)
+ T CPasstimeBall::Create(Vector, QAngle)
+ T CPasstimeBall::DefaultThink()
+ T CPasstimeBall::Deflected(CBaseEntity*, Vector&)
+ T CPasstimeBall::FinishLagCompensation(CBasePlayer*)
+ T CPasstimeBall::GetAirtimeDistance() const
+ T CPasstimeBall::GetAirtimeSec() const
+ T CPasstimeBall::GetCarrier() const
+ T CPasstimeBall::GetCollisionCount() const
+ T CPasstimeBall::GetHomingTarget() const
+ T CPasstimeBall::GetPrevCarrier() const
+ T CPasstimeBall::GetServerClass()
+ T CPasstimeBall::GetThrower() const
+ T CPasstimeBall::IsDeflectable()
+ T CPasstimeBall::MoveTo(Vector const&, Vector const&)
+ T CPasstimeBall::MoveToSpawner(Vector const&)
+ T CPasstimeBall::OnBecomeNotCarried()
+ T CPasstimeBall::OnCollision()
+ T CPasstimeBall::OnTakeDamage(CTakeDamageInfo const&)
+ T CPasstimeBall::PhysicsSolidMaskForEntity() const
+ T CPasstimeBall::Precache()
+ T CPasstimeBall::ResetTrail()
+ T CPasstimeBall::SetHomingTarget(CTFPlayer*)
+ T CPasstimeBall::SetStateCarried(CTFPlayer*)
+ T CPasstimeBall::SetStateFree()
+ T CPasstimeBall::SetStateOutOfPlay()
+ T CPasstimeBall::ShouldCollide(int, int) const
+ T CPasstimeBall::Spawn()
+ T CPasstimeBall::StartLagCompensation(CBasePlayer*, CUserCmd*)
+ T CPasstimeBall::TouchPlayer(CTFPlayer*)
+ T CPasstimeBall::UpdateLagCompensationHistory()
+ T CPasstimeBall::UpdateTransmitState()
+ T CPasstimeBall::VPhysicsCollision(int, gamevcollisionevent_t*)
+ T CPasstimeBall::YouForgotToImplementOrDeclareServerClass()
+ T CPasstimeBall::~CPasstimeBall()
+ T CPasstimeBallController::ApplyTo(CPasstimeBall*)
+ T CPasstimeBallController::BallCollision(CPasstimeBall*, int, gamevcollisionevent_t*)
+ T CPasstimeBallController::BallDamaged(CPasstimeBall*)
+ T CPasstimeBallController::BallPickedUp(CPasstimeBall*, CTFPlayer*)
+ T CPasstimeBallController::BallSpawned(CPasstimeBall*)
+ T CPasstimeBallController::CPasstimeBallController(int)
+ T CPasstimeBallController::DisableOn(CPasstimeBall const*)
+ T CPasstimeBallController::OnBallCollision(CPasstimeBall*, int, gamevcollisionevent_t*)
+ T CPasstimeBallController::OnBallDamaged(CPasstimeBall*)
+ T CPasstimeBallController::OnBallPickedUp(CPasstimeBall*, CTFPlayer*)
+ T CPasstimeBallController::OnBallSpawned(CPasstimeBall*)
+ T CPasstimeBallController::OnDisabled()
+ T CPasstimeBallController::OnEnabled()
+ T CPasstimeBallController::SetIsEnabled(bool)
+ T CPasstimeBallController::~CPasstimeBallController()
+ T CPasstimeBallControllerHoming::Apply(CPasstimeBall*)
+ T CPasstimeBallControllerHoming::CPasstimeBallControllerHoming()
+ T CPasstimeBallControllerHoming::IsActive() const
+ T CPasstimeBallControllerHoming::OnBallCollision(CPasstimeBall*, int, gamevcollisionevent_t*)
+ T CPasstimeBallControllerHoming::OnBallDamaged(CPasstimeBall*)
+ T CPasstimeBallControllerHoming::OnBallPickedUp(CPasstimeBall*, CTFPlayer*)
+ T CPasstimeBallControllerHoming::OnBallSpawned(CPasstimeBall*)
+ T CPasstimeBallControllerHoming::OnDisabled()
+ T CPasstimeBallControllerHoming::SetTargetSpeed(float)
+ T CPasstimeBallControllerHoming::StartHoming(CPasstimeBall*, CTFPlayer*)
+ T CPasstimeBallControllerHoming::~CPasstimeBallControllerHoming()
+ T CPasstimeBallControllerPlayerSeek::Apply(CPasstimeBall*)
+ T CPasstimeBallControllerPlayerSeek::CPasstimeBallControllerPlayerSeek()
+ T CPasstimeBallControllerPlayerSeek::FindTarget(CTFPlayer*, Vector const&) const
+ T CPasstimeBallControllerPlayerSeek::IsActive() const
+ T CPasstimeBallControllerPlayerSeek::OnBallSpawned(CPasstimeBall*)
+ T CPasstimeBallControllerPlayerSeek::OnDisabled()
+ T CPasstimeBallControllerPlayerSeek::Seek(CPasstimeBall*, CTFPlayer*) const
+ T CPasstimeBallControllerPlayerSeek::~CPasstimeBallControllerPlayerSeek()
+ T CPasstimeBallSpawn::CPasstimeBallSpawn()
+ T CPasstimeBallSpawn::GetDataDescMap()
+ T CPasstimeBallSpawn::InputDisable(inputdata_t&)
+ T CPasstimeBallSpawn::InputEnable(inputdata_t&)
+ T CPasstimeBallSpawn::~CPasstimeBallSpawn()
+ T CPasstimeGun::ActivityList(int&)
+ T CPasstimeGun::BValidPassTarget(CTFPlayer*, CTFPlayer*, HudNotification_t*)
+ T CPasstimeGun::CPasstimeGun()
+ T CPasstimeGun::CalcLaunch(CTFPlayer*, float, bool)
+ T CPasstimeGun::CanBeSelected()
+ T CPasstimeGun::CanCharge()
+ T CPasstimeGun::CanDeploy()
+ T CPasstimeGun::CanHolster() const
+ T CPasstimeGun::Deploy()
+ T CPasstimeGun::EThrowState const& CNetworkVarBase<CPasstimeGun::EThrowState, CPasstimeGun::NetworkVar_m_eThrowState>::operator=<CPasstimeGun::EThrowState>(CPasstimeGun::EThrowState const&)
+ T CPasstimeGun::Equip(CBaseCombatCharacter*)
+ T CPasstimeGun::GetChargeBeginTime()
+ T CPasstimeGun::GetChargeMaxTime()
+ T CPasstimeGun::GetServerClass()
+ T CPasstimeGun::GetWeaponID() const
+ T CPasstimeGun::HasPrimaryAmmo()
+ T CPasstimeGun::Holster(CBaseCombatWeapon*)
+ T CPasstimeGun::IsEnergyWeapon() const
+ T CPasstimeGun::ItemHolsterFrame()
+ T CPasstimeGun::ItemPostFrame()
+ T CPasstimeGun::Precache()
+ T CPasstimeGun::Spawn()
+ T CPasstimeGun::Throw(CTFPlayer*)
+ T CPasstimeGun::UpdateOnRemove()
+ T CPasstimeGun::VisibleInWeaponSelection()
+ T CPasstimeGun::WeaponReset()
+ T CPasstimeGun::YouForgotToImplementOrDeclareServerClass()
+ T CPasstimeGun::~CPasstimeGun()
  T CPathCorner::DrawDebugGeometryOverlays()
  T CPathCorner::DrawDebugTextOverlays()
  T CPathCorner::GetDataDescMap()
@@ -33022,6 +33405,7 @@
  T CRecipientFilter::AddRecipient(CBasePlayer const*)
  T CRecipientFilter::AddRecipientsByPAS(Vector const&)
  T CRecipientFilter::AddRecipientsByPVS(Vector const&)
+ T CRecipientFilter::AddRecipientsByTeam(CTeam*)
  T CRecipientFilter::CRecipientFilter()
  T CRecipientFilter::CopyFrom(CRecipientFilter const&)
  T CRecipientFilter::GetRecipientCount() const
@@ -33844,6 +34228,7 @@
  T CServerGameClients::PostClientMessagesSent_DEPRECIATED()
  T CServerGameClients::ProcessUsercmds(edict_t*, bf_read*, int, int, int, bool, bool)
  T CServerGameClients::SetCommandClient(int)
+ T CServerGameDLL::AsyncPrepareLevelResources(char*, unsigned long, char*, unsigned long, float*)
  T CServerGameDLL::BuildAdjacentMapList()
  T CServerGameDLL::CanProvideLevel(char*, int)
  T CServerGameDLL::CreateEntityTransitionList(CSaveRestoreData*, int)
@@ -34236,6 +34621,7 @@
  T CSpriteTrail::GetDataDescMap()
  T CSpriteTrail::GetServerClass()
  T CSpriteTrail::Precache()
+ T CSpriteTrail::SetEndWidth(float)
  T CSpriteTrail::SetLifeTime(float)
  T CSpriteTrail::SetStartWidth(float)
  T CSpriteTrail::SetTextureResolution(float)
@@ -35951,6 +36337,8 @@
  T CTFGameRules::ItemTesting_SetupFromKV(KeyValues*)
  T CTFGameRules::LevelInitPostEntity()
  T CTFGameRules::LevelShutdown()
+ T CTFGameRules::LoadMapCycleFile()
+ T CTFGameRules::LoadMapCycleFileIntoVector(char const*, CUtlVector<char*, CUtlMemory<char*, int> >&)
  T CTFGameRules::LoadNextTrainingMap()
  T CTFGameRules::LoseSongName(int)
  T CTFGameRules::ManageServerSideVoteCreation()
@@ -35962,6 +36350,7 @@
  T CTFGameRules::OnNavMeshLoad()
  T CTFGameRules::OnPlayerSpawned(CTFPlayer*)
  T CTFGameRules::OnRemoveCoach(unsigned int)
+ T CTFGameRules::OnWorkshopMapUpdated(unsigned long long)
  T CTFGameRules::PlayHelltowerAnnouncerVO(int, int)
  T CTFGameRules::PlaySpecialCapSounds(int, CTeamControlPoint*)
  T CTFGameRules::PlayTrainCaptureAlert(CTeamControlPoint*, bool)
@@ -36168,6 +36557,7 @@
  T CTFGameStats::SW_GameStats_WriteMap()
  T CTFGameStats::SW_GameStats_WritePlayer(CTFPlayer*, bool)
  T CTFGameStats::SW_GameStats_WriteRound(int, bool, int)
+ T CTFGameStats::SW_PasstimeRoundEnded()
  T CTFGameStats::SW_WriteHostsRow()
  T CTFGameStats::SendStatsToPlayer(CTFPlayer*, bool)
  T CTFGameStats::StoreGameEndReason(char const*)
@@ -36519,18 +36909,21 @@
  T CTFLunchBox_Drink::~CTFLunchBox_Drink()
  T CTFMapContribution::~CTFMapContribution()
  T CTFMapsWorkshop::AddMap(unsigned long long)
+ T CTFMapsWorkshop::AsyncPrepareLevelResources(char*, unsigned long, char*, unsigned long, float*)
  T CTFMapsWorkshop::CanonicalNameForMap(unsigned long long, CUtlString const&, CUtlString&)
  T CTFMapsWorkshop::GameServerSteamAPIActivated()
+ T CTFMapsWorkshop::GetMapName(unsigned long long, CUtlString&)
  T CTFMapsWorkshop::Init()
  T CTFMapsWorkshop::IsValidOriginalNameForMap(CUtlString const&)
  T CTFMapsWorkshop::MapIDFromName(CUtlString)
  T CTFMapsWorkshop::Name()
  T CTFMapsWorkshop::OnCanProvideLevel(char*, int)
- T CTFMapsWorkshop::OnServerPrepareLevelResources(char*, unsigned long, char*, unsigned long)
+ T CTFMapsWorkshop::PrepareLevelResources(char*, unsigned long, char*, unsigned long)
+ T CTFMapsWorkshop::PrintStatusToConsole()
  T CTFMapsWorkshop::Refresh()
  T CTFMapsWorkshop::Shutdown()
  T CTFMapsWorkshop::Steam_OnUGCDownload(DownloadItemResult_t*)
- T CTFMapsWorkshop::SyncPrepareMap(unsigned long long)
+ T CTFMapsWorkshop::Steam_OnUGCItemInstalled(ItemInstalled_t*)
  T CTFMapsWorkshop::~CTFMapsWorkshop()
  T CTFMechanicalArm::CheckShockAttackVictim(CTFPlayer*, CBaseEntity*)
  T CTFMechanicalArm::GetAmmoPerShot()
@@ -36630,7 +37023,6 @@
  T CTFMinigun::ShouldDoMuzzleFlash()
  T CTFMinigun::Spawn()
  T CTFMinigun::UpdateTransmitState()
- T CTFMinigun::UseServerRandomSeed() const
  T CTFMinigun::WeaponIdle()
  T CTFMinigun::WeaponReset()
  T CTFMinigun::WindDown()
@@ -36753,6 +37145,45 @@
  T CTFParticleCannon::WeaponReset()
  T CTFParticleCannon::YouForgotToImplementOrDeclareServerClass()
  T CTFParticleCannon::~CTFParticleCannon()
+ T CTFPasstimeLogic::BCanPlayerPickUpBall(CTFPlayer*, HudNotification_t*) const
+ T CTFPasstimeLogic::BallHistSampleThink()
+ T CTFPasstimeLogic::CTFPasstimeLogic()
+ T CTFPasstimeLogic::CalcProgressFrac()
+ T CTFPasstimeLogic::EjectBall(CTFPlayer*, CTFPlayer*)
+ T CTFPasstimeLogic::FireGameEvent(IGameEvent*)
+ T CTFPasstimeLogic::GetBall() const
+ T CTFPasstimeLogic::GetDataDescMap()
+ T CTFPasstimeLogic::GetLastPassTime(CTFPlayer*)
+ T CTFPasstimeLogic::GetServerClass()
+ T CTFPasstimeLogic::InputJumpPadUsed(inputdata_t&)
+ T CTFPasstimeLogic::InputSetSection(inputdata_t&)
+ T CTFPasstimeLogic::InputSpawnBall(inputdata_t&)
+ T CTFPasstimeLogic::InputSpeedBoostUsed(inputdata_t&)
+ T CTFPasstimeLogic::InputTimeUp(inputdata_t&)
+ T CTFPasstimeLogic::LaunchBall(CTFPlayer*, Vector const&, Vector const&)
+ T CTFPasstimeLogic::MoveBallToSpawner()
+ T CTFPasstimeLogic::NetworkVar_m_trackPoints::Set(int, Vector const&)
+ T CTFPasstimeLogic::OnBallCarrierDamaged(CTFPlayer*, CTFPlayer*, CTakeDamageInfo const&)
+ T CTFPasstimeLogic::OnBallCollision(CPasstimeBall*, int, gamevcollisionevent_t*)
+ T CTFPasstimeLogic::OnBallGet()
+ T CTFPasstimeLogic::OnEnterGoal(CPasstimeBall*, CFuncPasstimeGoal*)
+ T CTFPasstimeLogic::OnEnterGoal(CTFPlayer*, CFuncPasstimeGoal*)
+ T CTFPasstimeLogic::OnExitGoal(CPasstimeBall*, CFuncPasstimeGoal*)
+ T CTFPasstimeLogic::OnPlayerTouchBall(CTFPlayer*, CPasstimeBall*)
+ T CTFPasstimeLogic::OnStayInGoal(CTFPlayer*, CFuncPasstimeGoal*)
+ T CTFPasstimeLogic::OneSecStatsUpdateThink()
+ T CTFPasstimeLogic::ParseSetSection(char const*, SetSectionParams&) const
+ T CTFPasstimeLogic::PostSpawn()
+ T CTFPasstimeLogic::Precache()
+ T CTFPasstimeLogic::RespawnBall()
+ T CTFPasstimeLogic::Score(CTFPlayer*, int, bool)
+ T CTFPasstimeLogic::SetLastPassTime(CTFPlayer*)
+ T CTFPasstimeLogic::Spawn()
+ T CTFPasstimeLogic::SpawnBallAtRandomSpawnerThink()
+ T CTFPasstimeLogic::SpawnBallAtSpawner(CPasstimeBallSpawn*)
+ T CTFPasstimeLogic::UpdateTransmitState()
+ T CTFPasstimeLogic::YouForgotToImplementOrDeclareServerClass()
+ T CTFPasstimeLogic::~CTFPasstimeLogic()
  T CTFPhysicsPushEntities::FinishRotPushedEntity(CBaseEntity*, CPhysicsPushedEntities::RotatingPushMove_t const&)
  T CTFPhysicsPushEntities::IsPlayerAABBIntersetingPusherOBB(CBaseEntity*, CBaseEntity*)
  T CTFPhysicsPushEntities::LinearCheckPush(CPhysicsPushedEntities::PhysicsPushedInfo_t&)
@@ -37104,6 +37535,7 @@
  T CTFPlayer::SOCacheUnsubscribed(CSteamID const&)
  T CTFPlayer::SaveLastWeaponSlot()
  T CTFPlayer::SaveMe()
+ T CTFPlayer::SayAskForBall()
  T CTFPlayer::SelectClosestControlPointByTravelDistance(CUtlVector<CTeamControlPoint*, CUtlMemory<CTeamControlPoint*, int> >*) const
  T CTFPlayer::SelectItem(char const*, int)
  T CTFPlayer::SelectSpawnSpotByName(char const*, CBaseEntity*&)
@@ -37183,6 +37615,7 @@
  T CTFPlayer::YouForgotToImplementOrDeclareServerClass()
  T CTFPlayer::~CTFPlayer()
  T CTFPlayerAnimState::CalcMainActivity()
+ T CTFPlayerAnimState::CheckPasstimeThrowAnimation()
  T CTFPlayerAnimState::CheckStunAnimation()
  T CTFPlayerAnimState::ClearAnimationState()
  T CTFPlayerAnimState::ComputePoseParam_AimYaw(CStudioHdr*)
@@ -37287,6 +37720,7 @@
  T CTFPlayerShared::GetHealerByIndex(int)
  T CTFPlayerShared::GetMaxBuffedHealth(bool, bool)
  T CTFPlayerShared::GetNumKillsInTime(float)
+ T CTFPlayerShared::GetPasstimePassTarget() const
  T CTFPlayerShared::GetPercentInvisible()
  T CTFPlayerShared::GetSpeedWatchersList(CUtlVector<CTFPlayer*, CUtlMemory<CTFPlayer*, int> >*) const
  T CTFPlayerShared::GetStunner()
@@ -37378,6 +37812,7 @@
  T CTFPlayerShared::SetChargeEffect(medigun_charge_types, bool, bool, MedigunEffects_t const&, float, CTFPlayer*)
  T CTFPlayerShared::SetDisguiseHealth(int)
  T CTFPlayerShared::SetJumping(bool)
+ T CTFPlayerShared::SetPasstimePassTarget(CTFPlayer*)
  T CTFPlayerShared::SetPlayerDominated(CTFPlayer*, bool)
  T CTFPlayerShared::SetPlayerDominatingMe(CTFPlayer*, bool)
  T CTFPlayerShared::SetRageMeter(float)
@@ -39093,6 +39528,7 @@
  T CTFWearableVM::YouForgotToImplementOrDeclareServerClass()
  T CTFWearableVM::~CTFWearableVM()
  T CTFWorkshopMap::CTFWorkshopMap(unsigned long long)
+ T CTFWorkshopMap::Downloaded(float*)
  T CTFWorkshopMap::GetLocalFile(CUtlString&)
  T CTFWorkshopMap::Refresh(CTFWorkshopMap::eRefreshType)
  T CTFWorkshopMap::Steam_OnQueryUGCDetails(SteamUGCQueryCompleted_t*, bool)
@@ -39884,6 +40320,23 @@
  T CTriggerCamera::UpdateTransmitState()
  T CTriggerCamera::Use(CBaseEntity*, CBaseEntity*, USE_TYPE, float)
  T CTriggerCamera::~CTriggerCamera()
+ T CTriggerCatapult::CalculateLaunchVector(CBaseEntity*, CBaseEntity*)
+ T CTriggerCatapult::CalculateLaunchVectorPreserve(Vector, CBaseEntity*, CBaseEntity*, bool)
+ T CTriggerCatapult::DrawDebugGeometryOverlays()
+ T CTriggerCatapult::DrawDebugTextOverlays()
+ T CTriggerCatapult::EndTouch(CBaseEntity*)
+ T CTriggerCatapult::GetDataDescMap()
+ T CTriggerCatapult::InputSetExactVelocityChoiceType(inputdata_t&)
+ T CTriggerCatapult::InputSetLaunchTarget(inputdata_t&)
+ T CTriggerCatapult::InputSetPhysicsSpeed(inputdata_t&)
+ T CTriggerCatapult::InputSetPlayerSpeed(inputdata_t&)
+ T CTriggerCatapult::LaunchByDirection(CBaseEntity*)
+ T CTriggerCatapult::LaunchByTarget(CBaseEntity*, CBaseEntity*)
+ T CTriggerCatapult::LaunchThink()
+ T CTriggerCatapult::PlayerPassesTriggerFiltersThink()
+ T CTriggerCatapult::Spawn()
+ T CTriggerCatapult::StartTouch(CBaseEntity*)
+ T CTriggerCatapult::~CTriggerCatapult()
  T CTriggerGravity::GetDataDescMap()
  T CTriggerGravity::GravityTouch(CBaseEntity*)
  T CTriggerGravity::Spawn()
@@ -39929,6 +40382,11 @@
  T CTriggerMultiple::~CTriggerMultiple()
  T CTriggerOnce::Spawn()
  T CTriggerOnce::~CTriggerOnce()
+ T CTriggerPasstimeBall::BTouching(CBaseEntity*)
+ T CTriggerPasstimeBall::GetDataDescMap()
+ T CTriggerPasstimeBall::Spawn()
+ T CTriggerPasstimeBall::Update()
+ T CTriggerPasstimeBall::~CTriggerPasstimeBall()
  T CTriggerPlayerMovement::EndTouch(CBaseEntity*)
  T CTriggerPlayerMovement::GetDataDescMap()
  T CTriggerPlayerMovement::Spawn()
@@ -40190,6 +40648,10 @@
  T CUtlLinkedList<CMapEntityRef, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CMapEntityRef, unsigned short>, unsigned short> >::LinkBefore(unsigned short, unsigned short)
  T CUtlLinkedList<CMapEntityRef, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CMapEntityRef, unsigned short>, unsigned short> >::Purge()
  T CUtlLinkedList<CMapEntityRef, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CMapEntityRef, unsigned short>, unsigned short> >::~CUtlLinkedList()
+ T CUtlLinkedList<CPasstimeBall::LagRecord, int, true, int, CUtlFixedMemory<UtlLinkedListElem_t<CPasstimeBall::LagRecord, int> > >::AllocInternal(bool)
+ T CUtlLinkedList<CPasstimeBall::LagRecord, int, true, int, CUtlFixedMemory<UtlLinkedListElem_t<CPasstimeBall::LagRecord, int> > >::LinkAfter(int, int)
+ T CUtlLinkedList<CPasstimeBall::LagRecord, int, true, int, CUtlFixedMemory<UtlLinkedListElem_t<CPasstimeBall::LagRecord, int> > >::RemoveAll()
+ T CUtlLinkedList<CPasstimeBall::LagRecord, int, true, int, CUtlFixedMemory<UtlLinkedListElem_t<CPasstimeBall::LagRecord, int> > >::Unlink(int)
  T CUtlLinkedList<CPlayerCmdInfo, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CPlayerCmdInfo, unsigned short>, unsigned short> >::AllocInternal(bool)
  T CUtlLinkedList<CPlayerCmdInfo, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CPlayerCmdInfo, unsigned short>, unsigned short> >::LinkBefore(unsigned short, unsigned short)
  T CUtlLinkedList<CPlayerSimInfo, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CPlayerSimInfo, unsigned short>, unsigned short> >::AllocInternal(bool)
@@ -40512,6 +40974,9 @@
  T CUtlMemory<IFuncForceFieldAutoList*, int>::Grow(int)
  T CUtlMemory<IFuncNavPrerequisiteAutoList*, int>::Grow(int)
  T CUtlMemory<IFuncNoBuildAutoList*, int>::Grow(int)
+ T CUtlMemory<IFuncPasstimeGoalAutoList*, int>::Grow(int)
+ T CUtlMemory<IFuncPasstimeGoalieZoneAutoList*, int>::Grow(int)
+ T CUtlMemory<IFuncPasstimeNoBallZoneAutoList*, int>::Grow(int)
  T CUtlMemory<IFuncPowerupVolumeAutoList*, int>::Grow(int)
  T CUtlMemory<IFuncRespawnRoomAutoList*, int>::Grow(int)
  T CUtlMemory<IFuncRespawnRoomVisualizerAutoList*, int>::Grow(int)
@@ -40524,6 +40989,8 @@
  T CUtlMemory<INextBot*, int>::Grow(int)
  T CUtlMemory<INextBot::NextBotDebugLineType*, int>::Grow(int)
  T CUtlMemory<IParticleOperatorDefinition*, int>::Grow(int)
+ T CUtlMemory<IPasstimeBallControllerAutoList*, int>::Grow(int)
+ T CUtlMemory<IPasstimeBallSpawnAutoList*, int>::Grow(int)
  T CUtlMemory<IPhysicsPropAutoList*, int>::Grow(int)
  T CUtlMemory<IPopulationSpawner*, int>::Grow(int)
  T CUtlMemory<IPopulator*, int>::Grow(int)
@@ -40724,6 +41191,7 @@
  T CUtlMemory<schema_string_table_entry_t, int>::Grow(int)
  T CUtlMemory<simthinkentry_t, int>::Grow(int)
  T CUtlMemory<static_attrib_t, int>::Grow(int)
+ T CUtlMemory<std::pair<CTFPlayer*, float>, int>::Grow(int)
  T CUtlMemory<string_t, int>::Grow(int)
  T CUtlMemory<studiohdr_t const*, int>::Grow(int)
  T CUtlMemory<stun_struct_t, int>::Grow(int)
@@ -41878,6 +42346,7 @@
  T CUtlString::Format(char const*, ...)
  T CUtlString::FormatV(char const*, char*)
  T CUtlString::Get() const
+ T CUtlString::GetExtension() const
  T CUtlString::GetForModify()
  T CUtlString::IsEqual_CaseSensitive(char const*) const
  T CUtlString::Purge()
@@ -41885,6 +42354,7 @@
  T CUtlString::SetDirect(char const*, int)
  T CUtlString::SetLength(int)
  T CUtlString::Slice(int, int) const
+ T CUtlString::StripExtension() const
  T CUtlString::ToLower()
  T CUtlString::operator+=(CUtlString const&)
  T CUtlString::operator+=(char const*)
@@ -42010,6 +42480,9 @@
  T CUtlVector<IFuncForceFieldAutoList*, CUtlMemory<IFuncForceFieldAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncNavPrerequisiteAutoList*, CUtlMemory<IFuncNavPrerequisiteAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncNoBuildAutoList*, CUtlMemory<IFuncNoBuildAutoList*, int> >::~CUtlVector()
+ T CUtlVector<IFuncPasstimeGoalAutoList*, CUtlMemory<IFuncPasstimeGoalAutoList*, int> >::~CUtlVector()
+ T CUtlVector<IFuncPasstimeGoalieZoneAutoList*, CUtlMemory<IFuncPasstimeGoalieZoneAutoList*, int> >::~CUtlVector()
+ T CUtlVector<IFuncPasstimeNoBallZoneAutoList*, CUtlMemory<IFuncPasstimeNoBallZoneAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncPowerupVolumeAutoList*, CUtlMemory<IFuncPowerupVolumeAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncRespawnRoomAutoList*, CUtlMemory<IFuncRespawnRoomAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncRespawnRoomVisualizerAutoList*, CUtlMemory<IFuncRespawnRoomVisualizerAutoList*, int> >::~CUtlVector()
@@ -42017,6 +42490,8 @@
  T CUtlVector<IGameSystemPerFrame*, CUtlMemory<IGameSystemPerFrame*, int> >::~CUtlVector()
  T CUtlVector<IInfoPowerupSpawnAutoList*, CUtlMemory<IInfoPowerupSpawnAutoList*, int> >::~CUtlVector()
  T CUtlVector<IMinigameAutoList*, CUtlMemory<IMinigameAutoList*, int> >::~CUtlVector()
+ T CUtlVector<IPasstimeBallControllerAutoList*, CUtlMemory<IPasstimeBallControllerAutoList*, int> >::~CUtlVector()
+ T CUtlVector<IPasstimeBallSpawnAutoList*, CUtlMemory<IPasstimeBallSpawnAutoList*, int> >::~CUtlVector()
  T CUtlVector<IPhysicsPropAutoList*, CUtlMemory<IPhysicsPropAutoList*, int> >::~CUtlVector()
  T CUtlVector<IRobotDestructionGroupAutoList*, CUtlMemory<IRobotDestructionGroupAutoList*, int> >::~CUtlVector()
  T CUtlVector<IServerNetworkable*, CUtlMemory<IServerNetworkable*, int> >::~CUtlVector()
@@ -43579,6 +44054,7 @@
  T EndDMXContext(bool)
  T EndRestoreEntities()
  T EntityFactoryDictionary()
+ T EntityIsInNoBallZone(CBaseEntity*)
  T EntityMatrix::InitFromEntity(CBaseEntity*, int)
  T EntityMatrix::InitFromEntityLocal(CBaseEntity*)
  T EntityMessageBegin(CBaseEntity*, bool)
@@ -44433,6 +44909,9 @@
  T IFuncForceFieldAutoList::~IFuncForceFieldAutoList()
  T IFuncNavPrerequisiteAutoList::~IFuncNavPrerequisiteAutoList()
  T IFuncNoBuildAutoList::~IFuncNoBuildAutoList()
+ T IFuncPasstimeGoalAutoList::~IFuncPasstimeGoalAutoList()
+ T IFuncPasstimeGoalieZoneAutoList::~IFuncPasstimeGoalieZoneAutoList()
+ T IFuncPasstimeNoBallZoneAutoList::~IFuncPasstimeNoBallZoneAutoList()
  T IFuncPowerupVolumeAutoList::~IFuncPowerupVolumeAutoList()
  T IFuncRespawnRoomAutoList::~IFuncRespawnRoomAutoList()
  T IFuncRespawnRoomVisualizerAutoList::~IFuncRespawnRoomVisualizerAutoList()
@@ -44640,6 +45119,8 @@
  T IParticleSystemQuery::IsPointInControllingObjectHitBox(CParticleCollection*, int, Vector, bool)
  T IParticleSystemQuery::MovePointInsideControllingObject(CParticleCollection*, void*, Vector*)
  T IParticleSystemQuery::SetUpLightingEnvironment(Vector const&)
+ T IPasstimeBallControllerAutoList::~IPasstimeBallControllerAutoList()
+ T IPasstimeBallSpawnAutoList::~IPasstimeBallSpawnAutoList()
  T IPhysicsPropAutoList::~IPhysicsPropAutoList()
  T IPopulationSpawner::GetClass(int)
  T IPopulationSpawner::GetClassIcon(int)
@@ -44764,6 +45245,7 @@
  T IgnoreActorsTraceFilterFunction(IHandleEntity*, int)
  T InAchievementZone(CBaseEntity*)
  T InNoGrenadeZone(CBaseEntity*)
+ T IncomingSoundForClass(CTFPlayerClass const*, char (&) [64])
  T IndexModelSequences(CStudioHdr*)
  T InitBodyQue()
  T InitPose(CStudioHdr const*, Vector*, Quaternion*, int)
@@ -44911,6 +45393,7 @@
  T MatrixCopy(matrix3x4_t const&, matrix3x4_t&)
  T MatrixFromAngles(QAngle const&, VMatrix&)
  T MatrixGetColumn(matrix3x4_t const&, int, Vector&)
+ T MatrixInverseTR(VMatrix const&, VMatrix&)
  T MatrixInvert(matrix3x4_t const&, matrix3x4_t&)
  T MatrixMultiply(VMatrix const&, VMatrix const&, VMatrix&)
  T MatrixSetColumn(Vector const&, int, matrix3x4_t&)
@@ -45171,6 +45654,21 @@
  T ParticleSmokeGrenade::~ParticleSmokeGrenade()
  T Particle_Test_Start(CBasePlayer*, char const*, bool)
  T PassServerEntityFilter(IHandleEntity const*, IHandleEntity const*)
+ T PasstimeGameEvents::BallBlocked::BallBlocked(int, int)
+ T PasstimeGameEvents::BallBlocked::Fire()
+ T PasstimeGameEvents::BallFree::BallFree(int)
+ T PasstimeGameEvents::BallFree::Fire()
+ T PasstimeGameEvents::BallGet::BallGet(int)
+ T PasstimeGameEvents::BallGet::Fire()
+ T PasstimeGameEvents::BallStolen::BallStolen(int, int)
+ T PasstimeGameEvents::BallStolen::Fire()
+ T PasstimeGameEvents::PassCaught::Fire()
+ T PasstimeGameEvents::PassCaught::PassCaught(int, int, float, float)
+ T PasstimeGameEvents::Score::Fire()
+ T PasstimeGameEvents::Score::Score(int, int)
+ T PasstimeStats_t::AddBallFracSample(float)
+ T PasstimeStats_t::AddPassTravelDistSample(float)
+ T PasstimeStats_t::Clear()
  T Path::AssemblePrecomputedPath(INextBot*, Vector const&, CNavArea*)
  T Path::BuildTrivialPath(INextBot*, Vector const&)
  T Path::CollectAdjacentAreas(CNavArea*)
@@ -45594,6 +46092,8 @@
  T SetupLightNormalFromProps(QAngle const&, float, float, Vector&)
  T SetupMatrixAngles(QAngle const&)
  T SetupMatrixAxisRot(Vector const&, float)
+ T SetupMatrixIdentity()
+ T SetupMatrixOrgAngles(Vector const&, QAngle const&)
  T SetupParentsForSpawnList(int, HierarchicalSpawn_t*)
  T SharedRandomInt(char const*, int, int, int)
  T SharedVehicleViewSmoothing(CBasePlayer*, Vector*, QAngle*, bool, bool, Vector const&, ViewSmoothingData_t*, float*)
@@ -46215,6 +46715,7 @@
  T datamap_t* DataMapInit<CFuncLadder>(CFuncLadder*)
  T datamap_t* DataMapInit<CFuncMoveLinear>(CFuncMoveLinear*)
  T datamap_t* DataMapInit<CFuncNavCost>(CFuncNavCost*)
+ T datamap_t* DataMapInit<CFuncPasstimeGoal>(CFuncPasstimeGoal*)
  T datamap_t* DataMapInit<CFuncPlat>(CFuncPlat*)
  T datamap_t* DataMapInit<CFuncRespawnFlagZone>(CFuncRespawnFlagZone*)
  T datamap_t* DataMapInit<CFuncRespawnRoom>(CFuncRespawnRoom*)
@@ -46260,6 +46761,7 @@
  T datamap_t* DataMapInit<CObjectSapper>(CObjectSapper*)
  T datamap_t* DataMapInit<CObjectTeleporter>(CObjectTeleporter*)
  T datamap_t* DataMapInit<CParticleSystem>(CParticleSystem*)
+ T datamap_t* DataMapInit<CPasstimeBallSpawn>(CPasstimeBallSpawn*)
  T datamap_t* DataMapInit<CPathCorner>(CPathCorner*)
  T datamap_t* DataMapInit<CPathTrack>(CPathTrack*)
  T datamap_t* DataMapInit<CPhysBox>(CPhysBox*)
@@ -46321,6 +46823,7 @@
  T datamap_t* DataMapInit<CTFHalloweenMinigame_FallingPlatforms>(CTFHalloweenMinigame_FallingPlatforms*)
  T datamap_t* DataMapInit<CTFMedigunShield>(CTFMedigunShield*)
  T datamap_t* DataMapInit<CTFMiniGame>(CTFMiniGame*)
+ T datamap_t* DataMapInit<CTFPasstimeLogic>(CTFPasstimeLogic*)
  T datamap_t* DataMapInit<CTFProjectile_Arrow>(CTFProjectile_Arrow*)
  T datamap_t* DataMapInit<CTFProjectile_Flare>(CTFProjectile_Flare*)
  T datamap_t* DataMapInit<CTFReviveMarker>(CTFReviveMarker*)
@@ -46348,11 +46851,13 @@
  T datamap_t* DataMapInit<CTriggerAreaCapture>(CTriggerAreaCapture*)
  T datamap_t* DataMapInit<CTriggerBrush>(CTriggerBrush*)
  T datamap_t* DataMapInit<CTriggerCamera>(CTriggerCamera*)
+ T datamap_t* DataMapInit<CTriggerCatapult>(CTriggerCatapult*)
  T datamap_t* DataMapInit<CTriggerGravity>(CTriggerGravity*)
  T datamap_t* DataMapInit<CTriggerHurt>(CTriggerHurt*)
  T datamap_t* DataMapInit<CTriggerImpact>(CTriggerImpact*)
  T datamap_t* DataMapInit<CTriggerLook>(CTriggerLook*)
  T datamap_t* DataMapInit<CTriggerMultiple>(CTriggerMultiple*)
+ T datamap_t* DataMapInit<CTriggerPasstimeBall>(CTriggerPasstimeBall*)
  T datamap_t* DataMapInit<CTriggerProximity>(CTriggerProximity*)
  T datamap_t* DataMapInit<CTriggerRemove>(CTriggerRemove*)
  T datamap_t* DataMapInit<CTriggerSoundscape>(CTriggerSoundscape*)
@@ -46490,6 +46995,7 @@
  T int ServerClassInit<DT_FuncLadder::ignored>(DT_FuncLadder::ignored*)
  T int ServerClassInit<DT_FuncMonitor::ignored>(DT_FuncMonitor::ignored*)
  T int ServerClassInit<DT_FuncOccluder::ignored>(DT_FuncOccluder::ignored*)
+ T int ServerClassInit<DT_FuncPasstimeGoal::ignored>(DT_FuncPasstimeGoal::ignored*)
  T int ServerClassInit<DT_FuncReflectiveGlass::ignored>(DT_FuncReflectiveGlass::ignored*)
  T int ServerClassInit<DT_FuncRespawnRoom::ignored>(DT_FuncRespawnRoom::ignored*)
  T int ServerClassInit<DT_FuncRespawnRoomVisualizer::ignored>(DT_FuncRespawnRoomVisualizer::ignored*)
@@ -46535,6 +47041,8 @@
  T int ServerClassInit<DT_ParticlePerformanceMonitor::ignored>(DT_ParticlePerformanceMonitor::ignored*)
  T int ServerClassInit<DT_ParticleSmokeGrenade::ignored>(DT_ParticleSmokeGrenade::ignored*)
  T int ServerClassInit<DT_ParticleSystem::ignored>(DT_ParticleSystem::ignored*)
+ T int ServerClassInit<DT_PasstimeBall::ignored>(DT_PasstimeBall::ignored*)
+ T int ServerClassInit<DT_PasstimeGun::ignored>(DT_PasstimeGun::ignored*)
  T int ServerClassInit<DT_PhysBox::ignored>(DT_PhysBox::ignored*)
  T int ServerClassInit<DT_PhysBoxMultiplayer::ignored>(DT_PhysBoxMultiplayer::ignored*)
  T int ServerClassInit<DT_PhysMagnet::ignored>(DT_PhysMagnet::ignored*)
@@ -46651,6 +47159,7 @@
  T int ServerClassInit<DT_TFParachute::ignored>(DT_TFParachute::ignored*)
  T int ServerClassInit<DT_TFParachute_Primary::ignored>(DT_TFParachute_Primary::ignored*)
  T int ServerClassInit<DT_TFParachute_Secondary::ignored>(DT_TFParachute_Secondary::ignored*)
+ T int ServerClassInit<DT_TFPasstimeLogic::ignored>(DT_TFPasstimeLogic::ignored*)
  T int ServerClassInit<DT_TFPlayer::ignored>(DT_TFPlayer::ignored*)
  T int ServerClassInit<DT_TFPlayerClassShared::ignored>(DT_TFPlayerClassShared::ignored*)
  T int ServerClassInit<DT_TFPlayerConditionListExclusive::ignored>(DT_TFPlayerConditionListExclusive::ignored*)
@@ -46799,6 +47308,8 @@
  T int V_sprintf_safe<255ul>(char (&) [255ul], char const*, ...)
  T int V_sprintf_safe<25ul>(char (&) [25ul], char const*, ...)
  T int V_sprintf_safe<260ul>(char (&) [260ul], char const*, ...)
+ T int V_sprintf_safe<32ul>(char (&) [32ul], char const*, ...)
+ T int V_sprintf_safe<64ul>(char (&) [64ul], char const*, ...)
  T int const& CNetworkVarBase<int, CBaseAnimating::NetworkVar_m_nBody>::operator=<int>(int const&)
  T int const& CNetworkVarBase<int, CBaseAnimating::NetworkVar_m_nSkin>::operator=<int>(int const&)
  T int const& CNetworkVarBase<int, CBaseCombatWeapon::NetworkVar_m_iState>::operator=<int>(int const&)
@@ -47197,6 +47708,9 @@
  T non-virtual thunk to CFuncNavObstruction::OnNavMeshLoaded()
  T non-virtual thunk to CFuncNavPrerequisite::~CFuncNavPrerequisite()
  T non-virtual thunk to CFuncNoBuild::~CFuncNoBuild()
+ T non-virtual thunk to CFuncPasstimeGoal::~CFuncPasstimeGoal()
+ T non-virtual thunk to CFuncPasstimeGoalieZone::~CFuncPasstimeGoalieZone()
+ T non-virtual thunk to CFuncPasstimeNoBallZone::~CFuncPasstimeNoBallZone()
  T non-virtual thunk to CFuncRespawnRoom::~CFuncRespawnRoom()
  T non-virtual thunk to CFuncRespawnRoomVisualizer::~CFuncRespawnRoomVisualizer()
  T non-virtual thunk to CFunctor2<void (*)(CFunctor**, unsigned int), CFunctor**, int, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> > >::~CFunctor2()
@@ -47280,6 +47794,10 @@
  T non-virtual thunk to CObjectSentrygun::~CObjectSentrygun()
  T non-virtual thunk to CObjectTeleporter::~CObjectTeleporter()
  T non-virtual thunk to COrnamentProp::~COrnamentProp()
+ T non-virtual thunk to CPasstimeBallSpawn::~CPasstimeBallSpawn()
+ T non-virtual thunk to CPasstimeGun::CanCharge()
+ T non-virtual thunk to CPasstimeGun::GetChargeBeginTime()
+ T non-virtual thunk to CPasstimeGun::GetChargeMaxTime()
  T non-virtual thunk to CPhysBox::HasPreferredCarryAnglesForPlayer(CBasePlayer*)
  T non-virtual thunk to CPhysBox::OnPhysGunDrop(CBasePlayer*, PhysGunDrop_t)
  T non-virtual thunk to CPhysBox::OnPhysGunPickup(CBasePlayer*, PhysGunPickup_t)
@@ -47609,6 +48127,8 @@
  T non-virtual thunk to CTFMerasmusTrickOrTreatProp::~CTFMerasmusTrickOrTreatProp()
  T non-virtual thunk to CTFMiniGame::FireGameEvent(IGameEvent*)
  T non-virtual thunk to CTFMiniGame::~CTFMiniGame()
+ T non-virtual thunk to CTFPasstimeLogic::FireGameEvent(IGameEvent*)
+ T non-virtual thunk to CTFPasstimeLogic::~CTFPasstimeLogic()
  T non-virtual thunk to CTFPipebombLauncher::CanCharge()
  T non-virtual thunk to CTFPipebombLauncher::GetChargeBeginTime()
  T non-virtual thunk to CTFPipebombLauncher::GetChargeMaxTime()
@@ -48926,8 +49446,9 @@
  b CTFGameStats::Event_HalloweenBossEvent(unsigned char, unsigned short, unsigned char, unsigned char, float)::unEventCounter
  b CTFInventoryManager::GetBaseItemForClass(int, int)::pItemDef_GrapplingHook
  b CTFInventoryManager::GetBaseItemForClass(int, int)::pItemDef_SpellBook
+ b CTFItemSchema::BCanStrangeFilterApplyToStrangeSlotInItem(unsigned int, unsigned int, IEconItemInterface const*, int, unsigned int*) const::pAttrDef_CannotRestore
+ b CTFItemSchema::BCanStrangeFilterApplyToStrangeSlotInItem(unsigned int, unsigned int, IEconItemInterface const*, int, unsigned int*) const::pAttrDef_IsOperationPass
  b CTFJar::GetProjectileEntityName(CAttribute_String*)::pAttrDef_ProjectileEntityName
- b CTFKatana::GetMeleeDamage(CBaseEntity*, int*, int*)::pItemDef_Katana
  b CTFLunchBox::ApplyBiteEffects(CTFPlayer*)::pAttrDef_HiddenMaxHealthNonBuffed
  b CTFLunchBox::RemoveMaxHealAttributeThink()::pAttrDef_HiddenMaxHealthNonBuffed
  b CTFNavArea::ComputeInvasionAreaVectors()::searchMarker
@@ -49012,6 +49533,8 @@
  b GetReplayGameStatsHelper()::s_Instance
  b GetSceneManager()::s_SceneManager
  b GetSequenceLinearMotion(CStudioHdr*, int, float const*, Vector*)::__executeCount
+ b GetServerBrowser()::pServerBrowser
+ b GetWorkshopUGC()::bInitUGC
  b IBody::GetEyePosition() const::eye
  b IBody::GetViewVector() const::view
  b IEconItemInterface::GetCustomPaintKitWear(float) const::pAttrDef_PaintKitWear
@@ -49098,6 +49621,7 @@
  b __proxy_SendProxy_SendNonLocalWeaponDataTable
  b __proxy_SendProxy_SendPredictableId
  b __proxy_SendProxy_TestProxyToggle
+ b _ballplayertoucher
  b _firesmoke
  b _plasma
  b ai_ally_speech_manager
@@ -49319,6 +49843,7 @@
  b filter_enemy
  b filter_multi
  b filter_tf_bot_has_tag
+ b filter_tf_class
  b filter_tf_condition
  b filter_tf_damaged_by_weapon_in_slot
  b filter_tf_player_can_cap
@@ -49361,6 +49886,9 @@
  b func_nobuild
  b func_nogrenades
  b func_occluder
+ b func_passtime_goal
+ b func_passtime_goalie_zone
+ b func_passtime_no_ball_zone
  b func_physbox
  b func_physbox_multiplayer
  b func_plat
@@ -49461,6 +49989,7 @@
  b g_CFuncLadder_ClassReg
  b g_CFuncMonitor_ClassReg
  b g_CFuncOccluder_ClassReg
+ b g_CFuncPasstimeGoal_ClassReg
  b g_CFuncReflectiveGlass_ClassReg
  b g_CFuncRespawnRoomVisualizer_ClassReg
  b g_CFuncRespawnRoom_ClassReg
@@ -49493,6 +50022,8 @@
  b g_CParticleFire_ClassReg
  b g_CParticlePerformanceMonitor_ClassReg
  b g_CParticleSystem_ClassReg
+ b g_CPasstimeBall_ClassReg
+ b g_CPasstimeGun_ClassReg
  b g_CPhysBoxMultiplayer_ClassReg
  b g_CPhysBox_ClassReg
  b g_CPhysMagnet_ClassReg
@@ -49621,6 +50152,7 @@
  b g_CTFParachute_Primary_ClassReg
  b g_CTFParachute_Secondary_ClassReg
  b g_CTFParticleCannon_ClassReg
+ b g_CTFPasstimeLogic_ClassReg
  b g_CTFPipebombLauncher_ClassReg
  b g_CTFPistol_ClassReg
  b g_CTFPistol_ScoutPrimary_ClassReg
@@ -49792,6 +50324,7 @@
  b g_RestoredEntities
  b g_RocketTrail_ClassReg
  b g_ServerBenchmark
+ b g_ServerBrowser
  b g_ServerChoreoTools
  b g_ServerTools
  b g_SmokeTrail_ClassReg
@@ -49981,8 +50514,9 @@
  b guard variable for CTFGameRules::HandleScrambleTeams()::playerVector
  b guard variable for CTFInventoryManager::GetBaseItemForClass(int, int)::pItemDef_GrapplingHook
  b guard variable for CTFInventoryManager::GetBaseItemForClass(int, int)::pItemDef_SpellBook
+ b guard variable for CTFItemSchema::BCanStrangeFilterApplyToStrangeSlotInItem(unsigned int, unsigned int, IEconItemInterface const*, int, unsigned int*) const::pAttrDef_CannotRestore
+ b guard variable for CTFItemSchema::BCanStrangeFilterApplyToStrangeSlotInItem(unsigned int, unsigned int, IEconItemInterface const*, int, unsigned int*) const::pAttrDef_IsOperationPass
  b guard variable for CTFJar::GetProjectileEntityName(CAttribute_String*)::pAttrDef_ProjectileEntityName
- b guard variable for CTFKatana::GetMeleeDamage(CBaseEntity*, int*, int*)::pItemDef_Katana
  b guard variable for CTFLunchBox::ApplyBiteEffects(CTFPlayer*)::pAttrDef_HiddenMaxHealthNonBuffed
  b guard variable for CTFLunchBox::RemoveMaxHealAttributeThink()::pAttrDef_HiddenMaxHealthNonBuffed
  b guard variable for CTFNavArea::ComputeInvasionAreaVectors()::searchMarker
@@ -50099,6 +50633,7 @@
  b info_observer_point
  b info_overlay_accessor
  b info_particle_system
+ b info_passtime_ball_spawn
  b info_player_deathmatch
  b info_player_start
  b info_player_teamspawn
@@ -50323,6 +50858,8 @@
  b old_armor
  b particle_test_start
  b particle_test_stop
+ b passtime_ball
+ b passtime_logic
  b path_corner
  b path_corner_crash
  b path_track
@@ -50404,6 +50941,8 @@
  b precache_other_obj_dispenser
  b precache_other_obj_sentrygun
  b precache_other_obj_teleporter
+ b precache_other_passtime_ball
+ b precache_other_passtime_logic
  b precache_other_player
  b precache_other_spraycan
  b precache_other_tank_boss
@@ -50487,6 +51026,7 @@
  b precache_weapon_tf_weapon_parachute_primary
  b precache_weapon_tf_weapon_parachute_secondary
  b precache_weapon_tf_weapon_particle_cannon
+ b precache_weapon_tf_weapon_passtime_gun
  b precache_weapon_tf_weapon_pda_engineer_build
  b precache_weapon_tf_weapon_pda_engineer_destroy
  b precache_weapon_tf_weapon_pda_spy
@@ -50855,6 +51395,7 @@
  b tf_weapon_parachute_primary
  b tf_weapon_parachute_secondary
  b tf_weapon_particle_cannon
+ b tf_weapon_passtime_gun
  b tf_weapon_pda_engineer_build
  b tf_weapon_pda_engineer_destroy
  b tf_weapon_pda_spy
@@ -50895,6 +51436,7 @@
  b tf_wearable_levelable_item
  b tf_wearable_robot_arm
  b tf_wearable_vm
+ b tf_workshop_map_status_command
  b tf_workshop_map_sync_command
  b tf_workshop_refresh_command
  b tf_zombie
@@ -50909,6 +51451,7 @@
  b trigger_bot_tag
  b trigger_brush
  b trigger_capture_area
+ b trigger_catapult
  b trigger_cdaudio
  b trigger_changelevel
  b trigger_gravity
@@ -50918,6 +51461,7 @@
  b trigger_look
  b trigger_multiple
  b trigger_once
+ b trigger_passtime_ball
  b trigger_player_respawn_override
  b trigger_playermovement
  b trigger_proximity
@@ -51121,6 +51665,7 @@
  d playerLinearTable
  d playerVehicleAngularTable
  d playerVehicleLinearTable
+ d sCountdownSoundsRoundBegin
  d s_BotManager
  d s_ChildOperatorDefinition
  d s_DamageTypeToStrTable
@@ -51142,6 +51687,7 @@
  d s_ValveMaps
  d s_aEnumGameTypeName
  d s_aGameTypeNames
+ d s_acttablePasstime
  d s_flLastTeleportTime
  d s_iLastKnownMission
  d s_iLastKnownMissionCategory
@@ -51243,6 +51789,7 @@
  r CBaseGameStats_Driver::SendData()::szFileName
  r CBasePlayer::FindUseEntity()::tangents
  r CCaptureFlag::Drop(CTFPlayer*, bool, bool, bool)::fMultipliers
+ r CPasstimeBall::ChangeTeam(int)::skinForTeam
  r CTFBotDefendPoint::OnStart(CTFBot*, Action<CTFBot>*)::roamChance
  r CTFMapsWorkshop::MapIDFromName(CUtlString)::szUGCSuffix
  r CTFMapsWorkshop::MapIDFromName(CUtlString)::szWorkshopPrefix
@@ -51647,6 +52194,7 @@
  raise
  read$UNIX2003
  realloc
+ round
  setjmp
  signal
  sin
@@ -51748,6 +52296,7 @@
  strtoull
  swprintf
  t (anonymous namespace)::CPlayerInfoManager_V1::GetPlayerInfo(edict_t*)
+ t (anonymous namespace)::SortByPriority(IPasstimeBallControllerAutoList* const*, IPasstimeBallControllerAutoList* const*)
  t (anonymous namespace)::__CreateCPlayerInfoManager_V1IPlayerInfoManager_V1_interface()
  t (anonymous namespace)::protobuf_RegisterTypes(std::string const&)
  t AlignBoxes(matrix3x4_t*, Vector const&, Vector const&)
@@ -51816,6 +52365,7 @@
  t GameEventLessFunc(CHLTVGameEvent const&, CHLTVGameEvent const&)
  t GetAllChildren_r(CBaseEntity*, CUtlVector<CBaseEntity*, CUtlMemory<CBaseEntity*, int> >&)
  t GetFadeParms(CCommand const&, float&, color32_s&)
+ t GetWorkshopUGC()
  t GlobalAttrModifier_IsMvMModeActive()
  t GlobalAttrModifier_IsTFHalloweenEventActive()
  t GlobalAttrModifier_MvMAttribHookMunger(char const*, CUtlConstStringBase<char>*)
@@ -51891,7 +52441,7 @@
  t __cxx_global_array_dtor102
  t __cxx_global_array_dtor105
  t __cxx_global_array_dtor106
- t __cxx_global_array_dtor1121
+ t __cxx_global_array_dtor1126
  t __cxx_global_array_dtor118
  t __cxx_global_array_dtor120
  t __cxx_global_array_dtor121
@@ -51923,6 +52473,7 @@
  t __cxx_global_array_dtor23
  t __cxx_global_array_dtor231
  t __cxx_global_array_dtor236
+ t __cxx_global_array_dtor240
  t __cxx_global_array_dtor241
  t __cxx_global_array_dtor25
  t __cxx_global_array_dtor254
@@ -51940,8 +52491,8 @@
  t __cxx_global_array_dtor34
  t __cxx_global_array_dtor351
  t __cxx_global_array_dtor36
- t __cxx_global_array_dtor369
  t __cxx_global_array_dtor37
+ t __cxx_global_array_dtor371
  t __cxx_global_array_dtor39
  t __cxx_global_array_dtor397
  t __cxx_global_array_dtor408
@@ -52070,6 +52621,7 @@
  t physics_highlight_active(CCommand const&)
  t physics_report_active(CCommand const&)
  t physics_select(CCommand const&)
+ t qsort_ascending_uint16(void const*, void const*)
  t report_entities(CCommand const&)
  t report_simthinklist(CCommand const&)
  t report_soundpatch(CCommand const&)
@@ -52110,6 +52662,7 @@
  t tf_mvm_nextmission(CCommand const&)
  t tf_mvm_popfile(CCommand const&)
  t tf_server_lobby_debug(CCommand const&)
+ t tf_workshop_map_status(CCommand const&)
  t tf_workshop_map_sync(CCommand const&)
  t tf_workshop_refresh(CCommand const&)
  t training_continue(CCommand const&)
