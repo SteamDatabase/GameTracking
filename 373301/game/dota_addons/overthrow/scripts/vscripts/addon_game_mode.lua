@@ -33,13 +33,13 @@ function Precache( context )
 		PrecacheModel( "item_treasure_chest", context )
 
 	--Cache the creature models
-		PrecacheUnitByNameAsync( "npc_dota_creature_basic_zombie", function(unit) end )
+		PrecacheUnitByNameSync( "npc_dota_creature_basic_zombie", context )
         PrecacheModel( "npc_dota_creature_basic_zombie", context )
 
-        PrecacheUnitByNameAsync( "npc_dota_creature_berserk_zombie", function(unit) end )
+        PrecacheUnitByNameSync( "npc_dota_creature_berserk_zombie", context )
         PrecacheModel( "npc_dota_creature_berserk_zombie", context )
 
-        PrecacheUnitByNameAsync( "npc_dota_treasure_courier", function(unit) end )
+        PrecacheUnitByNameSync( "npc_dota_treasure_courier", context )
         PrecacheModel( "npc_dota_treasure_courier", context )
 
     --Cache new particles
