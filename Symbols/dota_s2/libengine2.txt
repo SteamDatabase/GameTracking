@@ -807,7 +807,6 @@
  B s_bExitWhenEmpty
  B s_bMathlibInitialized
  B s_pInterfaceRegs
- B sc_threaded_present
  B scr_demo_override_fov
  B snd_show
  B spawngroup_ignore_timeouts
@@ -3651,7 +3650,6 @@
  D typeinfo for std::__1::__empty_state<char>
  D typeinfo for std::__1::__end_marked_subexpression<char>
  D typeinfo for std::__1::__end_state<char>
- D typeinfo for std::__1::__function::__base<void ()>
  D typeinfo for std::__1::__has_one_state<char>
  D typeinfo for std::__1::__l_anchor<char>
  D typeinfo for std::__1::__lookahead<char, std::__1::regex_traits<char> >
@@ -5253,7 +5251,10 @@
  LoggingSystem_ResetCurrentLoggingState
  LoggingSystem_SetChannelVerbosity
  LoggingSystem_UnregisterLoggingListener
+ MiniDumpStandardData_t::HandlerQueueHeartBeat() const
+ MinidumpSetMiniDumpComment
  MinidumpUserStreamInfoAppend
+ MinidumpUserStreamInfoGet
  Msg
  OSAtomicCompareAndSwap64Barrier
  OSMemoryBarrier
@@ -5277,6 +5278,7 @@
  Plat_GetCPUFrequency
  Plat_GetCPUUsage
  Plat_GetClockStart
+ Plat_GetCurrentRSS
  Plat_GetDefaultMonitorIndex
  Plat_GetDesktopBounds
  Plat_GetDesktopResolution
@@ -5287,7 +5289,9 @@
  Plat_GetModuleProcAddress
  Plat_GetMonitorBounds
  Plat_GetMonitorResolution
+ Plat_GetOSDescriptionString
  Plat_GetPagedPoolInfo
+ Plat_GetPeakRSS
  Plat_GetTimeString
  Plat_GetWindowBounds
  Plat_GetWindowClientBounds
@@ -6748,7 +6752,6 @@
  R typeinfo name for std::__1::__empty_state<char>
  R typeinfo name for std::__1::__end_marked_subexpression<char>
  R typeinfo name for std::__1::__end_state<char>
- R typeinfo name for std::__1::__function::__base<void ()>
  R typeinfo name for std::__1::__has_one_state<char>
  R typeinfo name for std::__1::__l_anchor<char>
  R typeinfo name for std::__1::__lookahead<char, std::__1::regex_traits<char> >
@@ -6849,6 +6852,7 @@
  SteamAPI_RegisterCallback
  SteamAPI_RunCallbacks
  SteamAPI_SetBreakpadAppID
+ SteamAPI_SetMiniDumpComment
  SteamAPI_SetTryCatchCallbacks
  SteamAPI_Shutdown
  SteamAPI_UnregisterCallResult
@@ -6868,6 +6872,7 @@
  T AngleMatrix(QAngle const&, Vector const&, matrix3x4_t&)
  T AppIsDedicatedServer()
  T AppSystemDictCreateInterfaceFn(char const*, int*)
+ T AppearsToBeANumber(char const*)
  T AttachmentData_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)
  T BZ2_blockSort(EState*)
  T BZ2_bzCompressInit
@@ -9446,7 +9451,6 @@
  T CEngineServer::IsUserIDInUse(int)
  T CEngineServer::LightStyle(int, char const*)
  T CEngineServer::LoadSpawnGroup(SpawnGroupDesc_t const&)
- T CEngineServer::LockNetworkStringTables(bool)
  T CEngineServer::LogPrint(char const*)
  T CEngineServer::MakeSpawnGroupActive(unsigned int)
  T CEngineServer::Message_DetermineMulticastRecipients(bool, Vector const&, CBitVec<64>&)
@@ -10595,6 +10599,8 @@
  T CMesh::FreeAllMemory()
  T CMesh::~CMesh()
  T CMeshVertexAttribute::~CMeshVertexAttribute()
+ T CMiniDumpComment::BuildComment(char const*, bool, MiniDumpHandlerData_t const*)
+ T CMiniDumpComment::~CMiniDumpComment()
  T CModel::GetModelRenderBounds(Vector*, Vector*) const
  T CMsg3DTransformMatrix::ByteSize() const
  T CMsg3DTransformMatrix::Clear()
@@ -12591,7 +12597,7 @@
  T CNetworkClientService::ReceivedServerInfo(CCompressedResourceManifest const&)
  T CNetworkClientService::RegisterEventMap(CEventDispatcher<CEventIDManager_Default>*, EventMapRegistrationType_t)
  T CNetworkClientService::RegisterNetMessage(NetMessageHandle_t__*, bool)
- T CNetworkClientService::SendNetMessage(CSplitScreenSlot, NetMessageHandle_t__*, void const*)
+ T CNetworkClientService::SendNetMessage(CSplitScreenSlot, NetMessageHandle_t__*, void const*, NetChannelBufType_t)
  T CNetworkClientService::SendStringCmd(CSplitScreenSlot, char const*)
  T CNetworkClientService::ServerCmd(InputCommandSource_t, CCommand const&)
  T CNetworkClientService::SetClientSocket(int)
@@ -13152,7 +13158,7 @@
  T CNetworkGameServerFactory::Allocate(int, INetworkServerService*, ISource2WorldSession*)
  T CNetworkMessageSignalQueue<CEventIDManager_ProtobufBinding, BogusType_t>::~CNetworkMessageSignalQueue()
  T CNetworkMessageSignalQueue<CEventIDManager_ToolEvents, BogusType_t>::~CNetworkMessageSignalQueue()
- T CNetworkP2PService::BroadcastP2PNetMessageAbstract(NetMessageHandle_t__*, void const*, CPeerToPeerAddress const*, int, bool, bool, bool)
+ T CNetworkP2PService::BroadcastP2PNetMessageAbstract(NetMessageHandle_t__*, void const*, CPeerToPeerAddress const*, int, bool, bool)
  T CNetworkP2PService::BroadcastQueuedP2PNetMessages()
  T CNetworkP2PService::CNetworkP2PService()
  T CNetworkP2PService::CPeerToPeerMessageRelay::OnPeerToPeerMessage(BogusType_t const&, ns_address const&, INetChannel*)
@@ -13161,7 +13167,7 @@
  T CNetworkP2PService::GetAllPeersEventDispatcher()
  T CNetworkP2PService::GetDependencies()
  T CNetworkP2PService::Init()
- T CNetworkP2PService::InternalBroadcastP2PNetMessage(NetMessageHandle_t__*, void const*, CPeerToPeerAddress const*, int, bool, bool, bool)
+ T CNetworkP2PService::InternalBroadcastP2PNetMessage(NetMessageHandle_t__*, void const*, CPeerToPeerAddress const*, int, bool, bool)
  T CNetworkP2PService::IsKnownPeer(CPeerToPeerAddress const&)
  T CNetworkP2PService::OnClientPollNetworking(EventClientPollNetworking_t const&)
  T CNetworkP2PService::OnClientProcessNetworking(EventClientProcessNetworking_t const&)
@@ -13180,7 +13186,7 @@
  T CNetworkP2PService::RegisterP2PNetMessageAbstract(NetMessageHandle_t__*)
  T CNetworkP2PService::RegisterPeerGroupHandler(IPeerGroupHandler*)
  T CNetworkP2PService::ResolveRelayChanges()
- T CNetworkP2PService::SendRelayMessage(CNetworkP2PService::RelayMessage_t&, bool, CUtlVector<INetChannel*, CUtlMemory<INetChannel*, int> >&)
+ T CNetworkP2PService::SendRelayMessage(CNetworkP2PService::RelayMessage_t&, bool)
  T CNetworkP2PService::ShouldExposeInternetAddressToPeer(CPeerToPeerAddress const&)
  T CNetworkP2PService::Shutdown()
  T CNetworkP2PService::SteamIDAllowedToP2PConnect(CSteamID)
@@ -13327,7 +13333,6 @@
  T CNetworkStringTable::GetTick() const
  T CNetworkStringTable::GetUserDataSize() const
  T CNetworkStringTable::GetUserDataSizeBits() const
- T CNetworkStringTable::Lock(bool)
  T CNetworkStringTable::ParseUpdate(bf_read&, int)
  T CNetworkStringTable::ReadStringTable(CDemoStringTables_table_t const&)
  T CNetworkStringTable::RestoreTick(int)
@@ -13351,7 +13356,6 @@
  T CNetworkStringTableContainer::FindTable(char const*) const
  T CNetworkStringTableContainer::GetNumTables() const
  T CNetworkStringTableContainer::GetTable(int) const
- T CNetworkStringTableContainer::Lock(bool)
  T CNetworkStringTableContainer::ReadStringTables(CDemoStringTables const&, char const*)
  T CNetworkStringTableContainer::RemoveAllTables()
  T CNetworkStringTableContainer::SetAllowClientSideAddString(INetworkStringTable*, bool)
@@ -16739,7 +16743,6 @@
  T CUtlMemory<IAddonListChangeNotify*, int>::Grow(int)
  T CUtlMemory<IAsset*, int>::Grow(int)
  T CUtlMemory<IEngineService*, int>::Grow(int)
- T CUtlMemory<INetChannel*, int>::Grow(int)
  T CUtlMemory<IPVS*, int>::Grow(int)
  T CUtlMemory<IPeerGroupHandler*, int>::Grow(int)
  T CUtlMemory<IPrerequisite*, int>::Grow(int)
@@ -17289,7 +17292,6 @@
  T CUtlVectorBase<IAddonListChangeNotify*, CUtlMemory<IAddonListChangeNotify*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<IAsset*, CUtlMemory<IAsset*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<IEngineService*, CUtlMemory<IEngineService*, int> >::~CUtlVectorBase()
- T CUtlVectorBase<INetChannel*, CUtlMemory<INetChannel*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<IPeerGroupHandler*, CUtlMemory<IPeerGroupHandler*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<IPrerequisite*, CUtlMemory<IPrerequisite*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<ISceneWorld*, CUtlMemory<ISceneWorld*, int> >::~CUtlVectorBase()
@@ -17701,6 +17703,7 @@
  T EclipseCVarHandler(IConVar*, char const*, float)
  T EnableDevCvars()
  T EncryptBuffer(IceKey&, unsigned char*, unsigned int)
+ T Engine2PreBreakpadDumpFunction(void*)
  T EngineVGui()
  T EnsureDirectory(char const*, char const*)
  T EntityClassAutoCompleteEntry_t::Less(EntityClassAutoCompleteEntry_t const&, EntityClassAutoCompleteEntry_t const&)
@@ -17809,6 +17812,7 @@
  T GetResourceManifests
  T GetSearchPath(CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&, GetSearchPathTypes_t, char const*)
  T GetSpawnGroupHandleFromMessage(NetMessageInfo_t const*, void const*)
+ T GetSpew(char*, unsigned long)
  T GetSteamAppID()
  T GetSteamUniverse()
  T GetZipItemA(HZIP__*, int, ZIPENTRY*)
@@ -18421,6 +18425,7 @@
  T _V_strncmp(char const*, char const*, int)
  T _V_strncpy(char*, char const*, int)
  T _V_strnicmp(char const*, char const*, int)
+ T _V_strnlen(char const*, int)
  T _V_wcscmp(wchar_t const*, wchar_t const*)
  T _V_wcsncpy(wchar_t*, wchar_t const*, int)
  T _ZNSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6__initIPcEENS_9enable_ifIXsr21__is_forward_iteratorIT_EE5valueEvE4typeES9_S9_
@@ -21704,7 +21709,6 @@
  b CLoopTypeClientServer::OutputListeners()::pClientSchemas
  b CLoopTypeClientServer::OutputListeners()::pServerSchemas
  b CLoopTypeSimple::OutputListeners()::eventIDs
- b CLoopTypeSimple::Update(EngineLoopState_t const&, double, double)::sc_threaded_present
  b CMaterialDrawDescriptor::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b CMaterialSystem2AppSystemDict::Create3DWindow(char const*, RenderDeviceInfo_t&, bool, bool, bool)::vr_msaa
  b CNetworkClientService::OnStatus(CCommandContext const&, CCommand const&)::s_dLastStatusTime
@@ -22198,6 +22202,7 @@
  b gameui_hide_command
  b gameui_preventescape_command
  b gameui_preventescapetoshow_command
+ b generate_minidump_comment_command
  b global_trust_everyone
  b global_trust_friends
  b grep_command
@@ -22220,7 +22225,6 @@
  b guard variable for CLoopTypeClientServer::OutputListeners()::pClientSchemas
  b guard variable for CLoopTypeClientServer::OutputListeners()::pServerSchemas
  b guard variable for CLoopTypeSimple::OutputListeners()::eventIDs
- b guard variable for CLoopTypeSimple::Update(EngineLoopState_t const&, double, double)::sc_threaded_present
  b guard variable for CMaterialSystem2AppSystemDict::Create3DWindow(char const*, RenderDeviceInfo_t&, bool, bool, bool)::vr_msaa
  b guard variable for CNetworkClientSpawnGroup::BuildSpawnGroupLoadMessage(CNETMsg_SpawnGroup_Load_t&)::cl_spawngroup_spewresources
  b guard variable for CNetworkGameClient::CL_ProcessPacketEntities(CSVCMsg_PacketEntities_t const*)::s_entitiesGroup
@@ -22399,6 +22403,7 @@
  b mem_test_each_frame
  b mem_test_every_n_seconds
  b mem_test_quiet
+ b memory_command
  b mouse_disableinput
  b netadr_t::ToString(bool) const::s
  b netadr_t::ToString(bool) const::slot
@@ -22518,6 +22523,7 @@
  b s_currentSortingColumnTypeIsText
  b s_enginevguiDeps
  b s_hAdditiveFilterMaterial
+ b s_minidumpComment
  b s_nCVarFlag
  b s_nConnectionCount
  b s_nHostSpawnCount
@@ -22600,6 +22606,7 @@
  b sv_timeout
  b sv_usenetworkvars
  b sv_voiceenable
+ b sys_minidumpexpandedspew
  b sys_minidumpspewlines
  b texturetolinear
  b time_asserts_command
@@ -23208,15 +23215,12 @@
  d typeinfo for (anonymous namespace)::GripPanel
  d typeinfo for (anonymous namespace)::ScrollBarButton
  d typeinfo for CMemberFunctor1<CParallelProcessorAbstract<CFunctorParallelController<CNetworkGameServer::PackEntities_Normal(CUtlVector<Entity2Networkable_t const*, CUtlMemory<Entity2Networkable_t const*, int> >&, int, CServerSideClient**, CBitVec<16384>&, CFrameSnapshot*)::$_0> >*, void (CParallelProcessorAbstract<CFunctorParallelController<CNetworkGameServer::PackEntities_Normal(CUtlVector<Entity2Networkable_t const*, CUtlMemory<Entity2Networkable_t const*, int> >&, int, CServerSideClient**, CBitVec<16384>&, CFrameSnapshot*)::$_0> >::*)(int), int, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>
- d typeinfo for CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0
- d typeinfo for std::__1::__function::__func<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0, std::__1::allocator<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0>, void ()>
  d vgui::Panel::OnOldMessage(KeyValues*, unsigned long long)::s_bDebugMessages
  d vgui::ScrollBarSlider::Paint(IVGuiPaintSurface*)::styleNameList
  d vtable for (anonymous namespace)::CaptionGripPanel
  d vtable for (anonymous namespace)::GripPanel
  d vtable for (anonymous namespace)::ScrollBarButton
  d vtable for CMemberFunctor1<CParallelProcessorAbstract<CFunctorParallelController<CNetworkGameServer::PackEntities_Normal(CUtlVector<Entity2Networkable_t const*, CUtlMemory<Entity2Networkable_t const*, int> >&, int, CServerSideClient**, CBitVec<16384>&, CFrameSnapshot*)::$_0> >*, void (CParallelProcessorAbstract<CFunctorParallelController<CNetworkGameServer::PackEntities_Normal(CUtlVector<Entity2Networkable_t const*, CUtlMemory<Entity2Networkable_t const*, int> >&, int, CServerSideClient**, CBitVec<16384>&, CFrameSnapshot*)::$_0> >::*)(int), int, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>
- d vtable for std::__1::__function::__func<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0, std::__1::allocator<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0>, void ()>
  d xposconverter
  d yposconverter
  dlsym
@@ -23555,8 +23559,6 @@
  r typeinfo name for (anonymous namespace)::GripPanel
  r typeinfo name for (anonymous namespace)::ScrollBarButton
  r typeinfo name for CMemberFunctor1<CParallelProcessorAbstract<CFunctorParallelController<CNetworkGameServer::PackEntities_Normal(CUtlVector<Entity2Networkable_t const*, CUtlMemory<Entity2Networkable_t const*, int> >&, int, CServerSideClient**, CBitVec<16384>&, CFrameSnapshot*)::$_0> >*, void (CParallelProcessorAbstract<CFunctorParallelController<CNetworkGameServer::PackEntities_Normal(CUtlVector<Entity2Networkable_t const*, CUtlMemory<Entity2Networkable_t const*, int> >&, int, CServerSideClient**, CBitVec<16384>&, CFrameSnapshot*)::$_0> >::*)(int), int, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>
- r typeinfo name for CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0
- r typeinfo name for std::__1::__function::__func<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0, std::__1::allocator<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0>, void ()>
  raise
  rand
  read
@@ -23570,6 +23572,7 @@
  setlocale
  setrlimit
  setsockopt
+ signal
  sigprocmask
  sin
  sinf
@@ -23670,6 +23673,8 @@
  t BuildTokenList(char const*, char, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
  t CMemberFunctor1<CParallelProcessorAbstract<CFunctorParallelController<CNetworkGameServer::PackEntities_Normal(CUtlVector<Entity2Networkable_t const*, CUtlMemory<Entity2Networkable_t const*, int> >&, int, CServerSideClient**, CBitVec<16384>&, CFrameSnapshot*)::$_0> >*, void (CParallelProcessorAbstract<CFunctorParallelController<CNetworkGameServer::PackEntities_Normal(CUtlVector<Entity2Networkable_t const*, CUtlMemory<Entity2Networkable_t const*, int> >&, int, CServerSideClient**, CBitVec<16384>&, CFrameSnapshot*)::$_0> >::*)(int), int, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>::operator()()
  t CMemberFunctor1<CParallelProcessorAbstract<CFunctorParallelController<CNetworkGameServer::PackEntities_Normal(CUtlVector<Entity2Networkable_t const*, CUtlMemory<Entity2Networkable_t const*, int> >&, int, CServerSideClient**, CBitVec<16384>&, CFrameSnapshot*)::$_0> >*, void (CParallelProcessorAbstract<CFunctorParallelController<CNetworkGameServer::PackEntities_Normal(CUtlVector<Entity2Networkable_t const*, CUtlMemory<Entity2Networkable_t const*, int> >&, int, CServerSideClient**, CBitVec<16384>&, CFrameSnapshot*)::$_0> >::*)(int), int, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>::~CMemberFunctor1()
+ t CNetworkGameServerBase::Init(GameSessionConfiguration_t const&, char const*)::$_0::__invoke(int)
+ t CNetworkGameServerBase::Init(GameSessionConfiguration_t const&, char const*)::$_1::__invoke(int)
  t CParallelProcessorAbstract<CFunctorParallelController<CNetworkGameServer::PackEntities_Normal(CUtlVector<Entity2Networkable_t const*, CUtlMemory<Entity2Networkable_t const*, int> >&, int, CServerSideClient**, CBitVec<16384>&, CFrameSnapshot*)::$_0> >::ProcessingThread(int)
  t CParallelProcessorAbstract<CFunctorParallelController<CNetworkGameServer::PackEntities_Normal(CUtlVector<Entity2Networkable_t const*, CUtlMemory<Entity2Networkable_t const*, int> >&, int, CServerSideClient**, CBitVec<16384>&, CFrameSnapshot*)::$_0> >::Run()
  t CVarSortFunc(ConVar* const&, ConVar* const&)
@@ -24067,7 +24072,6 @@
  t __CreateCXboxSystemIXboxSystem_interface()
  t __cxx_global_array_dtor
  t __cxx_global_var_init10
- t __cxx_global_var_init102
  t __cxx_global_var_init103
  t __cxx_global_var_init104
  t __cxx_global_var_init105
@@ -24102,6 +24106,7 @@
  t __cxx_global_var_init131
  t __cxx_global_var_init132
  t __cxx_global_var_init133
+ t __cxx_global_var_init134
  t __cxx_global_var_init14
  t __cxx_global_var_init142
  t __cxx_global_var_init143
@@ -24342,6 +24347,7 @@
  t gameui_hide(CCommandContext const&, CCommand const&)
  t gameui_preventescape(CCommandContext const&, CCommand const&)
  t gameui_preventescapetoshow(CCommandContext const&, CCommand const&)
+ t generate_minidump_comment(CCommandContext const&, CCommand const&)
  t global constructors keyed to a
  t grayscale_convert
  t grep(CCommandContext const&, CCommand const&)
@@ -24375,6 +24381,7 @@
  t mainGtU(unsigned int, unsigned int, unsigned char*, unsigned short*, unsigned int, int*)
  t mem_dump(CCommandContext const&, CCommand const&)
  t mem_test(CCommandContext const&, CCommand const&)
+ t memory(CCommandContext const&, CCommand const&)
  t nextdemo(CCommandContext const&, CCommand const&)
  t non-virtual thunk to CMemberFunctor1<CParallelProcessorAbstract<CFunctorParallelController<CNetworkGameServer::PackEntities_Normal(CUtlVector<Entity2Networkable_t const*, CUtlMemory<Entity2Networkable_t const*, int> >&, int, CServerSideClient**, CBitVec<16384>&, CFrameSnapshot*)::$_0> >*, void (CParallelProcessorAbstract<CFunctorParallelController<CNetworkGameServer::PackEntities_Normal(CUtlVector<Entity2Networkable_t const*, CUtlMemory<Entity2Networkable_t const*, int> >&, int, CServerSideClient**, CBitVec<16384>&, CFrameSnapshot*)::$_0> >::*)(int), int, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>::~CMemberFunctor1()
  t null_convert
@@ -24416,14 +24423,6 @@
  t start_pass_main
  t start_pass_prep
  t startdemos(CCommandContext const&, CCommand const&)
- t std::__1::__function::__func<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0, std::__1::allocator<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0>, void ()>::__clone() const
- t std::__1::__function::__func<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0, std::__1::allocator<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0>, void ()>::__clone(std::__1::__function::__base<void ()>*) const
- t std::__1::__function::__func<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0, std::__1::allocator<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0>, void ()>::destroy()
- t std::__1::__function::__func<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0, std::__1::allocator<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0>, void ()>::destroy_deallocate()
- t std::__1::__function::__func<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0, std::__1::allocator<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0>, void ()>::operator()()
- t std::__1::__function::__func<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0, std::__1::allocator<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0>, void ()>::target(std::type_info const&) const
- t std::__1::__function::__func<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0, std::__1::allocator<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0>, void ()>::target_type() const
- t std::__1::__function::__func<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0, std::__1::allocator<CRenderService::OnClientOutput(EventClientOutput_t const&)::$_0>, void ()>::~__func()
  t stop(CCommandContext const&, CCommand const&)
  t stopdemos(CCommandContext const&, CCommand const&)
  t sv_ShutDown(CCommandContext const&, CCommand const&)
