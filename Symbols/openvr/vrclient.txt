@@ -24,6 +24,9 @@
  B CVRMsg_ComputeDistortionResponse::default_instance_
  B CVRMsg_Connect::default_instance_
  B CVRMsg_ConnectResponse::default_instance_
+ B CVRMsg_CreateSwapTextureSet::default_instance_
+ B CVRMsg_CreateSwapTextureSetResponse::default_instance_
+ B CVRMsg_DestroySwapTextureSet::default_instance_
  B CVRMsg_DriverDebugRequest::default_instance_
  B CVRMsg_DriverDebugResponse::default_instance_
  B CVRMsg_EnableCamera::default_instance_
@@ -77,6 +80,7 @@
  D typeinfo for CHmd_004
  D typeinfo for CHmd_005
  D typeinfo for CHmd_006
+ D typeinfo for COculusDirectClient
  D typeinfo for CRenderModelManager
  D typeinfo for CVRChaperone_001
  D typeinfo for CVRClientCore_001
@@ -113,6 +117,9 @@
  D typeinfo for CVRMsg_ComputeDistortionResponse
  D typeinfo for CVRMsg_Connect
  D typeinfo for CVRMsg_ConnectResponse
+ D typeinfo for CVRMsg_CreateSwapTextureSet
+ D typeinfo for CVRMsg_CreateSwapTextureSetResponse
+ D typeinfo for CVRMsg_DestroySwapTextureSet
  D typeinfo for CVRMsg_DriverDebugRequest
  D typeinfo for CVRMsg_DriverDebugResponse
  D typeinfo for CVRMsg_EnableCamera
@@ -218,6 +225,7 @@
  D typeinfo for vr::IVRControlPanel
  D typeinfo for vr::IVRDashboardManager
  D typeinfo for vr::IVRNotifications
+ D typeinfo for vr::IVROculusDirect
  D typeinfo for vr::IVROverlay
  D typeinfo for vr::IVRRenderModels
  D typeinfo for vr::IVRSystem
@@ -231,6 +239,7 @@
  D vtable for CHmd_004
  D vtable for CHmd_005
  D vtable for CHmd_006
+ D vtable for COculusDirectClient
  D vtable for CRenderModelManager
  D vtable for CVRChaperone_001
  D vtable for CVRClientCore_001
@@ -267,6 +276,9 @@
  D vtable for CVRMsg_ComputeDistortionResponse
  D vtable for CVRMsg_Connect
  D vtable for CVRMsg_ConnectResponse
+ D vtable for CVRMsg_CreateSwapTextureSet
+ D vtable for CVRMsg_CreateSwapTextureSetResponse
+ D vtable for CVRMsg_DestroySwapTextureSet
  D vtable for CVRMsg_DriverDebugRequest
  D vtable for CVRMsg_DriverDebugResponse
  D vtable for CVRMsg_EnableCamera
@@ -373,6 +385,7 @@
  R typeinfo name for CHmd_004
  R typeinfo name for CHmd_005
  R typeinfo name for CHmd_006
+ R typeinfo name for COculusDirectClient
  R typeinfo name for CRenderModelManager
  R typeinfo name for CVRChaperone_001
  R typeinfo name for CVRClientCore_001
@@ -409,6 +422,9 @@
  R typeinfo name for CVRMsg_ComputeDistortionResponse
  R typeinfo name for CVRMsg_Connect
  R typeinfo name for CVRMsg_ConnectResponse
+ R typeinfo name for CVRMsg_CreateSwapTextureSet
+ R typeinfo name for CVRMsg_CreateSwapTextureSetResponse
+ R typeinfo name for CVRMsg_DestroySwapTextureSet
  R typeinfo name for CVRMsg_DriverDebugRequest
  R typeinfo name for CVRMsg_DriverDebugResponse
  R typeinfo name for CVRMsg_EnableCamera
@@ -514,6 +530,7 @@
  R typeinfo name for vr::IVRControlPanel
  R typeinfo name for vr::IVRDashboardManager
  R typeinfo name for vr::IVRNotifications
+ R typeinfo name for vr::IVROculusDirect
  R typeinfo name for vr::IVROverlay
  R typeinfo name for vr::IVRRenderModels
  R typeinfo name for vr::IVRSystem
@@ -706,6 +723,12 @@
  T CIPCPipe::SendMessageInternal(void*, unsigned int)
  T CIPCPipe::SendPackedMessage(unsigned int, void*, unsigned int)
  T CIPCPipe::~CIPCPipe()
+ T COculusDirectClient::Cleanup()
+ T COculusDirectClient::CreateSwapTextureSet(unsigned int, unsigned int, unsigned int, void* (*) [2])
+ T COculusDirectClient::DestroySwapTextureSet(void*)
+ T COculusDirectClient::Init(CVRClient*)
+ T COculusDirectClient::Present()
+ T COculusDirectClient::SubmitLayer(unsigned int, vr::Hmd_Eye, vr::GraphicsAPIConvention, void*, vr::VRTextureBounds_t const*, vr::HmdMatrix34_t const*)
  T CRenderModelManager::BInit(std::string const&)
  T CRenderModelManager::CRenderModelManager()
  T CRenderModelManager::Cleanup()
@@ -722,7 +745,7 @@
  T CSharedTextureHelper::GetSharedTextureData(void*, void*, unsigned int)
  T CSharedTextureHelper::GetSharedTextureHandle(vr::GraphicsAPIConvention, void*, vr::VRTextureBounds_t*, int, bool)
  T CSharedTextureHelper::GetSharedTextureSize(void*, unsigned int*, unsigned int*)
- T CSharedTextureHelper::Init(int, void*)
+ T CSharedTextureHelper::Init(int, void*, vr::IVROculusDirect*)
  T CSharedTextureHelper::Release()
  T CSharedTextureHelper::ReleaseSync()
  T CSimpleIniTempl<char, SI_GenericNoCase<char>, SI_ConvertA<char> >::AddEntry(char const*, char const*, char const*, char const*, bool, bool)
@@ -1253,6 +1276,39 @@
  T CVRMsg_ConnectResponse::SerializeWithCachedSizesToArray(unsigned char*) const
  T CVRMsg_ConnectResponse::SetCachedSize(int) const
  T CVRMsg_ConnectResponse::~CVRMsg_ConnectResponse()
+ T CVRMsg_CreateSwapTextureSet::ByteSize() const
+ T CVRMsg_CreateSwapTextureSet::CVRMsg_CreateSwapTextureSet()
+ T CVRMsg_CreateSwapTextureSet::Clear()
+ T CVRMsg_CreateSwapTextureSet::GetCachedSize() const
+ T CVRMsg_CreateSwapTextureSet::GetMetadata() const
+ T CVRMsg_CreateSwapTextureSet::IsInitialized() const
+ T CVRMsg_CreateSwapTextureSet::MergeFrom(CVRMsg_CreateSwapTextureSet const&)
+ T CVRMsg_CreateSwapTextureSet::New() const
+ T CVRMsg_CreateSwapTextureSet::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_CreateSwapTextureSet::SetCachedSize(int) const
+ T CVRMsg_CreateSwapTextureSet::~CVRMsg_CreateSwapTextureSet()
+ T CVRMsg_CreateSwapTextureSetResponse::ByteSize() const
+ T CVRMsg_CreateSwapTextureSetResponse::CVRMsg_CreateSwapTextureSetResponse()
+ T CVRMsg_CreateSwapTextureSetResponse::Clear()
+ T CVRMsg_CreateSwapTextureSetResponse::GetCachedSize() const
+ T CVRMsg_CreateSwapTextureSetResponse::GetMetadata() const
+ T CVRMsg_CreateSwapTextureSetResponse::IsInitialized() const
+ T CVRMsg_CreateSwapTextureSetResponse::MergeFrom(CVRMsg_CreateSwapTextureSetResponse const&)
+ T CVRMsg_CreateSwapTextureSetResponse::New() const
+ T CVRMsg_CreateSwapTextureSetResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_CreateSwapTextureSetResponse::SetCachedSize(int) const
+ T CVRMsg_CreateSwapTextureSetResponse::~CVRMsg_CreateSwapTextureSetResponse()
+ T CVRMsg_DestroySwapTextureSet::ByteSize() const
+ T CVRMsg_DestroySwapTextureSet::CVRMsg_DestroySwapTextureSet()
+ T CVRMsg_DestroySwapTextureSet::Clear()
+ T CVRMsg_DestroySwapTextureSet::GetCachedSize() const
+ T CVRMsg_DestroySwapTextureSet::GetMetadata() const
+ T CVRMsg_DestroySwapTextureSet::IsInitialized() const
+ T CVRMsg_DestroySwapTextureSet::MergeFrom(CVRMsg_DestroySwapTextureSet const&)
+ T CVRMsg_DestroySwapTextureSet::New() const
+ T CVRMsg_DestroySwapTextureSet::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_DestroySwapTextureSet::SetCachedSize(int) const
+ T CVRMsg_DestroySwapTextureSet::~CVRMsg_DestroySwapTextureSet()
  T CVRMsg_DriverDebugRequest::ByteSize() const
  T CVRMsg_DriverDebugRequest::CVRMsg_DriverDebugRequest()
  T CVRMsg_DriverDebugRequest::Clear()
@@ -2008,6 +2064,7 @@
  T GetChaperoneInterfaceInternal()
  T GetEnvironmentVariable(char const*)
  T GetFileLength(char const*)
+ T GetGenericInterfaceInternal(char const*, vr::HmdError*)
  T GetHMDLatestInterfaceInternal()
  T GetHomeDir()
  T GetModuleRelativeRuntimeDir()
@@ -2237,6 +2294,7 @@
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_CompositorShowDashboardResponse>(unsigned int, CVRMsg_CompositorShowDashboardResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_ComputeDistortionResponse>(unsigned int, CVRMsg_ComputeDistortionResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_ConnectResponse>(unsigned int, CVRMsg_ConnectResponse&, unsigned int)
+ T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_CreateSwapTextureSetResponse>(unsigned int, CVRMsg_CreateSwapTextureSetResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_DriverDebugResponse>(unsigned int, CVRMsg_DriverDebugResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_EnableCameraResponse>(unsigned int, CVRMsg_EnableCameraResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_GetCameraInfoResponse>(unsigned int, CVRMsg_GetCameraInfoResponse&, unsigned int)
@@ -2719,6 +2777,12 @@
  b (anonymous namespace)::CVRMsg_ConnectResponse_reflection_
  b (anonymous namespace)::CVRMsg_Connect_descriptor_
  b (anonymous namespace)::CVRMsg_Connect_reflection_
+ b (anonymous namespace)::CVRMsg_CreateSwapTextureSetResponse_descriptor_
+ b (anonymous namespace)::CVRMsg_CreateSwapTextureSetResponse_reflection_
+ b (anonymous namespace)::CVRMsg_CreateSwapTextureSet_descriptor_
+ b (anonymous namespace)::CVRMsg_CreateSwapTextureSet_reflection_
+ b (anonymous namespace)::CVRMsg_DestroySwapTextureSet_descriptor_
+ b (anonymous namespace)::CVRMsg_DestroySwapTextureSet_reflection_
  b (anonymous namespace)::CVRMsg_DriverDebugRequest_descriptor_
  b (anonymous namespace)::CVRMsg_DriverDebugRequest_reflection_
  b (anonymous namespace)::CVRMsg_DriverDebugResponse_descriptor_
@@ -2961,6 +3025,9 @@
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_ComputeDistortion_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_ConnectResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_Connect_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_CreateSwapTextureSetResponse_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_CreateSwapTextureSet_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_DestroySwapTextureSet_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_DriverDebugRequest_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_DriverDebugResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_EnableCameraResponse_offsets_
