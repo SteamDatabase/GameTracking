@@ -134,6 +134,20 @@ function COverthrowGameMode:InitGameMode()
 
 	GameRules:GetGameModeEntity().COverthrowGameMode = self
 
+	-- Adding Many Players
+	if GetMapName() == "desert_quintet" then
+		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, 5 )
+		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 5 )
+		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_1, 5 )
+		self.m_GoldRadiusMin = 300
+		self.m_GoldRadiusMax = 1400
+		self.m_GoldDropPercent = 8
+	else
+		self.m_GoldRadiusMin = 250
+		self.m_GoldRadiusMax = 550
+		self.m_GoldDropPercent = 4
+	end
+
 	-- Show the ending scoreboard immediately
 	GameRules:SetCustomGameEndDelay( 0 )
 	GameRules:SetCustomVictoryMessageDuration( 10 )
@@ -150,9 +164,9 @@ function COverthrowGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetRuneEnabled( 4, false ) --Regen
 	GameRules:GetGameModeEntity():SetRuneEnabled( 5, false ) --Bounty
 	GameRules:GetGameModeEntity():SetLoseGoldOnDeath( false )
-	GameRules:GetGameModeEntity():SetFountainPercentageHealthRegen( 20 )
-	GameRules:GetGameModeEntity():SetFountainPercentageManaRegen( 20 )
-	GameRules:GetGameModeEntity():SetFountainConstantManaRegen( 30 )
+	GameRules:GetGameModeEntity():SetFountainPercentageHealthRegen( 0 )
+	GameRules:GetGameModeEntity():SetFountainPercentageManaRegen( 0 )
+	GameRules:GetGameModeEntity():SetFountainConstantManaRegen( 0 )
 	GameRules:GetGameModeEntity():SetBountyRunePickupFilter( Dynamic_Wrap( COverthrowGameMode, "BountyRunePickupFilter" ), self )
 	GameRules:GetGameModeEntity():SetExecuteOrderFilter( Dynamic_Wrap( COverthrowGameMode, "ExecuteOrderFilter" ), self )
 
@@ -169,7 +183,7 @@ function COverthrowGameMode:InitGameMode()
 	Convars:RegisterCommand( "overthrow_set_timer", function(...) return SetTimer( ... ) end, "Set the timer.", FCVAR_CHEAT )
 	Convars:RegisterCommand( "overthrow_force_end_game", function(...) return self:EndGame( DOTA_TEAM_GOODGUYS ) end, "Force the game to end.", FCVAR_CHEAT )
 	
-
+	COverthrowGameMode:SetUpFountains()
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, 1 ) 
 
 	-- Spawning monsters
@@ -181,6 +195,21 @@ function COverthrowGameMode:InitGameMode()
 			NumberToSpawn = RandomInt(3,5),
 			WaypointName = "camp"..i.."_path_wp1"
 		}
+	end
+end
+
+---------------------------------------------------------------------------
+-- Set up fountain regen
+---------------------------------------------------------------------------
+function COverthrowGameMode:SetUpFountains()
+
+	LinkLuaModifier( "modifier_fountain_aura_lua", LUA_MODIFIER_MOTION_NONE )
+	LinkLuaModifier( "modifier_fountain_aura_effect_lua", LUA_MODIFIER_MOTION_NONE )
+
+	local fountainEntities = Entities:FindAllByClassname( "ent_dota_fountain")
+	for _,fountainEnt in pairs( fountainEntities ) do
+		--print("fountain unit " .. tostring( fountainEnt ) )
+		fountainEnt:AddNewModifier( fountainEnt, fountainEnt, "modifier_fountain_aura_lua", {} )
 	end
 end
 

@@ -3,7 +3,7 @@
 --Spawns Bags of Gold in the middle
 function COverthrowGameMode:ThinkGoldDrop()
 	local r = RandomInt( 1, 100 )
-	if r > 96 then
+	if r > ( 100 - self.m_GoldDropPercent ) then
 		self:SpawnGold()
 	end
 end
@@ -31,7 +31,8 @@ function COverthrowGameMode:SpawnGoldEntity( spawnPoint )
 	EmitGlobalSound("Item.PickUpGemWorld")
 	local newItem = CreateItem( "item_bag_of_gold", nil, nil )
 	local drop = CreateItemOnPositionForLaunch( spawnPoint, newItem )
-	newItem:LaunchLootInitialHeight( false, 0, 500, 0.75, spawnPoint + RandomVector( RandomFloat( 250, 550 ) ) )
+	local dropRadius = RandomFloat( self.m_GoldRadiusMin, self.m_GoldRadiusMax )
+	newItem:LaunchLootInitialHeight( false, 0, 500, 0.75, spawnPoint + RandomVector( dropRadius ) )
 	newItem:SetContextThink( "KillLoot", function() return self:KillLoot( newItem, drop ) end, 20 )
 end
 
@@ -206,25 +207,18 @@ function COverthrowGameMode:ThinkSpecialItemDrop()
 end
 
 function COverthrowGameMode:PlanNextSpawn()
-	local spawnPath =
-	{
-		"item_spawn_1",
-		"item_spawn_2",
-		"item_spawn_3",
-		"item_spawn_4",
-		"item_spawn_5",
-		"item_spawn_6",
-		"item_spawn_7",
-		"item_spawn_8"
-	}
 	local missingSpawnPoint =
 	{
 		origin = "0 0 384",
 		targetname = "item_spawn_missing"
 	}
 
-	local r = RandomInt( 1, #spawnPath )
-	local path_track = spawnPath[ r ]
+	local r = RandomInt( 1, 8 )
+	if GetMapName() == "desert_quintet" then
+		print("map is desert_quintet")
+		r = RandomInt( 1, 6 )
+	end
+	local path_track = "item_spawn_" .. r
 	local spawnPoint = Vector( 0, 0, 700 )
 	local spawnLocation = Entities:FindByName( nil, path_track )
 

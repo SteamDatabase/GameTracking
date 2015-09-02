@@ -31,9 +31,9 @@ ON_SHOP_OPENED = 12
 ON_SHOP_CLOSED = 13
 ON_TOWER_KILL_GOOD = 14
 ON_TOWER_KILL_BAD = 15
-ON_PLAYER_TOOK_TOWER_DAMAGE = 15
-ON_LEVEL_ABILITY_TOGGLED_ON = 16
-ON_LEVEL_ABILITY_TOGGLED_OFF = 17
+ON_PLAYER_TOOK_TOWER_DAMAGE = 16
+ON_LEVEL_ABILITY_TOGGLED_ON = 17
+ON_LEVEL_ABILITY_TOGGLED_OFF = 18
 
 DEATH_TIP_NEVER_SHOWN = 0
 DEATH_TIP_FIRST_VISIBLE = 1
@@ -58,13 +58,7 @@ end
 
 -- Precache resources
 function Precache( context )
-	--PrecacheResource( "particle", "particles/generic_gameplay/winter_effects_hero.vpcf", context )
-	--PrecacheResource( "particle", "particles/items2_fx/veil_of_discord.vpcf", context )	
-	--PrecacheResource( "particle_folder", "particles/frostivus_gameplay", context )
-	--PrecacheItemByNameSync( "item_tombstone", context )
-	--PrecacheItemByNameSync( "item_bag_of_gold", context )
-	--PrecacheItemByNameSync( "item_slippers_of_halcyon", context )
-	--PrecacheItemByNameSync( "item_greater_clarity", context )
+	PrecacheResource( "particle", "particles/ui_mouseactions/unit_highlight.vpcf", context )
 end
 
 -- Actually make the game mode when we activate
@@ -98,6 +92,10 @@ function CTutorialBasics:InitGameMode()
 	self._nClarityTipState = TIP_NEVER_SHOWN
 	self._nSalveTipState = TIP_NEVER_SHOWN
 	self._nTowerDamageTipState = TIP_NEVER_SHOWN
+
+	PrecacheUnitByNameAsync( "npc_dota_hero_luna",				function(unit) end )
+	PrecacheUnitByNameAsync( "npc_dota_hero_razor",				function(unit) end )
+
 
 	Tutorial:StartTutorialMode()
 
@@ -168,10 +166,43 @@ function CTutorialBasics:InitGameMode()
 	GameRules:SetGoldPerTick( 0 )
 	GameRules:SetCustomGameSetupTimeout( 0 )
 
+	GameRules:GetGameModeEntity():SetBotsInLateGame( false )
 	GameRules:GetGameModeEntity():SetBotThinkingEnabled( true )
 	GameRules:GetGameModeEntity():SetAnnouncerDisabled( true )
+	GameRules:GetGameModeEntity():SetBuybackEnabled( false )
 
---	GameRules:GetGameModeEntity():SetRecommendedItemsDisabled( true )
+	GameRules:GetGameModeEntity():SetCustomGameForceHero( "npc_dota_hero_luna" )
+
+	self._nFXIndex = -1
+	self._flFXClearTime = -1
+
+	self._nSkillIndex = 0
+	self._vSkillBuild = {}
+	self._vSkillBuild[0] = -1
+	self._vSkillBuild[1] = 0
+	self._vSkillBuild[2] = 0
+	self._vSkillBuild[3] = 2
+	self._vSkillBuild[4] = 0
+	self._vSkillBuild[5] = 3
+	self._vSkillBuild[6] = 0
+	self._vSkillBuild[7] = 1
+	self._vSkillBuild[8] = 1
+	self._vSkillBuild[9] = 2
+	self._vSkillBuild[10] = 3
+	self._vSkillBuild[11] = 2
+	self._vSkillBuild[12] = 1
+	self._vSkillBuild[13] = 1
+	self._vSkillBuild[14] = 2
+	self._vSkillBuild[15] = 3
+	self._vSkillBuild[16] = -1
+	self._vSkillBuild[17] = -1
+	self._vSkillBuild[18] = -1
+	self._vSkillBuild[19] = -1
+	self._vSkillBuild[20] = -1
+	self._vSkillBuild[21] = -1
+	self._vSkillBuild[22] = -1
+	self._vSkillBuild[23] = -1
+	self._vSkillBuild[24] = -1
 
 	-- Custom console commands
 	Convars:RegisterCommand( "tutorial_advance", function(...) return self:_TestAdvanceTutorial( ... ) end, "Advance the tutorial to the next state.", FCVAR_CHEAT )
@@ -179,6 +210,7 @@ function CTutorialBasics:InitGameMode()
 	Convars:RegisterCommand( "tutorial_set_hud_visibility", function(...) return self:_SetHudVisiblity( ... ) end, "Set visibility on a piece of UI.", FCVAR_CHEAT )
 	Convars:RegisterCommand( "tutorial_test_victory", function(...) return self:_TestTutorialVictory( ... ) end, "Advance the tutorial to the next state.", FCVAR_CHEAT )
 
+	GameRules:GetGameModeEntity():SetTrackingProjectileFilter( Dynamic_Wrap( CTutorialBasics, "FilterTrackingProjectile" ), self )
 
 	CustomGameEventManager:RegisterListener( "AbilityStartUse", function(...) return self:OnAbilityStartUse( ... ) end )
 	CustomGameEventManager:RegisterListener( "AbilityLearnModeToggled", function(...) return self:OnAbilityLearnModeToggled( ... ) end )
@@ -233,7 +265,36 @@ function CTutorialBasics:_SetHudVisiblity( cmdName, nUiPanel, bVisible )
 	GameRules:GetGameModeEntity():SetHUDVisible( tonumber( nUiPanel ), bSetVisilble )
 end
 
+-----------------------------------------------------------------------------------------
+-- Filters
+-----------------------------------------------------------------------------------------
 
+function CTutorialBasics:FilterTrackingProjectile( filterTable )
+--	for k, v in pairs( filterTable ) do
+--		print("TP: " .. k .. " " .. tostring(v) )
+--	end
+
+	local hVictim = EntIndexToHScript( filterTable["entindex_target_const"] )
+	local hAttacker = EntIndexToHScript( filterTable["entindex_source_const"] )
+
+	if ( hVictim == nil or hAttacker == nil ) then
+		return true
+	end
+
+	local bDoAttack = true
+
+	if ( hVictim:IsHero() and hAttacker:IsTower() and hVictim:GetPlayerID() == 0 ) then
+		if ( self._nFXIndex ~= -1 ) then
+			ParticleManager:DestroyParticle( self._nFXIndex, true )
+		end
+
+		self._nFXIndex = ParticleManager:CreateParticle( "particles/ui_mouseactions/unit_highlight.vpcf", PATTACH_ABSORIGIN_FOLLOW, hAttacker )
+		ParticleManager:SetParticleControl( self._nFXIndex, 1, Vector( 255, 125, 0 ) )
+		ParticleManager:SetParticleControl( self._nFXIndex, 2, Vector( 820, 32, 820 ) )
+		self._flFXClearTime = 1.0
+	end
+	return bDoAttack
+end
 
 -----------------------------------------------------------------------------------------
 -- Events
@@ -254,8 +315,8 @@ function CTutorialBasics:OnPlayerGainedLevel()
 	self:_FireEvent( ON_PLAYER_GAINED_LEVEL )
 end
 
-function CTutorialBasics:OnPlayerLearnedAbility()
-	print("Ability Learned")
+function CTutorialBasics:OnPlayerLearnedAbility( event )
+	print("Ability Learned " .. tostring( self._nSkillIndex ) )
 
 	-- Shortcut if we skip a state.
 	if ( self._CurrentState == "level_up_quest" ) then
@@ -263,6 +324,35 @@ function CTutorialBasics:OnPlayerLearnedAbility()
 	end
 
 	self:_FireEvent( ON_ABILITY_LEARNED )
+
+	local player = EntIndexToHScript( event.player )
+	local playerID = player:GetPlayerID()
+
+	if ( playerID ~= 0 ) then
+		return
+	end
+
+	local heroUnit = PlayerResource:GetSelectedHeroEntity( playerID )
+	if heroUnit == nil then
+		return
+	end
+
+	if heroUnit:IsRealHero() then
+		local upgradeAbility = heroUnit:FindAbilityByName( event.abilityname )
+		local buildAbility = nil
+		local bBuildStats = false
+
+		if ( self._vSkillBuild[self._nSkillIndex] == -1 ) then 
+			bBuildStats = true
+		else
+			buildAbility = heroUnit:GetAbilityByIndex( self._vSkillBuild[self._nSkillIndex] )			
+		end
+
+		-- Type 2 is the attributes ability
+		if ( upgradeAbility ~= nil and ( ( upgradeAbility == buildAbility ) or ( upgradeAbility:GetAbilityType() == 2 and bBuildStats ) ) ) then
+			self:_AdvanceAbilityBuild()
+		end
+	end
 end
 
 function CTutorialBasics:OnPlayerUsedAbility()
@@ -373,7 +463,10 @@ function CTutorialBasics:OnTangoUsed()
 		Tutorial:SetTimeFrozen( true )
 		self:_SetScriptTipsVisible( false )
 		self._nTangoTipState = TIP_VISIBLE
-		CustomUI:DynamicHud_Create( -1, "tutorial_health_alert", "file://{resources}/layout/custom_game/tutorial_dialog_blank.xml", { TitleTextVar = "#basics_alert_TangoUsageTitle", BodyTextVar = "#basics_alert_TangoUsageBody" } )
+
+		self:_CreateAlertDialog( "", { TitleTextVar = "basics_alert_TangoUsageTitle", BodyTextVar = "basics_alert_TangoUsageBody" } )
+
+--		CustomUI:DynamicHud_Create( -1, "tutorial_health_alert", "file://{resources}/layout/custom_game/tutorial_dialog_blank.xml", { TitleTextVar = "#basics_alert_TangoUsageTitle", BodyTextVar = "#basics_alert_TangoUsageBody" } )
 	end
 end
 
@@ -391,6 +484,15 @@ function CTutorialBasics:OnThink()
 		self._bInitialized = true
 		self:_FireEvent( ON_INITIALIZED )
 	end
+
+	if ( self._flFXClearTime > 0 and self._nFXIndex ~= -1 ) then
+		self._flFXClearTime = self._flFXClearTime - 0.25
+		if ( self._flFXClearTime <= 0 ) then
+			ParticleManager:DestroyParticle( self._nFXIndex, true )
+			self._nFXIndex = -1
+		end
+	end
+
 
 	-- Don't continue thinking if we are displaying a death tip
 	if ( self._nTowerDamageTipState == TIP_VISIBLE ) then
@@ -485,9 +587,62 @@ function CTutorialBasics:_FireEvent( nEvent )
 	end
 end
 
+function CTutorialBasics:_SetGameFrozen( bFreeze )
+	Tutorial:SetTimeFrozen( bFreeze )
+	local entity = Entities:First()
+	while( entity ~= nil ) do
+		if ( entity:IsBaseNPC() ) then
+			if ( entity:IsAlive() and ( entity:IsCreep() or entity:IsHero() ) ) then
+				if ( bFreeze == true ) then
+--					print("Making unit idle " .. entity:GetClassname() )
+					entity:StartGesture( ACT_DOTA_IDLE )
+				else
+					entity:RemoveGesture( ACT_DOTA_IDLE )
+				end
+			end
+		end
+		entity = Entities:Next( entity )
+	end
+end
+
+-----------------------------------------------------------------------------------------
+-- Build Management
+-----------------------------------------------------------------------------------------
+
+function CTutorialBasics:_AdvanceAbilityBuild()
+	self._nSkillIndex = self._nSkillIndex + 1
+	local newSkill = self._vSkillBuild[self._nSkillIndex]
+
+	if ( newSkill == nil ) then
+		return
+	end
+
+	if ( self._nSkillIndex >= 14 ) then
+		Tutorial:SetTutorialConvar( "dota_tutorial_force_learn_ability", "-1" )
+	else
+		Tutorial:SetTutorialConvar( "dota_tutorial_force_learn_ability", tostring( newSkill ) )
+	end
+end
+
 -----------------------------------------------------------------------------------------
 -- Dynamic tips
 -----------------------------------------------------------------------------------------
+
+function CTutorialBasics:_SetTipImage( imageClassName )
+	local event_data =
+	{
+	    image_class = imageClassName,
+	}
+	CustomGameEventManager:Send_ServerToAllClients( "set_image", event_data )
+end
+
+function CTutorialBasics:_SetAlertImage( imageClassName )
+	local event_data =
+	{
+	    image_class = imageClassName,
+	}
+	CustomGameEventManager:Send_ServerToAllClients( "set_alert_image", event_data )
+end
 
 function CTutorialBasics:_CheckForAlerts()
 	if ( self._hPlayerHero == nil ) then
@@ -500,15 +655,18 @@ function CTutorialBasics:_CheckForAlerts()
 
 	if ( self._flAlertDelay <= 0 ) then
 		if ( self._bShowedSalveTip == nil ) and ( healthPct < 50 ) then
-			CustomUI:DynamicHud_Create( -1, "tutorial_alert", "file://{resources}/layout/custom_game/tutorial_alert_salve.xml", { TitleTextVar = "#basics_alert_UseSalveTitle", BodyTextVar = "#basics_alert_UseSalveBody" } )
+			self:_CreateSideAlertDialog( "SalveImage", { TitleTextVar = "basics_alert_UseSalveTitle", BodyTextVar = "basics_alert_UseSalveBody" } )
+--			CustomUI:DynamicHud_Create( -1, "tutorial_alert", "file://{resources}/layout/custom_game/tutorial_alert_salve.xml", { TitleTextVar = "#basics_alert_UseSalveTitle", BodyTextVar = "#basics_alert_UseSalveBody" } )
 			self._flAlertDelay = 5.0
 			self._bShowedSalveTip = true
 		elseif ( self._bShowedTangoTip == nil ) and ( healthPct < 80 ) then
-			CustomUI:DynamicHud_Create( -1, "tutorial_alert", "file://{resources}/layout/custom_game/tutorial_alert_tango.xml", { TitleTextVar = "#basics_alert_UseTangoTitle", BodyTextVar = "#basics_alert_UseTangoBody" } )
+			self:_CreateSideAlertDialog( "TangoImage", { TitleTextVar = "basics_alert_UseTangoTitle", BodyTextVar = "basics_alert_UseTangoBody" } )
+--			CustomUI:DynamicHud_Create( -1, "tutorial_alert", "file://{resources}/layout/custom_game/tutorial_alert_tango.xml", { TitleTextVar = "#basics_alert_UseTangoTitle", BodyTextVar = "#basics_alert_UseTangoBody" } )
 			self._flAlertDelay = 5.0
 			self._bShowedTangoTip = true
 		elseif ( self._bShowedClarityTip == nil ) and ( manaPct < 50 ) then
-			CustomUI:DynamicHud_Create( -1, "tutorial_alert", "file://{resources}/layout/custom_game/tutorial_alert_clarity.xml", { TitleTextVar = "#basics_alert_UseClarityTitle", BodyTextVar = "#basics_alert_UseClarityBody" } )
+			self:_CreateSideAlertDialog( "ClarityImage", { TitleTextVar = "basics_alert_UseClarityTitle", BodyTextVar = "basics_alert_UseClarityBody" } )
+--			CustomUI:DynamicHud_Create( -1, "tutorial_alert", "file://{resources}/layout/custom_game/tutorial_alert_clarity.xml", { TitleTextVar = "#basics_alert_UseClarityTitle", BodyTextVar = "#basics_alert_UseClarityBody" } )
 			self._flAlertDelay = 5.0
 			self._bShowedClarityTip = true
 		end
@@ -553,31 +711,33 @@ function CTutorialBasics:_CheckForDeathTip()
 	local bDisplayedTip = false
 
 	if ( self._nDeathTipState == DEATH_TIP_NEVER_SHOWN ) then
-		CustomUI:DynamicHud_Create( -1, "tutorial_death_alert", "file://{resources}/layout/custom_game/tutorial_dialog_death.xml", { TitleTextVar = "#basics_alert_FirstDeathTitle", BodyTextVar = "#basics_alert_FirstDeathBody" } )
+		self:_CreateAlertDialog( "HeroImage", { TitleTextVar = "#basics_alert_FirstDeathTitle", BodyTextVar = "#basics_alert_FirstDeathBody" } )
+--		CustomUI:DynamicHud_Create( -1, "tutorial_death_alert", "file://{resources}/layout/custom_game/tutorial_dialog_death.xml", { TitleTextVar = "#basics_alert_FirstDeathTitle", BodyTextVar = "#basics_alert_FirstDeathBody" } )
 		self._nDeathTipState = DEATH_TIP_FIRST_VISIBLE
 		bDisplayedTip = true
 	elseif ( self._nDeathTipState == DEATH_TIP_FIRST_CLOSED ) then
-		CustomUI:DynamicHud_Create( -1, "tutorial_death_alert", "file://{resources}/layout/custom_game/tutorial_dialog_death.xml", { TitleTextVar = "#basics_alert_SecondDeathTitle", BodyTextVar = "#basics_alert_SecondDeathBody" } )
+		self:_CreateAlertDialog( "HeroImage", { TitleTextVar = "#basics_alert_SecondDeathTitle", BodyTextVar = "#basics_alert_SecondDeathBody" } )
+--		CustomUI:DynamicHud_Create( -1, "tutorial_death_alert", "file://{resources}/layout/custom_game/tutorial_dialog_death.xml", { TitleTextVar = "#basics_alert_SecondDeathTitle", BodyTextVar = "#basics_alert_SecondDeathBody" } )
 		self._nDeathTipState = DEATH_TIP_SECOND_VISIBLE
 		bDisplayedTip = true
 	end
 
 	if ( bDisplayedTip ) then
-		Tutorial:SetTimeFrozen( true )
+		self:_SetGameFrozen( true )
 		self:_SetScriptTipsVisible( false )
 	end
 end
 
 function CTutorialBasics:_ClearTowerDamageTip()
-	Tutorial:SetTimeFrozen( false )
-	CustomUI:DynamicHud_Destroy( -1, "tutorial_tower_damage_alert" )
+	self:_SetGameFrozen( false )
+	CustomUI:DynamicHud_Destroy( -1, "tutorial_alert_centered" )
 	self._nTowerDamageTipState = TIP_DISMISSED
 end
 
 function CTutorialBasics:_ClearHealingTip()
 
-	Tutorial:SetTimeFrozen( false )
-	CustomUI:DynamicHud_Destroy( -1, "tutorial_health_alert" )
+	self:_SetGameFrozen( false )
+	CustomUI:DynamicHud_Destroy( -1, "tutorial_alert_centered" )
 	self:_SetScriptTipsVisible( true )
 
 	if ( self._nTangoTipState == TIP_VISIBLE ) then
@@ -590,14 +750,16 @@ function CTutorialBasics:_ClearHealingTip()
 end
 
 function CTutorialBasics:_ClearDeathTip()
-	Tutorial:SetTimeFrozen( false )
-	CustomUI:DynamicHud_Destroy( -1, "tutorial_death_alert" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_respawn_alert", "file://{resources}/layout/custom_game/tutorial_dialog_respawn.xml", { TitleTextVar = "#basics_alert_RespawnTitle", BodyTextVar = "#basics_alert_RespawnBody" } )
+	self:_SetGameFrozen( false )
+	CustomUI:DynamicHud_Destroy( -1, "tutorial_alert_centered" )
+	self:_CreateLockedAlertDialog( "HeroImage", { TitleTextVar = "#basics_alert_RespawnTitle", BodyTextVar = "#basics_alert_RespawnBody" } )
+
+--	CustomUI:DynamicHud_Create( -1, "tutorial_respawn_alert", "file://{resources}/layout/custom_game/tutorial_dialog_respawn.xml", { TitleTextVar = "#basics_alert_RespawnTitle", BodyTextVar = "#basics_alert_RespawnBody" } )
 	self._nDeathTipState = self._nDeathTipState + 1
 end
 
 function CTutorialBasics:_ClearRespawnTip()
-	CustomUI:DynamicHud_Destroy( -1, "tutorial_respawn_alert" )
+	CustomUI:DynamicHud_Destroy( -1, "tutorial_alert_no_button" )
 	self._nDeathTipState = self._nDeathTipState + 1
 	self:_SetScriptTipsVisible( true )
 end
@@ -613,11 +775,16 @@ function CTutorialBasics:_CheckForTowerTip()
 
 	if ( self._nTowerHits >= 4 and self._nTowerDamageTipState == TIP_NEVER_SHOWN ) then
 		self._nTowerDamageTipState = TIP_VISIBLE
-		Tutorial:SetTimeFrozen( true )
-		CustomUI:DynamicHud_Create( -1, "tutorial_tower_damage_alert", "file://{resources}/layout/custom_game/tutorial_dialog_towers.xml", { TitleTextVar = "#basics_ExcessiveTowerDamageTitle", BodyTextVar = "#basics_ExcessiveTowerDamageBody" } )
+		self:_SetGameFrozen( true )
+		self:_CreateAlertDialog( "TowerImage", { TitleTextVar = "basics_ExcessiveTowerDamageTitle", BodyTextVar = "basics_ExcessiveTowerDamageBody" } )
+--		CustomUI:DynamicHud_Create( -1, "tutorial_tower_damage_alert", "file://{resources}/layout/custom_game/tutorial_alert_dialog.xml", { TitleTextVar = "#basics_ExcessiveTowerDamageTitle", BodyTextVar = "#basics_ExcessiveTowerDamageBody" } )
+		self:_SetTipImage( "TowerImage" )
 		self._nTowerHits = 1
 	elseif ( self._nTowerHits >= 2 ) then
-		CustomUI:DynamicHud_Create( -1, "tutorial_alert", "file://{resources}/layout/custom_game/tutorial_alert_tower.xml", { TitleTextVar = "#basics_alert_TowerDamageTitle", BodyTextVar = "#basics_alert_TowerDamageBody" } )
+		self:_CreateSideAlertDialog( "AlertTowerImage", { TitleTextVar = "basics_alert_TowerDamageTitle", BodyTextVar = "basics_alert_TowerDamageBody" } )
+--		CustomUI:DynamicHud_Create( -1, "tutorial_alert", "file://{resources}/layout/custom_game/tutorial_alert_tower.xml", { TitleTextVar = "#basics_alert_TowerDamageTitle", BodyTextVar = "#basics_alert_TowerDamageBody" } )
+--		CustomUI:DynamicHud_Create( -1, "tutorial_alert", "file://{resources}/layout/custom_game/tutorial_alert_dialog.xml", { TitleTextVar = "#basics_alert_TowerDamageTitle", BodyTextVar = "#basics_alert_TowerDamageBody" } )
+--		self:_SetTipImage( "TowerImage" )
 		self._flAlertDelay = 3.0
 	end
 end
@@ -644,8 +811,9 @@ function CTutorialBasics:_BasicsSetup()
 	SendToServerConsole( "bind space +dota_camera_follow" )
 	SendToServerConsole( "host_writeconfig" )
 
+--	Tutorial:SelectHero( "npc_dota_hero_luna" )
+
 	Tutorial:SelectPlayerTeam( "good" )
-	Tutorial:SelectHero( "npc_dota_hero_luna" )
 
 	Tutorial:SetWhiteListEnabled( true )
 
@@ -656,80 +824,98 @@ function CTutorialBasics:_BasicsSetup()
 	GameRules:GetGameModeEntity():SetHUDVisible( DOTA_HUD_VISIBILITY_INVENTORY_PROTECT, false )
 end
 
+function CTutorialBasics:_CreateInfoDialog( imageName, dialogVars )
+	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_info_dialog.xml", dialogVars )
+	self:_SetTipImage( imageName )
+end
+
+function CTutorialBasics:_CreateSideAlertDialog( imageName, dialogVars )
+	CustomUI:DynamicHud_Create( -1, "tutorial_alert", "file://{resources}/layout/custom_game/tutorial_alert_small.xml", dialogVars )
+	self:_SetAlertImage( imageName )	
+end
+
+function CTutorialBasics:_CreateAlertDialog( imageName, dialogVars )
+	CustomUI:DynamicHud_Create( -1, "tutorial_alert_centered", "file://{resources}/layout/custom_game/tutorial_alert_dialog.xml", dialogVars )
+	self:_SetTipImage( imageName )	
+end
+
+function CTutorialBasics:_CreateLockedAlertDialog( imageName, dialogVars )
+	CustomUI:DynamicHud_Create( -1, "tutorial_alert_no_button", "file://{resources}/layout/custom_game/tutorial_alert_no_button.xml", dialogVars )
+	self:_SetTipImage( imageName )
+end
+
 function CTutorialBasics:_BasicsTakeAttributes()
 --	Tutorial:UpgradePlayerAbility( "attribute_bonus" )
 	Tutorial:SetTutorialConvar( "dota_camera_hold_select_to_follow", "1" )
 	Tutorial:EnablePlayerOffscreenTip( true )
 	Tutorial:EnableCreepAggroViz( true )
-	Tutorial:EnableTowerAggroViz( true )
+--	Tutorial:EnableTowerAggroViz( true )
 end
 
 function CTutorialBasics:_HeroIntroTip()
 	Tutorial:UpgradePlayerAbility( "attribute_bonus" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_hero_intro.xml", { TitleTextVar = "#basics_HeroIntroTitle", BodyTextVar = "#basics_HeroIntroBody" } )
---	CustomUI:DynamicHud_Create( -1, "tutorial_alert", "file://{resources}/layout/custom_game/tutorial_alert_locate.xml", { TitleTextVar = "#basics_HeroIntroTitle", BodyTextVar = "#basics_HeroIntroBody" } )
---	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "#basics_HeroIntroTitle", BodyTextVar = "#basics_HeroIntroBody" } )
-	Tutorial:SetTimeFrozen( true )
+	self:_CreateInfoDialog( "HeroImage", { TitleTextVar = "basics_HeroIntroTitle", BodyTextVar = "basics_HeroIntroBody" } )
+	self:_SetGameFrozen( true )
 end	
 
 function CTutorialBasics:_FountainTip()
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_fountain.xml", { TitleTextVar = "#basics_FountainIntroTitle", BodyTextVar = "#basics_FountainIntroBody" } )
+	self:_CreateInfoDialog( "FountainImage", { TitleTextVar = "basics_FountainIntroTitle", BodyTextVar = "basics_FountainIntroBody" } )
 end	
 
 function CTutorialBasics:_HeroMoveTip()
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_rightclick.xml", { TitleTextVar = "basics_MovingYourHeroTitle", BodyTextVar = "basics_MovingYourHeroBody" } )
+	self:_CreateInfoDialog( "RightClickImage", { TitleTextVar = "basics_MovingYourHeroTitle", BodyTextVar = "basics_MovingYourHeroBody" } )
 end	
 
  function CTutorialBasics:_MoveToAncientQuest()
-	EmitGlobalSound("Tutorial.TaskProgress")
- 	Tutorial:SetTimeFrozen( false )
+	EmitGlobalSound("ui.npe_objective_given")
+ 	self:_SetGameFrozen( false )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
 	Tutorial:CreateLocationTask( Vector(-6083, -5618, 261 ) )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_MoveToAncientTitle", BodyTextVar = "basics_objective_MoveToAncientBody" } )
 end
 
 function CTutorialBasics:_CompleteAncientQuest()
-	EmitGlobalSound("Tutorial.TaskCompleted")
+	EmitGlobalSound("Tutorial.TaskProgress")
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective_completed", "file://{resources}/layout/custom_game/tutorial_objective_completed.xml", { TitleTextVar = "basics_objective_MoveToAncientTitle", BodyTextVar = "basics_objective_MoveToAncientBody" } )
 end	
 
 function CTutorialBasics:_AncientTip()
-	Tutorial:SetTimeFrozen( true )
+	self:_SetGameFrozen( true )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective_completed" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_ancient.xml", { TitleTextVar = "basics_AncientIntroTitle", BodyTextVar = "basics_AncientIntroBody" } )
+	self:_CreateInfoDialog( "AncientImage", { TitleTextVar = "basics_AncientIntroTitle", BodyTextVar = "basics_AncientIntroBody" } )
 end	
 
 function CTutorialBasics:_MapTip()
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_buildings.xml", { TitleTextVar = "basics_MapIntroTitle", BodyTextVar = "basics_MapIntroBody" } )
+	self:_CreateInfoDialog( "MinimapBuildingsImage", { TitleTextVar = "basics_MapIntroTitle", BodyTextVar = "basics_MapIntroBody" } )
 end	
 
 function CTutorialBasics:_PurchasingTip()
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_gold.xml", { TitleTextVar = "basics_SpendGoldTitle", BodyTextVar = "basics_SpendGoldBody" } )
+	self:_CreateInfoDialog( "GoldImage", { TitleTextVar = "basics_SpendGoldTitle", BodyTextVar = "basics_SpendGoldBody" } )
 end
 
 function CTutorialBasics:_BackToBaseQuest()
-	EmitGlobalSound("Tutorial.TaskProgress")
-	Tutorial:SetTimeFrozen( false )
+	EmitGlobalSound("ui.npe_objective_given")
+	self:_SetGameFrozen( false )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
 	Tutorial:CreateLocationTask( Vector( -6853, -6399, 640 ) )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_MoveToShopTitle", BodyTextVar = "basics_objective_MoveToShopBody" } )
 end
 
 function CTutorialBasics:_CompleteBackToBaseQuest()
- 	Tutorial:SetTimeFrozen( true )
+ 	self:_SetGameFrozen( true )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective_completed", "file://{resources}/layout/custom_game/tutorial_objective_completed.xml", { TitleTextVar = "basics_objective_MoveToShopTitle", BodyTextVar = "basics_objective_MoveToShopBody" } )
-	EmitGlobalSound( "Tutorial.TaskCompleted" )
+	EmitGlobalSound( "Tutorial.TaskProgress" )
 	Tutorial:SetItemGuide("luna_tutorial_item_build")
 end
 
 function CTutorialBasics:_OpenShopQuest()
-	EmitGlobalSound("Tutorial.TaskProgress")
+	EmitGlobalSound("ui.npe_objective_given")
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective_completed" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_OpenShopTitle", BodyTextVar = "basics_objective_OpenShopBody" } )
 end
@@ -737,23 +923,25 @@ end
 function CTutorialBasics:_CompleteOpenShopQuest()
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective_completed", "file://{resources}/layout/custom_game/tutorial_objective_completed.xml", { TitleTextVar = "basics_objective_OpenShopTitle", BodyTextVar = "basics_objective_OpenShopBody" } )
-	EmitGlobalSound( "Tutorial.TaskCompleted" )
+	EmitGlobalSound( "Tutorial.TaskProgress" )
 end
 
 function CTutorialBasics:_ShopTip()
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective_completed" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_shop.xml", { TitleTextVar = "basics_BuyFromShopTitle", BodyTextVar = "basics_BuyFromShopBody" } )
+	self:_CreateInfoDialog( "ShopImage", { TitleTextVar = "basics_BuyFromShopTitle", BodyTextVar = "basics_BuyFromShopBody" } )
 end
 
 function CTutorialBasics:_ShopTip2()
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_shop.xml", { TitleTextVar = "basics_BuyFromShop2Title", BodyTextVar = "basics_BuyFromShop2Body" } )
+	self:_CreateInfoDialog( "ShopImage", { TitleTextVar = "basics_BuyFromShop2Title", BodyTextVar = "basics_BuyFromShop2Body" } )
 end
 
 function CTutorialBasics:_BuyTangoesQuest()
-	EmitGlobalSound("Tutorial.TaskProgress")
+	EmitGlobalSound("ui.npe_objective_given")
 	Tutorial:SetOrModifyPlayerGold( 625, true )
+	GameRules:GetGameModeEntity():SetHUDVisible( DOTA_HUD_VISIBILITY_INVENTORY_QUICKBUY, true )
 	Tutorial:AddShopWhitelistItem( "item_tango" )
+	Tutorial:SetQuickBuy( "tango" )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_BuyTangoesTitle", BodyTextVar = "basics_objective_BuyTangoesBody" } )
 end
@@ -761,6 +949,7 @@ end
 function CTutorialBasics:_BuySalveQuest()
 	Tutorial:RemoveShopWhitelistItem( "item_tango" )
 	Tutorial:AddShopWhitelistItem( "item_flask" )
+	Tutorial:SetQuickBuy( "flask" )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_BuySalveTitle", BodyTextVar = "basics_objective_BuySalveBody" } )
 end
@@ -768,6 +957,7 @@ end
 function CTutorialBasics:_BuyClarityQuest()
 	Tutorial:RemoveShopWhitelistItem( "item_flask" )
 	Tutorial:AddShopWhitelistItem( "item_clarity" )
+	Tutorial:SetQuickBuy( "clarity" )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_BuyClarityTitle", BodyTextVar = "basics_objective_BuyClarityBody" } )
 end
@@ -775,6 +965,7 @@ end
 function CTutorialBasics:_BuyCirclet()
 	Tutorial:RemoveShopWhitelistItem( "item_clarity" )
 	Tutorial:AddShopWhitelistItem( "item_circlet" )
+	Tutorial:SetQuickBuy( "circlet" )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_BuyCircletTitle", BodyTextVar = "basics_objective_BuyCircletBody" } )
 end
@@ -787,6 +978,7 @@ end
 function CTutorialBasics:_BuySlippers()
 	Tutorial:RemoveShopWhitelistItem( "item_circlet" )
 	Tutorial:AddShopWhitelistItem( "item_slippers" )
+	Tutorial:SetQuickBuy( "slippers" )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_BuySlippersTitle", BodyTextVar = "basics_objective_BuySlippersBody" } )
 end
@@ -799,42 +991,42 @@ end
 
 function CTutorialBasics:_CompleteShopQuest()
 	Tutorial:RemoveShopWhitelistItem( "item_courier" )
-	EmitGlobalSound("Tutorial.TaskCompleted")
+	EmitGlobalSound("Tutorial.TaskProgress")
 end
 
 function CTutorialBasics:_LanesTip()
 	Tutorial:SetShopOpen( false )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_lanes.xml", { TitleTextVar = "basics_LaneIntroTitle", BodyTextVar = "basics_LaneIntroBody" } )
+	self:_CreateInfoDialog( "LanesImage", { TitleTextVar = "basics_LaneIntroTitle", BodyTextVar = "basics_LaneIntroBody" } )
 end	
 
 function CTutorialBasics:_MoveToMidQuest()
-	EmitGlobalSound("Tutorial.TaskProgress")
- 	Tutorial:SetTimeFrozen( false )
+	EmitGlobalSound("ui.npe_objective_given")
+ 	self:_SetGameFrozen( false )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
 	Tutorial:CreateLocationTask( Vector(-5029, -4522, 261 ) )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_MoveToMidLaneTitle", BodyTextVar = "basics_objective_MoveToMidLaneBody" } )
 end
 
 function CTutorialBasics:_CompleteMoveToMidQuest()
-	EmitGlobalSound( "Tutorial.TaskCompleted" )
-	Tutorial:SetTimeFrozen( true )
+	EmitGlobalSound( "Tutorial.TaskProgress" )
+	self:_SetGameFrozen( true )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective_completed", "file://{resources}/layout/custom_game/tutorial_objective_completed.xml", { TitleTextVar = "basics_objective_MoveToMidLaneTitle", BodyTextVar = "basics_objective_MoveToMidLaneBody" } )
 end
 
 function CTutorialBasics:_CreepsTip()	
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective_completed" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_barracks.xml", { TitleTextVar = "basics_CreepsIntroTitle", BodyTextVar = "basics_CreepsIntroBody" } )
+	self:_CreateInfoDialog( "CreepsImage", { TitleTextVar = "basics_CreepsIntroTitle", BodyTextVar = "basics_CreepsIntroBody" } )
 end
 
 function CTutorialBasics:_LaningTip()
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_battle.xml", { TitleTextVar = "basics_LaningIntroTitle", BodyTextVar = "basics_LaningIntroBody" } )
+	self:_CreateInfoDialog( "BattleImage", { TitleTextVar = "basics_LaningIntroTitle", BodyTextVar = "basics_LaningIntroBody" } )
 end
 
 function CTutorialBasics:_MoveToLaneQuest()
-	Tutorial:SetTimeFrozen( false )
+	self:_SetGameFrozen( false )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
 	Tutorial:CreateLocationTask( Vector(-1718, -1196, 384 ) )
 	Tutorial:ForceGameStart()
@@ -844,8 +1036,8 @@ function CTutorialBasics:_MoveToLaneQuest()
 end
 
 function CTutorialBasics:_CompleteToLaneQuest()
-	EmitGlobalSound( "Tutorial.TaskCompleted" )
-	Tutorial:SetTimeFrozen( true )
+	EmitGlobalSound( "Tutorial.TaskProgress" )
+	self:_SetGameFrozen( true )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective_completed", "file://{resources}/layout/custom_game/tutorial_objective_completed.xml", { TitleTextVar = "basics_objective_FollowCreepsTitle", BodyTextVar = "basics_objective_FollowCreepsBody" } )
 end
@@ -853,66 +1045,66 @@ end
 function CTutorialBasics:_AttackingTip()
 	print("Attacking tip")
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective_completed" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_attacking.xml", { TitleTextVar = "basics_AttackingIntroTitle", BodyTextVar = "basics_AttackingIntroBody" } )
+	self:_CreateInfoDialog( "AttackingImage", { TitleTextVar = "basics_AttackingIntroTitle", BodyTextVar = "basics_AttackingIntroBody" } )
 end
 
 function CTutorialBasics:_BountiesTip()
 	print("Bounties tip")
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_bounty.xml", { TitleTextVar = "basics_BountiesIntroTitle", BodyTextVar = "basics_BountiesIntroBody" } )
+	self:_CreateInfoDialog( "BountyImage", { TitleTextVar = "basics_BountiesIntroTitle", BodyTextVar = "basics_BountiesIntroBody" } )
 end
 
 function CTutorialBasics:_LastHitQuest()
 	print("Last hit quest")
-	EmitGlobalSound("Tutorial.TaskProgress")
-	Tutorial:SetTimeFrozen( false )
+	EmitGlobalSound("ui.npe_objective_given")
+	self:_SetGameFrozen( false )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective_completed.xml", { TitleTextVar = "basics_objective_LastHitCreepsTitle", BodyTextVar = "basics_objective_LastHitCreepsBody" } )
 end
 
 function CTutorialBasics:_CompleteLastHitQuest()
 	print("Complete last hit quest")
-	EmitGlobalSound( "Tutorial.TaskCompleted" )
+	EmitGlobalSound( "Tutorial.TaskProgress" )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective_completed", "file://{resources}/layout/custom_game/tutorial_objective_completed.xml", { TitleTextVar = "basics_objective_LastHitCreepsTitle", BodyTextVar = "basics_objective_LastHitCreepsBody" } )
 end
 
 function CTutorialBasics:_XPTip()
 	print("XP tip")
-	Tutorial:SetTimeFrozen( true )
+	self:_SetGameFrozen( true )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective_completed" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_experience.xml", { TitleTextVar = "basics_ExpIntroTitle", BodyTextVar = "basics_ExpIntroBody" } )
+	self:_CreateInfoDialog( "ExperienceImage", { TitleTextVar = "basics_ExpIntroTitle", BodyTextVar = "basics_ExpIntroBody" } )
 end
 
 function CTutorialBasics:_GainLevelQuest()
-	EmitGlobalSound("Tutorial.TaskProgress")
-	Tutorial:SetTimeFrozen( false )
+	EmitGlobalSound("ui.npe_objective_given")
+	self:_SetGameFrozen( false )
 	Tutorial:SetTutorialConvar( "dota_tutorial_prevent_exp_gain", "0" )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_GetALevelTitle", BodyTextVar = "basics_objective_GetALevelBody" } )
 end
 
 function CTutorialBasics:_CompleteGainLevelQuest()
-	EmitGlobalSound( "Tutorial.TaskCompleted" )
+	EmitGlobalSound( "Tutorial.TaskProgress" )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective_completed", "file://{resources}/layout/custom_game/tutorial_objective_completed.xml", { TitleTextVar = "basics_objective_GetALevelTitle", BodyTextVar = "basics_objective_GetALevelBody" } )
 end
 
 function CTutorialBasics:_LevelAbilityTip()
-	Tutorial:SetTimeFrozen( true )
+	self:_SetGameFrozen( true )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective_completed" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_abilities.xml", { TitleTextVar = "basics_AbilityIntroTitle", BodyTextVar = "basics_AbilityIntroBody" } )
+	self:_CreateInfoDialog( "AbilitiesImage", { TitleTextVar = "basics_AbilityIntroTitle", BodyTextVar = "basics_AbilityIntroBody" } )
 end
 
 function CTutorialBasics:_ToggleAbilityMode()
-	Tutorial:SetTutorialConvar( "dota_tutorial_force_learn_ability", "0" )
+--	Tutorial:SetTutorialConvar( "dota_tutorial_force_learn_ability", "0" )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_LevelUpTitle", BodyTextVar = "basics_objective_LevelUpBody" } )
 end
 
 function CTutorialBasics:_CompleteToggleAbilityMode()
-	EmitGlobalSound( "Tutorial.TaskCompleted" )
-	Tutorial:SetTimeFrozen( true )
+	EmitGlobalSound( "Tutorial.TaskProgress" )
+	self:_SetGameFrozen( true )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective_completed", "file://{resources}/layout/custom_game/tutorial_objective_completed.xml", { TitleTextVar = "basics_objective_LevelUpTitle", BodyTextVar = "basics_objective_LevelUpBody" } )
 end
@@ -923,51 +1115,51 @@ function CTutorialBasics:_LevelAbilityQuest()
 end
 
 function CTutorialBasics:_CompleteLevelAbilityQuest()
-	EmitGlobalSound( "Tutorial.TaskCompleted" )
-	Tutorial:SetTimeFrozen( true )
+	EmitGlobalSound( "Tutorial.TaskProgress" )
+	self:_SetGameFrozen( true )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective_completed", "file://{resources}/layout/custom_game/tutorial_objective_completed.xml", { TitleTextVar = "basics_objective_BuyAbilityTitle", BodyTextVar = "basics_objective_BuyAbilityBody" } )
 end
 
 function CTutorialBasics:_CastingTip()
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective_completed" )
-	Tutorial:SetTutorialConvar( "dota_tutorial_force_learn_ability", "-1" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_using_abilities.xml", { TitleTextVar = "basics_CastIntroTitle", BodyTextVar = "basics_CastIntroBody" } )
+--	Tutorial:SetTutorialConvar( "dota_tutorial_force_learn_ability", "-1" )
+	self:_CreateInfoDialog( "UsingAbilityImage", { TitleTextVar = "basics_CastIntroTitle", BodyTextVar = "basics_CastIntroBody" } )
 end
 
 function CTutorialBasics:_CastQuest()
-	Tutorial:SetTimeFrozen( false )
+	self:_SetGameFrozen( false )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_CastSpellTitle", BodyTextVar = "basics_objective_CastSpellBody" } )
 end
 
 function CTutorialBasics:_CompleteCastQuest()
 	self._bPreventTowerDamage = false
-	EmitGlobalSound( "Tutorial.TaskCompleted" )
+	EmitGlobalSound( "Tutorial.TaskProgress" )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective_completed", "file://{resources}/layout/custom_game/tutorial_objective_completed.xml", { TitleTextVar = "basics_objective_CastSpellTitle", BodyTextVar = "basics_objective_CastSpellBody" } )
 end
 
 function CTutorialBasics:_TowersTip()
-	Tutorial:SetTimeFrozen( true )	
+	self:_SetGameFrozen( true )	
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective_completed" )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_towers.xml", { TitleTextVar = "basics_AttackTowerTitle", BodyTextVar = "basics_AttackTowerBody" } )
+	self:_CreateInfoDialog( "TowerImage", { TitleTextVar = "basics_AttackTowerTitle", BodyTextVar = "basics_AttackTowerBody" } )
 end
 
 function CTutorialBasics:_KillTowerQuest()
-	Tutorial:SetTimeFrozen( false )
+	self:_SetGameFrozen( false )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_KillTowerTitle", BodyTextVar = "basics_objective_KillTowerBody" } )
 end
 
 function CTutorialBasics:_EnemyTip()
-	Tutorial:SetTimeFrozen( true )
+	self:_SetGameFrozen( true )
 	Tutorial:AddBot( "npc_dota_hero_razor", "mid", "easy", false );
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_blank.xml", { TitleTextVar = "basics_RazorIntroTitle", BodyTextVar = "basics_RazorIntroBody" } )
+	self:_CreateInfoDialog( "Missing", { TitleTextVar = "basics_RazorIntroTitle", BodyTextVar = "basics_RazorIntroBody" } )
 end
 
 function CTutorialBasics:_End()
-	Tutorial:SetTimeFrozen( false )
+	self:_SetGameFrozen( false )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
 end
 
@@ -978,6 +1170,7 @@ function CTutorialBasics:_EndTutorial()
 end
 
 function CTutorialBasics:_VictoryTip()
---	Tutorial:SetTimeFrozen( true )
-	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_blank.xml", { TitleTextVar = "basics_WinningIntroTitle", BodyTextVar = "basics_WinningIntroBody" } )
+--	self:_SetGameFrozen( true )
+	CustomUI:DynamicHud_Create( -1, "tutorial_tip", "file://{resources}/layout/custom_game/tutorial_dialog_endgame.xml", { TitleTextVar = "basics_WinningIntroTitle", BodyTextVar = "basics_WinningIntroBody" } )
+	self:_SetTipImage("HeroImage")
 end
