@@ -142,6 +142,7 @@
  B SteamDatagramTransport::steamdatagram_client_spew_level
  B colorcorrection
  B g_BitWriteMasks
+ B g_EarlyInit_Common
  B g_ExpressionEvaluator
  B g_ExtraMasks
  B g_KeyValuesErrorStack
@@ -2599,6 +2600,18 @@
  T CNetworkEncoderBoolDefault::Pack(bf_write&, NetworkFieldInfo_t const&, void const*, NetworkableData_t const*, int)
  T CNetworkEncoderBoolDefault::Unpack(bf_read&, NetworkFieldInfo_t const&, void const*, NetworkableData_t*, int)
  T CNetworkEncoderBoolDefault::ValidatingPack(bf_write&, NetworkFieldInfo_t const&, void const*, NetworkableData_t const*, int)
+ T CNetworkEncoderFixedInt32Default::Pack(bf_write&, NetworkFieldInfo_t const&, void const*, NetworkableData_t const*, int)
+ T CNetworkEncoderFixedInt32Default::Unpack(bf_read&, NetworkFieldInfo_t const&, void const*, NetworkableData_t*, int)
+ T CNetworkEncoderFixedInt32Default::ValidatingPack(bf_write&, NetworkFieldInfo_t const&, void const*, NetworkableData_t const*, int)
+ T CNetworkEncoderFixedInt64Default::Pack(bf_write&, NetworkFieldInfo_t const&, void const*, NetworkableData_t const*, int)
+ T CNetworkEncoderFixedInt64Default::Unpack(bf_read&, NetworkFieldInfo_t const&, void const*, NetworkableData_t*, int)
+ T CNetworkEncoderFixedInt64Default::ValidatingPack(bf_write&, NetworkFieldInfo_t const&, void const*, NetworkableData_t const*, int)
+ T CNetworkEncoderFixedUint32Default::Pack(bf_write&, NetworkFieldInfo_t const&, void const*, NetworkableData_t const*, int)
+ T CNetworkEncoderFixedUint32Default::Unpack(bf_read&, NetworkFieldInfo_t const&, void const*, NetworkableData_t*, int)
+ T CNetworkEncoderFixedUint32Default::ValidatingPack(bf_write&, NetworkFieldInfo_t const&, void const*, NetworkableData_t const*, int)
+ T CNetworkEncoderFixedUint64Default::Pack(bf_write&, NetworkFieldInfo_t const&, void const*, NetworkableData_t const*, int)
+ T CNetworkEncoderFixedUint64Default::Unpack(bf_read&, NetworkFieldInfo_t const&, void const*, NetworkableData_t*, int)
+ T CNetworkEncoderFixedUint64Default::ValidatingPack(bf_write&, NetworkFieldInfo_t const&, void const*, NetworkableData_t const*, int)
  T CNetworkEncoderFloat32Coord::GetEncoderName()
  T CNetworkEncoderFloat32Coord::Pack(bf_write&, NetworkFieldInfo_t const&, void const*, NetworkableData_t const*, int)
  T CNetworkEncoderFloat32Coord::Unpack(bf_read&, NetworkFieldInfo_t const&, void const*, NetworkableData_t*, int)
@@ -2866,6 +2879,8 @@
  T CNetworkSystemUtils::Init()
  T CNetworkSystemUtils::Shutdown()
  T CNetworkSystemUtils::~CNetworkSystemUtils()
+ T COrderedConstructor_Create<void, CResolveOrderedFunc<void, &(ResolveOrderedSystem_EarlyInit_Common(COrderedConstructor_DependencyManagement<void>&))>, false>::AddRef(bool)
+ T COrderedConstructor_Create<void, CResolveOrderedFunc<void, &(ResolveOrderedSystem_EarlyInit_Common(COrderedConstructor_DependencyManagement<void>&))>, false>::~COrderedConstructor_Create()
  T CParallelProcessor<BuildFlattenedSerializerInfo_t, CMemberFuncJobItemProcessor<BuildFlattenedSerializerInfo_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1>::Process(int, CParallelProcessorAbstract<CParallelProcessor<BuildFlattenedSerializerInfo_t, CMemberFuncJobItemProcessor<BuildFlattenedSerializerInfo_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1> >*)
  T CParallelProcessor<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CMemberFuncJobItemProcessor<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1>::Process(int, CParallelProcessorAbstract<CParallelProcessor<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CMemberFuncJobItemProcessor<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1> >*)
  T CParallelProcessorAbstract<CParallelProcessor<BuildFlattenedSerializerInfo_t, CMemberFuncJobItemProcessor<BuildFlattenedSerializerInfo_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1> >::ProcessingThread(int)
@@ -4325,6 +4340,7 @@
  T SteamDatagramTransport::CSteamDatagramTransportClient::ClearGameServerAuthTicket()
  T SteamDatagramTransport::CSteamDatagramTransportClient::Destroy()
  T SteamDatagramTransport::CSteamDatagramTransportClient::DetermineServiceDataCenterID()
+ T SteamDatagramTransport::CSteamDatagramTransportClient::FindDataCenterByCode(char const*)
  T SteamDatagramTransport::CSteamDatagramTransportClient::FindOrCreateServerDataForAddress(netadr_t const&, int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::FindOrCreateServerDataForCluster(int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::FindRouterByCode(char const*)
@@ -4389,6 +4405,7 @@
  T SteamDatagramTransport::SteamDatagramNetwork::BuildLookupTables(char (&) [1024])
  T SteamDatagramTransport::SteamDatagramNetwork::FindClusterByAddress(netadr_t const&, int*) const
  T SteamDatagramTransport::SteamDatagramNetwork::FindClusterByCode(char const*) const
+ T SteamDatagramTransport::SteamDatagramNetwork::FindDataCenterByCode(char const*) const
  T SteamDatagramTransport::SteamDatagramNetwork::FindDataCenterByServiceIP(unsigned int) const
  T SteamDatagramTransport::SteamDatagramNetwork::GetURLForUniverse(EUniverse)
  T SteamDatagramTransport::SteamDatagramNetwork::SetupFromJSON(char const*, int, char (&) [1024])
@@ -4433,6 +4450,7 @@
  T bf_read::ReadBitVec3Normal(Vector&)
  T bf_read::ReadBits(void*, int)
  T bf_read::ReadBytes(void*, int)
+ T bf_read::ReadSBitLong(int)
  T bf_read::ReadString(char*, int, bool, int*)
  T bf_read::ReadUBitVarInternal(int)
  T bf_read::ReadVarInt32()
@@ -4664,6 +4682,7 @@
  ThreadSetDebugNameS2
  ThreadSetPriority
  ThreadSleep
+ ThreadYield
  Warning
  _DefaultRuneLocale
  _Unwind_Resume
@@ -5153,6 +5172,7 @@
  memset_pattern16
  poll
  pow
+ printf
  pthread_mutex_destroy
  pthread_mutex_init
  pthread_mutex_lock
@@ -5345,6 +5365,7 @@
  t SteamDatagramTransport::CSteamDatagramTransportClient::ThinkPingProbes(unsigned long long)::$_0::__invoke(int const*, int const*)
  t SteamDatagramTransport::CreateSharedClusterData()
  t SteamDatagramTransport::ProcessDowntimeWarning(netadr_t const&, int, unsigned long long)
+ t _GLOBAL__sub_I_all_projects_common_code.cpp
  t _GLOBAL__sub_I_bitbuf.cpp
  t _GLOBAL__sub_I_convar.cpp
  t _GLOBAL__sub_I_csteamdatagramclient.cpp
@@ -5401,6 +5422,7 @@
  t __cxx_global_var_init85
  t bool std::__1::__insertion_sort_incomplete<std::__1::__less<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort, SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort>&, SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*>(SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*, SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort*, std::__1::__less<SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort, SteamDatagramTransport::CSteamDatagramTransportClient::ThinkSelectServer(unsigned long long)::ClusterSort>&)
  t fp_trace(CCommandContext const&, CCommand const&)
+ t global constructors keyed to 000101
  t global constructors keyed to a
  t net_channels(CCommandContext const&, CCommand const&)
  t net_serializedentitymemory(CCommandContext const&, CCommand const&)

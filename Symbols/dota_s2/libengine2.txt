@@ -457,6 +457,7 @@
  B clientport
  B closecaption
  B colorcorrection
+ B con_enable
  B con_logfile_suffix
  B demo_debug
  B demoplayer
@@ -503,6 +504,7 @@
  B g_DividerPullInModule
  B g_DownloadListGenerator
  B g_DrawTreeSelectedPanel
+ B g_EarlyInit_Common
  B g_EditablePanelLinkerHack
  B g_EditablePanelPullInModule
  B g_EngineStats
@@ -825,7 +827,6 @@
  B sv_hosting_lobby
  B sv_lan
  B sv_logdownloadlist
- B sv_master_share_game_socket
  B sv_maxcmdrate
  B sv_maxupdaterate
  B sv_mincmdrate
@@ -1973,7 +1974,6 @@
  D g_ListenServerLoadingProgressDescriptions
  D g_RemoteConnectLoadingProgressDescriptions
  D g_SignonStates
- D g_bEnableMasterServerUpdater
  D g_iRandomChapterIndex
  D g_nCPUSIMDLevel
  D g_nSIMDBitMaskToIndex
@@ -5223,8 +5223,6 @@
  DevMsg(char const*, ...)
  DevWarning(char const*, ...)
  GenericThreadLocals::CThreadLocalBase::CThreadLocalBase()
- GenericThreadLocals::CThreadLocalBase::Get() const
- GenericThreadLocals::CThreadLocalBase::Set(void*)
  GenericThreadLocals::CThreadLocalBase::~CThreadLocalBase()
  GetCPUInformation
  GetOSType
@@ -9504,6 +9502,7 @@
  T CEngineServiceMgr::IsLoadingLevel() const
  T CEngineServiceMgr::IsLoopSwitchQueued() const
  T CEngineServiceMgr::IsLoopSwitchRequested() const
+ T CEngineServiceMgr::LookupLocalizationToken(char const*)
  T CEngineServiceMgr::LoopRequest_t::~LoopRequest_t()
  T CEngineServiceMgr::MainLoop(double, double)
  T CEngineServiceMgr::OnEngineWindowSizeChanged(int, int)
@@ -9905,6 +9904,8 @@
  T CGameUIFuncs::GetMonitorResolution(int, int&, int&)
  T CGameUIFuncs::GetVideoModes(CUtlVector<RenderDisplayMode_t, CUtlMemory<RenderDisplayMode_t, int> >&, bool)
  T CGameUIFuncs::IsConnectedToVACSecureServer()
+ T CGameUIFuncs::IsConsoleEnabled() const
+ T CGameUIFuncs::IsConsoleEnabledByCommandLine() const
  T CGameUIFuncs::IsKeyDown(CSplitScreenSlot, char const*, bool&)
  T CGameUIFuncs::~CGameUIFuncs()
  T CGameUIRenderLayer::Render(ISceneView*, IRenderContext*, ISceneLayer*, SceneSystemPerFrameStats_t*)
@@ -9929,6 +9930,8 @@
  T CGameUIService::GetServiceDependencies()
  T CGameUIService::HandleInputEvent(GameUIInputHandler_t, InputEvent_t const&, CSplitScreenSlot)
  T CGameUIService::Init()
+ T CGameUIService::IsConsoleEnabled() const
+ T CGameUIService::IsConsoleEnabledByCommandLine() const
  T CGameUIService::IsConsoleVisible() const
  T CGameUIService::IsUsingVGuiConsole() const
  T CGameUIService::OnAppShutdown(EventAppShutdown_t const&)
@@ -10104,7 +10107,6 @@
  T CHLTVServer::SendClientMessages(bool)
  T CHLTVServer::SendNetMessage(NetMessageHandle_t__*, void const*, NetChannelBufType_t)
  T CHLTVServer::ServerPostSimulate(EventServerPostSimulate_t const&)
- T CHLTVServer::ShouldUpdateMasterServer()
  T CHLTVServer::Shutdown()
  T CHLTVServer::SignonComplete()
  T CHLTVServer::StartAutoRecording()
@@ -10187,7 +10189,8 @@
  T CInputService::InsertCommand(InputCommandSource_t, char const*, int)
  T CInputService::InstallInputHandler(char const*, int, IInputHandler*)
  T CInputService::IsAppActive() const
- T CInputService::IsConsoleToggleKey(ButtonCode_t)
+ T CInputService::IsConsoleCloseKey(ButtonCode_t, int)
+ T CInputService::IsConsoleToggleKey(ButtonCode_t, int)
  T CInputService::IsInCursorConfinementMode()
  T CInputService::Key_CheckDoneMultiTrapping(CUtlVector<ButtonCode_t, CUtlMemory<ButtonCode_t, int> >&)
  T CInputService::Key_CheckDoneTrapping(ButtonCode_t&)
@@ -12521,8 +12524,10 @@
  T CNetSupportImpl::Connect(void* (*)(char const*, int*))
  T CNetSupportImpl::CreateNetChannel(int, ns_address const*, char const*, unsigned int, unsigned int)
  T CNetSupportImpl::Disconnect()
+ T CNetSupportImpl::GetBaseServerInfo(INetSupport::BaseServerInfo_t*)
  T CNetSupportImpl::GetClientInfo(INetSupport::ClientInfo_t*)
  T CNetSupportImpl::GetEngineBuildNumber()
+ T CNetSupportImpl::GetExtendedServerInfo(INetSupport::ExtendedServerInfo_t*)
  T CNetSupportImpl::GetServerInfo(INetSupport::ServerInfo_t*)
  T CNetSupportImpl::Init()
  T CNetSupportImpl::OnMatchEvent(KeyValues*)
@@ -12607,6 +12612,7 @@
  T CNetworkClientService::SplitScreenConnect(CSplitScreenSlot)
  T CNetworkClientService::StartChangeLevel()
  T CNetworkClientService::SteamIDAllowedToP2PConnect(CSteamID)
+ T CNetworkClientService::UnloadInitialSpawnGroup(unsigned int)
  T CNetworkClientService::~CNetworkClientService()
  T CNetworkClientSpawnGroup::BuildSpawnGroupLoadMessage(CNETMsg_SpawnGroup_Load_t&)
  T CNetworkClientSpawnGroup::CNetworkClientSpawnGroup(CNetworkGameClientBase*, ISource2WorldSession*, unsigned int, SpawnGroupDesc_t const&, bool, bool, CCompressedResourceManifest*, int, bool)
@@ -12955,13 +12961,11 @@
  T CNetworkGameServer::ServerSimulate(EventServerSimulate_t const&)
  T CNetworkGameServer::Shutdown()
  T CNetworkGameServer::SpawnServer(char const*)
- T CNetworkGameServer::UpdateMasterServerPlayers()
  T CNetworkGameServer::~CNetworkGameServer()
  T CNetworkGameServerBase::ActivateFakeClient(CServerSideClientBase*)
  T CNetworkGameServerBase::ActivateServer()
  T CNetworkGameServerBase::AddRef()
  T CNetworkGameServerBase::AddServerPrerequisites(IPrerequisite*)
- T CNetworkGameServerBase::AddTag(char const*, char const*)
  T CNetworkGameServerBase::AddTagString(CUtlString&, char const*)
  T CNetworkGameServerBase::AllocateSpawnGroupHandle()
  T CNetworkGameServerBase::AsyncUnloadSpawnGroup(unsigned int, ESpawnGroupUnloadOption)
@@ -12976,7 +12980,6 @@
  T CNetworkGameServerBase::CheckChallengeType(CServerSideClientBase*, int, ns_address const&, int, char const*, int, int)
  T CNetworkGameServerBase::CheckHostVersion(ns_address const&, int, int)
  T CNetworkGameServerBase::CheckIPRestrictions(ns_address const&)
- T CNetworkGameServerBase::CheckMasterServerRequestRestart()
  T CNetworkGameServerBase::CheckPassword(ns_address const&, char const*, char const*)
  T CNetworkGameServerBase::CheckTimeouts()
  T CNetworkGameServerBase::ConnectClient(char const*, ns_address const&, int, CCLCMsg_SplitPlayerConnect_t const*, int, int, int, char const*, char const*, int, bool)
@@ -12993,7 +12996,6 @@
  T CNetworkGameServerBase::FinishChangeLevel(CServerChangelevelState*)
  T CNetworkGameServerBase::FinishRestore()
  T CNetworkGameServerBase::ForceUpdatePeerList()
- T CNetworkGameServerBase::ForwardPacketsFromMasterServerUpdater()
  T CNetworkGameServerBase::GatherLoadingAndLoadedSpawnGroups(CUtlVector<CNetworkServerSpawnGroup*, CUtlMemory<CNetworkServerSpawnGroup*, int> >&) const
  T CNetworkGameServerBase::GetActiveSpawnGroup() const
  T CNetworkGameServerBase::GetAddonName() const
@@ -13018,7 +13020,6 @@
  T CNetworkGameServerBase::GetLoadingGroupByHandle(unsigned int)
  T CNetworkGameServerBase::GetMapName() const
  T CNetworkGameServerBase::GetMapVersion() const
- T CNetworkGameServerBase::GetMasterServerPlayerCounts(int&, int&, int&)
  T CNetworkGameServerBase::GetMaxClients() const
  T CNetworkGameServerBase::GetMaxHumanPlayers() const
  T CNetworkGameServerBase::GetMaxSpawnGroupCreationSequence() const
@@ -13037,6 +13038,7 @@
  T CNetworkGameServerBase::GetPlayerUserId(CPlayerSlot)
  T CNetworkGameServerBase::GetReservationCookie() const
  T CNetworkGameServerBase::GetServerNetworkAddress()
+ T CNetworkGameServerBase::GetServerPlayerCounts(int&, int&, int&)
  T CNetworkGameServerBase::GetServerTick() const
  T CNetworkGameServerBase::GetSpawnCount() const
  T CNetworkGameServerBase::GetSpawnGroupLoadingStatus(unsigned int)
@@ -13086,14 +13088,12 @@
  T CNetworkGameServerBase::ProcessServerPing(CServerSideClientBase*, CCLCMsg_ServerPing_t const&)
  T CNetworkGameServerBase::ProcessSplitScreenDisconnects()
  T CNetworkGameServerBase::QueueSplitScreenDisconnect(CServerSideClientBase*, CServerSideClientBase*)
- T CNetworkGameServerBase::RecalculateTags()
  T CNetworkGameServerBase::ReconnectClients()
  T CNetworkGameServerBase::RegisterLoadingSpawnGroups(CUtlVector<unsigned int, CUtlMemory<unsigned int, int> >&)
  T CNetworkGameServerBase::RejectConnection(ns_address const&, int, char const*, ...) const
  T CNetworkGameServerBase::Release()
  T CNetworkGameServerBase::RemoveClientFromGame(CServerSideClientBase*, ENetworkDisconnectionReason)
  T CNetworkGameServerBase::RemoveServerPrerequisites()
- T CNetworkGameServerBase::RemoveTag(char const*, bool)
  T CNetworkGameServerBase::ReplyChallenge(ns_address const&, bf_read&)
  T CNetworkGameServerBase::ReplyConnection(ns_address const&) const
  T CNetworkGameServerBase::ReplyPing2(ns_address const&, bf_read&)
@@ -13125,7 +13125,6 @@
  T CNetworkGameServerBase::SetHibernating(bool)
  T CNetworkGameServerBase::SetHostClient(CServerSideClientBase*)
  T CNetworkGameServerBase::SetMapName(char const*)
- T CNetworkGameServerBase::SetMasterServerKeyValue(ISteamGameServer*, IConVar*)
  T CNetworkGameServerBase::SetPassword(char const*)
  T CNetworkGameServerBase::SetPaused(PauseGroup_t, bool)
  T CNetworkGameServerBase::SetReservationCookie(unsigned long long, char const*, ...)
@@ -13133,7 +13132,6 @@
  T CNetworkGameServerBase::SetServerTick(int)
  T CNetworkGameServerBase::SetSpawnGroupDescription(unsigned int, char const*)
  T CNetworkGameServerBase::SetTimescale(float)
- T CNetworkGameServerBase::ShouldUpdateMasterServer()
  T CNetworkGameServerBase::Shutdown()
  T CNetworkGameServerBase::SpawnServer(char const*)
  T CNetworkGameServerBase::StartChangeLevel()
@@ -13146,10 +13144,6 @@
  T CNetworkGameServerBase::UpdateGameData()
  T CNetworkGameServerBase::UpdateGameType()
  T CNetworkGameServerBase::UpdateHibernationState()
- T CNetworkGameServerBase::UpdateMasterServer()
- T CNetworkGameServerBase::UpdateMasterServerBasicData()
- T CNetworkGameServerBase::UpdateMasterServerPlayers()
- T CNetworkGameServerBase::UpdateMasterServerRules()
  T CNetworkGameServerBase::UpdatePeerList()
  T CNetworkGameServerBase::UserInfoChanged(CPlayerSlot)
  T CNetworkGameServerBase::WriteDeltaEntities(CServerSideClientBase*, CClientFrame*, CClientFrame*, CSVCMsg_PacketEntities_t&)
@@ -13384,6 +13378,8 @@
  T COM_MakeDir(char const*)
  T COM_OpenFile(char const*, void**)
  T COM_SetupLogDir(char const*)
+ T COrderedConstructor_Create<void, CResolveOrderedFunc<void, &(ResolveOrderedSystem_EarlyInit_Common(COrderedConstructor_DependencyManagement<void>&))>, false>::AddRef(bool)
+ T COrderedConstructor_Create<void, CResolveOrderedFunc<void, &(ResolveOrderedSystem_EarlyInit_Common(COrderedConstructor_DependencyManagement<void>&))>, false>::~COrderedConstructor_Create()
  T CPVS::AddOriginToPVS(Vector const&, vis_info_t*)
  T CPVS::CheckAreasConnected(int, int)
  T CPVS::CheckHeadnodeVisible(int, vis_info_t const*)
@@ -16095,7 +16091,6 @@
  T CSteam3ServerS1::CheckForDuplicateSteamID(CNetworkGameServerBase*, CServerSideClientBase const*)
  T CSteam3ServerS1::CompareUserID(USERID_s const&, USERID_s const&)
  T CSteam3ServerS1::GetGSSteamID() const
- T CSteam3ServerS1::IsMasterServerUpdaterSharingGameSocket()
  T CSteam3ServerS1::NotifyClientConnect(CServerSideClientBase*, unsigned int, void const*, unsigned int)
  T CSteam3ServerS1::NotifyClientDisconnect(CServerSideClientBase*)
  T CSteam3ServerS1::NotifyLocalClientConnect(CServerSideClientBase*)
@@ -17672,8 +17667,8 @@
  T DmxElementUnpackStructure_t* vgui::DmxElementUnpackInitvgui<vgui::Label>(vgui::Label*)
  T DmxElementUnpackStructure_t* vgui::DmxElementUnpackInitvgui<vgui::Panel>(vgui::Panel*)
  T DoesServerAllowCheats()
- T DownloadCache::BuildKeyNames(char const*)
  T DownloadCache::GenerateCacheFilename(RequestContext const*, char*)
+ T DownloadCache::GetCacheFilename(RequestContext const*, char*)
  T DownloadCache::GetCachedData(RequestContext*)
  T DownloadCache::Init()
  T DownloadCache::PersistToCache(RequestContext const*)
@@ -21143,6 +21138,7 @@
  ThreadSetPriority
  ThreadSetProcessPriority
  ThreadSleep
+ ThreadYield
  Tier0DebugDrawAge
  Tier0DebugDrawLockLines
  Tier0DebugDrawLockedQueryLine
@@ -21722,10 +21718,8 @@
  b CNetworkGameServer::ActivateServer()::sv_skyname
  b CNetworkGameServer::ServerPostSimulate(EventServerPostSimulate_t const&)::sv_noclipduringpause
  b CNetworkGameServerBase::PrintStatus(CEntityIndex, bool)::sv_steamdatagramtransport_port
- b CNetworkGameServerBase::RecalculateTags()::bRecalculatingTags
  b CNetworkGameServerBase::UpdateGameType()::didWarnLength
  b CNetworkGameServerBase::UpdateGameType()::var
- b CNetworkGameServerBase::UpdateMasterServer()::bUpdateMasterServers
  b CNetworkP2PService::GetDependencies()::s_pDependencies
  b CNetworkService::GetDependencies()::s_pDependencies
  b COM_ExplainDisconnection(int, char const*)::buf
@@ -22235,7 +22229,6 @@
  b guard variable for CNetworkGameServer::ServerPostSimulate(EventServerPostSimulate_t const&)::sv_noclipduringpause
  b guard variable for CNetworkGameServerBase::PrintStatus(CEntityIndex, bool)::sv_steamdatagramtransport_port
  b guard variable for CNetworkGameServerBase::UpdateGameType()::var
- b guard variable for CNetworkGameServerBase::UpdateMasterServer()::bUpdateMasterServers
  b guard variable for CNetworkP2PService::GetDependencies()::s_pDependencies
  b guard variable for CNetworkService::GetDependencies()::s_pDependencies
  b guard variable for CRConServer::RunFrame()::s_bHasUseConParm
@@ -23283,12 +23276,14 @@
  poll
  pow
  printf
+ pthread_getspecific
  pthread_mutex_destroy
  pthread_mutex_init
  pthread_mutex_lock
  pthread_mutex_unlock
  pthread_mutexattr_init
  pthread_mutexattr_settype
+ pthread_setspecific
  putchar
  qsort
  r .memset_pattern
@@ -23833,6 +23828,7 @@
  t VGui_RecursiveFindPanels(CUtlVector<unsigned long long, CUtlMemory<unsigned long long, int> >&, unsigned long long, char const*)
  t ValidateIncrementalChanges(FlattenedSerializerHandle_t__*, ServerClass*, CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short> const&, void const*, CEntityIndex, long long, int)
  t VisEnableCallback(IConVar*, char const*, float)
+ t _GLOBAL__sub_I_all_projects_common_code.cpp
  t _GLOBAL__sub_I_animatingimagepanel.cpp
  t _GLOBAL__sub_I_animationcontroller.cpp
  t _GLOBAL__sub_I_appsystemdict.cpp
@@ -24185,16 +24181,16 @@
  t __cxx_global_var_init269
  t __cxx_global_var_init3
  t __cxx_global_var_init30
+ t __cxx_global_var_init306
+ t __cxx_global_var_init307
+ t __cxx_global_var_init308
+ t __cxx_global_var_init309
  t __cxx_global_var_init31
- t __cxx_global_var_init317
- t __cxx_global_var_init318
- t __cxx_global_var_init319
+ t __cxx_global_var_init310
+ t __cxx_global_var_init311
+ t __cxx_global_var_init312
+ t __cxx_global_var_init313
  t __cxx_global_var_init32
- t __cxx_global_var_init320
- t __cxx_global_var_init321
- t __cxx_global_var_init322
- t __cxx_global_var_init323
- t __cxx_global_var_init324
  t __cxx_global_var_init33
  t __cxx_global_var_init34
  t __cxx_global_var_init35
@@ -24348,6 +24344,7 @@
  t gameui_preventescape(CCommandContext const&, CCommand const&)
  t gameui_preventescapetoshow(CCommandContext const&, CCommand const&)
  t generate_minidump_comment(CCommandContext const&, CCommand const&)
+ t global constructors keyed to 000101
  t global constructors keyed to a
  t grayscale_convert
  t grep(CCommandContext const&, CCommand const&)
