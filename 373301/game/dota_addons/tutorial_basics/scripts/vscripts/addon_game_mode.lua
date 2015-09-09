@@ -128,9 +128,10 @@ function CTutorialBasics:InitGameMode()
 	self._vTransitionTable["buy_items_quest2"] =		{ fnOnEnter = self._BuySalveQuest,			nAdvanceEvent = ON_ITEM_PURCHASED,	strNext = "buy_items_quest3" }
 	self._vTransitionTable["buy_items_quest3"] =		{ fnOnEnter = self._BuyClarityQuest,		nAdvanceEvent = ON_ITEM_PURCHASED,	strNext = "buy_items_quest4" }
 	self._vTransitionTable["buy_items_quest4"] =		{ fnOnEnter = self._BuyCirclet,				nAdvanceEvent = ON_ITEM_PURCHASED,	strNext = "buy_items_quest5" }
-	self._vTransitionTable["buy_items_quest5"] =		{ fnOnEnter = self._BuySlippers,			nAdvanceEvent = ON_ITEM_PURCHASED,	strNext = "introduce_lanes" }
+	self._vTransitionTable["buy_items_quest5"] =		{ fnOnEnter = self._BuySlippers,			nAdvanceEvent = ON_ITEM_PURCHASED,	strNext = "explain_items" }
 
-	self._vTransitionTable["introduce_lanes"] =			{ fnOnEnter = self._CompleteShopQuest,		nAdvanceEvent = ON_TIP_DISMISSED,	strNext = "move_to_mid_quest", fnOnEnterDelayed = self._LanesTip,	flEnterDelay = 1 }
+	self._vTransitionTable["explain_items"] =			{ fnOnEnter = self._CompleteShopQuest,		nAdvanceEvent = ON_TIP_DISMISSED,	strNext = "introduce_lanes", fnOnEnterDelayed = self._ExplainItemsTip,	flEnterDelay = 1 }
+	self._vTransitionTable["introduce_lanes"] =			{ fnOnEnter = self._LanesTip,				nAdvanceEvent = ON_TIP_DISMISSED,	strNext = "move_to_mid_quest" }
 	self._vTransitionTable["move_to_mid_quest"] =		{ fnOnEnter = self._MoveToMidQuest,			nAdvanceEvent = ON_TASK_ADVANCED,	strNext = "introduce_creeps" }
 
 	self._vTransitionTable["introduce_creeps"] =		{ fnOnEnter = self._CompleteMoveToMidQuest,	nAdvanceEvent = ON_TIP_DISMISSED,	strNext = "introduce_laning", fnOnEnterDelayed = self._CreepsTip,	flEnterDelay = 1 }
@@ -520,7 +521,8 @@ function CTutorialBasics:OnThink()
 		end
 	end
 
-	self:_CheckForAlerts()
+	-- disable side alerts for now.
+	-- self:_CheckForAlerts()
 
 	if ( self._flAlertDelay > 0 ) then
 		self._flAlertDelay = self._flAlertDelay - 0.25
@@ -780,12 +782,9 @@ function CTutorialBasics:_CheckForTowerTip()
 --		CustomUI:DynamicHud_Create( -1, "tutorial_tower_damage_alert", "file://{resources}/layout/custom_game/tutorial_alert_dialog.xml", { TitleTextVar = "#basics_ExcessiveTowerDamageTitle", BodyTextVar = "#basics_ExcessiveTowerDamageBody" } )
 		self:_SetTipImage( "TowerImage" )
 		self._nTowerHits = 1
-	elseif ( self._nTowerHits >= 2 ) then
-		self:_CreateSideAlertDialog( "AlertTowerImage", { TitleTextVar = "basics_alert_TowerDamageTitle", BodyTextVar = "basics_alert_TowerDamageBody" } )
---		CustomUI:DynamicHud_Create( -1, "tutorial_alert", "file://{resources}/layout/custom_game/tutorial_alert_tower.xml", { TitleTextVar = "#basics_alert_TowerDamageTitle", BodyTextVar = "#basics_alert_TowerDamageBody" } )
---		CustomUI:DynamicHud_Create( -1, "tutorial_alert", "file://{resources}/layout/custom_game/tutorial_alert_dialog.xml", { TitleTextVar = "#basics_alert_TowerDamageTitle", BodyTextVar = "#basics_alert_TowerDamageBody" } )
---		self:_SetTipImage( "TowerImage" )
-		self._flAlertDelay = 3.0
+--	elseif ( self._nTowerHits >= 2 ) then
+--		self:_CreateSideAlertDialog( "AlertTowerImage", { TitleTextVar = "basics_alert_TowerDamageTitle", BodyTextVar = "basics_alert_TowerDamageBody" } )
+--		self._flAlertDelay = 3.0
 	end
 end
 
@@ -866,6 +865,7 @@ end
 function CTutorialBasics:_HeroMoveTip()
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
 	self:_CreateInfoDialog( "RightClickImage", { TitleTextVar = "basics_MovingYourHeroTitle", BodyTextVar = "basics_MovingYourHeroBody" } )
+	CustomGameEventManager:Send_ServerToAllClients( "set_custom_info_string", {customBody="#basics_MovingYourHeroBody", keyname="%dota_camera_follow%" } )
 end	
 
  function CTutorialBasics:_MoveToAncientQuest()
@@ -880,6 +880,7 @@ function CTutorialBasics:_CompleteAncientQuest()
 	EmitGlobalSound("Tutorial.TaskProgress")
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective_completed", "file://{resources}/layout/custom_game/tutorial_objective_completed.xml", { TitleTextVar = "basics_objective_MoveToAncientTitle", BodyTextVar = "basics_objective_MoveToAncientBody" } )
+--	CustomGameEventManager:Send_ServerToAllClients( "set_custom_dialog_string", {customBody="#basics_objective_MoveToAncientBody", keyname="%dota_courier_deliver%" } )
 end	
 
 function CTutorialBasics:_AncientTip()
@@ -984,19 +985,22 @@ function CTutorialBasics:_BuySlippers()
 end
 
 function CTutorialBasics:_CloseShopQuest()
-	Tutorial:RemoveShopWhitelistItem( "item_courier" )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_CloseShopTitle", BodyTextVar = "basics_objective_CloseShopBody" } )
 end
 
 function CTutorialBasics:_CompleteShopQuest()
-	Tutorial:RemoveShopWhitelistItem( "item_courier" )
 	EmitGlobalSound("Tutorial.TaskProgress")
 end
 
-function CTutorialBasics:_LanesTip()
+function CTutorialBasics:_ExplainItemsTip()
 	Tutorial:SetShopOpen( false )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
+	self:_CreateInfoDialog( "ShopImage", { TitleTextVar = "basics_BoughtStartingTitle", BodyTextVar = "basics_BoughtStartingBody" } )
+end	
+
+function CTutorialBasics:_LanesTip()
+	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
 	self:_CreateInfoDialog( "LanesImage", { TitleTextVar = "basics_LaneIntroTitle", BodyTextVar = "basics_LaneIntroBody" } )
 end	
 
@@ -1131,6 +1135,7 @@ function CTutorialBasics:_CastQuest()
 	self:_SetGameFrozen( false )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_tip" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective", "file://{resources}/layout/custom_game/tutorial_objective.xml", { TitleTextVar = "basics_objective_CastSpellTitle", BodyTextVar = "basics_objective_CastSpellBody" } )
+	CustomGameEventManager:Send_ServerToAllClients( "set_custom_objective_string", {customBody="#basics_objective_CastSpellBody", keyname="%dota_ability_execute 0%" } )
 end
 
 function CTutorialBasics:_CompleteCastQuest()
@@ -1138,6 +1143,7 @@ function CTutorialBasics:_CompleteCastQuest()
 	EmitGlobalSound( "Tutorial.TaskProgress" )
 	CustomUI:DynamicHud_Destroy( -1, "tutorial_objective" )
 	CustomUI:DynamicHud_Create( -1, "tutorial_objective_completed", "file://{resources}/layout/custom_game/tutorial_objective_completed.xml", { TitleTextVar = "basics_objective_CastSpellTitle", BodyTextVar = "basics_objective_CastSpellBody" } )
+	CustomGameEventManager:Send_ServerToAllClients( "set_custom_objective_string", {customBody="#basics_objective_CastSpellBody", keyname="%dota_ability_execute 0%" } )
 end
 
 function CTutorialBasics:_TowersTip()
@@ -1155,7 +1161,7 @@ end
 function CTutorialBasics:_EnemyTip()
 	self:_SetGameFrozen( true )
 	Tutorial:AddBot( "npc_dota_hero_razor", "mid", "easy", false );
-	self:_CreateInfoDialog( "Missing", { TitleTextVar = "basics_RazorIntroTitle", BodyTextVar = "basics_RazorIntroBody" } )
+	self:_CreateInfoDialog( "OpponentImage", { TitleTextVar = "basics_RazorIntroTitle", BodyTextVar = "basics_RazorIntroBody" } )
 end
 
 function CTutorialBasics:_End()

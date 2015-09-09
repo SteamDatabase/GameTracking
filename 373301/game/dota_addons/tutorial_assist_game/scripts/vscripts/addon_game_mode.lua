@@ -57,8 +57,6 @@ ALERT_FOUNTAIN = 17
 ALERT_STYLE_CONTINUE = 1
 ALERT_STYLE_FORCE = 2
 
-
-
 if CTutorialAG == nil then
 	CTutorialAG = class({})
 end
@@ -470,6 +468,20 @@ function CTutorialAG:FilterExecuteOrder( filterTable )
 		return true
 	end
 
+	if ( filterTable["issuer_player_id_const"] == 0 ) then
+		if ( self._bLateGame ) then
+			local orderType = filterTable["order_type"]
+			if (orderType == DOTA_UNIT_ORDER_DROP_ITEM or orderType == DOTA_UNIT_ORDER_SELL_ITEM ) then
+				local hAbility = EntIndexToHScript( filterTable["entindex_ability"] )
+				if( hAbility ) then
+					if( hAbility:GetClassname() == "item_tango" or hAbility:GetClassname() == "item_flask" or hAbility:GetClassname() == "item_tpscroll" ) then
+						return true
+					end
+				end
+			end
+		end
+	end
+
 	-- The player isn't allowed to do actions that may break the tutorial.
 	if ( filterTable["issuer_player_id_const"] == 0 ) then
 		local orderType = filterTable["order_type"]
@@ -873,11 +885,12 @@ function CTutorialAG:OnNPCSpawned( event )
 	if spawnedUnit:IsRealHero() then
 		if ( spawnedUnit:GetPlayerID() == 0 ) then
 			self._hPlayerHero = spawnedUnit
-		end
-		self:_FireEvent( ON_HERO_SPAWNED )
 
-		if ( self._bGameStarted ) then
-			self:_IncrementAlert( ALERT_FOUNTAIN, 1.0 )
+			self:_FireEvent( ON_HERO_SPAWNED )
+
+			if ( self._bGameStarted ) then
+				self:_IncrementAlert( ALERT_FOUNTAIN, 1.0 )
+			end
 		end
 	end
 end
