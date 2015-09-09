@@ -92,22 +92,6 @@ case $1 in
 	;;
 
 # Dota 2
-571)
-	ProcessVPK "$1"
-	
-	iconv -t UTF-8 -f UCS-2 -o "$1/dota/resource/dota_english_utf8.txt" "$1/dota/resource/dota_english.txt"
-	iconv -t UTF-8 -f UCS-2 -o "$1/dota/resource/items_english_utf8.txt" "$1/dota/resource/items_english.txt"
-	;;
-
-574)
-	ProcessDepot "$1" "dota" ".dylib"
-	;;
-
-575)
-	ProcessVPK "$1"
-	;;
-
-# Dota 2 Test
 205791)
 	ProcessVPK "$1"
 	
