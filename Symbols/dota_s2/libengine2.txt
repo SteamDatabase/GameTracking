@@ -295,6 +295,7 @@
  B EventClientPollInput_t::s_pSchemaBinding
  B EventClientPollNetworking_t::s_pSchemaBinding
  B EventClientPostAdvanceTick_t::s_pSchemaBinding
+ B EventClientPostOutput_t::s_pSchemaBinding
  B EventClientPostSimulate_t::s_pSchemaBinding
  B EventClientPreOutput_t::s_pSchemaBinding
  B EventClientPreSimulate_t::s_pSchemaBinding
@@ -321,6 +322,9 @@
  B EventSplitScreenStateChanged_t::s_pSchemaBinding
  B HitBoxSet_t::s_pSchemaBinding
  B HitBox_t::s_pSchemaBinding
+ B INT_VECTOR3_AXIS_X
+ B INT_VECTOR3_AXIS_Y
+ B INT_VECTOR3_AXIS_Z
  B INT_VECTOR3_ORIGIN
  B IRecipientFilter::s_pSchemaBinding
  B LOG_BITBUF
@@ -777,6 +781,7 @@
  B r_lightingonly
  B r_lpv_debug_lobe_count
  B r_occlusion_culling
+ B r_overlap_scaleform
  B r_rendersun
  B r_show_skymap
  B r_show_ssao
@@ -810,7 +815,6 @@
  B s_bMathlibInitialized
  B s_pInterfaceRegs
  B scr_demo_override_fov
- B snd_show
  B spawngroup_ignore_timeouts
  B staticGameUIFuncs
  B sv_allow_lobby_connect_only
@@ -1425,6 +1429,7 @@
  D EventClientPollInput_t::s_pSchemaBindingForLocalModule
  D EventClientPollNetworking_t::s_pSchemaBindingForLocalModule
  D EventClientPostAdvanceTick_t::s_pSchemaBindingForLocalModule
+ D EventClientPostOutput_t::s_pSchemaBindingForLocalModule
  D EventClientPostSimulate_t::s_pSchemaBindingForLocalModule
  D EventClientPreOutput_t::s_pSchemaBindingForLocalModule
  D EventClientPreSimulate_t::s_pSchemaBindingForLocalModule
@@ -1602,6 +1607,7 @@
  D SchemaPrivateAccessor<EventClientPollInput_t>::s_ModuleClassBinding
  D SchemaPrivateAccessor<EventClientPollNetworking_t>::s_ModuleClassBinding
  D SchemaPrivateAccessor<EventClientPostAdvanceTick_t>::s_ModuleClassBinding
+ D SchemaPrivateAccessor<EventClientPostOutput_t>::s_ModuleClassBinding
  D SchemaPrivateAccessor<EventClientPostSimulate_t>::s_ModuleClassBinding
  D SchemaPrivateAccessor<EventClientPreOutput_t>::s_ModuleClassBinding
  D SchemaPrivateAccessor<EventClientPreSimulate_t>::s_ModuleClassBinding
@@ -2213,6 +2219,7 @@
  D int CLoopTypeBase::RegisterEvent<EventClientPollInput_t>()::nEventIndex
  D int CLoopTypeBase::RegisterEvent<EventClientPollNetworking_t>()::nEventIndex
  D int CLoopTypeBase::RegisterEvent<EventClientPostAdvanceTick_t>()::nEventIndex
+ D int CLoopTypeBase::RegisterEvent<EventClientPostOutput_t>()::nEventIndex
  D int CLoopTypeBase::RegisterEvent<EventClientPostSimulate_t>()::nEventIndex
  D int CLoopTypeBase::RegisterEvent<EventClientPreOutput_t>()::nEventIndex
  D int CLoopTypeBase::RegisterEvent<EventClientPreSimulate_t>()::nEventIndex
@@ -3048,6 +3055,7 @@
  D typeinfo for CSchemaClassBinding<EventClientPollInput_t>
  D typeinfo for CSchemaClassBinding<EventClientPollNetworking_t>
  D typeinfo for CSchemaClassBinding<EventClientPostAdvanceTick_t>
+ D typeinfo for CSchemaClassBinding<EventClientPostOutput_t>
  D typeinfo for CSchemaClassBinding<EventClientPostSimulate_t>
  D typeinfo for CSchemaClassBinding<EventClientPreOutput_t>
  D typeinfo for CSchemaClassBinding<EventClientPreSimulate_t>
@@ -4836,6 +4844,7 @@
  D vtable for CSchemaClassBinding<EventClientPollInput_t>
  D vtable for CSchemaClassBinding<EventClientPollNetworking_t>
  D vtable for CSchemaClassBinding<EventClientPostAdvanceTick_t>
+ D vtable for CSchemaClassBinding<EventClientPostOutput_t>
  D vtable for CSchemaClassBinding<EventClientPostSimulate_t>
  D vtable for CSchemaClassBinding<EventClientPreOutput_t>
  D vtable for CSchemaClassBinding<EventClientPreSimulate_t>
@@ -6148,6 +6157,7 @@
  R typeinfo name for CSchemaClassBinding<EventClientPollInput_t>
  R typeinfo name for CSchemaClassBinding<EventClientPollNetworking_t>
  R typeinfo name for CSchemaClassBinding<EventClientPostAdvanceTick_t>
+ R typeinfo name for CSchemaClassBinding<EventClientPostOutput_t>
  R typeinfo name for CSchemaClassBinding<EventClientPostSimulate_t>
  R typeinfo name for CSchemaClassBinding<EventClientPreOutput_t>
  R typeinfo name for CSchemaClassBinding<EventClientPreSimulate_t>
@@ -9644,6 +9654,7 @@
  T CEvent_Dispatch<CEventIDManager_Default, EventClientPollInput_t, 1>::DispatchEvent(EventClientPollInput_t const&, bool, ISchemaBinding const*)
  T CEvent_Dispatch<CEventIDManager_Default, EventClientPollNetworking_t, 1>::DispatchEvent(EventClientPollNetworking_t const&, bool, ISchemaBinding const*)
  T CEvent_Dispatch<CEventIDManager_Default, EventClientPostAdvanceTick_t, 1>::DispatchEvent(EventClientPostAdvanceTick_t const&, bool, ISchemaBinding const*)
+ T CEvent_Dispatch<CEventIDManager_Default, EventClientPostOutput_t, 1>::DispatchEvent(EventClientPostOutput_t const&, bool, ISchemaBinding const*)
  T CEvent_Dispatch<CEventIDManager_Default, EventClientPostSimulate_t, 1>::DispatchEvent(EventClientPostSimulate_t const&, bool, ISchemaBinding const*)
  T CEvent_Dispatch<CEventIDManager_Default, EventClientPreOutput_t, 1>::DispatchEvent(EventClientPreOutput_t const&, bool, ISchemaBinding const*)
  T CEvent_Dispatch<CEventIDManager_Default, EventClientPreSimulate_t, 1>::DispatchEvent(EventClientPreSimulate_t const&, bool, ISchemaBinding const*)
@@ -9935,6 +9946,7 @@
  T CGameUIService::IsConsoleVisible() const
  T CGameUIService::IsUsingVGuiConsole() const
  T CGameUIService::OnAppShutdown(EventAppShutdown_t const&)
+ T CGameUIService::OnClientPostOutput(EventClientPostOutput_t const&)
  T CGameUIService::OnClientPreOutput(EventClientPreOutput_t const&)
  T CGameUIService::OnFrameBoundary(EventFrameBoundary_t const&)
  T CGameUIService::OnLoopActivate(EngineLoopState_t const&, CEventDispatcher<CEventIDManager_Default>*)
@@ -10496,6 +10508,7 @@
  T CLoopTypeClientServerService::OnClientPauseSimulate(EventClientPauseSimulate_t const&)
  T CLoopTypeClientServerService::OnClientPollNetworking(EventClientPollNetworking_t const&)
  T CLoopTypeClientServerService::OnClientPostAdvanceTick(EventClientPostAdvanceTick_t const&)
+ T CLoopTypeClientServerService::OnClientPostOutput(EventClientPostOutput_t const&)
  T CLoopTypeClientServerService::OnClientPostSimulate(EventClientPostSimulate_t const&)
  T CLoopTypeClientServerService::OnClientPreOutput(EventClientPreOutput_t const&)
  T CLoopTypeClientServerService::OnClientPreSimulate(EventClientPreSimulate_t const&)
@@ -13116,7 +13129,7 @@
  T CNetworkGameServerBase::ServerAdvanceTick(EventServerAdvanceTick_t const&)
  T CNetworkGameServerBase::ServerPollNetworking(EventServerPollNetworking_t const&)
  T CNetworkGameServerBase::ServerPostSimulate(EventServerPostSimulate_t const&)
- T CNetworkGameServerBase::ServerPrintf(CEntityIndex, char const*, ...)
+ T CNetworkGameServerBase::ServerPrint(CEntityIndex, char const*)
  T CNetworkGameServerBase::ServerProcessNetworking(EventServerProcessNetworking_t const&)
  T CNetworkGameServerBase::ServerSimulate(EventServerSimulate_t const&)
  T CNetworkGameServerBase::SetFinalSimulationTickThisFrame(int)
@@ -14590,6 +14603,17 @@
  T CSchemaClassBinding<EventClientPostAdvanceTick_t>::GetSize() const
  T CSchemaClassBinding<EventClientPostAdvanceTick_t>::IsAbstractBinding() const
  T CSchemaClassBinding<EventClientPostAdvanceTick_t>::Register(ISchemaSystem*, char const*, char const*)
+ T CSchemaClassBinding<EventClientPostOutput_t>::Allocate() const
+ T CSchemaClassBinding<EventClientPostOutput_t>::AllocateAndCopyConstruct(void const*) const
+ T CSchemaClassBinding<EventClientPostOutput_t>::CanAllocate() const
+ T CSchemaClassBinding<EventClientPostOutput_t>::ConstructInPlace(void*) const
+ T CSchemaClassBinding<EventClientPostOutput_t>::Copy(void*, void const*) const
+ T CSchemaClassBinding<EventClientPostOutput_t>::Deallocate(void*) const
+ T CSchemaClassBinding<EventClientPostOutput_t>::DeduceDerivedType(void const*) const
+ T CSchemaClassBinding<EventClientPostOutput_t>::DestructInPlace(void*) const
+ T CSchemaClassBinding<EventClientPostOutput_t>::GetSize() const
+ T CSchemaClassBinding<EventClientPostOutput_t>::IsAbstractBinding() const
+ T CSchemaClassBinding<EventClientPostOutput_t>::Register(ISchemaSystem*, char const*, char const*)
  T CSchemaClassBinding<EventClientPostSimulate_t>::Allocate() const
  T CSchemaClassBinding<EventClientPostSimulate_t>::AllocateAndCopyConstruct(void const*) const
  T CSchemaClassBinding<EventClientPostSimulate_t>::CanAllocate() const
@@ -16007,7 +16031,7 @@
  T CSoundService::IsRecordingVoice()
  T CSoundService::NudgeBufferedVoicePackets(CSoundService::RecentlyPlayedNetworkVoice_t&, double)
  T CSoundService::OnAppShutdown(EventAppShutdown_t const&)
- T CSoundService::OnClientPreOutput(EventClientPreOutput_t const&)
+ T CSoundService::OnClientPostOutput(EventClientPostOutput_t const&)
  T CSoundService::OnClientProcessInput(EventClientProcessInput_t const&)
  T CSoundService::PlayBufferedVoicePackets(CSoundService::RecentlyPlayedNetworkVoice_t&, CUtlVector<int, CUtlMemory<int, int> >&)
  T CSoundService::PlayNetworkedVoice(unsigned long long, CEntityIndex, VoiceRecordingDescription_t const&, void const*, int, bool, VoiceRecordingLevel_t*)
@@ -16185,6 +16209,7 @@
  T CTextureIdProperty::GetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
  T CTextureIdProperty::InitFromDefault(vgui::Panel*, PanelAnimationMapEntry*)
  T CTextureIdProperty::SetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
+ T CThreadMutex::~CThreadMutex()
  T CTier1AppSystem<IApplication, 0>::Connect(void* (*)(char const*, int*))
  T CTier1AppSystem<IApplication, 0>::Disconnect()
  T CTier1AppSystem<IApplication, 0>::GetTier()
@@ -16474,7 +16499,8 @@
  T CToolService::GetDefaultScaleForModel(char const*)
  T CToolService::GetEconItemNamesForCharacter(char const*, bool, bool, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
  T CToolService::GetEconItemNamesForModel(char const*, bool, bool, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
- T CToolService::GetEconItemSystem()
+ T CToolService::GetEconItemSystem_Client()
+ T CToolService::GetEconItemSystem_Server()
  T CToolService::GetEntityInfo(int, KeyValues&, IToolFramework2Host::EntityListSource_t)
  T CToolService::GetEntityList(IToolFramework2Host::EntityList_t&, IToolFramework2Host::EntityListSource_t)
  T CToolService::GetGlobalLightParameters(int*, float*, float*)
@@ -17713,6 +17739,7 @@
  T EventClientPollInput_t::Schema_VerifyBindingIsRegistered()
  T EventClientPollNetworking_t::Schema_VerifyBindingIsRegistered()
  T EventClientPostAdvanceTick_t::Schema_VerifyBindingIsRegistered()
+ T EventClientPostOutput_t::Schema_VerifyBindingIsRegistered()
  T EventClientPostSimulate_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)
  T EventClientPostSimulate_t::Schema_VerifyBindingIsRegistered()
  T EventClientPreOutput_t::Schema_VerifyBindingIsRegistered()
@@ -21018,6 +21045,7 @@
  T void CLoopTypeBase::DispatchEvent<EventClientPollInput_t>(CEventDispatcher<CEventIDManager_Default>*, EventClientPollInput_t const&, CEventRegistry&)
  T void CLoopTypeBase::DispatchEvent<EventClientPollNetworking_t>(CEventDispatcher<CEventIDManager_Default>*, EventClientPollNetworking_t const&, CEventRegistry&)
  T void CLoopTypeBase::DispatchEvent<EventClientPostAdvanceTick_t>(CEventDispatcher<CEventIDManager_Default>*, EventClientPostAdvanceTick_t const&, CEventRegistry&)
+ T void CLoopTypeBase::DispatchEvent<EventClientPostOutput_t>(CEventDispatcher<CEventIDManager_Default>*, EventClientPostOutput_t const&, CEventRegistry&)
  T void CLoopTypeBase::DispatchEvent<EventClientPostSimulate_t>(CEventDispatcher<CEventIDManager_Default>*, EventClientPostSimulate_t const&, CEventRegistry&)
  T void CLoopTypeBase::DispatchEvent<EventClientPreOutput_t>(CEventDispatcher<CEventIDManager_Default>*, EventClientPreOutput_t const&, CEventRegistry&)
  T void CLoopTypeBase::DispatchEvent<EventClientPreSimulate_t>(CEventDispatcher<CEventIDManager_Default>*, EventClientPreSimulate_t const&, CEventRegistry&)
@@ -21166,6 +21194,7 @@
  __exp10
  __gxx_personality_v0
  __maskrune
+ __sincosf_stret
  __sprintf_chk
  __stack_chk_fail
  __stack_chk_guard
@@ -21788,6 +21817,7 @@
  b EventClientPollNetworking_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b EventClientPostAdvanceTick_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassBases_EventClientPostAdvanceTick_t
  b EventClientPostAdvanceTick_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
+ b EventClientPostOutput_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b EventClientPostSimulate_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassBases_EventClientPostSimulate_t
  b EventClientPostSimulate_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b EventClientPreOutput_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
@@ -21971,6 +22001,7 @@
  b _ZGVZ16EventMapRegisterP16CEventDispatcherI23CEventIDManager_DefaultEP28CLoopTypeClientServerService26EventMapRegistrationType_tiE11handlerName__20_
  b _ZGVZ16EventMapRegisterP16CEventDispatcherI23CEventIDManager_DefaultEP28CLoopTypeClientServerService26EventMapRegistrationType_tiE11handlerName__21_
  b _ZGVZ16EventMapRegisterP16CEventDispatcherI23CEventIDManager_DefaultEP28CLoopTypeClientServerService26EventMapRegistrationType_tiE11handlerName__22_
+ b _ZGVZ16EventMapRegisterP16CEventDispatcherI23CEventIDManager_DefaultEP28CLoopTypeClientServerService26EventMapRegistrationType_tiE11handlerName__23_
  b _ZL8ice_sbox.0
  b _ZL8ice_sbox.1
  b _ZL8ice_sbox.2
@@ -21988,6 +22019,7 @@
  b _ZZ16EventMapRegisterP16CEventDispatcherI23CEventIDManager_DefaultEP28CLoopTypeClientServerService26EventMapRegistrationType_tiE11handlerName__20_
  b _ZZ16EventMapRegisterP16CEventDispatcherI23CEventIDManager_DefaultEP28CLoopTypeClientServerService26EventMapRegistrationType_tiE11handlerName__21_
  b _ZZ16EventMapRegisterP16CEventDispatcherI23CEventIDManager_DefaultEP28CLoopTypeClientServerService26EventMapRegistrationType_tiE11handlerName__22_
+ b _ZZ16EventMapRegisterP16CEventDispatcherI23CEventIDManager_DefaultEP28CLoopTypeClientServerService26EventMapRegistrationType_tiE11handlerName__23_
  b __g_CGameUIFuncs_singleton
  b __g_CVoiceServer_singleton
  b __g_InterfaceRegCBenchmarkServiceIEngineService_reg
@@ -22055,7 +22087,6 @@
  b cl_downloadfilter
  b cl_failremoteconnections
  b cl_flushentitypacket
- b cl_forcepreload
  b cl_ignorepackets
  b cl_name
  b cl_playback_screenshots
@@ -22538,6 +22569,7 @@
  b s_pSplitScreenLayouts
  b s_pfnDelegateFactory
  b s_pszRebuildStringTableNames
+ b s_scaleformLayerSubmitMutex
  b s_vOverrideFogColor
  b screenshot_prefix
  b screenshot_subdir
@@ -22943,6 +22975,8 @@
  d EventClientPollNetworking_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassInfo_EventClientPollNetworking_t
  d EventClientPollNetworking_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassMembers_EventClientPollNetworking_t
  d EventClientPostAdvanceTick_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassInfo_EventClientPostAdvanceTick_t
+ d EventClientPostOutput_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassInfo_EventClientPostOutput_t
+ d EventClientPostOutput_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassMembers_EventClientPostOutput_t
  d EventClientPostSimulate_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassInfo_EventClientPostSimulate_t
  d EventClientPreOutput_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassInfo_EventClientPreOutput_t
  d EventClientPreOutput_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassMembers_EventClientPreOutput_t
@@ -24150,14 +24184,10 @@
  t __cxx_global_var_init188
  t __cxx_global_var_init189
  t __cxx_global_var_init19
+ t __cxx_global_var_init190
+ t __cxx_global_var_init191
  t __cxx_global_var_init192
  t __cxx_global_var_init193
- t __cxx_global_var_init194
- t __cxx_global_var_init195
- t __cxx_global_var_init196
- t __cxx_global_var_init197
- t __cxx_global_var_init198
- t __cxx_global_var_init199
  t __cxx_global_var_init20
  t __cxx_global_var_init21
  t __cxx_global_var_init22
@@ -24181,7 +24211,6 @@
  t __cxx_global_var_init269
  t __cxx_global_var_init3
  t __cxx_global_var_init30
- t __cxx_global_var_init306
  t __cxx_global_var_init307
  t __cxx_global_var_init308
  t __cxx_global_var_init309
@@ -24190,6 +24219,7 @@
  t __cxx_global_var_init311
  t __cxx_global_var_init312
  t __cxx_global_var_init313
+ t __cxx_global_var_init314
  t __cxx_global_var_init32
  t __cxx_global_var_init33
  t __cxx_global_var_init34
