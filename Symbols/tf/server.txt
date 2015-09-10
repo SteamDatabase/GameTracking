@@ -247,6 +247,7 @@
  B CEventAction::s_iNextIDStamp
  B CEventAction_DataDescInit::g_DataMapHolder
  B CEventQueue_DataDescInit::g_DataMapHolder
+ B CExtraMapEntity_DataDescInit::g_DataMapHolder
  B CFailableAchievement_DataDescInit::g_DataMapHolder
  B CFilterClass_DataDescInit::g_DataMapHolder
  B CFilterEnemy_DataDescInit::g_DataMapHolder
@@ -1973,6 +1974,7 @@
  B ICaptureZoneAutoList::m_ICaptureZoneAutoListAutoList
  B ICurrencyPackAutoList::m_ICurrencyPackAutoListAutoList
  B IDroppedWeaponAutoList::m_IDroppedWeaponAutoListAutoList
+ B IExtraMapEntityAutoList::m_IExtraMapEntityAutoListAutoList
  B IFlagDetectionZoneAutoList::m_IFlagDetectionZoneAutoListAutoList
  B IFuncForceFieldAutoList::m_IFuncForceFieldAutoListAutoList
  B IFuncNavPrerequisiteAutoList::m_IFuncNavPrerequisiteAutoListAutoList
@@ -3256,6 +3258,7 @@
  B tf_passtime_ball_inertia_scale
  B tf_passtime_ball_mass
  B tf_passtime_ball_radius
+ B tf_passtime_ball_reset_time
  B tf_passtime_ball_rotdamping_scale
  B tf_passtime_ball_seek_range
  B tf_passtime_ball_seek_speed_factor
@@ -3272,6 +3275,7 @@
  B tf_passtime_score_crit_sec
  B tf_passtime_speedboost_on_get_ball_time
  B tf_passtime_steal_on_melee
+ B tf_passtime_teammate_steal_time
  B tf_pipebomb_deflect_reset_time
  B tf_pipebomb_force_to_move
  B tf_player_drop_bonus_ducks
@@ -3733,6 +3737,7 @@
  D CEnvZoom::m_DataMap
  D CEventAction::m_DataMap
  D CEventQueue::m_DataMap
+ D CExtraMapEntity::m_DataMap
  D CEyeballBoss::m_level
  D CEyeballBossLocomotion::GetGroundNormal() const::up
  D CFailableAchievement::m_DataMap
@@ -4889,6 +4894,8 @@
  D datamap_t* DataMapInit<CEventAction>(CEventAction*)::nameHolder
  D datamap_t* DataMapInit<CEventQueue>(CEventQueue*)::dataDesc
  D datamap_t* DataMapInit<CEventQueue>(CEventQueue*)::nameHolder
+ D datamap_t* DataMapInit<CExtraMapEntity>(CExtraMapEntity*)::dataDesc
+ D datamap_t* DataMapInit<CExtraMapEntity>(CExtraMapEntity*)::nameHolder
  D datamap_t* DataMapInit<CFailableAchievement>(CFailableAchievement*)::dataDesc
  D datamap_t* DataMapInit<CFailableAchievement>(CFailableAchievement*)::nameHolder
  D datamap_t* DataMapInit<CFilterClass>(CFilterClass*)::dataDesc
@@ -5926,6 +5933,7 @@
  D g_szAccountLoadoutStringsForDisplay
  D g_szDropTypeStrings
  D g_szDuckLeaderboardNames
+ D g_szEntityWhiteList
  D g_szLadderLeaderboardNames
  D g_szLoadoutStrings
  D g_szLoadoutStringsForDisplay
@@ -6363,6 +6371,8 @@
  D guard variable for datamap_t* DataMapInit<CEnvZoom>(CEnvZoom*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CEventAction>(CEventAction*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CEventQueue>(CEventQueue*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CExtraMapEntity>(CExtraMapEntity*)::dataDesc
+ D guard variable for datamap_t* DataMapInit<CExtraMapEntity>(CExtraMapEntity*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CFailableAchievement>(CFailableAchievement*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CFilterClass>(CFilterClass*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CFilterEnemy>(CFilterEnemy*)::nameHolder
@@ -8661,6 +8671,7 @@
  D typeinfo for CEntityFactory<CEventQueueSaveLoadProxy>
  D typeinfo for CEntityFactory<CExtraMapEntity_Carrier>
  D typeinfo for CEntityFactory<CExtraMapEntity_Rocket>
+ D typeinfo for CEntityFactory<CExtraMapEntity_Saucer>
  D typeinfo for CEntityFactory<CExtraMapEntity_Sign>
  D typeinfo for CEntityFactory<CEyeballBoss>
  D typeinfo for CEntityFactory<CFilterClass>
@@ -9220,6 +9231,7 @@
  D typeinfo for CExtraMapEntity
  D typeinfo for CExtraMapEntity_Carrier
  D typeinfo for CExtraMapEntity_Rocket
+ D typeinfo for CExtraMapEntity_Saucer
  D typeinfo for CExtraMapEntity_Sign
  D typeinfo for CEyeballBoss
  D typeinfo for CEyeballBoss::CEyeballBossIntention
@@ -10963,6 +10975,7 @@
  D typeinfo for IEntityListener
  D typeinfo for IEntitySaveUtils
  D typeinfo for IEventRegisterCallback
+ D typeinfo for IExtraMapEntityAutoList
  D typeinfo for IFlagDetectionZoneAutoList
  D typeinfo for IForEachNavArea
  D typeinfo for IFuncForceFieldAutoList
@@ -11599,6 +11612,7 @@
  D vtable for CEntityFactory<CEventQueueSaveLoadProxy>
  D vtable for CEntityFactory<CExtraMapEntity_Carrier>
  D vtable for CEntityFactory<CExtraMapEntity_Rocket>
+ D vtable for CEntityFactory<CExtraMapEntity_Saucer>
  D vtable for CEntityFactory<CExtraMapEntity_Sign>
  D vtable for CEntityFactory<CEyeballBoss>
  D vtable for CEntityFactory<CFilterClass>
@@ -12157,6 +12171,7 @@
  D vtable for CEventsSaveDataOps
  D vtable for CExtraMapEntity_Carrier
  D vtable for CExtraMapEntity_Rocket
+ D vtable for CExtraMapEntity_Saucer
  D vtable for CExtraMapEntity_Sign
  D vtable for CEyeballBoss
  D vtable for CEyeballBoss::CEyeballBossIntention
@@ -13774,6 +13789,7 @@
  D vtable for ICurrencyPackAutoList
  D vtable for IDecalEmitterSystem
  D vtable for IDroppedWeaponAutoList
+ D vtable for IExtraMapEntityAutoList
  D vtable for IFlagDetectionZoneAutoList
  D vtable for IFuncForceFieldAutoList
  D vtable for IFuncNavPrerequisiteAutoList
@@ -14367,6 +14383,7 @@
  R typeinfo name for CEntityFactory<CEventQueueSaveLoadProxy>
  R typeinfo name for CEntityFactory<CExtraMapEntity_Carrier>
  R typeinfo name for CEntityFactory<CExtraMapEntity_Rocket>
+ R typeinfo name for CEntityFactory<CExtraMapEntity_Saucer>
  R typeinfo name for CEntityFactory<CExtraMapEntity_Sign>
  R typeinfo name for CEntityFactory<CEyeballBoss>
  R typeinfo name for CEntityFactory<CFilterClass>
@@ -14926,6 +14943,7 @@
  R typeinfo name for CExtraMapEntity
  R typeinfo name for CExtraMapEntity_Carrier
  R typeinfo name for CExtraMapEntity_Rocket
+ R typeinfo name for CExtraMapEntity_Saucer
  R typeinfo name for CExtraMapEntity_Sign
  R typeinfo name for CEyeballBoss
  R typeinfo name for CEyeballBoss::CEyeballBossIntention
@@ -16669,6 +16687,7 @@
  R typeinfo name for IEntityListener
  R typeinfo name for IEntitySaveUtils
  R typeinfo name for IEventRegisterCallback
+ R typeinfo name for IExtraMapEntityAutoList
  R typeinfo name for IFlagDetectionZoneAutoList
  R typeinfo name for IForEachNavArea
  R typeinfo name for IFuncForceFieldAutoList
@@ -23967,6 +23986,9 @@
  T CEntityFactory<CExtraMapEntity_Rocket>::Create(char const*)
  T CEntityFactory<CExtraMapEntity_Rocket>::Destroy(IServerNetworkable*)
  T CEntityFactory<CExtraMapEntity_Rocket>::GetEntitySize()
+ T CEntityFactory<CExtraMapEntity_Saucer>::Create(char const*)
+ T CEntityFactory<CExtraMapEntity_Saucer>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CExtraMapEntity_Saucer>::GetEntitySize()
  T CEntityFactory<CExtraMapEntity_Sign>::Create(char const*)
  T CEntityFactory<CExtraMapEntity_Sign>::Destroy(IServerNetworkable*)
  T CEntityFactory<CExtraMapEntity_Sign>::GetEntitySize()
@@ -25916,9 +25938,13 @@
  T CEventsSaveDataOps::Parse(SaveRestoreFieldInfo_t const&, char const*)
  T CEventsSaveDataOps::Restore(SaveRestoreFieldInfo_t const&, IRestore*)
  T CEventsSaveDataOps::Save(SaveRestoreFieldInfo_t const&, ISave*)
+ T CExtraMapEntity::AnimThink()
+ T CExtraMapEntity::GetDataDescMap()
  T CExtraMapEntity::Precache()
  T CExtraMapEntity::Precache_Internal()
  T CExtraMapEntity::PrepareModelName(char const*)
+ T CExtraMapEntity::ShouldAnimate()
+ T CExtraMapEntity::Spawn()
  T CExtraMapEntity::SpawnExtraModel()
  T CExtraMapEntity_Carrier::GetDefaultModel()
  T CExtraMapEntity_Carrier::Spawn()
@@ -25927,6 +25953,10 @@
  T CExtraMapEntity_Rocket::Precache_Internal()
  T CExtraMapEntity_Rocket::Spawn()
  T CExtraMapEntity_Rocket::~CExtraMapEntity_Rocket()
+ T CExtraMapEntity_Saucer::GetDefaultModel()
+ T CExtraMapEntity_Saucer::ShouldAnimate()
+ T CExtraMapEntity_Saucer::Spawn()
+ T CExtraMapEntity_Saucer::~CExtraMapEntity_Saucer()
  T CExtraMapEntity_Sign::GetDefaultModel()
  T CExtraMapEntity_Sign::Spawn()
  T CExtraMapEntity_Sign::~CExtraMapEntity_Sign()
@@ -26112,7 +26142,6 @@
  T CFireSmoke::YouForgotToImplementOrDeclareServerClass()
  T CFireSmoke::~CFireSmoke()
  T CFireSphere::EnumElement(IHandleEntity*)
- T CFireSphere::~CFireSphere()
  T CFireTrail::GetDataDescMap()
  T CFireTrail::GetServerClass()
  T CFireTrail::Precache()
@@ -26153,7 +26182,6 @@
  T CFlagDetectionZone::~CFlagDetectionZone()
  T CFlaggedEntitiesEnum::CFlaggedEntitiesEnum(CBaseEntity**, int, int)
  T CFlaggedEntitiesEnum::EnumElement(IHandleEntity*)
- T CFlaggedEntitiesEnum::~CFlaggedEntitiesEnum()
  T CFlexAnimationTrack::GetBoundedSample(int, bool&, int)
  T CFlexAnimationTrack::GetFlexControllerName()
  T CFlexAnimationTrack::GetFracIntensity(float, int)
@@ -32267,6 +32295,7 @@
  T CPasstimeBall::GetAirtimeDistance() const
  T CPasstimeBall::GetAirtimeSec() const
  T CPasstimeBall::GetCarrier() const
+ T CPasstimeBall::GetCarryDuration() const
  T CPasstimeBall::GetCollisionCount() const
  T CPasstimeBall::GetHomingTarget() const
  T CPasstimeBall::GetPrevCarrier() const
@@ -33262,7 +33291,6 @@
  T CPushBlockerEnum::EnumElement(IHandleEntity*)
  T CPushBlockerEnum::GetPushableEntity(IHandleEntity*)
  T CPushBlockerEnum::IntersectsPushers(CBaseEntity*)
- T CPushBlockerEnum::~CPushBlockerEnum()
  T CPushable::CreateVPhysics()
  T CPushable::ObjectCaps()
  T CPushable::OnTakeDamage(CTakeDamageInfo const&)
@@ -37178,6 +37206,7 @@
  T CTFPasstimeLogic::MoveBallToSpawner()
  T CTFPasstimeLogic::NetworkVar_m_trackPoints::Set(int, Vector const&)
  T CTFPasstimeLogic::OnBallCarrierDamaged(CTFPlayer*, CTFPlayer*, CTakeDamageInfo const&)
+ T CTFPasstimeLogic::OnBallCarrierMeleeHit(CTFPlayer*, CTFPlayer*)
  T CTFPasstimeLogic::OnBallCollision(CPasstimeBall*, int, gamevcollisionevent_t*)
  T CTFPasstimeLogic::OnBallGet()
  T CTFPasstimeLogic::OnEnterGoal(CPasstimeBall*, CFuncPasstimeGoal*)
@@ -37195,6 +37224,7 @@
  T CTFPasstimeLogic::Spawn()
  T CTFPasstimeLogic::SpawnBallAtRandomSpawnerThink()
  T CTFPasstimeLogic::SpawnBallAtSpawner(CPasstimeBallSpawn*)
+ T CTFPasstimeLogic::StealBall(CTFPlayer*, CTFPlayer*)
  T CTFPasstimeLogic::UpdateTransmitState()
  T CTFPasstimeLogic::YouForgotToImplementOrDeclareServerClass()
  T CTFPasstimeLogic::~CTFPasstimeLogic()
@@ -40969,6 +40999,7 @@
  T CUtlMemory<ICurrencyPackAutoList*, int>::Grow(int)
  T CUtlMemory<IDroppedWeaponAutoList*, int>::Grow(int)
  T CUtlMemory<IEntityListener*, int>::Grow(int)
+ T CUtlMemory<IExtraMapEntityAutoList*, int>::Grow(int)
  T CUtlMemory<IFlagDetectionZoneAutoList*, int>::Grow(int)
  T CUtlMemory<IFuncForceFieldAutoList*, int>::Grow(int)
  T CUtlMemory<IFuncNavPrerequisiteAutoList*, int>::Grow(int)
@@ -42462,6 +42493,7 @@
  T CUtlVector<ICaptureZoneAutoList*, CUtlMemory<ICaptureZoneAutoList*, int> >::~CUtlVector()
  T CUtlVector<ICurrencyPackAutoList*, CUtlMemory<ICurrencyPackAutoList*, int> >::~CUtlVector()
  T CUtlVector<IDroppedWeaponAutoList*, CUtlMemory<IDroppedWeaponAutoList*, int> >::~CUtlVector()
+ T CUtlVector<IExtraMapEntityAutoList*, CUtlMemory<IExtraMapEntityAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFlagDetectionZoneAutoList*, CUtlMemory<IFlagDetectionZoneAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncForceFieldAutoList*, CUtlMemory<IFuncForceFieldAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncNavPrerequisiteAutoList*, CUtlMemory<IFuncNavPrerequisiteAutoList*, int> >::~CUtlVector()
@@ -44881,6 +44913,7 @@
  T IEntityListener::OnEntityCreated(CBaseEntity*)
  T IEntityListener::OnEntityDeleted(CBaseEntity*)
  T IEntityListener::OnEntitySpawned(CBaseEntity*)
+ T IExtraMapEntityAutoList::~IExtraMapEntityAutoList()
  T IFlagDetectionZoneAutoList::~IFlagDetectionZoneAutoList()
  T IForEachNavArea::PostIteration(bool)
  T IFuncForceFieldAutoList::~IFuncForceFieldAutoList()
@@ -46684,6 +46717,7 @@
  T datamap_t* DataMapInit<CEnvTonemapController>(CEnvTonemapController*)
  T datamap_t* DataMapInit<CEnvTracer>(CEnvTracer*)
  T datamap_t* DataMapInit<CEnvWind>(CEnvWind*)
+ T datamap_t* DataMapInit<CExtraMapEntity>(CExtraMapEntity*)
  T datamap_t* DataMapInit<CFire>(CFire*)
  T datamap_t* DataMapInit<CFishPool>(CFishPool*)
  T datamap_t* DataMapInit<CFlagDetectionZone>(CFlagDetectionZone*)
@@ -47656,6 +47690,10 @@
  T non-virtual thunk to CEventLog::Init()
  T non-virtual thunk to CEventLog::Shutdown()
  T non-virtual thunk to CEventLog::~CEventLog()
+ T non-virtual thunk to CExtraMapEntity_Carrier::~CExtraMapEntity_Carrier()
+ T non-virtual thunk to CExtraMapEntity_Rocket::~CExtraMapEntity_Rocket()
+ T non-virtual thunk to CExtraMapEntity_Saucer::~CExtraMapEntity_Saucer()
+ T non-virtual thunk to CExtraMapEntity_Sign::~CExtraMapEntity_Sign()
  T non-virtual thunk to CEyeballBoss::CEyeballBossIntention::~CEyeballBossIntention()
  T non-virtual thunk to CEyeballBoss::GetBodyInterface() const
  T non-virtual thunk to CEyeballBoss::GetIntentionInterface() const
@@ -49579,7 +49617,6 @@
  b __g_CreateCServerDLLSharedAppSystemsIServerDLLSharedAppSystems_reg
  b __g_CreateCServerGameClientsIServerGameClients003_reg
  b __g_CreateCServerGameClientsIServerGameClients_reg
- b __g_CreateCServerGameDLLIServerGameDLL008_reg
  b __g_CreateCServerGameDLLIServerGameDLL_reg
  b __g_CreateCServerGameEntsIServerGameEnts_reg
  b __g_CreateCServerGameTagsIServerGameTags_reg
@@ -49729,6 +49766,7 @@
  b entity_medigun_shield
  b entity_revive_marker
  b entity_rocket
+ b entity_saucer
  b entity_sign
  b entity_spawn_manager
  b entity_spawn_point
@@ -52414,7 +52452,6 @@
  t __CreateCServerDLLSharedAppSystemsIServerDLLSharedAppSystems_interface()
  t __CreateCServerGameClientsIServerGameClients003_interface()
  t __CreateCServerGameClientsIServerGameClients_interface()
- t __CreateCServerGameDLLIServerGameDLL008_interface()
  t __CreateCServerGameDLLIServerGameDLL_interface()
  t __CreateCServerGameEntsIServerGameEnts_interface()
  t __CreateCServerGameTagsIServerGameTags_interface()
