@@ -213,14 +213,18 @@ message CMsgClientToGCTopMatchesRequest {
 	optional uint32 team_id = 3;
 }
 
-message CMsgGCToClientTopMatchesResponse {
-	enum Type {
-		LEAGUES = 1;
-		FRIENDS = 2;
-	}
+message CMsgClientToGCTopLeagueMatchesRequest {
+}
 
-	optional .CMsgGCToClientTopMatchesResponse.Type type = 1 [default = LEAGUES];
-	repeated .CMsgDOTAMatch matches = 2;
+message CMsgClientToGCTopFriendMatchesRequest {
+}
+
+message CMsgGCToClientTopLeagueMatchesResponse {
+	repeated .CMsgDOTAMatchMinimal matches = 2;
+}
+
+message CMsgGCToClientTopFriendMatchesResponse {
+	repeated .CMsgDOTAMatchMinimal matches = 1;
 }
 
 message CMsgClientToGCFindTopMatches {
@@ -647,6 +651,22 @@ message CMsgDOTAMatch {
 
 message CMsgDOTAPlayerMatchHistory {
 	repeated uint64 match_ids = 1;
+}
+
+message CMsgDOTAMatchMinimal {
+	optional uint32 match_id = 1;
+	optional fixed32 start_time = 2;
+	optional uint32 duration = 3;
+	repeated uint32 player_account_ids = 4;
+	repeated uint32 hero_ids = 5;
+	optional .DOTA_GameMode game_mode = 6 [default = DOTA_GAMEMODE_NONE];
+	optional uint32 league_id = 7;
+	optional uint32 radiant_team_id = 8;
+	optional string radiant_team_name = 9;
+	optional uint64 radiant_team_logo = 10;
+	optional uint32 dire_team_id = 11;
+	optional string dire_team_name = 12;
+	optional uint64 dire_team_logo = 13;
 }
 
 message CMsgDOTAMatchHistoryFilter {
