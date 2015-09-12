@@ -97,7 +97,7 @@ case $1 in
 	;;
 
 373304)
-	ProcessDepot "$1" "dota_s2" ".dylib"
+	ProcessDepot "$1" "dota" ".dylib"
 	;;
 
 # Half-Life 2
