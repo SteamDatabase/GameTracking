@@ -48,12 +48,12 @@ ProcessDepot ()
 			./.support/nm-with-macho -C -p "$file" | grep -Evi "GCC_except_table|google::protobuf" | awk '{$1=""; print $0}' | sort -u > "Symbols/$2/$baseFile.txt"
 		fi
 		
-		if [ "$3" != ".dylib" ] || [ "$2" = "csgo" ]
-		then
+		#if [ "$3" != ".dylib" ] || [ "$2" = "csgo" ]
+		#then
 			mkdir -p "Strings/$2"
 			
 			strings "$file" -n 5 | grep "^[a-zA-Z0-9\.\_\-]*$" | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -t_ | sort -u > "Strings/$2/$baseFile.txt"
-		fi
+		#fi
 	done <   <(find "$1/" -type f -name "*$3" -print0)
 }
 
