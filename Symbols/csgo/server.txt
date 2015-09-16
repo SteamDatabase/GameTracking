@@ -1338,6 +1338,7 @@
  b CBaseTrigger_DataDescInit::g_DataMapHolder
  b CBaseVPhysicsTrigger_DataDescInit::g_DataMapHolder
  b CBaseViewModel_DataDescInit::g_DataMapHolder
+ b CBaseWeaponWorldModel_DataDescInit::g_DataMapHolder
  b CBeam::GetAbsEndPos() const::vecAbsPos
  b CBeamSpotlight_DataDescInit::g_DataMapHolder
  b CBeam_DataDescInit::g_DataMapHolder
@@ -1384,7 +1385,6 @@
  b CCSPlayer::HandleCommand_JoinTeam(int, bool, int)::sv_mmqueue_reservation
  b CCSPlayer::ImpactTrace(CGameTrace*, int, char*)::violence_hblood
  b CCSPlayer::PostThink()::pAttr_MusicID
- b CCSPlayer::UpdateAppearanceIndex()::pRandomAppearanceDef
  b CCSPlayerAnimState::CalcSequenceIndex(char const*, ...)::dict
  b CCSPlayerInventory::GetActiveQuestID()::pAttr
  b CCSPlayerInventory::GetActiveQuestID()::pAttr_QuestID
@@ -2559,6 +2559,8 @@
  b DT_BaseVPhysicsTrigger::g_SendTableInit
  b DT_BaseViewModel::g_SendTable
  b DT_BaseViewModel::g_SendTableInit
+ b DT_BaseWeaponWorldModel::g_SendTable
+ b DT_BaseWeaponWorldModel::g_SendTableInit
  b DT_Beam::g_SendTable
  b DT_Beam::g_SendTableInit
  b DT_BeamSpotlight::g_SendTable
@@ -3621,6 +3623,7 @@
  b ammo_grenade_limit_flashbang
  b ammo_grenade_limit_total
  b anim_3wayblend
+ b anim_twistbones_enabled
  b announceTimer
  b assault_assaultpoint
  b assault_rallypoint
@@ -3930,6 +3933,8 @@
  b datamap_t* DataMapInit<CBaseTrigger>(CBaseTrigger*)::nameHolder
  b datamap_t* DataMapInit<CBaseVPhysicsTrigger>(CBaseVPhysicsTrigger*)::nameHolder
  b datamap_t* DataMapInit<CBaseViewModel>(CBaseViewModel*)::nameHolder
+ b datamap_t* DataMapInit<CBaseWeaponWorldModel>(CBaseWeaponWorldModel*)::dataDesc
+ b datamap_t* DataMapInit<CBaseWeaponWorldModel>(CBaseWeaponWorldModel*)::nameHolder
  b datamap_t* DataMapInit<CBeam>(CBeam*)::nameHolder
  b datamap_t* DataMapInit<CBeamSpotlight>(CBeamSpotlight*)::nameHolder
  b datamap_t* DataMapInit<CBlendingCycler>(CBlendingCycler*)::nameHolder
@@ -4385,6 +4390,7 @@
  b dbghist_addline
  b dbghist_dump
  b debug_aim_angle
+ b debug_dispatch_server_dump
  b debug_materialmodifycontrol
  b debug_overlay_fullposition
  b debug_physimpact
@@ -4742,6 +4748,7 @@
  b g_CBaseTrigger_ClassReg
  b g_CBaseVPhysicsTrigger_ClassReg
  b g_CBaseViewModel_ClassReg
+ b g_CBaseWeaponWorldModel_ClassReg
  b g_CBeamSpotlight_ClassReg
  b g_CBeam_ClassReg
  b g_CBoneFollower_ClassReg
@@ -5515,7 +5522,6 @@
  b guard variable for CCSPlayer::HandleCommand_JoinTeam(int, bool, int)::sv_mmqueue_reservation
  b guard variable for CCSPlayer::ImpactTrace(CGameTrace*, int, char*)::violence_hblood
  b guard variable for CCSPlayer::PostThink()::pAttr_MusicID
- b guard variable for CCSPlayer::UpdateAppearanceIndex()::pRandomAppearanceDef
  b guard variable for CCSPlayerAnimState::CalcSequenceIndex(char const*, ...)::dict
  b guard variable for CCSPlayerInventory::GetActiveQuestID()::pAttr
  b guard variable for CCSPlayerInventory::GetActiveQuestID()::pAttr_QuestID
@@ -5988,6 +5994,7 @@
  b guard variable for datamap_t* DataMapInit<CBaseVPhysicsTrigger>(CBaseVPhysicsTrigger*)::nameHolder
  b guard variable for datamap_t* DataMapInit<CBaseViewModel>(CBaseViewModel*)::dataDesc
  b guard variable for datamap_t* DataMapInit<CBaseViewModel>(CBaseViewModel*)::nameHolder
+ b guard variable for datamap_t* DataMapInit<CBaseWeaponWorldModel>(CBaseWeaponWorldModel*)::nameHolder
  b guard variable for datamap_t* DataMapInit<CBeam>(CBeam*)::nameHolder
  b guard variable for datamap_t* DataMapInit<CBeamSpotlight>(CBeamSpotlight*)::dataDesc
  b guard variable for datamap_t* DataMapInit<CBeamSpotlight>(CBeamSpotlight*)::nameHolder
@@ -6624,6 +6631,7 @@
  b guard variable for int ServerClassInit<DT_BaseTrigger::ignored>(DT_BaseTrigger::ignored*)::g_SendProps
  b guard variable for int ServerClassInit<DT_BaseVPhysicsTrigger::ignored>(DT_BaseVPhysicsTrigger::ignored*)::g_SendProps
  b guard variable for int ServerClassInit<DT_BaseViewModel::ignored>(DT_BaseViewModel::ignored*)::g_SendProps
+ b guard variable for int ServerClassInit<DT_BaseWeaponWorldModel::ignored>(DT_BaseWeaponWorldModel::ignored*)::g_SendProps
  b guard variable for int ServerClassInit<DT_Beam::ignored>(DT_Beam::ignored*)::g_SendProps
  b guard variable for int ServerClassInit<DT_BeamSpotlight::ignored>(DT_BeamSpotlight::ignored*)::g_SendProps
  b guard variable for int ServerClassInit<DT_BoneFollower::ignored>(DT_BoneFollower::ignored*)::g_SendProps
@@ -7000,6 +7008,7 @@
  b int ServerClassInit<DT_BaseTrigger::ignored>(DT_BaseTrigger::ignored*)::g_SendProps
  b int ServerClassInit<DT_BaseVPhysicsTrigger::ignored>(DT_BaseVPhysicsTrigger::ignored*)::g_SendProps
  b int ServerClassInit<DT_BaseViewModel::ignored>(DT_BaseViewModel::ignored*)::g_SendProps
+ b int ServerClassInit<DT_BaseWeaponWorldModel::ignored>(DT_BaseWeaponWorldModel::ignored*)::g_SendProps
  b int ServerClassInit<DT_Beam::ignored>(DT_Beam::ignored*)::g_SendProps
  b int ServerClassInit<DT_BeamSpotlight::ignored>(DT_BeamSpotlight::ignored*)::g_SendProps
  b int ServerClassInit<DT_BoneFollower::ignored>(DT_BoneFollower::ignored*)::g_SendProps
@@ -7518,6 +7527,7 @@
  b mp_warmup_start_command
  b mp_warmuptime
  b mp_warmuptime_all_players_connected
+ b mp_weapon_prev_owner_touch_time
  b mp_weapons_allow_map_placed
  b mp_weapons_allow_randomize
  b mp_weapons_allow_zeus
@@ -8264,6 +8274,7 @@
  b sv_kick_players_with_cooldown
  b sv_ladder_angle
  b sv_ladder_dampen
+ b sv_ladder_scale_speed
  b sv_lagcompensateself
  b sv_lagcompensationforcerestore
  b sv_lagflushbonecache
@@ -8321,7 +8332,9 @@
  b sv_server_verify_blood_on_player
  b sv_show_assassination_target_to_everyone
  b sv_show_bot_difficulty_in_name
+ b sv_show_voip_indicator_for_enemies
  b sv_showanimstate
+ b sv_showbullethits
  b sv_showimpacts
  b sv_showimpacts_penetration
  b sv_showimpacts_time
@@ -8593,6 +8606,7 @@
  b weapon_usp
  b weapon_xm1014
  b weaponstay
+ b weaponworldmodel
  b window_pane
  b workshop_start_map_command
  b world_items
@@ -8796,6 +8810,8 @@
  d CBaseVPhysicsTrigger::m_pClassSendTable
  d CBaseViewModel::m_DataMap
  d CBaseViewModel::m_pClassSendTable
+ d CBaseWeaponWorldModel::m_DataMap
+ d CBaseWeaponWorldModel::m_pClassSendTable
  d CBeam::m_DataMap
  d CBeam::m_pClassSendTable
  d CBeamSpotlight::m_DataMap
@@ -11844,51 +11860,51 @@
  r CSVCMsg_VoiceInit::kCodecFieldNumber
  r CSVCMsg_VoiceInit::kQualityFieldNumber
  r CSVCMsg_VoiceInit::kVersionFieldNumber
- r CSWTCH.1039
- r CSWTCH.1049
- r CSWTCH.1050
+ r CSWTCH.1041
+ r CSWTCH.1051
  r CSWTCH.1052
- r CSWTCH.1222
- r CSWTCH.1230
+ r CSWTCH.1054
+ r CSWTCH.1224
  r CSWTCH.1232
  r CSWTCH.1234
- r CSWTCH.1252
- r CSWTCH.1276
- r CSWTCH.1444
+ r CSWTCH.1236
+ r CSWTCH.1265
+ r CSWTCH.1278
  r CSWTCH.1446
  r CSWTCH.1448
- r CSWTCH.1573
- r CSWTCH.1574
- r CSWTCH.1921
+ r CSWTCH.1450
+ r CSWTCH.1575
+ r CSWTCH.1576
+ r CSWTCH.1923
  r CSWTCH.23
- r CSWTCH.2385
+ r CSWTCH.2387
  r CSWTCH.25
  r CSWTCH.27
- r CSWTCH.3247
- r CSWTCH.3330
+ r CSWTCH.3251
+ r CSWTCH.3334
  r CSWTCH.36
  r CSWTCH.390
  r CSWTCH.40
  r CSWTCH.42
- r CSWTCH.4373
+ r CSWTCH.4379
  r CSWTCH.44
  r CSWTCH.46
  r CSWTCH.502
  r CSWTCH.613
- r CSWTCH.711
- r CSWTCH.726
- r CSWTCH.732
- r CSWTCH.781
- r CSWTCH.842
+ r CSWTCH.713
+ r CSWTCH.728
+ r CSWTCH.734
+ r CSWTCH.783
  r CSWTCH.844
- r CSWTCH.885
- r CSWTCH.960
- r CSWTCH.970
- r CSWTCH.976
+ r CSWTCH.846
+ r CSWTCH.887
+ r CSWTCH.962
+ r CSWTCH.965
  r CSWTCH.978
  r CSWTCH.980
- r CSWTCH.992
- r CSWTCH.994
+ r CSWTCH.982
+ r CSWTCH.987
+ r CSWTCH.989
  r CS_PLAYER_SPEED_CLIMB_MODIFIER
  r CS_PLAYER_SPEED_DUCK_MODIFIER
  r CS_PLAYER_SPEED_HAS_HOSTAGE
@@ -12139,6 +12155,7 @@
  r gSizes
  r gTitleComments
  r g_AI_MoveSuggWeights
+ r g_AnimTagLookupTable
  r g_CapabilityApplicationMap
  r g_DefaultLightstyles
  r g_JobType_CGCClientJobServerUpdateVersion
@@ -12170,6 +12187,7 @@
  r g_pCollisionSolver
  r g_pInterfaceGlobals
  r g_pObjectEventHandler
+ r g_szWeaponPrefixLookupTable
  r ice_keyrot
  r ice_pbox
  r ice_smod
@@ -12627,6 +12645,8 @@
  r s_RemapOperatorNameTable
  r s_RtEnvNameMap
  r s_WeaponAliasTranslationInfo
+ r s_animLayerOrderDefault
+ r s_animLayerOrderWeaponPost
  r s_hex
  r s_pAttributeSize
  r s_pDangerDistFactor
@@ -12885,6 +12905,7 @@
  r typeinfo for CBaseTrigger
  r typeinfo for CBaseVPhysicsTrigger
  r typeinfo for CBaseViewModel
+ r typeinfo for CBaseWeaponWorldModel
  r typeinfo for CBaseWorkshopHTTPRequest
  r typeinfo for CBeam
  r typeinfo for CBeamSpotlight
@@ -13231,6 +13252,7 @@
  r typeinfo for CEntityFactory<CBaseProjectile>
  r typeinfo for CEntityFactory<CBaseTrigger>
  r typeinfo for CEntityFactory<CBaseViewModel>
+ r typeinfo for CEntityFactory<CBaseWeaponWorldModel>
  r typeinfo for CEntityFactory<CBeam>
  r typeinfo for CEntityFactory<CBeamSpotlight>
  r typeinfo for CEntityFactory<CBlendingCycler>
@@ -15383,6 +15405,7 @@
  r typeinfo name for CBaseTrigger
  r typeinfo name for CBaseVPhysicsTrigger
  r typeinfo name for CBaseViewModel
+ r typeinfo name for CBaseWeaponWorldModel
  r typeinfo name for CBaseWorkshopHTTPRequest
  r typeinfo name for CBeam
  r typeinfo name for CBeamSpotlight
@@ -15729,6 +15752,7 @@
  r typeinfo name for CEntityFactory<CBaseProjectile>
  r typeinfo name for CEntityFactory<CBaseTrigger>
  r typeinfo name for CEntityFactory<CBaseViewModel>
+ r typeinfo name for CEntityFactory<CBaseWeaponWorldModel>
  r typeinfo name for CEntityFactory<CBeam>
  r typeinfo name for CEntityFactory<CBeamSpotlight>
  r typeinfo name for CEntityFactory<CBlendingCycler>
@@ -17882,6 +17906,7 @@
  r vtable for CBaseTrigger
  r vtable for CBaseVPhysicsTrigger
  r vtable for CBaseViewModel
+ r vtable for CBaseWeaponWorldModel
  r vtable for CBaseWorkshopHTTPRequest
  r vtable for CBeam
  r vtable for CBeamSpotlight
@@ -18225,6 +18250,7 @@
  r vtable for CEntityFactory<CBaseProjectile>
  r vtable for CEntityFactory<CBaseTrigger>
  r vtable for CEntityFactory<CBaseViewModel>
+ r vtable for CEntityFactory<CBaseWeaponWorldModel>
  r vtable for CEntityFactory<CBeam>
  r vtable for CEntityFactory<CBeamSpotlight>
  r vtable for CEntityFactory<CBlendingCycler>
@@ -23527,8 +23553,8 @@
  t CAttributeList::DestroyAllAttributes()
  t CAttributeList::GetAttributeByClass(char const*)
  t CAttributeList::GetAttributeByClass(char const*) const
- t CAttributeList::GetAttributeByID(int)
- t CAttributeList::GetAttributeByID(int) const
+ t CAttributeList::GetAttributeByDefIndex(unsigned short)
+ t CAttributeList::GetAttributeByDefIndex(unsigned short) const
  t CAttributeList::GetAttributeByName(char const*)
  t CAttributeList::GetAttributeByName(char const*) const
  t CAttributeList::GetBaseMap()
@@ -23675,7 +23701,6 @@
  t CBaseAchievement::~CBaseAchievement()
  t CBaseAnimating::Activate()
  t CBaseAnimating::BecomeRagdollOnClient(Vector const&)
- t CBaseAnimating::BuildMatricesWithBoneMerge(CStudioHdr const*, QAngle const&, Vector const&, Vector const*, Quaternion const*, matrix3x4_t*, CBaseAnimating*, CBoneCache*)
  t CBaseAnimating::CBaseAnimating()
  t CBaseAnimating::CalculateIKLocks(float)
  t CBaseAnimating::CanBecomeRagdoll()
@@ -23700,9 +23725,11 @@
  t CBaseAnimating::FindBodyGroupVariant(int, int)
  t CBaseAnimating::FindBodygroupByName(char const*)
  t CBaseAnimating::FindDamagedBodyGroupVariant(int)
+ t CBaseAnimating::FindFollowedEntity()
  t CBaseAnimating::FindTransitionSequence(int, int, int*)
  t CBaseAnimating::Freeze(float, CBaseEntity*, Ray_t*)
  t CBaseAnimating::GetAnimTimeInterval() const
+ t CBaseAnimating::GetAnySequenceAnimTag(int, int, float)
  t CBaseAnimating::GetAttachment(char const*, Vector&, QAngle&)
  t CBaseAnimating::GetAttachment(char const*, Vector&, Vector*, Vector*, Vector*)
  t CBaseAnimating::GetAttachment(int, Vector&, QAngle&)
@@ -23728,12 +23755,14 @@
  t CBaseAnimating::GetExitNode(int)
  t CBaseAnimating::GetExitVelocity(int)
  t CBaseAnimating::GetEyeballs(Vector&, QAngle&)
+ t CBaseAnimating::GetFirstSequenceAnimTag(int, int, float, float)
  t CBaseAnimating::GetFlexControllerName(LocalFlexController_t)
  t CBaseAnimating::GetFlexControllerType(LocalFlexController_t)
  t CBaseAnimating::GetFlexDescFacs(int)
  t CBaseAnimating::GetGroundSpeedVelocity()
  t CBaseAnimating::GetHitboxBone(int)
  t CBaseAnimating::GetHitboxBonePosition(int, Vector&, QAngle&, QAngle)
+ t CBaseAnimating::GetHitboxBoneTransform(int, QAngle, matrix3x4_t&)
  t CBaseAnimating::GetHitboxSet()
  t CBaseAnimating::GetHitboxSetCount()
  t CBaseAnimating::GetHitboxSetName()
@@ -23805,6 +23834,7 @@
  t CBaseAnimating::LookupBone(char const*)
  t CBaseAnimating::LookupHitbox(char const*, int&, int&)
  t CBaseAnimating::LookupPoseParameter(CStudioHdr*, char const*)
+ t CBaseAnimating::LookupSequence(CStudioHdr*, char const*)
  t CBaseAnimating::LookupSequence(char const*)
  t CBaseAnimating::ModifyOrAppendCriteria(ResponseRules::CriteriaSet&)
  t CBaseAnimating::NetworkStateChanged_m_bClientSideRagdoll()
@@ -23833,6 +23863,7 @@
  t CBaseAnimating::SelectWeightedSequenceFromModifiers(Activity, CUtlSymbol*, int)
  t CBaseAnimating::SequenceDuration(CStudioHdr*, int)
  t CBaseAnimating::SetBodygroup(int, int)
+ t CBaseAnimating::SetBodygroupPreset(char const*)
  t CBaseAnimating::SetBoneController(int, float)
  t CBaseAnimating::SetFadeDistance(float, float)
  t CBaseAnimating::SetHitboxSet(int)
@@ -23868,6 +23899,7 @@
  t CBaseAnimating::UseClientSideAnimation()
  t CBaseAnimating::YouForgotToImplementOrDeclareServerClass()
  t CBaseAnimating::~CBaseAnimating()
+ t CBaseAnimatingOverlay::AccumulateDispatchedLayers(CBaseAnimatingOverlay*, CStudioHdr*, IBoneSetup&, Vector*, Quaternion*, float)
  t CBaseAnimatingOverlay::AddGesture(Activity, bool)
  t CBaseAnimatingOverlay::AddGesture(Activity, float, bool)
  t CBaseAnimatingOverlay::AddGestureSequence(int, bool)
@@ -23877,7 +23909,7 @@
  t CBaseAnimatingOverlay::DispatchAnimEvents(CBaseAnimating*)
  t CBaseAnimatingOverlay::FastRemoveLayer(int)
  t CBaseAnimatingOverlay::FindGestureLayer(Activity)
- t CBaseAnimatingOverlay::GetAnimOverlay(int)
+ t CBaseAnimatingOverlay::GetAnimOverlay(int, bool)
  t CBaseAnimatingOverlay::GetBaseAnimatingOverlay()
  t CBaseAnimatingOverlay::GetBaseMap()
  t CBaseAnimatingOverlay::GetDataDescMap()
@@ -23892,6 +23924,7 @@
  t CBaseAnimatingOverlay::IsPlayingGesture(Activity)
  t CBaseAnimatingOverlay::IsValidLayer(int)
  t CBaseAnimatingOverlay::OnRestore()
+ t CBaseAnimatingOverlay::RegenerateDispatchedLayers(IBoneSetup&, Vector*, Quaternion*, float)
  t CBaseAnimatingOverlay::RemoveAllGestures()
  t CBaseAnimatingOverlay::RemoveGesture(Activity)
  t CBaseAnimatingOverlay::RemoveLayer(int, float, float)
@@ -24200,6 +24233,8 @@
  t CBaseCombatWeapon::CapabilitiesGet()
  t CBaseCombatWeapon::CheckReload()
  t CBaseCombatWeapon::CheckRespawn()
+ t CBaseCombatWeapon::ClassifyWeaponModel()
+ t CBaseCombatWeapon::CreateWeaponWorldModel()
  t CBaseCombatWeapon::DefaultDeploy(char*, char*, int, char*)
  t CBaseCombatWeapon::DefaultReload(int, int, int)
  t CBaseCombatWeapon::DefaultTouch(CBaseEntity*)
@@ -24272,9 +24307,10 @@
  t CBaseCombatWeapon::GetWeaponFlags() const
  t CBaseCombatWeapon::GetWeaponID() const
  t CBaseCombatWeapon::GetWeaponIdleTime()
+ t CBaseCombatWeapon::GetWeaponModelClassification()
  t CBaseCombatWeapon::GetWeight() const
+ t CBaseCombatWeapon::GetWorldDroppedModel() const
  t CBaseCombatWeapon::GetWorldModel() const
- t CBaseCombatWeapon::GetWorldModelPtr()
  t CBaseCombatWeapon::GetWpnData() const
  t CBaseCombatWeapon::GiveDefaultAmmo()
  t CBaseCombatWeapon::GiveReserveAmmo(AmmoPosition_t, int, bool, CBaseCombatCharacter*)
@@ -24290,7 +24326,6 @@
  t CBaseCombatWeapon::Holster(CBaseCombatWeapon*)
  t CBaseCombatWeapon::HolsterOnDetach()
  t CBaseCombatWeapon::InputHideWeapon(inputdata_t&)
- t CBaseCombatWeapon::InvalidateMdlCache()
  t CBaseCombatWeapon::IsAllowedToSwitch()
  t CBaseCombatWeapon::IsAlwaysActive()
  t CBaseCombatWeapon::IsBaseCombatWeapon() const
@@ -24318,10 +24353,12 @@
  t CBaseCombatWeapon::NetworkStateChanged_m_nNextThinkTick(void*)
  t CBaseCombatWeapon::ObjectCaps()
  t CBaseCombatWeapon::OnMouseWheel(int)
+ t CBaseCombatWeapon::OnNewModel()
  t CBaseCombatWeapon::OnPickedUp(CBaseCombatCharacter*)
  t CBaseCombatWeapon::Operator_ForceNPCFire(CBaseCombatCharacter*, bool, CBaseEntity*)
  t CBaseCombatWeapon::Operator_FrameUpdate(CBaseCombatCharacter*)
  t CBaseCombatWeapon::Operator_HandleAnimEvent(animevent_t*, CBaseCombatCharacter*)
+ t CBaseCombatWeapon::PhysicsSimulate()
  t CBaseCombatWeapon::Precache()
  t CBaseCombatWeapon::PrimaryAttack()
  t CBaseCombatWeapon::Ready()
@@ -24348,6 +24385,7 @@
  t CBaseCombatWeapon::ShouldDisplayAltFireHUDHint()
  t CBaseCombatWeapon::ShouldDisplayReloadHUDHint()
  t CBaseCombatWeapon::ShouldShowControlPanels()
+ t CBaseCombatWeapon::ShowWeaponWorldModel(bool)
  t CBaseCombatWeapon::Spawn()
  t CBaseCombatWeapon::StartSprinting()
  t CBaseCombatWeapon::StopSprinting()
@@ -24359,6 +24397,7 @@
  t CBaseCombatWeapon::UsesClipsForAmmo2() const
  t CBaseCombatWeapon::UsesPrimaryAmmo()
  t CBaseCombatWeapon::UsesSecondaryAmmo()
+ t CBaseCombatWeapon::VerifyAndSetContextSensitiveWeaponModel()
  t CBaseCombatWeapon::VisibleInWeaponSelection()
  t CBaseCombatWeapon::WeaponAutoAimScale()
  t CBaseCombatWeapon::WeaponIdle()
@@ -25363,6 +25402,7 @@
  t CBasePlayer::BumpWeapon(CBaseCombatWeapon*)
  t CBasePlayer::CBasePlayer()
  t CBasePlayer::CacheVehicleView()
+ t CBasePlayer::CalcAddViewmodelCameraAnimation(Vector&, QAngle&)
  t CBasePlayer::CalcObserverView(Vector&, QAngle&, float&)
  t CBasePlayer::CalcPlayerView(Vector&, QAngle&, float&)
  t CBasePlayer::CalcRoll(QAngle const&, Vector const&, float, float)
@@ -26152,6 +26192,21 @@
  t CBaseViewModel::ViewModelIndex() const
  t CBaseViewModel::YouForgotToImplementOrDeclareServerClass()
  t CBaseViewModel::~CBaseViewModel()
+ t CBaseWeaponWorldModel::CBaseWeaponWorldModel()
+ t CBaseWeaponWorldModel::GetBaseMap()
+ t CBaseWeaponWorldModel::GetDataDescMap()
+ t CBaseWeaponWorldModel::GetLeftHandAttachBoneIndex()
+ t CBaseWeaponWorldModel::GetMuzzleAttachIndex()
+ t CBaseWeaponWorldModel::GetRightHandAttachBoneIndex()
+ t CBaseWeaponWorldModel::GetServerClass()
+ t CBaseWeaponWorldModel::HandleAnimEvent(animevent_t*)
+ t CBaseWeaponWorldModel::HoldsPlayerAnimations()
+ t CBaseWeaponWorldModel::ResetCachedBoneIndices()
+ t CBaseWeaponWorldModel::SetOwningWeapon(CBaseCombatWeapon*)
+ t CBaseWeaponWorldModel::ShouldTransmit(CCheckTransmitInfo const*)
+ t CBaseWeaponWorldModel::ShowWorldModel(bool)
+ t CBaseWeaponWorldModel::YouForgotToImplementOrDeclareServerClass()
+ t CBaseWeaponWorldModel::~CBaseWeaponWorldModel()
  t CBaseWorkshopHTTPRequest::CBaseWorkshopHTTPRequest(CUtlVector<unsigned long long, CUtlMemory<unsigned long long, int> > const&)
  t CBaseWorkshopHTTPRequest::OnHTTPRequestComplete(HTTPRequestCompleted_t*, bool)
  t CBaseWorkshopHTTPRequest::ProcessHTTPResponse(KeyValues*)
@@ -26233,6 +26288,7 @@
  t CBitRead::ReadLongLong()
  t CBitRead::ReadString(char*, int, bool, int*)
  t CBitRead::ReadVarInt32()
+ t CBitRead::ReadVarInt64()
  t CBitRead::ReadWString(wchar_t*, int, bool, int*)
  t CBitRead::Seek(int)
  t CBitRead::StartReading(void const*, int, int, int)
@@ -26328,6 +26384,16 @@
  t CBoneList::Alloc()
  t CBoneList::CBoneList()
  t CBoneList::Release()
+ t CBoneMergeCache::BuildMatricesWithBoneMerge(CStudioHdr const*, QAngle const&, Vector const&, Vector const*, Quaternion const*, matrix3x4_t*, CBaseAnimating*, CBoneCache*, int)
+ t CBoneMergeCache::CBoneMergeCache()
+ t CBoneMergeCache::CopyFromFollow(Vector const*, Quaternion const*, int, Vector*, Quaternion*)
+ t CBoneMergeCache::CopyToFollow(Vector const*, Quaternion const*, int, Vector*, Quaternion*)
+ t CBoneMergeCache::GetAimEntOrigin(Vector*, QAngle*)
+ t CBoneMergeCache::GetRootBone(matrix3x4_t&)
+ t CBoneMergeCache::Init(CBaseAnimating*)
+ t CBoneMergeCache::IsCopied()
+ t CBoneMergeCache::MergeMatchingPoseParams()
+ t CBoneMergeCache::UpdateCache()
  t CBoneSetup::AccumulatePose(Vector*, Quaternion*, int, float, float, float, CIKContext*)
  t CBoneSetup::AddLocalLayers(Vector*, Quaternion*, mstudioseqdesc_t&, int, float, float, float, CIKContext*)
  t CBoneSetup::AddSequenceLayers(Vector*, Quaternion*, mstudioseqdesc_t&, int, float, float, float, CIKContext*)
@@ -27293,6 +27359,47 @@
  t CCSGCServerSystem::SOUpdated(GCSDK::SOID_t, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
  t CCSGCServerSystem::Shutdown()
  t CCSGCServerSystem::~CCSGCServerSystem()
+ t CCSGOPlayerAnimState::AddActivityModifier(char const*)
+ t CCSGOPlayerAnimState::ApplyLayerOrderPreset(int const*, bool)
+ t CCSGOPlayerAnimState::AreTwitchesAllowed()
+ t CCSGOPlayerAnimState::CCSGOPlayerAnimState(CCSPlayer*)
+ t CCSGOPlayerAnimState::CacheSequences()
+ t CCSGOPlayerAnimState::DoAnimationEvent(PlayerAnimEvent_t, int)
+ t CCSGOPlayerAnimState::GetLayerActivity(animstate_layer_t)
+ t CCSGOPlayerAnimState::GetLayerCycle(animstate_layer_t)
+ t CCSGOPlayerAnimState::GetLayerIdealWeightFromSeqCycle(animstate_layer_t)
+ t CCSGOPlayerAnimState::GetLayerRate(animstate_layer_t)
+ t CCSGOPlayerAnimState::GetLayerSequence(animstate_layer_t)
+ t CCSGOPlayerAnimState::GetLayerWeight(animstate_layer_t)
+ t CCSGOPlayerAnimState::GetWeaponPrefix()
+ t CCSGOPlayerAnimState::IncrementLayerCycle(animstate_layer_t, bool)
+ t CCSGOPlayerAnimState::IncrementLayerCycleWeightRateGeneric(animstate_layer_t)
+ t CCSGOPlayerAnimState::IncrementLayerWeight(animstate_layer_t)
+ t CCSGOPlayerAnimState::IsLayerSequenceCompleted(animstate_layer_t)
+ t CCSGOPlayerAnimState::LayerSequenceHasActMod(animstate_layer_t, char const*)
+ t CCSGOPlayerAnimState::LerpCrouchWalkRun(float, float, float)
+ t CCSGOPlayerAnimState::Reset()
+ t CCSGOPlayerAnimState::SelectDeathPose(CTakeDamageInfo const&, int, Activity&, float&)
+ t CCSGOPlayerAnimState::SelectSequenceFromActMods(Activity)
+ t CCSGOPlayerAnimState::SetLayerCycle(animstate_layer_t, float)
+ t CCSGOPlayerAnimState::SetLayerRate(animstate_layer_t, float)
+ t CCSGOPlayerAnimState::SetLayerSequence(animstate_layer_t, int)
+ t CCSGOPlayerAnimState::SetLayerWeight(animstate_layer_t, float)
+ t CCSGOPlayerAnimState::SetLayerWeightRate(animstate_layer_t, float)
+ t CCSGOPlayerAnimState::SetUpAimMatrix()
+ t CCSGOPlayerAnimState::SetUpAliveloop()
+ t CCSGOPlayerAnimState::SetUpFlashedReaction()
+ t CCSGOPlayerAnimState::SetUpFlinch()
+ t CCSGOPlayerAnimState::SetUpLean()
+ t CCSGOPlayerAnimState::SetUpMovement()
+ t CCSGOPlayerAnimState::SetUpVelocity()
+ t CCSGOPlayerAnimState::SetUpWeaponAction()
+ t CCSGOPlayerAnimState::SetUpWholeBodyAction()
+ t CCSGOPlayerAnimState::Update(float, float, bool)
+ t CCSGOPlayerAnimState::UpdateActivityModifiers()
+ t CCSGOPlayerAnimState::UpdateAnimLayer(animstate_layer_t, int, float, float, float)
+ t CCSGOPlayerAnimState::UpdateLayerOrderPreset(animstate_layer_t, int)
+ t CCSGOPlayerAnimState::WriteAnimstateDebugBuffer(char*)
  t CCSGameMovement::Accelerate(Vector&, float, float)
  t CCSGameMovement::AirMove()
  t CCSGameMovement::CCSGameMovement()
@@ -27327,7 +27434,7 @@
  t CCSGameRules::AddHostageRescueTime()
  t CCSGameRules::AddTeamAccount(int, TeamCashAward::Type)
  t CCSGameRules::AddTeamAccount(int, TeamCashAward::Type, int, char const*)
- t CCSGameRules::AddTeamAccount(int, TeamCashAward::Type, int, char const*) [clone .part.651]
+ t CCSGameRules::AddTeamAccount(int, TeamCashAward::Type, int, char const*) [clone .part.656]
  t CCSGameRules::AllowTaunts()
  t CCSGameRules::AreTeamsPlayingSwitchedSides() const
  t CCSGameRules::AssignStartingMoneyToAllPlayers()
@@ -27804,6 +27911,7 @@
  t CCSPlayer::DestroyWeapons(bool)
  t CCSPlayer::DidPlayerEmptyAmmoForWeapon(CBaseCombatWeapon*)
  t CCSPlayer::DisplayPenetrationDebug(Vector, Vector, float, float, float, float, short, short)
+ t CCSPlayer::DoAnimStateEvent(PlayerAnimEvent_t)
  t CCSPlayer::DoAnimationEvent(PlayerAnimEvent_t, int)
  t CCSPlayer::DoesPlayerGetRoundStartMoney()
  t CCSPlayer::DropC4()
@@ -27834,6 +27942,7 @@
  t CCSPlayer::GetAutoBuyCommandInfo(char const*)
  t CCSPlayer::GetBaseMap()
  t CCSPlayer::GetBulletGroup()
+ t CCSPlayer::GetBulletHitLocalBoneOffset(CGameTrace const&, int&, Vector&, QAngle&)
  t CCSPlayer::GetBulletTypeParameters(int, float&, float&)
  t CCSPlayer::GetCarryLimit(CSWeaponID)
  t CCSPlayer::GetDataDescMap()
@@ -28037,6 +28146,7 @@
  t CCSPlayer::SetHumanPlayerAccountID(unsigned int)
  t CCSPlayer::SetKilledTime(float)
  t CCSPlayer::SetLastKillTime(float)
+ t CCSPlayer::SetModel(char const*)
  t CCSPlayer::SetModelFromClass()
  t CCSPlayer::SetMusicID(unsigned short)
  t CCSPlayer::SetNumMVPs(int)
@@ -28094,7 +28204,7 @@
  t CCSPlayer::TransferInventory(CCSPlayer*)
  t CCSPlayer::Unblind()
  t CCSPlayer::UpdateAddonBits()
- t CCSPlayer::UpdateAppearanceIndex()
+ t CCSPlayer::UpdateDispatchLayer(CAnimationLayer*, CStudioHdr*, int)
  t CCSPlayer::UpdateEquippedCoinFromInventory()
  t CCSPlayer::UpdateEquippedMusicFromInventory()
  t CCSPlayer::UpdateFreezetimeEndEquipmentValue()
@@ -31239,6 +31349,7 @@
  t CEconItemDefinition::GetStickerWorldModelBoneParentNameBySlotIndex(unsigned int) const
  t CEconItemDefinition::GetUidModel() const
  t CEconItemDefinition::GetWorldDisplayModel() const
+ t CEconItemDefinition::GetWorldDroppedModel() const
  t CEconItemDefinition::IgnoreInCollectionView() const
  t CEconItemDefinition::IsAttachedParticleDataValidForStyle(int, int) const
  t CEconItemDefinition::IsBaseItem() const
@@ -31543,6 +31654,7 @@
  t CEconItemView::GetToolStickerMaterial()
  t CEconItemView::GetUidModel()
  t CEconItemView::GetWorldDisplayModel()
+ t CEconItemView::GetWorldDroppedModel()
  t CEconItemView::Init(CEconItem*)
  t CEconItemView::Init(int, int, int, unsigned int)
  t CEconItemView::InitNetworkedDynamicAttributesForDemos()
@@ -31877,6 +31989,9 @@
  t CEntityFactory<CBaseViewModel>::Create(char const*)
  t CEntityFactory<CBaseViewModel>::Destroy(IServerNetworkable*)
  t CEntityFactory<CBaseViewModel>::GetEntitySize()
+ t CEntityFactory<CBaseWeaponWorldModel>::Create(char const*)
+ t CEntityFactory<CBaseWeaponWorldModel>::Destroy(IServerNetworkable*)
+ t CEntityFactory<CBaseWeaponWorldModel>::GetEntitySize()
  t CEntityFactory<CBeam>::Create(char const*)
  t CEntityFactory<CBeam>::Destroy(IServerNetworkable*)
  t CEntityFactory<CBeam>::GetEntitySize()
@@ -35909,6 +36024,7 @@
  t CIKContext::BuildBoneChain(Vector const*, Quaternion const*, int, matrix3x4a_t*, CBoneBitList&)
  t CIKContext::CIKContext()
  t CIKContext::ClearTargets()
+ t CIKContext::CopyTo(CIKContext*, unsigned short const*)
  t CIKContext::Init(CStudioHdr const*, QAngle const&, Vector const&, float, int, int)
  t CIKContext::SolveAllLocks(Vector*, Quaternion*)
  t CIKContext::SolveAutoplayLocks(Vector*, Quaternion*)
@@ -47623,10 +47739,11 @@
  t CUtlMemory<CBasePublishedFileRequest*, int>::Grow(int)
  t CUtlMemory<CBaseServerVehicle::entryanim_t, int>::Grow(int)
  t CUtlMemory<CBaseServerVehicle::exitanim_t, int>::Grow(int)
+ t CUtlMemory<CBoneMergeCache::CMergedBone, int>::Grow(int)
+ t CUtlMemory<CBoneMergeCache::CMergedBone, int>::~CUtlMemory()
  t CUtlMemory<CCSBot*, int>::Grow(int)
  t CUtlMemory<CCSBotManager::Zone const*, int>::Grow(int)
  t CUtlMemory<CCSPlayer*, int>::Grow(int)
- t CUtlMemory<CCStrike15ItemDefinition const*, int>::Grow(int)
  t CUtlMemory<CChoreoActor*, int>::Grow(int)
  t CUtlMemory<CChoreoChannel*, int>::Grow(int)
  t CUtlMemory<CChoreoChannel*, int>::~CUtlMemory()
@@ -47841,6 +47958,7 @@
  t CUtlMemory<CUtlPair<unsigned long long, char const*>, int>::Grow(int)
  t CUtlMemory<CUtlPair<unsigned long long, char const*>, int>::~CUtlMemory()
  t CUtlMemory<CUtlString, int>::Grow(int)
+ t CUtlMemory<CUtlSymbol, int>::Grow(int)
  t CUtlMemory<CUtlSymbolLarge, int>::Grow(int)
  t CUtlMemory<CUtlSymbolTable::StringPool_t*, int>::Grow(int)
  t CUtlMemory<CUtlSymbolTable::StringPool_t*, int>::~CUtlMemory()
@@ -48137,7 +48255,7 @@
  t CUtlMemory<inflictorstate_t, int>::~CUtlMemory()
  t CUtlMemory<int, int>::Grow(int)
  t CUtlMemory<int, int>::Grow(int) [clone .part.159]
- t CUtlMemory<int, int>::Grow(int) [clone .part.701]
+ t CUtlMemory<int, int>::Grow(int) [clone .part.706]
  t CUtlMemory<int, int>::Purge()
  t CUtlMemory<int, int>::~CUtlMemory()
  t CUtlMemory<item_list_entry_t, int>::Grow(int)
@@ -49364,6 +49482,9 @@
  t CUtlVector<CBasePlayer*, CUtlMemoryFixedGrowable<CBasePlayer*, 2u, int> >::GrowVector(int)
  t CUtlVector<CBaseServerVehicle::entryanim_t, CUtlMemory<CBaseServerVehicle::entryanim_t, int> >::~CUtlVector()
  t CUtlVector<CBaseServerVehicle::exitanim_t, CUtlMemory<CBaseServerVehicle::exitanim_t, int> >::~CUtlVector()
+ t CUtlVector<CBoneMergeCache::CMergedBone, CUtlMemory<CBoneMergeCache::CMergedBone, int> >::InsertBefore(int, CBoneMergeCache::CMergedBone const&)
+ t CUtlVector<CBoneMergeCache::CMergedBone, CUtlMemory<CBoneMergeCache::CMergedBone, int> >::Purge()
+ t CUtlVector<CBoneMergeCache::CMergedBone, CUtlMemory<CBoneMergeCache::CMergedBone, int> >::~CUtlVector()
  t CUtlVector<CCSBot*, CUtlMemory<CCSBot*, int> >::InsertBefore(int, CCSBot* const&)
  t CUtlVector<CCSBot*, CUtlMemory<CCSBot*, int> >::~CUtlVector()
  t CUtlVector<CCSBotManager::Zone const*, CUtlMemory<CCSBotManager::Zone const*, int> >::InsertBefore(int, CCSBotManager::Zone const* const&)
@@ -49373,7 +49494,6 @@
  t CUtlVector<CCSPlayer*, CUtlMemory<CCSPlayer*, int> >::Remove(int)
  t CUtlVector<CCSPlayer*, CUtlMemory<CCSPlayer*, int> >::Sort(int (*)(CCSPlayer* const*, CCSPlayer* const*))
  t CUtlVector<CCSPlayer*, CUtlMemory<CCSPlayer*, int> >::~CUtlVector()
- t CUtlVector<CCStrike15ItemDefinition const*, CUtlMemory<CCStrike15ItemDefinition const*, int> >::InsertBefore(int, CCStrike15ItemDefinition const* const&)
  t CUtlVector<CChoreoActor*, CUtlMemory<CChoreoActor*, int> >::InsertBefore(int, CChoreoActor* const&)
  t CUtlVector<CChoreoActor*, CUtlMemory<CChoreoActor*, int> >::Remove(int)
  t CUtlVector<CChoreoActor*, CUtlMemory<CChoreoActor*, int> >::~CUtlVector()
@@ -49682,6 +49802,7 @@
  t CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >::SetCountNonDestructively(int)
  t CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >::ShiftElementsRight(int, int)
  t CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >::~CUtlVector()
+ t CUtlVector<CUtlSymbol, CUtlMemory<CUtlSymbol, int> >::InsertBefore(int, CUtlSymbol const&)
  t CUtlVector<CUtlSymbolLarge, CUtlMemory<CUtlSymbolLarge, int> >::EnsureCount(int)
  t CUtlVector<CUtlSymbolTable::StringPool_t*, CUtlMemory<CUtlSymbolTable::StringPool_t*, int> >::InsertBefore(int, CUtlSymbolTable::StringPool_t* const&)
  t CUtlVector<CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048u>::StringPool_t*, CUtlMemory<CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048u>::StringPool_t*, int> >::InsertBefore(int, CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048u>::StringPool_t* const&)
@@ -49733,8 +49854,10 @@
  t CUtlVector<CUtlVector<VoiceCommandMenuItem_t, CUtlMemory<VoiceCommandMenuItem_t, int> >, CUtlMemory<CUtlVector<VoiceCommandMenuItem_t, CUtlMemory<VoiceCommandMenuItem_t, int> >, int> >::InsertBefore(int)
  t CUtlVector<CUtlVector<VoiceCommandMenuItem_t, CUtlMemory<VoiceCommandMenuItem_t, int> >, CUtlMemory<CUtlVector<VoiceCommandMenuItem_t, CUtlMemory<VoiceCommandMenuItem_t, int> >, int> >::RemoveAll()
  t CUtlVector<CUtlVector<VoiceCommandMenuItem_t, CUtlMemory<VoiceCommandMenuItem_t, int> >, CUtlMemory<CUtlVector<VoiceCommandMenuItem_t, CUtlMemory<VoiceCommandMenuItem_t, int> >, int> >::~CUtlVector()
+ t CUtlVector<CUtlVector<ikcontextikrule_t, CUtlMemory<ikcontextikrule_t, int> >, CUtlMemory<CUtlVector<ikcontextikrule_t, CUtlMemory<ikcontextikrule_t, int> >, int> >::GrowVector(int)
  t CUtlVector<CUtlVector<ikcontextikrule_t, CUtlMemory<ikcontextikrule_t, int> >, CUtlMemory<CUtlVector<ikcontextikrule_t, CUtlMemory<ikcontextikrule_t, int> >, int> >::RemoveAll()
  t CUtlVector<CUtlVector<ikcontextikrule_t, CUtlMemory<ikcontextikrule_t, int> >, CUtlMemory<CUtlVector<ikcontextikrule_t, CUtlMemory<ikcontextikrule_t, int> >, int> >::SetCount(int)
+ t CUtlVector<CUtlVector<ikcontextikrule_t, CUtlMemory<ikcontextikrule_t, int> >, CUtlMemory<CUtlVector<ikcontextikrule_t, CUtlMemory<ikcontextikrule_t, int> >, int> >::ShiftElementsRight(int, int)
  t CUtlVector<CUtlVector<ikcontextikrule_t, CUtlMemory<ikcontextikrule_t, int> >, CUtlMemory<CUtlVector<ikcontextikrule_t, CUtlMemory<ikcontextikrule_t, int> >, int> >::~CUtlVector()
  t CUtlVector<CUtlVector<int, CUtlMemory<int, int> >, CUtlMemory<CUtlVector<int, CUtlMemory<int, int> >, int> >::RemoveAll()
  t CUtlVector<CUtlVector<int, CUtlMemory<int, int> >, CUtlMemory<CUtlVector<int, CUtlMemory<int, int> >, int> >::SetCount(int)
@@ -50965,6 +51088,9 @@
  t CaptionLookup_t::SetHash(char const*) [clone .isra.46] [clone .constprop.556]
  t CaselessStringLessThan(char const* const&, char const* const&)
  t CaselessStringLessThanIgnoreSlashes(char const* const&, char const* const&)
+ t CastCapsuleRay(CShapeCastResult&, Vector const&, Vector const&, Vector const*, float)
+ t CastCapsuleRay2DCoaxialInternal(CapsuleCast2D_t&, float, float, float, float) [clone .constprop.8]
+ t CastSphereRay(CShapeCastResult&, Vector const&, Vector const&, Vector const&, float)
  t Catmull_Rom_Spline(Vector const&, Vector const&, Vector const&, Vector const&, float, Vector&)
  t Catmull_Rom_Spline_Integral(Vector const&, Vector const&, Vector const&, Vector const&, Vector&)
  t Catmull_Rom_Spline_Integral(Vector const&, Vector const&, Vector const&, Vector const&, float, Vector&)
@@ -50985,6 +51111,7 @@
  t CheckNavFile(char const*)
  t ChoreEventStartTimeLessFunc(CChoreoEvent* const&, CChoreoEvent* const&)
  t ChoreoLoadScene(char const*, IChoreoEventCallback*, ISceneTokenProcessor*, void (*)(char const*, ...))
+ t ClampCycle(float)
  t ClassifyCorners(Vector*, Vector&, Vector&, Vector&, Vector&)
  t ClassifySniperSpot(HidingSpot*)
  t CleanupApproachAreaAnalysisPrep()
@@ -51021,7 +51148,7 @@
  t ClipPolyToPlane_Precise(double*, int, double*, double const*, double, double)
  t ClipPolyToPlane_SIMD(float __vector(4)*, int, float __vector(4)*, float __vector(4) const&, float)
  t ClipPolyToPlane_SIMD(float __vector*, int, float __vector*, float __vector const&, float)
- t ClipRayToHitbox(Ray_t const&, mstudiobbox_t*, matrix3x4_t&, CGameTrace&) [clone .isra.40]
+ t ClipRayToHitbox(Ray_t const&, mstudiobbox_t*, matrix3x4_t&, CGameTrace&)
  t CloneString(char const*)
  t CloseZipU(HZIP__*)
  t CloseZipZ(HZIP__*)
@@ -51236,6 +51363,7 @@
  t CountdownTimer::Start(float)
  t CreateAirboat(CBasePlayer*)
  t CreateBoneFollowersFromRagdoll(CBaseAnimating*, CBoneFollowerManager*, vcollide_t*)
+ t CreateCSGOPlayerAnimstate(CBaseAnimatingOverlay*)
  t CreateDmxElement(char const*)
  t CreateEconItemStringTable()
  t CreateEntitiesInTransitionList(CSaveRestoreData*, int)
@@ -51677,6 +51805,7 @@
  t FileWeaponInfo_t::GetSecondaryClipSize(CEconItemView const*, int, float) const
  t FileWeaponInfo_t::GetSecondaryReserveAmmoMax(CEconItemView const*, int, float) const
  t FileWeaponInfo_t::GetViewModel(CEconItemView const*, int) const
+ t FileWeaponInfo_t::GetWorldDroppedModel(CEconItemView const*, int) const
  t FileWeaponInfo_t::GetWorldModel(CEconItemView const*, int) const
  t FileWeaponInfo_t::Parse(KeyValues*, char const*)
  t FileWeaponInfo_t::RefreshDynamicParameters()
@@ -52459,6 +52588,7 @@
  t GetAllySpeechManager()
  t GetAmmoDef()
  t GetAnimationEvent(CStudioHdr*, int, animevent_t*, float, float, int)
+ t GetAnySequenceAnimTag(CStudioHdr*, int, int, float)
  t GetApiBaseUrl()
  t GetAssetModifierType(char const*)
  t GetAttachTypeFromString(char const*)
@@ -52508,6 +52638,7 @@
  t GetEyePosition(CStudioHdr*, Vector&)
  t GetFadeParms(CCommand const&, float&, color32_s&) [clone .constprop.469]
  t GetFileWeaponInfoFromHandle(unsigned short)
+ t GetFirstSequenceAnimTag(CStudioHdr*, int, int, float, float)
  t GetFloorDistance(Vector const&)
  t GetFloorZ(Vector const&)
  t GetFloorZ(Vector const&, float)
@@ -52689,7 +52820,7 @@
  t Helper_CleanupStringForSaveRoundDataInformation(char*)
  t Helper_DoesPlayerHaveAssassinateQuestForTeam(CCSPlayer*, int)
  t Helper_ExtractIntegersFromValuesString(char const*, CCopyableUtlVector<unsigned int>&)
- t Helper_FilenameTokenReplace(char*, int, char const*, char const*) [clone .constprop.1173]
+ t Helper_FilenameTokenReplace(char*, int, char const*, char const*) [clone .constprop.1178]
  t Helper_FillServerReservationStateAndPlayers(CMsgGCCStrike15_v2_MatchmakingServerReservationResponse&)
  t Helper_GetNullWeaponInfo()
  t Helper_GetZoneForPlaceName(char const*)
@@ -52940,6 +53071,7 @@
  t IdleState::UpdateCoop(CCSBot*)
  t ImprovedPerlinNoise(Vector const&)
  t ImpulseScale(float, float)
+ t IndexFromAnimTagName(char const*)
  t IndexModelSequences(CStudioHdr*)
  t InferExpresserFromBaseEntity(CBaseEntity*)
  t InheritKeyValuesRTLMulti(KeyValues*, CEconItemSchema&)
@@ -53369,6 +53501,7 @@
  t NDebugOverlay::Box(Vector const&, Vector const&, Vector const&, int, int, int, int, float)
  t NDebugOverlay::BoxAngles(Vector const&, Vector const&, Vector const&, QAngle const&, int, int, int, int, float)
  t NDebugOverlay::BoxDirection(Vector const&, Vector const&, Vector const&, Vector const&, int, int, int, int, float)
+ t NDebugOverlay::Capsule(Vector const&, Vector const&, float const&, int, int, int, int, float)
  t NDebugOverlay::Circle(Vector const&, QAngle const&, float, int, int, int, int, bool, float)
  t NDebugOverlay::Circle(Vector const&, Vector const&, Vector const&, float, int, int, int, int, bool, float)
  t NDebugOverlay::Circle(Vector const&, float, int, int, int, int, bool, float)
@@ -54358,6 +54491,7 @@
  t SetActivityForSequence(CStudioHdr*, int)
  t SetBitBufErrorHandler(void (*)(BitBufErrorType, char const*))
  t SetBodygroup(CStudioHdr*, int&, int, int)
+ t SetBodygroupPreset(CStudioHdr*, int&, char const*)
  t SetCustomNameOrDescAttribute(CEconItem*, CEconItemAttributeDefinition const*, char const*)
  t SetDebugBits(CBasePlayer*, char const*, int)
  t SetEventIndexForSequence(mstudioseqdesc_t&)
@@ -55225,6 +55359,7 @@
  t _GLOBAL__sub_I_TheBots
  t _GLOBAL__sub_I_TheFogVolumes
  t _GLOBAL__sub_I_TheNavMesh
+ t _GLOBAL__sub_I__Z10ClampCyclef
  t _GLOBAL__sub_I__Z10HashStringPKc
  t _GLOBAL__sub_I__Z10ItemSystemv
  t _GLOBAL__sub_I__Z11ExtractBboxP10CStudioHdriR6VectorS2_
@@ -55234,8 +55369,10 @@
  t _GLOBAL__sub_I__Z12ReadIntervalPKc
  t _GLOBAL__sub_I__Z12SeedRandSIMDj
  t _GLOBAL__sub_I__Z12WriteUsercmdP8bf_writePK8CUserCmdS3_
+ t _GLOBAL__sub_I__Z13CastSphereRayR16CShapeCastResultRK6VectorS3_S3_f
  t _GLOBAL__sub_I__Z13PhysicsSplashP23IPhysicsFluidControllerP14IPhysicsObjectP11CBaseEntity
  t _GLOBAL__sub_I__Z13SharedVarArgsPKcz
+ t _GLOBAL__sub_I__Z14CastCapsuleRayR16CShapeCastResultRK6VectorS3_PS2_f
  t _GLOBAL__sub_I__Z14CreateUniqueIdP10UniqueId_t
  t _GLOBAL__sub_I__Z14GetLocalPlayerv
  t _GLOBAL__sub_I__Z14IsSpotOccupiedP11CBaseEntityRK6Vector
@@ -55484,6 +55621,7 @@
  t _GLOBAL__sub_I__ZN15CAutoGameSystemC2EPKc
  t _GLOBAL__sub_I__ZN15CBaseProjectile9m_DataMapE
  t _GLOBAL__sub_I__ZN15CBaseTempEntity14GetServerClassEv
+ t _GLOBAL__sub_I__ZN15CBoneMergeCacheC2Ev
  t _GLOBAL__sub_I__ZN15CCSHLTVDirector13SetHLTVServerEP11IHLTVServer
  t _GLOBAL__sub_I__ZN15CEntityDissolve9m_DataMapE
  t _GLOBAL__sub_I__ZN15CEntityFreezing9m_DataMapE
@@ -55529,7 +55667,6 @@
  t _GLOBAL__sub_I__ZN16CWeaponCSBaseGun14GetServerClassEv
  t _GLOBAL__sub_I__ZN17CAI_BaseFlyingBot9m_DataMapE
  t _GLOBAL__sub_I__ZN17CAttributeManager9m_DataMapE
- t _GLOBAL__sub_I__ZN17CBaseCombatWeaponC2Ev
  t _GLOBAL__sub_I__ZN17CCSPlayerResource14GetServerClassEv
  t _GLOBAL__sub_I__ZN17CEnvDOFController9m_DataMapE
  t _GLOBAL__sub_I__ZN17CEnvScreenOverlay9m_DataMapE
@@ -55589,6 +55726,7 @@
  t _GLOBAL__sub_I__ZN20CIronSightControllerC2Ev
  t _GLOBAL__sub_I__ZN20ParticleSmokeGrenade14GetServerClassEv
  t _GLOBAL__sub_I__ZN20item_defuserPrecache18CResourcePrecacher5CacheEP16IPrecacheHandlerbP16ResourceList_t(bool)
+ t _GLOBAL__sub_I__ZN21CBaseWeaponWorldModel14GetServerClassEv
  t _GLOBAL__sub_I__ZN21CEnvTonemapController9m_DataMapE
  t _GLOBAL__sub_I__ZN21CFuncAreaPortalWindow14GetServerClassEv
  t _GLOBAL__sub_I__ZN21CLogicMeasureMovement9m_DataMapE
@@ -56319,6 +56457,10 @@
  t ai_test_los(CCommand const&)
  t ainet_generate_report(CCommand const&)
  t ainet_generate_report_only(CCommand const&)
+ t animstate_pose_param_cache_t::GetIndex()
+ t animstate_pose_param_cache_t::GetValue(CCSPlayer*)
+ t animstate_pose_param_cache_t::Init(CCSPlayer*, char const*)
+ t animstate_pose_param_cache_t::SetValue(CCSPlayer*, float)
  t announcer_preview_t::~announcer_preview_t()
  t audioparams_t::GetBaseMap()
  t audioparams_t::NetworkStateChanged()
@@ -56326,7 +56468,10 @@
  t base_from_cb_data
  t base_from_object
  t base_of_encoded_value(unsigned char, _Unwind_Context*)
+ t bf_write::ByteSizeSignedVarInt32(int)
+ t bf_write::ByteSizeSignedVarInt64(long long)
  t bf_write::ByteSizeVarInt32(unsigned int)
+ t bf_write::ByteSizeVarInt64(unsigned long long)
  t bf_write::GetDebugName()
  t bf_write::Reset()
  t bf_write::SeekToBit(int)
@@ -56353,10 +56498,13 @@
  t bf_write::WriteLongLong(long long)
  t bf_write::WriteSBitLong(int, int)
  t bf_write::WriteShort(int)
+ t bf_write::WriteSignedVarInt32(int)
+ t bf_write::WriteSignedVarInt64(long long)
  t bf_write::WriteString(char const*)
  t bf_write::WriteString(wchar_t const*)
  t bf_write::WriteUBitVar(unsigned int)
  t bf_write::WriteVarInt32(unsigned int)
+ t bf_write::WriteVarInt64(unsigned long long)
  t bf_write::WriteWord(unsigned int)
  t bf_write::bf_write()
  t bf_write::bf_write(char const*, void*, int, int)
@@ -56691,6 +56839,7 @@
  t datamap_t* DataMapInit<CBaseTrigger>(CBaseTrigger*)
  t datamap_t* DataMapInit<CBaseVPhysicsTrigger>(CBaseVPhysicsTrigger*)
  t datamap_t* DataMapInit<CBaseViewModel>(CBaseViewModel*)
+ t datamap_t* DataMapInit<CBaseWeaponWorldModel>(CBaseWeaponWorldModel*)
  t datamap_t* DataMapInit<CBeam>(CBeam*)
  t datamap_t* DataMapInit<CBeamSpotlight>(CBeamSpotlight*)
  t datamap_t* DataMapInit<CBlendingCycler>(CBlendingCycler*)
@@ -57268,6 +57417,7 @@
  t int ServerClassInit<DT_BaseTrigger::ignored>(DT_BaseTrigger::ignored*)
  t int ServerClassInit<DT_BaseVPhysicsTrigger::ignored>(DT_BaseVPhysicsTrigger::ignored*)
  t int ServerClassInit<DT_BaseViewModel::ignored>(DT_BaseViewModel::ignored*)
+ t int ServerClassInit<DT_BaseWeaponWorldModel::ignored>(DT_BaseWeaponWorldModel::ignored*)
  t int ServerClassInit<DT_Beam::ignored>(DT_Beam::ignored*)
  t int ServerClassInit<DT_BeamSpotlight::ignored>(DT_BeamSpotlight::ignored*)
  t int ServerClassInit<DT_BoneFollower::ignored>(DT_BoneFollower::ignored*)
@@ -57510,6 +57660,7 @@
  t int ServerClassInit<DT_WeaponUMP45::ignored>(DT_WeaponUMP45::ignored*)
  t int ServerClassInit<DT_WeaponUSP::ignored>(DT_WeaponUSP::ignored*)
  t int ServerClassInit<DT_WeaponXM1014::ignored>(DT_WeaponXM1014::ignored*)
+ t int V_sprintf_safe<128u>(char (&) [128u], char const*, ...)
  t int V_sprintf_safe<16u>(char (&) [16u], char const*, ...)
  t int V_sprintf_safe<255u>(char (&) [255u], char const*, ...)
  t int V_sprintf_safe<256u>(char (&) [256u], char const*, ...)
@@ -58141,6 +58292,8 @@
  t old_bf_read::ReadShort()
  t old_bf_read::ReadString(char*, int, bool, int*)
  t old_bf_read::ReadUBitVar()
+ t old_bf_read::ReadVarInt32()
+ t old_bf_read::ReadVarInt64()
  t old_bf_read::ReadWString(wchar_t*, int, bool, int*)
  t old_bf_read::ReadWord()
  t old_bf_read::Reset()

@@ -207,6 +207,6 @@ esac
 
 if ! [[ $2 = "no-git" ]]; then
 	git add -A
-#	git commit -a -m "$(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g')"
-#	git push
+	git commit -a -m "$(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g')"
+	git push
 fi
