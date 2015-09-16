@@ -41,11 +41,18 @@ ProcessDepot ()
 		
 		strings "$file" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/$2/$baseFile.txt"
 		
+		nmBinary=nm
+		
 		if [ "$3" = ".dylib" ]
+		then
+			nmBinary=./.support/nm-with-macho
+		fi
+		
+		if [ "$3" = ".dylib" ] || [ "$3" = ".so" ]
 		then
 			mkdir -p "Symbols/$2"
 			
-			./.support/nm-with-macho -C -p "$file" | grep -Evi "GCC_except_table|google::protobuf" | awk '{$1=""; print $0}' | sort -u > "Symbols/$2/$baseFile.txt"
+			$nmBinary -C -p "$file" | grep -Evi "GCC_except_table|google::protobuf" | awk '{$1=""; print $0}' | sort -u > "Symbols/$2/$baseFile.txt"
 		fi
 		
 		#if [ "$3" != ".dylib" ] || [ "$2" = "csgo" ]
@@ -92,6 +99,10 @@ case $1 in
 
 733)
 	ProcessDepot "$1" "csgo" ".dylib"
+	;;
+
+740)
+	ProcessDepot "$1" "csgo" ".so"
 	;;
 
 # Dota 2
@@ -196,6 +207,6 @@ esac
 
 if ! [[ $2 = "no-git" ]]; then
 	git add -A
-	git commit -a -m "$(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g')"
-	git push
+#	git commit -a -m "$(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g')"
+#	git push
 fi
