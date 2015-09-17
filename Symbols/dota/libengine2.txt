@@ -776,6 +776,7 @@
  B r_drawskybox
  B r_drawvgui
  B r_drawviewmodel
+ B r_experimental_lag_limiter
  B r_farplane
  B r_force_zprepass
  B r_indirectlighting
@@ -2954,6 +2955,7 @@
  D typeinfo for CRefCountServiceBase<true, CRefMT>
  D typeinfo for CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >
  D typeinfo for CRefCounted<CRefCountServiceBase<true, CRefMT> >
+ D typeinfo for CRefreshRateGetter
  D typeinfo for CRegistry
  D typeinfo for CRenderService
  D typeinfo for CRenderingWorldSession
@@ -3579,6 +3581,7 @@
  D typeinfo for IProtobufBinding
  D typeinfo for IRefCounted
  D typeinfo for IRegistry
+ D typeinfo for IRenderDeviceEventListener
  D typeinfo for IRenderDeviceSetup
  D typeinfo for IRenderHandler
  D typeinfo for IRenderService
@@ -4743,6 +4746,7 @@
  D vtable for CRadiusData
  D vtable for CRadiusData_CCornerRadius
  D vtable for CRealMemoryDemoBuffer
+ D vtable for CRefreshRateGetter
  D vtable for CRegistry
  D vtable for CRenderService
  D vtable for CRenderingWorldSession
@@ -6056,6 +6060,7 @@
  R typeinfo name for CRefCountServiceBase<true, CRefMT>
  R typeinfo name for CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >
  R typeinfo name for CRefCounted<CRefCountServiceBase<true, CRefMT> >
+ R typeinfo name for CRefreshRateGetter
  R typeinfo name for CRegistry
  R typeinfo name for CRenderService
  R typeinfo name for CRenderingWorldSession
@@ -6681,6 +6686,7 @@
  R typeinfo name for IProtobufBinding
  R typeinfo name for IRefCounted
  R typeinfo name for IRegistry
+ R typeinfo name for IRenderDeviceEventListener
  R typeinfo name for IRenderDeviceSetup
  R typeinfo name for IRenderHandler
  R typeinfo name for IRenderService
@@ -10138,7 +10144,7 @@
  T CHeapCompactionService::CHeapCompactionService()
  T CHeapCompactionService::MemCompact(CCommandContext const&, CCommand const&)
  T CHeapCompactionService::MemCompactIncremental(CCommandContext const&, CCommand const&)
- T CHeapCompactionService::OnFrameBoundary(EventFrameBoundary_t const&)
+ T CHeapCompactionService::OnClientPostOutput(EventClientPostOutput_t const&)
  T CHeapCompactionService::RegisterEventMap(CEventDispatcher<CEventIDManager_Default>*, EventMapRegistrationType_t)
  T CHeapCompactionService::~CHeapCompactionService()
  T CHitBox::CHitBox()
@@ -13579,6 +13585,10 @@
  T CRefCountServiceBase<true, CRefMT>::OnFinalRelease()
  T CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >::AddRef()
  T CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >::Release()
+ T CRefreshRateGetter::OnDeviceCreated()
+ T CRefreshRateGetter::OnDeviceLost()
+ T CRefreshRateGetter::OnDeviceRestored()
+ T CRefreshRateGetter::OnModeChanged(RenderDeviceInfo_t const&)
  T CRegistry::DirectInit(char const*)
  T CRegistry::Init(char const*)
  T CRegistry::ReadInt(char const*, char const*, int)
@@ -21710,8 +21720,8 @@
  b CHLTVServer::ConnectRelay(CUtlVector<ns_address, CUtlMemory<ns_address, int> > const&)::rate
  b CHLTVServer::GetRelayAddress()::adr
  b CHLTVServer::UpdateHibernationState()::s_bHasRelayed
- b CHeapCompactionService::OnFrameBoundary(EventFrameBoundary_t const&)::s_bLowPagedPoolMemoryWarning
- b CHeapCompactionService::OnFrameBoundary(EventFrameBoundary_t const&)::s_flLastWarningTime
+ b CHeapCompactionService::OnClientPostOutput(EventClientPostOutput_t const&)::s_bLowPagedPoolMemoryWarning
+ b CHeapCompactionService::OnClientPostOutput(EventClientPostOutput_t const&)::s_flLastWarningTime
  b CHitBox::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b CHitBoxSet::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b CHitBoxSetList::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
