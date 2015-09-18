@@ -364,6 +364,8 @@
 (anonymous namespace)::CSVCMsg_GameSessionConfiguration_reflection_
 (anonymous namespace)::CSVCMsg_GetCvarValue_descriptor_
 (anonymous namespace)::CSVCMsg_GetCvarValue_reflection_
+(anonymous namespace)::CSVCMsg_HLTVStatus_descriptor_
+(anonymous namespace)::CSVCMsg_HLTVStatus_reflection_
 (anonymous namespace)::CSVCMsg_Menu_descriptor_
 (anonymous namespace)::CSVCMsg_Menu_reflection_
 (anonymous namespace)::CSVCMsg_PacketEntities_descriptor_
@@ -735,8 +737,8 @@ ADDONS
 ARARA
 ARARARBRBRBRBRBRBRBRAp
 ARASA
-ARATARARARAp
-ARATARARASAp
+ARATARARARBp
+ARATARARASBp
 ARAp0p
 ARBR0
 ARBRASA
@@ -754,7 +756,7 @@ ARBRBTAp
 ARBRBVBRBRBVBRBYASA
 ARBRBWAp
 ARBRBp
-ARBRFSAp
+ARBRDSAp
 ARBSARB
 ARBSAp
 ARBTA
@@ -4688,6 +4690,7 @@ CHLTVClientState::ProcessClassInfo(CSVCMsg_ClassInfo_t const&)
 CHLTVClientState::ProcessClearAllStringTables(CSVCMsg_ClearAllStringTables_t const&)
 CHLTVClientState::ProcessConnectionClosed(NetMessageConnectionClosed_t const&)
 CHLTVClientState::ProcessConnectionCrashed(NetMessageConnectionCrashed_t const&)
+CHLTVClientState::ProcessHLTVStatus(CSVCMsg_HLTVStatus_t const&)
 CHLTVClientState::ProcessMenu(CSVCMsg_Menu_t const&)
 CHLTVClientState::ProcessPacketEnd(NetMessagePacketEnd_t const&)
 CHLTVClientState::ProcessPacketEntities(CSVCMsg_PacketEntities_t const&)
@@ -4899,6 +4902,8 @@ CInputService::EnableKeyBindingSystem(bool)
 CInputService::EndCursorConfinementMode()
 CInputService::EnumerateRegisteredInputValues(bool (*)(CInputValueBase*, void*), void*) const
 CInputService::ExecConfigFile(CCommandContext const&, CCommand const&)
+CInputService::ExecConfigFileIfExists(CCommandContext const&, CCommand const&)
+CInputService::ExecConfigFile_Internal(CCommandContext const&, CCommand const&, bool)
 CInputService::FilterKey(InputEvent_t const&, CSplitScreenSlot, int)
 CInputService::FindBinding(CCommandContext const&, CCommand const&)
 CInputService::FindBindingSubstringMatch(char*, char const*)
@@ -7247,6 +7252,7 @@ CNetworkGameClientBase::ProcessCreateStringTable(CSVCMsg_CreateStringTable_t con
 CNetworkGameClientBase::ProcessFlattenedSerializer(CSVCMsg_FlattenedSerializer_t const&)
 CNetworkGameClientBase::ProcessFullFrameSplit(CSVCMsg_FullFrameSplit_t const&)
 CNetworkGameClientBase::ProcessGetCvarValue(CSVCMsg_GetCvarValue_t const&)
+CNetworkGameClientBase::ProcessHLTVStatus(CSVCMsg_HLTVStatus_t const&)
 CNetworkGameClientBase::ProcessMenu(CSVCMsg_Menu_t const&)
 CNetworkGameClientBase::ProcessPacketEnd(NetMessagePacketEnd_t const&)
 CNetworkGameClientBase::ProcessPacketEntities(CSVCMsg_PacketEntities_t const&)
@@ -8528,6 +8534,21 @@ CSVCMsg_GetCvarValue::SerializeWithCachedSizesToArray(unsigned char*) const
 CSVCMsg_GetCvarValue::SetCachedSize(int) const
 CSVCMsg_GetCvarValue::default_instance_
 CSVCMsg_GetCvarValue::~CSVCMsg_GetCvarValue()
+CSVCMsg_HLTVStatus
+CSVCMsg_HLTVStatus::ByteSize() const
+CSVCMsg_HLTVStatus::CSVCMsg_HLTVStatus()
+CSVCMsg_HLTVStatus::CSVCMsg_HLTVStatus(CSVCMsg_HLTVStatus const&)
+CSVCMsg_HLTVStatus::Clear()
+CSVCMsg_HLTVStatus::CopyFrom(CSVCMsg_HLTVStatus const&)
+CSVCMsg_HLTVStatus::GetCachedSize() const
+CSVCMsg_HLTVStatus::GetMetadata() const
+CSVCMsg_HLTVStatus::IsInitialized() const
+CSVCMsg_HLTVStatus::MergeFrom(CSVCMsg_HLTVStatus const&)
+CSVCMsg_HLTVStatus::New() const
+CSVCMsg_HLTVStatus::SerializeWithCachedSizesToArray(unsigned char*) const
+CSVCMsg_HLTVStatus::SetCachedSize(int) const
+CSVCMsg_HLTVStatus::default_instance_
+CSVCMsg_HLTVStatus::~CSVCMsg_HLTVStatus()
 CSVCMsg_Menu
 CSVCMsg_Menu::ByteSize() const
 CSVCMsg_Menu::CSVCMsg_Menu()
@@ -11755,7 +11776,7 @@ CToolService::GetEconItemSystem_Server()
 CToolService::GetEntityInfo(int, KeyValues&, IToolFramework2Host::EntityListSource_t)
 CToolService::GetEntityList(IToolFramework2Host::EntityList_t&, IToolFramework2Host::EntityListSource_t)
 CToolService::GetGlobalLightParameters(int*, float*, float*)
-CToolService::GetInfoForEconItems(char const*, char const*, CUtlVector<EconItemInfo_t, CUtlMemory<EconItemInfo_t, int> >&)
+CToolService::GetInfoForEconItems(char const*, char const*, bool, bool, CUtlVector<EconItemInfo_t, CUtlMemory<EconItemInfo_t, int> >&)
 CToolService::GetLoadedMapName() const
 CToolService::GetModelCombineInfo(CWeakHandle<InfoForResourceTypeCModel>, CStrongHandleCopyable<InfoForResourceTypeCModel>*, int*, CUtlVector<CStrongHandleCopyable<InfoForResourceTypeCModel>, CUtlMemory<CStrongHandleCopyable<InfoForResourceTypeCModel>, int> > const**, CUtlVector<int, CUtlMemory<int, int> > const**)
 CToolService::GetNavMeshData(CNavData*)
@@ -14446,7 +14467,7 @@ KeyValues::~KeyValues()
 Kfff.
 KillFocus
 L941tE
-L95s19
+L95389
 LABEL_OPTIONAL
 LABEL_REPEATED
 LABEL_REQUIRED
@@ -14806,6 +14827,7 @@ NetMessageHandle_t__* INetworkMessages::FindOrCreateNetMessage<CSVCMsg_CreateStr
 NetMessageHandle_t__* INetworkMessages::FindOrCreateNetMessage<CSVCMsg_FlattenedSerializer_t>(INetworkSerializerBindingBuildFilter*, bool, bool)::nMessageHandle
 NetMessageHandle_t__* INetworkMessages::FindOrCreateNetMessage<CSVCMsg_FullFrameSplit_t>(INetworkSerializerBindingBuildFilter*, bool, bool)::nMessageHandle
 NetMessageHandle_t__* INetworkMessages::FindOrCreateNetMessage<CSVCMsg_GetCvarValue_t>(INetworkSerializerBindingBuildFilter*, bool, bool)::nMessageHandle
+NetMessageHandle_t__* INetworkMessages::FindOrCreateNetMessage<CSVCMsg_HLTVStatus_t>(INetworkSerializerBindingBuildFilter*, bool, bool)::nMessageHandle
 NetMessageHandle_t__* INetworkMessages::FindOrCreateNetMessage<CSVCMsg_Menu_t>(INetworkSerializerBindingBuildFilter*, bool, bool)::nMessageHandle
 NetMessageHandle_t__* INetworkMessages::FindOrCreateNetMessage<CSVCMsg_PacketEntities_t>(INetworkSerializerBindingBuildFilter*, bool, bool)::nMessageHandle
 NetMessageHandle_t__* INetworkMessages::FindOrCreateNetMessage<CSVCMsg_PacketReliable_t>(INetworkSerializerBindingBuildFilter*, bool, bool)::nMessageHandle
@@ -15132,7 +15154,7 @@ QueryPort
 QueuedLoaderVersion001
 Quitting
 R16F_EXPAND
-RATARARA
+RATARARB
 RAVATARA
 RBRAp
 RBRBRBRAp
@@ -15480,7 +15502,6 @@ RunGameEngine005
 SAXAp
 SBRAp
 SBTBRBRG
-SBZASBRBRBRBp
 SCVBRBVBRBVBRBYASAp
 SDL_VIDEO_MAC_FULLSCREEN_SPACES
 SDL_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN
@@ -16591,7 +16612,6 @@ X360_DST24F
 XBRBXBRBXBRBXBRBXBRBXBRBSAp
 XboxSystemInterface001
 Xffff.
-Y5IK6
 YARBp
 Yfff.
 Zfffff.
@@ -18587,6 +18607,7 @@ clientframe.cpp
 clientinsetx_override
 clientport
 clientportany
+clients
 clientsideentity
 climbable
 clockdriftmgr.cpp
@@ -19051,6 +19072,7 @@ eventdispatcher.cpp
 eventid
 events
 eventsource
+execifexists
 execute_command_every_frame
 expandbutton.cpp
 experimental_map_key
@@ -20378,6 +20400,7 @@ mapcyclefile
 maplist
 maplistservice.cpp
 mapname
+master
 mat_drawTitleSafe
 mat_fullbright
 mat_no_renderable_passes
@@ -20775,6 +20798,7 @@ p8p8p
 pHct2
 pHpHp
 pPUARAp
+pXRBp
 pXRERA
 pXRERAp
 pXRERAp0p0p
@@ -20839,7 +20863,6 @@ perftraceimpl.cpp
 permanently
 permrendermeshdata_h_schema.gen_cpp
 perspective_depth
-phRBp
 physaggregatedata.cpp
 physics
 physicsresourcehelpers_h_schema.gen_cpp
@@ -20890,6 +20913,7 @@ props
 proto_oob_h_schema.gen_cpp
 protocol
 protocol_h_schema.gen_cpp
+proxies
 public
 public_dependency
 publiccontent
@@ -21314,6 +21338,7 @@ sint64
 skiptotick
 skiptotime
 sky_name
+slots
 snappy-sinksource.cpp
 snappy.cpp
 snappy::ByteArraySource
@@ -21794,24 +21819,20 @@ svc_CmdKeyValues
 svc_CreateStringTable
 svc_FlattenedSerializer
 svc_FullFrameSplit
-svc_GameEvent
-svc_GameEventList
 svc_GetCvarValue
+svc_HLTVStatus
 svc_Menu
 svc_PacketEntities
 svc_PacketReliable
 svc_PeerList
 svc_Prefetch
-svc_SendTable
 svc_ServerInfo
 svc_SetPause
 svc_SetView
 svc_Sounds
 svc_SplitScreen
 svc_StopSound
-svc_TempEntities
 svc_UpdateStringTable
-svc_UserMessage
 svc_VoiceData
 svc_VoiceInit
 symbols
@@ -22708,6 +22729,7 @@ typeinfo for CSVCMsg_GameEventList_key_t
 typeinfo for CSVCMsg_GameEvent_key_t
 typeinfo for CSVCMsg_GameSessionConfiguration
 typeinfo for CSVCMsg_GetCvarValue
+typeinfo for CSVCMsg_HLTVStatus
 typeinfo for CSVCMsg_Menu
 typeinfo for CSVCMsg_PacketEntities
 typeinfo for CSVCMsg_PacketEntities_t
@@ -24142,6 +24164,7 @@ typeinfo name for CSVCMsg_GameEventList_key_t
 typeinfo name for CSVCMsg_GameEvent_key_t
 typeinfo name for CSVCMsg_GameSessionConfiguration
 typeinfo name for CSVCMsg_GetCvarValue
+typeinfo name for CSVCMsg_HLTVStatus
 typeinfo name for CSVCMsg_Menu
 typeinfo name for CSVCMsg_PacketEntities
 typeinfo name for CSVCMsg_PacketEntities_t
@@ -28489,6 +28512,7 @@ vtable for CSVCMsg_GameEventList_key_t
 vtable for CSVCMsg_GameEvent_key_t
 vtable for CSVCMsg_GameSessionConfiguration
 vtable for CSVCMsg_GetCvarValue
+vtable for CSVCMsg_HLTVStatus
 vtable for CSVCMsg_Menu
 vtable for CSVCMsg_PacketEntities
 vtable for CSVCMsg_PacketEntities_t
