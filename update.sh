@@ -82,6 +82,7 @@ case $1 in
 # Team Fortress 2
 441)
 	ProcessVPK "$1"
+	mono ./.support/SourceDecompiler/Decompiler.exe -i "$1/tf/tf2_misc_dir.vpk" -o "$1/tf/tf2_misc_dir/"
 	
 	iconv -t UTF-8 -f UCS-2 -o "$1/tf/resource/tf_english_utf8.txt" "$1/tf/resource/tf_english.txt"
 	;;
