@@ -761,6 +761,26 @@
 			"brighttext"	"0"
 			"disabledfgcolor2_override"	"117 107 94 255"
 		}
+		"TagCheckbox_UnusualEffect"
+		{
+			"ControlName"	"CheckButton"
+			"fieldName"		"TagCheckbox_UnusualEffect"
+			"labelText"		"#TF_SteamWorkshop_Tag_UnusualEffect"
+			"Font"			"ItemFontAttribSmall"
+			"textAlignment"	"west"
+			"xpos"			"85"
+			"ypos"			"145"
+			"zpos"			"1"
+			"wide"			"75"
+			"tall"			"20"
+			"autoResize"	"0"
+			"pinCorner"		"0"
+			"visible"		"1"
+			"enabled"		"1"
+			"dulltext"		"0"
+			"brighttext"	"0"
+			"disabledfgcolor2_override"	"117 107 94 255"
+		}
 
 		"MapsCheckBox_CTF"
 		{
