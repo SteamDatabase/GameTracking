@@ -297,6 +297,18 @@ model:CreateSequence(
 		},
 		weightlist = "no_ball",
 		activities = {
+			{ name = "ACT_DOTA_STATUE_SEQUENCE", weight = 1 }
+		}
+	}
+)
+model:CreateSequence(
+	{
+		name = "cast1_FortunesEnd_anim",
+		sequences = {
+			{ "@cast1_FortunesEnd_anim" }
+		},
+		weightlist = "no_ball",
+		activities = {
 			{ name = "ACT_DOTA_CAST_ABILITY_1", weight = 1 }
 		}
 	}
