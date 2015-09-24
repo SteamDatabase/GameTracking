@@ -1022,6 +1022,7 @@
  B CTFFlareGun_DataDescInit::g_DataMapHolder
  B CTFForceRespawn_DataDescInit::g_DataMapHolder
  B CTFGameRulesProxy_DataDescInit::g_DataMapHolder
+ B CTFGenericBomb_DataDescInit::g_DataMapHolder
  B CTFGrapplingHook_DataDescInit::g_DataMapHolder
  B CTFGrenadeLauncher_DataDescInit::g_DataMapHolder
  B CTFGrenadePipebombProjectile_DataDescInit::g_DataMapHolder
@@ -1046,6 +1047,7 @@
  B CTFPasstimeLogic_DataDescInit::g_DataMapHolder
  B CTFPipebombLauncher_DataDescInit::g_DataMapHolder
  B CTFPistol_DataDescInit::g_DataMapHolder
+ B CTFPlayerDestructionLogic_DataDescInit::g_DataMapHolder
  B CTFPlayer_DataDescInit::g_DataMapHolder
  B CTFPointWeaponMimic_DataDescInit::g_DataMapHolder
  B CTFPowerupBottle_DataDescInit::g_DataMapHolder
@@ -1622,6 +1624,8 @@
  B DT_TFGameRules::g_SendTableInit
  B DT_TFGameRulesProxy::g_SendTable
  B DT_TFGameRulesProxy::g_SendTableInit
+ B DT_TFGenericBomb::g_SendTable
+ B DT_TFGenericBomb::g_SendTableInit
  B DT_TFHalloweenMinigame::g_SendTable
  B DT_TFHalloweenMinigame::g_SendTableInit
  B DT_TFHalloweenMinigame_FallingPlatforms::g_SendTable
@@ -1664,6 +1668,8 @@
  B DT_TFPlayerClassShared::g_SendTableInit
  B DT_TFPlayerConditionListExclusive::g_SendTable
  B DT_TFPlayerConditionListExclusive::g_SendTableInit
+ B DT_TFPlayerDestructionLogic::g_SendTable
+ B DT_TFPlayerDestructionLogic::g_SendTableInit
  B DT_TFPlayerResource::g_SendTable
  B DT_TFPlayerResource::g_SendTableInit
  B DT_TFPlayerScoringDataExclusive::g_SendTable
@@ -1995,6 +2001,7 @@
  B IRobotDestructionGroupAutoList::m_IRobotDestructionGroupAutoListAutoList
  B ITFBotHintEntityAutoList::m_ITFBotHintEntityAutoListAutoList
  B ITFFlameEntityAutoList::m_ITFFlameEntityAutoListAutoList
+ B ITFGenericBomb::m_ITFGenericBombAutoList
  B ITFMerasmusTrickOrTreatProp::m_ITFMerasmusTrickOrTreatPropAutoList
  B ITFPumpkinBomb::m_ITFPumpkinBombAutoList
  B ITFTargetDummy::m_ITFTargetDummyAutoList
@@ -2820,6 +2827,8 @@
  B sv_vote_issue_classlimits_cooldown
  B sv_vote_issue_classlimits_max
  B sv_vote_issue_classlimits_max_mvm
+ B sv_vote_issue_extendlevel_allowed
+ B sv_vote_issue_extendlevel_quorum
  B sv_vote_issue_kick_allowed
  B sv_vote_issue_kick_allowed_mvm
  B sv_vote_issue_kick_limit_mvm
@@ -3267,15 +3276,31 @@
  B tf_passtime_flinch_boost
  B tf_passtime_mode_homing_lock_sec
  B tf_passtime_mode_homing_speed
- B tf_passtime_mode_launch_charge_sec
- B tf_passtime_mode_launch_speed_max
- B tf_passtime_mode_launch_speed_min
  B tf_passtime_player_reticles_enemies
  B tf_passtime_player_reticles_friends
  B tf_passtime_score_crit_sec
  B tf_passtime_speedboost_on_get_ball_time
  B tf_passtime_steal_on_melee
  B tf_passtime_teammate_steal_time
+ B tf_passtime_throwarc_demoman
+ B tf_passtime_throwarc_engineer
+ B tf_passtime_throwarc_heavy
+ B tf_passtime_throwarc_medic
+ B tf_passtime_throwarc_pyro
+ B tf_passtime_throwarc_scout
+ B tf_passtime_throwarc_sniper
+ B tf_passtime_throwarc_soldier
+ B tf_passtime_throwarc_spy
+ B tf_passtime_throwspeed_demoman
+ B tf_passtime_throwspeed_engineer
+ B tf_passtime_throwspeed_heavy
+ B tf_passtime_throwspeed_medic
+ B tf_passtime_throwspeed_pyro
+ B tf_passtime_throwspeed_scout
+ B tf_passtime_throwspeed_sniper
+ B tf_passtime_throwspeed_soldier
+ B tf_passtime_throwspeed_spy
+ B tf_passtime_throwspeed_velocity_scale
  B tf_pipebomb_deflect_reset_time
  B tf_pipebomb_force_to_move
  B tf_player_drop_bonus_ducks
@@ -4033,6 +4058,7 @@
  D CTFForceRespawn::m_DataMap
  D CTFGameRules::ItemTesting_GetBotAnimSpeed()::pHostTimescale
  D CTFGameRulesProxy::m_DataMap
+ D CTFGenericBomb::m_DataMap
  D CTFGrapplingHook::m_DataMap
  D CTFGrenadeLauncher::m_DataMap
  D CTFGrenadeLauncher::m_pClassSendTable
@@ -4068,6 +4094,7 @@
  D CTFPistol_Scout::m_pClassSendTable
  D CTFPlayer::m_DataMap
  D CTFPlayer::m_bTFPlayerNeedsPrecache
+ D CTFPlayerDestructionLogic::m_DataMap
  D CTFPointWeaponMimic::m_DataMap
  D CTFPowerup::m_DataMap
  D CTFPowerupBottle::m_DataMap
@@ -4088,6 +4115,7 @@
  D CTFReviveMarker::m_DataMap
  D CTFRevolver::m_DataMap
  D CTFRobotDestructionLogic::m_DataMap
+ D CTFRobotDestructionLogic::m_pClassSendTable
  D CTFRobotDestruction_Robot::m_DataMap
  D CTFRobotDestruction_RobotGroup::m_DataMap
  D CTFRobotDestruction_RobotSpawn::m_DataMap
@@ -5408,6 +5436,8 @@
  D datamap_t* DataMapInit<CTFForceRespawn>(CTFForceRespawn*)::nameHolder
  D datamap_t* DataMapInit<CTFGameRulesProxy>(CTFGameRulesProxy*)::dataDesc
  D datamap_t* DataMapInit<CTFGameRulesProxy>(CTFGameRulesProxy*)::nameHolder
+ D datamap_t* DataMapInit<CTFGenericBomb>(CTFGenericBomb*)::dataDesc
+ D datamap_t* DataMapInit<CTFGenericBomb>(CTFGenericBomb*)::nameHolder
  D datamap_t* DataMapInit<CTFGrapplingHook>(CTFGrapplingHook*)::dataDesc
  D datamap_t* DataMapInit<CTFGrapplingHook>(CTFGrapplingHook*)::nameHolder
  D datamap_t* DataMapInit<CTFGrenadeLauncher>(CTFGrenadeLauncher*)::dataDesc
@@ -5452,6 +5482,8 @@
  D datamap_t* DataMapInit<CTFPistol>(CTFPistol*)::nameHolder
  D datamap_t* DataMapInit<CTFPlayer>(CTFPlayer*)::dataDesc
  D datamap_t* DataMapInit<CTFPlayer>(CTFPlayer*)::nameHolder
+ D datamap_t* DataMapInit<CTFPlayerDestructionLogic>(CTFPlayerDestructionLogic*)::dataDesc
+ D datamap_t* DataMapInit<CTFPlayerDestructionLogic>(CTFPlayerDestructionLogic*)::nameHolder
  D datamap_t* DataMapInit<CTFPointWeaponMimic>(CTFPointWeaponMimic*)::dataDesc
  D datamap_t* DataMapInit<CTFPointWeaponMimic>(CTFPointWeaponMimic*)::nameHolder
  D datamap_t* DataMapInit<CTFPowerup>(CTFPowerup*)::dataDesc
@@ -6741,6 +6773,8 @@
  D guard variable for datamap_t* DataMapInit<CTFForceRespawn>(CTFForceRespawn*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFGameRulesProxy>(CTFGameRulesProxy*)::dataDesc
  D guard variable for datamap_t* DataMapInit<CTFGameRulesProxy>(CTFGameRulesProxy*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CTFGenericBomb>(CTFGenericBomb*)::dataDesc
+ D guard variable for datamap_t* DataMapInit<CTFGenericBomb>(CTFGenericBomb*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFGrapplingHook>(CTFGrapplingHook*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFGrenadeLauncher>(CTFGrenadeLauncher*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFGrenadePipebombProjectile>(CTFGrenadePipebombProjectile*)::nameHolder
@@ -6768,6 +6802,8 @@
  D guard variable for datamap_t* DataMapInit<CTFPipebombLauncher>(CTFPipebombLauncher*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFPistol>(CTFPistol*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFPlayer>(CTFPlayer*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CTFPlayerDestructionLogic>(CTFPlayerDestructionLogic*)::dataDesc
+ D guard variable for datamap_t* DataMapInit<CTFPlayerDestructionLogic>(CTFPlayerDestructionLogic*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFPointWeaponMimic>(CTFPointWeaponMimic*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFPowerup>(CTFPowerup*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CTFPowerupBottle>(CTFPowerupBottle*)::nameHolder
@@ -7189,6 +7225,7 @@
  D guard variable for int ServerClassInit<DT_TFFlameRocket::ignored>(DT_TFFlameRocket::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFGameRules::ignored>(DT_TFGameRules::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFGameRulesProxy::ignored>(DT_TFGameRulesProxy::ignored*)::g_SendProps
+ D guard variable for int ServerClassInit<DT_TFGenericBomb::ignored>(DT_TFGenericBomb::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFHalloweenMinigame::ignored>(DT_TFHalloweenMinigame::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFHalloweenMinigame_FallingPlatforms::ignored>(DT_TFHalloweenMinigame_FallingPlatforms::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFHellZap::ignored>(DT_TFHellZap::ignored*)::g_SendProps
@@ -7210,6 +7247,7 @@
  D guard variable for int ServerClassInit<DT_TFPlayer::ignored>(DT_TFPlayer::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFPlayerClassShared::ignored>(DT_TFPlayerClassShared::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFPlayerConditionListExclusive::ignored>(DT_TFPlayerConditionListExclusive::ignored*)::g_SendProps
+ D guard variable for int ServerClassInit<DT_TFPlayerDestructionLogic::ignored>(DT_TFPlayerDestructionLogic::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFPlayerResource::ignored>(DT_TFPlayerResource::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFPlayerScoringDataExclusive::ignored>(DT_TFPlayerScoringDataExclusive::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_TFPlayerShared::ignored>(DT_TFPlayerShared::ignored*)::g_SendProps
@@ -7808,6 +7846,8 @@
  D int ServerClassInit<DT_TFGameRules::ignored>(DT_TFGameRules::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_TFGameRulesProxy::ignored>(DT_TFGameRulesProxy::ignored*)::g_SendProps
  D int ServerClassInit<DT_TFGameRulesProxy::ignored>(DT_TFGameRulesProxy::ignored*)::g_pSendTableName
+ D int ServerClassInit<DT_TFGenericBomb::ignored>(DT_TFGenericBomb::ignored*)::g_SendProps
+ D int ServerClassInit<DT_TFGenericBomb::ignored>(DT_TFGenericBomb::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_TFHalloweenMinigame::ignored>(DT_TFHalloweenMinigame::ignored*)::g_SendProps
  D int ServerClassInit<DT_TFHalloweenMinigame::ignored>(DT_TFHalloweenMinigame::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_TFHalloweenMinigame_FallingPlatforms::ignored>(DT_TFHalloweenMinigame_FallingPlatforms::ignored*)::g_SendProps
@@ -7850,6 +7890,8 @@
  D int ServerClassInit<DT_TFPlayerClassShared::ignored>(DT_TFPlayerClassShared::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_TFPlayerConditionListExclusive::ignored>(DT_TFPlayerConditionListExclusive::ignored*)::g_SendProps
  D int ServerClassInit<DT_TFPlayerConditionListExclusive::ignored>(DT_TFPlayerConditionListExclusive::ignored*)::g_pSendTableName
+ D int ServerClassInit<DT_TFPlayerDestructionLogic::ignored>(DT_TFPlayerDestructionLogic::ignored*)::g_SendProps
+ D int ServerClassInit<DT_TFPlayerDestructionLogic::ignored>(DT_TFPlayerDestructionLogic::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_TFPlayerResource::ignored>(DT_TFPlayerResource::ignored*)::g_SendProps
  D int ServerClassInit<DT_TFPlayerResource::ignored>(DT_TFPlayerResource::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_TFPlayerScoringDataExclusive::ignored>(DT_TFPlayerScoringDataExclusive::ignored*)::g_SendProps
@@ -8964,6 +9006,7 @@
  D typeinfo for CEntityFactory<CTFFlareGun_Revenge>
  D typeinfo for CEntityFactory<CTFForceRespawn>
  D typeinfo for CEntityFactory<CTFGameRulesProxy>
+ D typeinfo for CEntityFactory<CTFGenericBomb>
  D typeinfo for CEntityFactory<CTFGrapplingHook>
  D typeinfo for CEntityFactory<CTFGrenadeLauncher>
  D typeinfo for CEntityFactory<CTFGrenadePipebombProjectile>
@@ -9001,6 +9044,7 @@
  D typeinfo for CEntityFactory<CTFPistol_ScoutPrimary>
  D typeinfo for CEntityFactory<CTFPistol_ScoutSecondary>
  D typeinfo for CEntityFactory<CTFPlayer>
+ D typeinfo for CEntityFactory<CTFPlayerDestructionLogic>
  D typeinfo for CEntityFactory<CTFPlayerResource>
  D typeinfo for CEntityFactory<CTFPointWeaponMimic>
  D typeinfo for CEntityFactory<CTFPowerupBottle>
@@ -9228,6 +9272,7 @@
  D typeinfo for CEventQueueSaveLoadProxy
  D typeinfo for CEventQueue_SaveRestoreBlockHandler
  D typeinfo for CEventsSaveDataOps
+ D typeinfo for CExtendLevelIssue
  D typeinfo for CExtraMapEntity
  D typeinfo for CExtraMapEntity_Carrier
  D typeinfo for CExtraMapEntity_Rocket
@@ -10262,6 +10307,8 @@
  D typeinfo for CTFGameRules
  D typeinfo for CTFGameRulesProxy
  D typeinfo for CTFGameStats
+ D typeinfo for CTFGenericBomb
+ D typeinfo for CTFGenericBombShim
  D typeinfo for CTFGenericStringRestriction
  D typeinfo for CTFGotoActionPoint
  D typeinfo for CTFGrapplingHook
@@ -10320,6 +10367,7 @@
  D typeinfo for CTFPlayerClass
  D typeinfo for CTFPlayerClassDataMgr
  D typeinfo for CTFPlayerClassShared
+ D typeinfo for CTFPlayerDestructionLogic
  D typeinfo for CTFPlayerInfo
  D typeinfo for CTFPlayerInventory
  D typeinfo for CTFPlayerMove
@@ -11085,6 +11133,7 @@
  D typeinfo for ITFBotHintEntityAutoList
  D typeinfo for ITFChargeUpWeapon
  D typeinfo for ITFFlameEntityAutoList
+ D typeinfo for ITFGenericBomb
  D typeinfo for ITFMerasmusTrickOrTreatProp
  D typeinfo for ITFPumpkinBomb
  D typeinfo for ITFTargetDummy
@@ -11905,6 +11954,7 @@
  D vtable for CEntityFactory<CTFFlareGun_Revenge>
  D vtable for CEntityFactory<CTFForceRespawn>
  D vtable for CEntityFactory<CTFGameRulesProxy>
+ D vtable for CEntityFactory<CTFGenericBomb>
  D vtable for CEntityFactory<CTFGrapplingHook>
  D vtable for CEntityFactory<CTFGrenadeLauncher>
  D vtable for CEntityFactory<CTFGrenadePipebombProjectile>
@@ -11942,6 +11992,7 @@
  D vtable for CEntityFactory<CTFPistol_ScoutPrimary>
  D vtable for CEntityFactory<CTFPistol_ScoutSecondary>
  D vtable for CEntityFactory<CTFPlayer>
+ D vtable for CEntityFactory<CTFPlayerDestructionLogic>
  D vtable for CEntityFactory<CTFPlayerResource>
  D vtable for CEntityFactory<CTFPointWeaponMimic>
  D vtable for CEntityFactory<CTFPowerupBottle>
@@ -12169,6 +12220,7 @@
  D vtable for CEventQueueSaveLoadProxy
  D vtable for CEventQueue_SaveRestoreBlockHandler
  D vtable for CEventsSaveDataOps
+ D vtable for CExtendLevelIssue
  D vtable for CExtraMapEntity_Carrier
  D vtable for CExtraMapEntity_Rocket
  D vtable for CExtraMapEntity_Saucer
@@ -13176,6 +13228,8 @@
  D vtable for CTFGameRules
  D vtable for CTFGameRulesProxy
  D vtable for CTFGameStats
+ D vtable for CTFGenericBomb
+ D vtable for CTFGenericBombShim
  D vtable for CTFGotoActionPoint
  D vtable for CTFGrapplingHook
  D vtable for CTFGrenadeLauncher
@@ -13233,6 +13287,7 @@
  D vtable for CTFPlayerClass
  D vtable for CTFPlayerClassDataMgr
  D vtable for CTFPlayerClassShared
+ D vtable for CTFPlayerDestructionLogic
  D vtable for CTFPlayerInfo
  D vtable for CTFPlayerInventory
  D vtable for CTFPlayerMove
@@ -13819,6 +13874,7 @@
  D vtable for IScorer
  D vtable for ITFBotHintEntityAutoList
  D vtable for ITFFlameEntityAutoList
+ D vtable for ITFGenericBomb
  D vtable for ITFMerasmusTrickOrTreatProp
  D vtable for ITFPumpkinBomb
  D vtable for ITFTargetDummy
@@ -14676,6 +14732,7 @@
  R typeinfo name for CEntityFactory<CTFFlareGun_Revenge>
  R typeinfo name for CEntityFactory<CTFForceRespawn>
  R typeinfo name for CEntityFactory<CTFGameRulesProxy>
+ R typeinfo name for CEntityFactory<CTFGenericBomb>
  R typeinfo name for CEntityFactory<CTFGrapplingHook>
  R typeinfo name for CEntityFactory<CTFGrenadeLauncher>
  R typeinfo name for CEntityFactory<CTFGrenadePipebombProjectile>
@@ -14713,6 +14770,7 @@
  R typeinfo name for CEntityFactory<CTFPistol_ScoutPrimary>
  R typeinfo name for CEntityFactory<CTFPistol_ScoutSecondary>
  R typeinfo name for CEntityFactory<CTFPlayer>
+ R typeinfo name for CEntityFactory<CTFPlayerDestructionLogic>
  R typeinfo name for CEntityFactory<CTFPlayerResource>
  R typeinfo name for CEntityFactory<CTFPointWeaponMimic>
  R typeinfo name for CEntityFactory<CTFPowerupBottle>
@@ -14940,6 +14998,7 @@
  R typeinfo name for CEventQueueSaveLoadProxy
  R typeinfo name for CEventQueue_SaveRestoreBlockHandler
  R typeinfo name for CEventsSaveDataOps
+ R typeinfo name for CExtendLevelIssue
  R typeinfo name for CExtraMapEntity
  R typeinfo name for CExtraMapEntity_Carrier
  R typeinfo name for CExtraMapEntity_Rocket
@@ -15974,6 +16033,8 @@
  R typeinfo name for CTFGameRules
  R typeinfo name for CTFGameRulesProxy
  R typeinfo name for CTFGameStats
+ R typeinfo name for CTFGenericBomb
+ R typeinfo name for CTFGenericBombShim
  R typeinfo name for CTFGenericStringRestriction
  R typeinfo name for CTFGotoActionPoint
  R typeinfo name for CTFGrapplingHook
@@ -16032,6 +16093,7 @@
  R typeinfo name for CTFPlayerClass
  R typeinfo name for CTFPlayerClassDataMgr
  R typeinfo name for CTFPlayerClassShared
+ R typeinfo name for CTFPlayerDestructionLogic
  R typeinfo name for CTFPlayerInfo
  R typeinfo name for CTFPlayerInventory
  R typeinfo name for CTFPlayerMove
@@ -16797,6 +16859,7 @@
  R typeinfo name for ITFBotHintEntityAutoList
  R typeinfo name for ITFChargeUpWeapon
  R typeinfo name for ITFFlameEntityAutoList
+ R typeinfo name for ITFGenericBomb
  R typeinfo name for ITFMerasmusTrickOrTreatProp
  R typeinfo name for ITFPumpkinBomb
  R typeinfo name for ITFTargetDummy
@@ -21905,6 +21968,7 @@
  T CBaseTrigger::GetDataDescMap()
  T CBaseTrigger::InitTrigger()
  T CBaseTrigger::InputDisable(inputdata_t&)
+ T CBaseTrigger::InputDisableAndEndTouch(inputdata_t&)
  T CBaseTrigger::InputEnable(inputdata_t&)
  T CBaseTrigger::InputEndTouch(inputdata_t&)
  T CBaseTrigger::InputStartTouch(inputdata_t&)
@@ -22446,6 +22510,7 @@
  T CCaptureFlag::AddPointValue(int)
  T CCaptureFlag::CCaptureFlag()
  T CCaptureFlag::Capture(CTFPlayer*, int)
+ T CCaptureFlag::Create(Vector const&, char const*, ETFFlagType)
  T CCaptureFlag::CreateReturnIcon()
  T CCaptureFlag::Drop(CTFPlayer*, bool, bool, bool)
  T CCaptureFlag::FlagTouch(CBaseEntity*)
@@ -22493,12 +22558,15 @@
  T CCaptureFlagReturnIcon::UpdateTransmitState()
  T CCaptureFlagReturnIcon::YouForgotToImplementOrDeclareServerClass()
  T CCaptureFlagReturnIcon::~CCaptureFlagReturnIcon()
+ T CCaptureZone::Activate()
+ T CCaptureZone::CCaptureZone()
  T CCaptureZone::Capture(CBaseEntity*)
  T CCaptureZone::GetDataDescMap()
  T CCaptureZone::GetServerClass()
  T CCaptureZone::InputDisable(inputdata_t&)
  T CCaptureZone::InputEnable(inputdata_t&)
  T CCaptureZone::IsDisabled()
+ T CCaptureZone::PlayerDestructionThink()
  T CCaptureZone::SetDisabled(bool)
  T CCaptureZone::ShimTouch(CBaseEntity*)
  T CCaptureZone::Spawn()
@@ -24865,6 +24933,9 @@
  T CEntityFactory<CTFGameRulesProxy>::Create(char const*)
  T CEntityFactory<CTFGameRulesProxy>::Destroy(IServerNetworkable*)
  T CEntityFactory<CTFGameRulesProxy>::GetEntitySize()
+ T CEntityFactory<CTFGenericBomb>::Create(char const*)
+ T CEntityFactory<CTFGenericBomb>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CTFGenericBomb>::GetEntitySize()
  T CEntityFactory<CTFGrapplingHook>::Create(char const*)
  T CEntityFactory<CTFGrapplingHook>::Destroy(IServerNetworkable*)
  T CEntityFactory<CTFGrapplingHook>::GetEntitySize()
@@ -24976,6 +25047,9 @@
  T CEntityFactory<CTFPlayer>::Create(char const*)
  T CEntityFactory<CTFPlayer>::Destroy(IServerNetworkable*)
  T CEntityFactory<CTFPlayer>::GetEntitySize()
+ T CEntityFactory<CTFPlayerDestructionLogic>::Create(char const*)
+ T CEntityFactory<CTFPlayerDestructionLogic>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CTFPlayerDestructionLogic>::GetEntitySize()
  T CEntityFactory<CTFPlayerResource>::Create(char const*)
  T CEntityFactory<CTFPlayerResource>::Destroy(IServerNetworkable*)
  T CEntityFactory<CTFPlayerResource>::GetEntitySize()
@@ -25938,6 +26012,15 @@
  T CEventsSaveDataOps::Parse(SaveRestoreFieldInfo_t const&, char const*)
  T CEventsSaveDataOps::Restore(SaveRestoreFieldInfo_t const&, IRestore*)
  T CEventsSaveDataOps::Save(SaveRestoreFieldInfo_t const&, ISave*)
+ T CExtendLevelIssue::CanCallVote(int, char const*, vote_create_failed_t&, int&)
+ T CExtendLevelIssue::ExecuteCommand()
+ T CExtendLevelIssue::GetDisplayString()
+ T CExtendLevelIssue::GetQuorumRatio()
+ T CExtendLevelIssue::GetVotePassedString()
+ T CExtendLevelIssue::IsEnabled()
+ T CExtendLevelIssue::IsTeamRestrictedVote()
+ T CExtendLevelIssue::ListIssueDetails(CBasePlayer*)
+ T CExtendLevelIssue::~CExtendLevelIssue()
  T CExtraMapEntity::AnimThink()
  T CExtraMapEntity::GetDataDescMap()
  T CExtraMapEntity::Precache()
@@ -32365,7 +32448,7 @@
  T CPasstimeGun::ActivityList(int&)
  T CPasstimeGun::BValidPassTarget(CTFPlayer*, CTFPlayer*, HudNotification_t*)
  T CPasstimeGun::CPasstimeGun()
- T CPasstimeGun::CalcLaunch(CTFPlayer*, float, bool)
+ T CPasstimeGun::CalcLaunch(CTFPlayer*, bool)
  T CPasstimeGun::CanBeSelected()
  T CPasstimeGun::CanCharge()
  T CPasstimeGun::CanDeploy()
@@ -35949,6 +36032,7 @@
  T CTFCompoundBow::AddPipeBomb(CTFGrenadePipebombProjectile*)
  T CTFCompoundBow::ApplyRefireSpeedModifications(float&)
  T CTFCompoundBow::CalcIsAttackCriticalHelper()
+ T CTFCompoundBow::CanPickupOtherWeapon() const
  T CTFCompoundBow::CanReload()
  T CTFCompoundBow::DetonateRemotePipebombs(bool)
  T CTFCompoundBow::ForceLaunchGrenade()
@@ -36605,6 +36689,18 @@
  T CTFGameStats::StoreGameEndReason(char const*)
  T CTFGameStats::UseOldFormat()
  T CTFGameStats::~CTFGameStats()
+ T CTFGenericBomb::CTFGenericBomb()
+ T CTFGenericBomb::Detonate(inputdata_t&)
+ T CTFGenericBomb::Event_Killed(CTakeDamageInfo const&)
+ T CTFGenericBomb::GenericTouch(CBaseEntity*)
+ T CTFGenericBomb::GetDataDescMap()
+ T CTFGenericBomb::GetServerClass()
+ T CTFGenericBomb::Precache()
+ T CTFGenericBomb::Spawn()
+ T CTFGenericBomb::YouForgotToImplementOrDeclareServerClass()
+ T CTFGenericBomb::~CTFGenericBomb()
+ T CTFGenericBombShim::Touch(CBaseEntity*)
+ T CTFGenericBombShim::~CTFGenericBombShim()
  T CTFGenericStringRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
  T CTFGenericStringRestriction::GetOutputKeyValues(KeyValues*)
  T CTFGenericStringRestriction::PassesRestrictions(IGameEvent*) const
@@ -37192,6 +37288,7 @@
  T CTFPasstimeLogic::CTFPasstimeLogic()
  T CTFPasstimeLogic::CalcProgressFrac()
  T CTFPasstimeLogic::EjectBall(CTFPlayer*, CTFPlayer*)
+ T CTFPasstimeLogic::EndRoundExpiredTimer()
  T CTFPasstimeLogic::FireGameEvent(IGameEvent*)
  T CTFPasstimeLogic::GetBall() const
  T CTFPasstimeLogic::GetDataDescMap()
@@ -37225,6 +37322,7 @@
  T CTFPasstimeLogic::SpawnBallAtRandomSpawnerThink()
  T CTFPasstimeLogic::SpawnBallAtSpawner(CPasstimeBallSpawn*)
  T CTFPasstimeLogic::StealBall(CTFPlayer*, CTFPlayer*)
+ T CTFPasstimeLogic::ThinkExpiredTimer()
  T CTFPasstimeLogic::UpdateTransmitState()
  T CTFPasstimeLogic::YouForgotToImplementOrDeclareServerClass()
  T CTFPasstimeLogic::~CTFPasstimeLogic()
@@ -37693,6 +37791,31 @@
  T CTFPlayerClassShared::NetworkStateChanged(void*)
  T CTFPlayerClassShared::Reset()
  T CTFPlayerClassShared::SetCustomModel(char const*, bool)
+ T CTFPlayerDestructionLogic::CTFPlayerDestructionLogic()
+ T CTFPlayerDestructionLogic::CalcTeamLeader(int)
+ T CTFPlayerDestructionLogic::CountdownThink()
+ T CTFPlayerDestructionLogic::CreateDispenser(int)
+ T CTFPlayerDestructionLogic::EvaluatePlayerCount()
+ T CTFPlayerDestructionLogic::FireGameEvent(IGameEvent*)
+ T CTFPlayerDestructionLogic::GetCountdownImage()
+ T CTFPlayerDestructionLogic::GetDataDescMap()
+ T CTFPlayerDestructionLogic::GetPlayerDestrictionLogic()
+ T CTFPlayerDestructionLogic::GetPropModelName() const
+ T CTFPlayerDestructionLogic::GetServerClass()
+ T CTFPlayerDestructionLogic::GetTeamLeader(int) const
+ T CTFPlayerDestructionLogic::GetType() const
+ T CTFPlayerDestructionLogic::InputDisableMaxScoreUpdating(inputdata_t&)
+ T CTFPlayerDestructionLogic::InputEnableMaxScoreUpdating(inputdata_t&)
+ T CTFPlayerDestructionLogic::InputScoreBluePoints(inputdata_t&)
+ T CTFPlayerDestructionLogic::InputScoreRedPoints(inputdata_t&)
+ T CTFPlayerDestructionLogic::InputSetCountdownImage(inputdata_t&)
+ T CTFPlayerDestructionLogic::InputSetCountdownTimer(inputdata_t&)
+ T CTFPlayerDestructionLogic::IsUsingCustomCountdownImage()
+ T CTFPlayerDestructionLogic::OnBlueScoreChanged()
+ T CTFPlayerDestructionLogic::OnRedScoreChanged()
+ T CTFPlayerDestructionLogic::Precache()
+ T CTFPlayerDestructionLogic::YouForgotToImplementOrDeclareServerClass()
+ T CTFPlayerDestructionLogic::~CTFPlayerDestructionLogic()
  T CTFPlayerInfo::~CTFPlayerInfo()
  T CTFPlayerInventory::CTFPlayerInventory()
  T CTFPlayerInventory::CanPurchaseItems(int) const
@@ -38614,14 +38737,21 @@
  T CTFRobotDestructionLogic::CTFRobotDestructionLogic()
  T CTFRobotDestructionLogic::FireGameEvent(IGameEvent*)
  T CTFRobotDestructionLogic::FlagDestroyed(int)
+ T CTFRobotDestructionLogic::GetCountdownEndTime()
+ T CTFRobotDestructionLogic::GetCountdownImage()
  T CTFRobotDestructionLogic::GetDataDescMap()
  T CTFRobotDestructionLogic::GetRespawnScaleForTeam(int) const
  T CTFRobotDestructionLogic::GetRobotDestructionLogic()
  T CTFRobotDestructionLogic::GetServerClass()
  T CTFRobotDestructionLogic::GetTargetScore(int) const
+ T CTFRobotDestructionLogic::GetTeamLeader(int) const
+ T CTFRobotDestructionLogic::GetType() const
  T CTFRobotDestructionLogic::InputRoundActivate(inputdata_t&)
+ T CTFRobotDestructionLogic::IsUsingCustomCountdownImage()
  T CTFRobotDestructionLogic::IterateRobots(CTFRobotDestruction_Robot*) const
  T CTFRobotDestructionLogic::ManageGameState()
+ T CTFRobotDestructionLogic::OnBlueScoreChanged()
+ T CTFRobotDestructionLogic::OnRedScoreChanged()
  T CTFRobotDestructionLogic::PlaySoundInPlayersEars(CTFPlayer*, EmitSound_t const&) const
  T CTFRobotDestructionLogic::PlaySoundInfoForScoreEvent(CTFPlayer*, bool, int, int, RDScoreMethod_t)
  T CTFRobotDestructionLogic::Precache()
@@ -38630,6 +38760,7 @@
  T CTFRobotDestructionLogic::RobotCreated(CTFRobotDestruction_Robot*)
  T CTFRobotDestructionLogic::RobotRemoved(CTFRobotDestruction_Robot*)
  T CTFRobotDestructionLogic::ScorePoints(int, int, RDScoreMethod_t, CTFPlayer*)
+ T CTFRobotDestructionLogic::SetCountdownEndTime(float)
  T CTFRobotDestructionLogic::Spawn()
  T CTFRobotDestructionLogic::UpdateTransmitState()
  T CTFRobotDestructionLogic::YouForgotToImplementOrDeclareServerClass()
@@ -39133,6 +39264,7 @@
  T CTFWeaponBase::CanInspect() const
  T CTFWeaponBase::CanOverload() const
  T CTFWeaponBase::CanPerformSecondaryAttack() const
+ T CTFWeaponBase::CanPickupOtherWeapon() const
  T CTFWeaponBase::ChangeTeam(int)
  T CTFWeaponBase::CheckEffectBarRegen()
  T CTFWeaponBase::CheckReload()
@@ -41030,6 +41162,7 @@
  T CUtlMemory<IServerNetworkable*, int>::Grow(int)
  T CUtlMemory<ITFBotHintEntityAutoList*, int>::Grow(int)
  T CUtlMemory<ITFFlameEntityAutoList*, int>::Grow(int)
+ T CUtlMemory<ITFGenericBomb*, int>::Grow(int)
  T CUtlMemory<ITFMerasmusTrickOrTreatProp*, int>::Grow(int)
  T CUtlMemory<ITFPumpkinBomb*, int>::Grow(int)
  T CUtlMemory<ITFTargetDummy*, int>::Grow(int)
@@ -42515,6 +42648,7 @@
  T CUtlVector<IServerNetworkable*, CUtlMemory<IServerNetworkable*, int> >::~CUtlVector()
  T CUtlVector<ITFBotHintEntityAutoList*, CUtlMemory<ITFBotHintEntityAutoList*, int> >::~CUtlVector()
  T CUtlVector<ITFFlameEntityAutoList*, CUtlMemory<ITFFlameEntityAutoList*, int> >::~CUtlVector()
+ T CUtlVector<ITFGenericBomb*, CUtlMemory<ITFGenericBomb*, int> >::~CUtlVector()
  T CUtlVector<ITFMerasmusTrickOrTreatProp*, CUtlMemory<ITFMerasmusTrickOrTreatProp*, int> >::~CUtlVector()
  T CUtlVector<ITFPumpkinBomb*, CUtlMemory<ITFPumpkinBomb*, int> >::~CUtlVector()
  T CUtlVector<ITFTargetDummy*, CUtlMemory<ITFTargetDummy*, int> >::~CUtlVector()
@@ -45204,6 +45338,7 @@
  T ITFBotHintEntityAutoList::~ITFBotHintEntityAutoList()
  T ITFChargeUpWeapon::GetCurrentCharge()
  T ITFFlameEntityAutoList::~ITFFlameEntityAutoList()
+ T ITFGenericBomb::~ITFGenericBomb()
  T ITFMerasmusTrickOrTreatProp::~ITFMerasmusTrickOrTreatProp()
  T ITFPumpkinBomb::~ITFPumpkinBomb()
  T ITFTargetDummy::~ITFTargetDummy()
@@ -46830,11 +46965,13 @@
  T datamap_t* DataMapInit<CTFBotProxy>(CTFBotProxy*)
  T datamap_t* DataMapInit<CTFForceRespawn>(CTFForceRespawn*)
  T datamap_t* DataMapInit<CTFGameRulesProxy>(CTFGameRulesProxy*)
+ T datamap_t* DataMapInit<CTFGenericBomb>(CTFGenericBomb*)
  T datamap_t* DataMapInit<CTFHalloweenFortuneTeller>(CTFHalloweenFortuneTeller*)
  T datamap_t* DataMapInit<CTFHalloweenMinigame_FallingPlatforms>(CTFHalloweenMinigame_FallingPlatforms*)
  T datamap_t* DataMapInit<CTFMedigunShield>(CTFMedigunShield*)
  T datamap_t* DataMapInit<CTFMiniGame>(CTFMiniGame*)
  T datamap_t* DataMapInit<CTFPasstimeLogic>(CTFPasstimeLogic*)
+ T datamap_t* DataMapInit<CTFPlayerDestructionLogic>(CTFPlayerDestructionLogic*)
  T datamap_t* DataMapInit<CTFProjectile_Arrow>(CTFProjectile_Arrow*)
  T datamap_t* DataMapInit<CTFProjectile_Flare>(CTFProjectile_Flare*)
  T datamap_t* DataMapInit<CTFReviveMarker>(CTFReviveMarker*)
@@ -47153,6 +47290,7 @@
  T int ServerClassInit<DT_TFFlameRocket::ignored>(DT_TFFlameRocket::ignored*)
  T int ServerClassInit<DT_TFGameRules::ignored>(DT_TFGameRules::ignored*)
  T int ServerClassInit<DT_TFGameRulesProxy::ignored>(DT_TFGameRulesProxy::ignored*)
+ T int ServerClassInit<DT_TFGenericBomb::ignored>(DT_TFGenericBomb::ignored*)
  T int ServerClassInit<DT_TFHalloweenMinigame::ignored>(DT_TFHalloweenMinigame::ignored*)
  T int ServerClassInit<DT_TFHalloweenMinigame_FallingPlatforms::ignored>(DT_TFHalloweenMinigame_FallingPlatforms::ignored*)
  T int ServerClassInit<DT_TFHellZap::ignored>(DT_TFHellZap::ignored*)
@@ -47174,6 +47312,7 @@
  T int ServerClassInit<DT_TFPlayer::ignored>(DT_TFPlayer::ignored*)
  T int ServerClassInit<DT_TFPlayerClassShared::ignored>(DT_TFPlayerClassShared::ignored*)
  T int ServerClassInit<DT_TFPlayerConditionListExclusive::ignored>(DT_TFPlayerConditionListExclusive::ignored*)
+ T int ServerClassInit<DT_TFPlayerDestructionLogic::ignored>(DT_TFPlayerDestructionLogic::ignored*)
  T int ServerClassInit<DT_TFPlayerResource::ignored>(DT_TFPlayerResource::ignored*)
  T int ServerClassInit<DT_TFPlayerScoringDataExclusive::ignored>(DT_TFPlayerScoringDataExclusive::ignored*)
  T int ServerClassInit<DT_TFPlayerShared::ignored>(DT_TFPlayerShared::ignored*)
@@ -48109,6 +48248,7 @@
  T non-virtual thunk to CTFGameStats::LevelInitPreEntity()
  T non-virtual thunk to CTFGameStats::LevelShutdownPreClearSteamAPIContext()
  T non-virtual thunk to CTFGameStats::~CTFGameStats()
+ T non-virtual thunk to CTFGenericBomb::~CTFGenericBomb()
  T non-virtual thunk to CTFGotoActionPoint::~CTFGotoActionPoint()
  T non-virtual thunk to CTFGrenadeLauncher::CanCharge()
  T non-virtual thunk to CTFGrenadeLauncher::GetChargeBeginTime()
@@ -48153,6 +48293,8 @@
  T non-virtual thunk to CTFPlayer::GetAttributeOwner()
  T non-virtual thunk to CTFPlayer::InventoryUpdated(CPlayerInventory*)
  T non-virtual thunk to CTFPlayer::ReapplyProvision()
+ T non-virtual thunk to CTFPlayerDestructionLogic::FireGameEvent(IGameEvent*)
+ T non-virtual thunk to CTFPlayerDestructionLogic::~CTFPlayerDestructionLogic()
  T non-virtual thunk to CTFPlayerResource::FireGameEvent(IGameEvent*)
  T non-virtual thunk to CTFPlayerResource::~CTFPlayerResource()
  T non-virtual thunk to CTFPowerupBottle::ReapplyProvision()
@@ -50147,6 +50289,7 @@
  b g_CTFFlareGun_ClassReg
  b g_CTFFlareGun_Revenge_ClassReg
  b g_CTFGameRulesProxy_ClassReg
+ b g_CTFGenericBomb_ClassReg
  b g_CTFGrapplingHook_ClassReg
  b g_CTFGrenadeLauncher_ClassReg
  b g_CTFGrenadePipebombProjectile_ClassReg
@@ -50178,6 +50321,7 @@
  b g_CTFPistol_ScoutPrimary_ClassReg
  b g_CTFPistol_ScoutSecondary_ClassReg
  b g_CTFPistol_Scout_ClassReg
+ b g_CTFPlayerDestructionLogic_ClassReg
  b g_CTFPlayerResource_ClassReg
  b g_CTFPlayer_ClassReg
  b g_CTFPowerupBottle_ClassReg
@@ -51290,6 +51434,7 @@
  b tf_dumpplayerstats_command
  b tf_flame
  b tf_gamerules
+ b tf_generic_bomb
  b tf_halloween_force_boss_spawn_command
  b tf_halloween_minigame
  b tf_halloween_minigame_falling_platforms
@@ -51304,6 +51449,7 @@
  b tf_logic_medieval
  b tf_logic_minigames
  b tf_logic_multiple_escort
+ b tf_logic_player_destruction
  b tf_logic_robot_destruction
  b tf_logic_training_mode
  b tf_mann_vs_machine_stats
@@ -51318,6 +51464,7 @@
  b tf_mvm_tank_health
  b tf_mvm_tank_kill
  b tf_objective_resource
+ b tf_passtime_unstable_command
  b tf_pda_expansion_dispenser
  b tf_pda_expansion_teleporter
  b tf_player_manager
@@ -51715,6 +51862,8 @@
  d s_nDLLIdentifier
  d s_pConversionArrays_NoEscConversion
  d s_pConversionArrays_StringCharConversion
+ d s_pThrowArcConvars
+ d s_pThrowSpeedConvars
  d s_pszDisguiseProps
  d s_pszGameModes
  d s_pszQuickplayMatchTypes
@@ -52462,8 +52611,8 @@
  t __cxx_global_array_dtor
  t __cxx_global_array_dtor105
  t __cxx_global_array_dtor106
- t __cxx_global_array_dtor1123
- t __cxx_global_array_dtor115
+ t __cxx_global_array_dtor1122
+ t __cxx_global_array_dtor114
  t __cxx_global_array_dtor117
  t __cxx_global_array_dtor118
  t __cxx_global_array_dtor119
@@ -52475,7 +52624,6 @@
  t __cxx_global_array_dtor158
  t __cxx_global_array_dtor16
  t __cxx_global_array_dtor166
- t __cxx_global_array_dtor170
  t __cxx_global_array_dtor173
  t __cxx_global_array_dtor175
  t __cxx_global_array_dtor179
@@ -52687,6 +52835,7 @@
  t tf_mvm_jump_to_wave(CCommand const&)
  t tf_mvm_nextmission(CCommand const&)
  t tf_mvm_popfile(CCommand const&)
+ t tf_passtime_unstable(CCommand const&)
  t tf_server_lobby_debug(CCommand const&)
  t tf_workshop_map_status(CCommand const&)
  t tf_workshop_map_sync(CCommand const&)
