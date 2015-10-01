@@ -29,7 +29,36 @@
 		}
 	}
 
-		
+	"ItemName"
+	{		
+		"ControlName"	"CItemModelPanel"
+		"fieldName"		"ItemName"
+		"xpos"			"cs-0.5"
+		"ypos"			"35"
+		"zpos"			"5"
+		"wide"			"o2"
+		"tall"			"p0.5"
+		"visible"		"1"
+		"bgcolor_override"		"0 0 0 0"
+		"noitem_textcolor"		"117 107 94 255"
+		"PaintBackgroundType"	"2"
+		"paintborder"	"0"
+		"mouseinputenabled"	"0"
+		"proportionaltoparent"	"1"
+
+		"text_ypos"		"15"
+		"text_center"	"0"
+		"paint_icon_hide" "1"
+		"model_hide"	"1"
+		"text_forcesize"	"4"
+
+		"itemmodelpanel"
+		{
+			"use_item_rendertarget" "0"
+			"allow_rot"				"0"
+			"inventory_image_type"	"1"
+		}
+	}
 
 	"ModelInspectionPanel"
 	{

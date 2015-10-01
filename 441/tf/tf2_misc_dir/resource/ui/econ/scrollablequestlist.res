@@ -13,16 +13,16 @@
 		"enabled"		"1"
 		"proportionaltoparent" "1"
 
-		"CyclingAd"
+		"StoreAd"
 		{
 			"ControlName"			"CCyclingAdContainerPanel"
-			"fieldName"				"CyclingAd"
+			"fieldName"				"StoreAd"
 			"xpos"					"cs-0.5"
 			"ypos"					"r80"
 			"zpos"					"100"
 			"wide"					"p0.9"
 			"tall"					"50"
-			"visible"				"1"
+			"visible"				"0"
 			"enabled"				"1"
 			"scaleImage"			"1"
 			"proportionaltoparent"	"1"
@@ -39,6 +39,36 @@
 					"tall"		"f0"
 					"proportionaltoparent"	"1"
 					"show_market"	"0"
+				}
+			}
+		}
+
+		"MarketAd"
+		{
+			"ControlName"			"CCyclingAdContainerPanel"
+			"fieldName"				"MarketAd"
+			"xpos"					"cs-0.5"
+			"ypos"					"r80"
+			"zpos"					"100"
+			"wide"					"p0.9"
+			"tall"					"50"
+			"visible"				"0"
+			"enabled"				"1"
+			"scaleImage"			"1"
+			"proportionaltoparent"	"1"
+
+			"bgcolor_override"		"0 0 0 255"
+
+			"items"
+			{
+				"0"
+				{
+					"item"		"Unused Summer 2015 Operation Pass"
+						
+					"wide"		"f0"
+					"tall"		"f0"
+					"proportionaltoparent"	"1"
+					"show_market"	"1"
 				}
 			}
 		}

@@ -199,6 +199,7 @@
  B CDynamicLight_DataDescInit::g_DataMapHolder
  B CDynamicProp_DataDescInit::g_DataMapHolder
  B CEconEntity_DataDescInit::g_DataMapHolder
+ B CEconItemPreviewDataBlock::default_instance_
  B CEconItemView_DataDescInit::g_DataMapHolder
  B CEconWearable_DataDescInit::g_DataMapHolder
  B CEmbers_DataDescInit::g_DataMapHolder
@@ -583,6 +584,8 @@
  B CMsgGCToGCThankedByNewUser::default_instance_
  B CMsgGCUpdateSubGCSessionInfo::default_instance_
  B CMsgGCUpdateSubGCSessionInfo_CMsgUpdate::default_instance_
+ B CMsgGC_Client2GCEconPreviewDataBlockRequest::default_instance_
+ B CMsgGC_Client2GCEconPreviewDataBlockResponse::default_instance_
  B CMsgGC_Client_UseServerModificationItem::default_instance_
  B CMsgGC_Client_UseServerModificationItem_Response::default_instance_
  B CMsgGC_GameServer_AckPolicy::default_instance_
@@ -862,6 +865,7 @@
  B CPhysicsWind_DataDescInit::g_DataMapHolder
  B CPhysicsWire_DataDescInit::g_DataMapHolder
  B CPlasma_DataDescInit::g_DataMapHolder
+ B CPlayerDestructionDispenser_DataDescInit::g_DataMapHolder
  B CPlayerLocalData_DataDescInit::g_DataMapHolder
  B CPlayerResource_DataDescInit::g_DataMapHolder
  B CPlayerState_DataDescInit::g_DataMapHolder
@@ -1440,6 +1444,8 @@
  B DT_PipebombLauncherLocalData::g_SendTableInit
  B DT_Plasma::g_SendTable
  B DT_Plasma::g_SendTableInit
+ B DT_PlayerDestructionDispenser::g_SendTable
+ B DT_PlayerDestructionDispenser::g_SendTableInit
  B DT_PlayerResource::g_SendTable
  B DT_PlayerResource::g_SendTableInit
  B DT_PlayerState::g_SendTable
@@ -2315,6 +2321,7 @@
  B g_FlexSceneFileManager
  B g_HandleTest
  B g_InfoCameraLinkList
+ B g_InvasionStrangeMapPairs
  B g_ItemGenerationSystem
  B g_KillEaterAttr
  B g_Language
@@ -3081,6 +3088,7 @@
  B tf_gamemode_mvm
  B tf_gamemode_passtime
  B tf_gamemode_payload
+ B tf_gamemode_pd
  B tf_gamemode_rd
  B tf_gamemode_sd
  B tf_ghost_up_speed
@@ -3946,6 +3954,7 @@
  D CPhysicsWind::m_DataMap
  D CPhysicsWire::m_DataMap
  D CPlasma::m_DataMap
+ D CPlayerDestructionDispenser::m_DataMap
  D CPlayerLocalData::m_DataMap
  D CPlayerResource::m_DataMap
  D CPlayerResource::m_pClassSendTable
@@ -5248,6 +5257,8 @@
  D datamap_t* DataMapInit<CPhysicsWire>(CPhysicsWire*)::nameHolder
  D datamap_t* DataMapInit<CPlasma>(CPlasma*)::dataDesc
  D datamap_t* DataMapInit<CPlasma>(CPlasma*)::nameHolder
+ D datamap_t* DataMapInit<CPlayerDestructionDispenser>(CPlayerDestructionDispenser*)::dataDesc
+ D datamap_t* DataMapInit<CPlayerDestructionDispenser>(CPlayerDestructionDispenser*)::nameHolder
  D datamap_t* DataMapInit<CPlayerLocalData>(CPlayerLocalData*)::dataDesc
  D datamap_t* DataMapInit<CPlayerLocalData>(CPlayerLocalData*)::nameHolder
  D datamap_t* DataMapInit<CPlayerResource>(CPlayerResource*)::dataDesc
@@ -6638,6 +6649,7 @@
  D guard variable for datamap_t* DataMapInit<CPhysicsWind>(CPhysicsWind*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CPhysicsWire>(CPhysicsWire*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CPlasma>(CPlasma*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CPlayerDestructionDispenser>(CPlayerDestructionDispenser*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CPlayerLocalData>(CPlayerLocalData*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CPlayerResource>(CPlayerResource*)::dataDesc
  D guard variable for datamap_t* DataMapInit<CPlayerResource>(CPlayerResource*)::nameHolder
@@ -7133,6 +7145,7 @@
  D guard variable for int ServerClassInit<DT_PhysicsPropMultiplayer::ignored>(DT_PhysicsPropMultiplayer::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_PipebombLauncherLocalData::ignored>(DT_PipebombLauncherLocalData::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_Plasma::ignored>(DT_Plasma::ignored*)::g_SendProps
+ D guard variable for int ServerClassInit<DT_PlayerDestructionDispenser::ignored>(DT_PlayerDestructionDispenser::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_PlayerResource::ignored>(DT_PlayerResource::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_PlayerState::ignored>(DT_PlayerState::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_PointCamera::ignored>(DT_PointCamera::ignored*)::g_SendProps
@@ -7662,6 +7675,8 @@
  D int ServerClassInit<DT_PipebombLauncherLocalData::ignored>(DT_PipebombLauncherLocalData::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_Plasma::ignored>(DT_Plasma::ignored*)::g_SendProps
  D int ServerClassInit<DT_Plasma::ignored>(DT_Plasma::ignored*)::g_pSendTableName
+ D int ServerClassInit<DT_PlayerDestructionDispenser::ignored>(DT_PlayerDestructionDispenser::ignored*)::g_SendProps
+ D int ServerClassInit<DT_PlayerDestructionDispenser::ignored>(DT_PlayerDestructionDispenser::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_PlayerResource::ignored>(DT_PlayerResource::ignored*)::g_SendProps
  D int ServerClassInit<DT_PlayerResource::ignored>(DT_PlayerResource::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_PlayerState::ignored>(DT_PlayerState::ignored*)::g_SendProps
@@ -8528,6 +8543,7 @@
  D typeinfo for CEconItemAttributeIterator_ApplyAttributeString
  D typeinfo for CEconItemDefinition
  D typeinfo for CEconItemHandle
+ D typeinfo for CEconItemPreviewDataBlock
  D typeinfo for CEconItemSchema
  D typeinfo for CEconItemSpecificAttributeIterator
  D typeinfo for CEconItemSystem
@@ -8897,6 +8913,7 @@
  D typeinfo for CEntityFactory<CPhysicsSpring>
  D typeinfo for CEntityFactory<CPhysicsWire>
  D typeinfo for CEntityFactory<CPlasma>
+ D typeinfo for CEntityFactory<CPlayerDestructionDispenser>
  D typeinfo for CEntityFactory<CPlayerResource>
  D typeinfo for CEntityFactory<CPointAngleSensor>
  D typeinfo for CEntityFactory<CPointAngularVelocitySensor>
@@ -9698,6 +9715,8 @@
  D typeinfo for CMsgGCToGCThankedByNewUser
  D typeinfo for CMsgGCUpdateSubGCSessionInfo
  D typeinfo for CMsgGCUpdateSubGCSessionInfo_CMsgUpdate
+ D typeinfo for CMsgGC_Client2GCEconPreviewDataBlockRequest
+ D typeinfo for CMsgGC_Client2GCEconPreviewDataBlockResponse
  D typeinfo for CMsgGC_Client_UseServerModificationItem
  D typeinfo for CMsgGC_Client_UseServerModificationItem_Response
  D typeinfo for CMsgGC_GameServer_AckPolicy
@@ -9937,6 +9956,7 @@
  D typeinfo for CPhysicsWire
  D typeinfo for CPlasma
  D typeinfo for CPlatTrigger
+ D typeinfo for CPlayerDestructionDispenser
  D typeinfo for CPlayerInfo
  D typeinfo for CPlayerInfoManager
  D typeinfo for CPlayerInventory
@@ -11477,6 +11497,7 @@
  D vtable for CEconItemAttributeIterator_ApplyAttributeString
  D vtable for CEconItemDefinition
  D vtable for CEconItemHandle
+ D vtable for CEconItemPreviewDataBlock
  D vtable for CEconItemSchema
  D vtable for CEconItemSystem
  D vtable for CEconItemView
@@ -11845,6 +11866,7 @@
  D vtable for CEntityFactory<CPhysicsSpring>
  D vtable for CEntityFactory<CPhysicsWire>
  D vtable for CEntityFactory<CPlasma>
+ D vtable for CEntityFactory<CPlayerDestructionDispenser>
  D vtable for CEntityFactory<CPlayerResource>
  D vtable for CEntityFactory<CPointAngleSensor>
  D vtable for CEntityFactory<CPointAngularVelocitySensor>
@@ -12641,6 +12663,8 @@
  D vtable for CMsgGCToGCThankedByNewUser
  D vtable for CMsgGCUpdateSubGCSessionInfo
  D vtable for CMsgGCUpdateSubGCSessionInfo_CMsgUpdate
+ D vtable for CMsgGC_Client2GCEconPreviewDataBlockRequest
+ D vtable for CMsgGC_Client2GCEconPreviewDataBlockResponse
  D vtable for CMsgGC_Client_UseServerModificationItem
  D vtable for CMsgGC_Client_UseServerModificationItem_Response
  D vtable for CMsgGC_GameServer_AckPolicy
@@ -12879,6 +12903,7 @@
  D vtable for CPhysicsWire
  D vtable for CPlasma
  D vtable for CPlatTrigger
+ D vtable for CPlayerDestructionDispenser
  D vtable for CPlayerInfo
  D vtable for CPlayerInfoManager
  D vtable for CPlayerInventory
@@ -14254,6 +14279,7 @@
  R typeinfo name for CEconItemAttributeIterator_ApplyAttributeString
  R typeinfo name for CEconItemDefinition
  R typeinfo name for CEconItemHandle
+ R typeinfo name for CEconItemPreviewDataBlock
  R typeinfo name for CEconItemSchema
  R typeinfo name for CEconItemSpecificAttributeIterator
  R typeinfo name for CEconItemSystem
@@ -14623,6 +14649,7 @@
  R typeinfo name for CEntityFactory<CPhysicsSpring>
  R typeinfo name for CEntityFactory<CPhysicsWire>
  R typeinfo name for CEntityFactory<CPlasma>
+ R typeinfo name for CEntityFactory<CPlayerDestructionDispenser>
  R typeinfo name for CEntityFactory<CPlayerResource>
  R typeinfo name for CEntityFactory<CPointAngleSensor>
  R typeinfo name for CEntityFactory<CPointAngularVelocitySensor>
@@ -15424,6 +15451,8 @@
  R typeinfo name for CMsgGCToGCThankedByNewUser
  R typeinfo name for CMsgGCUpdateSubGCSessionInfo
  R typeinfo name for CMsgGCUpdateSubGCSessionInfo_CMsgUpdate
+ R typeinfo name for CMsgGC_Client2GCEconPreviewDataBlockRequest
+ R typeinfo name for CMsgGC_Client2GCEconPreviewDataBlockResponse
  R typeinfo name for CMsgGC_Client_UseServerModificationItem
  R typeinfo name for CMsgGC_Client_UseServerModificationItem_Response
  R typeinfo name for CMsgGC_GameServer_AckPolicy
@@ -15663,6 +15692,7 @@
  R typeinfo name for CPhysicsWire
  R typeinfo name for CPlasma
  R typeinfo name for CPlatTrigger
+ R typeinfo name for CPlayerDestructionDispenser
  R typeinfo name for CPlayerInfo
  R typeinfo name for CPlayerInfoManager
  R typeinfo name for CPlayerInventory
@@ -22515,7 +22545,8 @@
  T CCaptureFlag::Drop(CTFPlayer*, bool, bool, bool)
  T CCaptureFlag::FlagTouch(CBaseEntity*)
  T CCaptureFlag::GetDataDescMap()
- T CCaptureFlag::GetItemID()
+ T CCaptureFlag::GetItemID() const
+ T CCaptureFlag::GetMaxReturnTime()
  T CCaptureFlag::GetServerClass()
  T CCaptureFlag::InputDisable(inputdata_t&)
  T CCaptureFlag::InputEnable(inputdata_t&)
@@ -23324,6 +23355,16 @@
  T CEconItemHandle::SetItem(CEconItem*)
  T CEconItemHandle::~CEconItemHandle()
  T CEconItemPaintKitDefinition::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+ T CEconItemPreviewDataBlock::ByteSize() const
+ T CEconItemPreviewDataBlock::Clear()
+ T CEconItemPreviewDataBlock::GetCachedSize() const
+ T CEconItemPreviewDataBlock::GetMetadata() const
+ T CEconItemPreviewDataBlock::IsInitialized() const
+ T CEconItemPreviewDataBlock::MergeFrom(CEconItemPreviewDataBlock const&)
+ T CEconItemPreviewDataBlock::New() const
+ T CEconItemPreviewDataBlock::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CEconItemPreviewDataBlock::SetCachedSize(int) const
+ T CEconItemPreviewDataBlock::~CEconItemPreviewDataBlock()
  T CEconItemQualityDefinition::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
  T CEconItemRarityDefinition::BInitFromKV(KeyValues*, CEconItemSchema&, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
  T CEconItemRarityDefinition::CEconItemRarityDefinition(CEconItemRarityDefinition const&)
@@ -24606,6 +24647,9 @@
  T CEntityFactory<CPlasma>::Create(char const*)
  T CEntityFactory<CPlasma>::Destroy(IServerNetworkable*)
  T CEntityFactory<CPlasma>::GetEntitySize()
+ T CEntityFactory<CPlayerDestructionDispenser>::Create(char const*)
+ T CEntityFactory<CPlayerDestructionDispenser>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CPlayerDestructionDispenser>::GetEntitySize()
  T CEntityFactory<CPlayerResource>::Create(char const*)
  T CEntityFactory<CPlayerResource>::Destroy(IServerNetworkable*)
  T CEntityFactory<CPlayerResource>::GetEntitySize()
@@ -27676,6 +27720,8 @@
  T CHalloweenSoulPack::UpdateTransmitState()
  T CHalloweenSoulPack::YouForgotToImplementOrDeclareServerClass()
  T CHalloweenSoulPack::~CHalloweenSoulPack()
+ T CHandle<CTFPlayer> const& CNetworkVarBase<CHandle<CTFPlayer>, CTFPlayerDestructionLogic::NetworkVar_m_hBlueTeamLeader>::operator=<int>(int const&)
+ T CHandle<CTFPlayer> const& CNetworkVarBase<CHandle<CTFPlayer>, CTFPlayerDestructionLogic::NetworkVar_m_hRedTeamLeader>::operator=<int>(int const&)
  T CHandleDummy::~CHandleDummy()
  T CHandleTest::GetServerClass()
  T CHandleTest::SetTransmit(CCheckTransmitInfo*, bool)
@@ -29765,6 +29811,26 @@
  T CMsgGCUpdateSubGCSessionInfo_CMsgUpdate::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgGCUpdateSubGCSessionInfo_CMsgUpdate::SetCachedSize(int) const
  T CMsgGCUpdateSubGCSessionInfo_CMsgUpdate::~CMsgGCUpdateSubGCSessionInfo_CMsgUpdate()
+ T CMsgGC_Client2GCEconPreviewDataBlockRequest::ByteSize() const
+ T CMsgGC_Client2GCEconPreviewDataBlockRequest::Clear()
+ T CMsgGC_Client2GCEconPreviewDataBlockRequest::GetCachedSize() const
+ T CMsgGC_Client2GCEconPreviewDataBlockRequest::GetMetadata() const
+ T CMsgGC_Client2GCEconPreviewDataBlockRequest::IsInitialized() const
+ T CMsgGC_Client2GCEconPreviewDataBlockRequest::MergeFrom(CMsgGC_Client2GCEconPreviewDataBlockRequest const&)
+ T CMsgGC_Client2GCEconPreviewDataBlockRequest::New() const
+ T CMsgGC_Client2GCEconPreviewDataBlockRequest::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgGC_Client2GCEconPreviewDataBlockRequest::SetCachedSize(int) const
+ T CMsgGC_Client2GCEconPreviewDataBlockRequest::~CMsgGC_Client2GCEconPreviewDataBlockRequest()
+ T CMsgGC_Client2GCEconPreviewDataBlockResponse::ByteSize() const
+ T CMsgGC_Client2GCEconPreviewDataBlockResponse::Clear()
+ T CMsgGC_Client2GCEconPreviewDataBlockResponse::GetCachedSize() const
+ T CMsgGC_Client2GCEconPreviewDataBlockResponse::GetMetadata() const
+ T CMsgGC_Client2GCEconPreviewDataBlockResponse::IsInitialized() const
+ T CMsgGC_Client2GCEconPreviewDataBlockResponse::MergeFrom(CMsgGC_Client2GCEconPreviewDataBlockResponse const&)
+ T CMsgGC_Client2GCEconPreviewDataBlockResponse::New() const
+ T CMsgGC_Client2GCEconPreviewDataBlockResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgGC_Client2GCEconPreviewDataBlockResponse::SetCachedSize(int) const
+ T CMsgGC_Client2GCEconPreviewDataBlockResponse::~CMsgGC_Client2GCEconPreviewDataBlockResponse()
  T CMsgGC_Client_UseServerModificationItem::ByteSize() const
  T CMsgGC_Client_UseServerModificationItem::Clear()
  T CMsgGC_Client_UseServerModificationItem::GetCachedSize() const
@@ -32855,6 +32921,14 @@
  T CPlatTrigger::SpawnInsideTrigger(CFuncPlat*)
  T CPlatTrigger::Touch(CBaseEntity*)
  T CPlatTrigger::~CPlatTrigger()
+ T CPlayerDestructionDispenser::GetControlPanelInfo(int, char const*&)
+ T CPlayerDestructionDispenser::GetDataDescMap()
+ T CPlayerDestructionDispenser::GetDispenserRadius()
+ T CPlayerDestructionDispenser::GetServerClass()
+ T CPlayerDestructionDispenser::OnGoActive()
+ T CPlayerDestructionDispenser::Spawn()
+ T CPlayerDestructionDispenser::YouForgotToImplementOrDeclareServerClass()
+ T CPlayerDestructionDispenser::~CPlayerDestructionDispenser()
  T CPlayerInfo::ChangeTeam(int)
  T CPlayerInfo::GetAbsAngles()
  T CPlayerInfo::GetAbsOrigin()
@@ -33860,6 +33934,7 @@
  T CSOEconItem::SerializeWithCachedSizesToArray(unsigned char*) const
  T CSOEconItem::SetCachedSize(int) const
  T CSOEconItem::SharedDtor()
+ T CSOEconItem::default_instance()
  T CSOEconItem::~CSOEconItem()
  T CSOEconItemAttribute::ByteSize() const
  T CSOEconItemAttribute::Clear()
@@ -36725,6 +36800,7 @@
  T CTFGrapplingHook::OnHookReleased(bool)
  T CTFGrapplingHook::PlayWeaponShootSound()
  T CTFGrapplingHook::PoseParamList(int&)
+ T CTFGrapplingHook::Precache()
  T CTFGrapplingHook::PrimaryAttack()
  T CTFGrapplingHook::RemoveHookProjectile(bool)
  T CTFGrapplingHook::SendWeaponAnim(int)
@@ -36884,7 +36960,7 @@
  T CTFInventoryManager::SlotContainsBaseItems(EEquipType_t, int)
  T CTFInventoryManager::~CTFInventoryManager()
  T CTFItem::Drop(CTFPlayer*, bool, bool, bool)
- T CTFItem::GetItemID()
+ T CTFItem::GetItemID() const
  T CTFItem::GetServerClass()
  T CTFItem::PickUp(CTFPlayer*, bool)
  T CTFItem::YouForgotToImplementOrDeclareServerClass()
@@ -37421,6 +37497,7 @@
  T CTFPlayer::CanMoveDuringTaunt()
  T CTFPlayer::CanPickupBuilding(CBaseObject*)
  T CTFPlayer::CanPickupDroppedWeapon(CTFDroppedWeapon const*)
+ T CTFPlayer::CanScorePointForPD() const
  T CTFPlayer::CanSpeakVoiceCommand()
  T CTFPlayer::CancelEurekaTeleport()
  T CTFPlayer::ChangeTeam(int)
@@ -37540,7 +37617,7 @@
  T CTFPlayer::HandleTauntCommand(int)
  T CTFPlayer::HandleWeaponSlotAfterTaunt()
  T CTFPlayer::HasItem() const
- T CTFPlayer::HasTheFlag() const
+ T CTFPlayer::HasTheFlag(ETFFlagType*, int) const
  T CTFPlayer::HasWearablesEquipped(CSchemaFieldHandle<CEconItemDefinition> const*, int) const
  T CTFPlayer::HolsterOffHandWeapon()
  T CTFPlayer::ImpactWaterTrace(CGameTrace&, Vector const&)
@@ -37799,6 +37876,7 @@
  T CTFPlayerDestructionLogic::FireGameEvent(IGameEvent*)
  T CTFPlayerDestructionLogic::GetCountdownImage()
  T CTFPlayerDestructionLogic::GetDataDescMap()
+ T CTFPlayerDestructionLogic::GetHealDistance()
  T CTFPlayerDestructionLogic::GetPlayerDestrictionLogic()
  T CTFPlayerDestructionLogic::GetPropModelName() const
  T CTFPlayerDestructionLogic::GetServerClass()
@@ -37810,9 +37888,13 @@
  T CTFPlayerDestructionLogic::InputScoreRedPoints(inputdata_t&)
  T CTFPlayerDestructionLogic::InputSetCountdownImage(inputdata_t&)
  T CTFPlayerDestructionLogic::InputSetCountdownTimer(inputdata_t&)
+ T CTFPlayerDestructionLogic::InputSetFlagResetDelay(inputdata_t&)
  T CTFPlayerDestructionLogic::IsUsingCustomCountdownImage()
  T CTFPlayerDestructionLogic::OnBlueScoreChanged()
  T CTFPlayerDestructionLogic::OnRedScoreChanged()
+ T CTFPlayerDestructionLogic::PlayPropDropSound(CTFPlayer*)
+ T CTFPlayerDestructionLogic::PlayPropPickupSound(CTFPlayer*)
+ T CTFPlayerDestructionLogic::PlaySound(char const*, CTFPlayer*)
  T CTFPlayerDestructionLogic::Precache()
  T CTFPlayerDestructionLogic::YouForgotToImplementOrDeclareServerClass()
  T CTFPlayerDestructionLogic::~CTFPlayerDestructionLogic()
@@ -37822,6 +37904,7 @@
  T CTFPlayerInventory::ClearClassLoadoutChangeTracking()
  T CTFPlayerInventory::DumpInventoryToConsole(bool)
  T CTFPlayerInventory::ExtractInventorySortPosition(unsigned int)
+ T CTFPlayerInventory::GetFirstItemOfItemDef(unsigned short, CPlayerInventory*)
  T CTFPlayerInventory::GetItemInLoadout(int, int)
  T CTFPlayerInventory::GetMaxItemCount() const
  T CTFPlayerInventory::GetPreviewItemDef() const
@@ -37855,6 +37938,7 @@
  T CTFPlayerShared::CalcChargeCrit(bool)
  T CTFPlayerShared::CalculateChargeCap() const
  T CTFPlayerShared::CalculateObjectCost(CTFPlayer*, int)
+ T CTFPlayerShared::CanRecieveMedigunChargeEffect(medigun_charge_types) const
  T CTFPlayerShared::CheckForAchievement(int)
  T CTFPlayerShared::CompleteDisguise()
  T CTFPlayerShared::ConditionGameRulesThink()
@@ -37887,7 +37971,7 @@
  T CTFPlayerShared::GetMaxBuffedHealth(bool, bool)
  T CTFPlayerShared::GetNumKillsInTime(float)
  T CTFPlayerShared::GetPasstimePassTarget() const
- T CTFPlayerShared::GetPercentInvisible()
+ T CTFPlayerShared::GetPercentInvisible() const
  T CTFPlayerShared::GetSpeedWatchersList(CUtlVector<CTFPlayer*, CUtlMemory<CTFPlayer*, int> >*) const
  T CTFPlayerShared::GetStunner()
  T CTFPlayerShared::HasDemoShieldEquipped() const
@@ -38173,6 +38257,7 @@
  T CTFProjectile_GrapplingHook::OnArrowMissAllPlayers()
  T CTFProjectile_GrapplingHook::Precache()
  T CTFProjectile_GrapplingHook::Spawn()
+ T CTFProjectile_GrapplingHook::StartImpactFleshSoundLoop()
  T CTFProjectile_GrapplingHook::UpdateOnRemove()
  T CTFProjectile_GrapplingHook::YouForgotToImplementOrDeclareServerClass()
  T CTFProjectile_GrapplingHook::~CTFProjectile_GrapplingHook()
@@ -38740,6 +38825,7 @@
  T CTFRobotDestructionLogic::GetCountdownEndTime()
  T CTFRobotDestructionLogic::GetCountdownImage()
  T CTFRobotDestructionLogic::GetDataDescMap()
+ T CTFRobotDestructionLogic::GetHealDistance()
  T CTFRobotDestructionLogic::GetRespawnScaleForTeam(int) const
  T CTFRobotDestructionLogic::GetRobotDestructionLogic()
  T CTFRobotDestructionLogic::GetServerClass()
@@ -44183,7 +44269,7 @@
  T DustTrail::~DustTrail()
  T EGCSystemMsg_descriptor()
  T EconEntity_KillEaterEventPassesRestrictionCheck(CEconItemView const*, CEconItemAttributeDefinition const*, CEconItemAttributeDefinition const*, CSteamID)
- T EconEntity_NonEquippedItemKillTracking(CTFPlayer*, CTFPlayer*, kill_eater_event_t)
+ T EconEntity_NonEquippedItemKillTracking(CTFPlayer*, CTFPlayer*)
  T EconEntity_OnOwnerKillEaterEvent(CEconEntity*, CTFPlayer*, CTFPlayer*, kill_eater_event_t, int)
  T EconEntity_OnOwnerKillEaterEventNoPartner(CEconEntity*, CTFPlayer*, kill_eater_event_t, int)
  T EconEntity_OnOwnerKillEaterEvent_Batched(CEconEntity*, CTFPlayer*, CTFPlayer*, kill_eater_event_t, int)
@@ -47198,6 +47284,7 @@
  T int ServerClassInit<DT_PhysicsPropMultiplayer::ignored>(DT_PhysicsPropMultiplayer::ignored*)
  T int ServerClassInit<DT_PipebombLauncherLocalData::ignored>(DT_PipebombLauncherLocalData::ignored*)
  T int ServerClassInit<DT_Plasma::ignored>(DT_Plasma::ignored*)
+ T int ServerClassInit<DT_PlayerDestructionDispenser::ignored>(DT_PlayerDestructionDispenser::ignored*)
  T int ServerClassInit<DT_PlayerResource::ignored>(DT_PlayerResource::ignored*)
  T int ServerClassInit<DT_PlayerState::ignored>(DT_PlayerState::ignored*)
  T int ServerClassInit<DT_PointCamera::ignored>(DT_PointCamera::ignored*)
@@ -47991,6 +48078,7 @@
  T non-virtual thunk to CPhysicsPropMultiplayer::SetPhysicsMode(int)
  T non-virtual thunk to CPhysicsPropMultiplayer::~CPhysicsPropMultiplayer()
  T non-virtual thunk to CPhysicsPropRespawnable::~CPhysicsPropRespawnable()
+ T non-virtual thunk to CPlayerDestructionDispenser::~CPlayerDestructionDispenser()
  T non-virtual thunk to CPlayerInfo::ChangeTeam(int)
  T non-virtual thunk to CPlayerInfo::GetAbsAngles()
  T non-virtual thunk to CPlayerInfo::GetAbsOrigin()
@@ -48748,6 +48836,8 @@
  b (anonymous namespace)::CAttribute_String_reflection_
  b (anonymous namespace)::CAttribute_WorldItemPlacement_descriptor_
  b (anonymous namespace)::CAttribute_WorldItemPlacement_reflection_
+ b (anonymous namespace)::CEconItemPreviewDataBlock_descriptor_
+ b (anonymous namespace)::CEconItemPreviewDataBlock_reflection_
  b (anonymous namespace)::CGCMsgGC_PlayerDuckLeaderboard_IndividualUpdate_descriptor_
  b (anonymous namespace)::CGCMsgGC_PlayerDuckLeaderboard_IndividualUpdate_reflection_
  b (anonymous namespace)::CGCMsgGC_SpyVsEngyWar_GlobalStatsResponse_descriptor_
@@ -49073,6 +49163,10 @@
  b (anonymous namespace)::CMsgGCUpdateSubGCSessionInfo_CMsgUpdate_reflection_
  b (anonymous namespace)::CMsgGCUpdateSubGCSessionInfo_descriptor_
  b (anonymous namespace)::CMsgGCUpdateSubGCSessionInfo_reflection_
+ b (anonymous namespace)::CMsgGC_Client2GCEconPreviewDataBlockRequest_descriptor_
+ b (anonymous namespace)::CMsgGC_Client2GCEconPreviewDataBlockRequest_reflection_
+ b (anonymous namespace)::CMsgGC_Client2GCEconPreviewDataBlockResponse_descriptor_
+ b (anonymous namespace)::CMsgGC_Client2GCEconPreviewDataBlockResponse_reflection_
  b (anonymous namespace)::CMsgGC_Client_UseServerModificationItem_Response_EServerModificationItemResponse_descriptor_
  b (anonymous namespace)::CMsgGC_Client_UseServerModificationItem_Response_descriptor_
  b (anonymous namespace)::CMsgGC_Client_UseServerModificationItem_Response_reflection_
@@ -49676,6 +49770,8 @@
  b CryptoPP::s_pSqu
  b CryptoPP::s_pTop
  b DescribeAxis(int)::sz
+ b EconEntity_NonEquippedItemKillTracking(CTFPlayer*, CTFPlayer*)::pAttrDef_DeactiveDate
+ b EconEntity_NonEquippedItemKillTracking(CTFPlayer*, CTFPlayer*)::pItemDef_Operation
  b EntityFactoryDictionary()::s_EntityFactory
  b ForceLookAt
  b GCSDK::CJob::GetPauseReasonDescription() const::srgchPauseReason
@@ -50192,6 +50288,7 @@
  b g_CPhysicsPropMultiplayer_ClassReg
  b g_CPhysicsProp_ClassReg
  b g_CPlasma_ClassReg
+ b g_CPlayerDestructionDispenser_ClassReg
  b g_CPlayerResource_ClassReg
  b g_CPointCamera_ClassReg
  b g_CPointCommentaryNode_ClassReg
@@ -50727,6 +50824,8 @@
  b guard variable for CalcLocalHierarchyAnimation(CStudioHdr const*, matrix3x4_t*, CBoneBitList&, Vector*, Quaternion*, mstudiobone_t const*, mstudiolocalhierarchy_t*, int, int, float, int, float, int)::rootXform
  b guard variable for CryptoPP::NullRNG()::s_nullRNG
  b guard variable for CryptoPP::TheBitBucket()::bitBucket
+ b guard variable for EconEntity_NonEquippedItemKillTracking(CTFPlayer*, CTFPlayer*)::pAttrDef_DeactiveDate
+ b guard variable for EconEntity_NonEquippedItemKillTracking(CTFPlayer*, CTFPlayer*)::pItemDef_Operation
  b guard variable for EntityFactoryDictionary()::s_EntityFactory
  b guard variable for GCSDK::GMapJobTypesByMsg()::s_MapJobTypes
  b guard variable for GCSDK::GMapJobTypesByName()::s_MapJobTypes
@@ -51029,6 +51128,7 @@
  b path_corner
  b path_corner_crash
  b path_track
+ b pd_dispenser
  b phys_ballsocket
  b phys_bone_follower
  b phys_constraint
@@ -52225,6 +52325,7 @@
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CAttribute_ItemSlotCriteria_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CAttribute_String_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CAttribute_WorldItemPlacement_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CEconItemPreviewDataBlock_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CGCMsgGC_PlayerDuckLeaderboard_IndividualUpdate_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CGCMsgGC_SpyVsEngyWar_GlobalStatsResponse_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CGCMsgGC_SpyVsEngyWar_IndividualUpdate_offsets_
@@ -52244,6 +52345,8 @@
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgCreateOrUpdateParty_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgExitMatchmaking_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCTFSpecificItemBroadcast_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Client2GCEconPreviewDataBlockRequest_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Client2GCEconPreviewDataBlockResponse_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Client_UseServerModificationItem_Response_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Client_UseServerModificationItem_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_GameServer_AckPolicyResponse_offsets_
@@ -52611,9 +52714,9 @@
  t __cxx_global_array_dtor
  t __cxx_global_array_dtor105
  t __cxx_global_array_dtor106
- t __cxx_global_array_dtor1122
+ t __cxx_global_array_dtor1133
  t __cxx_global_array_dtor114
- t __cxx_global_array_dtor117
+ t __cxx_global_array_dtor116
  t __cxx_global_array_dtor118
  t __cxx_global_array_dtor119
  t __cxx_global_array_dtor13
@@ -52665,7 +52768,7 @@
  t __cxx_global_array_dtor34
  t __cxx_global_array_dtor351
  t __cxx_global_array_dtor36
- t __cxx_global_array_dtor368
+ t __cxx_global_array_dtor370
  t __cxx_global_array_dtor38
  t __cxx_global_array_dtor39
  t __cxx_global_array_dtor397
@@ -52684,6 +52787,7 @@
  t __cxx_global_array_dtor53
  t __cxx_global_array_dtor54
  t __cxx_global_array_dtor58
+ t __cxx_global_array_dtor59
  t __cxx_global_array_dtor60
  t __cxx_global_array_dtor63
  t __cxx_global_array_dtor64

@@ -1619,5 +1619,16 @@
 		"owner" "short"
 		"blocker" "short"
 	}
+
+	"special_score"
+	{
+		"player"	"byte"   	// index of the scorer
+	}
+
+	"team_leader_killed"
+	{
+		"killer"	"byte"		// index of the killer
+		"victim"	"byte"		// index of the victim
+	}
 }
 
