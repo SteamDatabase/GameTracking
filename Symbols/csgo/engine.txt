@@ -847,6 +847,7 @@
  b debug_map_crc
  b debug_paint_alpha
  b dedicated
+ b demo_strict_validation
  b dependents_buffer
  b dependents_used
  b developer
@@ -6813,7 +6814,7 @@
  t BuildPropOffsetToIndexMap(CSendTablePrecalc*)
  t BuildPropOffsetToIndexMap(CSendTablePrecalc*, CStandardSendProxies const*)
  t BuildRecipientList(CUtlVector<edict_t*, CUtlMemory<edict_t*, int> >&, IRecipientFilter const&)
- t BuildSpriteLoadName(char const*, char*, int, bool&, bool&) [clone .constprop.238]
+ t BuildSpriteLoadName(char const*, char*, int, bool&, bool&) [clone .constprop.244]
  t BuildTagData(CCoreDispInfo*, CDispInfo*)
  t BuildTokenList(char const*, char, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&) [clone .constprop.227]
  t BuildTransformedBox(Vector*, Vector const&, Vector const&, matrix3x4_t const&)
@@ -9094,6 +9095,7 @@
  t CModelInfoServer::UpdateCombinedDynamicModel(int, unsigned short)
  t CModelInfoServer::UpdateViewWeaponModelCache(char const**, int)
  t CModelInfoServer::~CModelInfoServer()
+ t CModelLoader::AddCompatibilityPath(char const*, char const*)
  t CModelLoader::AddRefDynamicModel(model_t*, bool)
  t CModelLoader::AllocateLightstyles(model_t*, unsigned char*, int)
  t CModelLoader::CancelDynamicModelLoad(CModelLoader::CDynamicModelInfo*, model_t*)
@@ -9163,6 +9165,7 @@
  t CModelLoader::Studio_ReloadModels(IModelLoader::ReloadType_t)
  t CModelLoader::Studio_UnloadModel(model_t*)
  t CModelLoader::TouchWorldWeaponModelCache(char const**, int)
+ t CModelLoader::UnMountCompatibilityPaths()
  t CModelLoader::UnloadAllModels(bool)
  t CModelLoader::UnloadModel(model_t*)
  t CModelLoader::UnloadUnreferencedModels()
@@ -12194,6 +12197,7 @@
  t CUtlMap<char*, int, unsigned short, bool (*)(char* const&, char* const&)>::~CUtlMap()
  t CUtlMap<int, int, unsigned short, bool (*)(int const&, int const&)>::~CUtlMap()
  t CUtlMap<int, unsigned char*, int, CDefLess<int> >::~CUtlMap()
+ t CUtlMap<model_t*, ViewWeaponEntry_t*, unsigned short, bool (*)(model_t* const&, model_t* const&)>::~CUtlMap()
  t CUtlMap<studiohdr_t const*, StudioHdrToActivityMapEntry_t, unsigned short, bool (*)(studiohdr_t const* const&, studiohdr_t const* const&)>::~CUtlMap()
  t CUtlMap<unsigned int, CNETMsg_PlayerAvatarData_t*, int, CDefLess<unsigned int> >::~CUtlMap()
  t CUtlMap<unsigned long, int, unsigned short, bool (*)(unsigned long const&, unsigned long const&)>::~CUtlMap()
@@ -12245,6 +12249,7 @@
  t CUtlMemory<CInitTracker::InitFunc*, int>::Grow(int)
  t CUtlMemory<CInitTracker::InitFunc*, int>::~CUtlMemory()
  t CUtlMemory<CMasterserver, int>::Grow(int)
+ t CUtlMemory<CModelLoader::compatibility_path_t, int>::Grow(int)
  t CUtlMemory<CNetChan*, int>::Grow(int)
  t CUtlMemory<CNetChan::dataFragments_s*, int>::Grow(int)
  t CUtlMemory<CNetChan::dataFragments_s*, int>::~CUtlMemory()
@@ -12854,6 +12859,7 @@
  t CUtlVector<CInitTracker::InitFunc*, CUtlMemory<CInitTracker::InitFunc*, int> >::~CUtlVector()
  t CUtlVector<CMasterserver, CUtlMemory<CMasterserver, int> >::InsertBefore(int)
  t CUtlVector<CMasterserver, CUtlMemory<CMasterserver, int> >::~CUtlVector()
+ t CUtlVector<CModelLoader::compatibility_path_t, CUtlMemory<CModelLoader::compatibility_path_t, int> >::InsertBefore(int, CModelLoader::compatibility_path_t const&)
  t CUtlVector<CNetChan*, CUtlMemory<CNetChan*, int> >::InsertBefore(int, CNetChan* const&)
  t CUtlVector<CNetChan::dataFragments_s*, CUtlMemory<CNetChan::dataFragments_s*, int> >::InsertBefore(int, CNetChan::dataFragments_s* const&)
  t CUtlVector<CNetChan::dataFragments_s*, CUtlMemory<CNetChan::dataFragments_s*, int> >::~CUtlVector()
@@ -22629,10 +22635,10 @@
  t unsigned char* std::__move_merge_backward<unsigned char*, unsigned char*, unsigned char*>(unsigned char*, unsigned char*, unsigned char*, unsigned char*, unsigned char*)
  t unsigned char* std::__rotate_adaptive<unsigned char*, unsigned char*, int>(unsigned char*, unsigned char*, unsigned char*, int, int, unsigned char*, int)
  t unsigned int CUtlHashtable<CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::IndirectIndex, empty_t, CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::HashProxy, CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::EqualProxy, void*>::DoLookup<void*>(void*, unsigned int, unsigned int*) const
- t unsigned int CUtlHashtable<IModelLoadCallback*, int, DefaultHashFunctor<IModelLoadCallback*>, DefaultEqualFunctor<IModelLoadCallback*>, undefined_t>::DoLookup<IModelLoadCallback*>(IModelLoadCallback*, unsigned int, unsigned int*) const [clone .part.219]
+ t unsigned int CUtlHashtable<IModelLoadCallback*, int, DefaultHashFunctor<IModelLoadCallback*>, DefaultEqualFunctor<IModelLoadCallback*>, undefined_t>::DoLookup<IModelLoadCallback*>(IModelLoadCallback*, unsigned int, unsigned int*) const [clone .part.225]
  t unsigned int CUtlHashtable<int, CAsyncOcclusionQuery*, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoLookup<int>(int, unsigned int, unsigned int*) const [clone .part.109]
  t unsigned int CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoInsert<model_t*>(model_t*, unsigned int)
- t unsigned int CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoLookup<model_t*>(model_t*, unsigned int, unsigned int*) const [clone .part.146]
+ t unsigned int CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoLookup<model_t*>(model_t*, unsigned int, unsigned int*) const [clone .part.149]
  t unsigned int CUtlHashtable<qhFace*, int, DefaultHashFunctor<qhFace*>, DefaultEqualFunctor<qhFace*>, undefined_t>::DoLookup<qhFace*>(qhFace*, unsigned int, unsigned int*) const [clone .part.42] [clone .constprop.55]
  t unsigned int CryptoPP::AESNI_AdvancedProcessBlocks<void (*)(long long __vector&, long long __vector const*, unsigned int), void (*)(long long __vector&, long long __vector&, long long __vector&, long long __vector&, long long __vector const*, unsigned int)>(void (*)(long long __vector&, long long __vector const*, unsigned int), void (*)(long long __vector&, long long __vector&, long long __vector&, long long __vector&, long long __vector const*, unsigned int), long long __vector const*, unsigned int, unsigned char const*, unsigned char const*, unsigned char*, unsigned int, unsigned int)
  t unsigned int CryptoPP::AESNI_AdvancedProcessBlocks<void (*)(long long __vector(2)&, long long __vector(2) const*, unsigned int), void (*)(long long __vector(2)&, long long __vector(2)&, long long __vector(2)&, long long __vector(2)&, long long __vector(2) const*, unsigned int)>(void (*)(long long __vector(2)&, long long __vector(2) const*, unsigned int), void (*)(long long __vector(2)&, long long __vector(2)&, long long __vector(2)&, long long __vector(2)&, long long __vector(2) const*, unsigned int), long long __vector(2) const*, unsigned int, unsigned char const*, unsigned char const*, unsigned char*, unsigned int, unsigned int)
