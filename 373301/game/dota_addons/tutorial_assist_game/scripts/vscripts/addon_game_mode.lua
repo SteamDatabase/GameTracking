@@ -1288,14 +1288,20 @@ function CTutorialAG:_CheckAutoDifficulty()
 		  			if ( self._bLateGame ) then
 		  				teamDifficulty = math.max( teamDifficulty, 2 )
 		  			end
-		  			if ( hero:GetPlayerID() == 1 ) then
+		  			if ( hero:GetClassname() == "npc_dota_hero_dazzle" ) then
 		  				print("Setting dazzle difficulty " .. tostring( math.max( math.min( 1, nTimeDifficultyMax), teamDifficulty ) ) )
 		  				hero:SetBotDifficulty( math.max( math.min( 1, nTimeDifficultyMax), teamDifficulty ) ) -- bots can't go passive after a while.
 		  			else
 			  			hero:SetBotDifficulty( teamDifficulty ) -- team may need additional boost to push desire
 		  			end
 	  			else
-		  			hero:SetBotDifficulty( intendedDifficulty ) -- bots can't go passive after a while.
+		  			if ( hero:GetClassname() == "npc_dota_hero_phantom_assassin" ) then
+--		  				print("aSetting difficulty for " .. hero:GetClassname() .. " to " .. tostring( 0 ) )
+		  				hero:SetBotDifficulty( 0 ) -- PA is too difficult to ever get a difficulty bump
+		  			else
+--		  				print("Setting difficulty for " .. hero:GetClassname() .. " to " .. tostring( intendedDifficulty ) )
+		  				hero:SetBotDifficulty( intendedDifficulty ) -- bots can't go passive after a while.
+		  			end
 	  			end
 	  		end
 	  	end

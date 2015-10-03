@@ -320,7 +320,7 @@ function CTutorialBasics:OnPlayerLearnedAbility( event )
 	print("Ability Learned " .. tostring( self._nSkillIndex ) )
 
 	-- Shortcut if we skip a state.
-	if ( self._CurrentState == "level_up_quest" ) then
+	if ( self._CurrentState == "introduce_leveling" or self._CurrentState == "level_up_quest" or self._CurrentState == "buy_ability_quest" ) then
 		self:_SetState( "introduce_casting" )
 	end
 
@@ -329,29 +329,25 @@ function CTutorialBasics:OnPlayerLearnedAbility( event )
 	local player = EntIndexToHScript( event.player )
 	local playerID = player:GetPlayerID()
 
-	if ( playerID ~= 0 ) then
-		return
-	end
+	if ( playerID == 0 ) then
+		local heroUnit = PlayerResource:GetSelectedHeroEntity( playerID )
+		if heroUnit ~= nil then
+			if heroUnit:IsRealHero() then
+				local upgradeAbility = heroUnit:FindAbilityByName( event.abilityname )
+				local buildAbility = nil
+				local bBuildStats = false
 
-	local heroUnit = PlayerResource:GetSelectedHeroEntity( playerID )
-	if heroUnit == nil then
-		return
-	end
+				if ( self._vSkillBuild[self._nSkillIndex] == -1 ) then 
+					bBuildStats = true
+				else
+					buildAbility = heroUnit:GetAbilityByIndex( self._vSkillBuild[self._nSkillIndex] )			
+				end
 
-	if heroUnit:IsRealHero() then
-		local upgradeAbility = heroUnit:FindAbilityByName( event.abilityname )
-		local buildAbility = nil
-		local bBuildStats = false
-
-		if ( self._vSkillBuild[self._nSkillIndex] == -1 ) then 
-			bBuildStats = true
-		else
-			buildAbility = heroUnit:GetAbilityByIndex( self._vSkillBuild[self._nSkillIndex] )			
-		end
-
-		-- Type 2 is the attributes ability
-		if ( upgradeAbility ~= nil and ( ( upgradeAbility == buildAbility ) or ( upgradeAbility:GetAbilityType() == 2 and bBuildStats ) ) ) then
-			self:_AdvanceAbilityBuild()
+				-- Type 2 is the attributes ability
+				if ( upgradeAbility ~= nil and ( ( upgradeAbility == buildAbility ) or ( upgradeAbility:GetAbilityType() == 2 and bBuildStats ) ) ) then
+					self:_AdvanceAbilityBuild()
+				end
+			end
 		end
 	end
 end
