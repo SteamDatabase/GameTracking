@@ -16,6 +16,7 @@
 		"bgcolor_override"	"0 0 0 240"
 
 		"event247_image"	"illustrations/gamemode_halloween2014"
+		"community_update_image"	"illustrations/gamemode_invasion"
 	}
 
 	"Container"

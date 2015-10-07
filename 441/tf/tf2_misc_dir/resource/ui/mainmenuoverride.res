@@ -203,6 +203,10 @@
 		{
 			"image"		"../console/title_eotl01"
 		}
+		if_community_update
+		{
+			"image"		"../console/title_invasion"
+		}
 	}
 					
 	"TFLogoImage"
@@ -4023,8 +4027,8 @@
 				{
 					"0"
 					{
-						"item"		"Summer 2015 Operation Key"
-						
+						"item"		"Unused Invasion Pass"
+
 						"wide"		"f0"
 						"tall"		"f0"
 						"proportionaltoparent"	"1"
@@ -4032,117 +4036,28 @@
 					}
 					"1"
 					{
-						"item"		"Gun Mettle Cosmetic Case"
+						"item"		"Invasion Key"
 
 						"wide"		"f0"
 						"tall"		"f0"
 						"proportionaltoparent"	"1"
+						"show_market"	"0"
 					}
 					"2"
 					{
-						"item"		"Gun Mettle Cosmetic Key"
-						
-						"wide"		"f0"
-						"tall"		"f0"
-						"proportionaltoparent"	"1"
-						"show_market"	"0"
-					}
-					"3"
-					{
-						"item"		"Operation Summer 2015 Concealed Killer Case"
-						
-						"wide"		"f0"
-						"tall"		"f0"
-						"proportionaltoparent"	"1"
-					}
-					"4"
-					{
-						"item"		"Operation Summer 2015 Powerhouse Case"
+						"item"		"Invasion Case 01"
 
 						"wide"		"f0"
 						"tall"		"f0"
 						"proportionaltoparent"	"1"
 					}
-					"5"
+					"3"
 					{
-						"item"		"Taunt: The Boxtrot"
-						
+						"item"		"Invasion Case 02"
+
 						"wide"		"f0"
 						"tall"		"f0"
 						"proportionaltoparent"	"1"
-						"show_market"	"0"
-					}
-					"6"
-					{
-						"item"		"Taunt: The Proletariat Showoff"
-						
-						"wide"		"f0"
-						"tall"		"f0"
-						"proportionaltoparent"	"1"
-						"show_market"	"0"
-					}
-					"7"
-					{
-						"item"		"Taunt: Kazotsky Kick"
-						
-						"wide"		"f0"
-						"tall"		"f0"
-						"proportionaltoparent"	"1"
-						"show_market"	"0"
-					}
-					"8"
-					{
-						"item"		"Map Token Snowplow"
-						
-						"wide"		"f0"
-						"tall"		"f0"
-						"proportionaltoparent"	"1"
-						"show_market"	"0"
-					}
-					"9"
-					{
-						"item"		"Map Token Borneo"
-						
-						"wide"		"f0"
-						"tall"		"f0"
-						"proportionaltoparent"	"1"
-						"show_market"	"0"
-					}
-					"10"
-					{
-						"item"		"Map Token Suijin"
-						
-						"wide"		"f0"
-						"tall"		"f0"
-						"proportionaltoparent"	"1"
-						"show_market"	"0"
-					}
-					"11"
-					{
-						"item"		"Strange Filter: Snowplow (Community)"
-						
-						"wide"		"f0"
-						"tall"		"f0"
-						"proportionaltoparent"	"1"
-						"show_market"	"0"
-					}
-					"12"
-					{
-						"item"		"Strange Filter: Borneo (Community)"
-						
-						"wide"		"f0"
-						"tall"		"f0"
-						"proportionaltoparent"	"1"
-						"show_market"	"0"
-					}
-					"13"
-					{
-						"item"		"Strange Filter: Suijin (Community)"
-						
-						"wide"		"f0"
-						"tall"		"f0"
-						"proportionaltoparent"	"1"
-						"show_market"	"0"
 					}
 				}
 			}
