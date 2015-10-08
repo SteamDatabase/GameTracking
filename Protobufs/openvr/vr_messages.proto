@@ -79,6 +79,20 @@ message CVRMsg_EnableCameraResponse {
 	optional bool success = 1;
 }
 
+message CVRMsg_EnableTrackedCamera {
+	optional uint32 device_index = 1;
+	optional bool enable = 2;
+	optional uint32 desired_video_stream_format = 3;
+	optional uint32 desired_num_frame_buffers = 4;
+}
+
+message CVRMsg_EnableTrackedCameraResponse {
+	optional bool result = 1;
+	optional uint32 actual_video_stream_format = 2;
+	optional uint32 actual_num_frame_buffers = 3;
+	optional uint32 actual_frame_buffer_datasize = 4;
+}
+
 message CVRMsg_GetProperty {
 	enum PropertyDataType {
 		PropType_String = 1;
@@ -119,6 +133,7 @@ message CVRMsg_CompositorSetOverlay {
 }
 
 message CVRMsg_CompositorShowDashboard {
+	optional uint32 primary_device = 1;
 }
 
 message CVRMsg_CompositorShowDashboardResponse {
@@ -144,6 +159,15 @@ message CVRMsg_CompositorGoToBack {
 }
 
 message CVRMsg_CompositorQuit {
+}
+
+message CVRMsg_CompositorShowMirrorWindow {
+}
+
+message CVRMsg_CompositorHideMirrorWindow {
+}
+
+message CVRMsg_CompositorDumpImages {
 }
 
 message CVRMsg_CompositorSetOverlayFromFile {
@@ -292,6 +316,14 @@ message CVRMsg_SetApplicationProcessId {
 }
 
 message CVRMsg_SetApplicationProcessIdResponse {
+	optional uint32 result = 1;
+}
+
+message CVRMsg_PerformApplicationPrelaunchCheck {
+	optional string app_key = 1;
+}
+
+message CVRMsg_PerformApplicationPrelaunchCheckResponse {
 	optional uint32 result = 1;
 }
 
