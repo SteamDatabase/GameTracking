@@ -142,6 +142,14 @@ function COverthrowGameMode:InitGameMode()
 		self.m_GoldRadiusMin = 300
 		self.m_GoldRadiusMax = 1400
 		self.m_GoldDropPercent = 8
+	elseif GetMapName() == "temple_quintet" then
+		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, 5 )
+		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 5 )
+		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_1, 5 )
+		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_2, 5 )
+		self.m_GoldRadiusMin = 300
+		self.m_GoldRadiusMax = 1400
+		self.m_GoldDropPercent = 10
 	else
 		self.m_GoldRadiusMin = 250
 		self.m_GoldRadiusMax = 550

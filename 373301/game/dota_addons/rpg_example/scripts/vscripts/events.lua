@@ -12,14 +12,18 @@ function CRPGExample:OnGameRulesStateChange()
 		SendToServerConsole( "dota_daynightcycle_pause 1" )
 		for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS do
 			PlayerResource:SetCustomTeamAssignment( nPlayerID, 2 ) -- put each player on Radiant team
+
+			self:OnLoadAccountRecord( nPlayerID )
 		end
+
 	elseif nNewState == DOTA_GAMERULES_STATE_HERO_SELECTION then
 		print( "OnGameRulesStateChange: Hero Selection" )
+		self:InitializeBuildingOwnership()
 		self:SpawnCreatures()
 		self:SpawnItems()
 
 	elseif nNewState == DOTA_GAMERULES_STATE_PRE_GAME then
-		print( "OnGameRulesStateChange: Pre Game Selection" )
+		print( "OnGameRulesStateChange: Pre Game" )
 
 	elseif nNewState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 		print( "OnGameRulesStateChange: Game In Progress" )
@@ -109,6 +113,13 @@ function CRPGExample:Think_InitializePlayerHero( hPlayerHero )
 		hPlayerHero:UpgradeAbility( hPlayerHero:GetAbilityByIndex( 1 ) )
 		hPlayerHero:SetIdleAcquire( false )
 
+		if self._tPlayerDeservesTPAtSpawn[ nPlayerID ] then
+			print( "Player deserves a TP at spawn: " .. nPlayerID )
+			local hTP = CreateItem( "item_teleport", hPlayerHero, hPlayerHero )
+			hTP:SetPurchaseTime( 0 )
+			hPlayerHero:AddItem( hTP )
+		end
+
 		if GetMapName() == "rpg_example" then
 			local nLightParticleID = ParticleManager:CreateParticle( "particles/addons_gameplay/player_deferred_light.vpcf", PATTACH_ABSORIGIN, hPlayerHero )
 			ParticleManager:SetParticleControlEnt( nLightParticleID, PATTACH_ABSORIGIN, hPlayerHero, PATTACH_ABSORIGIN, "attach_origin", hPlayerHero:GetAbsOrigin(), true )
@@ -132,6 +143,66 @@ end
 function CRPGExample:OnItemPickedUp( event )
 	local hPlayerHero = EntIndexToHScript( event.HeroEntityIndex )
 	EmitGlobalSound( "ui.inv_equip_highvalue" )
+end
+
+--------------------------------------------------------------------------------
+-- GameEvent: OnSaveAccountRecord
+--------------------------------------------------------------------------------
+function CRPGExample:OnSaveAccountRecord( nPlayerID )
+
+	print( "OnSaveAccountRecord: " .. nPlayerID );
+
+	return self._tPlayerIDToAccountRecord[nPlayerID]
+end
+
+function CRPGExample:RecordActivatedCheckpoint( nPlayerID, strCheckpoint )
+	tblAccountRecord = {}
+	if self._tPlayerIDToAccountRecord[nPlayerID] then
+		tblAccountRecord = self._tPlayerIDToAccountRecord[nPlayerID]
+	else
+		self._tPlayerIDToAccountRecord[nPlayerID] = tblAccountRecord
+	end
+
+	if not tblAccountRecord["checkpoints"] then
+		tblAccountRecord["checkpoints"] = strCheckpoint
+	else
+		tblAccountRecord["checkpoints"] = tblAccountRecord["checkpoints"] .. "," .. strCheckpoint
+	end
+end
+
+function CRPGExample:OnLoadAccountRecord( nPlayerID )
+	local tblAccountRecord = GameRules:GetPlayerCustomGameAccountRecord( nPlayerID )
+	if not tblAccountRecord then
+		return
+	end
+
+	print( "OnLoadAccountRecord: " .. nPlayerID );
+
+	-- Store off their account record, if found, we may be changing/saving it later
+	if tblAccountRecord then
+		PrintTable( tblAccountRecord, " " )
+		self._tPlayerIDToAccountRecord[nPlayerID] = tblAccountRecord
+	end
+end
+
+function CRPGExample:InitializeBuildingOwnership()
+	local hStartBuilding = Entities:FindByName( nil, "checkpoint00_building" )
+	hStartBuilding:SetTeam( nGOOD_TEAM )
+
+	for nPlayerID, tblAccountRecord in pairs( self._tPlayerIDToAccountRecord ) do
+		if tblAccountRecord["checkpoints"] then
+			local tblCheckpoints = string.split( tblAccountRecord["checkpoints"], "," )
+			for k, strCheckpoint in pairs( tblCheckpoints ) do
+				local hBuilding = Entities:FindByName( nil, strCheckpoint .. "_building" )
+				if hBuilding then
+					hBuilding:SetTeam( nGOOD_TEAM )
+
+					print( "Player has non-start checkpoint: " .. nPlayerID )
+					self._tPlayerDeservesTPAtSpawn[ nPlayerID ] = true
+				end
+			end
+		end
+	end
 end
 
 

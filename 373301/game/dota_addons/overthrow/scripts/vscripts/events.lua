@@ -29,6 +29,8 @@ function COverthrowGameMode:OnGameRulesStateChange()
 			self.TEAM_KILLS_TO_WIN = 25
 		elseif GetMapName() == "desert_quintet" then
 			self.TEAM_KILLS_TO_WIN = 45
+		elseif GetMapName() == "temple_quintet" then
+			self.TEAM_KILLS_TO_WIN = 60
 		else
 			self.TEAM_KILLS_TO_WIN = 30
 		end

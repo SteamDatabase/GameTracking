@@ -29,7 +29,13 @@ function Checkpoint_OnStartTouch( trigger )
 	local sCheckpointTriggerName = thisEntity:GetName()
 	local hBuilding = Entities:FindByName( nil, sCheckpointTriggerName .. "_building" )
 
+	-- If it's already activated, we're done
+	if hBuilding:GetTeamNumber() == nGOOD_TEAM then
+		return
+	end
+
 	hBuilding:SetTeam( nGOOD_TEAM )
+	GameRules.rpg_example:RecordActivatedCheckpoint( hHero:GetPlayerID(), sCheckpointTriggerName )
 
 	if sCheckpointTriggerName ~= "checkpoint00" then
 		BroadcastMessage( "Activated " .. sCheckpointTriggerName, 3 )
