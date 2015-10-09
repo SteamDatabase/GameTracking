@@ -1,3 +1,6 @@
+"tf"
+}
+
 "Resource/UI/winpanel.res"
 {
 	"TFStatsSummary"
@@ -2584,6 +2587,4 @@
 		"tall"			"128"
 		"image"			"menu_header"
 		"visible_lodef"	"0"
-		"enabled_lodef"	"0"
-	}
-}
+		"enabled_lodef"	"

@@ -1,3 +1,5 @@
+ent" 1
+}
 "Resource/UI/StorePrice.res"
 {
 	"StorePrice"
@@ -142,6 +144,4 @@
 		"visible"		"0"
 		"enabled"		"1"
 		"image"			"../backpack/crafting/limited_time_sticker"
-		"scaleImage"	"1"
-	}
-}
+		"scaleImage"	"

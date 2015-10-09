@@ -1,3 +1,6 @@
+	}
+	}
+}
 "Resource/UI/StoreHome_Base.res"
 {
 	"StorePage"
@@ -494,6 +497,4 @@
 		"autoResize"	"1"
 		"pinCorner"		"0"
 		"visible"		"1"
-		"enabled"		"1"
-	}
-}
+		"enabled"		"

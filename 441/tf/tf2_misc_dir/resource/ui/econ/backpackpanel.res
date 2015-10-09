@@ -1,3 +1,6 @@
+		
+	}
+}
 "Resource/UI/FullLoadoutPanel.res"
 {
 	"backpack_panel"
@@ -1578,6 +1581,4 @@
 			"visible"		"1"
 			"enabled"		"1"
 			"fgcolor_override" "200 80 60 255"
-		}
-	}	
-}
+		

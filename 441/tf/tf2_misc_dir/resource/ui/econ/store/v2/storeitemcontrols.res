@@ -1,4 +1,7 @@
-"Resource/UI/StoreItemControls.res"
+ "1"
+
+
+}"Resource/UI/StoreItemControls.res"
 {
 	"StoreItemControls"
 	{
@@ -61,5 +64,3 @@
 			"image"			"store_cart"
 			"scaleImage"	"1"
 		}				
-	}		
-}

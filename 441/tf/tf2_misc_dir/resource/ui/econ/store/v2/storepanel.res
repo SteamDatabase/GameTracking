@@ -1,4 +1,6 @@
-"Resource/UI/StorePanel.res"
+all"
+	}
+}"Resource/UI/StorePanel.res"
 {
 	"store_panel"
 	{
@@ -216,6 +218,3 @@
 		"Command"		"checkout"
 		"sound_depressed"	"UI/buttonclick.wav"
 		"sound_released"	"UI/buttonclickrelease.wav"
-	}	
-	
-}

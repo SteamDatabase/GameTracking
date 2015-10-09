@@ -1,3 +1,6 @@
+0"
+	}
+}
 "Resource/UI/CharInfoArmorySubPanel.res"
 {
 	"armory_panel"
@@ -442,6 +445,4 @@
 		"brighttext"	"0"
 		"Command"		"reloadscheme"
 		"sound_depressed"	"UI/buttonclick.wav"
-		"sound_released"	"UI/buttonclickrelease.wav"
-	}
-}
+		"sound_released"	"UI/buttonclickrelease.wa

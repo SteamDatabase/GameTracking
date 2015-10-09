@@ -1,78 +1,85 @@
+ldier
+{
+	scene "scenes/Player/Soldier/low/7508.vcd" 
+	scene "scenes/Player/Soldier/low/7507.vcd" 
+}
+Rule item_maggot_on_fireSoldier
+{
+	criteria ConceptFire IsSoldier SoldierIsNotStillonFire  20PercentChance IsSoldierMaggotHat
+	ApplyContext "SoldierOnFire:1:7"
+	Response item_maggot_on_fireSoldier
+}
+
 //--------------------------------------------------------------------------------------------------------------
-// Heavy Response Rule File - AUTO GENERATED DO NOT EDIT BY HAND
+// Spy Response Rule File - AUTO GENERATED DO NOT EDIT BY HAND
 //--------------------------------------------------------------------------------------------------------------
 
 
-
-Response item_birdhead_round_startHeavy
-{
-	scene "scenes/Player/Heavy/low/6700.vcd" predelay "1.0, 5.0"
-	scene "scenes/Player/Heavy/low/6699.vcd" predelay "1.0, 5.0"
-	scene "scenes/Player/Heavy/low/6703.vcd" predelay "1.0, 5.0"
-	scene "scenes/Player/Heavy/low/6702.vcd" predelay "1.0, 5.0"
-	scene "scenes/Player/Heavy/low/6705.vcd" predelay "1.0, 5.0"
-}
-Rule item_birdhead_round_startHeavy
-{
-	criteria ConceptPlayerRoundStart IsHeavy 100PercentChance IsHeavyBirdHead
-	Response item_birdhead_round_startHeavy
-}
-
-Response item_birdhead_uberHeavy
-{
-	scene "scenes/Player/Heavy/low/6707.vcd" 
-	scene "scenes/Player/Heavy/low/6708.vcd" 
-	scene "scenes/Player/Heavy/low/6709.vcd" 
-}
-Rule item_birdhead_uberHeavy
-{
-	criteria ConceptMedicChargeDeployed IsHeavy  IsInvulnerable MedicNotInvulnerableSpeech 20PercentChance IsHeavyBirdHead
-	Response item_birdhead_uberHeavy
-}
-
-Response item_unicorn_uberHeavy
-{
-	scene "scenes/Player/Heavy/low/6695.vcd" 
-	scene "scenes/Player/Heavy/low/6696.vcd" 
-	scene "scenes/Player/Heavy/low/6698.vcd" 
-}
-Rule item_unicorn_uberHeavy
-{
-	criteria ConceptMedicChargeDeployed IsHeavy  IsInvulnerable MedicNotInvulnerableSpeech 20PercentChance IsUnicornHead
-	Response item_unicorn_uberHeavy
-}
 
 
 //--------------------------------------------------------------------------------------------------------------
 // Auto Speech
 //--------------------------------------------------------------------------------------------------------------
-Response item_unicorn_round_startHeavy
+Response item_unicorn_cappedSpy
 {
-	scene "scenes/Player/Heavy/low/6690.vcd" predelay "1.0, 5.0"
-	scene "scenes/Player/Heavy/low/6691.vcd" predelay "1.0, 5.0"
-	scene "scenes/Player/Heavy/low/6688.vcd" predelay "1.0, 5.0"
-	scene "scenes/Player/Heavy/low/8497.vcd" predelay "1.0, 5.0"
-	scene "scenes/Player/Heavy/low/6689.vcd" predelay "1.0, 5.0"
+	scene "scenes/Player/Spy/low/7688.vcd" predelay "2.0, 4.0"
+	scene "scenes/Player/Spy/low/8477.vcd" predelay "2.0, 4.0"
+	scene "scenes/Player/Spy/low/7690.vcd" predelay "2.0, 4.0"
 }
-Rule item_unicorn_round_startHeavy
+Rule item_unicorn_cappedSpy
 {
-	criteria ConceptPlayerRoundStart IsHeavy 100PercentChance IsUnicornHead
-	Response item_unicorn_round_startHeavy
+	criteria ConceptPlayerCapturedPoint IsSpy IsUnicornHead
+	Response item_unicorn_cappedSpy
+}
+
+Response item_unicorn_case_capSpy
+{
+	scene "scenes/Player/Spy/low/7545.vcd" predelay "2.0, 4.0"
+}
+Rule item_unicorn_case_capSpy
+{
+	criteria ConceptPlayerCapturedIntelligence IsSpy IsUnicornHead
+	Response item_unicorn_case_capSpy
+}
+
+Response item_unicorn_round_startSpy
+{
+	scene "scenes/Player/Spy/low/7541.vcd" predelay "1.0, 5.0"
+	scene "scenes/Player/Spy/low/7542.vcd" predelay "1.0, 5.0"
+	scene "scenes/Player/Spy/low/7543.vcd" predelay "1.0, 5.0"
+	scene "scenes/Player/Spy/low/7544.vcd" predelay "1.0, 5.0"
+	scene "scenes/Player/Spy/low/8551.vcd" predelay "1.0, 5.0"
+	scene "scenes/Player/Spy/low/8552.vcd" predelay "1.0, 5.0"
+}
+Rule item_unicorn_round_startSpy
+{
+	criteria ConceptPlayerRoundStart IsSpy 100PercentChance IsUnicornHead
+	Response item_unicorn_round_startSpy
 }
 
 
 //--------------------------------------------------------------------------------------------------------------
 // Auto Speech Combat
 //--------------------------------------------------------------------------------------------------------------
-Response item_unicorn_dominationHeavy
+Response item_unicorn_backstabSpy
 {
-	scene "scenes/Player/Heavy/low/6693.vcd" predelay "2.5"
-	scene "scenes/Player/Heavy/low/6694.vcd" predelay "2.5"
+	scene "scenes/Player/Spy/low/7540.vcd" 
+	scene "scenes/Player/Spy/low/7548.vcd" 
 }
-Rule item_unicorn_dominationHeavy
+Rule item_unicorn_backstabSpy
 {
-	criteria ConceptKilledPlayer IsHeavy IsDominated 30PercentChance IsUnicornHead
-	ApplyContext "HeavyKillSpeech:1:10"
-	Response item_unicorn_dominationHeavy
+	criteria ConceptKilledPlayer KilledPlayerDelay IsWeaponMelee SpyNotKillSpeechMelee IsSpy 20PercentChance IsUnicornHead
+	ApplyContext "SpyKillSpeechMelee:1:10"
+	applycontexttoworld
+	Response item_unicorn_backstabSpy
 }
 
+Response item_unicorn_dominationSpy
+{
+	scene "scenes/Player/Spy/low/7546.vcd" predelay "2.5"
+}
+Rule item_unicorn_dominationSpy
+{
+	criteria ConceptKilledPlayer IsSpy IsDominated 30PercentChance IsUnicornHead
+	ApplyContext "SpyKillSpeech:1:10"
+	Response item_unicorn_dominationSp

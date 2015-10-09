@@ -1,3 +1,6 @@
+1"
+	}
+}
 "Resource/UI/NotificationsPresentPanel.res"
 {
 	"NotificationsPresentPanel"
@@ -31,6 +34,4 @@
 		"wrap"			"1"
 		"labelText"		"#Notifications_Present"
 		"textAlignment"	"north-west"
-		"font"			"TFFontSmall"
-	}
-}
+		"font"			"TFFontSm

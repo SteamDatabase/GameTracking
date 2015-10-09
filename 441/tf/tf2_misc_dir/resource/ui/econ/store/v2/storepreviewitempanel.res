@@ -1,3 +1,6 @@
+	"1"
+}
+
 "Resource/UI/StorePreviewItemPanel.res"
 {
 	"storepreviewitem"
@@ -1591,6 +1594,4 @@
 		"fgcolor"		"34 30 31 255"
 		"defaultBgColor_override"	"76 107 34 255"
 		"ArmedBgColor_override"	"86 117 44 255"
-		"depressedBgColor_override" "66 97 24 255"
-	}	
-}
+		"depressedBgColor_override" "66 97 24 255
