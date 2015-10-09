@@ -587,6 +587,7 @@
  B g_bInCommentaryMode
  B g_bRunningFromPerforce
  B g_bUpdateStringTokenDatabase
+ B g_emptyEntityManifest
  B g_flLastUpdateTime
  B g_nBreakpadAppId
  B g_nLinkerHack_SchemaAnchor_RegistrationCountFor_engine2
@@ -796,6 +797,7 @@
  B r_showsunshadowdebugsplitvis
  B r_size_cull_threshold
  B r_size_cull_threshold_shadow
+ B r_skip_precache_validation_check
  B r_ssao
  B r_ssr
  B r_stereo_convergence
@@ -866,7 +868,6 @@
  B tv_instant_replay_full_frame
  B tv_instant_replay_full_frame_packet_size
  B tv_instant_replay_full_frame_time
- B tv_listen_voice_indices
  B tv_name
  B tv_relay_quit_after_game
  B tv_relay_quit_on_connection_failure
@@ -1397,6 +1398,17 @@
  D CSchemaManipulator<Vector>::StaticAccessor()::m
  D CSchemaManipulator<matrix3x4_t>::StaticAccessor()::m
  D CSchemaManipulator<matrix3x4a_t>::StaticAccessor()::m
+ D CSchemaType* SchemaTypeOf<BuilderModelBoneFlexDriverControl_t>()::s_pTypeOf
+ D CSchemaType* SchemaTypeOf<BuilderModelBoneFlexDriver_t>()::s_pTypeOf
+ D CSchemaType* SchemaTypeOf<CBaseConstraint*>()::s_pTypeOf
+ D CSchemaType* SchemaTypeOf<CHitBox>()::s_pTypeOf
+ D CSchemaType* SchemaTypeOf<CHitBoxSet>()::s_pTypeOf
+ D CSchemaType* SchemaTypeOf<CMaterialDrawDescriptor>()::s_pTypeOf
+ D CSchemaType* SchemaTypeOf<CSceneObjectData>()::s_pTypeOf
+ D CSchemaType* SchemaTypeOf<ConstraintSlave_t>()::s_pTypeOf
+ D CSchemaType* SchemaTypeOf<ConstraintTarget_t>()::s_pTypeOf
+ D CSchemaType* SchemaTypeOf<RenderSkeletonBone_t>()::s_pTypeOf
+ D CSchemaType* SchemaTypeOf<int>()::s_pTypeOf
  D CSmallTextEntry::ChainToAnimationMap()::chained
  D CSmallTextEntry::ChainToMap()::chained
  D CSmallTextEntry::GetKBMap()::s_pMap
@@ -2584,6 +2596,7 @@
  D typeinfo for CDiskDemoBuffer
  D typeinfo for CDragDropHelperPanel
  D typeinfo for CEmptyConVar
+ D typeinfo for CEmptyEntityResourceManifest
  D typeinfo for CEmptyProceduralLayer
  D typeinfo for CEngineClient
  D typeinfo for CEngineConsole
@@ -4427,6 +4440,7 @@
  D vtable for CDiskDemoBuffer
  D vtable for CDragDropHelperPanel
  D vtable for CEmptyConVar
+ D vtable for CEmptyEntityResourceManifest
  D vtable for CEmptyProceduralLayer
  D vtable for CEngineClient
  D vtable for CEngineConsole
@@ -5693,6 +5707,7 @@
  R typeinfo name for CDiskDemoBuffer
  R typeinfo name for CDragDropHelperPanel
  R typeinfo name for CEmptyConVar
+ R typeinfo name for CEmptyEntityResourceManifest
  R typeinfo name for CEmptyProceduralLayer
  R typeinfo name for CEngineClient
  R typeinfo name for CEngineConsole
@@ -9252,6 +9267,12 @@
  T CEmptyConVar::SetValue(float)
  T CEmptyConVar::SetValue(int)
  T CEmptyConVar::~CEmptyConVar()
+ T CEmptyEntityResourceManifest::AddResource(char const*)
+ T CEmptyEntityResourceManifest::AddResource(char const*, CEntityInstance*, void (CEntityInstance::*)(ResourceBindingBase_t const*, CEntityPrecacheContext const*))
+ T CEmptyEntityResourceManifest::AddResource(char const*, void (*)(ResourceBindingBase_t const*, CEntityPrecacheContext const*))
+ T CEmptyEntityResourceManifest::ConstructEntityLumpResourceName(char const*, char const*, char const*, char const*, char*, int)
+ T CEmptyEntityResourceManifest::SetCurrentPrecacheEntity(EntitySpawnInfo_t const&)
+ T CEmptyEntityResourceManifest::~CEmptyEntityResourceManifest()
  T CEmptyProceduralLayer::Render(ISceneView*, IRenderContext*, ISceneLayer*, SceneSystemPerFrameStats_t*)
  T CEmptyProceduralLayer::~CEmptyProceduralLayer()
  T CEngineClient::ChangePVSSpawnGroupHandle(unsigned int)
@@ -16292,7 +16313,7 @@
  T CTier1Application::GetGameMode() const
  T CTier1Application::GetIDFromAddonName(char const*) const
  T CTier1Application::GetInitializationPhase() const
- T CTier1Application::GetLanguage() const
+ T CTier1Application::GetLanguage(LanguageType_t) const
  T CTier1Application::GetModGameSubdir() const
  T CTier1Application::GetModPath() const
  T CTier1Application::GetMountedAddons(CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
@@ -17626,7 +17647,7 @@
  T ColumnButton::OnMousePressed(ButtonCode_t)
  T ColumnButton::~ColumnButton()
  T ComboBox_Factory()
- T ComputeLanguage(char*, int)
+ T ComputeLanguage(CUtlString&, CUtlString&)
  T ComputeLowViolence()
  T ComputeModContentFilename(char const*, char*, int)
  T ComputeResourceIdFromResourceName(char const*)
@@ -23713,6 +23734,7 @@
  std::__1::locale::~locale()
  std::__1::regex_error::regex_error(std::__1::regex_constants::error_type)
  std::__1::regex_error::~regex_error()
+ std::__1::to_string(int)
  std::exception::~exception()
  std::terminate()
  strcat
@@ -24244,9 +24266,6 @@
  t __cxx_global_var_init189
  t __cxx_global_var_init19
  t __cxx_global_var_init190
- t __cxx_global_var_init191
- t __cxx_global_var_init192
- t __cxx_global_var_init193
  t __cxx_global_var_init20
  t __cxx_global_var_init21
  t __cxx_global_var_init22
