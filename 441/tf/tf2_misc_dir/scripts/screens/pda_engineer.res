@@ -1,133 +1,162 @@
-"volume"	".25"
-		"pitch"		"100"
-		"wave"		"ambient/underground.wav"
+"pda_engineer.res"
+{
+	"SentryLabel"
+	{
+		"ControlName"	"Label"
+		"fieldName"		"SentryLabel"
+		"font"			"Default"
+		"xpos"			"0"
+		"ypos"			"0"
+		"wide"			"150"
+		"tall"			"30"
+		"autoResize"	"0"
+		"pinCorner"		"0"
+		"visible"		"1"
+		"enabled"		"1"
+		"labelText"		"1"
+		"textAlignment"	"Left"
+		"dulltext"		"0"
+		"brighttext"	"0"
+		"paintbackground"	"0"
+	}
+		
+	"SentryIcon"
+	{
+		"ControlName"	"CIconPanel"
+		"fieldName"		"SentryIcon"
+		"xpos"			"0"
+		"ypos"			"15"
+		"wide"			"150"
+		"tall"			"150"
+		"visible"		"1"
+		"enabled"		"1"
+		"scaleImage"	"1"	
+		"icon"			"obj_status_sentrygun_1"
+		"iconColor"		"255 255 255 255"
+	}
+	
+	"DispenserLabel"
+	{
+		"ControlName"	"Label"
+		"fieldName"		"DispenserLabel"
+		"font"			"Default"
+		"xpos"			"150"
+		"ypos"			"0"
+		"wide"			"150"
+		"tall"			"30"
+		"autoResize"	"0"
+		"pinCorner"		"0"
+		"visible"		"1"
+		"enabled"		"1"
+		"labelText"		"2"
+		"textAlignment"	"Left"
+		"dulltext"		"0"
+		"brighttext"	"0"
+		"paintbackground"	"0"
+	}
+	
+	"DispenserIcon"
+	{
+		"ControlName"	"CIconPanel"
+		"fieldName"		"DispenserIcon"
+		"xpos"			"150"
+		"ypos"			"15"
+		"wide"			"150"
+		"tall"			"150"
+		"visible"		"1"
+		"enabled"		"1"
+		"scaleImage"	"1"	
+		"icon"			"obj_status_dispenser"
+		"iconColor"		"255 255 255 255"
+	}
+	
+	"TeleEnterLabel"
+	{
+		"ControlName"	"Label"
+		"fieldName"		"TeleEnterLabel"
+		"font"			"Default"
+		"xpos"			"0"
+		"ypos"			"185"
+		"wide"			"150"
+		"tall"			"30"
+		"autoResize"	"0"
+		"pinCorner"		"0"
+		"visible"		"1"
+		"enabled"		"1"
+		"labelText"		"3"
+		"textAlignment"	"Left"
+		"dulltext"		"0"
+		"brighttext"	"0"
+		"paintbackground"	"0"
+	}
+	
+	"TeleEnterIcon"
+	{
+		"ControlName"	"CIconPanel"
+		"fieldName"		"TeleEnterIcon"
+		"xpos"			"0"
+		"ypos"			"200"
+		"wide"			"150"
+		"tall"			"150"
+		"visible"		"1"
+		"enabled"		"1"
+		"scaleImage"	"1"	
+		"icon"			"obj_status_tele_entrance"
+		"iconColor"		"255 255 255 255"
+	}
+	
+	"TeleExitLabel"
+	{
+		"ControlName"	"Label"
+		"fieldName"		"TeleExitLabel"
+		"font"			"Default"
+		"xpos"			"150"
+		"ypos"			"185"
+		"wide"			"150"
+		"tall"			"30"
+		"autoResize"	"0"
+		"pinCorner"		"0"
+		"visible"		"1"
+		"enabled"		"1"
+		"labelText"		"4"
+		"textAlignment"	"Left"
+		"dulltext"		"0"
+		"brighttext"	"0"
+		"paintbackground"	"0"
+	}
+	
+	"TeleExitIcon"
+	{
+		"ControlName"	"CIconPanel"
+		"fieldName"		"TeleExitIcon"
+		"xpos"			"150"
+		"ypos"			"200"
+		"wide"			"150"
+		"tall"			"150"
+		"visible"		"1"
+		"enabled"		"1"
+		"scaleImage"	"1"	
+		"icon"			"obj_status_tele_exit"
+		"iconColor"		"255 255 255 255"
+	}
+		
+	"CancelLabel"
+	{
+		"ControlName"	"Label"
+		"fieldName"		"CancelLabel"
+		"font"			"Default"
+		"xpos"			"0"
+		"ypos"			"370"
+		"wide"			"300"
+		"tall"			"30"
+		"autoResize"	"0"
+		"pinCorner"		"0"
+		"visible"		"1"
+		"enabled"		"1"
+		"labelText"		"0 Cancel"
+		"textAlignment"	"center"
+		"dulltext"		"0"
+		"brighttext"	"0"
+		"paintbackground"	"0"
 	}
 }
-
-
-"warehouse.inside_spawn_foyer"
-{
-	"dsp"	"18"
-	
-	"playlooping"
-	{
-		"volume"	".4"
-		"pitch"		"100"
-		"wave"		"ambient/indoors.wav"
-	}
-	
-		"playlooping"
-	{
-		"volume"	".15"
-		"pitch"		"100"
-		"wave"		"ambient/lighthum.wav"
-	}
-	
-	"playlooping"
-	{  
-		"volume"	".2"
-		"pitch"		"100"
-		"wave"		"ambient/mvm_warehouse/warehouse_outdoors.wav"
-	}
-	
-	"playrandom"
-	{	
-		"time"			"8, 10"
-		"volume"		"0.35"
-		"pitch"			"100"
-		"soundlevel" 	"SNDLVL_90dB"
-		"position"		"4"
-		"rndwave"
-		{
-				"wave"		"ambient_mp3/mvm_warehouse/seagull_01.mp3"
-				"wave"		"ambient_mp3/mvm_warehouse/seagull_02.mp3"
-				"wave"		"ambient_mp3/mvm_warehouse/seagull_03.mp3"
-		}	
-	}
-	
-	"playrandom"
-	{
-		"time"			"4, 9"
-		"volume"		"0.35"
-		"pitch"			"100"
-		"soundlevel" 	"SNDLVL_95dB"
-		"position"  	"1"
-		"rndwave"
-		{
-			"wave"		"ambient_mp3/mvm_warehouse/car_horn_01.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_horn_02.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_horn_03.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_horn_04.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_horn_05.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_06.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_07.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_03.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_04.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_05.mp3"		
-		}
-	}
-	
-	"playlooping"
-	{
-		"volume"		"0.45"
-		"soundlevel" 	"SNDLVL_95dB"
-		"position" 		"6"
-		"wave"			"ambient/mvm_warehouse/warehouse_city.wav"
-	}
-	
-	"playlooping"
-	{
-		"volume"		"0.35"
-		"soundlevel" 	"SNDLVL_85dB"
-		"position"		"7"
-		"wave"			"ambient/mvm_warehouse/warehouse_harbor.wav"	
-	}
-}
-
-
-"warehouse.outside"
-{
-
-	"dsp"	"1"
-	
-	"playlooping"
-	{  
-		"volume"	".3"
-		"pitch"		"100"
-		"wave"		"ambient/mvm_warehouse/warehouse_outdoors.wav"
-	}
-	
-	"playrandom"
-	{
-		"time"			"3, 9"
-		"volume"		"0.5"
-		"pitch"			"100"
-		"soundlevel" 	"SNDLVL_95dB"
-		"position"  	"1"
-		"rndwave"
-		{
-			"wave"		"ambient_mp3/mvm_warehouse/car_horn_01.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_horn_02.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_horn_03.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_horn_04.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_horn_05.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_06.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_07.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_03.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_04.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_05.mp3"		
-		}
-	}
-	
-	"playrandom"
-	{
-		"time"			"2, 8"
-		"volume"		"0.5"
-		"pitch"			"100"
-		"soundlevel" 	"SNDLVL_95dB"
-		"position"  	"2"
-		"rndwave"
-		{
-			"wave"		"ambient_mp3/mvm_warehouse/car_horn_01.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_horn_02.mp3"
-			"wave"		"ambient_mp3/mv

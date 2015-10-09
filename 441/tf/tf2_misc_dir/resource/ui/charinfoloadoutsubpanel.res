@@ -1,5 +1,3 @@
-lor" 1
-}
 "Resource/UI/CharInfoLoadoutSubPanel.res"
 {
 	"CharInfoLoadoutSubPanel"
@@ -1839,4 +1837,6 @@ lor" 1
 		"wide"				"f0"
 		"tall"				"400"
 		"zpos"				"500"
-		"visible"			"
+		"visible"			"1"
+	}
+}

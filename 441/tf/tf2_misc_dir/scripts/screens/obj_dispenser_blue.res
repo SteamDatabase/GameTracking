@@ -1,53 +1,41 @@
-LVL_90dB"	
-		"wave"		"@ambient/train_engine_idle.wav"
-	}
-	
-		"playlooping"
+"obj_dispenser.res"
+{
+	"MeterBG"
 	{
-		"volume"	"1"
-		"pitch"		"100"
-		"position"	"1"
-		"soundlevel"  	"SNDLVL_70dB"
-		"wave"		")ambient/turbine1.wav"
+		"ControlName"	"CIconPanel"
+		"fieldName"		"MeterBG"
+		"xpos"			"0"
+		"ypos"			"0"
+		"zpos"			"-2"
+		"wide"			"480"
+		"tall"			"240"
+		"visible"		"1"
+		"enabled"		"1"
+		"scaleImage"	"1"	
+		"icon"			"dispenser_meter_bg_blue"
+		"iconColor"		"255 255 255 255"
 	}
 	
-		"playlooping"
+	"MeterArrow"
 	{
-		"volume"	"1"
-		"pitch"		"100"
-		"position"	"2"
-		"soundlevel"  	"SNDLVL_70dB"
-		"wave"		")ambient/turbine2.wav"
-	}
-	
-		"playlooping"
-	{
-		"volume"	"1"
-		"pitch"		"100"
-		"position"	"3"
-		"soundlevel"  	"SNDLVL_70dB"
-		"wave"		")ambient/turbine3.wav"
-	}
-	
-		"playlooping"
-	{
-		"volume"	"1"
-		"pitch"		"100"
-		"position"	"4"
-		"soundlevel"  	"SNDLVL_70dB"
-		"wave"		")ambient/turbine4.wav"
-	}
-	
-		"playlooping"
-	{
-		"volume"	"1"
-		"pitch"		"100"
-		"position"	"5"
-		"soundlevel"  	"SNDLVL_70dB"
-		"wave"		")ambient/turbine5.wav"
-	}
-	
-		"playlooping"
-	{ 
-		"volume"	"1"
-		"pi
+		"ControlName"	"RotatingProgressBar"
+		"fieldName"		"MeterArrow"
+		"x"				"0"
+		"y"				"0"
+		"wide"			"480"
+		"tall"			"240"
+		"visible"		"1"
+		"enabled"		"1"
+		"start_degrees"	"-85"
+		"end_degrees"	"85"
+		"approach_speed" "80"	// degrees per second
+		"image"			"dispenser_meter_arrow"
+		"iconColor"		"255 255 255 255"
+		"rot_origin_x_percent"	"0.5"
+		"rot_origin_y_percent"	"0.90625"
+		"rotating_x"		"215"
+		"rotating_y"		"40"
+		"rotating_wide"		"50"
+		"rotating_tall"		"200"
+	}	
+}

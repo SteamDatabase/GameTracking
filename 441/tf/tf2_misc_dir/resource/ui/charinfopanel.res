@@ -1,6 +1,3 @@
-"tf"
-}
-
 "Resource/UI/CharInfoPanel.res"
 {
 	"character_info"
@@ -150,4 +147,6 @@
 		"wide"			"190"
 		"tall"			"50"
 		"visible"		"0"
-		"enabled"		"
+		"enabled"		"1"
+	}
+}

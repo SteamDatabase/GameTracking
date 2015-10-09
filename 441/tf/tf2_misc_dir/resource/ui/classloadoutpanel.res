@@ -1,5 +1,3 @@
-lor" 1
-}
 "Resource/UI/FullLoadoutPanel.res"
 {
 	"class_loadout_panel"
@@ -672,4 +670,6 @@ lor" 1
 				"image"			"close_button"
 				"scaleImage"	"1"
 			}				
-		}
+		}		
+	}
+}

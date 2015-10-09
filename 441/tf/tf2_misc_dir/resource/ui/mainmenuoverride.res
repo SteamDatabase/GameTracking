@@ -1176,7 +1176,7 @@
 			"pinCorner"		"0"
 			"visible"		"1"
 			"enabled"		"1"
-			"fgcolor_override"	"46 43 42 255"
+			"fgcolor"		"LabelDark"
 			"wrap"			"1"
 		}
 		
@@ -4116,4 +4116,6 @@
 			"angles_x"		"10"
 			"angles_y"		"130"
 			"angles_z"		"0"
-	
+		}
+	}
+}

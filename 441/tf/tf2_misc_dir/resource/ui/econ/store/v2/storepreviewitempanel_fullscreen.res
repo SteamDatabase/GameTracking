@@ -1,5 +1,4 @@
-ght" "1"
-}"Resource/UI/StorePreviewItemPanel.res"
+"Resource/UI/StorePreviewItemPanel.res"
 {
 	"FullscreenStorePreview"
 	{
@@ -357,3 +356,5 @@ ght" "1"
 		"defaultBgColor_override"	"76 107 34 255"
 		"ArmedBgColor_override"	"86 117 44 255"
 		"depressedBgColor_override" "66 97 24 255"
+	}		
+}

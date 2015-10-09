@@ -1,6 +1,3 @@
-"tf"
-}
-
 #base "StoreHome_Base.res"
 
 "Resource/UI/StoreHome_Premium.res"
@@ -40,4 +37,6 @@
 				"visible"		"1"
 				"image"		"store/store_australian_christmas_callout_sale"
 			}
-	
+		}
+	}
+}

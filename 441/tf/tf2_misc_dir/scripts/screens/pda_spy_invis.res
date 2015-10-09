@@ -1,13 +1,20 @@
-dwave"
-		{
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_06.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_07.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_03.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_04.mp3"
-			"wave"		"ambient_mp3/mvm_warehouse/car_passby_05.mp3"		
-		}
-	}
-	
-	"playrandom"
+"pda_spy_invis.res"
+{
+	"InvisProgress"
 	{
-		"time"			
+		"ControlName"	"ProgressBar"
+		"fieldName"		"InvisProgress"
+		"xpos"			"10"
+		"ypos"			"10"
+		"zpos"			"1"
+		"wide"			"260"
+		"tall"			"80"
+		"autoResize"	"0"
+		"pinCorner"		"0"
+		"visible"		"1"
+		"enabled"		"1"
+		//"fg_image"		"flagtime_full"
+		//"bg_image"		"flagtime_empty"
+	}	
+}
+

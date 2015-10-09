@@ -1,18 +1,20 @@
-"wave"		"ambient_mp3/mvm_warehouse/car_passby_05.mp3"
-		}
-	}
-	
-	"playlooping"
+"pda_spy_invis_pocket_hm.res"
+{
+	"InvisProgress"
 	{
-		"volume"		"0.5"
-		"soundlevel" 	"SNDLVL_85dB"
-		"position" 		"5"
-		"wave"			"ambient/mvm_warehouse/warehouse_city.wav"
-	}
-	
-	"playlooping"
-	{
-		"volume"		"0.5"
-		"soundlevel" 	"SNDLVL_85dB"
-		"position"		"6"
-		"wave"			"ambient/mvm_warehouse/warehouse_harb
+		"ControlName"	"CircularProgressBar"
+		"fieldName"		"InvisProgress"
+		"xpos"			"10"
+		"ypos"			"10"
+		"zpos"			"1"
+		"wide"			"260"
+		"tall"			"80"
+		"autoResize"	"0"
+		"pinCorner"		"0"
+		"visible"		"1"
+		"enabled"		"1"
+		"fg_image"		"hm_watch_FG"
+		"bg_image"		"hm_watch_BG"
+	}	
+}
+

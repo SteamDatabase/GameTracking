@@ -1,6 +1,3 @@
-}
-	}	
-}
 "Resource/UI/CraftingPanel.res"
 {
 	"crafting_panel"
@@ -479,4 +476,6 @@
 		"default"		"1"
 		"Command"		"reloadscheme"
 		"sound_depressed"	"UI/buttonclick.wav"
-		"sound_released"	"UI/buttonclickrelease.wa
+		"sound_released"	"UI/buttonclickrelease.wav"
+	}
+}

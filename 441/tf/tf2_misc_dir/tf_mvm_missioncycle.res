@@ -1,6 +1,3 @@
-0"
-	}
-}
 "tf_mvm_missioncycle.res"
 {	
 	"categories" "4"
@@ -162,4 +159,6 @@
 		{
 			"map" "mvm_mannworks"
 			"popfile" "mvm_mannworks_expert1"
-	
+		}
+	}
+}
