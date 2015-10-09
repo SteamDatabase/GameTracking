@@ -217,6 +217,9 @@ function COverthrowGameMode:PlanNextSpawn()
 	if GetMapName() == "desert_quintet" then
 		print("map is desert_quintet")
 		r = RandomInt( 1, 6 )
+	elseif GetMapName() == "temple_quintet" then
+		print("map is temple_quintet")
+		r = RandomInt( 1, 4 )
 	end
 	local path_track = "item_spawn_" .. r
 	local spawnPoint = Vector( 0, 0, 700 )

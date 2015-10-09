@@ -76,6 +76,8 @@ function CRPGExample:InitGameMode()
 	GameRules:SetGoldPerTick( 0 )
 	GameRules:SetPreGameTime( 0 )
 	GameRules:SetCustomGameSetupTimeout( 0 ) -- skip the custom team UI with 0, or do indefinite duration with -1
+	GameRules:SetCustomGameSetupAutoLaunchDelay( 0 )
+	GameRules:SetCustomGameAccountRecordSaveFunction( Dynamic_Wrap( CRPGExample, "OnSaveAccountRecord" ), self )
 
 	ListenToGameEvent( "game_rules_state_change", Dynamic_Wrap( CRPGExample, 'OnGameRulesStateChange' ), self )
 	ListenToGameEvent( "npc_spawned", Dynamic_Wrap( CRPGExample, "OnNPCSpawned" ), self )
@@ -84,9 +86,12 @@ function CRPGExample:InitGameMode()
 	ListenToGameEvent( "dota_item_picked_up", Dynamic_Wrap( CRPGExample, "OnItemPickedUp" ), self )
 
 	self._tPlayerHeroInitStatus = {}	
+	self._tPlayerDeservesTPAtSpawn = {}	
+	self._tPlayerIDToAccountRecord = {}
 
 	for nPlayerID = 0, DOTA_MAX_PLAYERS do
 		self._tPlayerHeroInitStatus[ nPlayerID ] = false
+		self._tPlayerDeservesTPAtSpawn[ nPlayerID ] = false
 	end
 
 	self:SetupSpawners()
