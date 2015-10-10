@@ -5480,7 +5480,6 @@
  D SplineGraphPanel::GetKBMap()::s_pMap
  D SplineGraphPanel::GetMessageMap()::s_pMap
  D SplineGraphPanel::KB_ChainToMap()::chained
- D SteamPadButtonToNameTable
  D TrailPoint_t::m_DataMap
  D UniqueStatID_t<SAchievementData>::s_nLastID
  D UniqueStatID_t<SConfigStats>::s_nLastID
@@ -23626,19 +23625,14 @@
  T CInput::LevelInit()
  T CInput::MakeWeaponSelection(C_BaseCombatWeapon*)
  T CInput::MouseMove(int, CUserCmd*)
- T CInput::PerformSteamControllerCameraHaptics(int, ESteamControllerPad, float)
- T CInput::PerformSteamControllerCameraMove(int, ESteamControllerPad, Vector2D, bool, float)
- T CInput::PerformSteamControllerStickHaptics(int, ESteamControllerPad, bool)
  T CInput::ResetMouse()
  T CInput::ScaleAxisValue(float, float)
  T CInput::ScaleMouse(int, float*, float*)
- T CInput::ScaleSteamControllerLook(int, Vector2D)
  T CInput::SetControllerModeActive(bool)
  T CInput::SetFullscreenMousePos(int, int)
  T CInput::SetLastUsedInput(int)
  T CInput::Shutdown_All()
  T CInput::Shutdown_TrackIR()
- T CInput::SteamControllerDebug()
  T CInput::SteamControllerMove(int, float, CUserCmd*)
  T CInput::TrackIRMove(float, CUserCmd*)
  T CInput::ValidateUserCmd(CUserCmd*, int)
@@ -41404,6 +41398,7 @@
  T OpenChamberMenuItemCallback(CEditorUIPanel*)
  T OpenGammaDialog(unsigned int)
  T OpenRadialMenu(char const*, CHandle<C_BaseEntity>, Vector const&, Vector const&, RadialMenuTypes_t)
+ T OpenSteamControllerOptions()
  T OpenStoreStatusDialog(vgui::Panel*, char const*, bool, bool, bool)
  T OpenStoreViewCartPanel()
  T OpenVoteDialog()
@@ -41895,6 +41890,7 @@
  T SharedVehicleViewSmoothing(C_BasePlayer*, Vector*, QAngle*, bool, bool, Vector const&, ViewSmoothingData_t*, float*, bool)
  T ShellEjectCallback(CEffectData const&)
  T ShellEjectPrecache::CResourcePrecacher::Cache(IPrecacheHandler*, bool, ResourceList_t__*, bool)
+ T ShiftSteamControllerInput(bool)
  T ShotgunShellEjectCallback(CEffectData const&)
  T ShotgunShellEjectPrecache::CResourcePrecacher::Cache(IPrecacheHandler*, bool, ResourceList_t__*, bool)
  T ShouldCullParticleSystem(CullSystemByControlPointData_t const*, CParticleCollection*, IMatRenderContext*, int)
@@ -48227,14 +48223,8 @@
  b CInput::JoyStickTurn(CUserCmd*, float&, float&, float, bool, bool)::s_joy_yawsensitivity
  b CInput::Joystick_Advanced(bool)::s_joy_legacy
  b CInput::Joystick_Advanced(bool)::s_joy_movement_stick
- b CInput::PerformSteamControllerCameraHaptics(int, ESteamControllerPad, float)::s_sc_haptics
- b CInput::PerformSteamControllerStickHaptics(int, ESteamControllerPad, bool)::s_sc_haptics
- b CInput::ScaleSteamControllerLook(int, Vector2D)::s_sc_accel_exponent
- b CInput::ScaleSteamControllerLook(int, Vector2D)::s_sc_accel_scale
- b CInput::ScaleSteamControllerLook(int, Vector2D)::s_sc_pitch_sensitivity
- b CInput::ScaleSteamControllerLook(int, Vector2D)::s_sc_yaw_sensitivity
- b CInput::SteamControllerMove(int, float, CUserCmd*)::s_sc_enable
- b CInput::SteamControllerMove(int, float, CUserCmd*)::s_sc_look_pad
+ b CInput::SteamControllerMove(int, float, CUserCmd*)::bControllerTablesInitialized
+ b CInput::SteamControllerMove(int, float, CUserCmd*)::bWasUIVisible
  b CInventoryManager::GetAckKeyForItem(C_EconItemView*)::szTmp
  b CInventoryManager::SetAckedByClient(C_EconItemView*)::szTmp
  b CItemAngledPanel::CreateAngledPanelBrush(ExportLimitData_t&, QString*)::ivSolidDimensions
@@ -48912,6 +48902,7 @@
  b __g_GameRulesRegister_CPortalMPGameRules
  b anim_3wayblend
  b asw_perf_wtf
+ b bIsQuckPingOpening
  b c_maxdistance
  b c_maxpitch
  b c_maxyaw
@@ -49196,6 +49187,9 @@
  b g_ComboBox_Helper
  b g_ContinuousProgressBar_Helper
  b g_Controller
+ b g_ControllerCameraHandle
+ b g_ControllerDigitalActionState
+ b g_ControllerMoveHandle
  b g_CustomTextureStencilGradientMapWidget_Helper
  b g_CvarToggleCheckButton_Helper
  b g_DataObjectAccessSystem
@@ -49502,14 +49496,6 @@
  b guard variable for CInput::JoyStickTurn(CUserCmd*, float&, float&, float, bool, bool)::s_joy_yawsensitivity
  b guard variable for CInput::Joystick_Advanced(bool)::s_joy_legacy
  b guard variable for CInput::Joystick_Advanced(bool)::s_joy_movement_stick
- b guard variable for CInput::PerformSteamControllerCameraHaptics(int, ESteamControllerPad, float)::s_sc_haptics
- b guard variable for CInput::PerformSteamControllerStickHaptics(int, ESteamControllerPad, bool)::s_sc_haptics
- b guard variable for CInput::ScaleSteamControllerLook(int, Vector2D)::s_sc_accel_exponent
- b guard variable for CInput::ScaleSteamControllerLook(int, Vector2D)::s_sc_accel_scale
- b guard variable for CInput::ScaleSteamControllerLook(int, Vector2D)::s_sc_pitch_sensitivity
- b guard variable for CInput::ScaleSteamControllerLook(int, Vector2D)::s_sc_yaw_sensitivity
- b guard variable for CInput::SteamControllerMove(int, float, CUserCmd*)::s_sc_enable
- b guard variable for CInput::SteamControllerMove(int, float, CUserCmd*)::s_sc_look_pad
  b guard variable for CItemAngledPanel::CreateAngledPanelBrush(ExportLimitData_t&, QString*)::ivSolidDimensions
  b guard variable for CItemBarrierAnchor::ExportIndividualBrush(IntVector3D const&, ExportLimitData_t&, QString*)::ivHalfVoxel
  b guard variable for CItemModelPanel::SetItem(C_EconItemView*)::pAttrib_KillEater
@@ -50357,24 +50343,9 @@
  b s_vecSlimeColor
  b s_viewFadeColor
  b s_windControllers
- b sc_accel_exponent
- b sc_accel_scale
- b sc_accel_scale_default
- b sc_debug
  b sc_enable
- b sc_haptics
- b sc_haptics_stick_intensity
- b sc_haptics_stick_mode
- b sc_haptics_trackball_tick_intensity
- b sc_haptics_trackball_tick_interval
- b sc_jitter_mode
- b sc_jitter_threshold
  b sc_joystick_inner_deadzone_scale
  b sc_joystick_outer_deadzone_scale
- b sc_look_pad
- b sc_momentum_decay
- b sc_momentum_minimum
- b sc_momentum_yaw_bias
  b sc_pitch_sensitivity
  b sc_pitch_sensitivity_default
  b sc_yaw_sensitivity
@@ -50644,6 +50615,7 @@
  d g_ButtonNames
  d g_CCNameMap
  d g_ColInfo
+ d g_ControllerDigitalGameActions
  d g_CurrentViewID
  d g_DebugOverlay
  d g_EffectsList
@@ -50668,6 +50640,7 @@
  d g_NameMap
  d g_NullSurface
  d g_Script_vscript_client
+ d g_SteamControllerOriginStrings
  d g_aPlayerClassNames
  d g_bCleanupDatObject
  d g_bWasSkipping
@@ -52004,7 +51977,7 @@
  t __cxx_global_var_init41
  t __cxx_global_var_init5
  t __cxx_global_var_init6
- t __cxx_global_var_init65
+ t __cxx_global_var_init66
  t __cxx_global_var_init69
  t __cxx_global_var_init7
  t __cxx_global_var_init70
