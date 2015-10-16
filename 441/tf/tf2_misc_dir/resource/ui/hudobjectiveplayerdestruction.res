@@ -989,8 +989,8 @@
 
 	"CountdownContainer"
 	{
-		"fieldName"				"CountdownContainer"
 		"ControlName"			"EditablePanel"
+		"fieldName"				"CountdownContainer"
 		"xpos"					"c-150"
 		"ypos"					"r110"
 		"zpos"					"1"
@@ -998,7 +998,6 @@
 		"tall"					"110"
 		"visible"				"0"
 		"enabled"				"1"
-		"proportionalToParent"	"1"
 
 		"Background"
 		{

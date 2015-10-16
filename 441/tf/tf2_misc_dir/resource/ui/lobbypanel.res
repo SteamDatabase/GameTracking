@@ -1470,7 +1470,7 @@
 		"fieldName"		"PartyActiveGroupBox"
 		"xpos"			"c+100"
 		"ypos"		"10"
-		"zpos"		"-1"
+		"zpos"		"1"
 		"wide"		"200"
 		"tall"		"330"
 		"visible"	"0"
@@ -1479,6 +1479,11 @@
 		"NavDown"		"<<NextButton"
 		"NavLeft"		"<<Sheet"
 		"NavRight"		"<<StartPartyButton"
+
+		"if_competitive"
+		{
+			"ypos"		"35"
+		}
 
 		"PartyGroupBox"
 		{
@@ -1624,14 +1629,31 @@
 	{
 		"ControlName"	"EditablePanel"
 		"fieldName"		"CompetitiveModeGroupBox"
-		"xpos"		"c-305"
+		"xpos"		"c-350"
 		"ypos"		"10"
 		"zpos"		"-1"
-		"wide"		"400"
-		"tall"		"330"
+		"wide"		"f0"
+		"tall"		"470"
 		"visible"	"1"
 		"enabled"	"1"
 		//"border"	"MainMenuHighlightBorder"
+
+		"LadderLabel"
+		{
+			"ControlName"	"CExLabel"
+			"fieldName"		"LadderLabel"
+			"xpos"			"60"
+			"ypos"			"20"
+			"zpos"			"0"
+			"wide"			"50"
+			"tall"			"20"
+			"visible"		"1"
+			"enabled"		"1"
+			"font"			"HudFontSmallestBold"
+			//"fgcolor_override"	"89 81 71 255"
+			"textAlignment"	"west"
+			"labelText"		"LADDER:"
+		}
 
 		// Dropdown
 		"CompetitiveModeComboBox"
@@ -1639,8 +1661,8 @@
 			"ControlName"		"ComboBox"
 			"fieldName"			"CompetitiveModeComboBox"
 			"Font"				"HudFontSmallestBold"
-			"xpos"				"20"
-			"ypos"				"10"
+			"xpos"				"130"
+			"ypos"				"21"
 			"zpos"				"0"
 			"wide"				"85"
 			"tall"				"15"
@@ -1664,16 +1686,66 @@
 			"defaultSelectionBG2Color_override" "0 0 0 0"
 		}
 
+		"RankLabel"
+		{
+			"ControlName"	"CExLabel"
+			"fieldName"		"RankLabel"
+			"xpos"			"60"
+			"ypos"			"44"
+			"zpos"			"0"
+			"wide"			"100"
+			"tall"			"20"
+			"visible"		"1"
+			"enabled"		"1"
+			"font"			"HudFontSmallestBold"
+			//"fgcolor_override"	"89 81 71 255"
+			"textAlignment"	"west"
+			"labelText"		"RANK:"
+		}
+
+		"RankIcon"
+		{
+			"ControlName"	"ImagePanel"
+			"fieldName"		"RankIcon"
+			"xpos"			"130"
+			"ypos"			"73"
+			"zpos"			"0"
+			"wide"			"100"
+			"tall"			"100"
+			"visible"		"1"
+			"enabled"		"1"
+			"mouseinputenabled" "0"
+			"image"			"pve/mvm_loot_image"
+			"scaleImage"	"1"
+		}
+
+		"RankTitle"
+		{
+			"ControlName"	"CExLabel"
+			"fieldName"		"RankTitle"
+			"xpos"			"130"
+			"ypos"			"44"
+			"zpos"			"0"
+			"wide"			"150"
+			"tall"			"20"
+			"visible"		"1"
+			"enabled"		"1"
+			"font"			"HudFontSmallBold"
+			"fgcolor_override"	"250 114 45 255"
+			"textAlignment"	"west"
+			"labelText"		"%ranktitle%"
+		}
+
 		// Default image
 		"ModeImage"
 		{
 			"ControlName"	"ImagePanel"
 			"fieldName"		"ModeImage"
-			"xpos"			"5"
-			"ypos"			"30"
+			"xpos"			"85"
+			"ypos"			"75"
 			"zpos"			"0"
-			"wide"			"300"
-			"tall"			"300"
+			"wide"			"130"
+			"tall"			"130"
 			"visible"		"0"
 			"enabled"		"1"
 			"mouseinputenabled" "0"
@@ -1685,15 +1757,14 @@
 		{
 			"ControlName"	"CLadderLobbyLeaderboard"
 			"fieldName"		"Leaderboard6v6"
-			"xpos"			"0"
-			"ypos"			"30"
+			"xpos"			"c+20"
+			"ypos"			"20"
 			"zpos"			"0"
 			"wide"			"300"
 			"tall"			"300"
 			"visible"		"1"
 			"enabled"		"1"
 			"mouseinputenabled" "0"
-			"image"			"main_menu/meta_cityonfire512"
 			"scaleImage"	"1"
 			"entry_step"	"25"
 		}
@@ -1702,17 +1773,61 @@
 		{
 			"ControlName"	"CLadderLobbyLeaderboard"
 			"fieldName"		"Leaderboard9v9"
-			"xpos"			"0"
-			"ypos"			"30"
+			"xpos"			"c+20"
+			"ypos"			"20"
 			"zpos"			"0"
 			"wide"			"300"
 			"tall"			"300"
 			"visible"		"1"
 			"enabled"		"1"
 			"mouseinputenabled" "0"
-			"image"			"main_menu/meta_cityonfire512"
 			"scaleImage"	"1"
 			"entry_step"	"25"
+		}
+
+		"StatsLabel"
+		{
+			"ControlName"	"CExLabel"
+			"fieldName"		"StatsLabel"
+			"xpos"			"120"
+			"ypos"			"195"
+			"zpos"			"0"
+			"wide"			"150"
+			"tall"			"20"
+			"visible"		"1"
+			"enabled"		"1"
+			"font"			"HudFontSmallBold"
+			"fgcolor_override"	"89 81 71 255"
+			"textAlignment"	"west"
+			"labelText"		"Stats"
+		}
+
+		"StatLine"
+		{
+			"ControlName"		"EditablePanel"
+			"fieldName"			"StatLine"
+			"xpos"				"p0.05"
+			"ypos"				"215"
+			"zpos"				"1"
+			"wide"				"240"
+			"tall"				"2"
+			"visible"			"1"
+			"proportionaltoparent" "1"
+			"bgcolor_override"	"89 81 71 255"
+		}
+
+		"StatList"
+		{
+			"ControlName"	"SectionedListPanel"
+			"fieldName"		"StatList"
+			"xpos"			"55"
+			"ypos"			"210"
+			"zpos"			"0"
+			"wide"			"245"
+			"tall"			"150"
+			"autoresize"	"3"
+			"linespacing"	"16"
+			"bgcolor_override"	"46 43 42 255"
 		}
 	}
 }
