@@ -30,10 +30,10 @@ model:CreateWeightlist(
 model:CreateWeightlist(
 	"spike_quills",
 	{
-		{ "quill28_0", 1 },
-		{ "quill10_0", 1 },
-		{ "quill410_0", 1 },
-		{ "quill39_0", 1 },
+		{ "quill28_top_right", 1 },
+		{ "quill10_piston_bot", 1 },
+		{ "quill410_piston_top", 1 },
+		{ "quill39_mid", 1 },
 		{ "quill915_0", 1 },
 		{ "quill713_0", 1 },
 		{ "quill612_0", 1 },
