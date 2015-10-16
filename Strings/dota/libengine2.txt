@@ -736,6 +736,8 @@ ABGR8888
 ADDONS
 ARARA
 ARARARBRBRBRBRBRBRBRAp
+ARARAp
+ARARB
 ARASA
 ARATARARARBp
 ARATARARASBp
@@ -2655,13 +2657,13 @@ CBorderData_CBorderSide::default_instance_
 CBorderData_CBorderSide::~CBorderData_CBorderSide()
 CBorderSide
 CBoundedCvar_CmdRate
-CBoundedCvar_CmdRate::GetFloat() const
+CBoundedCvar_CmdRate::GetFloatVirtualized() const
 CBoundedCvar_CmdRate::~CBoundedCvar_CmdRate()
 CBoundedCvar_Rate
-CBoundedCvar_Rate::GetFloat() const
+CBoundedCvar_Rate::GetFloatVirtualized() const
 CBoundedCvar_Rate::~CBoundedCvar_Rate()
 CBoundedCvar_UpdateRate
-CBoundedCvar_UpdateRate::GetFloat() const
+CBoundedCvar_UpdateRate::GetFloatVirtualized() const
 CBoundedCvar_UpdateRate::~CBoundedCvar_UpdateRate()
 CBoxShadowData
 CBoxShadowData::ByteSize() const
@@ -7101,8 +7103,8 @@ CNetworkGameClient::DumpPrecacheStats(char const*)
 CNetworkGameClient::FinishSignonState_New()
 CNetworkGameClient::FullConnect(ns_address const&)
 CNetworkGameClient::GetClientInterpAmount()
-CNetworkGameClient::GetClientInterpAmount()::s_cl_interp
-CNetworkGameClient::GetClientInterpAmount()::s_cl_interp_ratio
+CNetworkGameClient::GetClientInterpAmount()::cl_interp
+CNetworkGameClient::GetClientInterpAmount()::cl_interp_ratio
 CNetworkGameClient::GetPlayerForUserID(int)
 CNetworkGameClient::GetPreviousServerTickCount() const
 CNetworkGameClient::GetTime() const
@@ -13126,6 +13128,7 @@ ConCommandBase::GetFlags() const
 ConCommandBase::GetHelpText() const
 ConCommandBase::GetName() const
 ConCommandBase::Init()
+ConCommandBase::IsBoundedVar() const
 ConCommandBase::IsFlagSet(long long) const
 ConCommandBase::IsRegistered() const
 ConCommandBase::RemoveFlags(long long)
@@ -13144,9 +13147,12 @@ ConVar::ConVar(char const*, char const*, long long, char const*, bool, float, bo
 ConVar::ConVar(char const*, char const*, long long, char const*, void (*)(IConVar*, char const*, float))
 ConVar::Create(char const*, char const*, long long, char const*, bool, float, bool, float, void (*)(IConVar*, char const*, float))
 ConVar::GetBaseName() const
+ConVar::GetBoolVirtualized() const
 ConVar::GetDefault() const
 ConVar::GetFlags() const
+ConVar::GetFloatVirtualized() const
 ConVar::GetHelpText() const
+ConVar::GetIntVirtualized() const
 ConVar::GetName() const
 ConVar::GetSplitScreenPlayerSlot() const
 ConVar::Init()
@@ -13172,8 +13178,9 @@ ConVarRef::Init(char const*, bool)::bFirst
 ConVarRef::IsValid() const
 ConVar_Register(long long, IConCommandBaseAccessor*)
 ConVar_ServerBounded
-ConVar_ServerBounded::GetBool() const
-ConVar_ServerBounded::GetInt() const
+ConVar_ServerBounded::GetBoolVirtualized() const
+ConVar_ServerBounded::GetIntVirtualized() const
+ConVar_ServerBounded::IsBoundedVar() const
 ConVar_Unregister()
 ConVars
 Con_NPrintf(int, char const*, ...)
@@ -14360,6 +14367,7 @@ InitThreading(bool)
 InitVersion(bool)
 InitializeCharacterSets()::s_CharacterSetInitialized
 InitializeEntityDLLFields
+InputButtonCodeIsScanCodeChanged(IConVar*, char const*, float)
 InputCanceled
 InputCompleted
 InputDialog
@@ -14488,6 +14496,7 @@ KeyValues::~KeyValues()
 Kfff.
 KillFocus
 L941tE
+L95SD9
 LABEL_OPTIONAL
 LABEL_REPEATED
 LABEL_REQUIRED
@@ -15999,7 +16008,7 @@ TBRAp
 TBRBRAp
 TBRBRBRAp
 TBRBTBR0
-TCRBUAVATAp
+TERBUAVATAp
 TGAWriter::WriteToBuffer(unsigned char*, CUtlBuffer&, int, int, ImageFormat, ImageFormat)
 TRPVu
 TUUUUUU
@@ -16630,7 +16639,7 @@ X360_DST24F
 XBRBXBRBXBRBXBRBXBRBXBRBSAp
 XboxSystemInterface001
 Xffff.
-Y59d6
+Y5ig6
 YARBp
 Yfff.
 Zfffff.
@@ -17911,6 +17920,7 @@ _host_frametime_unbounded
 _host_limitlocal
 _host_showcachemiss
 _hostname
+_input_button_code_is_scan_code
 _instantreplay
 _int_downsample
 _ioctl
@@ -19439,6 +19449,8 @@ guard variable for CNetworkClientSpawnGroup::BuildSpawnGroupLoadMessage(CNETMsg_
 guard variable for CNetworkGameClient::CL_ProcessPacketEntities(CSVCMsg_PacketEntities_t const*)::s_entitiesGroup
 guard variable for CNetworkGameClient::CL_ProcessPacketEntities(CSVCMsg_PacketEntities_t const*)::s_localPlayerGroup
 guard variable for CNetworkGameClient::CL_ProcessPacketEntities(CSVCMsg_PacketEntities_t const*)::s_otherPlayerGroup
+guard variable for CNetworkGameClient::GetClientInterpAmount()::cl_interp
+guard variable for CNetworkGameClient::GetClientInterpAmount()::cl_interp_ratio
 guard variable for CNetworkGameClientBase::FinishChangeLevel(CClientChangelevelState*)::cl_timeout
 guard variable for CNetworkGameServer::ActivateServer()::sv_skyname
 guard variable for CNetworkGameServer::ServerPostSimulate(EventServerPostSimulate_t const&)::sv_noclipduringpause
@@ -19773,6 +19785,7 @@ infocus_bgcolor_override
 ingameui
 init_destination(jpeg_compress_struct*)
 inline_object
+input_button_code_is_scan_code
 input_downimpulsevalue
 input_filter_relative_analog_inputs
 input_forceuser
@@ -20509,6 +20522,7 @@ needs_clear
 needs_decoder
 needs_depth
 needs_full_repaint
+needs_intermediate_texture
 needs_redraw_every_frame
 negative_int_value
 nested_type
@@ -20813,7 +20827,6 @@ p2p_listpeers
 p2p_lockdown_global_trust_everyone
 p2p_lockdown_global_trust_friends
 p2p_relay_maxhops
-p8RBp
 p8p8p
 pHct2
 pHpHp

@@ -752,6 +752,7 @@
  B host_limitlocal
  B host_showcachemiss
  B hostname
+ B input_button_code_is_scan_code
  B instantreplay
  B lasterrorU
  B lineartolightmap
@@ -8289,11 +8290,11 @@
  T CBorderData_CBorderSide::SerializeWithCachedSizesToArray(unsigned char*) const
  T CBorderData_CBorderSide::SetCachedSize(int) const
  T CBorderData_CBorderSide::~CBorderData_CBorderSide()
- T CBoundedCvar_CmdRate::GetFloat() const
+ T CBoundedCvar_CmdRate::GetFloatVirtualized() const
  T CBoundedCvar_CmdRate::~CBoundedCvar_CmdRate()
- T CBoundedCvar_Rate::GetFloat() const
+ T CBoundedCvar_Rate::GetFloatVirtualized() const
  T CBoundedCvar_Rate::~CBoundedCvar_Rate()
- T CBoundedCvar_UpdateRate::GetFloat() const
+ T CBoundedCvar_UpdateRate::GetFloatVirtualized() const
  T CBoundedCvar_UpdateRate::~CBoundedCvar_UpdateRate()
  T CBoxShadowData::ByteSize() const
  T CBoxShadowData::Clear()
@@ -17666,6 +17667,7 @@
  T ConCommandBase::GetHelpText() const
  T ConCommandBase::GetName() const
  T ConCommandBase::Init()
+ T ConCommandBase::IsBoundedVar() const
  T ConCommandBase::IsFlagSet(long long) const
  T ConCommandBase::IsRegistered() const
  T ConCommandBase::RemoveFlags(long long)
@@ -17680,9 +17682,12 @@
  T ConVar::ConVar(char const*, char const*, long long, char const*, void (*)(IConVar*, char const*, float))
  T ConVar::Create(char const*, char const*, long long, char const*, bool, float, bool, float, void (*)(IConVar*, char const*, float))
  T ConVar::GetBaseName() const
+ T ConVar::GetBoolVirtualized() const
  T ConVar::GetDefault() const
  T ConVar::GetFlags() const
+ T ConVar::GetFloatVirtualized() const
  T ConVar::GetHelpText() const
+ T ConVar::GetIntVirtualized() const
  T ConVar::GetName() const
  T ConVar::GetSplitScreenPlayerSlot() const
  T ConVar::Init()
@@ -17705,8 +17710,9 @@
  T ConVarRef::Init(char const*, bool)
  T ConVarRef::IsValid() const
  T ConVar_Register(long long, IConCommandBaseAccessor*)
- T ConVar_ServerBounded::GetBool() const
- T ConVar_ServerBounded::GetInt() const
+ T ConVar_ServerBounded::GetBoolVirtualized() const
+ T ConVar_ServerBounded::GetIntVirtualized() const
+ T ConVar_ServerBounded::IsBoundedVar() const
  T ConVar_Unregister()
  T Con_NPrintf(int, char const*, ...)
  T Con_NXPrintf(con_nprint_s const*, char const*, ...)
@@ -17959,6 +17965,7 @@
  T InitSteam(char const*, KeyValues*)
  T InitThreading(bool)
  T InitVersion(bool)
+ T InputButtonCodeIsScanCodeChanged(IConVar*, char const*, float)
  T InstallBitBufErrorHandler()
  T InstallConVarHook()
  T InstallConfigurationSystemHook()
@@ -21822,8 +21829,8 @@
  b CNetworkGameClient::CL_ProcessPacketEntities(CSVCMsg_PacketEntities_t const*)::s_entitiesGroup
  b CNetworkGameClient::CL_ProcessPacketEntities(CSVCMsg_PacketEntities_t const*)::s_localPlayerGroup
  b CNetworkGameClient::CL_ProcessPacketEntities(CSVCMsg_PacketEntities_t const*)::s_otherPlayerGroup
- b CNetworkGameClient::GetClientInterpAmount()::s_cl_interp
- b CNetworkGameClient::GetClientInterpAmount()::s_cl_interp_ratio
+ b CNetworkGameClient::GetClientInterpAmount()::cl_interp
+ b CNetworkGameClient::GetClientInterpAmount()::cl_interp_ratio
  b CNetworkGameClientBase::FinishChangeLevel(CClientChangelevelState*)::cl_timeout
  b CNetworkGameServer::ActivateServer()::sv_skyname
  b CNetworkGameServer::ServerPostSimulate(EventServerPostSimulate_t const&)::sv_noclipduringpause
@@ -22335,6 +22342,8 @@
  b guard variable for CNetworkGameClient::CL_ProcessPacketEntities(CSVCMsg_PacketEntities_t const*)::s_entitiesGroup
  b guard variable for CNetworkGameClient::CL_ProcessPacketEntities(CSVCMsg_PacketEntities_t const*)::s_localPlayerGroup
  b guard variable for CNetworkGameClient::CL_ProcessPacketEntities(CSVCMsg_PacketEntities_t const*)::s_otherPlayerGroup
+ b guard variable for CNetworkGameClient::GetClientInterpAmount()::cl_interp
+ b guard variable for CNetworkGameClient::GetClientInterpAmount()::cl_interp_ratio
  b guard variable for CNetworkGameClientBase::FinishChangeLevel(CClientChangelevelState*)::cl_timeout
  b guard variable for CNetworkGameServer::ActivateServer()::sv_skyname
  b guard variable for CNetworkGameServer::ServerPostSimulate(EventServerPostSimulate_t const&)::sv_noclipduringpause
