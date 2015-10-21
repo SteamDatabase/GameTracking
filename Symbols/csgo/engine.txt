@@ -1173,6 +1173,7 @@
  b g_pGameUISystemMgr
  b g_pGamestatsData
  b g_pHammer
+ b g_pHltvServer
  b g_pIfaceMatchFramework
  b g_pInputStackSystem
  b g_pInputSystem
@@ -1407,8 +1408,8 @@
  b guard variable for std::time_put<wchar_t, std::ostreambuf_iterator<wchar_t, std::char_traits<wchar_t> > >::id
  b heartbeat
  b help_command
- b hltv
  b hltvport
+ b hltvport1
  b hltvtest
  b host_ShowIPCCallCount
  b host_Sleep
@@ -1579,6 +1580,7 @@
  b mod_weaponworldmodelminage
  b modelorg
  b multvar_command
+ b net_addhltv1
  b net_blockmsg
  b net_blocksize
  b net_channels_command
@@ -2133,6 +2135,7 @@
  b tv_dispatchmode
  b tv_dispatchweight
  b tv_enable
+ b tv_enable1
  b tv_enable_delta_frames
  b tv_encryptdata_key
  b tv_encryptdata_key_pub
@@ -2149,6 +2152,7 @@
  b tv_relayvoice
  b tv_retry_command
  b tv_snapshotrate
+ b tv_snapshotrate1
  b tv_status_command
  b tv_stop_command
  b tv_stoprecord_command
@@ -3925,11 +3929,11 @@
  r CSVCMsg_VoiceInit::kCodecFieldNumber
  r CSVCMsg_VoiceInit::kQualityFieldNumber
  r CSVCMsg_VoiceInit::kVersionFieldNumber
- r CSWTCH.1228
- r CSWTCH.1230
+ r CSWTCH.1231
+ r CSWTCH.1233
  r CSWTCH.206
  r CSWTCH.23
- r CSWTCH.385
+ r CSWTCH.390
  r CSWTCH.577
  r CSWTCH.619
  r CSWTCH.622
@@ -6816,9 +6820,10 @@
  t BuildRecipientList(CUtlVector<edict_t*, CUtlMemory<edict_t*, int> >&, IRecipientFilter const&)
  t BuildSpriteLoadName(char const*, char*, int, bool&, bool&) [clone .constprop.244]
  t BuildTagData(CCoreDispInfo*, CDispInfo*)
- t BuildTokenList(char const*, char, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&) [clone .constprop.227]
+ t BuildTokenList(char const*, char, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&) [clone .constprop.229]
  t BuildTransformedBox(Vector*, Vector const&, Vector const&, matrix3x4_t const&)
  t ByteCodeToCode(unsigned char)
+ t CActiveHltvServerSelector::CActiveHltvServerSelector(CCommand const&)
  t CAddressList::AddRemote(char const*, char const*)
  t CAddressList::Count() const
  t CAddressList::Describe(CUtlString&)
@@ -6938,12 +6943,14 @@
  t CBaseClient::FillUserInfo(player_info_s&)
  t CBaseClient::FireGameEvent(IGameEvent*)
  t CBaseClient::FreeBaselines()
+ t CBaseClient::GetAnyConnectedHltvServer()
  t CBaseClient::GetAvailableSplitScreenSlot() const
  t CBaseClient::GetClientName() const
  t CBaseClient::GetClientPlatform() const
  t CBaseClient::GetClientXuid() const
  t CBaseClient::GetDeltaFrame(int)
  t CBaseClient::GetEventDebugID()
+ t CBaseClient::GetHltvServer()
  t CBaseClient::GetMaxAckTickCount() const
  t CBaseClient::GetNetChannel()
  t CBaseClient::GetNetworkID() const
@@ -7197,7 +7204,7 @@
  t CBaseServer::RemoveClientFromGame(CBaseClient*)
  t CBaseServer::RemoveTag(char const*, bool)
  t CBaseServer::ReplyChallenge(netadr_s&, bf_read&)
- t CBaseServer::ReplyChallenge(netadr_s&, bf_read&) [clone .part.222]
+ t CBaseServer::ReplyChallenge(netadr_s&, bf_read&) [clone .part.224]
  t CBaseServer::ReplyReservationCheckRequest(netadr_s&, bf_read&)
  t CBaseServer::ReplyReservationRequest(netadr_s&, bf_read&)
  t CBaseServer::ReplyServerChallenge(netadr_s&)
@@ -8293,7 +8300,7 @@
  t CGameClient::CLCMsg_ClientInfo(CCLCMsg_ClientInfo const&)
  t CGameClient::CLCMsg_CmdKeyValues(CCLCMsg_CmdKeyValues const&)
  t CGameClient::CLCMsg_FileCRCCheck(CCLCMsg_FileCRCCheck const&)
- t CGameClient::CLCMsg_FileCRCCheck(CCLCMsg_FileCRCCheck const&) [clone .part.44]
+ t CGameClient::CLCMsg_FileCRCCheck(CCLCMsg_FileCRCCheck const&) [clone .part.43]
  t CGameClient::CLCMsg_Move(CCLCMsg_Move const&)
  t CGameClient::CLCMsg_RespondCvarValue(CCLCMsg_RespondCvarValue const&)
  t CGameClient::CLCMsg_VoiceData(CCLCMsg_VoiceData const&)
@@ -8305,7 +8312,7 @@
  t CGameClient::Disconnect(char const*)
  t CGameClient::DownloadCustomizations()
  t CGameClient::ExecuteStringCommand(char const*)
- t CGameClient::ExecuteStringCommand(char const*) [clone .part.73]
+ t CGameClient::ExecuteStringCommand(char const*) [clone .part.74]
  t CGameClient::FileDenied(char const*, unsigned int, bool)
  t CGameClient::FileReceived(char const*, unsigned int, bool)
  t CGameClient::FileRequested(char const*, unsigned int, bool)
@@ -8473,7 +8480,7 @@
  t CHLTVClient::ConnectionClosing(char const*)
  t CHLTVClient::ConnectionCrashed(char const*)
  t CHLTVClient::ExecuteStringCommand(char const*)
- t CHLTVClient::ExecuteStringCommand(char const*) [clone .part.36]
+ t CHLTVClient::ExecuteStringCommand(char const*) [clone .part.37]
  t CHLTVClient::FileDenied(char const*, unsigned int, bool)
  t CHLTVClient::FileReceived(char const*, unsigned int, bool)
  t CHLTVClient::FileRequested(char const*, unsigned int, bool)
@@ -8489,11 +8496,11 @@
  t CHLTVClient::SetRate(int, bool)
  t CHLTVClient::SetUpdateRate(float, bool)
  t CHLTVClient::ShouldSendMessages()
- t CHLTVClient::ShouldSendMessages() [clone .part.37]
+ t CHLTVClient::ShouldSendMessages() [clone .part.38]
  t CHLTVClient::SpawnPlayer()
  t CHLTVClient::UpdateUserSettings()
  t CHLTVClient::~CHLTVClient()
- t CHLTVClientState::CHLTVClientState()
+ t CHLTVClientState::CHLTVClientState(CHLTVServer*)
  t CHLTVClientState::Clear()
  t CHLTVClientState::ConnectionClosing(char const*)
  t CHLTVClientState::ConnectionCrashed(char const*)
@@ -8540,7 +8547,7 @@
  t CHLTVClientState::SetSignonState(int, int, CNETMsg_SignonState const*)
  t CHLTVClientState::UpdateStats()
  t CHLTVClientState::~CHLTVClientState()
- t CHLTVDemoRecorder::CHLTVDemoRecorder()
+ t CHLTVDemoRecorder::CHLTVDemoRecorder(CHLTVServer*)
  t CHLTVDemoRecorder::GetDemoFile()
  t CHLTVDemoRecorder::GetRecordingTick()
  t CHLTVDemoRecorder::IsRecording()
@@ -8557,7 +8564,7 @@
  t CHLTVDemoRecorder::SetSignonState(int)
  t CHLTVDemoRecorder::StartAutoRecording()
  t CHLTVDemoRecorder::StartRecording(char const*, bool)
- t CHLTVDemoRecorder::StartRecording(char const*, bool) [clone .part.54]
+ t CHLTVDemoRecorder::StartRecording(char const*, bool) [clone .part.55]
  t CHLTVDemoRecorder::StopRecording(CGameInfo const*)
  t CHLTVDemoRecorder::WriteFrame(CHLTVFrame*, bf_write*)
  t CHLTVDemoRecorder::WriteMessages(unsigned char, bf_write&)
@@ -8578,7 +8585,7 @@
  t CHLTVServer::BroadcastEventLocal(IGameEvent*, bool)
  t CHLTVServer::BroadcastLocalChat(char const*, char const*)
  t CHLTVServer::BroadcastLocalTitle(CHLTVClient*)
- t CHLTVServer::CHLTVServer()
+ t CHLTVServer::CHLTVServer(unsigned int, float)
  t CHLTVServer::CanSkipBackwards()
  t CHLTVServer::Changelevel(bool)
  t CHLTVServer::CheckHltvPasswordMatch(char const*, char const*, CSteamID)
@@ -8596,6 +8603,7 @@
  t CHLTVServer::FindNextImportantTick(int, char const*)
  t CHLTVServer::FindPreviousImportantTick(int, char const*)
  t CHLTVServer::FireGameEvent(IGameEvent*)
+ t CHLTVServer::FixupConvars(CNETMsg_SetConVar_t&)
  t CHLTVServer::FreeAllDeltaFrames()
  t CHLTVServer::FreeClientRecvTables()
  t CHLTVServer::GetBaseServer()
@@ -8677,6 +8685,7 @@
  t CHLTVServer::StopPlayback()
  t CHLTVServer::StopRecording(CGameInfo const*)
  t CHLTVServer::StopRecordingAndFreeFrames(bool, CGameInfo const*)
+ t CHLTVServer::UninstallStringTables()
  t CHLTVServer::UpdateHltvExternalViewers(unsigned int, unsigned int)
  t CHLTVServer::UpdateStats()
  t CHLTVServer::UpdateTick()
@@ -10421,7 +10430,7 @@
  t CNetworkStringTable::ReadStringTable(bf_read&)
  t CNetworkStringTable::RestoreTick(int)
  t CNetworkStringTable::SetAllowClientSideAddString(bool)
- t CNetworkStringTable::SetMirrorTable(INetworkStringTable*)
+ t CNetworkStringTable::SetMirrorTable(unsigned int, INetworkStringTable*)
  t CNetworkStringTable::SetStringChangedCallback(void*, void (*)(void*, INetworkStringTable*, int, char const*, void const*))
  t CNetworkStringTable::SetStringUserData(int, int, void const*)
  t CNetworkStringTable::SetTick(int)
@@ -11740,7 +11749,7 @@
  t CSteam3Server::OnLogonFailure(SteamServerConnectFailure_t*)
  t CSteam3Server::OnLogonSuccess(SteamServersConnected_t*)
  t CSteam3Server::OnValidateAuthTicketResponse(ValidateAuthTicketResponse_t*)
- t CSteam3Server::OnValidateAuthTicketResponse(ValidateAuthTicketResponse_t*) [clone .part.26]
+ t CSteam3Server::OnValidateAuthTicketResponse(ValidateAuthTicketResponse_t*) [clone .part.28]
  t CSteam3Server::OnValidateAuthTicketResponseHelper(CBaseClient*, EAuthSessionResponse)
  t CSteam3Server::RunFrame()
  t CSteam3Server::SendUpdatedServerDetails()
@@ -16713,6 +16722,7 @@
  t GetHostProductString()
  t GetHostVersion()
  t GetHostVersionString()
+ t GetIndexedConVar(ConVar const&, int)
  t GetInterpolationData(float const*, float const*, int, int, float, bool, float*, float*, float*)
  t GetLanguageCodeID(ELanguage)
  t GetLanguageICUName(ELanguage)
@@ -17033,6 +17043,7 @@
  t IsDenormal(float const&)
  t IsEndOfText(char*)
  t IsFullyOccluded_WithShadow(AABB_t const&, AABB_t const&, Vector const&, float)
+ t IsHltvActive()
  t IsHltvRelayProxyWhitelisted(netadr_s const&)
  t IsInErrorExit()
  t IsKeyBoundedToBinding(int, char const*)
@@ -17429,7 +17440,7 @@
  t NUM_FOR_EDICTINFO(edict_t const*)
  t NameForPhonemeByIndex(int)
  t NeighborSpanFlip(int, NeighborSpan)
- t NetMsgSetCVarUsingDictionary(CMsg_CVars_CVar*, char const*, char const*) [clone .part.71]
+ t NetMsgSetCVarUsingDictionary(CMsg_CVars_CVar*, char const*, char const*) [clone .part.72]
  t NextGetch()
  t NoiseGradient(int, float, float, float)
  t NoiseHashIndex(int)
@@ -18360,7 +18371,7 @@
  t _GLOBAL__sub_I__ZN16CFileTransferMgrC2Ev
  t _GLOBAL__sub_I__ZN16COM_IOReadBinary4openEPKc
  t _GLOBAL__sub_I__ZN16CUtlStreamBufferC2Ev
- t _GLOBAL__sub_I__ZN17CHLTVDemoRecorderC2Ev
+ t _GLOBAL__sub_I__ZN17CHLTVDemoRecorderC2EP11CHLTVServer
  t _GLOBAL__sub_I__ZN17CSerializedEntity11s_AllocatorE
  t _GLOBAL__sub_I__ZN18CMaterialReferenceC2EPKcS1_b
  t _GLOBAL__sub_I__ZN20CFileLoggingListenerC2Ev
@@ -18440,6 +18451,7 @@
  t _GLOBAL__sub_I_g_bThreadedEngine
  t _GLOBAL__sub_I_g_pEngineTraceServer
  t _GLOBAL__sub_I_g_pFileSystem
+ t _GLOBAL__sub_I_g_pHltvServer
  t _GLOBAL__sub_I_g_pLaunchOptions
  t _GLOBAL__sub_I_g_pLocalNetworkBackdoor
  t _GLOBAL__sub_I_g_pSoundServices
@@ -18449,7 +18461,6 @@
  t _GLOBAL__sub_I_g_pagedpoolinfo
  t _GLOBAL__sub_I_g_svInstanceBaselineMutex
  t _GLOBAL__sub_I_game
- t _GLOBAL__sub_I_hltv
  t _GLOBAL__sub_I_hltvtest
  t _GLOBAL__sub_I_host_maplist_recurse_subdirs
  t _GLOBAL__sub_I_in_forceuser
@@ -22614,11 +22625,10 @@
  t tv_msg(CCommand const&)
  t tv_name_changed_f(IConVar*, char const*, float)
  t tv_record(CCommand const&)
- t tv_record(CCommand const&) [clone .part.37]
  t tv_relay(CCommand const&)
  t tv_retry(CCommand const&)
  t tv_status(CCommand const&)
- t tv_status(CCommand const&) [clone .part.73]
+ t tv_status(CCommand const&) [clone .part.80]
  t tv_stop(CCommand const&)
  t tv_stoprecord(CCommand const&)
  t tv_title_changed_f(IConVar*, char const*, float)
