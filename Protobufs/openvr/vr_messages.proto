@@ -52,45 +52,136 @@ message CVRMsg_GetDisplayInfoResponse {
 	repeated .CVRMsg_GetDisplayInfoResponse.DisplayInfo display = 1;
 }
 
-message CVRMsg_GetCameraInfo {
+message CVRMsg_TrackedCamera_HasCamera {
+	optional uint32 device_index = 1;
 }
 
-message CVRMsg_GetCameraInfoResponse {
-	message CameraInfo {
-		optional string camera_id = 1;
-		optional uint32 width = 2;
-		optional uint32 height = 3;
-		optional uint32 depth = 4;
-		optional float fx = 5;
-		optional float cx = 6;
-		optional float fy = 7;
-		optional float cy = 8;
-	}
-
-	repeated .CVRMsg_GetCameraInfoResponse.CameraInfo camera = 1;
+message CVRMsg_TrackedCamera_HasCameraResponse {
+	optional bool has_camera = 1;
 }
 
-message CVRMsg_EnableCamera {
-	optional uint32 index = 1;
-	optional bool enabled = 2;
+message CVRMsg_TrackedCamera_GetFirmwareDescription {
+	optional uint32 device_index = 1;
 }
 
-message CVRMsg_EnableCameraResponse {
-	optional bool success = 1;
+message CVRMsg_TrackedCamera_GetFirmwareDescriptionResponse {
+	optional bool result = 1;
+	optional string firmware_string = 2;
 }
 
-message CVRMsg_EnableTrackedCamera {
+message CVRMsg_TrackedCamera_GetFrameDimensions {
+	optional uint32 device_index = 1;
+	optional uint32 video_stream_format = 2;
+}
+
+message CVRMsg_TrackedCamera_GetFrameDimensionsResponse {
+	optional bool result = 1;
+	optional uint32 width = 2;
+	optional uint32 height = 3;
+}
+
+message CVRMsg_TrackedCamera_SetVideoStreamFormat {
+	optional uint32 device_index = 1;
+	optional uint32 video_stream_format = 2;
+}
+
+message CVRMsg_TrackedCamera_SetVideoStreamFormatResponse {
+	optional bool result = 1;
+}
+
+message CVRMsg_TrackedCamera_GetVideoStreamFormat {
+	optional uint32 device_index = 1;
+}
+
+message CVRMsg_TrackedCamera_GetVideoStreamFormatResponse {
+	optional bool result = 1;
+	optional uint32 video_stream_format = 2;
+}
+
+message CVRMsg_TrackedCamera_Enable {
 	optional uint32 device_index = 1;
 	optional bool enable = 2;
-	optional uint32 desired_video_stream_format = 3;
-	optional uint32 desired_num_frame_buffers = 4;
 }
 
-message CVRMsg_EnableTrackedCameraResponse {
+message CVRMsg_TrackedCamera_EnableResponse {
 	optional bool result = 1;
-	optional uint32 actual_video_stream_format = 2;
-	optional uint32 actual_num_frame_buffers = 3;
-	optional uint32 actual_frame_buffer_datasize = 4;
+	optional uint32 video_stream_format = 2;
+	optional uint32 num_frame_buffers = 3;
+	optional uint32 frame_buffer_datasize = 4;
+}
+
+message CVRMsg_TrackedCamera_StartVideoStream {
+	optional uint32 device_index = 1;
+}
+
+message CVRMsg_TrackedCamera_StartVideoStreamResponse {
+	optional bool result = 1;
+}
+
+message CVRMsg_TrackedCamera_StopVideoStream {
+	optional uint32 device_index = 1;
+}
+
+message CVRMsg_TrackedCamera_StopVideoStreamResponse {
+	optional bool result = 1;
+}
+
+message CVRMsg_TrackedCamera_IsVideoStreamActive {
+	optional uint32 device_index = 1;
+}
+
+message CVRMsg_TrackedCamera_IsVideoStreamActiveResponse {
+	optional bool result = 1;
+}
+
+message CVRMsg_TrackedCamera_GetVideoStreamElapsedTime {
+	optional uint32 device_index = 1;
+}
+
+message CVRMsg_TrackedCamera_GetVideoStreamElapsedTimeResponse {
+	optional bool result = 1;
+	optional float elapsed_time = 2;
+}
+
+message CVRMsg_TrackedCamera_SetAutoExposure {
+	optional uint32 device_index = 1;
+	optional bool enable = 2;
+}
+
+message CVRMsg_TrackedCamera_SetAutoExposureResponse {
+	optional bool result = 1;
+}
+
+message CVRMsg_TrackedCamera_SupportsPauseResume {
+	optional uint32 device_index = 1;
+}
+
+message CVRMsg_TrackedCamera_SupportsPauseResumeResponse {
+	optional bool result = 1;
+}
+
+message CVRMsg_TrackedCamera_PauseVideoStream {
+	optional uint32 device_index = 1;
+}
+
+message CVRMsg_TrackedCamera_PauseVideoStreamResponse {
+	optional bool result = 1;
+}
+
+message CVRMsg_TrackedCamera_ResumeVideoStream {
+	optional uint32 device_index = 1;
+}
+
+message CVRMsg_TrackedCamera_ResumeVideoStreamResponse {
+	optional bool result = 1;
+}
+
+message CVRMsg_TrackedCamera_IsVideoStreamPaused {
+	optional uint32 device_index = 1;
+}
+
+message CVRMsg_TrackedCamera_IsVideoStreamPausedResponse {
+	optional bool result = 1;
 }
 
 message CVRMsg_GetProperty {
@@ -197,10 +288,6 @@ message CVRMsg_TriggerHapticPulse {
 	optional uint32 device_index = 1;
 	optional uint32 axis_index = 2;
 	optional uint32 pulse_duration = 3;
-}
-
-message CVRMsg_TriggerHapticPulseResponse {
-	optional bool result = 1;
 }
 
 message CVRMsg_InputCaptureRequest {
