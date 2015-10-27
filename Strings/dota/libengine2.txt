@@ -740,7 +740,7 @@ ARARAp
 ARARB
 ARASA
 ARATARARARBp
-ARATARARASBp
+ARATARARASARB
 ARAp0p
 ARBR0
 ARBRASA
@@ -931,6 +931,7 @@ BeginDebuggerInspect
 BenchmarkService001
 BgColor
 Bidirectional_Messages
+Bidirectional_Messages_IsValid(int)
 Bidirectional_Messages_descriptor()
 BinaryProperties_GetValue
 BitmapImagePanel
@@ -3585,6 +3586,7 @@ CDemoPlayer
 CDemoPlayer::CDemoPlayer()
 CDemoPlayer::CheckPausedPlayback()
 CDemoPlayer::ClearDemoScrubbingData()
+CDemoPlayer::CompuateNameForCommandNumber(int) const
 CDemoPlayer::DemoList_GetName(int) const
 CDemoPlayer::DemoLoop_AddDemo(char const*)
 CDemoPlayer::DemoLoop_Clear(bool)
@@ -3599,6 +3601,7 @@ CDemoPlayer::FullPacketGoto(int)
 CDemoPlayer::GetAllowSpawnGroupParsing() const
 CDemoPlayer::GetClosestSave(int, CDemoSaveGame*)
 CDemoPlayer::GetDemoFile()
+CDemoPlayer::GetNetCmd(bf_read&) const
 CDemoPlayer::GetPacketTick()
 CDemoPlayer::GetPlaybackDeltaTick()
 CDemoPlayer::GetPlaybackStartTick()
@@ -3611,13 +3614,10 @@ CDemoPlayer::IsPlayingTimeDemo() const
 CDemoPlayer::IsSkipping() const
 CDemoPlayer::LoadSpawnGroups()
 CDemoPlayer::MarkFrame(float)
-CDemoPlayer::MaybeReplaceWithNop(bf_write&, int, int, int, int)
-CDemoPlayer::MaybeReplaceWithNop(bf_write&, int, int, int, int)::__executeCount
-CDemoPlayer::MaybeReplaceWithNop(bf_write&, int, int, int, int)::s_nBitsToEncodeNopCmd
-CDemoPlayer::NopOutMessagesForSkip(CDemoPacket*)
 CDemoPlayer::PausePlayback(float)
 CDemoPlayer::ReadPacket()
 CDemoPlayer::ReadReplayMessage(InstantReplayMessage_t&)
+CDemoPlayer::RemoveMessagesForSkip(CDemoPacket*)
 CDemoPlayer::ResetDemoInterpolation()
 CDemoPlayer::ResumePlayback()
 CDemoPlayer::SetIgnorePacketsForResourceLoading(bool)
@@ -5078,6 +5078,8 @@ CKeyValues_Data::Internal_SetString(char const*)
 CKeyValues_Data::Internal_SetWString(wchar_t const*)
 CKnownPeerMetaText::CKnownPeerMetaText(CPeer*, CNetworkP2PService&)
 CLC_Messages
+CLC_Messages_IsValid(int)
+CLC_Messages_descriptor()
 CLZSS::Compress(unsigned char*, int, unsigned int*, bool)
 CLZSS::CompressNoAlloc(unsigned char*, int, unsigned char*, unsigned int*, bool)
 CLZSS::GetActualSize(unsigned char*)
@@ -7117,6 +7119,7 @@ CNetworkGameClient::OnClientFrameSimulate(EventClientFrameSimulate_t const&)
 CNetworkGameClient::OnClientOutput(EventClientOutput_t const&)
 CNetworkGameClient::OnClientProcessGameInput(EventClientProcessGameInput_t const&)
 CNetworkGameClient::OnClientSendInput(EventClientSendInput_t const&)
+CNetworkGameClient::OnSwitchLoopModeFinished(char const*, unsigned int, bool)
 CNetworkGameClient::ProcessBSPDecal(CSVCMsg_BSPDecal_t const&)
 CNetworkGameClient::ProcessClassInfo(CSVCMsg_ClassInfo_t const&)
 CNetworkGameClient::ProcessClearAllStringTables(CSVCMsg_ClearAllStringTables_t const&)
@@ -13990,7 +13993,6 @@ GetMapPathNameOnDisk(char*, char const*, unsigned int)
 GetMessage
 GetModAndAddonPathsFromModOrAddonName(char*, int, char*, int, char const*)
 GetNameOfModule()
-GetNetCmd(bf_read&)
 GetNetworkGroupColor(char const*)
 GetNetworkVersion()
 GetNoEscCharConversion()
@@ -14496,7 +14498,7 @@ KeyValues::~KeyValues()
 Kfff.
 KillFocus
 L941tE
-L95cD9
+L953L9
 LABEL_OPTIONAL
 LABEL_REPEATED
 LABEL_REQUIRED
@@ -14782,6 +14784,7 @@ NETWORK_DISCONNECT_STEAM_TICKET
 NETWORK_DISCONNECT_TIMEDOUT
 NETWORK_DISCONNECT_USERCMD
 NET_Messages
+NET_Messages_IsValid(int)
 NET_Messages_descriptor()
 NET_Tick
 NOROUTE
@@ -15187,12 +15190,12 @@ RATARARB
 RAVATARA
 RBRAp
 RBRBRBRAp
-RBRBRBRBRBRBRAp
 RBRBRBRBRBRBRBRAp
 RBRBRBRBRBRBRBRBRBRBR0
 RBRBRBRBRBRBRBRBRBRBRBRBRBp
 RBRBRBRBRBRBRBRBTAp
 RBRBRBRBRBRBRBRD
+RBRBRBRBRBRBSARBRBRBRBRBRBRAp
 RBRBRBRBRBRCTAp
 RBRBUARBRBRBUAUAUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBSAp
 RBRBVATARBVATARBVATARBRBRA
@@ -15579,6 +15582,7 @@ STEAM_ID_PENDING
 STRING
 STRING_PIECE
 SVC_Messages
+SVC_Messages_IsValid(int)
 SVC_Messages_LowFrequency
 SVC_Messages_descriptor()
 SV_CheatsChanged_f(IConVar*, char const*, float)
@@ -15876,6 +15880,7 @@ SignedPayload_t::SignedPayload_t()
 SignedPayload_t::default_instance_
 SignedPayload_t::~SignedPayload_t()
 Signon
+SignonState
 SignonState_t
 SimpleEngineLoop
 SimpleEngineLoopService_001
@@ -16639,7 +16644,6 @@ X360_DST24F
 XBRBXBRBXBRBXBRBXBRBXBRBSAp
 XboxSystemInterface001
 Xffff.
-Y5yg6
 YARBp
 Yfff.
 Zfffff.
@@ -16727,6 +16731,7 @@ _LOG_PHYSICS
 _LOG_PIPE
 _LOG_RENDER_SERVICE
 _LOG_SERVER
+_LOG_SIGNONSTATE
 _LOG_SPAWN_GROUP
 _LOG_SPLITSCREEN
 _LOG_ServerLog
@@ -17216,13 +17221,6 @@ ___cxa_rethrow
 ___cxa_throw
 ___cxx_global_array_dtor
 ___cxx_global_var_init10
-___cxx_global_var_init103
-___cxx_global_var_init104
-___cxx_global_var_init105
-___cxx_global_var_init106
-___cxx_global_var_init107
-___cxx_global_var_init108
-___cxx_global_var_init109
 ___cxx_global_var_init11
 ___cxx_global_var_init110
 ___cxx_global_var_init111
@@ -17251,20 +17249,19 @@ ___cxx_global_var_init131
 ___cxx_global_var_init132
 ___cxx_global_var_init133
 ___cxx_global_var_init134
+___cxx_global_var_init135
+___cxx_global_var_init136
+___cxx_global_var_init137
+___cxx_global_var_init138
+___cxx_global_var_init139
 ___cxx_global_var_init14
+___cxx_global_var_init140
+___cxx_global_var_init141
 ___cxx_global_var_init142
-___cxx_global_var_init143
 ___cxx_global_var_init144
 ___cxx_global_var_init145
 ___cxx_global_var_init146
-___cxx_global_var_init150
-___cxx_global_var_init151
-___cxx_global_var_init152
-___cxx_global_var_init153
-___cxx_global_var_init154
-___cxx_global_var_init155
-___cxx_global_var_init156
-___cxx_global_var_init157
+___cxx_global_var_init147
 ___cxx_global_var_init158
 ___cxx_global_var_init159
 ___cxx_global_var_init160
@@ -17299,7 +17296,19 @@ ___cxx_global_var_init188
 ___cxx_global_var_init189
 ___cxx_global_var_init19
 ___cxx_global_var_init190
+___cxx_global_var_init191
+___cxx_global_var_init192
+___cxx_global_var_init193
+___cxx_global_var_init194
+___cxx_global_var_init195
+___cxx_global_var_init196
+___cxx_global_var_init197
+___cxx_global_var_init198
+___cxx_global_var_init199
 ___cxx_global_var_init20
+___cxx_global_var_init200
+___cxx_global_var_init201
+___cxx_global_var_init202
 ___cxx_global_var_init21
 ___cxx_global_var_init22
 ___cxx_global_var_init23
@@ -17326,8 +17335,6 @@ ___cxx_global_var_init272
 ___cxx_global_var_init273
 ___cxx_global_var_init3
 ___cxx_global_var_init30
-___cxx_global_var_init308
-___cxx_global_var_init309
 ___cxx_global_var_init31
 ___cxx_global_var_init310
 ___cxx_global_var_init311
@@ -17335,6 +17342,8 @@ ___cxx_global_var_init312
 ___cxx_global_var_init313
 ___cxx_global_var_init314
 ___cxx_global_var_init315
+___cxx_global_var_init316
+___cxx_global_var_init317
 ___cxx_global_var_init32
 ___cxx_global_var_init33
 ___cxx_global_var_init34
@@ -19114,6 +19123,7 @@ fTIcFP1
 factory
 fadein
 fadeout
+failure
 fakeView
 fakeplayer
 fallbackSort(unsigned int*, unsigned int*, unsigned int*, int, int)
@@ -19420,7 +19430,6 @@ guard variable for CDemoMessagePB<(EDemoCommands)5, CDemoClassInfo>::s_typeName
 guard variable for CDemoMessagePB<(EDemoCommands)6, CDemoStringTables>::s_typeName
 guard variable for CDemoMessagePB<(EDemoCommands)7, CDemoPacket>::s_typeName
 guard variable for CDemoMessagePB<(EDemoCommands)9, CDemoConsoleCmd>::s_typeName
-guard variable for CDemoPlayer::MaybeReplaceWithNop(bf_write&, int, int, int, int)::s_nBitsToEncodeNopCmd
 guard variable for CDemoPlayer::StopPlayback()::mat_no_renderable_passes
 guard variable for CDemoPlayer::WriteTimeDemoResults()::cpu_level
 guard variable for CDemoPlayer::WriteTimeDemoResults()::gpu_level
@@ -20710,6 +20719,7 @@ non-virtual thunk to CNetworkClientService::ProcessConnectionlessPacket(ns_addre
 non-virtual thunk to CNetworkClientService::~CNetworkClientService()
 non-virtual thunk to CNetworkClientSpawnGroup_WaitForAssetLoadPrerequisite::RegisterPrerequisite(IPrerequisite*)
 non-virtual thunk to CNetworkClientSpawnGroup_WaitForAssetLoadPrerequisite::UnregisterPrerequisite(IPrerequisite*)
+non-virtual thunk to CNetworkGameClient::OnSwitchLoopModeFinished(char const*, unsigned int, bool)
 non-virtual thunk to CNetworkGameClient::~CNetworkGameClient()
 non-virtual thunk to CNetworkGameClientBase::FilterMessage(NetMessageHandle_t__*, void const*) const
 non-virtual thunk to CNetworkGameClientBase::OnGameEventReceived(NetMessageHandle_t__*, NetMessageInfo_t const*, void const*)
@@ -20831,6 +20841,7 @@ p8p8p
 pHct2
 pHpHp
 pPUARAp
+pXRBp
 pXRERA
 pXRERAp
 pXRERAp0p0p
@@ -21733,6 +21744,7 @@ subFocus
 submit
 subtabposition
 succeeded
+success
 suppress_clip_to_bounds
 surfacePropertyName
 surface_height
@@ -21872,7 +21884,6 @@ svc_VoiceInit
 symbols
 sys_minidumpexpandedspew
 sys_minidumpspewlines
-t0ff.
 t0fff.
 t3HcE
 t3ff.
@@ -21944,7 +21955,7 @@ tfffff.
 tgawriter.cpp
 they_hear_you
 thickness
-tiLc5
+tiLc5l
 tick_interval
 tier1.cpp
 tier2.cpp

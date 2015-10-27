@@ -351,6 +351,7 @@
  B LOG_PIPE
  B LOG_RENDER_SERVICE
  B LOG_SERVER
+ B LOG_SIGNONSTATE
  B LOG_SPAWN_GROUP
  B LOG_SPLITSCREEN
  B LOG_ServerLog
@@ -6933,6 +6934,7 @@
  T BZ2_hbMakeCodeLengths(unsigned char*, int*, int, int)
  T BaseConstraint_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)
  T BaseUI_ProgressEnabled_f(CCommandContext const&, CCommand const&)
+ T Bidirectional_Messages_IsValid(int)
  T Bidirectional_Messages_descriptor()
  T BinaryProperties_GetValue
  T BlackBox_Record(char const*, char const*, ...)
@@ -9049,6 +9051,7 @@
  T CDemoPlayer::CDemoPlayer()
  T CDemoPlayer::CheckPausedPlayback()
  T CDemoPlayer::ClearDemoScrubbingData()
+ T CDemoPlayer::CompuateNameForCommandNumber(int) const
  T CDemoPlayer::DemoList_GetName(int) const
  T CDemoPlayer::DemoLoop_AddDemo(char const*)
  T CDemoPlayer::DemoLoop_Clear(bool)
@@ -9063,6 +9066,7 @@
  T CDemoPlayer::GetAllowSpawnGroupParsing() const
  T CDemoPlayer::GetClosestSave(int, CDemoSaveGame*)
  T CDemoPlayer::GetDemoFile()
+ T CDemoPlayer::GetNetCmd(bf_read&) const
  T CDemoPlayer::GetPacketTick()
  T CDemoPlayer::GetPlaybackDeltaTick()
  T CDemoPlayer::GetPlaybackStartTick()
@@ -9075,11 +9079,10 @@
  T CDemoPlayer::IsSkipping() const
  T CDemoPlayer::LoadSpawnGroups()
  T CDemoPlayer::MarkFrame(float)
- T CDemoPlayer::MaybeReplaceWithNop(bf_write&, int, int, int, int)
- T CDemoPlayer::NopOutMessagesForSkip(CDemoPacket*)
  T CDemoPlayer::PausePlayback(float)
  T CDemoPlayer::ReadPacket()
  T CDemoPlayer::ReadReplayMessage(InstantReplayMessage_t&)
+ T CDemoPlayer::RemoveMessagesForSkip(CDemoPacket*)
  T CDemoPlayer::ResetDemoInterpolation()
  T CDemoPlayer::ResumePlayback()
  T CDemoPlayer::SetIgnorePacketsForResourceLoading(bool)
@@ -10384,6 +10387,8 @@
  T CKeyValues_Data::Internal_SetString(char const*)
  T CKeyValues_Data::Internal_SetWString(wchar_t const*)
  T CKnownPeerMetaText::CKnownPeerMetaText(CPeer*, CNetworkP2PService&)
+ T CLC_Messages_IsValid(int)
+ T CLC_Messages_descriptor()
  T CLZSS::Compress(unsigned char*, int, unsigned int*, bool)
  T CLZSS::CompressNoAlloc(unsigned char*, int, unsigned char*, unsigned int*, bool)
  T CLZSS::GetActualSize(unsigned char*)
@@ -12790,6 +12795,7 @@
  T CNetworkGameClient::OnClientOutput(EventClientOutput_t const&)
  T CNetworkGameClient::OnClientProcessGameInput(EventClientProcessGameInput_t const&)
  T CNetworkGameClient::OnClientSendInput(EventClientSendInput_t const&)
+ T CNetworkGameClient::OnSwitchLoopModeFinished(char const*, unsigned int, bool)
  T CNetworkGameClient::ProcessBSPDecal(CSVCMsg_BSPDecal_t const&)
  T CNetworkGameClient::ProcessClassInfo(CSVCMsg_ClassInfo_t const&)
  T CNetworkGameClient::ProcessClearAllStringTables(CSVCMsg_ClearAllStringTables_t const&)
@@ -18090,6 +18096,7 @@
  T MurmurHash2(void const*, int, unsigned int)
  T MurmurHash2LowerCase(char const*, unsigned int)
  T MurmurHash64(void const*, int, unsigned int)
+ T NET_Messages_IsValid(int)
  T NET_Messages_descriptor()
  T NetMessageConnectionClosed::ByteSize() const
  T NetMessageConnectionClosed::Clear()
@@ -18263,6 +18270,7 @@
  T RnMesh_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)
  T RnQueryShapeAttr_t::RnQueryShapeAttr_t()
  T RnSphereDesc_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)
+ T SVC_Messages_IsValid(int)
  T SVC_Messages_descriptor()
  T SV_InstallClientStringTableMirrors()
  T SV_ParallelSendSnapshot(CServerSideClient*&)
@@ -18792,6 +18800,7 @@
  T non-virtual thunk to CNetworkClientService::~CNetworkClientService()
  T non-virtual thunk to CNetworkClientSpawnGroup_WaitForAssetLoadPrerequisite::RegisterPrerequisite(IPrerequisite*)
  T non-virtual thunk to CNetworkClientSpawnGroup_WaitForAssetLoadPrerequisite::UnregisterPrerequisite(IPrerequisite*)
+ T non-virtual thunk to CNetworkGameClient::OnSwitchLoopModeFinished(char const*, unsigned int, bool)
  T non-virtual thunk to CNetworkGameClient::~CNetworkGameClient()
  T non-virtual thunk to CNetworkGameClientBase::FilterMessage(NetMessageHandle_t__*, void const*) const
  T non-virtual thunk to CNetworkGameClientBase::OnGameEventReceived(NetMessageHandle_t__*, NetMessageInfo_t const*, void const*)
@@ -21781,8 +21790,6 @@
  b CAttachment::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b CBaseConstraint::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b CBuilderModelInfo::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
- b CDemoPlayer::MaybeReplaceWithNop(bf_write&, int, int, int, int)::__executeCount
- b CDemoPlayer::MaybeReplaceWithNop(bf_write&, int, int, int, int)::s_nBitsToEncodeNopCmd
  b CDemoPlayer::StopPlayback()::mat_no_renderable_passes
  b CDemoPlayer::WriteTimeDemoResults()::cpu_level
  b CDemoPlayer::WriteTimeDemoResults()::gpu_level
@@ -22320,7 +22327,6 @@
  b grep_command
  b guard variable for AddVGUIViewToSceneSystem(bool, SwapChainHandle_t__*, RenderViewport_t const&, ISceneView*&, HSceneViewRenderTarget__*&)::r_drawvgui
  b guard variable for AppIsDedicatedServer()::s_bIsDedicatedServer
- b guard variable for CDemoPlayer::MaybeReplaceWithNop(bf_write&, int, int, int, int)::s_nBitsToEncodeNopCmd
  b guard variable for CDemoPlayer::StopPlayback()::mat_no_renderable_passes
  b guard variable for CDemoPlayer::WriteTimeDemoResults()::cpu_level
  b guard variable for CDemoPlayer::WriteTimeDemoResults()::gpu_level
@@ -23861,7 +23867,6 @@
  t FnCreateEditorCBaseActionZoomDialog(CDemoEditorPanel*, CBaseDemoAction*, bool)
  t GetActiveMapName()
  t GetLOSFileName(CUtlString const&)
- t GetNetCmd(bf_read&)
  t GetPropertyConverters()
  t HLTV_Callback_InstanceBaseline(void*, INetworkStringTable*, int, char const*, void const*)
  t HostnameChanged(IConVar*, char const*, float)
@@ -24192,13 +24197,6 @@
  t __CreateCXboxSystemIXboxSystem_interface()
  t __cxx_global_array_dtor
  t __cxx_global_var_init10
- t __cxx_global_var_init103
- t __cxx_global_var_init104
- t __cxx_global_var_init105
- t __cxx_global_var_init106
- t __cxx_global_var_init107
- t __cxx_global_var_init108
- t __cxx_global_var_init109
  t __cxx_global_var_init11
  t __cxx_global_var_init110
  t __cxx_global_var_init111
@@ -24227,20 +24225,19 @@
  t __cxx_global_var_init132
  t __cxx_global_var_init133
  t __cxx_global_var_init134
+ t __cxx_global_var_init135
+ t __cxx_global_var_init136
+ t __cxx_global_var_init137
+ t __cxx_global_var_init138
+ t __cxx_global_var_init139
  t __cxx_global_var_init14
+ t __cxx_global_var_init140
+ t __cxx_global_var_init141
  t __cxx_global_var_init142
- t __cxx_global_var_init143
  t __cxx_global_var_init144
  t __cxx_global_var_init145
  t __cxx_global_var_init146
- t __cxx_global_var_init150
- t __cxx_global_var_init151
- t __cxx_global_var_init152
- t __cxx_global_var_init153
- t __cxx_global_var_init154
- t __cxx_global_var_init155
- t __cxx_global_var_init156
- t __cxx_global_var_init157
+ t __cxx_global_var_init147
  t __cxx_global_var_init158
  t __cxx_global_var_init159
  t __cxx_global_var_init160
@@ -24275,7 +24272,19 @@
  t __cxx_global_var_init189
  t __cxx_global_var_init19
  t __cxx_global_var_init190
+ t __cxx_global_var_init191
+ t __cxx_global_var_init192
+ t __cxx_global_var_init193
+ t __cxx_global_var_init194
+ t __cxx_global_var_init195
+ t __cxx_global_var_init196
+ t __cxx_global_var_init197
+ t __cxx_global_var_init198
+ t __cxx_global_var_init199
  t __cxx_global_var_init20
+ t __cxx_global_var_init200
+ t __cxx_global_var_init201
+ t __cxx_global_var_init202
  t __cxx_global_var_init21
  t __cxx_global_var_init22
  t __cxx_global_var_init23
@@ -24302,8 +24311,6 @@
  t __cxx_global_var_init273
  t __cxx_global_var_init3
  t __cxx_global_var_init30
- t __cxx_global_var_init308
- t __cxx_global_var_init309
  t __cxx_global_var_init31
  t __cxx_global_var_init310
  t __cxx_global_var_init311
@@ -24311,6 +24318,8 @@
  t __cxx_global_var_init313
  t __cxx_global_var_init314
  t __cxx_global_var_init315
+ t __cxx_global_var_init316
+ t __cxx_global_var_init317
  t __cxx_global_var_init32
  t __cxx_global_var_init33
  t __cxx_global_var_init34
