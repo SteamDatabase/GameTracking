@@ -130,6 +130,8 @@
 (anonymous namespace)::CMsgAdjustItemEquippedState_reflection_
 (anonymous namespace)::CMsgApplyAutograph_descriptor_
 (anonymous namespace)::CMsgApplyAutograph_reflection_
+(anonymous namespace)::CMsgApplyStrangeCountTransfer_descriptor_
+(anonymous namespace)::CMsgApplyStrangeCountTransfer_reflection_
 (anonymous namespace)::CMsgApplyStrangePart_descriptor_
 (anonymous namespace)::CMsgApplyStrangePart_reflection_
 (anonymous namespace)::CMsgApplyStrangeRestriction_descriptor_
@@ -154,6 +156,8 @@
 (anonymous namespace)::CMsgConsumableExhausted_reflection_
 (anonymous namespace)::CMsgCraftCollectionUpgrade_descriptor_
 (anonymous namespace)::CMsgCraftCollectionUpgrade_reflection_
+(anonymous namespace)::CMsgCraftHalloweenOffering_descriptor_
+(anonymous namespace)::CMsgCraftHalloweenOffering_reflection_
 (anonymous namespace)::CMsgCraftingResponse_descriptor_
 (anonymous namespace)::CMsgCraftingResponse_reflection_
 (anonymous namespace)::CMsgCreateOrUpdatePartyReply_descriptor_
@@ -258,10 +262,16 @@
 (anonymous namespace)::CMsgGCQuestComplete_Request_reflection_
 (anonymous namespace)::CMsgGCQuestCompleted_descriptor_
 (anonymous namespace)::CMsgGCQuestCompleted_reflection_
+(anonymous namespace)::CMsgGCQuestObjective_PointsChangeResponse_descriptor_
+(anonymous namespace)::CMsgGCQuestObjective_PointsChangeResponse_reflection_
 (anonymous namespace)::CMsgGCQuestObjective_PointsChange_descriptor_
 (anonymous namespace)::CMsgGCQuestObjective_PointsChange_reflection_
 (anonymous namespace)::CMsgGCQuestObjective_Progress_descriptor_
 (anonymous namespace)::CMsgGCQuestObjective_Progress_reflection_
+(anonymous namespace)::CMsgGCQuestObjective_RequestLoanerItems_descriptor_
+(anonymous namespace)::CMsgGCQuestObjective_RequestLoanerItems_reflection_
+(anonymous namespace)::CMsgGCQuestObjective_RequestLoanerResponse_descriptor_
+(anonymous namespace)::CMsgGCQuestObjective_RequestLoanerResponse_reflection_
 (anonymous namespace)::CMsgGCRemoveCustomizationAttributeSimple_descriptor_
 (anonymous namespace)::CMsgGCRemoveCustomizationAttributeSimple_reflection_
 (anonymous namespace)::CMsgGCRemoveStrangePart_descriptor_
@@ -397,6 +407,10 @@
 (anonymous namespace)::CMsgGC_PickupItemEligibility_QueryResponse_reflection_
 (anonymous namespace)::CMsgGC_PickupItemEligibility_Query_descriptor_
 (anonymous namespace)::CMsgGC_PickupItemEligibility_Query_reflection_
+(anonymous namespace)::CMsgGC_TFVoteKickPlayerRequest_descriptor_
+(anonymous namespace)::CMsgGC_TFVoteKickPlayerRequest_reflection_
+(anonymous namespace)::CMsgGC_VoteKickPlayerRequestResponse_descriptor_
+(anonymous namespace)::CMsgGC_VoteKickPlayerRequestResponse_reflection_
 (anonymous namespace)::CMsgGameMatchSignOut_descriptor_
 (anonymous namespace)::CMsgGameMatchSignOut_reflection_
 (anonymous namespace)::CMsgGameServerKickingLobby_descriptor_
@@ -685,6 +699,8 @@
 (anonymous namespace)::CSOPartyInvite_reflection_
 (anonymous namespace)::CSOTFDuelSummary_descriptor_
 (anonymous namespace)::CSOTFDuelSummary_reflection_
+(anonymous namespace)::CSOTFLadderPlayerStats_descriptor_
+(anonymous namespace)::CSOTFLadderPlayerStats_reflection_
 (anonymous namespace)::CSOTFLobby_LobbyType_descriptor_
 (anonymous namespace)::CSOTFLobby_State_descriptor_
 (anonymous namespace)::CSOTFLobby_descriptor_
@@ -848,6 +864,7 @@
 .TF_MatchmakingMode
 .TF_Matchmaking_WizardStep
 .TF_SkillRatingMatchType
+.TF_SkillRatingMatchTypeB
 .dummy
 .dylib
 .ffff.
@@ -921,12 +938,12 @@
 2012-07-05
 2014-01-01
 2014-01-02
-2014-10-20
-2014-11-10
 2014-12-03
 2015-01-05
 2015-09-01
+2015-10-20
 2015-11-05
+2015-11-11
 21.CMsgTFRequestChatChannelListResponse.ChatChannel
 22.CMsgAMGetUserGameStatsResponse.Achievement_Blocks
 22.CMsgGC_GameServer_ListResponse.GameServerIdentity
@@ -991,8 +1008,8 @@
 9FdtD
 9GdtX
 9Gdtg
+9Hdt-
 9Hdt0
-9Hdt3
 9Hdt5
 9HdtK
 9HdtN
@@ -4035,6 +4052,7 @@ AddDouble
 AddEnum
 AddFlexAnimation_SetFlexWeight
 AddFloat
+AddHalloweenGiftPositionsForMap(char const*, CUtlVector<Vector, CUtlMemory<Vector, int> >&)
 AddHealth
 AddInt32
 AddInt64
@@ -8148,6 +8166,7 @@ CBaseIssue::CBaseIssue(char const*)
 CBaseIssue::CanCallVote(int, char const*, vote_create_failed_t&, int&)
 CBaseIssue::CanTeamCallVote(int) const
 CBaseIssue::CountPotentialVoters()
+CBaseIssue::GCResponseReceived(bool)
 CBaseIssue::GetDetailsString()
 CBaseIssue::GetNumberVoteOptions()
 CBaseIssue::GetQuorumRatio()
@@ -8159,6 +8178,7 @@ CBaseIssue::IsEnabled()
 CBaseIssue::IsTeamRestrictedVote()
 CBaseIssue::IsYesNoVote()
 CBaseIssue::ListStandardNoArgCommand(CBasePlayer*, char const*)
+CBaseIssue::NeedsPermissionFromGC()
 CBaseIssue::OnVoteFailed(int)
 CBaseIssue::OnVoteStarted()
 CBaseIssue::SetIssueDetails(char const*)
@@ -8237,7 +8257,6 @@ CBaseObject::AddBuildPoint(int)
 CBaseObject::AddValidObjectToBuildPoint(int, int)
 CBaseObject::ApplyHealthUpgrade()
 CBaseObject::AttachObjectToObject(CBaseEntity*, int, Vector&)
-CBaseObject::AttemptToGoActive()
 CBaseObject::BaseObjectThink()
 CBaseObject::BloodColor()
 CBaseObject::CBaseObject()
@@ -8810,7 +8829,7 @@ CBaseQuestObjectiveTracker::CBaseQuestObjectiveTracker(CTFQuestObjectiveDefiniti
 CBaseQuestObjectiveTracker::EvaluateCondition(CTFQuestEvaluator*, int)
 CBaseQuestObjectiveTracker::GetConditionName() const
 CBaseQuestObjectiveTracker::GetQuestOwner() const
-CBaseQuestObjectiveTracker::IsValidForPlayer(CTFPlayer const*, CBitVec<6>&) const
+CBaseQuestObjectiveTracker::IsValidForPlayer(CTFPlayer const*, InvalidReason&) const
 CBaseQuestObjectiveTracker::ResetCondition()
 CBaseQuestObjectiveTracker::~CBaseQuestObjectiveTracker()
 CBaseServerVehicle
@@ -9585,7 +9604,6 @@ CC_ai_drop_hint(CCommand const&)
 CC_setang_f(CCommand const&)
 CCallQueue::~CCallQueue()
 CCallQueueT<CTSQueue<CFunctor*, false> >::CallQueued()
-CCallQueueT<CTSQueue<CFunctor*, false> >::QueueFunctorInternal(CFunctor*)
 CCallResult<CGCUpdateItemSchema, HTTPRequestCompleted_t>
 CCallResult<CGCUpdateItemSchema, HTTPRequestCompleted_t>::GetCallbackSizeBytes()
 CCallResult<CGCUpdateItemSchema, HTTPRequestCompleted_t>::Run(void*)
@@ -10107,6 +10125,7 @@ CCommentary_SaveRestoreBlockHandler::Save(ISave*)
 CCommentary_SaveRestoreBlockHandler::WriteSaveHeaders(ISave*)
 CCompareFriendFoeInfluence
 CCompareFriendFoeInfluence::Inspect(CKnownEntity const&)
+CCompetitiveMatchInfo::CCompetitiveMatchInfo(unsigned long long, int)
 CConceptHistoriesDataOps
 CConceptHistoriesDataOps::IsEmpty(SaveRestoreFieldInfo_t const&)
 CConceptHistoriesDataOps::MakeEmpty(SaveRestoreFieldInfo_t const&)
@@ -10873,6 +10892,9 @@ CEconTool_Noisemaker
 CEconTool_Noisemaker::~CEconTool_Noisemaker()
 CEconTool_PaintCan
 CEconTool_PaintCan::~CEconTool_PaintCan()
+CEconTool_StrangeCountTransfer
+CEconTool_StrangeCountTransfer::CEconTool_StrangeCountTransfer(char const*, item_capabilities_t)
+CEconTool_StrangeCountTransfer::~CEconTool_StrangeCountTransfer()
 CEconTool_StrangePart
 CEconTool_StrangePart::CEconTool_StrangePart(char const*, char const*, item_capabilities_t, KeyValues*)
 CEconTool_StrangePart::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const
@@ -11886,6 +11908,14 @@ CEntityFactory<CGunTarget>
 CEntityFactory<CGunTarget>::Create(char const*)
 CEntityFactory<CGunTarget>::Destroy(IServerNetworkable*)
 CEntityFactory<CGunTarget>::GetEntitySize()
+CEntityFactory<CHalloweenGiftPickup>
+CEntityFactory<CHalloweenGiftPickup>::Create(char const*)
+CEntityFactory<CHalloweenGiftPickup>::Destroy(IServerNetworkable*)
+CEntityFactory<CHalloweenGiftPickup>::GetEntitySize()
+CEntityFactory<CHalloweenGiftSpawnLocation>
+CEntityFactory<CHalloweenGiftSpawnLocation>::Create(char const*)
+CEntityFactory<CHalloweenGiftSpawnLocation>::Destroy(IServerNetworkable*)
+CEntityFactory<CHalloweenGiftSpawnLocation>::GetEntitySize()
 CEntityFactory<CHalloweenPickup>
 CEntityFactory<CHalloweenPickup>::Create(char const*)
 CEntityFactory<CHalloweenPickup>::Destroy(IServerNetworkable*)
@@ -11906,6 +11936,10 @@ CEntityFactory<CHeadlessHatman>
 CEntityFactory<CHeadlessHatman>::Create(char const*)
 CEntityFactory<CHeadlessHatman>::Destroy(IServerNetworkable*)
 CEntityFactory<CHeadlessHatman>::GetEntitySize()
+CEntityFactory<CHealthAmmoKit>
+CEntityFactory<CHealthAmmoKit>::Create(char const*)
+CEntityFactory<CHealthAmmoKit>::Destroy(IServerNetworkable*)
+CEntityFactory<CHealthAmmoKit>::GetEntitySize()
 CEntityFactory<CHealthKit>
 CEntityFactory<CHealthKit>::Create(char const*)
 CEntityFactory<CHealthKit>::Destroy(IServerNetworkable*)
@@ -12034,6 +12068,10 @@ CEntityFactory<CLogicNavigation>
 CEntityFactory<CLogicNavigation>::Create(char const*)
 CEntityFactory<CLogicNavigation>::Destroy(IServerNetworkable*)
 CEntityFactory<CLogicNavigation>::GetEntitySize()
+CEntityFactory<CLogicOnHoliday>
+CEntityFactory<CLogicOnHoliday>::Create(char const*)
+CEntityFactory<CLogicOnHoliday>::Destroy(IServerNetworkable*)
+CEntityFactory<CLogicOnHoliday>::GetEntitySize()
 CEntityFactory<CLogicRelay>
 CEntityFactory<CLogicRelay>::Create(char const*)
 CEntityFactory<CLogicRelay>::Destroy(IServerNetworkable*)
@@ -13410,6 +13448,10 @@ CEntityFactory<CTriggerHurt>
 CEntityFactory<CTriggerHurt>::Create(char const*)
 CEntityFactory<CTriggerHurt>::Destroy(IServerNetworkable*)
 CEntityFactory<CTriggerHurt>::GetEntitySize()
+CEntityFactory<CTriggerIgnite>
+CEntityFactory<CTriggerIgnite>::Create(char const*)
+CEntityFactory<CTriggerIgnite>::Destroy(IServerNetworkable*)
+CEntityFactory<CTriggerIgnite>::GetEntitySize()
 CEntityFactory<CTriggerIgniteArrows>
 CEntityFactory<CTriggerIgniteArrows>::Create(char const*)
 CEntityFactory<CTriggerIgniteArrows>::Destroy(IServerNetworkable*)
@@ -13430,6 +13472,10 @@ CEntityFactory<CTriggerOnce>
 CEntityFactory<CTriggerOnce>::Create(char const*)
 CEntityFactory<CTriggerOnce>::Destroy(IServerNetworkable*)
 CEntityFactory<CTriggerOnce>::GetEntitySize()
+CEntityFactory<CTriggerParticle>
+CEntityFactory<CTriggerParticle>::Create(char const*)
+CEntityFactory<CTriggerParticle>::Destroy(IServerNetworkable*)
+CEntityFactory<CTriggerParticle>::GetEntitySize()
 CEntityFactory<CTriggerPasstimeBall>
 CEntityFactory<CTriggerPasstimeBall>::Create(char const*)
 CEntityFactory<CTriggerPasstimeBall>::Destroy(IServerNetworkable*)
@@ -13454,6 +13500,10 @@ CEntityFactory<CTriggerRemove>
 CEntityFactory<CTriggerRemove>::Create(char const*)
 CEntityFactory<CTriggerRemove>::Destroy(IServerNetworkable*)
 CEntityFactory<CTriggerRemove>::GetEntitySize()
+CEntityFactory<CTriggerRemoveTFPlayerCondition>
+CEntityFactory<CTriggerRemoveTFPlayerCondition>::Create(char const*)
+CEntityFactory<CTriggerRemoveTFPlayerCondition>::Destroy(IServerNetworkable*)
+CEntityFactory<CTriggerRemoveTFPlayerCondition>::GetEntitySize()
 CEntityFactory<CTriggerSave>
 CEntityFactory<CTriggerSave>::Create(char const*)
 CEntityFactory<CTriggerSave>::Destroy(IServerNetworkable*)
@@ -15764,6 +15814,9 @@ CGCUpdateServerModificationItemStateJob::~CGCUpdateServerModificationItemStateJo
 CGCUseServerModificationItemJob
 CGCUseServerModificationItemJob::BYieldingRunGCJob(GCSDK::IMsgNetPacket*)
 CGCUseServerModificationItemJob::~CGCUseServerModificationItemJob()
+CGCVoteSystemVoteKickResponse
+CGCVoteSystemVoteKickResponse::BYieldingRunJobFromMsg(GCSDK::IMsgNetPacket*)
+CGCVoteSystemVoteKickResponse::~CGCVoteSystemVoteKickResponse()
 CGC_GameServer_AuthChallenge
 CGC_GameServer_AuthChallenge::BYieldingRunGCJob(GCSDK::IMsgNetPacket*)
 CGC_GameServer_AuthChallenge::~CGC_GameServer_AuthChallenge()
@@ -16230,6 +16283,7 @@ CHLTVDirector::~CHLTVDirector()
 CHalloweenBaseBoss
 CHalloweenBaseBoss::Break()
 CHalloweenBaseBoss::CHalloweenBaseBoss()
+CHalloweenBaseBoss::Event_Killed(CTakeDamageInfo const&)
 CHalloweenBaseBoss::GetBossType() const
 CHalloweenBaseBoss::GetCritInjuryMultiplier() const
 CHalloweenBaseBoss::GetLevel() const
@@ -16240,6 +16294,24 @@ CHalloweenBaseBoss::SpawnBossAtPos(CHalloweenBaseBoss::HalloweenBossType, Vector
 CHalloweenBaseBoss::Update()
 CHalloweenBaseBoss::UpdateOnRemove()
 CHalloweenBaseBoss::~CHalloweenBaseBoss()
+CHalloweenGiftPickup
+CHalloweenGiftPickup::CHalloweenGiftPickup()
+CHalloweenGiftPickup::DespawnGift()
+CHalloweenGiftPickup::GetDataDescMap()
+CHalloweenGiftPickup::GetDefaultPowerupModel()
+CHalloweenGiftPickup::GetServerClass()
+CHalloweenGiftPickup::MyTouch(CBasePlayer*)
+CHalloweenGiftPickup::Precache()
+CHalloweenGiftPickup::RemoveGift()
+CHalloweenGiftPickup::SetTargetPlayer(CTFPlayer*)
+CHalloweenGiftPickup::Spawn()
+CHalloweenGiftPickup::ValidTouch(CBasePlayer*)
+CHalloweenGiftPickup::YouForgotToImplementOrDeclareServerClass()
+CHalloweenGiftPickup::m_DataMap
+CHalloweenGiftPickup::~CHalloweenGiftPickup()
+CHalloweenGiftPickup_DataDescInit::g_DataMapHolder
+CHalloweenGiftSpawnLocation
+CHalloweenGiftSpawnLocation::~CHalloweenGiftSpawnLocation()
 CHalloweenPickup
 CHalloweenPickup::CHalloweenPickup()
 CHalloweenPickup::GetDataDescMap()
@@ -16265,6 +16337,7 @@ CHalloweenSoulPack::FlyTowardsTargetEntity()
 CHalloweenSoulPack::GetServerClass()
 CHalloweenSoulPack::InitSplineData()
 CHalloweenSoulPack::ItemTouch(CBaseEntity*)
+CHalloweenSoulPack::ItemTouch(CBaseEntity*)::hItemDef
 CHalloweenSoulPack::Precache()
 CHalloweenSoulPack::Spawn()
 CHalloweenSoulPack::UpdateTransmitState()
@@ -16353,6 +16426,14 @@ CHeadlessHatmanTerrify::IsWearingPumpkinHeadOrSaxtonMask(CTFPlayer*)
 CHeadlessHatmanTerrify::OnStart(CHeadlessHatman*, Action<CHeadlessHatman>*)
 CHeadlessHatmanTerrify::Update(CHeadlessHatman*, float)
 CHeadlessHatmanTerrify::~CHeadlessHatmanTerrify()
+CHealthAmmoKit
+CHealthAmmoKit::GetDefaultPowerupModel()
+CHealthAmmoKit::GetHealthKitName()
+CHealthAmmoKit::GetPowerupSize()
+CHealthAmmoKit::MyTouch(CBasePlayer*)
+CHealthAmmoKit::Precache()
+CHealthAmmoKit::UpdateModelIndexOverrides()
+CHealthAmmoKit::~CHealthAmmoKit()
 CHealthFilter
 CHealthFilter::IsSelected(CBaseEntity const*) const
 CHealthKit
@@ -16645,6 +16726,7 @@ CKickIssue::GetVotePassedString()
 CKickIssue::IsEnabled()
 CKickIssue::IsTeamRestrictedVote()
 CKickIssue::ListIssueDetails(CBasePlayer*)
+CKickIssue::NeedsPermissionFromGC()
 CKickIssue::NotifyGC(bool)
 CKickIssue::OnVoteFailed(int)
 CKickIssue::OnVoteStarted()
@@ -16872,6 +16954,12 @@ CLogicNavigation::UpdateProperty()
 CLogicNavigation::m_DataMap
 CLogicNavigation::~CLogicNavigation()
 CLogicNavigation_DataDescInit::g_DataMapHolder
+CLogicOnHoliday
+CLogicOnHoliday::GetDataDescMap()
+CLogicOnHoliday::InputFire(inputdata_t&)
+CLogicOnHoliday::m_DataMap
+CLogicOnHoliday::~CLogicOnHoliday()
+CLogicOnHoliday_DataDescInit::g_DataMapHolder
 CLogicRelay
 CLogicRelay::Activate()
 CLogicRelay::GetDataDescMap()
@@ -17582,6 +17670,18 @@ CMsgApplyAutograph::SerializeWithCachedSizesToArray(unsigned char*) const
 CMsgApplyAutograph::SetCachedSize(int) const
 CMsgApplyAutograph::default_instance_
 CMsgApplyAutograph::~CMsgApplyAutograph()
+CMsgApplyStrangeCountTransfer
+CMsgApplyStrangeCountTransfer::ByteSize() const
+CMsgApplyStrangeCountTransfer::Clear()
+CMsgApplyStrangeCountTransfer::GetCachedSize() const
+CMsgApplyStrangeCountTransfer::GetMetadata() const
+CMsgApplyStrangeCountTransfer::IsInitialized() const
+CMsgApplyStrangeCountTransfer::MergeFrom(CMsgApplyStrangeCountTransfer const&)
+CMsgApplyStrangeCountTransfer::New() const
+CMsgApplyStrangeCountTransfer::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgApplyStrangeCountTransfer::SetCachedSize(int) const
+CMsgApplyStrangeCountTransfer::default_instance_
+CMsgApplyStrangeCountTransfer::~CMsgApplyStrangeCountTransfer()
 CMsgApplyStrangePart
 CMsgApplyStrangePart::ByteSize() const
 CMsgApplyStrangePart::Clear()
@@ -17733,6 +17833,18 @@ CMsgCraftCollectionUpgrade::SerializeWithCachedSizesToArray(unsigned char*) cons
 CMsgCraftCollectionUpgrade::SetCachedSize(int) const
 CMsgCraftCollectionUpgrade::default_instance_
 CMsgCraftCollectionUpgrade::~CMsgCraftCollectionUpgrade()
+CMsgCraftHalloweenOffering
+CMsgCraftHalloweenOffering::ByteSize() const
+CMsgCraftHalloweenOffering::Clear()
+CMsgCraftHalloweenOffering::GetCachedSize() const
+CMsgCraftHalloweenOffering::GetMetadata() const
+CMsgCraftHalloweenOffering::IsInitialized() const
+CMsgCraftHalloweenOffering::MergeFrom(CMsgCraftHalloweenOffering const&)
+CMsgCraftHalloweenOffering::New() const
+CMsgCraftHalloweenOffering::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgCraftHalloweenOffering::SetCachedSize(int) const
+CMsgCraftHalloweenOffering::default_instance_
+CMsgCraftHalloweenOffering::~CMsgCraftHalloweenOffering()
 CMsgCraftingResponse
 CMsgCraftingResponse::ByteSize() const
 CMsgCraftingResponse::Clear()
@@ -18372,7 +18484,9 @@ CMsgGCQuestCompleted::~CMsgGCQuestCompleted()
 CMsgGCQuestObjective_PointsChange
 CMsgGCQuestObjective_PointsChange::ByteSize() const
 CMsgGCQuestObjective_PointsChange::CMsgGCQuestObjective_PointsChange()
+CMsgGCQuestObjective_PointsChange::CMsgGCQuestObjective_PointsChange(CMsgGCQuestObjective_PointsChange const&)
 CMsgGCQuestObjective_PointsChange::Clear()
+CMsgGCQuestObjective_PointsChange::CopyFrom(CMsgGCQuestObjective_PointsChange const&)
 CMsgGCQuestObjective_PointsChange::GetCachedSize() const
 CMsgGCQuestObjective_PointsChange::GetMetadata() const
 CMsgGCQuestObjective_PointsChange::IsInitialized() const
@@ -18384,6 +18498,18 @@ CMsgGCQuestObjective_PointsChange::default_instance()
 CMsgGCQuestObjective_PointsChange::default_instance_
 CMsgGCQuestObjective_PointsChange::descriptor()
 CMsgGCQuestObjective_PointsChange::~CMsgGCQuestObjective_PointsChange()
+CMsgGCQuestObjective_PointsChangeResponse
+CMsgGCQuestObjective_PointsChangeResponse::ByteSize() const
+CMsgGCQuestObjective_PointsChangeResponse::Clear()
+CMsgGCQuestObjective_PointsChangeResponse::GetCachedSize() const
+CMsgGCQuestObjective_PointsChangeResponse::GetMetadata() const
+CMsgGCQuestObjective_PointsChangeResponse::IsInitialized() const
+CMsgGCQuestObjective_PointsChangeResponse::MergeFrom(CMsgGCQuestObjective_PointsChangeResponse const&)
+CMsgGCQuestObjective_PointsChangeResponse::New() const
+CMsgGCQuestObjective_PointsChangeResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGCQuestObjective_PointsChangeResponse::SetCachedSize(int) const
+CMsgGCQuestObjective_PointsChangeResponse::default_instance_
+CMsgGCQuestObjective_PointsChangeResponse::~CMsgGCQuestObjective_PointsChangeResponse()
 CMsgGCQuestObjective_Progress
 CMsgGCQuestObjective_Progress::ByteSize() const
 CMsgGCQuestObjective_Progress::Clear()
@@ -18396,6 +18522,30 @@ CMsgGCQuestObjective_Progress::SerializeWithCachedSizesToArray(unsigned char*) c
 CMsgGCQuestObjective_Progress::SetCachedSize(int) const
 CMsgGCQuestObjective_Progress::default_instance_
 CMsgGCQuestObjective_Progress::~CMsgGCQuestObjective_Progress()
+CMsgGCQuestObjective_RequestLoanerItems
+CMsgGCQuestObjective_RequestLoanerItems::ByteSize() const
+CMsgGCQuestObjective_RequestLoanerItems::Clear()
+CMsgGCQuestObjective_RequestLoanerItems::GetCachedSize() const
+CMsgGCQuestObjective_RequestLoanerItems::GetMetadata() const
+CMsgGCQuestObjective_RequestLoanerItems::IsInitialized() const
+CMsgGCQuestObjective_RequestLoanerItems::MergeFrom(CMsgGCQuestObjective_RequestLoanerItems const&)
+CMsgGCQuestObjective_RequestLoanerItems::New() const
+CMsgGCQuestObjective_RequestLoanerItems::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGCQuestObjective_RequestLoanerItems::SetCachedSize(int) const
+CMsgGCQuestObjective_RequestLoanerItems::default_instance_
+CMsgGCQuestObjective_RequestLoanerItems::~CMsgGCQuestObjective_RequestLoanerItems()
+CMsgGCQuestObjective_RequestLoanerResponse
+CMsgGCQuestObjective_RequestLoanerResponse::ByteSize() const
+CMsgGCQuestObjective_RequestLoanerResponse::Clear()
+CMsgGCQuestObjective_RequestLoanerResponse::GetCachedSize() const
+CMsgGCQuestObjective_RequestLoanerResponse::GetMetadata() const
+CMsgGCQuestObjective_RequestLoanerResponse::IsInitialized() const
+CMsgGCQuestObjective_RequestLoanerResponse::MergeFrom(CMsgGCQuestObjective_RequestLoanerResponse const&)
+CMsgGCQuestObjective_RequestLoanerResponse::New() const
+CMsgGCQuestObjective_RequestLoanerResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGCQuestObjective_RequestLoanerResponse::SetCachedSize(int) const
+CMsgGCQuestObjective_RequestLoanerResponse::default_instance_
+CMsgGCQuestObjective_RequestLoanerResponse::~CMsgGCQuestObjective_RequestLoanerResponse()
 CMsgGCRemoveCustomizationAttributeSimple
 CMsgGCRemoveCustomizationAttributeSimple::ByteSize() const
 CMsgGCRemoveCustomizationAttributeSimple::Clear()
@@ -19219,6 +19369,36 @@ CMsgGC_PickupItemEligibility_QueryResponse::SerializeWithCachedSizesToArray(unsi
 CMsgGC_PickupItemEligibility_QueryResponse::SetCachedSize(int) const
 CMsgGC_PickupItemEligibility_QueryResponse::default_instance_
 CMsgGC_PickupItemEligibility_QueryResponse::~CMsgGC_PickupItemEligibility_QueryResponse()
+CMsgGC_TFVoteKickPlayerRequest
+CMsgGC_TFVoteKickPlayerRequest::ByteSize() const
+CMsgGC_TFVoteKickPlayerRequest::CMsgGC_TFVoteKickPlayerRequest()
+CMsgGC_TFVoteKickPlayerRequest::Clear()
+CMsgGC_TFVoteKickPlayerRequest::GetCachedSize() const
+CMsgGC_TFVoteKickPlayerRequest::GetMetadata() const
+CMsgGC_TFVoteKickPlayerRequest::IsInitialized() const
+CMsgGC_TFVoteKickPlayerRequest::MergeFrom(CMsgGC_TFVoteKickPlayerRequest const&)
+CMsgGC_TFVoteKickPlayerRequest::New() const
+CMsgGC_TFVoteKickPlayerRequest::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGC_TFVoteKickPlayerRequest::SetCachedSize(int) const
+CMsgGC_TFVoteKickPlayerRequest::default_instance()
+CMsgGC_TFVoteKickPlayerRequest::default_instance_
+CMsgGC_TFVoteKickPlayerRequest::descriptor()
+CMsgGC_TFVoteKickPlayerRequest::~CMsgGC_TFVoteKickPlayerRequest()
+CMsgGC_VoteKickPlayerRequestResponse
+CMsgGC_VoteKickPlayerRequestResponse::ByteSize() const
+CMsgGC_VoteKickPlayerRequestResponse::CMsgGC_VoteKickPlayerRequestResponse()
+CMsgGC_VoteKickPlayerRequestResponse::Clear()
+CMsgGC_VoteKickPlayerRequestResponse::GetCachedSize() const
+CMsgGC_VoteKickPlayerRequestResponse::GetMetadata() const
+CMsgGC_VoteKickPlayerRequestResponse::IsInitialized() const
+CMsgGC_VoteKickPlayerRequestResponse::MergeFrom(CMsgGC_VoteKickPlayerRequestResponse const&)
+CMsgGC_VoteKickPlayerRequestResponse::New() const
+CMsgGC_VoteKickPlayerRequestResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGC_VoteKickPlayerRequestResponse::SetCachedSize(int) const
+CMsgGC_VoteKickPlayerRequestResponse::default_instance()
+CMsgGC_VoteKickPlayerRequestResponse::default_instance_
+CMsgGC_VoteKickPlayerRequestResponse::descriptor()
+CMsgGC_VoteKickPlayerRequestResponse::~CMsgGC_VoteKickPlayerRequestResponse()
 CMsgGameMatchSignOut
 CMsgGameMatchSignOut::ByteSize() const
 CMsgGameMatchSignOut::CMsgGameMatchSignOut()
@@ -19298,7 +19478,6 @@ CMsgHalloween_Merasmus2012::descriptor()
 CMsgHalloween_Merasmus2012::~CMsgHalloween_Merasmus2012()
 CMsgHalloween_ServerBossEvent
 CMsgHalloween_ServerBossEvent::ByteSize() const
-CMsgHalloween_ServerBossEvent::CMsgHalloween_ServerBossEvent()
 CMsgHalloween_ServerBossEvent::Clear()
 CMsgHalloween_ServerBossEvent::GetCachedSize() const
 CMsgHalloween_ServerBossEvent::GetMetadata() const
@@ -19307,9 +19486,7 @@ CMsgHalloween_ServerBossEvent::MergeFrom(CMsgHalloween_ServerBossEvent const&)
 CMsgHalloween_ServerBossEvent::New() const
 CMsgHalloween_ServerBossEvent::SerializeWithCachedSizesToArray(unsigned char*) const
 CMsgHalloween_ServerBossEvent::SetCachedSize(int) const
-CMsgHalloween_ServerBossEvent::default_instance()
 CMsgHalloween_ServerBossEvent::default_instance_
-CMsgHalloween_ServerBossEvent::descriptor()
 CMsgHalloween_ServerBossEvent::~CMsgHalloween_ServerBossEvent()
 CMsgHaveVersions
 CMsgHttpRequest
@@ -21662,6 +21839,7 @@ COVER
 CObjectCartDispenser
 CObjectCartDispenser::CanBeUpgraded(CTFPlayer*)
 CObjectCartDispenser::DispenseMetal(CTFPlayer*)
+CObjectCartDispenser::DispenseSouls()
 CObjectCartDispenser::DropDuckPickup()
 CObjectCartDispenser::DropSpellPickup()
 CObjectCartDispenser::GetControlPanelInfo(int, char const*&)
@@ -21687,7 +21865,7 @@ CObjectDispenser::DestroyObject()
 CObjectDispenser::DetonateObject()
 CObjectDispenser::DispenseAmmo(CTFPlayer*)
 CObjectDispenser::DispenseMetal(CTFPlayer*)
-CObjectDispenser::DispenseSouls(CTFPlayer*)
+CObjectDispenser::DispenseSouls()
 CObjectDispenser::DispenseThink()
 CObjectDispenser::DrawDebugTextOverlays()
 CObjectDispenser::DropDuckPickup()
@@ -22012,6 +22190,8 @@ CPasstimeBall::CarrierRegenThink()
 CPasstimeBall::ChangeTeam(int)
 CPasstimeBall::ChangeTeam(int)::skinForTeam
 CPasstimeBall::Create(Vector, QAngle)
+CPasstimeBall::CreateModelCollider()
+CPasstimeBall::CreateSphereCollider()
 CPasstimeBall::DefaultThink()
 CPasstimeBall::Deflected(CBaseEntity*, Vector&)
 CPasstimeBall::FinishLagCompensation(CBasePlayer*)
@@ -22107,6 +22287,7 @@ CPasstimeGun::GetChargeBeginTime()
 CPasstimeGun::GetChargeMaxTime()
 CPasstimeGun::GetServerClass()
 CPasstimeGun::GetWeaponID() const
+CPasstimeGun::GetWorldModel() const
 CPasstimeGun::HasPrimaryAmmo()
 CPasstimeGun::Holster(CBaseCombatWeapon*)
 CPasstimeGun::IsEnergyWeapon() const
@@ -22998,6 +23179,7 @@ CPopulationManager::GetCurrentWave()
 CPopulationManager::GetDamageMultiplier()
 CPopulationManager::GetDataDescMap()
 CPopulationManager::GetHealthMultiplier(bool)
+CPopulationManager::GetNumBuybackCreditsForPlayer(CTFPlayer*)
 CPopulationManager::GetNumRespecsAvailableForPlayer(CTFPlayer*)
 CPopulationManager::GetPlayerCurrencySpent(CTFPlayer*)
 CPopulationManager::GetPlayerUpgradeHistory(CTFPlayer*)
@@ -23007,6 +23189,7 @@ CPopulationManager::GetSentryBusterDamageAndKillThreshold(int&, int&) const
 CPopulationManager::HasEventChangeAttributes(char const*) const
 CPopulationManager::Initialize()
 CPopulationManager::IsInEndlessWaves()
+CPopulationManager::IsPlayerBeingTrackedForBuybacks(CTFPlayer*)
 CPopulationManager::IsValidMvMMap(char const*)
 CPopulationManager::JumpToWave(unsigned int, float)
 CPopulationManager::LoadLastKnownMission()
@@ -23020,6 +23203,7 @@ CPopulationManager::Parse()
 CPopulationManager::PauseSpawning()
 CPopulationManager::PlayerDoneViewingLoot(CTFPlayer const*)
 CPopulationManager::Precache()
+CPopulationManager::RemoveBuybackCreditFromPlayer(CTFPlayer*)
 CPopulationManager::RemovePlayerAndItemUpgradesFromHistory(CTFPlayer*)
 CPopulationManager::RemoveRespecFromPlayer(CTFPlayer*)
 CPopulationManager::Reset()
@@ -23028,6 +23212,7 @@ CPopulationManager::ResetRespecPoints()
 CPopulationManager::RestoreCheckpoint()
 CPopulationManager::RestorePlayerCurrency()
 CPopulationManager::SendUpgradesToPlayer(CTFPlayer*)
+CPopulationManager::SetBuybackCreditsForPlayer(CTFPlayer*, int)
 CPopulationManager::SetCheckpoint(int)
 CPopulationManager::SetNumRespecsForPlayer(CTFPlayer*, int)
 CPopulationManager::SetPopulationFilename(char const*)
@@ -23264,24 +23449,34 @@ CPushable::~CPushable()
 CQuestDefinition::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CQuestDefinition::GetRolledObjectivesForItem(CUtlVector<CTFQuestObjectiveDefinition const*, CUtlMemory<CTFQuestObjectiveDefinition const*, int> >&, CEconItem const*) const
 CQuestItemTracker::CQuestItemTracker(CEconItem const*, CSteamID)
-CQuestItemTracker::CQuestItemTracker(CEconItem const*, CSteamID)::pAttribDef_EarnedBonusPoints
-CQuestItemTracker::CQuestItemTracker(CEconItem const*, CSteamID)::pAttribDef_EarnedStandardPoints
 CQuestItemTracker::CommitChangesToDB()
+CQuestItemTracker::GetEarnedBonusPoints() const
+CQuestItemTracker::GetEarnedStandardPoints() const
 CQuestItemTracker::IncrementCount(unsigned int, CQuestObjectiveDefinition const*)
 CQuestItemTracker::RemoveAndDeleteOldObjectiveTrackers()
+CQuestItemTracker::SendUpdateToClient(CQuestObjectiveDefinition const*)
+CQuestItemTracker::UpdatePointsFromSOItem()
+CQuestItemTracker::UpdatePointsFromSOItem()::pAttribDef_EarnedBonusPoints
+CQuestItemTracker::UpdatePointsFromSOItem()::pAttribDef_EarnedStandardPoints
 CQuestItemTracker::~CQuestItemTracker()
 CQuestObjectiveDefinition
 CQuestObjectiveDefinition::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CQuestObjectiveDefinition::CQuestObjectiveDefinition()
 CQuestObjectiveDefinition::~CQuestObjectiveDefinition()
 CQuestObjectiveManager
+CQuestObjectiveManager::AddCommitRecord(CMsgGCQuestObjective_PointsChange const&)
+CQuestObjectiveManager::CQuestObjectiveManager()
 CQuestObjectiveManager::CommitAllChanges()
+CQuestObjectiveManager::CommitRecord(CommitRecord_t&) const
 CQuestObjectiveManager::EnsureTrackersForPlayer(CSteamID const&)
 CQuestObjectiveManager::FireGameEvent(IGameEvent*)
+CQuestObjectiveManager::FrameUpdatePreEntityThink()
 CQuestObjectiveManager::GetTrackerForItem(unsigned long long) const
-CQuestObjectiveManager::Init()
+CQuestObjectiveManager::Initialize()
+CQuestObjectiveManager::PeriodicHalloweenUpdate()
 CQuestObjectiveManager::PostSOUpdate(CSteamID const&, GCSDK::ESOCacheEvent)
 CQuestObjectiveManager::PreSOUpdate(CSteamID const&, GCSDK::ESOCacheEvent)
+CQuestObjectiveManager::RemoveTrackersForSteamID(CSteamID const&)
 CQuestObjectiveManager::SOCacheSubscribed(CSteamID const&, GCSDK::ESOCacheEvent)
 CQuestObjectiveManager::SOCacheUnsubscribed(CSteamID const&, GCSDK::ESOCacheEvent)
 CQuestObjectiveManager::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
@@ -23990,6 +24185,22 @@ CSOTFDuelSummary::SerializeWithCachedSizesToArray(unsigned char*) const
 CSOTFDuelSummary::SetCachedSize(int) const
 CSOTFDuelSummary::default_instance_
 CSOTFDuelSummary::~CSOTFDuelSummary()
+CSOTFLadderData
+CSOTFLadderData::CSOTFLadderData()
+CSOTFLadderData::~CSOTFLadderData()
+CSOTFLadderPlayerStats
+CSOTFLadderPlayerStats::ByteSize() const
+CSOTFLadderPlayerStats::CSOTFLadderPlayerStats()
+CSOTFLadderPlayerStats::Clear()
+CSOTFLadderPlayerStats::GetCachedSize() const
+CSOTFLadderPlayerStats::GetMetadata() const
+CSOTFLadderPlayerStats::IsInitialized() const
+CSOTFLadderPlayerStats::MergeFrom(CSOTFLadderPlayerStats const&)
+CSOTFLadderPlayerStats::New() const
+CSOTFLadderPlayerStats::SerializeWithCachedSizesToArray(unsigned char*) const
+CSOTFLadderPlayerStats::SetCachedSize(int) const
+CSOTFLadderPlayerStats::default_instance_
+CSOTFLadderPlayerStats::~CSOTFLadderPlayerStats()
 CSOTFLobby
 CSOTFLobby::ByteSize() const
 CSOTFLobby::CSOTFLobby()
@@ -25617,6 +25828,7 @@ CTFBot::PhysicsSimulate()
 CTFBot::PopRequiredWeapon()
 CTFBot::PressAltFireButton(float)
 CTFBot::PressFireButton(float)
+CTFBot::PressSpecialFireButton(float)
 CTFBot::PushRequiredWeapon(CTFWeaponBase*)
 CTFBot::RealizeSpy(CTFPlayer*)
 CTFBot::RemoveTag(char const*)
@@ -26380,6 +26592,9 @@ CTFBuffItem
 CTFBuffItem::BlowHorn()
 CTFBuffItem::CTFBuffItem()
 CTFBuffItem::CanReload()
+CTFBuffItem::CreateBanner()
+CTFBuffItem::Detach()
+CTFBuffItem::Equip(CBaseCombatCharacter*)
 CTFBuffItem::GetBuffType()
 CTFBuffItem::GetServerClass()
 CTFBuffItem::GetWeaponID() const
@@ -26469,6 +26684,13 @@ CTFConditionList::ServerThink()
 CTFConditionList::Think()
 CTFConditionList::_Add(ETFCond, float, CTFPlayer*, CBaseEntity*)
 CTFConditionList::_Remove(ETFCond, bool)
+CTFConditionQuestCondition
+CTFConditionQuestCondition::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+CTFConditionQuestCondition::GetOutputKeyValues(KeyValues*)
+CTFConditionQuestCondition::GetRequiredParamKeys(KeyValues*)
+CTFConditionQuestCondition::GetValueString() const
+CTFConditionQuestCondition::PassesRestrictions(IGameEvent*) const
+CTFConditionQuestCondition::~CTFConditionQuestCondition()
 CTFCondition_CritBoost
 CTFCondition_CritBoost::IsHealable()
 CTFCondition_CritBoost::OnAdded()
@@ -26521,6 +26743,7 @@ CTFDefendPointMission::GetName() const
 CTFDefendPointMission::GetObjectiveZone() const
 CTFDefendPointMission::~CTFDefendPointMission()
 CTFDefendPointSniperZone
+CTFDefendPointSniperZone::~CTFDefendPointSniperZone()
 CTFDespawn
 CTFDespawn::GetName() const
 CTFDespawn::Update(CTFBot*, float)
@@ -26568,7 +26791,6 @@ CTFFists::YouForgotToImplementOrDeclareServerClass()
 CTFFists::~CTFFists()
 CTFFlagEventTypeRestriction
 CTFFlagEventTypeRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFFlagEventTypeRestriction::GetConditionName() const
 CTFFlagEventTypeRestriction::GetOutputKeyValues(KeyValues*)
 CTFFlagEventTypeRestriction::GetRequiredParamKeys(KeyValues*)
 CTFFlagEventTypeRestriction::GetValueString() const
@@ -26677,6 +26899,7 @@ CTFForceRespawn::~CTFForceRespawn()
 CTFForceRespawn_DataDescInit::g_DataMapHolder
 CTFGCServerSystem
 CTFGCServerSystem::CTFGCServerSystem()
+CTFGCServerSystem::CheckLadderMatchCompleted()
 CTFGCServerSystem::CheckMvMMannUpVictory()
 CTFGCServerSystem::ClientActive(CSteamID)
 CTFGCServerSystem::ClientDisconnected(CSteamID)
@@ -26712,6 +26935,7 @@ CTFGCServerSystem::SendLoadFailure(CUtlVector<CSteamID, CUtlMemory<CSteamID, int
 CTFGCServerSystem::SendRemovePlayerFromLobby(CSteamID, CMsgRemovePlayerFromLobby_RemoveReason)
 CTFGCServerSystem::SetHibernation(bool)
 CTFGCServerSystem::SetLobbySafeToLeave()
+CTFGCServerSystem::SetMatchInfoAndSend()
 CTFGCServerSystem::ShouldBlockMvMMatchMaking()
 CTFGCServerSystem::ShouldHibernate()
 CTFGCServerSystem::ShouldHideServer()
@@ -26832,6 +27056,8 @@ CTFGameRules::DefaultFOV()
 CTFGameRules::DistributeCurrencyAmount(int, CTFPlayer*, bool, bool, bool)
 CTFGameRules::DropBonusDuck(Vector const&, CTFPlayer*, CTFPlayer*, CTFPlayer*, bool, bool) const
 CTFGameRules::DropBonusDuck(Vector const&, CTFPlayer*, CTFPlayer*, CTFPlayer*, bool, bool) const::pAttr_DuckLevelBadge
+CTFGameRules::DropHalloweenSoulPack(int, Vector const&, CBaseEntity*, int)
+CTFGameRules::DropHalloweenSoulPackToTeam(int, Vector const&, int, int)
 CTFGameRules::DropSpellPickup(Vector const&, int) const
 CTFGameRules::EndCompetitiveMatch()
 CTFGameRules::FPlayerCanTakeDamage(CBasePlayer*, CBaseEntity*, CTakeDamageInfo const&)
@@ -26897,8 +27123,8 @@ CTFGameRules::IsPVEModeControlled(CBaseEntity*) const
 CTFGameRules::IsQuickBuildTime()
 CTFGameRules::IsSpawnPointValid(CBaseEntity*, CBasePlayer*, bool, PlayerTeamSpawnMode_t)
 CTFGameRules::IsUpgradeTierEnabled(CTFPlayer*, int, int)
-CTFGameRules::IsUsingGrapplingHook()
-CTFGameRules::IsUsingSpells()
+CTFGameRules::IsUsingGrapplingHook() const
+CTFGameRules::IsUsingSpells() const
 CTFGameRules::IsValveMap()
 CTFGameRules::ItemShouldRespawn(CItem*)
 CTFGameRules::ItemTesting_GetBotAnimSpeed()::pHostTimescale
@@ -26958,7 +27184,7 @@ CTFGameRules::RestoreActiveTimer()
 CTFGameRules::RoundCleanupShouldIgnore(CBaseEntity*)
 CTFGameRules::RoundRespawn()
 CTFGameRules::SendArenaWinPanelInfo()
-CTFGameRules::SendHudNotification(IRecipientFilter&, HudNotification_t)
+CTFGameRules::SendHudNotification(IRecipientFilter&, HudNotification_t, bool)
 CTFGameRules::SendHudNotification(IRecipientFilter&, char const*, char const*, int)
 CTFGameRules::SendTeamScoresEvent()
 CTFGameRules::SendWinPanelInfo()
@@ -27004,7 +27230,7 @@ CTFGameRules::SkillRating_GetRecord(CTFPlayer*)
 CTFGameRules::SkillRating_IsEnabled()
 CTFGameRules::SkillRating_ResetRecords()
 CTFGameRules::SkillRating_UpdateClassesPlayed(CSteamID, int)
-CTFGameRules::SkillRating_UpdateGCAndResetRecords()
+CTFGameRules::SkillRating_UpdateGC(TF_SkillRatingMatchType)
 CTFGameRules::SpawnHalloweenBoss()
 CTFGameRules::SpawnPlayerInHell(CTFPlayer*, char const*)
 CTFGameRules::SpawnZombieMob()
@@ -27069,7 +27295,6 @@ CTFGameStats::Event_AssistKill(CTFPlayer*, CBaseEntity*)
 CTFGameStats::Event_Backstab(CTFPlayer*)
 CTFGameStats::Event_BossDamage(CBasePlayer*, int)
 CTFGameStats::Event_HalloweenBossEvent(unsigned char, unsigned short, unsigned char, unsigned char, float)
-CTFGameStats::Event_HalloweenBossEvent(unsigned char, unsigned short, unsigned char, unsigned char, float)::unEventCounter
 CTFGameStats::Event_Headshot(CTFPlayer*, bool)
 CTFGameStats::Event_KillDetail(CTFPlayer*, CTFPlayer*, CTFPlayer*, IGameEvent*, CTakeDamageInfo const&)
 CTFGameStats::Event_LevelInit()
@@ -27151,14 +27376,18 @@ CTFGenericBombShim::~CTFGenericBombShim()
 CTFGenericBomb_DataDescInit::g_DataMapHolder
 CTFGenericStringRestriction
 CTFGenericStringRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+CTFGenericStringRestriction::GetConditionName() const
 CTFGenericStringRestriction::GetOutputKeyValues(KeyValues*)
+CTFGenericStringRestriction::GetRequiredParamKeys(KeyValues*)
 CTFGenericStringRestriction::PassesRestrictions(IGameEvent*) const
+CTFGenericStringRestriction::~CTFGenericStringRestriction()
 CTFGotoActionPoint
 CTFGotoActionPoint::GetName() const
 CTFGotoActionPoint::OnStart(CTFBot*, Action<CTFBot>*)
 CTFGotoActionPoint::Update(CTFBot*, float)
 CTFGotoActionPoint::~CTFGotoActionPoint()
 CTFGrapplingHook
+CTFGrapplingHook::ActivateRune()
 CTFGrapplingHook::ActivityList(int&)
 CTFGrapplingHook::CanAttack()
 CTFGrapplingHook::Deploy()
@@ -27399,6 +27628,7 @@ CTFItemSchema::BCanStrangeFilterApplyToStrangeSlotInItem(unsigned int, unsigned 
 CTFItemSchema::BInitMaps(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CTFItemSchema::BInitMvmMissions(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CTFItemSchema::BInitMvmTours(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+CTFItemSchema::BInitQuestObjectiveConditions(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CTFItemSchema::BInitQuestThemes(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CTFItemSchema::BInitSchema(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CTFItemSchema::CTFItemSchema()
@@ -27789,6 +28019,7 @@ CTFPEPBrawlerBlaster::~CTFPEPBrawlerBlaster()
 CTFParachute
 CTFParachute::CanBeSelected()
 CTFParachute::CanDeploy()
+CTFParachute::CreateBanner()
 CTFParachute::GetServerClass()
 CTFParachute::GetWeaponID() const
 CTFParachute::VisibleInWeaponSelection()
@@ -28030,7 +28261,7 @@ CTFPlayer::DropCurrencyPack(CurrencyRewards_t, int, CBasePlayer*)
 CTFPlayer::DropDeathCallingCard(CTFPlayer*, CTFPlayer*)
 CTFPlayer::DropFlag(bool)
 CTFPlayer::DropHealthPack(CTakeDamageInfo const&, bool)
-CTFPlayer::DropRune(bool)
+CTFPlayer::DropRune(bool, int)
 CTFPlayer::EndClassSpecialSkill()
 CTFPlayer::EndLongTaunt()
 CTFPlayer::EndPurchasableUpgrades()
@@ -28087,10 +28318,10 @@ CTFPlayer::GetNextObserverSearchStartPoint(bool)
 CTFPlayer::GetNumActivePipebombs()
 CTFPlayer::GetNumObjects(int, int)
 CTFPlayer::GetNumberofDominations()
-CTFPlayer::GetObject(int)
+CTFPlayer::GetObject(int) const
 CTFPlayer::GetObjectBuildSpeedMultiplier(int, bool) const
-CTFPlayer::GetObjectCount()
-CTFPlayer::GetObjectOfType(int, int)
+CTFPlayer::GetObjectCount() const
+CTFPlayer::GetObjectOfType(int, int) const
 CTFPlayer::GetOpposingTFTeam()
 CTFPlayer::GetOverrideStepSound(char const*)
 CTFPlayer::GetOverrideStepSound(char const*)::s_ReplacementSounds
@@ -28286,6 +28517,7 @@ CTFPlayer::SelectSpawnSpotByType(char const*, CBaseEntity*&)
 CTFPlayer::SetAnimation(PLAYER_ANIM)
 CTFPlayer::SetBlastJumpState(int, bool)
 CTFPlayer::SetBombHeadTimestamp()
+CTFPlayer::SetCampaignMedalActive(int)
 CTFPlayer::SetCurrentTauntMoveSpeed(float)
 CTFPlayer::SetGrapplingHookTarget(CBaseEntity*, bool)
 CTFPlayer::SetIsCoaching(bool)
@@ -28382,7 +28614,8 @@ CTFPlayerAnimState::HandleMoving(Activity&)
 CTFPlayerAnimState::HandleSwimming(Activity&)
 CTFPlayerAnimState::RestartGesture(int, Activity, bool)
 CTFPlayerAnimState::ShouldUpdateAnimState()
-CTFPlayerAnimState::Taunt_ComputePoseParam_MoveYaw(CStudioHdr*)
+CTFPlayerAnimState::Taunt_ComputePoseParam_MoveX(CStudioHdr*)
+CTFPlayerAnimState::Taunt_ComputePoseParam_MoveY(CStudioHdr*)
 CTFPlayerAnimState::TranslateActivity(Activity)
 CTFPlayerAnimState::Update(float, float)
 CTFPlayerAnimState::Vehicle_LeanAccel(float)
@@ -28458,6 +28691,7 @@ CTFPlayerInventory::ItemIsBeingRemoved(CEconItemView*)
 CTFPlayerInventory::NotifyHasNewItems()
 CTFPlayerInventory::OnHasNewItems()
 CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
+CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)::pItemDef_Halloween2015Pass
 CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)::pItemDef_InvasionPass
 CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)::pItemDef_Summer2015Operation
 CTFPlayerInventory::SOUpdated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
@@ -28483,13 +28717,13 @@ CTFPlayerShared::AddPhaseEffects()
 CTFPlayerShared::AddTempCritBonus(float)
 CTFPlayerShared::AddToSpyCloakMeter(float, bool)
 CTFPlayerShared::ApplyAttributeToPlayer(char const*, float)
-CTFPlayerShared::Burn(CBaseCombatCharacter*, float)
 CTFPlayerShared::Burn(CTFPlayer*, CTFWeaponBase*, float)
 CTFPlayerShared::CTFPlayerShared()
 CTFPlayerShared::CalcChargeCrit(bool)
 CTFPlayerShared::CalculateChargeCap() const
 CTFPlayerShared::CalculateObjectCost(CTFPlayer*, int)
 CTFPlayerShared::CanRecieveMedigunChargeEffect(medigun_charge_types) const
+CTFPlayerShared::CanRuneCharge() const
 CTFPlayerShared::CheckForAchievement(int)
 CTFPlayerShared::CompleteDisguise()
 CTFPlayerShared::ConditionGameRulesThink()
@@ -28571,9 +28805,11 @@ CTFPlayerShared::OnAddHalloweenGiant()
 CTFPlayerShared::OnAddHalloweenKart()
 CTFPlayerShared::OnAddHalloweenSpeedBoost()
 CTFPlayerShared::OnAddHalloweenTiny()
+CTFPlayerShared::OnAddInPurgatory()
 CTFPlayerShared::OnAddInvulnerable()
 CTFPlayerShared::OnAddMadMilk()
 CTFPlayerShared::OnAddMeleeOnly()
+CTFPlayerShared::OnAddPlague()
 CTFPlayerShared::OnAddShieldCharge()
 CTFPlayerShared::OnAddStealthed()
 CTFPlayerShared::OnAddStunned()
@@ -28589,6 +28825,7 @@ CTFPlayerShared::OnRemoveHalloweenKart()
 CTFPlayerShared::OnRemoveHalloweenSpeedBoost()
 CTFPlayerShared::OnRemoveHalloweenTiny()
 CTFPlayerShared::OnRemoveHalloweenTiny()::vTest
+CTFPlayerShared::OnRemoveInPurgatory()
 CTFPlayerShared::OnRemoveMeleeOnly()
 CTFPlayerShared::OnRemovePhase()
 CTFPlayerShared::OnRemoveStealthed()
@@ -28597,14 +28834,16 @@ CTFPlayerShared::OnRemoveTaunting()
 CTFPlayerShared::OnRemoveUrine()
 CTFPlayerShared::OnSpyTouchedByEnemy()
 CTFPlayerShared::ProcessDisguiseImpulse(CTFPlayer*)
+CTFPlayerShared::PulseKingRuneBuff()
 CTFPlayerShared::PulseMedicRadiusHeal()
 CTFPlayerShared::PulseSoldierBuff(CTFPlayerShared::ESoldierBuffSlot)
 CTFPlayerShared::RadiusCurrencyCollectionCheck()
+CTFPlayerShared::RadiusHealthkitCollectionCheck()
 CTFPlayerShared::RadiusSpyScan()
 CTFPlayerShared::RecalculateChargeEffects(bool)
 CTFPlayerShared::RecalculatePlayerBodygroups()
 CTFPlayerShared::RecordDamageEvent(CTakeDamageInfo const&, bool, int)
-CTFPlayerShared::RemoveAllCond(CTFPlayer*)
+CTFPlayerShared::RemoveAllCond()
 CTFPlayerShared::RemoveAttributeFromPlayer(char const*)
 CTFPlayerShared::RemoveCond(ETFCond, bool)
 CTFPlayerShared::RemoveDisguise()
@@ -28614,6 +28853,7 @@ CTFPlayerShared::RemovePhaseEffects()
 CTFPlayerShared::ResetRageMeter()
 CTFPlayerShared::ResetSoldierBuffs()
 CTFPlayerShared::ResetStreaks()
+CTFPlayerShared::SelfBurn(float)
 CTFPlayerShared::SendNewInvulnGameEvent()
 CTFPlayerShared::SetAirDash(int)
 CTFPlayerShared::SetCarriedObject(CBaseObject*)
@@ -29167,26 +29407,50 @@ CTFPumpkinBombShim
 CTFPumpkinBombShim::Touch(CBaseEntity*)
 CTFPumpkinBombShim::~CTFPumpkinBombShim()
 CTFQuestAndOperatorRestriction
-CTFQuestAndOperatorRestriction::GetConditionName() const
-CTFQuestAndOperatorRestriction::IsValidForPlayer(CTFPlayer const*, CBitVec<6>&) const
+CTFQuestAndOperatorRestriction::IsValidForPlayer(CTFPlayer const*, InvalidReason&) const
 CTFQuestAndOperatorRestriction::PassesRestrictions(IGameEvent*) const
 CTFQuestAndOperatorRestriction::~CTFQuestAndOperatorRestriction()
+CTFQuestBasePlayerRestriction
+CTFQuestBasePlayerRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+CTFQuestBasePlayerRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)::s_pszValidGetMethod
+CTFQuestBasePlayerRestriction::GetPlayerFromEvent(IGameEvent*) const
+CTFQuestBasePlayerRestriction::PassesRestrictions(IGameEvent*) const
 CTFQuestCondition
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFConditionQuestCondition>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFFlagEventTypeRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFGenericStringRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestAndOperatorRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestCustomDamageRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestGameTypeRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestLoadoutPositionRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestMapRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestNotOperatorRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestOrOperatorRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerAliveRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerClassRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerConditionRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerDisguiseRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerIsOwnerRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerJumpingRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerObjectRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestScorerRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestTeamRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestWeaponTypeRestriction>()
 CTFQuestCondition::AddChildByName(char const*)
 CTFQuestCondition::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CTFQuestCondition::GetChildren(CUtlVector<CTFQuestCondition*, CUtlMemory<CTFQuestCondition*, int> >&)
+CTFQuestCondition::GetConditionName() const
 CTFQuestCondition::GetEventName() const
 CTFQuestCondition::GetMaxInputCount() const
 CTFQuestCondition::GetOutputKeyValues(KeyValues*)
 CTFQuestCondition::GetQuestOwner() const
 CTFQuestCondition::GetRequiredParamKeys(KeyValues*)
-CTFQuestCondition::GetValidChildrenType(int) const
-CTFQuestCondition::GetValidChildrenTypeCount() const
+CTFQuestCondition::GetValidEvaluators(CUtlVector<char const*, CUtlMemory<char const*, int> >&) const
+CTFQuestCondition::GetValidRestrictions(CUtlVector<char const*, CUtlMemory<char const*, int> >&) const
 CTFQuestCondition::GetValueString() const
 CTFQuestCondition::IsEvaluator() const
 CTFQuestCondition::IsOperator() const
-CTFQuestCondition::IsRestriction() const
-CTFQuestCondition::IsValidForPlayer(CTFPlayer const*, CBitVec<6>&) const
+CTFQuestCondition::IsValidForPlayer(CTFPlayer const*, InvalidReason&) const
 CTFQuestCondition::PrintDebugText() const
 CTFQuestCondition::RemoveAndDeleteChild(CTFQuestCondition*)
 CTFQuestCondition::SetEventName(char const*)
@@ -29201,15 +29465,13 @@ CTFQuestCountEvaluator::GetConditionName() const
 CTFQuestCountEvaluator::GetMaxInputCount() const
 CTFQuestCountEvaluator::GetOutputKeyValues(KeyValues*)
 CTFQuestCountEvaluator::GetRequiredParamKeys(KeyValues*)
-CTFQuestCountEvaluator::GetValidChildrenType(int) const
-CTFQuestCountEvaluator::GetValidChildrenTypeCount() const
-CTFQuestCountEvaluator::IsValidForPlayer(CTFPlayer const*, CBitVec<6>&) const
+CTFQuestCountEvaluator::GetValidChildren(CUtlVector<char const*, CUtlMemory<char const*, int> >&) const
+CTFQuestCountEvaluator::IsValidForPlayer(CTFPlayer const*, InvalidReason&) const
 CTFQuestCountEvaluator::RemoveAndDeleteChild(CTFQuestCondition*)
 CTFQuestCountEvaluator::ResetCondition()
 CTFQuestCountEvaluator::~CTFQuestCountEvaluator()
 CTFQuestCustomDamageRestriction
 CTFQuestCustomDamageRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFQuestCustomDamageRestriction::GetConditionName() const
 CTFQuestCustomDamageRestriction::GetOutputKeyValues(KeyValues*)
 CTFQuestCustomDamageRestriction::GetRequiredParamKeys(KeyValues*)
 CTFQuestCustomDamageRestriction::GetValueString() const
@@ -29220,8 +29482,8 @@ CTFQuestEvaluator::CTFQuestEvaluator()
 CTFQuestEvaluator::GetBaseName() const
 CTFQuestEvaluator::GetOutputKeyValues(KeyValues*)
 CTFQuestEvaluator::GetRequiredParamKeys(KeyValues*)
-CTFQuestEvaluator::GetTypeName(int) const
-CTFQuestEvaluator::GetTypeNameCount() const
+CTFQuestEvaluator::GetValidChildren(CUtlVector<char const*, CUtlMemory<char const*, int> >&) const
+CTFQuestEvaluator::GetValidTypes(CUtlVector<char const*, CUtlMemory<char const*, int> >&) const
 CTFQuestEvaluator::IsEvaluator() const
 CTFQuestEvaluator::~CTFQuestEvaluator()
 CTFQuestEventListener
@@ -29235,159 +29497,136 @@ CTFQuestEventListener::GetEventName() const
 CTFQuestEventListener::GetMaxInputCount() const
 CTFQuestEventListener::GetOutputKeyValues(KeyValues*)
 CTFQuestEventListener::GetRequiredParamKeys(KeyValues*)
-CTFQuestEventListener::GetValidChildrenType(int) const
-CTFQuestEventListener::GetValidChildrenTypeCount() const
 CTFQuestEventListener::GetValueString() const
-CTFQuestEventListener::IsValidForPlayer(CTFPlayer const*, CBitVec<6>&) const
+CTFQuestEventListener::IsValidForPlayer(CTFPlayer const*, InvalidReason&) const
 CTFQuestEventListener::RemoveAndDeleteChild(CTFQuestCondition*)
 CTFQuestEventListener::ResetCondition()
 CTFQuestEventListener::SetEventName(char const*)
 CTFQuestEventListener::~CTFQuestEventListener()
-CTFQuestFriendRestriction
-CTFQuestFriendRestriction::GetConditionName() const
-CTFQuestFriendRestriction::PassesRestrictions(IGameEvent*) const
-CTFQuestFriendRestriction::~CTFQuestFriendRestriction()
 CTFQuestGameTypeRestriction
 CTFQuestGameTypeRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFQuestGameTypeRestriction::GetConditionName() const
 CTFQuestGameTypeRestriction::GetOutputKeyValues(KeyValues*)
 CTFQuestGameTypeRestriction::GetRequiredParamKeys(KeyValues*)
 CTFQuestGameTypeRestriction::GetValueString() const
-CTFQuestGameTypeRestriction::IsValidForPlayer(CTFPlayer const*, CBitVec<6>&) const
+CTFQuestGameTypeRestriction::IsValidForPlayer(CTFPlayer const*, InvalidReason&) const
 CTFQuestGameTypeRestriction::PassesRestrictions(IGameEvent*) const
 CTFQuestGameTypeRestriction::~CTFQuestGameTypeRestriction()
 CTFQuestLoadoutPositionRestriction
 CTFQuestLoadoutPositionRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFQuestLoadoutPositionRestriction::GetConditionName() const
+CTFQuestLoadoutPositionRestriction::BPlayerCheck(CTFPlayer const*, IGameEvent*) const
 CTFQuestLoadoutPositionRestriction::GetOutputKeyValues(KeyValues*)
 CTFQuestLoadoutPositionRestriction::GetRequiredParamKeys(KeyValues*)
 CTFQuestLoadoutPositionRestriction::GetValueString() const
-CTFQuestLoadoutPositionRestriction::IsValidForPlayer(CTFPlayer const*, CBitVec<6>&) const
-CTFQuestLoadoutPositionRestriction::PassesRestrictions(IGameEvent*) const
 CTFQuestLoadoutPositionRestriction::~CTFQuestLoadoutPositionRestriction()
 CTFQuestMapRestriction
 CTFQuestMapRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFQuestMapRestriction::GetConditionName() const
 CTFQuestMapRestriction::GetOutputKeyValues(KeyValues*)
 CTFQuestMapRestriction::GetRequiredParamKeys(KeyValues*)
 CTFQuestMapRestriction::GetValueString() const
-CTFQuestMapRestriction::IsValidForPlayer(CTFPlayer const*, CBitVec<6>&) const
+CTFQuestMapRestriction::IsValidForPlayer(CTFPlayer const*, InvalidReason&) const
 CTFQuestMapRestriction::PassesRestrictions(IGameEvent*) const
 CTFQuestMapRestriction::~CTFQuestMapRestriction()
 CTFQuestNotOperatorRestriction
-CTFQuestNotOperatorRestriction::GetConditionName() const
 CTFQuestNotOperatorRestriction::GetMaxInputCount() const
-CTFQuestNotOperatorRestriction::IsValidForPlayer(CTFPlayer const*, CBitVec<6>&) const
+CTFQuestNotOperatorRestriction::IsValidForPlayer(CTFPlayer const*, InvalidReason&) const
 CTFQuestNotOperatorRestriction::PassesRestrictions(IGameEvent*) const
 CTFQuestNotOperatorRestriction::PrintDebugText() const
 CTFQuestNotOperatorRestriction::~CTFQuestNotOperatorRestriction()
+CTFQuestObjectiveConditionsDefinition
+CTFQuestObjectiveConditionsDefinition::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+CTFQuestObjectiveConditionsDefinition::~CTFQuestObjectiveConditionsDefinition()
 CTFQuestObjectiveDefinition
 CTFQuestObjectiveDefinition::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+CTFQuestObjectiveDefinition::GetConditionsKeyValues() const
 CTFQuestObjectiveDefinition::~CTFQuestObjectiveDefinition()
 CTFQuestOperatorRestriction
 CTFQuestOperatorRestriction::AddChildByName(char const*)
 CTFQuestOperatorRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CTFQuestOperatorRestriction::GetChildren(CUtlVector<CTFQuestCondition*, CUtlMemory<CTFQuestCondition*, int> >&)
 CTFQuestOperatorRestriction::GetMaxInputCount() const
-CTFQuestOperatorRestriction::GetValidChildrenType(int) const
-CTFQuestOperatorRestriction::GetValidChildrenTypeCount() const
 CTFQuestOperatorRestriction::IsOperator() const
 CTFQuestOperatorRestriction::PrintDebugText() const
 CTFQuestOperatorRestriction::RemoveAndDeleteChild(CTFQuestCondition*)
 CTFQuestOperatorRestriction::~CTFQuestOperatorRestriction()
 CTFQuestOrOperatorRestriction
-CTFQuestOrOperatorRestriction::GetConditionName() const
-CTFQuestOrOperatorRestriction::IsValidForPlayer(CTFPlayer const*, CBitVec<6>&) const
+CTFQuestOrOperatorRestriction::IsValidForPlayer(CTFPlayer const*, InvalidReason&) const
 CTFQuestOrOperatorRestriction::PassesRestrictions(IGameEvent*) const
 CTFQuestOrOperatorRestriction::~CTFQuestOrOperatorRestriction()
+CTFQuestPlayerAliveRestriction
+CTFQuestPlayerAliveRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+CTFQuestPlayerAliveRestriction::BPlayerCheck(CTFPlayer const*, IGameEvent*) const
+CTFQuestPlayerAliveRestriction::GetOutputKeyValues(KeyValues*)
+CTFQuestPlayerAliveRestriction::GetRequiredParamKeys(KeyValues*)
+CTFQuestPlayerAliveRestriction::~CTFQuestPlayerAliveRestriction()
 CTFQuestPlayerClassRestriction
 CTFQuestPlayerClassRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFQuestPlayerClassRestriction::GetConditionName() const
+CTFQuestPlayerClassRestriction::BPlayerCheck(CTFPlayer const*, IGameEvent*) const
 CTFQuestPlayerClassRestriction::GetOutputKeyValues(KeyValues*)
 CTFQuestPlayerClassRestriction::GetRequiredParamKeys(KeyValues*)
 CTFQuestPlayerClassRestriction::GetValueString() const
-CTFQuestPlayerClassRestriction::IsValidForPlayer(CTFPlayer const*, CBitVec<6>&) const
-CTFQuestPlayerClassRestriction::PassesRestrictions(IGameEvent*) const
+CTFQuestPlayerClassRestriction::IsValidForPlayer(CTFPlayer const*, InvalidReason&) const
 CTFQuestPlayerClassRestriction::~CTFQuestPlayerClassRestriction()
 CTFQuestPlayerConditionRestriction
 CTFQuestPlayerConditionRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFQuestPlayerConditionRestriction::GetConditionName() const
+CTFQuestPlayerConditionRestriction::BPlayerCheck(CTFPlayer const*, IGameEvent*) const
 CTFQuestPlayerConditionRestriction::GetOutputKeyValues(KeyValues*)
 CTFQuestPlayerConditionRestriction::GetRequiredParamKeys(KeyValues*)
 CTFQuestPlayerConditionRestriction::GetValueString() const
-CTFQuestPlayerConditionRestriction::PassesRestrictions(IGameEvent*) const
 CTFQuestPlayerConditionRestriction::~CTFQuestPlayerConditionRestriction()
+CTFQuestPlayerDisguiseRestriction
+CTFQuestPlayerDisguiseRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+CTFQuestPlayerDisguiseRestriction::BPlayerCheck(CTFPlayer const*, IGameEvent*) const
+CTFQuestPlayerDisguiseRestriction::GetOutputKeyValues(KeyValues*)
+CTFQuestPlayerDisguiseRestriction::GetRequiredParamKeys(KeyValues*)
+CTFQuestPlayerDisguiseRestriction::~CTFQuestPlayerDisguiseRestriction()
+CTFQuestPlayerIsOwnerRestriction
+CTFQuestPlayerIsOwnerRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+CTFQuestPlayerIsOwnerRestriction::BPlayerCheck(CTFPlayer const*, IGameEvent*) const
+CTFQuestPlayerIsOwnerRestriction::GetOutputKeyValues(KeyValues*)
+CTFQuestPlayerIsOwnerRestriction::GetRequiredParamKeys(KeyValues*)
+CTFQuestPlayerIsOwnerRestriction::IsValidForPlayer(CTFPlayer const*, InvalidReason&) const
+CTFQuestPlayerIsOwnerRestriction::~CTFQuestPlayerIsOwnerRestriction()
+CTFQuestPlayerJumpingRestriction
+CTFQuestPlayerJumpingRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+CTFQuestPlayerJumpingRestriction::BPlayerCheck(CTFPlayer const*, IGameEvent*) const
+CTFQuestPlayerJumpingRestriction::GetOutputKeyValues(KeyValues*)
+CTFQuestPlayerJumpingRestriction::GetRequiredParamKeys(KeyValues*)
+CTFQuestPlayerJumpingRestriction::~CTFQuestPlayerJumpingRestriction()
 CTFQuestPlayerObjectRestriction
 CTFQuestPlayerObjectRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFQuestPlayerObjectRestriction::GetConditionName() const
+CTFQuestPlayerObjectRestriction::BPlayerCheck(CTFPlayer const*, IGameEvent*) const
 CTFQuestPlayerObjectRestriction::GetOutputKeyValues(KeyValues*)
 CTFQuestPlayerObjectRestriction::GetRequiredParamKeys(KeyValues*)
 CTFQuestPlayerObjectRestriction::GetValueString() const
-CTFQuestPlayerObjectRestriction::IsValidForPlayer(CTFPlayer const*, CBitVec<6>&) const
-CTFQuestPlayerObjectRestriction::PassesRestrictions(IGameEvent*) const
+CTFQuestPlayerObjectRestriction::IsValidForPlayer(CTFPlayer const*, InvalidReason&) const
 CTFQuestPlayerObjectRestriction::~CTFQuestPlayerObjectRestriction()
-CTFQuestPlayerRestriction
-CTFQuestPlayerRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFQuestPlayerRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)::s_pszValidGetMethod
-CTFQuestPlayerRestriction::GetConditionName() const
-CTFQuestPlayerRestriction::GetOutputKeyValues(KeyValues*)
-CTFQuestPlayerRestriction::GetPlayerFromEvent(IGameEvent*) const
-CTFQuestPlayerRestriction::GetRequiredParamKeys(KeyValues*)
-CTFQuestPlayerRestriction::PassesRestrictions(IGameEvent*) const
-CTFQuestPlayerRestriction::~CTFQuestPlayerRestriction()
 CTFQuestRestriction
 CTFQuestRestriction::GetBaseName() const
 CTFQuestRestriction::GetEventName() const
-CTFQuestRestriction::GetTypeName(int) const
-CTFQuestRestriction::GetTypeNameCount() const
-CTFQuestRestriction::IsRestriction() const
+CTFQuestRestriction::GetValidChildren(CUtlVector<char const*, CUtlMemory<char const*, int> >&) const
+CTFQuestRestriction::GetValidTypes(CUtlVector<char const*, CUtlMemory<char const*, int> >&) const
 CTFQuestRestriction::SetEventName(char const*)
-CTFQuestRoundWinRestriction
-CTFQuestRoundWinRestriction::GetConditionName() const
-CTFQuestRoundWinRestriction::GetValueString() const
-CTFQuestRoundWinRestriction::IsValidForPlayer(CTFPlayer const*, CBitVec<6>&) const
-CTFQuestRoundWinRestriction::PassesRestrictions(IGameEvent*) const
-CTFQuestRoundWinRestriction::~CTFQuestRoundWinRestriction()
 CTFQuestScorerRestriction
 CTFQuestScorerRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFQuestScorerRestriction::GetConditionName() const
+CTFQuestScorerRestriction::BPlayerCheck(CTFPlayer const*, IGameEvent*) const
 CTFQuestScorerRestriction::GetOutputKeyValues(KeyValues*)
 CTFQuestScorerRestriction::GetRequiredParamKeys(KeyValues*)
-CTFQuestScorerRestriction::IsValidForPlayer(CTFPlayer const*, CBitVec<6>&) const
-CTFQuestScorerRestriction::PassesRestrictions(IGameEvent*) const
+CTFQuestScorerRestriction::IsValidForPlayer(CTFPlayer const*, InvalidReason&) const
 CTFQuestScorerRestriction::~CTFQuestScorerRestriction()
 CTFQuestTeamRestriction
 CTFQuestTeamRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFQuestTeamRestriction::GetConditionName() const
 CTFQuestTeamRestriction::GetOutputKeyValues(KeyValues*)
 CTFQuestTeamRestriction::GetRequiredParamKeys(KeyValues*)
 CTFQuestTeamRestriction::GetValueString() const
 CTFQuestTeamRestriction::PassesRestrictions(IGameEvent*) const
 CTFQuestTeamRestriction::~CTFQuestTeamRestriction()
-CTFQuestUberDroppedRestriction
-CTFQuestUberDroppedRestriction::GetConditionName() const
-CTFQuestUberDroppedRestriction::PassesRestrictions(IGameEvent*) const
-CTFQuestUberDroppedRestriction::~CTFQuestUberDroppedRestriction()
-CTFQuestWeaponNameRestriction
-CTFQuestWeaponNameRestriction::GetConditionName() const
-CTFQuestWeaponNameRestriction::GetRequiredParamKeys(KeyValues*)
-CTFQuestWeaponNameRestriction::~CTFQuestWeaponNameRestriction()
-CTFQuestWeaponRestriction
-CTFQuestWeaponRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFQuestWeaponRestriction::GetConditionName() const
-CTFQuestWeaponRestriction::GetOutputKeyValues(KeyValues*)
-CTFQuestWeaponRestriction::GetRequiredParamKeys(KeyValues*)
-CTFQuestWeaponRestriction::GetValueString() const
-CTFQuestWeaponRestriction::PassesRestrictions(IGameEvent*) const
-CTFQuestWeaponRestriction::~CTFQuestWeaponRestriction()
-CTFRDScoreTypeRestriction
-CTFRDScoreTypeRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFRDScoreTypeRestriction::GetConditionName() const
-CTFRDScoreTypeRestriction::GetOutputKeyValues(KeyValues*)
-CTFRDScoreTypeRestriction::GetRequiredParamKeys(KeyValues*)
-CTFRDScoreTypeRestriction::GetValueString() const
-CTFRDScoreTypeRestriction::PassesRestrictions(IGameEvent*) const
-CTFRDScoreTypeRestriction::~CTFRDScoreTypeRestriction()
+CTFQuestWeaponTypeRestriction
+CTFQuestWeaponTypeRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+CTFQuestWeaponTypeRestriction::GetOutputKeyValues(KeyValues*)
+CTFQuestWeaponTypeRestriction::GetRequiredParamKeys(KeyValues*)
+CTFQuestWeaponTypeRestriction::GetValueString() const
+CTFQuestWeaponTypeRestriction::PassesRestrictions(IGameEvent*) const
+CTFQuestWeaponTypeRestriction::~CTFQuestWeaponTypeRestriction()
 CTFRadiusDamageInfo::ApplyToEntity(CBaseEntity*)
 CTFRadiusDamageInfo::CalculateFalloff()
 CTFRagdoll
@@ -29416,6 +29655,7 @@ CTFRaygun::PrimaryAttack()
 CTFRaygun::YouForgotToImplementOrDeclareServerClass()
 CTFRaygun::m_pClassSendTable
 CTFRaygun::~CTFRaygun()
+CTFRequiredQuestItemsSet::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CTFReviveMarker
 CTFReviveMarker::AddMarkerHealth(float)
 CTFReviveMarker::CTFReviveMarker()
@@ -29636,11 +29876,10 @@ CTFRune
 CTFRune::BlinkThink()
 CTFRune::ComeToRest()
 CTFRune::CreateRune(Vector const&, RuneTypes_t, int, bool, bool, Vector)
-CTFRune::CreateRune(Vector const&, RuneTypes_t, int, bool, bool, Vector)::tf_powerup_mode
 CTFRune::GetDefaultPowerupModel()
 CTFRune::MyTouch(CBasePlayer*)
 CTFRune::Precache()
-CTFRune::RepositionRune(RuneTypes_t)
+CTFRune::RepositionRune(RuneTypes_t, int)
 CTFRune::ShouldTransmit(CCheckTransmitInfo const*)
 CTFRune::Spawn()
 CTFRune::UpdateTransmitState()
@@ -29996,10 +30235,9 @@ CTFTargetDummy::Spawn()
 CTFTargetDummy::SpewGibs()
 CTFTargetDummy::~CTFTargetDummy()
 CTFTauntInfo::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFTauntInfo::CTFTauntInfo()
-CTFTauntInfo::InitTauntInputRemap(KeyValues*)
-CTFTauntInfo::InitTauntInputRemap(KeyValues*)::s_iAllowedTauntInputButtons
-CTFTauntInfo::InitTauntInputRemap(KeyValues*)::s_pszAllowedTauntInputButtonNames
+CTFTauntInfo::InitTauntInputRemap(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+CTFTauntInfo::InitTauntInputRemap(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)::s_iAllowedTauntInputButtons
+CTFTauntInfo::InitTauntInputRemap(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)::s_pszAllowedTauntInputButtonNames
 CTFTauntInfo::~CTFTauntInfo()
 CTFTauntProp
 CTFTauntProp::GetServerClass()
@@ -30621,12 +30859,14 @@ CTSQueue<CFunctor*, false>::CTSQueue()
 CTSQueue<CFunctor*, false>::Pop()
 CTSQueue<CFunctor*, false>::Purge()
 CTSQueue<CFunctor*, false>::Push(CTSQueue<CFunctor*, false>::Node_t*)
+CTSQueue<CFunctor*, false>::PushItem(CFunctor* const&)
 CTSQueue<CFunctor*, false>::~CTSQueue()
 CTSQueue<GCSDK::CWorkItem*, false>::CTSQueue()
 CTSQueue<GCSDK::CWorkItem*, false>::Pop()
 CTSQueue<GCSDK::CWorkItem*, false>::PopItem(GCSDK::CWorkItem**)
 CTSQueue<GCSDK::CWorkItem*, false>::Purge()
 CTSQueue<GCSDK::CWorkItem*, false>::Push(CTSQueue<GCSDK::CWorkItem*, false>::Node_t*)
+CTSQueue<GCSDK::CWorkItem*, false>::PushItem(GCSDK::CWorkItem* const&)
 CTSQueue<GCSDK::CWorkItem*, false>::~CTSQueue()
 CTacticalMission
 CTacticalMissionManager
@@ -30947,7 +31187,6 @@ CTeamplayRoundBasedRules::CanChangelevelBecauseOfTimeLimit()
 CTeamplayRoundBasedRules::CanGoToStalemate()
 CTeamplayRoundBasedRules::CheckChatForReadySignal(CBasePlayer*, char const*)
 CTeamplayRoundBasedRules::CheckChatText(CBasePlayer*, char*)
-CTeamplayRoundBasedRules::CheckMaxRounds(bool)
 CTeamplayRoundBasedRules::CheckReadyRestart()
 CTeamplayRoundBasedRules::CheckRespawnWaves()
 CTeamplayRoundBasedRules::CheckRestartRound()
@@ -31606,6 +31845,16 @@ CTriggerHurtShim::HurtThinkShim()
 CTriggerHurtShim::RadiationThinkShim()
 CTriggerHurtShim::~CTriggerHurtShim()
 CTriggerHurt_DataDescInit::g_DataMapHolder
+CTriggerIgnite
+CTriggerIgnite::BurnEntities()
+CTriggerIgnite::BurnThink()
+CTriggerIgnite::GetDataDescMap()
+CTriggerIgnite::IgniteEntity(CBaseEntity*)
+CTriggerIgnite::Precache()
+CTriggerIgnite::Spawn()
+CTriggerIgnite::StartTouch(CBaseEntity*)
+CTriggerIgnite::m_DataMap
+CTriggerIgnite::~CTriggerIgnite()
 CTriggerIgniteArrows
 CTriggerIgniteArrows::GetDataDescMap()
 CTriggerIgniteArrows::Spawn()
@@ -31613,6 +31862,7 @@ CTriggerIgniteArrows::Touch(CBaseEntity*)
 CTriggerIgniteArrows::m_DataMap
 CTriggerIgniteArrows::~CTriggerIgniteArrows()
 CTriggerIgniteArrows_DataDescInit::g_DataMapHolder
+CTriggerIgnite_DataDescInit::g_DataMapHolder
 CTriggerImpact
 CTriggerImpact::DrawDebugTextOverlays()
 CTriggerImpact::GetDataDescMap()
@@ -31647,6 +31897,14 @@ CTriggerMultiple_DataDescInit::g_DataMapHolder
 CTriggerOnce
 CTriggerOnce::Spawn()
 CTriggerOnce::~CTriggerOnce()
+CTriggerParticle
+CTriggerParticle::GetDataDescMap()
+CTriggerParticle::Precache()
+CTriggerParticle::Spawn()
+CTriggerParticle::StartTouch(CBaseEntity*)
+CTriggerParticle::m_DataMap
+CTriggerParticle::~CTriggerParticle()
+CTriggerParticle_DataDescInit::g_DataMapHolder
 CTriggerPasstimeBall
 CTriggerPasstimeBall::BTouching(CBaseEntity*)
 CTriggerPasstimeBall::GetDataDescMap()
@@ -31694,6 +31952,13 @@ CTriggerRemove::Spawn()
 CTriggerRemove::Touch(CBaseEntity*)
 CTriggerRemove::m_DataMap
 CTriggerRemove::~CTriggerRemove()
+CTriggerRemoveTFPlayerCondition
+CTriggerRemoveTFPlayerCondition::GetDataDescMap()
+CTriggerRemoveTFPlayerCondition::Spawn()
+CTriggerRemoveTFPlayerCondition::StartTouch(CBaseEntity*)
+CTriggerRemoveTFPlayerCondition::m_DataMap
+CTriggerRemoveTFPlayerCondition::~CTriggerRemoveTFPlayerCondition()
+CTriggerRemoveTFPlayerCondition_DataDescInit::g_DataMapHolder
 CTriggerRemove_DataDescInit::g_DataMapHolder
 CTriggerSave
 CTriggerSave::GetDataDescMap()
@@ -32015,6 +32280,7 @@ CUtlMap<char const*, Criteria, short>::Find(char const* const&) const
 CUtlMap<char const*, Criteria, short>::Insert(char const* const&, Criteria const&)
 CUtlMap<char const*, EventGroup, int>::Find(char const* const&) const
 CUtlMap<char const*, EventGroup, int>::Insert(char const* const&, EventGroup const&)
+CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::~CUtlMap()
 CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::PurgeAndDeleteElements()
 CUtlMap<char const*, ResponseGroup, short>::Find(char const* const&) const
 CUtlMap<char const*, ResponseGroup, short>::Insert(char const* const&, ResponseGroup const&)
@@ -32236,6 +32502,7 @@ CUtlMemory<CTFQuestCondition*, int>::Grow(int)
 CUtlMemory<CTFQuestEvaluator*, int>::Grow(int)
 CUtlMemory<CTFQuestObjectiveDefinition const*, int>::Grow(int)
 CUtlMemory<CTFQuestRestriction*, int>::Grow(int)
+CUtlMemory<CTFRequiredQuestItemsSet, int>::Grow(int)
 CUtlMemory<CTFRobotDestruction_Robot*, int>::Grow(int)
 CUtlMemory<CTFRobotDestruction_RobotGroup*, int>::Grow(int)
 CUtlMemory<CTFRobotDestruction_RobotSpawn*, int>::Grow(int)
@@ -32314,7 +32581,9 @@ CUtlMemory<IFuncRespawnRoomAutoList*, int>::Grow(int)
 CUtlMemory<IFuncRespawnRoomVisualizerAutoList*, int>::Grow(int)
 CUtlMemory<IGameSystem*, int>::Grow(int)
 CUtlMemory<IGameSystemPerFrame*, int>::Grow(int)
+CUtlMemory<IHalloweenGiftSpawnAutoList*, int>::Grow(int)
 CUtlMemory<IHandleEntity*, int>::Grow(int)
+CUtlMemory<IHealthKitAutoList*, int>::Grow(int)
 CUtlMemory<IInfoPowerupSpawnAutoList*, int>::Grow(int)
 CUtlMemory<IMinigameAutoList*, int>::Grow(int)
 CUtlMemory<INavAvoidanceObstacle*, int>::Grow(int)
@@ -32435,6 +32704,7 @@ CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, EventGroup, int>::Node_t, int>, 
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, FileWeaponInfo_t*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, IEntityFactory*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int>::Grow(int)
+CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, ResponseGroup, short>::Node_t, short>, short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, Rule, short>::Node_t, short>, short>::Grow(int)
@@ -32464,6 +32734,7 @@ CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, int, unsigned short>::Node_t, unsigned s
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<string_t, CSimpleSimTimer, char>::Node_t, char>, char>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<string_t, CUtlVector<CTFGameRules::TeleportLocation_t, CUtlMemory<CTFGameRules::TeleportLocation_t, int> >*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
+CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::Node_t, int>, int>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, int, int>::Node_t, int>, int>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, kill_eater_score_type_t, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
@@ -32471,6 +32742,7 @@ CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, unsigned int, unsigned short>::
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CQuestItemTracker*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
+CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int>, int>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, float, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, int>::Node_t, int>, int>::Grow(int)
@@ -32502,6 +32774,7 @@ CUtlMemory<breakmodel_t, int>::Grow(int)
 CUtlMemory<char const*, int>::Grow(int)
 CUtlMemory<char*, int>::Grow(int)
 CUtlMemory<clusterSoundscapeList_t, int>::Grow(int)
+CUtlMemory<condition_source_t, int>::Grow(int)
 CUtlMemory<constraint_anchor_t, int>::Grow(int)
 CUtlMemory<damageevent_t, int>::Grow(int)
 CUtlMemory<duel_minigame_data_t, int>::Grow(int)
@@ -33175,6 +33448,19 @@ CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char cons
 CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::RemoveAll()
 CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::RotateLeft(int)
 CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::RotateRight(int)
+CUtlRBTree<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t const&) const
+CUtlRBTree<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t const&, unsigned short&, bool&)
+CUtlRBTree<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FirstInorder() const
+CUtlRBTree<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t const&)
+CUtlRBTree<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
+CUtlRBTree<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsLeftChild(unsigned short) const
+CUtlRBTree<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsRightChild(unsigned short) const
+CUtlRBTree<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+CUtlRBTree<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::NewNode()
+CUtlRBTree<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::NextInorder(unsigned short) const
+CUtlRBTree<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
+CUtlRBTree<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
+CUtlRBTree<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
 CUtlRBTree<CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::Node_t const&) const
 CUtlRBTree<CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::Node_t const&, unsigned short&, bool&)
 CUtlRBTree<CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::Node_t const&)
@@ -33521,6 +33807,17 @@ CUtlRBTree<CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::Node_t, u
 CUtlRBTree<CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
 CUtlRBTree<CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
 CUtlRBTree<CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
+CUtlRBTree<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t const&) const
+CUtlRBTree<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t const&, unsigned short&, bool&)
+CUtlRBTree<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t const&)
+CUtlRBTree<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
+CUtlRBTree<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsLeftChild(unsigned short) const
+CUtlRBTree<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsRightChild(unsigned short) const
+CUtlRBTree<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+CUtlRBTree<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short>, unsigned short> >::NewNode()
+CUtlRBTree<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
+CUtlRBTree<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
+CUtlRBTree<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
 CUtlRBTree<CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::Node_t, int, CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::Node_t, int>, int> >::Find(CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::Node_t const&) const
 CUtlRBTree<CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::Node_t, int, CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::Node_t, int>, int> >::FindInsertionPosition(CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::Node_t const&, int&, bool&)
 CUtlRBTree<CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::Node_t, int, CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::Node_t, int>, int> >::Insert(CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::Node_t const&)
@@ -33603,6 +33900,21 @@ CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t,
 CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
 CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
 CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t const&) const
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t const&, unsigned short&, bool&)
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::FirstInorder() const
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t const&)
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsLeftChild(unsigned short) const
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsRightChild(unsigned short) const
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::NewNode()
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::NextInorder(unsigned short) const
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveRebalance(unsigned short)
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
+CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Unlink(unsigned short)
 CUtlRBTree<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int, CUtlMap<unsigned long long, GCSDK::CJob*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int>, int> >::Find(CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t const&) const
 CUtlRBTree<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int, CUtlMap<unsigned long long, GCSDK::CJob*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int>, int> >::FindInsertionPosition(CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t const&, int&, bool&)
 CUtlRBTree<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int, CUtlMap<unsigned long long, GCSDK::CJob*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int>, int> >::InsertAt(int, bool)
@@ -33644,12 +33956,14 @@ CUtlRBTree<CUtlMap<unsigned long long, int, int>::Node_t, int, CUtlMap<unsigned 
 CUtlRBTree<CUtlMap<unsigned long long, int, int>::Node_t, int, CUtlMap<unsigned long long, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, int>::Node_t, int>, int> >::Unlink(int)
 CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<unsigned long long, int, unsigned short>::Node_t const&) const
 CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<unsigned long long, int, unsigned short>::Node_t const&, unsigned short&, bool&)
+CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::FirstInorder() const
 CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<unsigned long long, int, unsigned short>::Node_t const&)
 CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
 CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsLeftChild(unsigned short) const
 CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsRightChild(unsigned short) const
 CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
 CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::NewNode()
+CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::NextInorder(unsigned short) const
 CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
 CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
 CUtlRBTree<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
@@ -33877,6 +34191,8 @@ CUtlVector<CTFBot::EventChangeAttributes_t::item_attributes_t, CUtlMemory<CTFBot
 CUtlVector<CTFBot::EventChangeAttributes_t::item_attributes_t, CUtlMemory<CTFBot::EventChangeAttributes_t::item_attributes_t, int> >::SetCount(int)
 CUtlVector<CTFBot::SuspectedSpyInfo_t*, CUtlMemory<CTFBot::SuspectedSpyInfo_t*, int> >::PurgeAndDeleteElements()
 CUtlVector<CTFPlayer*, CUtlMemory<CTFPlayer*, int> >::~CUtlVector()
+CUtlVector<CTFRequiredQuestItemsSet, CUtlMemory<CTFRequiredQuestItemsSet, int> >::Purge()
+CUtlVector<CTFTauntInfo::TauntInputRemap_t, CUtlMemory<CTFTauntInfo::TauntInputRemap_t, int> >::~CUtlVector()
 CUtlVector<CTeam*, CUtlMemory<CTeam*, int> >::~CUtlVector()
 CUtlVector<CUserCmd, CUtlMemory<CUserCmd, int> >::InsertBefore(int, CUserCmd const&)
 CUtlVector<CUtlBinaryBlock, CUtlMemory<CUtlBinaryBlock, int> >::~CUtlVector()
@@ -33932,6 +34248,8 @@ CUtlVector<IFuncRespawnRoomAutoList*, CUtlMemory<IFuncRespawnRoomAutoList*, int>
 CUtlVector<IFuncRespawnRoomVisualizerAutoList*, CUtlMemory<IFuncRespawnRoomVisualizerAutoList*, int> >::~CUtlVector()
 CUtlVector<IGameSystem*, CUtlMemory<IGameSystem*, int> >::~CUtlVector()
 CUtlVector<IGameSystemPerFrame*, CUtlMemory<IGameSystemPerFrame*, int> >::~CUtlVector()
+CUtlVector<IHalloweenGiftSpawnAutoList*, CUtlMemory<IHalloweenGiftSpawnAutoList*, int> >::~CUtlVector()
+CUtlVector<IHealthKitAutoList*, CUtlMemory<IHealthKitAutoList*, int> >::~CUtlVector()
 CUtlVector<IInfoPowerupSpawnAutoList*, CUtlMemory<IInfoPowerupSpawnAutoList*, int> >::~CUtlVector()
 CUtlVector<IMinigameAutoList*, CUtlMemory<IMinigameAutoList*, int> >::~CUtlVector()
 CUtlVector<IPasstimeBallControllerAutoList*, CUtlMemory<IPasstimeBallControllerAutoList*, int> >::~CUtlVector()
@@ -33971,6 +34289,7 @@ CUtlVector<TemplateEntityData_t*, CUtlMemory<TemplateEntityData_t*, int> >::~CUt
 CUtlVector<activitylist_t, CUtlMemory<activitylist_t, int> >::~CUtlVector()
 CUtlVector<attr_type_t, CUtlMemory<attr_type_t, int> >::InsertBefore(int, attr_type_t const&)
 CUtlVector<char*, CUtlMemory<char*, int> >::~CUtlVector()
+CUtlVector<condition_source_t, CUtlMemory<condition_source_t, int> >::InsertMultipleBefore(int, int, condition_source_t const*)
 CUtlVector<duel_minigame_data_t, CUtlMemory<duel_minigame_data_t, int> >::~CUtlVector()
 CUtlVector<eventlist_t, CUtlMemory<eventlist_t, int> >::~CUtlVector()
 CUtlVector<int, CUtlMemory<int, int> >
@@ -34205,11 +34524,11 @@ CVoiceGameMgrHelper
 CVoiceGameMgrHelper::CanPlayerHearPlayer(CBasePlayer*, CBasePlayer*, bool&)
 CVoiceGameMgrHelper::~CVoiceGameMgrHelper()
 CVoteController
-CVoteController* _CreateEntityTemplate<CVoteController>(CVoteController*, char const*)
 CVoteController::AddPlayerToKickWatchList(CSteamID, float)
 CVoteController::AddPlayerToNameLockedList(CSteamID, float, int)
 CVoteController::CanEntityCallVote(CBasePlayer*, int&, vote_create_failed_t&)
 CVoteController::CreateVote(int, char const*, char const*)
+CVoteController::GCResponseReceived(bool)
 CVoteController::GetDataDescMap()
 CVoteController::GetServerClass()
 CVoteController::IsValidVoter(CBasePlayer*)
@@ -35087,6 +35406,7 @@ CreateJob_CGCUpdateConVar(GCSDK::CGCClient*, void*)
 CreateJob_CGCUpdateItemSchema(GCSDK::CGCClient*, void*)
 CreateJob_CGCUpdateServerModificationItemStateJob(GCSDK::CGCClient*, void*)
 CreateJob_CGCUseServerModificationItemJob(GCSDK::CGCClient*, void*)
+CreateJob_CGCVoteSystemVoteKickResponse(GCSDK::CGCClient*, void*)
 CreateJob_CGC_GameServer_AuthChallenge(GCSDK::CGCClient*, void*)
 CreateJob_CGC_GameServer_AuthResult(GCSDK::CGCClient*, void*)
 CreateJob_CGC_GameServer_Duel_Request(GCSDK::CGCClient*, void*)
@@ -36064,6 +36384,9 @@ DT_CBonusPack::g_SendTableInit
 DT_CFish
 DT_CFish::g_SendTable
 DT_CFish::g_SendTableInit
+DT_CHalloweenGiftPickup
+DT_CHalloweenGiftPickup::g_SendTable
+DT_CHalloweenGiftPickup::g_SendTableInit
 DT_CHalloweenPickup
 DT_CHalloweenPickup::g_SendTable
 DT_CHalloweenPickup::g_SendTableInit
@@ -36688,6 +37011,9 @@ DT_TFPlayerClassShared::g_SendTableInit
 DT_TFPlayerConditionListExclusive
 DT_TFPlayerConditionListExclusive::g_SendTable
 DT_TFPlayerConditionListExclusive::g_SendTableInit
+DT_TFPlayerConditionSource
+DT_TFPlayerConditionSource::g_SendTable
+DT_TFPlayerConditionSource::g_SendTableInit
 DT_TFPlayerDestructionLogic
 DT_TFPlayerDestructionLogic::g_SendTable
 DT_TFPlayerDestructionLogic::g_SendTableInit
@@ -37190,6 +37516,7 @@ DescriptorProto
 DescriptorProtosH
 DesiredCount
 Despawn
+DespawnGift
 DestinationGroup
 DestroyCustomResponseSystems()
 DestroyEnemySentry
@@ -37390,6 +37717,9 @@ EconEntity_InvasionEventStrangeTracking(CTFPlayer*, CTFPlayer*)
 EconEntity_InvasionEventStrangeTracking(CTFPlayer*, CTFPlayer*)::pAttrDef_DeactiveDate
 EconEntity_InvasionEventStrangeTracking(CTFPlayer*, CTFPlayer*)::pItemDef_InvasionPass
 EconEntity_KillEaterEventPassesRestrictionCheck(IEconItemInterface const*, CEconItemAttributeDefinition const*, CEconItemAttributeDefinition const*, CSteamID)
+EconEntity_NonEquippedItemKillTracking(CTFPlayer*, CTFPlayer*, unsigned short, kill_eater_event_t, int)
+EconEntity_NonEquippedItemKillTracking(CTFPlayer*, CTFPlayer*, unsigned short, kill_eater_event_t, int)::pAttrDef_DeactiveDate
+EconEntity_NonEquippedItemKillTracking_NoPartner(CTFPlayer*, unsigned short, kill_eater_event_t, int)
 EconEntity_OnOwnerKillEaterEvent(CEconEntity*, CTFPlayer*, CTFPlayer*, kill_eater_event_t, int)
 EconEntity_OnOwnerKillEaterEventNoPartner(CEconEntity*, CTFPlayer*, kill_eater_event_t, int)
 EconEntity_OnOwnerKillEaterEvent_Batched(CEconEntity*, CTFPlayer*, CTFPlayer*, kill_eater_event_t, int)
@@ -37727,6 +38057,7 @@ Frequency
 Frozen
 FullRound
 FuncTrackChange.Blocking
+G1A1F
 GAMEEVENTSMANAGER002
 GCClientSystem()
 GCConnectionStatus
@@ -37881,6 +38212,7 @@ GCSDK::CSharedObject
 GCSDK::CSharedObject* GCSDK::CreateSharedObjectSubclass<CEconClaimCode>()
 GCSDK::CSharedObject* GCSDK::CreateSharedObjectSubclass<CEconGameAccountForGameServers>()
 GCSDK::CSharedObject* GCSDK::CreateSharedObjectSubclass<CEconItem>()
+GCSDK::CSharedObject* GCSDK::CreateSharedObjectSubclass<CSOTFLadderData>()
 GCSDK::CSharedObject* GCSDK::CreateSharedObjectSubclass<CTFDuelSummary>()
 GCSDK::CSharedObject* GCSDK::CreateSharedObjectSubclass<CTFLobby>()
 GCSDK::CSharedObject* GCSDK::CreateSharedObjectSubclass<CTFMapContribution>()
@@ -38147,11 +38479,9 @@ GetPhysObjSaveRestoreOps(PhysInterfaceId_t)::inited
 GetPhysSaveRestoreBlockHandler()
 GetPlayerBySteamID(CSteamID const&)
 GetPlayerClassData(unsigned int)
+GetPowerupIconName(RuneTypes_t, int)
 GetQuestEventsKeyValues()
 GetQuestEventsKeyValues()::pQuestEvents
-GetRDScoreMethodFromName(char const*)
-GetRDScoreMethodName(RDScoreMethod_t)
-GetRDScoreMethodName(RDScoreMethod_t)::aRDScoreMethodNames
 GetRandomBotName()
 GetRandomBotName()::nameCount
 GetRandomBotName()::nameIndex
@@ -38690,9 +39020,16 @@ IGameSystem::~IGameSystem()
 IGameSystemPerFrame
 IGameSystemPerFrame::~IGameSystemPerFrame()
 IHLTVDirector
+IHalloweenGiftSpawnAutoList
+IHalloweenGiftSpawnAutoList::m_IHalloweenGiftSpawnAutoListAutoList
+IHalloweenGiftSpawnAutoList::~IHalloweenGiftSpawnAutoList()
 IHandleEntity
 IHasAttributes
+IHasBuildPoints
 IHasOwner
+IHealthKitAutoList
+IHealthKitAutoList::m_IHealthKitAutoListAutoList
+IHealthKitAutoList::~IHealthKitAutoList()
 IInfoPowerupSpawnAutoList
 IInfoPowerupSpawnAutoList::m_IInfoPowerupSpawnAutoListAutoList
 IInfoPowerupSpawnAutoList::~IInfoPowerupSpawnAutoList()
@@ -39241,7 +39578,6 @@ InPass
 InRandomPool
 InTeleport
 InValue
-IncomingSoundForClass(CTFPlayerClass const*, char (&) [64])
 Increment
 IncrementTextureIndex
 IndexModelSequences(CStudioHdr*)
@@ -39909,6 +40245,7 @@ InvokeMethod(void (IGameSystem::*)(), char const*)
 InvokeMethodReverseOrder(void (IGameSystem::*)())
 InvokePerFrameMethod(void (IGameSystemPerFrame::*)(), char const*)
 Invulns
+IsAprilFools
 IsAprilFoolsTaunt
 IsAssisterDomination
 IsAssisterRevenge
@@ -39928,7 +40265,9 @@ IsFairyHeavy
 IsFeignDeath
 IsFirstBlood
 IsFrankenHeavy
+IsFullMoon
 IsGibbed
+IsHalloween
 IsHalloweenTaunt
 IsHeightDifferenceValid(float, float, float, float)
 IsHidingSpotInCover(Vector const&)
@@ -39948,6 +40287,7 @@ IsListeningToCommentary()
 IsMerasmusHiding
 IsMvMDefender
 IsNodeOverlapped(Vector const&, Vector const&)
+IsNothing
 IsOBBIntersectingOBB(Vector const&, QAngle const&, Vector const&, Vector const&, Vector const&, QAngle const&, Vector const&, Vector const&, float)
 IsPassworded
 IsPointInBox(Vector const&, Vector const&, Vector const&)
@@ -39960,14 +40300,17 @@ IsRunningScriptedScene(CBaseFlex*, bool)
 IsRunningScriptedSceneAndNotPaused(CBaseFlex*, bool)
 IsRunningScriptedSceneWithSpeechAndNotPaused(CBaseFlex*, bool)
 IsSkillAttr
+IsSmissmas
 IsSpaceToSpawnHere(Vector const&)
 IsStairs(Vector const&, Vector const&, StairTestType)
 IsStaticPointEntity(CBaseEntity*)
 IsSuicide
+IsTFBirthday
 IsTakingTriggerHurtDamageAtPoint(Vector const&)
 IsTrustedServer
 IsUniqueIdEqual(UniqueId_t const&, UniqueId_t const&)
 IsVACSecure
+IsValentimes
 IsVictimBallStunned
 IsVictimBleeding
 IsVictimBurning
@@ -40013,7 +40356,7 @@ KeyValues::AddSubKey(KeyValues*)
 KeyValues::Clear()
 KeyValues::CreateKeyUsingKnownLastChild(char const*, KeyValues*)
 KeyValues::CreateNewKey()
-KeyValues::Dump(IKeyValuesDumpContext*, int)
+KeyValues::Dump(IKeyValuesDumpContext*, int, bool)
 KeyValues::FindKey(char const*, bool)
 KeyValues::GetBool(char const*, bool, bool*)
 KeyValues::GetColor(char const*)
@@ -40280,7 +40623,7 @@ MakeRegularAlly
 MakeSniperSpots(CNavArea*)
 MakerThink
 ManhackCut
-MannVsMachineStats_GetAcquiredCredits(int)
+MannVsMachineStats_GetAcquiredCredits(int, bool)
 MannVsMachineStats_GetCurrentWave()
 MannVsMachineStats_GetDroppedCredits(int)
 MannVsMachineStats_GetInstance()
@@ -40369,6 +40712,11 @@ MeleeOnlySuddenDeath
 MeleeWeapon
 Memory
 Mentlegen
+Merasmus.RoundBegins1seconds
+Merasmus.RoundBegins2seconds
+Merasmus.RoundBegins3seconds
+Merasmus.RoundBegins4seconds
+Merasmus.RoundBegins5seconds
 MerasmusModifyDamage(CTakeDamageInfo const&)
 MergeDefinitionPrefab(KeyValues*, KeyValues*)
 MessageEnd()
@@ -40529,7 +40877,6 @@ NPCUse
 NPC_CheckBrushExclude(CBaseEntity*, CBaseEntity*)
 NPC_CombineS
 NPC_human_grunt
-NUM_SCORE_TYPES
 NWCEdit::AirNodePlacementPosition()
 NWCEdit::CreateAILink(CBasePlayer*)
 NWCEdit::CreateAINode(CBasePlayer*)
@@ -40709,6 +41056,7 @@ NextBotPlayer<CTFPlayer>::PressLeftButton(float)
 NextBotPlayer<CTFPlayer>::PressMeleeButton(float)
 NextBotPlayer<CTFPlayer>::PressReloadButton(float)
 NextBotPlayer<CTFPlayer>::PressRightButton(float)
+NextBotPlayer<CTFPlayer>::PressSpecialFireButton(float)
 NextBotPlayer<CTFPlayer>::PressUseButton(float)
 NextBotPlayer<CTFPlayer>::PressWalkButton(float)
 NextBotPlayer<CTFPlayer>::ReleaseAltFireButton()
@@ -40721,6 +41069,7 @@ NextBotPlayer<CTFPlayer>::ReleaseLeftButton()
 NextBotPlayer<CTFPlayer>::ReleaseMeleeButton()
 NextBotPlayer<CTFPlayer>::ReleaseReloadButton()
 NextBotPlayer<CTFPlayer>::ReleaseRightButton()
+NextBotPlayer<CTFPlayer>::ReleaseSpecialFireButton()
 NextBotPlayer<CTFPlayer>::ReleaseUseButton()
 NextBotPlayer<CTFPlayer>::ReleaseWalkButton()
 NextBotPlayer<CTFPlayer>::SetButtonScale(float, float)
@@ -41296,6 +41645,7 @@ PaintSplatGreen
 PaintSplatPink
 PaneTouch
 Panic
+Parachute
 Parachute_close
 Parachute_open
 ParseDynamicAttributes(CTFBot::EventChangeAttributes_t&, KeyValues*)
@@ -41348,6 +41698,7 @@ Passtime.Crowd.Cheer
 Passtime.Crowd.React.Neg
 Passtime.Crowd.React.Pos
 Passtime.GunCharge
+Passtime.Merasmus.Laugh
 Passtime.TargetLock
 Passtime.Throw
 PasstimeGameEvents::BallBlocked::BallBlocked(int, int)
@@ -41546,6 +41897,7 @@ Player.IsNowIt
 Player.MeleeDeath
 Player.PickupWeapon
 Player.PlasmaDamage
+Player.ReceiveSouls
 Player.SonicDamage
 Player.Spawn
 Player.Spy_Shield_Break
@@ -41738,18 +42090,24 @@ Pottery.Small
 Powerup.Knockout_Melee_Hit
 Powerup.PickUpAgility
 Powerup.PickUpHaste
+Powerup.PickUpKing
 Powerup.PickUpKnockout
+Powerup.PickUpPlague
+Powerup.PickUpPlagueInfected
+Powerup.PickUpPlagueInfectedLoop
 Powerup.PickUpPrecision
+Powerup.PickUpReflect
 Powerup.PickUpRegeneration
 Powerup.PickUpResistance
 Powerup.PickUpStrength
+Powerup.PickUpSupernova
+Powerup.PickUpSupernovaActivate
 Powerup.PickUpTemp.Crit
 Powerup.PickUpTemp.Uber
 Powerup.PickUpVampire
-Powerup.PickUpWarlock
 Powerup.ReducedDamage
+Powerup.Reflect.Reflect
 Powerup.Volume.Use
-Powerup.Warlock.Reflect
 PowerupBottleThink
 PowerupRemoveThink
 PreDetonate
@@ -41790,6 +42148,7 @@ PrimerTime
 ProcessNavigationQueries(CFunctor**, unsigned int)
 ProcessQueryCacheUpdate
 ProcessQueryCacheUpdate(QueryCacheUpdateRecord_t&)
+ProjectileShield
 ProjectileSpeed
 ProjectileType
 PropAnimateThink
@@ -41844,6 +42203,7 @@ QueryCacheEntry_t::IssueQuery()
 QueryParam
 QuestObjectiveCompleted
 QuestObjectiveManager()
+QuestObjectiveManager()::g_QuestObjectiveManager
 QueuedLoaderVersion004
 RADIATION
 RANDOM
@@ -41983,6 +42343,7 @@ RemoveAllScenesInvolvingActor(CBaseFlex*)
 RemoveAllSlides
 RemoveBots
 RemoveContext
+RemoveGift
 RemoveHealth
 RemoveLast
 RemoveMeleeCrit
@@ -42207,11 +42568,6 @@ SCHED_VICTORY_DANCE
 SCHED_WAIT_FOR_SCRIPT
 SCHED_WAIT_FOR_SPEAK_FINISH
 SCHED_WAKE_ANGRY
-SCORE_CORES_COLLECTED
-SCORE_REACTOR_CAPTURED
-SCORE_REACTOR_RETURNED
-SCORE_REACTOR_STEAL
-SCORE_UNDEFINED
 SCRIPT
 SECONDARY
 SECONDARY2
@@ -42301,13 +42657,12 @@ STAND
 STARTSCRIPTING
 STEAMAPPLIST_INTERFACE_VERSION001
 STEAMAPPS_INTERFACE_VERSION007
-STEAMCONTROLLER_INTERFACE_VERSION
 STEAMHTMLSURFACE_INTERFACE_VERSION_003
 STEAMHTTP_INTERFACE_VERSION002
 STEAMINVENTORY_INTERFACE_V001
 STEAMMUSICREMOTE_INTERFACE_VERSION001
 STEAMMUSIC_INTERFACE_VERSION001
-STEAMREMOTESTORAGE_INTERFACE_VERSION012
+STEAMREMOTESTORAGE_INTERFACE_VERSION013
 STEAMSCREENSHOTS_INTERFACE_VERSION002
 STEAMUGC_INTERFACE_VERSION007
 STEAMUNIFIEDMESSAGES_INTERFACE_VERSION001
@@ -42907,7 +43262,7 @@ SpawnNPCInLine
 SpawnNPCInRadius
 SpawnRate
 SpawnRobot
-SpawnRunesForTeam(int)
+SpawnRunes()
 SpawnWithFullCharge
 SpawnerThink
 Spawns
@@ -43028,6 +43383,7 @@ StayAtCover
 StayOnFloor(CGameTrace*, float)
 Steady
 Steam
+SteamController003
 SteamFriends015
 SteamGameCoordinator001
 SteamGameServer012
@@ -43493,6 +43849,7 @@ TF_COND_INVULNERABLE_CARD_EFFECT
 TF_COND_INVULNERABLE_HIDE_UNLESS_DAMAGED
 TF_COND_INVULNERABLE_USER_BUFF
 TF_COND_INVULNERABLE_WEARINGOFF
+TF_COND_KING_BUFFED
 TF_COND_MAD_MILK
 TF_COND_MARKEDFORDEATH
 TF_COND_MARKEDFORDEATH_SILENT
@@ -43513,7 +43870,9 @@ TF_COND_OFFENSEBUFF
 TF_COND_PARACHUTE_DEPLOYED
 TF_COND_PASSTIME_INTERCEPTION
 TF_COND_PHASE
+TF_COND_PLAGUE
 TF_COND_PREVENT_DEATH
+TF_COND_PURGATORY
 TF_COND_RADIUSHEAL
 TF_COND_RADIUSHEAL_ON_DAMAGE
 TF_COND_REGENONDAMAGEBUFF
@@ -43521,13 +43880,16 @@ TF_COND_REPROGRAMMED
 TF_COND_RUNE_AGILITY
 TF_COND_RUNE_HASTE
 TF_COND_RUNE_IMBALANCE
+TF_COND_RUNE_KING
 TF_COND_RUNE_KNOCKOUT
+TF_COND_RUNE_PLAGUE
 TF_COND_RUNE_PRECISION
+TF_COND_RUNE_REFLECT
 TF_COND_RUNE_REGEN
 TF_COND_RUNE_RESIST
 TF_COND_RUNE_STRENGTH
+TF_COND_RUNE_SUPERNOVA
 TF_COND_RUNE_VAMPIRE
-TF_COND_RUNE_WARLOCK
 TF_COND_SAPPED
 TF_COND_SELECTED_TO_TELEPORT
 TF_COND_SHIELD_CHARGE
@@ -44491,6 +44853,7 @@ UtlVectorTemplate<CAnimationLayer, CUtlMemory<CAnimationLayer, int> >::EnsureCap
 UtlVectorTemplate<CEconItemAttribute, CUtlMemory<CEconItemAttribute, int> >::EnsureCapacity(void*, int, int)
 UtlVectorTemplate<CHandle<CBaseFlex>, CUtlMemory<CHandle<CBaseFlex>, int> >::EnsureCapacity(void*, int, int)
 UtlVectorTemplate<CHandle<CEconWearable>, CUtlMemory<CHandle<CEconWearable>, int> >::EnsureCapacity(void*, int, int)
+UtlVectorTemplate<condition_source_t, CUtlMemory<condition_source_t, int> >::EnsureCapacity(void*, int, int)
 UtlVectorTemplate<int, CUtlMemory<int, int> >::EnsureCapacity(void*, int, int)
 V4tI1
 VBAllocTracker001
@@ -44826,6 +45189,7 @@ _ListIssues
 _MOVE_HEIGHT_EPSILON
 _Medium_Hull
 _Medium_Tall_Hull
+_MemAllocOOMError
 _MemAllocScratch
 _MemFreeScratch
 _NavColors
@@ -44958,16 +45322,17 @@ ___cxa_pure_virtual
 ___cxa_rethrow
 ___cxa_throw
 ___cxx_global_array_dtor
+___cxx_global_array_dtor102
 ___cxx_global_array_dtor105
 ___cxx_global_array_dtor106
-___cxx_global_array_dtor1138
-___cxx_global_array_dtor114
+___cxx_global_array_dtor1144
 ___cxx_global_array_dtor116
-___cxx_global_array_dtor118
+___cxx_global_array_dtor117
 ___cxx_global_array_dtor119
+___cxx_global_array_dtor121
 ___cxx_global_array_dtor13
-___cxx_global_array_dtor137
 ___cxx_global_array_dtor14
+___cxx_global_array_dtor140
 ___cxx_global_array_dtor15
 ___cxx_global_array_dtor150
 ___cxx_global_array_dtor158
@@ -44975,8 +45340,9 @@ ___cxx_global_array_dtor16
 ___cxx_global_array_dtor166
 ___cxx_global_array_dtor173
 ___cxx_global_array_dtor175
-___cxx_global_array_dtor179
+___cxx_global_array_dtor178
 ___cxx_global_array_dtor18
+___cxx_global_array_dtor182
 ___cxx_global_array_dtor183
 ___cxx_global_array_dtor184
 ___cxx_global_array_dtor189
@@ -44994,9 +45360,10 @@ ___cxx_global_array_dtor22
 ___cxx_global_array_dtor220
 ___cxx_global_array_dtor228
 ___cxx_global_array_dtor23
-___cxx_global_array_dtor233
-___cxx_global_array_dtor237
-___cxx_global_array_dtor238
+___cxx_global_array_dtor231
+___cxx_global_array_dtor236
+___cxx_global_array_dtor241
+___cxx_global_array_dtor246
 ___cxx_global_array_dtor25
 ___cxx_global_array_dtor251
 ___cxx_global_array_dtor257
@@ -45008,16 +45375,17 @@ ___cxx_global_array_dtor28
 ___cxx_global_array_dtor280
 ___cxx_global_array_dtor29
 ___cxx_global_array_dtor30
-___cxx_global_array_dtor303
+___cxx_global_array_dtor306
 ___cxx_global_array_dtor31
 ___cxx_global_array_dtor33
 ___cxx_global_array_dtor34
 ___cxx_global_array_dtor351
 ___cxx_global_array_dtor36
-___cxx_global_array_dtor370
+___cxx_global_array_dtor376
 ___cxx_global_array_dtor38
 ___cxx_global_array_dtor39
 ___cxx_global_array_dtor397
+___cxx_global_array_dtor40
 ___cxx_global_array_dtor408
 ___cxx_global_array_dtor41
 ___cxx_global_array_dtor412
@@ -45048,7 +45416,6 @@ ___cxx_global_array_dtor87
 ___cxx_global_array_dtor90
 ___cxx_global_array_dtor93
 ___cxx_global_array_dtor96
-___cxx_global_array_dtor99
 ___divdi3
 ___dynamic_cast
 ___error
@@ -45468,7 +45835,6 @@ _g_PostSimulationQueue
 _g_PrecacheOtherList
 _g_PropDataSystem
 _g_QaternionPool
-_g_QuestObjectiveManager
 _g_RagdollLVManager
 _g_RobotData
 _g_SIMD_ComponentMask
@@ -45806,6 +46172,32 @@ _k_flMaxEntityEulerAngle
 _k_flMaxEntityPosCoord
 _k_flMaxEntitySpeed
 _k_flMaxEntitySpinRate
+_k_mapConditions
+_k_pszQuestConditionRequiredFieldStrings
+_k_sANDRegisteredEntry
+_k_sNOTRegisteredEntry
+_k_sORRegisteredEntry
+_k_sconditionRegisteredEntry
+_k_scrit_killRegisteredEntry
+_k_scustom_damageRegisteredEntry
+_k_sflag_event_typeRegisteredEntry
+_k_sgame_typeRegisteredEntry
+_k_shalloween_boss_typeRegisteredEntry
+_k_sloadout_positionRegisteredEntry
+_k_smapRegisteredEntry
+_k_sminigame_typeRegisteredEntry
+_k_sobject_typeRegisteredEntry
+_k_splayer_aliveRegisteredEntry
+_k_splayer_classRegisteredEntry
+_k_splayer_conditionRegisteredEntry
+_k_splayer_disguiseRegisteredEntry
+_k_splayer_is_ownerRegisteredEntry
+_k_splayer_jumpingRegisteredEntry
+_k_sscorerRegisteredEntry
+_k_steam_restrictionRegisteredEntry
+_k_sweaponRegisteredEntry
+_k_sweapon_def_indexRegisteredEntry
+_k_sweapon_nameRegisteredEntry
 _key_field
 _lagcompensation
 _level_sounds.txt
@@ -45821,6 +46213,7 @@ _logf
 _longjmp
 _lservercfgfile
 _m_debugOverlayLine
+_m_flNextSupernovaDenyWarning
 _m_nDebugOverlayIndex
 _malloc
 _malloc_size
@@ -46027,7 +46420,6 @@ _pthread_mutexattr_init
 _pthread_mutexattr_settype
 _pthread_once
 _qsort
-_questDebugColor
 _r_AirboatViewDampenDamp
 _r_AirboatViewDampenFreq
 _r_AirboatViewZHeight
@@ -46239,6 +46631,7 @@ _sv_vote_issue_extendlevel_quorum
 _sv_vote_issue_kick_allowed
 _sv_vote_issue_kick_allowed_mvm
 _sv_vote_issue_kick_limit_mvm
+_sv_vote_issue_kick_limit_mvm_gc
 _sv_vote_issue_kick_min_connect_time_mvm
 _sv_vote_issue_kick_namelock_duration
 _sv_vote_issue_kick_spectators_mvm
@@ -46407,6 +46800,7 @@ _tf_bot_wait_in_cover_max_time
 _tf_bot_wait_in_cover_min_time
 _tf_caplinear
 _tf_cart_duck_drop_rate
+_tf_cart_soul_drop_rate
 _tf_cart_spell_drop_rate
 _tf_cheapobjects
 _tf_clamp_airducks
@@ -46529,6 +46923,7 @@ _tf_halloween_bot_terrify_radius
 _tf_halloween_eyeball_boss_spawn_interval
 _tf_halloween_eyeball_boss_spawn_interval_variation
 _tf_halloween_giant_health_scale
+_tf_halloween_gift_lifetime
 _tf_halloween_hhh_attack_kart_radius
 _tf_halloween_kart_air_turn_scale
 _tf_halloween_kart_aircontrol
@@ -46584,7 +46979,6 @@ _tf_highfive_separation_forward
 _tf_highfive_separation_right
 _tf_invuln_time
 _tf_item_based_forced_holiday
-_tf_loadondemand_default
 _tf_max_active_zombie
 _tf_max_charge_speed
 _tf_max_health_boost
@@ -46613,6 +47007,7 @@ _tf_merasmus_speed
 _tf_merasmus_speed_recovery_rate
 _tf_merasmus_stun_duration
 _tf_minigame_suddendeath_time
+_tf_mm_ladder_gc_timeout
 _tf_mm_player_reservation_timeout_seconds
 _tf_mm_servermode
 _tf_mm_skillrating_server_force_average
@@ -46625,6 +47020,10 @@ _tf_mvm_bot_flag_carrier_interval_to_2nd_upgrade
 _tf_mvm_bot_flag_carrier_interval_to_3rd_upgrade
 _tf_mvm_bot_flag_carrier_movement_penalty
 _tf_mvm_bot_sniper_target_by_dps
+_tf_mvm_buybacks_method
+_tf_mvm_buybacks_per_wave
+_tf_mvm_currency_bonus_ratio_max
+_tf_mvm_currency_bonus_ratio_min
 _tf_mvm_death_penalty
 _tf_mvm_default_sentry_buster_damage_dealt_threshold
 _tf_mvm_default_sentry_buster_kill_threshold
@@ -46675,11 +47074,12 @@ _tf_passtime_ball_drag_coefficient
 _tf_passtime_ball_inertia_scale
 _tf_passtime_ball_mass
 _tf_passtime_ball_model
-_tf_passtime_ball_radius
 _tf_passtime_ball_reset_time
 _tf_passtime_ball_rotdamping_scale
 _tf_passtime_ball_seek_range
 _tf_passtime_ball_seek_speed_factor
+_tf_passtime_ball_sphere_collision
+_tf_passtime_ball_sphere_radius
 _tf_passtime_ball_takedamage
 _tf_passtime_ball_takedamage_force
 _tf_passtime_flinch_boost
@@ -46723,6 +47123,7 @@ _tf_populator_active_buffer_range
 _tf_populator_damage_multiplier
 _tf_populator_debug
 _tf_populator_health_multiplier
+_tf_powerup_max_charge_time
 _tf_powerup_mode
 _tf_powerup_mode_imbalance_delta
 _tf_raid_engineer_infinte_metal
@@ -47271,6 +47672,8 @@ attachedEntity
 attached_models
 attached_particlesystems
 attachment
+attachment_name
+attachment_type
 attachpoint
 attack_defense
 attack_not_cancel_charge
@@ -47664,6 +48067,7 @@ building_instant_upgrade
 building_teleporting_pickup
 bundle
 burn_damage_earns_rage
+burn_duration
 burningplayer_blue
 burningplayer_rainbow
 burningplayer_red
@@ -47862,8 +48266,10 @@ coach_command
 coach_name
 code_controlled_bodygroup
 coldworld
+collecting_player
 collection_item_id
 collection_reference
+collector
 collectors
 collision_shake_amp
 collision_shake_freq
@@ -47913,7 +48319,13 @@ component_flags
 components
 concept
 condition
+condition_key
+condition_logic
+condition_source_t
+condition_source_t::NetworkStateChanged()
+condition_source_t::NetworkStateChanged(void*)
 conditions
+conditions_def_index
 condump_off
 condump_on
 conga_kill
@@ -48068,9 +48480,11 @@ creditsdone
 crit_does_no_damage
 crit_forces_victim_to_laugh
 crit_from_behind
+crit_kill
 crit_kill_will_gib
 crit_on_hard_hit
 crit_text
+crit_type
 crit_vs_wet_players
 crit_while_airborne
 critboost
@@ -48084,6 +48498,7 @@ critical_grenade_red
 critical_rocket_blue
 critical_rocket_red
 crits_on_damage
+cross_spectral_bridge
 crosshair_enemy
 crosshair_on
 crouch_aim_
@@ -48175,6 +48590,8 @@ damage.txt
 damage_all_connected
 damage_causes_airblast
 damage_force_reduction
+damage_percent_per_second
+damage_prevented
 damage_resisted
 damage_table
 damageamount
@@ -48812,6 +49229,8 @@ datamap_t* DataMapInit<CGlobalState>(CGlobalState*)::nameHolder
 datamap_t* DataMapInit<CGunTarget>(CGunTarget*)
 datamap_t* DataMapInit<CGunTarget>(CGunTarget*)::dataDesc
 datamap_t* DataMapInit<CGunTarget>(CGunTarget*)::nameHolder
+datamap_t* DataMapInit<CHalloweenGiftPickup>(CHalloweenGiftPickup*)::dataDesc
+datamap_t* DataMapInit<CHalloweenGiftPickup>(CHalloweenGiftPickup*)::nameHolder
 datamap_t* DataMapInit<CHalloweenPickup>(CHalloweenPickup*)
 datamap_t* DataMapInit<CHalloweenPickup>(CHalloweenPickup*)::dataDesc
 datamap_t* DataMapInit<CHalloweenPickup>(CHalloweenPickup*)::nameHolder
@@ -48878,6 +49297,9 @@ datamap_t* DataMapInit<CLogicMeasureMovement>(CLogicMeasureMovement*)::dataDesc
 datamap_t* DataMapInit<CLogicMeasureMovement>(CLogicMeasureMovement*)::nameHolder
 datamap_t* DataMapInit<CLogicNavigation>(CLogicNavigation*)::dataDesc
 datamap_t* DataMapInit<CLogicNavigation>(CLogicNavigation*)::nameHolder
+datamap_t* DataMapInit<CLogicOnHoliday>(CLogicOnHoliday*)
+datamap_t* DataMapInit<CLogicOnHoliday>(CLogicOnHoliday*)::dataDesc
+datamap_t* DataMapInit<CLogicOnHoliday>(CLogicOnHoliday*)::nameHolder
 datamap_t* DataMapInit<CLogicRelay>(CLogicRelay*)
 datamap_t* DataMapInit<CLogicRelay>(CLogicRelay*)::dataDesc
 datamap_t* DataMapInit<CLogicRelay>(CLogicRelay*)::nameHolder
@@ -49485,6 +49907,8 @@ datamap_t* DataMapInit<CTriggerGravity>(CTriggerGravity*)::nameHolder
 datamap_t* DataMapInit<CTriggerHurt>(CTriggerHurt*)
 datamap_t* DataMapInit<CTriggerHurt>(CTriggerHurt*)::dataDesc
 datamap_t* DataMapInit<CTriggerHurt>(CTriggerHurt*)::nameHolder
+datamap_t* DataMapInit<CTriggerIgnite>(CTriggerIgnite*)::dataDesc
+datamap_t* DataMapInit<CTriggerIgnite>(CTriggerIgnite*)::nameHolder
 datamap_t* DataMapInit<CTriggerIgniteArrows>(CTriggerIgniteArrows*)::dataDesc
 datamap_t* DataMapInit<CTriggerIgniteArrows>(CTriggerIgniteArrows*)::nameHolder
 datamap_t* DataMapInit<CTriggerImpact>(CTriggerImpact*)
@@ -49496,6 +49920,8 @@ datamap_t* DataMapInit<CTriggerLook>(CTriggerLook*)::nameHolder
 datamap_t* DataMapInit<CTriggerMultiple>(CTriggerMultiple*)
 datamap_t* DataMapInit<CTriggerMultiple>(CTriggerMultiple*)::dataDesc
 datamap_t* DataMapInit<CTriggerMultiple>(CTriggerMultiple*)::nameHolder
+datamap_t* DataMapInit<CTriggerParticle>(CTriggerParticle*)::dataDesc
+datamap_t* DataMapInit<CTriggerParticle>(CTriggerParticle*)::nameHolder
 datamap_t* DataMapInit<CTriggerPasstimeBall>(CTriggerPasstimeBall*)
 datamap_t* DataMapInit<CTriggerPasstimeBall>(CTriggerPasstimeBall*)::dataDesc
 datamap_t* DataMapInit<CTriggerPasstimeBall>(CTriggerPasstimeBall*)::nameHolder
@@ -49511,6 +49937,8 @@ datamap_t* DataMapInit<CTriggerPush>(CTriggerPush*)::nameHolder
 datamap_t* DataMapInit<CTriggerRemove>(CTriggerRemove*)
 datamap_t* DataMapInit<CTriggerRemove>(CTriggerRemove*)::dataDesc
 datamap_t* DataMapInit<CTriggerRemove>(CTriggerRemove*)::nameHolder
+datamap_t* DataMapInit<CTriggerRemoveTFPlayerCondition>(CTriggerRemoveTFPlayerCondition*)::dataDesc
+datamap_t* DataMapInit<CTriggerRemoveTFPlayerCondition>(CTriggerRemoveTFPlayerCondition*)::nameHolder
 datamap_t* DataMapInit<CTriggerSave>(CTriggerSave*)::dataDesc
 datamap_t* DataMapInit<CTriggerSave>(CTriggerSave*)::nameHolder
 datamap_t* DataMapInit<CTriggerSoundscape>(CTriggerSoundscape*)
@@ -49873,6 +50301,7 @@ dropitem
 dropped
 dsp_speaker
 duck_badge_level
+duck_collect_green
 duck_collect_trail_blue
 duck_collect_trail_red
 duck_collect_trail_special_blue
@@ -50154,6 +50583,8 @@ error_message
 error_text
 errors
 escape
+escape_hell
+escaped_loot_island
 escort_blocked
 escort_scored
 eternaween
@@ -50164,6 +50595,7 @@ event_24_7
 event_counter
 event_data_int
 event_delay
+event_key
 event_listener
 event_mix
 event_name
@@ -50350,6 +50782,7 @@ flag_captured
 flag_carried_in_detection_zone
 flag_defended
 flag_dropped
+flag_event
 flag_event_type
 flag_icon
 flag_model
@@ -50443,6 +50876,7 @@ follow_rootbone
 foot_L
 foot_R
 force
+force_distribute_currency_on_death
 force_map_reset
 force_output_description
 force_remove_all
@@ -50484,7 +50918,6 @@ freezecam_tauntrag
 freezecam_tauntsentry
 frequency
 friction
-friend
 friend_count
 friendlyfire
 full_reset
@@ -50656,6 +51089,7 @@ g_CFuncTrackTrain_ClassReg
 g_CFunc_Dust_ClassReg
 g_CFunc_LOD_ClassReg
 g_CGameRulesProxy_ClassReg
+g_CHalloweenGiftPickup_ClassReg
 g_CHalloweenPickup_ClassReg
 g_CHalloweenSoulPack_ClassReg
 g_CHandleTest_ClassReg
@@ -50950,6 +51384,7 @@ g_GameStringPool
 g_GameUI
 g_GlobalFortuneTellerEffects
 g_GlobalSymbolDataOps
+g_HalloweenMapInfo
 g_Helper
 g_HighestActivity
 g_HighestEvent
@@ -50981,6 +51416,7 @@ g_JobType_CGCUpdateConVar
 g_JobType_CGCUpdateItemSchema
 g_JobType_CGCUpdateServerModificationItemStateJob
 g_JobType_CGCUseServerModificationItemJob
+g_JobType_CGCVoteSystemVoteKickResponse
 g_JobType_CGC_GameServer_AuthChallenge
 g_JobType_CGC_GameServer_AuthResult
 g_JobType_CGC_GameServer_Duel_Request
@@ -51180,11 +51616,13 @@ game_weapon_manager
 game_zone_player
 gameitemid
 gamematerial
+games
 gamestats
 gamestats.dat
 gamestats.log
 gametitle
 gassound
+gateway_item_name
 gc_dir_index_source
 gc_info
 gc_msg_src
@@ -51313,6 +51751,7 @@ guard variable for CEyeballBossLocomotion::GetFeet() const::feet
 guard variable for CEyeballBossLocomotion::GetGroundNormal() const::up
 guard variable for CFlexAnimationTrack::GetBoundedSample(int, bool&, int)::nullend
 guard variable for CFlexAnimationTrack::GetBoundedSample(int, bool&, int)::nullstart
+guard variable for CHalloweenSoulPack::ItemTouch(CBaseEntity*)::hItemDef
 guard variable for CKeyValuesDumpContextAsDevMsg::KvBeginKey(KeyValues*, int)::r_developer
 guard variable for CMerasmusFlyingLocomotion::GetGroundNormal() const::up
 guard variable for CNavArea::ComputeVisibilityDelta(CNavArea const*) const::delta
@@ -51324,8 +51763,8 @@ guard variable for CNavMesh::UpdateGeneration(float)::s_playerSettleTimer
 guard variable for CNavMesh::UpdateGeneration(float)::s_unlitAreas
 guard variable for CNavMesh::UpdateGeneration(float)::s_unlitSeedAreas
 guard variable for CNavNode::GetNode(Vector const&)::lookup
-guard variable for CQuestItemTracker::CQuestItemTracker(CEconItem const*, CSteamID)::pAttribDef_EarnedBonusPoints
-guard variable for CQuestItemTracker::CQuestItemTracker(CEconItem const*, CSteamID)::pAttribDef_EarnedStandardPoints
+guard variable for CQuestItemTracker::UpdatePointsFromSOItem()::pAttribDef_EarnedBonusPoints
+guard variable for CQuestItemTracker::UpdatePointsFromSOItem()::pAttribDef_EarnedStandardPoints
 guard variable for CServerGameClients::ClientSettingsChanged(edict_t*)::pMax
 guard variable for CServerGameClients::ClientSettingsChanged(edict_t*)::pMaxUpdateRate
 guard variable for CServerGameClients::ClientSettingsChanged(edict_t*)::pMin
@@ -51380,12 +51819,12 @@ guard variable for CTFPlayer::PlayTauntSceneFromItem(CEconItemView*)::pAttrDef_T
 guard variable for CTFPlayer::PlayTauntSceneFromItem(CEconItemView*)::pAttrDef_TauntSuccessSoundLoopOffset
 guard variable for CTFPlayer::PlayTauntSceneFromItem(CEconItemView*)::pAttrDef_TauntSuccessSoundOffset
 guard variable for CTFPlayer::UpdateSkillRatingData()::vecAttackers
+guard variable for CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)::pItemDef_Halloween2015Pass
 guard variable for CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)::pItemDef_InvasionPass
 guard variable for CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)::pItemDef_Summer2015Operation
 guard variable for CTFPlayerShared::OnRemoveHalloweenTiny()::vTest
 guard variable for CTFPowerupBottle::SetNumCharges(unsigned char)::pAttrDef_PowerupCharges
 guard variable for CTFProjectile_SpellSpawnBoss::InitialExplodeEffects(CTFPlayer*, CGameTrace const*)::vTest
-guard variable for CTFRune::CreateRune(Vector const&, RuneTypes_t, int, bool, bool, Vector)::tf_powerup_mode
 guard variable for CTFWeaponBase::GetBulletSpread()::cone
 guard variable for CTFWeaponBaseGun::GetCustomProjectileModel(CAttribute_String*)::pAttrDef_ProjectileEntityName
 guard variable for CTFWeaponBaseMelee::DoSwingTraceInternal(CGameTrace&, bool, CUtlVector<CGameTrace, CUtlMemory<CGameTrace, int> >*)::vecSwingMaxsBase
@@ -51445,6 +51884,7 @@ guard variable for CUtlRBTree<CUtlMap<char const*, FilePlayerClassInfo_t*, unsig
 guard variable for CUtlRBTree<CUtlMap<char const*, FileWeaponInfo_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, FileWeaponInfo_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, FileWeaponInfo_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<char const*, IEntityFactory*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, IEntityFactory*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, IEntityFactory*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
+guard variable for CUtlRBTree<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, QuestConditionEntry_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, RateLimitedSound_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<char const*, ResponseGroup, short>::Node_t, short, CUtlMap<char const*, ResponseGroup, short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, ResponseGroup, short>::Node_t, short>, short> >::Links(short) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<char const*, Rule, short>::Node_t, short, CUtlMap<char const*, Rule, short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, Rule, short>::Node_t, short>, short> >::Links(short) const::s_Sentinel
@@ -51475,6 +51915,7 @@ guard variable for CUtlRBTree<CUtlMap<int, int, unsigned short>::Node_t, unsigne
 guard variable for CUtlRBTree<CUtlMap<string_t, CSimpleSimTimer, char>::Node_t, char, CUtlMap<string_t, CSimpleSimTimer, char>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<string_t, CSimpleSimTimer, char>::Node_t, char>, char> >::Links(char) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<string_t, CUtlVector<CTFGameRules::TeleportLocation_t, CUtlMemory<CTFGameRules::TeleportLocation_t, int> >*, unsigned short>::Node_t, unsigned short, CUtlMap<string_t, CUtlVector<CTFGameRules::TeleportLocation_t, CUtlMemory<CTFGameRules::TeleportLocation_t, int> >*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<string_t, CUtlVector<CTFGameRules::TeleportLocation_t, CUtlMemory<CTFGameRules::TeleportLocation_t, int> >*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, AchievementAward_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+guard variable for CUtlRBTree<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CTFQuestObjectiveConditionsDefinition*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::Node_t, int, CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, GCSDK::JobStatsBucket_t, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<unsigned int, int, int>::Node_t, int, CUtlMap<unsigned int, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, int, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<unsigned int, kill_eater_score_type_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, kill_eater_score_type_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, kill_eater_score_type_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
@@ -51482,6 +51923,7 @@ guard variable for CUtlRBTree<CUtlMap<unsigned int, unsigned int, unsigned short
 guard variable for CUtlRBTree<CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CPlayerWaveSpendingStats, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<unsigned long long, CQuestItemTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CQuestItemTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CQuestItemTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CTFWorkshopMap*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+guard variable for CUtlRBTree<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CommitRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int, CUtlMap<unsigned long long, GCSDK::CJob*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, GCSDK::CJob*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<unsigned long long, float, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<unsigned long long, int, int>::Node_t, int, CUtlMap<unsigned long long, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, int, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
@@ -51510,6 +51952,7 @@ guard variable for DmxElementUnpackStructure_t* DmxElementUnpackInit<CParticleSy
 guard variable for DmxElementUnpackStructure_t* DmxElementUnpackInit<ParticleChildrenInfo_t>(ParticleChildrenInfo_t*)::unpack
 guard variable for EconEntity_InvasionEventStrangeTracking(CTFPlayer*, CTFPlayer*)::pAttrDef_DeactiveDate
 guard variable for EconEntity_InvasionEventStrangeTracking(CTFPlayer*, CTFPlayer*)::pItemDef_InvasionPass
+guard variable for EconEntity_NonEquippedItemKillTracking(CTFPlayer*, CTFPlayer*, unsigned short, kill_eater_event_t, int)::pAttrDef_DeactiveDate
 guard variable for EntityFactoryDictionary()::s_EntityFactory
 guard variable for GCSDK::GMapJobTypesByMsg()::s_MapJobTypes
 guard variable for GCSDK::GMapJobTypesByName()::s_MapJobTypes
@@ -51576,6 +52019,7 @@ guard variable for PlayerBody::Upkeep()::bot_mimic
 guard variable for PlayerHasDuckStreaks(CTFPlayer*)::pAttr_DuckStreaks
 guard variable for PlayerLocomotion::GetDesiredLean() const::junk
 guard variable for PlayerLocomotion::GetGroundNormal() const::up
+guard variable for QuestObjectiveManager()::g_QuestObjectiveManager
 guard variable for SelectPartnerTaunt(CTFItemDefinition const*, CTFPlayer*, CTFPlayer*, char const**, char const**)::rpsTaunt
 guard variable for TheNextBots()::manager
 guard variable for TheTacticalMissions()::manager
@@ -51958,6 +52402,7 @@ guard variable for datamap_t* DataMapInit<CGlobalState>(CGlobalState*)::dataDesc
 guard variable for datamap_t* DataMapInit<CGlobalState>(CGlobalState*)::nameHolder
 guard variable for datamap_t* DataMapInit<CGunTarget>(CGunTarget*)::dataDesc
 guard variable for datamap_t* DataMapInit<CGunTarget>(CGunTarget*)::nameHolder
+guard variable for datamap_t* DataMapInit<CHalloweenGiftPickup>(CHalloweenGiftPickup*)::nameHolder
 guard variable for datamap_t* DataMapInit<CHalloweenPickup>(CHalloweenPickup*)::dataDesc
 guard variable for datamap_t* DataMapInit<CHalloweenPickup>(CHalloweenPickup*)::nameHolder
 guard variable for datamap_t* DataMapInit<CHightower_TeleportVortex>(CHightower_TeleportVortex*)::nameHolder
@@ -51998,6 +52443,8 @@ guard variable for datamap_t* DataMapInit<CLogicLineToEntity>(CLogicLineToEntity
 guard variable for datamap_t* DataMapInit<CLogicMeasureMovement>(CLogicMeasureMovement*)::dataDesc
 guard variable for datamap_t* DataMapInit<CLogicMeasureMovement>(CLogicMeasureMovement*)::nameHolder
 guard variable for datamap_t* DataMapInit<CLogicNavigation>(CLogicNavigation*)::nameHolder
+guard variable for datamap_t* DataMapInit<CLogicOnHoliday>(CLogicOnHoliday*)::dataDesc
+guard variable for datamap_t* DataMapInit<CLogicOnHoliday>(CLogicOnHoliday*)::nameHolder
 guard variable for datamap_t* DataMapInit<CLogicRelay>(CLogicRelay*)::dataDesc
 guard variable for datamap_t* DataMapInit<CLogicRelay>(CLogicRelay*)::nameHolder
 guard variable for datamap_t* DataMapInit<CMannVsMachineLogic>(CMannVsMachineLogic*)::dataDesc
@@ -52356,6 +52803,7 @@ guard variable for datamap_t* DataMapInit<CTriggerGravity>(CTriggerGravity*)::da
 guard variable for datamap_t* DataMapInit<CTriggerGravity>(CTriggerGravity*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTriggerHurt>(CTriggerHurt*)::dataDesc
 guard variable for datamap_t* DataMapInit<CTriggerHurt>(CTriggerHurt*)::nameHolder
+guard variable for datamap_t* DataMapInit<CTriggerIgnite>(CTriggerIgnite*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTriggerIgniteArrows>(CTriggerIgniteArrows*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTriggerImpact>(CTriggerImpact*)::dataDesc
 guard variable for datamap_t* DataMapInit<CTriggerImpact>(CTriggerImpact*)::nameHolder
@@ -52363,6 +52811,7 @@ guard variable for datamap_t* DataMapInit<CTriggerLook>(CTriggerLook*)::dataDesc
 guard variable for datamap_t* DataMapInit<CTriggerLook>(CTriggerLook*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTriggerMultiple>(CTriggerMultiple*)::dataDesc
 guard variable for datamap_t* DataMapInit<CTriggerMultiple>(CTriggerMultiple*)::nameHolder
+guard variable for datamap_t* DataMapInit<CTriggerParticle>(CTriggerParticle*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTriggerPasstimeBall>(CTriggerPasstimeBall*)::dataDesc
 guard variable for datamap_t* DataMapInit<CTriggerPasstimeBall>(CTriggerPasstimeBall*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTriggerPlayerMovement>(CTriggerPlayerMovement*)::nameHolder
@@ -52372,6 +52821,7 @@ guard variable for datamap_t* DataMapInit<CTriggerProximity>(CTriggerProximity*)
 guard variable for datamap_t* DataMapInit<CTriggerPush>(CTriggerPush*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTriggerRemove>(CTriggerRemove*)::dataDesc
 guard variable for datamap_t* DataMapInit<CTriggerRemove>(CTriggerRemove*)::nameHolder
+guard variable for datamap_t* DataMapInit<CTriggerRemoveTFPlayerCondition>(CTriggerRemoveTFPlayerCondition*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTriggerSave>(CTriggerSave*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTriggerSoundscape>(CTriggerSoundscape*)::dataDesc
 guard variable for datamap_t* DataMapInit<CTriggerSoundscape>(CTriggerSoundscape*)::nameHolder
@@ -52494,6 +52944,7 @@ guard variable for int ServerClassInit<DT_BuilderLocalData::ignored>(DT_BuilderL
 guard variable for int ServerClassInit<DT_CBonusDuckPickup::ignored>(DT_CBonusDuckPickup::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_CBonusPack::ignored>(DT_CBonusPack::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_CFish::ignored>(DT_CFish::ignored*)::g_SendProps
+guard variable for int ServerClassInit<DT_CHalloweenGiftPickup::ignored>(DT_CHalloweenGiftPickup::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_CHalloweenPickup::ignored>(DT_CHalloweenPickup::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_CMannVsMachineWaveStats::ignored>(DT_CMannVsMachineWaveStats::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_CaptureFlag::ignored>(DT_CaptureFlag::ignored*)::g_SendProps
@@ -52702,6 +53153,7 @@ guard variable for int ServerClassInit<DT_TFPasstimeLogic::ignored>(DT_TFPasstim
 guard variable for int ServerClassInit<DT_TFPlayer::ignored>(DT_TFPlayer::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_TFPlayerClassShared::ignored>(DT_TFPlayerClassShared::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_TFPlayerConditionListExclusive::ignored>(DT_TFPlayerConditionListExclusive::ignored*)::g_SendProps
+guard variable for int ServerClassInit<DT_TFPlayerConditionSource::ignored>(DT_TFPlayerConditionSource::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_TFPlayerDestructionLogic::ignored>(DT_TFPlayerDestructionLogic::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_TFPlayerResource::ignored>(DT_TFPlayerResource::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_TFPlayerScoringDataExclusive::ignored>(DT_TFPlayerScoringDataExclusive::ignored*)::g_SendProps
@@ -52871,9 +53323,12 @@ halloween_boss_death
 halloween_boss_eye_glow
 halloween_boss_foot_impact
 halloween_boss_injured
+halloween_boss_killed
 halloween_boss_summon
+halloween_boss_type
 halloween_burningplayer_flyingbits
 halloween_death_ghosts
+halloween_duck_collected
 halloween_explosion
 halloween_fortune_teller
 halloween_green_flames
@@ -52884,6 +53339,8 @@ halloween_player_death_blue
 halloween_pumpkin_explosions
 halloween_pumpkin_grab
 halloween_rockettrail
+halloween_skeleton_killed
+halloween_soul_collected
 halloween_souls_pack
 halloween_zapper
 hammer_impact_button
@@ -52937,6 +53394,7 @@ healshot_trail_blue
 healshot_trail_red
 health
 health_max
+healthammokit
 healthfrac
 healthgained_blu
 healthgained_blu_giant
@@ -53039,6 +53497,8 @@ ifm_basecamera_camerastate
 ifm_basecamera_camerastate(CCommand const&)
 ifm_basecamera_camerastate_command
 ignite
+ignite_particle_name
+ignite_sound_name
 ignitionpoint
 ignore_enabled
 ignore_enabled_flag
@@ -53062,6 +53522,7 @@ impulse_y
 impulse_z
 in-game
 in_coaches_list
+in_game_res
 in_use
 increment
 increment_value
@@ -53266,6 +53727,9 @@ int ServerClassInit<DT_CBonusPack::ignored>(DT_CBonusPack::ignored*)::g_pSendTab
 int ServerClassInit<DT_CFish::ignored>(DT_CFish::ignored*)
 int ServerClassInit<DT_CFish::ignored>(DT_CFish::ignored*)::g_SendProps
 int ServerClassInit<DT_CFish::ignored>(DT_CFish::ignored*)::g_pSendTableName
+int ServerClassInit<DT_CHalloweenGiftPickup::ignored>(DT_CHalloweenGiftPickup::ignored*)
+int ServerClassInit<DT_CHalloweenGiftPickup::ignored>(DT_CHalloweenGiftPickup::ignored*)::g_SendProps
+int ServerClassInit<DT_CHalloweenGiftPickup::ignored>(DT_CHalloweenGiftPickup::ignored*)::g_pSendTableName
 int ServerClassInit<DT_CHalloweenPickup::ignored>(DT_CHalloweenPickup::ignored*)
 int ServerClassInit<DT_CHalloweenPickup::ignored>(DT_CHalloweenPickup::ignored*)::g_SendProps
 int ServerClassInit<DT_CHalloweenPickup::ignored>(DT_CHalloweenPickup::ignored*)::g_pSendTableName
@@ -53890,6 +54354,9 @@ int ServerClassInit<DT_TFPlayerClassShared::ignored>(DT_TFPlayerClassShared::ign
 int ServerClassInit<DT_TFPlayerConditionListExclusive::ignored>(DT_TFPlayerConditionListExclusive::ignored*)
 int ServerClassInit<DT_TFPlayerConditionListExclusive::ignored>(DT_TFPlayerConditionListExclusive::ignored*)::g_SendProps
 int ServerClassInit<DT_TFPlayerConditionListExclusive::ignored>(DT_TFPlayerConditionListExclusive::ignored*)::g_pSendTableName
+int ServerClassInit<DT_TFPlayerConditionSource::ignored>(DT_TFPlayerConditionSource::ignored*)
+int ServerClassInit<DT_TFPlayerConditionSource::ignored>(DT_TFPlayerConditionSource::ignored*)::g_SendProps
+int ServerClassInit<DT_TFPlayerConditionSource::ignored>(DT_TFPlayerConditionSource::ignored*)::g_pSendTableName
 int ServerClassInit<DT_TFPlayerDestructionLogic::ignored>(DT_TFPlayerDestructionLogic::ignored*)
 int ServerClassInit<DT_TFPlayerDestructionLogic::ignored>(DT_TFPlayerDestructionLogic::ignored*)::g_SendProps
 int ServerClassInit<DT_TFPlayerDestructionLogic::ignored>(DT_TFPlayerDestructionLogic::ignored*)::g_pSendTableName
@@ -54350,6 +54817,7 @@ int const& CNetworkVarBase<int, CTeamTrainWatcher::NetworkVar_m_iTrainSpeedLevel
 int_array
 integer.cpp
 integer.h
+intended_target
 interface_name
 interior
 interior_item
@@ -54445,12 +54913,14 @@ item_def_id
 item_def_index
 item_desc_tool_target
 item_description
+item_dest_item_id
 item_dynamic_resupply
 item_eater_recharger
 item_enable_content_streaming
 item_flags
 item_flare_round
 item_found
+item_healthammokit
 item_healthkit
 item_healthkit_full
 item_healthkit_medium
@@ -54498,6 +54968,7 @@ item_show_whitelistable_definitions_command
 item_slot
 item_slot_criteria
 item_sodacan
+item_src_item_id
 item_suit
 item_teamflag
 item_teamflag_return_icon
@@ -54542,6 +55013,10 @@ kStatus_Created
 kStatus_GenericFailure
 kStatus_NoPrivs
 kStatus_TooMany
+kValidPositions_Hightower
+kValidPositions_Lakeside
+kValidPositions_MannManor
+kValidPositions_Viaduct
 k_EGCMsgAchievementAwarded
 k_EGCMsgAddFreeLicense
 k_EGCMsgAddFreeLicenseResponse
@@ -54651,6 +55126,7 @@ k_EMsgGCCollectItem
 k_EMsgGCConVarUpdated
 k_EMsgGCCraft
 k_EMsgGCCraftCollectionUpgrade
+k_EMsgGCCraftHalloweenOffering
 k_EMsgGCCraftResponse
 k_EMsgGCCreateOrUpdateParty
 k_EMsgGCCustomizeItemTexture
@@ -54766,6 +55242,7 @@ k_EMsgGCUsedClaimCodeItem
 k_EMsgGCVerifyCacheSubscription
 k_EMsgGCVoteKickBanPlayer
 k_EMsgGCVoteKickBanPlayerResult
+k_EMsgGCVoteKickPlayerRequest
 k_EMsgGC_Duel_Request
 k_EMsgGC_Duel_Response
 k_EMsgGC_Duel_Results
@@ -54822,6 +55299,7 @@ kill_eater_kill_type
 kill_eater_score_types
 kill_forces_attacker_to_laugh
 kill_helper(CCommand const&, bool)
+kill_in_hell
 kill_refills_meter
 kill_streak_assist
 kill_streak_total
@@ -54832,6 +55310,7 @@ killed_capping_player
 killer
 killer_account_id
 killer_steam_id
+kills
 kills_for_engy
 kills_for_spy
 killsthislife
@@ -54950,6 +55429,7 @@ listissues
 load_game_lobby_id
 load_game_save_number
 loadondemand
+loadout_key
 loadout_position
 loadout_slot_action
 loadout_slot_building
@@ -54971,6 +55451,7 @@ loadout_slot_taunt7
 loadout_slot_taunt8
 loadout_slot_utility
 loadtime
+loaner_defindex
 lobby_id
 lobby_type
 locBody
@@ -55052,6 +55533,7 @@ lowerleft
 lowerright
 lservercfgfile
 ltime
+lunchbox_healing_scale
 mD15CTFGameMovement
 m_ActiveScenes
 m_Activity
@@ -55094,6 +55576,7 @@ m_CommandMoveMonitor
 m_ConceptCategoryTimers
 m_ConceptHistories
 m_ConceptTimers
+m_ConditionData
 m_ConditionList
 m_ControlPoint1.m_eParticleAttachment
 m_CriterionDistance
@@ -55184,6 +55667,13 @@ m_Info
 m_InitialState
 m_InnerAngle
 m_Interruptability
+m_IsAprilFools
+m_IsFullMoon
+m_IsHalloween
+m_IsNothing
+m_IsSmissmas
+m_IsTFBirthday
+m_IsValentines
 m_Item
 m_JetLength
 m_LastEnterTime
@@ -55985,6 +56475,7 @@ m_bIsWaitingForTrainingContinue
 m_bIsWalkableSetByPropData
 m_bIsYesNoVote
 m_bJumping
+m_bKingRuneBuffActive
 m_bKnifeExists
 m_bLagCompensation
 m_bLastBoost
@@ -56041,6 +56532,7 @@ m_bOnlyIterateItemViewAttributes
 m_bOnlyVelocityCheck
 m_bOriginalBlockLOS
 m_bOvertimeAllowedForCTF
+m_bParachuteEquipped
 m_bPatrolBreakable
 m_bPatrolling
 m_bPauseBonusProgress
@@ -56427,6 +56919,7 @@ m_flBlueTeamRespawnScale
 m_flBoogieLength
 m_flBrightnessTime
 m_flBrightnessTimeStart
+m_flBurnDuration
 m_flCPTimerTimes
 m_flCapPercentages
 m_flCapTime
@@ -56463,6 +56956,7 @@ m_flDamage
 m_flDamageAccumulator
 m_flDamageCap
 m_flDamageForce
+m_flDamagePercentPerSecond
 m_flDamageScale
 m_flDamageTime
 m_flDangerousTime
@@ -56788,6 +57282,7 @@ m_flReturnTime
 m_flRezoomTime
 m_flRobotScoreInterval
 m_flRollSpeed
+m_flRuneCharge
 m_flSavedMaxRest
 m_flSavedMinRest
 m_flScale
@@ -57161,6 +57656,7 @@ m_hTarget7
 m_hTarget8
 m_hTargetEnt
 m_hTargetEntity
+m_hTargetPlayer
 m_hTargetReference
 m_hTemplateEntities
 m_hTemplates
@@ -57229,6 +57725,7 @@ m_iBreakableSkin
 m_iBuildState
 m_iBuildingsBuilt
 m_iBuildingsDestroyed
+m_iBuybackCredits
 m_iCPGroup
 m_iCampaignMedals
 m_iCappingTeam
@@ -57560,6 +58057,7 @@ m_iszAlertExpression
 m_iszArrivalConceptModifier
 m_iszAssociateTeamEntityName
 m_iszAssociatedModel
+m_iszAttachmentName
 m_iszAttractPlayerConceptModifier
 m_iszBasePropData
 m_iszBlueTeleport
@@ -57617,6 +58115,8 @@ m_iszHudResFile
 m_iszIcon
 m_iszIdle
 m_iszIdleExpression
+m_iszIgniteParticleName
+m_iszIgniteSoundName
 m_iszIngoreEnt
 m_iszLaserTarget
 m_iszLastTarget
@@ -57793,6 +58293,7 @@ m_nAmount
 m_nAnimationParity
 m_nArenaNumChanges
 m_nAttachIndex
+m_nAttachType
 m_nAttachment
 m_nAttachmentIndex
 m_nAutomatedAction
@@ -57960,7 +58461,6 @@ m_nOverlaySequence
 m_nOverlaySize
 m_nPVSSize
 m_nPanelName
-m_nParticleIndex
 m_nPauseState
 m_nPendingSequence
 m_nPhysgunState
@@ -58202,6 +58702,7 @@ m_pPhysicsObject
 m_pPostKeyFrame
 m_pPreKeyFrame
 m_pPrevKey
+m_pProvider
 m_pSenses
 m_pServerVehicle
 m_pShakeController
@@ -58600,7 +59101,6 @@ m_vecMins
 m_vecMinsPreScaled
 m_vecMoveAng
 m_vecMoveDir
-m_vecNextCurveOffset
 m_vecNormal
 m_vecOrigin
 m_vecOriginalAngles
@@ -58832,8 +59332,10 @@ merasmus_killed
 merasmus_level
 merasmus_object_spawn
 merasmus_player_bomb
+merasmus_prop_found
 merasmus_shoot
 merasmus_spawn
+merasmus_stunned
 merasmus_summoned
 merasmus_tp
 merasmus_tp_bits
@@ -58856,12 +59358,10 @@ minState
 minStateTime
 minTimeShots
 min_allowed_version
-min_corroborators
 min_ilevel
 min_points
 min_speed
 min_speed_change
-min_stickies
 min_taunt_time
 min_time
 minburstdelay
@@ -58878,7 +59378,9 @@ mini_rockets
 mini_sentry_light
 minicrit
 minicrits_become_crits
+minigame_type
 minigame_win
+minigame_won
 minigunfiretime
 minlength
 minoccluderarea
@@ -59080,7 +59582,9 @@ mstudioanimdesc_t::pHierarchy(int) const
 mstudioanimdesc_t::pIKRule(int) const
 mul_nonrocketjump_attackrate
 mult_aiming_knockback_resistance
+mult_airblast_cone_scale
 mult_airblast_cost
+mult_airblast_primary_refire_time
 mult_airblast_refire_time
 mult_bullets_per_shot
 mult_clipsize
@@ -59941,6 +60445,7 @@ non-virtual thunk to CHLTVDirector::Shutdown()
 non-virtual thunk to CHLTVDirector::~CHLTVDirector()
 non-virtual thunk to CHalloweenBaseBoss::Update()
 non-virtual thunk to CHalloweenBaseBoss::~CHalloweenBaseBoss()
+non-virtual thunk to CHalloweenGiftSpawnLocation::~CHalloweenGiftSpawnLocation()
 non-virtual thunk to CHeadlessHatman::GetBodyInterface() const
 non-virtual thunk to CHeadlessHatman::GetIntentionInterface() const
 non-virtual thunk to CHeadlessHatman::GetLocomotionInterface() const
@@ -59953,6 +60458,10 @@ non-virtual thunk to CHeadlessHatmanEmerge::~CHeadlessHatmanEmerge()
 non-virtual thunk to CHeadlessHatmanIntention::IsPositionAllowed(INextBot const*, Vector const&) const
 non-virtual thunk to CHeadlessHatmanIntention::~CHeadlessHatmanIntention()
 non-virtual thunk to CHeadlessHatmanTerrify::~CHeadlessHatmanTerrify()
+non-virtual thunk to CHealthAmmoKit::~CHealthAmmoKit()
+non-virtual thunk to CHealthKit::~CHealthKit()
+non-virtual thunk to CHealthKitMedium::~CHealthKitMedium()
+non-virtual thunk to CHealthKitSmall::~CHealthKitSmall()
 non-virtual thunk to CItem::OnPhysGunDrop(CBasePlayer*, PhysGunDrop_t)
 non-virtual thunk to CItem::OnPhysGunPickup(CBasePlayer*, PhysGunPickup_t)
 non-virtual thunk to CKeepUpright::Simulate(IPhysicsMotionController*, IPhysicsObject*, float, Vector&, Vector&)
@@ -60094,6 +60603,8 @@ non-virtual thunk to CPropVehicleDriveable::SetVehicleEntryAnim(bool)
 non-virtual thunk to CPropVehicleDriveable::SetVehicleExitAnim(bool, Vector)
 non-virtual thunk to CPropVehicleDriveable::SetupMove(CBasePlayer*, CUserCmd*, IMoveHelper*, CMoveData*)
 non-virtual thunk to CQuestObjectiveManager::FireGameEvent(IGameEvent*)
+non-virtual thunk to CQuestObjectiveManager::FrameUpdatePreEntityThink()
+non-virtual thunk to CQuestObjectiveManager::Shutdown()
 non-virtual thunk to CQuestObjectiveManager::~CQuestObjectiveManager()
 non-virtual thunk to CRagdollProp::OnPhysGunDrop(CBasePlayer*, PhysGunDrop_t)
 non-virtual thunk to CRagdollProp::OnPhysGunPickup(CBasePlayer*, PhysGunPickup_t)
@@ -60145,6 +60656,7 @@ non-virtual thunk to CTFBot::IsDebugFilterMatch(char const*) const
 non-virtual thunk to CTFBot::OnWeaponFired(CBaseCombatCharacter*, CBaseCombatWeapon*)
 non-virtual thunk to CTFBot::PressAltFireButton(float)
 non-virtual thunk to CTFBot::PressFireButton(float)
+non-virtual thunk to CTFBot::PressSpecialFireButton(float)
 non-virtual thunk to CTFBot::~CTFBot()
 non-virtual thunk to CTFBotAttack::ShouldHurry(INextBot const*) const
 non-virtual thunk to CTFBotAttack::ShouldRetreat(INextBot const*) const
@@ -60510,6 +61022,7 @@ non-virtual thunk to NextBotPlayer<CTFPlayer>::PressLeftButton(float)
 non-virtual thunk to NextBotPlayer<CTFPlayer>::PressMeleeButton(float)
 non-virtual thunk to NextBotPlayer<CTFPlayer>::PressReloadButton(float)
 non-virtual thunk to NextBotPlayer<CTFPlayer>::PressRightButton(float)
+non-virtual thunk to NextBotPlayer<CTFPlayer>::PressSpecialFireButton(float)
 non-virtual thunk to NextBotPlayer<CTFPlayer>::PressUseButton(float)
 non-virtual thunk to NextBotPlayer<CTFPlayer>::PressWalkButton(float)
 non-virtual thunk to NextBotPlayer<CTFPlayer>::ReleaseAltFireButton()
@@ -60522,6 +61035,7 @@ non-virtual thunk to NextBotPlayer<CTFPlayer>::ReleaseLeftButton()
 non-virtual thunk to NextBotPlayer<CTFPlayer>::ReleaseMeleeButton()
 non-virtual thunk to NextBotPlayer<CTFPlayer>::ReleaseReloadButton()
 non-virtual thunk to NextBotPlayer<CTFPlayer>::ReleaseRightButton()
+non-virtual thunk to NextBotPlayer<CTFPlayer>::ReleaseSpecialFireButton()
 non-virtual thunk to NextBotPlayer<CTFPlayer>::ReleaseUseButton()
 non-virtual thunk to NextBotPlayer<CTFPlayer>::ReleaseWalkButton()
 non-virtual thunk to NextBotPlayer<CTFPlayer>::SetButtonScale(float, float)
@@ -60640,6 +61154,7 @@ onplayerdeath
 onworldimpact
 opacity
 opendir
+operation
 operation_lootlist
 operation_pass
 operation_start_date
@@ -60727,6 +61242,7 @@ parsing
 partial_cap_points_rate
 particleSystemDefinitions
 particle_effect
+particle_name
 particle_nemesis_blue
 particle_nemesis_red
 particle_offset
@@ -60872,6 +61388,9 @@ pl_upward
 placementOrigin
 placementattachment
 placementbone
+plague_healthkit_pickup
+plague_infect_player
+plague_transmission
 plat_trigger
 play_all_rounds
 play_for_bragging_rights
@@ -60886,6 +61405,7 @@ playerVehicleAngularTable
 playerVehicleLinearTable
 player_
 player_activate
+player_alive
 player_array_element
 player_bodygroups
 player_buff
@@ -60896,6 +61416,8 @@ player_changeclass
 player_changename
 player_chargedeployed
 player_chat
+player_class
+player_condition
 player_connect
 player_crouch
 player_death
@@ -60903,6 +61425,7 @@ player_debug_print_damage
 player_destroyed_pipebomb
 player_directhit_stun
 player_disconnect
+player_disguise
 player_dropobject
 player_entindex
 player_escort_score
@@ -60916,6 +61439,8 @@ player_info
 player_initial_spawn
 player_intel_papertrail
 player_invulned
+player_is_owner
+player_jumping
 player_key
 player_killed_achievement_zone
 player_loadsaved
@@ -61045,17 +61570,40 @@ powercore_embers_red
 powertoggle
 powerup
 powerup_duration
-powerup_icon_agility
-powerup_icon_haste
-powerup_icon_knockout
-powerup_icon_precision
-powerup_icon_regen
-powerup_icon_resist
-powerup_icon_strength
-powerup_icon_vampire
-powerup_icon_warlock
+powerup_icon_agility_blue
+powerup_icon_agility_red
+powerup_icon_haste_blue
+powerup_icon_haste_red
+powerup_icon_king_blue
+powerup_icon_king_red
+powerup_icon_knockout_blue
+powerup_icon_knockout_red
+powerup_icon_plague_blue
+powerup_icon_plague_red
+powerup_icon_precision_blue
+powerup_icon_precision_red
+powerup_icon_reflect_blue
+powerup_icon_reflect_red
+powerup_icon_regen_blue
+powerup_icon_regen_red
+powerup_icon_resist_blue
+powerup_icon_resist_red
+powerup_icon_strength_blue
+powerup_icon_strength_red
+powerup_icon_supernova_blue
+powerup_icon_supernova_red
+powerup_icon_vampire_blue
+powerup_icon_vampire_red
+powerup_king_blue
+powerup_king_red
 powerup_max_charges
 powerup_model
+powerup_plague_carrier
+powerup_supernova_explode_blue
+powerup_supernova_explode_red
+powerup_supernova_ready
+powerup_supernova_strike_blue
+powerup_supernova_strike_red
 precache_function_EffectsPrecache
 precache_function_PrecacheRing
 precache_function_PrecacheSyringe
@@ -61206,6 +61754,7 @@ preventNameBasedLookup
 prevent_match_account_id
 prevent_match_until_date
 prevent_movement
+preventor
 preview_item_def
 price
 price_in_local_currency
@@ -61300,6 +61849,7 @@ punchangle
 puntsound
 purchase_result_detail
 purchase_type
+purgatory_escaped
 pushdir
 pve_win_panel
 pvsplayer
@@ -61321,6 +61871,7 @@ qangle
 qangle_array
 qffffff.
 qsort_ascending_uint16(void const*, void const*)
+qualifying_items
 qualities
 quality
 quantity
@@ -61333,6 +61884,7 @@ quest_item_id
 quest_item_res
 quest_list_res_file
 quest_log_res_file
+quest_objective_conditions
 quest_themes
 queue.cpp
 queue.h
@@ -61342,6 +61894,7 @@ quickplay_game_type
 quickplay_type
 quitting_results_in_penalty
 rDffff.
+rKfff.
 r_AirboatViewDampenDamp
 r_AirboatViewDampenFreq
 r_AirboatViewZHeight
@@ -61400,7 +61953,6 @@ rd_robot_explosion
 rd_robot_impact
 rd_robot_killed
 rd_rules_state_changed
-rd_score_type
 rdtables.cpp
 ready
 ready_state
@@ -61468,6 +62020,7 @@ request_method
 require_all_tags
 required
 required_item_name
+required_items
 required_missing_tags
 required_tags
 requires_all_same_class
@@ -61482,6 +62035,7 @@ reslists
 resolution
 respawn(CBaseEntity*, bool)
 respawn_entities
+respawn_ghost
 respawn_interval
 respawn_reduction_scale
 respawn_time
@@ -61503,10 +62057,13 @@ returndelay
 returnspeed
 reveal_cloaked_victim_on_hit
 reveal_disguised_victim_on_hit
+reveal_sound
 revenue_percentage
+reverse_airblast
 revive_player_complete
 revive_player_notify
 revive_player_stopped
+reviver
 revolving_loot_lists
 reward
 rfff.
@@ -61566,7 +62123,6 @@ round_redspawn
 round_start
 round_start_pre_entity
 round_time
-round_win
 roundinfo
 rounds_remaining
 routing
@@ -61598,6 +62154,7 @@ rtime_vacban_starts
 rule_description
 rumble
 sCountdownSoundsRoundBegin
+sCountdownSoundsRoundBeginMerasmus
 sLockedSentence
 sLockedSound
 sPhases
@@ -61709,6 +62266,7 @@ s_possibleHealth
 s_pszDisguiseProps
 s_pszGameModes
 s_pszQuickplayMatchTypes
+s_pszRuneIcons
 s_pszStrangeRestrictionTypes
 s_pszTauntRPSParticleNames
 s_pszTeamRestrictionNames
@@ -61716,8 +62274,6 @@ s_skeletonHatModels
 s_szPseudoUniqueID
 s_szSaveFileName
 s_szStatUploadRegistryKeyName
-s_validEvaluators
-s_validRestrictions
 s_vecWindVelocity
 sale_price
 sanguisuge
@@ -61919,10 +62475,15 @@ setpos_exact_command
 settingindex
 setup_length
 sf14.Merasmus.DuckHunt.BonusDucks
+sf14.Merasmus.Soccer.GoalBlue
+sf14.Merasmus.Soccer.GoalRed
 sf14.Merasmus.Start.FirstRound
 sf14.Merasmus.Start.FirstRoundRare
 sf14.Merasmus.Start.SecondRound
 sf14.Merasmus.Start.ThirdRoundAndBeyond
+sf15.Merasmus.Gargoyle.Gone
+sf15.Merasmus.Gargoyle.Got
+sf15.Merasmus.Gargoyle.Spawn
 sfff.
 sg_DynamicLoadHandlers
 sha.cpp
@@ -62048,6 +62609,7 @@ solid
 solid_to_enemies
 solidbsp
 solider_count
+soul_count
 sound
 sound_
 sound_crit_death
@@ -62458,6 +63020,7 @@ strange
 strange_attr_index
 strange_attr_set_t::strange_attr_set_t(char const*, char const*, char const*, char const*, bool)
 strange_count_adjustments
+strange_count_transfer
 strange_part
 strange_part_item_id
 strange_part_restriction
@@ -62490,6 +63053,7 @@ style
 styles
 subject
 subject_item_id
+submodel_index
 subscene
 subscribe_to
 subscriber
@@ -62500,6 +63064,7 @@ succeeded_lookups
 success
 suitvolume
 superrare_beams1
+support
 suppressFire
 surfaceprop
 surfaceprop(CCommand const&)
@@ -62543,7 +63108,6 @@ sv_hudhint_sound
 sv_ignore_hitboxes
 sv_lagcompensation_teleport_dist
 sv_lagflushbonecache
-sv_loadondemand_default
 sv_massreport
 sv_maxreplay
 sv_maxspeed
@@ -62635,6 +63199,7 @@ sv_vote_issue_extendlevel_quorum
 sv_vote_issue_kick_allowed
 sv_vote_issue_kick_allowed_mvm
 sv_vote_issue_kick_limit_mvm
+sv_vote_issue_kick_limit_mvm_gc
 sv_vote_issue_kick_min_connect_time_mvm
 sv_vote_issue_kick_namelock_duration
 sv_vote_issue_kick_spectators_mvm
@@ -62674,6 +63239,7 @@ t3ff.
 t4fff.
 t5JtP
 t5NtP
+t5fffff.
 t8ffffff.
 t9JtT
 t9ffff.
@@ -62690,6 +63256,7 @@ tVJti
 tXIts
 tYItd
 t_ffffff.
+tagged_player_as_it
 tank_boss
 tank_destruction
 tanktrain_ai
@@ -62745,6 +63312,7 @@ team_control_point_master
 team_control_point_round
 team_icon_
 team_id
+team_key
 team_leader_killed
 team_manager
 team_model_
@@ -63010,6 +63578,7 @@ tf_bot_wait_in_cover_min_time
 tf_bot_warp_team_to_me
 tf_caplinear
 tf_cart_duck_drop_rate
+tf_cart_soul_drop_rate
 tf_cart_spell_drop_rate
 tf_cheapobjects
 tf_clamp_airducks
@@ -63151,6 +63720,9 @@ tf_halloween_force_boss_spawn
 tf_halloween_force_boss_spawn(CCommand const&)
 tf_halloween_force_boss_spawn_command
 tf_halloween_giant_health_scale
+tf_halloween_gift_lifetime
+tf_halloween_gift_pickup
+tf_halloween_gift_spawn_location
 tf_halloween_hhh_attack_kart_radius
 tf_halloween_kart_air_turn_scale
 tf_halloween_kart_aircontrol
@@ -63220,6 +63792,7 @@ tf_logic_mann_vs_machine
 tf_logic_medieval
 tf_logic_minigames
 tf_logic_multiple_escort
+tf_logic_on_holiday
 tf_logic_player_destruction
 tf_logic_robot_destruction
 tf_logic_tower_defense
@@ -63258,6 +63831,7 @@ tf_merasmus_speed_recovery_rate
 tf_merasmus_stun_duration
 tf_merasmus_trick_or_treat_prop
 tf_minigame_suddendeath_time
+tf_mm_ladder_gc_timeout
 tf_mm_player_reservation_timeout_seconds
 tf_mm_servermode
 tf_mm_skillrating_server_force_average
@@ -63270,12 +63844,16 @@ tf_mvm_bot_flag_carrier_interval_to_2nd_upgrade
 tf_mvm_bot_flag_carrier_interval_to_3rd_upgrade
 tf_mvm_bot_flag_carrier_movement_penalty
 tf_mvm_bot_sniper_target_by_dps
+tf_mvm_buybacks_method
+tf_mvm_buybacks_per_wave
 tf_mvm_checkpoint
 tf_mvm_checkpoint(CCommand const&)
 tf_mvm_checkpoint_clear
 tf_mvm_checkpoint_clear(CCommand const&)
 tf_mvm_checkpoint_clear_command
 tf_mvm_checkpoint_command
+tf_mvm_currency_bonus_ratio_max
+tf_mvm_currency_bonus_ratio_min
 tf_mvm_death_penalty
 tf_mvm_debugstats
 tf_mvm_debugstats(CCommand const&)
@@ -63345,11 +63923,12 @@ tf_passtime_ball_drag_coefficient
 tf_passtime_ball_inertia_scale
 tf_passtime_ball_mass
 tf_passtime_ball_model
-tf_passtime_ball_radius
 tf_passtime_ball_reset_time
 tf_passtime_ball_rotdamping_scale
 tf_passtime_ball_seek_range
 tf_passtime_ball_seek_speed_factor
+tf_passtime_ball_sphere_collision
+tf_passtime_ball_sphere_radius
 tf_passtime_ball_takedamage
 tf_passtime_ball_takedamage_force
 tf_passtime_flinch_boost
@@ -63402,6 +63981,7 @@ tf_populator_damage_multiplier
 tf_populator_debug
 tf_populator_health_multiplier
 tf_powerup_bottle
+tf_powerup_max_charge_time
 tf_powerup_mode
 tf_powerup_mode_imbalance_delta
 tf_projectile
@@ -63709,7 +64289,6 @@ thanked_user_accountid
 thanker_steam_id
 theme
 theta
-thfff.
 thick_max
 thick_min
 think_limit
@@ -63755,6 +64334,7 @@ token_name
 token_value
 tokens
 tolerance
+tool_id
 tool_item_id
 toptrack
 torquelimit
@@ -63831,12 +64411,14 @@ trigger_changelevel
 trigger_delay
 trigger_gravity
 trigger_hurt
+trigger_ignite
 trigger_ignite_arrows
 trigger_impact
 trigger_look
 trigger_multiple
 trigger_name
 trigger_once
+trigger_particle
 trigger_passtime_ball
 trigger_player_respawn_override
 trigger_playermovement
@@ -63844,6 +64426,7 @@ trigger_proximity
 trigger_push
 trigger_rd_vault_trigger
 trigger_remove
+trigger_remove_tf_player_condition
 trigger_serverragdoll
 trigger_soundscape
 trigger_stun
@@ -64220,6 +64803,7 @@ typeinfo for CEconTool_KillStreakifier
 typeinfo for CEconTool_NameTag
 typeinfo for CEconTool_Noisemaker
 typeinfo for CEconTool_PaintCan
+typeinfo for CEconTool_StrangeCountTransfer
 typeinfo for CEconTool_StrangePart
 typeinfo for CEconTool_StrangePartRestriction
 typeinfo for CEconTool_Strangifier
@@ -64454,11 +65038,14 @@ typeinfo for CEntityFactory<CGhost>
 typeinfo for CEntityFactory<CGib>
 typeinfo for CEntityFactory<CGibShooter>
 typeinfo for CEntityFactory<CGunTarget>
+typeinfo for CEntityFactory<CHalloweenGiftPickup>
+typeinfo for CEntityFactory<CHalloweenGiftSpawnLocation>
 typeinfo for CEntityFactory<CHalloweenPickup>
 typeinfo for CEntityFactory<CHalloweenSoulPack>
 typeinfo for CEntityFactory<CHandleDummy>
 typeinfo for CEntityFactory<CHandleTest>
 typeinfo for CEntityFactory<CHeadlessHatman>
+typeinfo for CEntityFactory<CHealthAmmoKit>
 typeinfo for CEntityFactory<CHealthKit>
 typeinfo for CEntityFactory<CHealthKitMedium>
 typeinfo for CEntityFactory<CHealthKitSmall>
@@ -64491,6 +65078,7 @@ typeinfo for CEntityFactory<CLogicCompareInteger>
 typeinfo for CEntityFactory<CLogicLineToEntity>
 typeinfo for CEntityFactory<CLogicMeasureMovement>
 typeinfo for CEntityFactory<CLogicNavigation>
+typeinfo for CEntityFactory<CLogicOnHoliday>
 typeinfo for CEntityFactory<CLogicRelay>
 typeinfo for CEntityFactory<CMannVsMachineLogic>
 typeinfo for CEntityFactory<CMannVsMachineStats>
@@ -64835,17 +65423,20 @@ typeinfo for CEntityFactory<CTriggerCamera>
 typeinfo for CEntityFactory<CTriggerCatapult>
 typeinfo for CEntityFactory<CTriggerGravity>
 typeinfo for CEntityFactory<CTriggerHurt>
+typeinfo for CEntityFactory<CTriggerIgnite>
 typeinfo for CEntityFactory<CTriggerIgniteArrows>
 typeinfo for CEntityFactory<CTriggerImpact>
 typeinfo for CEntityFactory<CTriggerLook>
 typeinfo for CEntityFactory<CTriggerMultiple>
 typeinfo for CEntityFactory<CTriggerOnce>
+typeinfo for CEntityFactory<CTriggerParticle>
 typeinfo for CEntityFactory<CTriggerPasstimeBall>
 typeinfo for CEntityFactory<CTriggerPlayerMovement>
 typeinfo for CEntityFactory<CTriggerPlayerRespawnOverride>
 typeinfo for CEntityFactory<CTriggerProximity>
 typeinfo for CEntityFactory<CTriggerPush>
 typeinfo for CEntityFactory<CTriggerRemove>
+typeinfo for CEntityFactory<CTriggerRemoveTFPlayerCondition>
 typeinfo for CEntityFactory<CTriggerSave>
 typeinfo for CEntityFactory<CTriggerSoundscape>
 typeinfo for CEntityFactory<CTriggerStun>
@@ -65090,6 +65681,7 @@ typeinfo for CGCUpdateConVar
 typeinfo for CGCUpdateItemSchema
 typeinfo for CGCUpdateServerModificationItemStateJob
 typeinfo for CGCUseServerModificationItemJob
+typeinfo for CGCVoteSystemVoteKickResponse
 typeinfo for CGC_GameServer_AuthChallenge
 typeinfo for CGC_GameServer_AuthResult
 typeinfo for CGC_GameServer_Duel_Request
@@ -65124,6 +65716,8 @@ typeinfo for CGlobalState
 typeinfo for CGunTarget
 typeinfo for CHLTVDirector
 typeinfo for CHalloweenBaseBoss
+typeinfo for CHalloweenGiftPickup
+typeinfo for CHalloweenGiftSpawnLocation
 typeinfo for CHalloweenPickup
 typeinfo for CHalloweenSoulPack
 typeinfo for CHandleDummy
@@ -65138,6 +65732,7 @@ typeinfo for CHeadlessHatmanIntention
 typeinfo for CHeadlessHatmanLocomotion
 typeinfo for CHeadlessHatmanPathCost
 typeinfo for CHeadlessHatmanTerrify
+typeinfo for CHealthAmmoKit
 typeinfo for CHealthFilter
 typeinfo for CHealthKit
 typeinfo for CHealthKitMedium
@@ -65189,6 +65784,7 @@ typeinfo for CLogicCompareInteger
 typeinfo for CLogicLineToEntity
 typeinfo for CLogicMeasureMovement
 typeinfo for CLogicNavigation
+typeinfo for CLogicOnHoliday
 typeinfo for CLogicRelay
 typeinfo for CLogicalEntity
 typeinfo for CMannVsMachineChangeChallengeIssue
@@ -65260,6 +65856,7 @@ typeinfo for CMsgAcceptInvite
 typeinfo for CMsgAcceptInviteResponse
 typeinfo for CMsgAdjustItemEquippedState
 typeinfo for CMsgApplyAutograph
+typeinfo for CMsgApplyStrangeCountTransfer
 typeinfo for CMsgApplyStrangePart
 typeinfo for CMsgApplyStrangeRestriction
 typeinfo for CMsgApplyToolToBaseItem
@@ -65272,6 +65869,7 @@ typeinfo for CMsgConVarValue
 typeinfo for CMsgConnectionStatus
 typeinfo for CMsgConsumableExhausted
 typeinfo for CMsgCraftCollectionUpgrade
+typeinfo for CMsgCraftHalloweenOffering
 typeinfo for CMsgCraftingResponse
 typeinfo for CMsgCreateOrUpdateParty
 typeinfo for CMsgCreateOrUpdatePartyReply
@@ -65324,7 +65922,10 @@ typeinfo for CMsgGCNameItemNotification
 typeinfo for CMsgGCQuestComplete_Request
 typeinfo for CMsgGCQuestCompleted
 typeinfo for CMsgGCQuestObjective_PointsChange
+typeinfo for CMsgGCQuestObjective_PointsChangeResponse
 typeinfo for CMsgGCQuestObjective_Progress
+typeinfo for CMsgGCQuestObjective_RequestLoanerItems
+typeinfo for CMsgGCQuestObjective_RequestLoanerResponse
 typeinfo for CMsgGCRemoveCustomizationAttributeSimple
 typeinfo for CMsgGCRemoveStrangePart
 typeinfo for CMsgGCRemoveUpgradeCard
@@ -65390,6 +65991,8 @@ typeinfo for CMsgGC_Match_Result
 typeinfo for CMsgGC_Match_Result_Player
 typeinfo for CMsgGC_PickupItemEligibility_Query
 typeinfo for CMsgGC_PickupItemEligibility_QueryResponse
+typeinfo for CMsgGC_TFVoteKickPlayerRequest
+typeinfo for CMsgGC_VoteKickPlayerRequestResponse
 typeinfo for CMsgGameMatchSignOut
 typeinfo for CMsgGameServerKickingLobby
 typeinfo for CMsgGameServerMatchmakingStatus
@@ -65713,6 +66316,8 @@ typeinfo for CSOItemRecipe
 typeinfo for CSOLobbyInvite
 typeinfo for CSOPartyInvite
 typeinfo for CSOTFDuelSummary
+typeinfo for CSOTFLadderData
+typeinfo for CSOTFLadderPlayerStats
 typeinfo for CSOTFLobby
 typeinfo for CSOTFMapContribution
 typeinfo for CSOTFParty
@@ -65941,6 +66546,7 @@ typeinfo for CTFClub
 typeinfo for CTFCompoundBow
 typeinfo for CTFCondition
 typeinfo for CTFConditionList
+typeinfo for CTFConditionQuestCondition
 typeinfo for CTFCondition_CritBoost
 typeinfo for CTFCraftingRecipeDefinition
 typeinfo for CTFCrossbow
@@ -66074,31 +66680,31 @@ typeinfo for CTFProjectile_ThrowableRepel
 typeinfo for CTFPumpkinBomb
 typeinfo for CTFPumpkinBombShim
 typeinfo for CTFQuestAndOperatorRestriction
+typeinfo for CTFQuestBasePlayerRestriction
 typeinfo for CTFQuestCondition
 typeinfo for CTFQuestCountEvaluator
 typeinfo for CTFQuestCustomDamageRestriction
 typeinfo for CTFQuestEvaluator
 typeinfo for CTFQuestEventListener
-typeinfo for CTFQuestFriendRestriction
 typeinfo for CTFQuestGameTypeRestriction
 typeinfo for CTFQuestLoadoutPositionRestriction
 typeinfo for CTFQuestMapRestriction
 typeinfo for CTFQuestNotOperatorRestriction
+typeinfo for CTFQuestObjectiveConditionsDefinition
 typeinfo for CTFQuestObjectiveDefinition
 typeinfo for CTFQuestOperatorRestriction
 typeinfo for CTFQuestOrOperatorRestriction
+typeinfo for CTFQuestPlayerAliveRestriction
 typeinfo for CTFQuestPlayerClassRestriction
 typeinfo for CTFQuestPlayerConditionRestriction
+typeinfo for CTFQuestPlayerDisguiseRestriction
+typeinfo for CTFQuestPlayerIsOwnerRestriction
+typeinfo for CTFQuestPlayerJumpingRestriction
 typeinfo for CTFQuestPlayerObjectRestriction
-typeinfo for CTFQuestPlayerRestriction
 typeinfo for CTFQuestRestriction
-typeinfo for CTFQuestRoundWinRestriction
 typeinfo for CTFQuestScorerRestriction
 typeinfo for CTFQuestTeamRestriction
-typeinfo for CTFQuestUberDroppedRestriction
-typeinfo for CTFQuestWeaponNameRestriction
-typeinfo for CTFQuestWeaponRestriction
-typeinfo for CTFRDScoreTypeRestriction
+typeinfo for CTFQuestWeaponTypeRestriction
 typeinfo for CTFRagdoll
 typeinfo for CTFRaygun
 typeinfo for CTFReviveMarker
@@ -66261,17 +66867,20 @@ typeinfo for CTriggerCatapult
 typeinfo for CTriggerGravity
 typeinfo for CTriggerHurt
 typeinfo for CTriggerHurtShim
+typeinfo for CTriggerIgnite
 typeinfo for CTriggerIgniteArrows
 typeinfo for CTriggerImpact
 typeinfo for CTriggerLook
 typeinfo for CTriggerMultiple
 typeinfo for CTriggerOnce
+typeinfo for CTriggerParticle
 typeinfo for CTriggerPasstimeBall
 typeinfo for CTriggerPlayerMovement
 typeinfo for CTriggerPlayerRespawnOverride
 typeinfo for CTriggerProximity
 typeinfo for CTriggerPush
 typeinfo for CTriggerRemove
+typeinfo for CTriggerRemoveTFPlayerCondition
 typeinfo for CTriggerSave
 typeinfo for CTriggerSoundscape
 typeinfo for CTriggerStun
@@ -66606,10 +67215,12 @@ typeinfo for IGameMovement
 typeinfo for IGameSystem
 typeinfo for IGameSystemPerFrame
 typeinfo for IHLTVDirector
+typeinfo for IHalloweenGiftSpawnAutoList
 typeinfo for IHandleEntity
 typeinfo for IHasAttributes
 typeinfo for IHasBuildPoints
 typeinfo for IHasOwner
+typeinfo for IHealthKitAutoList
 typeinfo for IInfoPowerupSpawnAutoList
 typeinfo for IIntention
 typeinfo for IInventoryUpdateListener
@@ -66741,6 +67352,7 @@ typeinfo for SmokeTrail
 typeinfo for SporeExplosion
 typeinfo for SporeTrail
 typeinfo for audioparams_t
+typeinfo for condition_source_t
 typeinfo for float
 typeinfo for fogparams_t
 typeinfo for fogplayerparams_t
@@ -67092,6 +67704,7 @@ typeinfo name for CEconTool_KillStreakifier
 typeinfo name for CEconTool_NameTag
 typeinfo name for CEconTool_Noisemaker
 typeinfo name for CEconTool_PaintCan
+typeinfo name for CEconTool_StrangeCountTransfer
 typeinfo name for CEconTool_StrangePart
 typeinfo name for CEconTool_StrangePartRestriction
 typeinfo name for CEconTool_Strangifier
@@ -67326,11 +67939,14 @@ typeinfo name for CEntityFactory<CGhost>
 typeinfo name for CEntityFactory<CGib>
 typeinfo name for CEntityFactory<CGibShooter>
 typeinfo name for CEntityFactory<CGunTarget>
+typeinfo name for CEntityFactory<CHalloweenGiftPickup>
+typeinfo name for CEntityFactory<CHalloweenGiftSpawnLocation>
 typeinfo name for CEntityFactory<CHalloweenPickup>
 typeinfo name for CEntityFactory<CHalloweenSoulPack>
 typeinfo name for CEntityFactory<CHandleDummy>
 typeinfo name for CEntityFactory<CHandleTest>
 typeinfo name for CEntityFactory<CHeadlessHatman>
+typeinfo name for CEntityFactory<CHealthAmmoKit>
 typeinfo name for CEntityFactory<CHealthKit>
 typeinfo name for CEntityFactory<CHealthKitMedium>
 typeinfo name for CEntityFactory<CHealthKitSmall>
@@ -67363,6 +67979,7 @@ typeinfo name for CEntityFactory<CLogicCompareInteger>
 typeinfo name for CEntityFactory<CLogicLineToEntity>
 typeinfo name for CEntityFactory<CLogicMeasureMovement>
 typeinfo name for CEntityFactory<CLogicNavigation>
+typeinfo name for CEntityFactory<CLogicOnHoliday>
 typeinfo name for CEntityFactory<CLogicRelay>
 typeinfo name for CEntityFactory<CMannVsMachineLogic>
 typeinfo name for CEntityFactory<CMannVsMachineStats>
@@ -67707,17 +68324,20 @@ typeinfo name for CEntityFactory<CTriggerCamera>
 typeinfo name for CEntityFactory<CTriggerCatapult>
 typeinfo name for CEntityFactory<CTriggerGravity>
 typeinfo name for CEntityFactory<CTriggerHurt>
+typeinfo name for CEntityFactory<CTriggerIgnite>
 typeinfo name for CEntityFactory<CTriggerIgniteArrows>
 typeinfo name for CEntityFactory<CTriggerImpact>
 typeinfo name for CEntityFactory<CTriggerLook>
 typeinfo name for CEntityFactory<CTriggerMultiple>
 typeinfo name for CEntityFactory<CTriggerOnce>
+typeinfo name for CEntityFactory<CTriggerParticle>
 typeinfo name for CEntityFactory<CTriggerPasstimeBall>
 typeinfo name for CEntityFactory<CTriggerPlayerMovement>
 typeinfo name for CEntityFactory<CTriggerPlayerRespawnOverride>
 typeinfo name for CEntityFactory<CTriggerProximity>
 typeinfo name for CEntityFactory<CTriggerPush>
 typeinfo name for CEntityFactory<CTriggerRemove>
+typeinfo name for CEntityFactory<CTriggerRemoveTFPlayerCondition>
 typeinfo name for CEntityFactory<CTriggerSave>
 typeinfo name for CEntityFactory<CTriggerSoundscape>
 typeinfo name for CEntityFactory<CTriggerStun>
@@ -67962,6 +68582,7 @@ typeinfo name for CGCUpdateConVar
 typeinfo name for CGCUpdateItemSchema
 typeinfo name for CGCUpdateServerModificationItemStateJob
 typeinfo name for CGCUseServerModificationItemJob
+typeinfo name for CGCVoteSystemVoteKickResponse
 typeinfo name for CGC_GameServer_AuthChallenge
 typeinfo name for CGC_GameServer_AuthResult
 typeinfo name for CGC_GameServer_Duel_Request
@@ -67996,6 +68617,8 @@ typeinfo name for CGlobalState
 typeinfo name for CGunTarget
 typeinfo name for CHLTVDirector
 typeinfo name for CHalloweenBaseBoss
+typeinfo name for CHalloweenGiftPickup
+typeinfo name for CHalloweenGiftSpawnLocation
 typeinfo name for CHalloweenPickup
 typeinfo name for CHalloweenSoulPack
 typeinfo name for CHandleDummy
@@ -68010,6 +68633,7 @@ typeinfo name for CHeadlessHatmanIntention
 typeinfo name for CHeadlessHatmanLocomotion
 typeinfo name for CHeadlessHatmanPathCost
 typeinfo name for CHeadlessHatmanTerrify
+typeinfo name for CHealthAmmoKit
 typeinfo name for CHealthFilter
 typeinfo name for CHealthKit
 typeinfo name for CHealthKitMedium
@@ -68061,6 +68685,7 @@ typeinfo name for CLogicCompareInteger
 typeinfo name for CLogicLineToEntity
 typeinfo name for CLogicMeasureMovement
 typeinfo name for CLogicNavigation
+typeinfo name for CLogicOnHoliday
 typeinfo name for CLogicRelay
 typeinfo name for CLogicalEntity
 typeinfo name for CMannVsMachineChangeChallengeIssue
@@ -68132,6 +68757,7 @@ typeinfo name for CMsgAcceptInvite
 typeinfo name for CMsgAcceptInviteResponse
 typeinfo name for CMsgAdjustItemEquippedState
 typeinfo name for CMsgApplyAutograph
+typeinfo name for CMsgApplyStrangeCountTransfer
 typeinfo name for CMsgApplyStrangePart
 typeinfo name for CMsgApplyStrangeRestriction
 typeinfo name for CMsgApplyToolToBaseItem
@@ -68144,6 +68770,7 @@ typeinfo name for CMsgConVarValue
 typeinfo name for CMsgConnectionStatus
 typeinfo name for CMsgConsumableExhausted
 typeinfo name for CMsgCraftCollectionUpgrade
+typeinfo name for CMsgCraftHalloweenOffering
 typeinfo name for CMsgCraftingResponse
 typeinfo name for CMsgCreateOrUpdateParty
 typeinfo name for CMsgCreateOrUpdatePartyReply
@@ -68196,7 +68823,10 @@ typeinfo name for CMsgGCNameItemNotification
 typeinfo name for CMsgGCQuestComplete_Request
 typeinfo name for CMsgGCQuestCompleted
 typeinfo name for CMsgGCQuestObjective_PointsChange
+typeinfo name for CMsgGCQuestObjective_PointsChangeResponse
 typeinfo name for CMsgGCQuestObjective_Progress
+typeinfo name for CMsgGCQuestObjective_RequestLoanerItems
+typeinfo name for CMsgGCQuestObjective_RequestLoanerResponse
 typeinfo name for CMsgGCRemoveCustomizationAttributeSimple
 typeinfo name for CMsgGCRemoveStrangePart
 typeinfo name for CMsgGCRemoveUpgradeCard
@@ -68262,6 +68892,8 @@ typeinfo name for CMsgGC_Match_Result
 typeinfo name for CMsgGC_Match_Result_Player
 typeinfo name for CMsgGC_PickupItemEligibility_Query
 typeinfo name for CMsgGC_PickupItemEligibility_QueryResponse
+typeinfo name for CMsgGC_TFVoteKickPlayerRequest
+typeinfo name for CMsgGC_VoteKickPlayerRequestResponse
 typeinfo name for CMsgGameMatchSignOut
 typeinfo name for CMsgGameServerKickingLobby
 typeinfo name for CMsgGameServerMatchmakingStatus
@@ -68585,6 +69217,8 @@ typeinfo name for CSOItemRecipe
 typeinfo name for CSOLobbyInvite
 typeinfo name for CSOPartyInvite
 typeinfo name for CSOTFDuelSummary
+typeinfo name for CSOTFLadderData
+typeinfo name for CSOTFLadderPlayerStats
 typeinfo name for CSOTFLobby
 typeinfo name for CSOTFMapContribution
 typeinfo name for CSOTFParty
@@ -68813,6 +69447,7 @@ typeinfo name for CTFClub
 typeinfo name for CTFCompoundBow
 typeinfo name for CTFCondition
 typeinfo name for CTFConditionList
+typeinfo name for CTFConditionQuestCondition
 typeinfo name for CTFCondition_CritBoost
 typeinfo name for CTFCraftingRecipeDefinition
 typeinfo name for CTFCrossbow
@@ -68946,31 +69581,31 @@ typeinfo name for CTFProjectile_ThrowableRepel
 typeinfo name for CTFPumpkinBomb
 typeinfo name for CTFPumpkinBombShim
 typeinfo name for CTFQuestAndOperatorRestriction
+typeinfo name for CTFQuestBasePlayerRestriction
 typeinfo name for CTFQuestCondition
 typeinfo name for CTFQuestCountEvaluator
 typeinfo name for CTFQuestCustomDamageRestriction
 typeinfo name for CTFQuestEvaluator
 typeinfo name for CTFQuestEventListener
-typeinfo name for CTFQuestFriendRestriction
 typeinfo name for CTFQuestGameTypeRestriction
 typeinfo name for CTFQuestLoadoutPositionRestriction
 typeinfo name for CTFQuestMapRestriction
 typeinfo name for CTFQuestNotOperatorRestriction
+typeinfo name for CTFQuestObjectiveConditionsDefinition
 typeinfo name for CTFQuestObjectiveDefinition
 typeinfo name for CTFQuestOperatorRestriction
 typeinfo name for CTFQuestOrOperatorRestriction
+typeinfo name for CTFQuestPlayerAliveRestriction
 typeinfo name for CTFQuestPlayerClassRestriction
 typeinfo name for CTFQuestPlayerConditionRestriction
+typeinfo name for CTFQuestPlayerDisguiseRestriction
+typeinfo name for CTFQuestPlayerIsOwnerRestriction
+typeinfo name for CTFQuestPlayerJumpingRestriction
 typeinfo name for CTFQuestPlayerObjectRestriction
-typeinfo name for CTFQuestPlayerRestriction
 typeinfo name for CTFQuestRestriction
-typeinfo name for CTFQuestRoundWinRestriction
 typeinfo name for CTFQuestScorerRestriction
 typeinfo name for CTFQuestTeamRestriction
-typeinfo name for CTFQuestUberDroppedRestriction
-typeinfo name for CTFQuestWeaponNameRestriction
-typeinfo name for CTFQuestWeaponRestriction
-typeinfo name for CTFRDScoreTypeRestriction
+typeinfo name for CTFQuestWeaponTypeRestriction
 typeinfo name for CTFRagdoll
 typeinfo name for CTFRaygun
 typeinfo name for CTFReviveMarker
@@ -69132,17 +69767,20 @@ typeinfo name for CTriggerCatapult
 typeinfo name for CTriggerGravity
 typeinfo name for CTriggerHurt
 typeinfo name for CTriggerHurtShim
+typeinfo name for CTriggerIgnite
 typeinfo name for CTriggerIgniteArrows
 typeinfo name for CTriggerImpact
 typeinfo name for CTriggerLook
 typeinfo name for CTriggerMultiple
 typeinfo name for CTriggerOnce
+typeinfo name for CTriggerParticle
 typeinfo name for CTriggerPasstimeBall
 typeinfo name for CTriggerPlayerMovement
 typeinfo name for CTriggerPlayerRespawnOverride
 typeinfo name for CTriggerProximity
 typeinfo name for CTriggerPush
 typeinfo name for CTriggerRemove
+typeinfo name for CTriggerRemoveTFPlayerCondition
 typeinfo name for CTriggerSave
 typeinfo name for CTriggerSoundscape
 typeinfo name for CTriggerStun
@@ -69477,10 +70115,12 @@ typeinfo name for IGameMovement
 typeinfo name for IGameSystem
 typeinfo name for IGameSystemPerFrame
 typeinfo name for IHLTVDirector
+typeinfo name for IHalloweenGiftSpawnAutoList
 typeinfo name for IHandleEntity
 typeinfo name for IHasAttributes
 typeinfo name for IHasBuildPoints
 typeinfo name for IHasOwner
+typeinfo name for IHealthKitAutoList
 typeinfo name for IInfoPowerupSpawnAutoList
 typeinfo name for IIntention
 typeinfo name for IInventoryUpdateListener
@@ -69612,6 +70252,7 @@ typeinfo name for SmokeTrail
 typeinfo name for SporeExplosion
 typeinfo name for SporeTrail
 typeinfo name for audioparams_t
+typeinfo name for condition_source_t
 typeinfo name for fogparams_t
 typeinfo name for fogplayerparams_t
 typeinfo name for localplayerscoring_t
@@ -69628,7 +70269,6 @@ u4fffff.
 uAff.
 uK9sdtF
 uMffff.
-uber_dropped
 uber_on_damage_taken
 ubercharge
 ubercharge_ammo
@@ -69640,6 +70280,7 @@ uint64
 ujfffff.
 ullapool_caber_explosion
 ultra_rare
+unack_position
 uncloak
 uncommon
 undefined
@@ -69679,6 +70320,7 @@ unsubscribe_from
 unused
 unusual
 unusual_index
+update_base_points
 updates
 upgrade
 upgrade_card_item_id
@@ -69719,6 +70361,7 @@ user_score
 user_sessions
 userid
 uses_ammo_while_aiming
+uses_method
 utility
 vFfff.
 vIff.
@@ -69876,8 +70519,6 @@ vm_bodygroup_state_override
 vmtPicker
 voice_serverdebug
 voicemenu
-void CCallQueueT<CTSQueue<CFunctor*, false> >::QueueCall<CBreakableProp*, CBreakableProp, void, Vector const&, Vector const&, QAngle const&, Vector, Vector, QAngle>(CBreakableProp*, void (CBreakableProp::*)(Vector const&, Vector const&, QAngle const&), Vector const&, Vector const&, QAngle const&)
-void CCallQueueT<CTSQueue<CFunctor*, false> >::QueueCall<IPhysicsObject*, IPhysicsObject, void, bool, bool>(IPhysicsObject*, void (IPhysicsObject::*)(bool), bool const&)
 void CEconItem::SetDynamicAttributeValue<CAttribute_DynamicRecipeComponent>(CEconItemAttributeDefinition const*, CAttribute_DynamicRecipeComponent const&)
 void CEconItem::SetDynamicAttributeValue<CAttribute_ItemSlotCriteria>(CEconItemAttributeDefinition const*, CAttribute_ItemSlotCriteria const&)
 void CEconItem::SetDynamicAttributeValue<CAttribute_String>(CEconItemAttributeDefinition const*, CAttribute_String const&)
@@ -70245,6 +70886,7 @@ vtable for CEconTool_KillStreakifier
 vtable for CEconTool_NameTag
 vtable for CEconTool_Noisemaker
 vtable for CEconTool_PaintCan
+vtable for CEconTool_StrangeCountTransfer
 vtable for CEconTool_StrangePart
 vtable for CEconTool_StrangePartRestriction
 vtable for CEconTool_Strangifier
@@ -70479,11 +71121,14 @@ vtable for CEntityFactory<CGhost>
 vtable for CEntityFactory<CGib>
 vtable for CEntityFactory<CGibShooter>
 vtable for CEntityFactory<CGunTarget>
+vtable for CEntityFactory<CHalloweenGiftPickup>
+vtable for CEntityFactory<CHalloweenGiftSpawnLocation>
 vtable for CEntityFactory<CHalloweenPickup>
 vtable for CEntityFactory<CHalloweenSoulPack>
 vtable for CEntityFactory<CHandleDummy>
 vtable for CEntityFactory<CHandleTest>
 vtable for CEntityFactory<CHeadlessHatman>
+vtable for CEntityFactory<CHealthAmmoKit>
 vtable for CEntityFactory<CHealthKit>
 vtable for CEntityFactory<CHealthKitMedium>
 vtable for CEntityFactory<CHealthKitSmall>
@@ -70516,6 +71161,7 @@ vtable for CEntityFactory<CLogicCompareInteger>
 vtable for CEntityFactory<CLogicLineToEntity>
 vtable for CEntityFactory<CLogicMeasureMovement>
 vtable for CEntityFactory<CLogicNavigation>
+vtable for CEntityFactory<CLogicOnHoliday>
 vtable for CEntityFactory<CLogicRelay>
 vtable for CEntityFactory<CMannVsMachineLogic>
 vtable for CEntityFactory<CMannVsMachineStats>
@@ -70860,17 +71506,20 @@ vtable for CEntityFactory<CTriggerCamera>
 vtable for CEntityFactory<CTriggerCatapult>
 vtable for CEntityFactory<CTriggerGravity>
 vtable for CEntityFactory<CTriggerHurt>
+vtable for CEntityFactory<CTriggerIgnite>
 vtable for CEntityFactory<CTriggerIgniteArrows>
 vtable for CEntityFactory<CTriggerImpact>
 vtable for CEntityFactory<CTriggerLook>
 vtable for CEntityFactory<CTriggerMultiple>
 vtable for CEntityFactory<CTriggerOnce>
+vtable for CEntityFactory<CTriggerParticle>
 vtable for CEntityFactory<CTriggerPasstimeBall>
 vtable for CEntityFactory<CTriggerPlayerMovement>
 vtable for CEntityFactory<CTriggerPlayerRespawnOverride>
 vtable for CEntityFactory<CTriggerProximity>
 vtable for CEntityFactory<CTriggerPush>
 vtable for CEntityFactory<CTriggerRemove>
+vtable for CEntityFactory<CTriggerRemoveTFPlayerCondition>
 vtable for CEntityFactory<CTriggerSave>
 vtable for CEntityFactory<CTriggerSoundscape>
 vtable for CEntityFactory<CTriggerStun>
@@ -71112,6 +71761,7 @@ vtable for CGCUpdateConVar
 vtable for CGCUpdateItemSchema
 vtable for CGCUpdateServerModificationItemStateJob
 vtable for CGCUseServerModificationItemJob
+vtable for CGCVoteSystemVoteKickResponse
 vtable for CGC_GameServer_AuthChallenge
 vtable for CGC_GameServer_AuthResult
 vtable for CGC_GameServer_Duel_Request
@@ -71146,6 +71796,8 @@ vtable for CGlobalState
 vtable for CGunTarget
 vtable for CHLTVDirector
 vtable for CHalloweenBaseBoss
+vtable for CHalloweenGiftPickup
+vtable for CHalloweenGiftSpawnLocation
 vtable for CHalloweenPickup
 vtable for CHalloweenSoulPack
 vtable for CHandleDummy
@@ -71160,6 +71812,7 @@ vtable for CHeadlessHatmanIntention
 vtable for CHeadlessHatmanLocomotion
 vtable for CHeadlessHatmanPathCost
 vtable for CHeadlessHatmanTerrify
+vtable for CHealthAmmoKit
 vtable for CHealthFilter
 vtable for CHealthKit
 vtable for CHealthKitMedium
@@ -71210,6 +71863,7 @@ vtable for CLogicCompareInteger
 vtable for CLogicLineToEntity
 vtable for CLogicMeasureMovement
 vtable for CLogicNavigation
+vtable for CLogicOnHoliday
 vtable for CLogicRelay
 vtable for CMannVsMachineChangeChallengeIssue
 vtable for CMannVsMachineLogic
@@ -71280,6 +71934,7 @@ vtable for CMsgAcceptInvite
 vtable for CMsgAcceptInviteResponse
 vtable for CMsgAdjustItemEquippedState
 vtable for CMsgApplyAutograph
+vtable for CMsgApplyStrangeCountTransfer
 vtable for CMsgApplyStrangePart
 vtable for CMsgApplyStrangeRestriction
 vtable for CMsgApplyToolToBaseItem
@@ -71292,6 +71947,7 @@ vtable for CMsgConVarValue
 vtable for CMsgConnectionStatus
 vtable for CMsgConsumableExhausted
 vtable for CMsgCraftCollectionUpgrade
+vtable for CMsgCraftHalloweenOffering
 vtable for CMsgCraftingResponse
 vtable for CMsgCreateOrUpdateParty
 vtable for CMsgCreateOrUpdatePartyReply
@@ -71344,7 +72000,10 @@ vtable for CMsgGCNameItemNotification
 vtable for CMsgGCQuestComplete_Request
 vtable for CMsgGCQuestCompleted
 vtable for CMsgGCQuestObjective_PointsChange
+vtable for CMsgGCQuestObjective_PointsChangeResponse
 vtable for CMsgGCQuestObjective_Progress
+vtable for CMsgGCQuestObjective_RequestLoanerItems
+vtable for CMsgGCQuestObjective_RequestLoanerResponse
 vtable for CMsgGCRemoveCustomizationAttributeSimple
 vtable for CMsgGCRemoveStrangePart
 vtable for CMsgGCRemoveUpgradeCard
@@ -71410,6 +72069,8 @@ vtable for CMsgGC_Match_Result
 vtable for CMsgGC_Match_Result_Player
 vtable for CMsgGC_PickupItemEligibility_Query
 vtable for CMsgGC_PickupItemEligibility_QueryResponse
+vtable for CMsgGC_TFVoteKickPlayerRequest
+vtable for CMsgGC_VoteKickPlayerRequestResponse
 vtable for CMsgGameMatchSignOut
 vtable for CMsgGameServerKickingLobby
 vtable for CMsgGameServerMatchmakingStatus
@@ -71726,6 +72387,8 @@ vtable for CSOItemRecipe
 vtable for CSOLobbyInvite
 vtable for CSOPartyInvite
 vtable for CSOTFDuelSummary
+vtable for CSOTFLadderData
+vtable for CSOTFLadderPlayerStats
 vtable for CSOTFLobby
 vtable for CSOTFMapContribution
 vtable for CSOTFParty
@@ -71944,6 +72607,7 @@ vtable for CTFClub
 vtable for CTFCompoundBow
 vtable for CTFCondition
 vtable for CTFConditionList
+vtable for CTFConditionQuestCondition
 vtable for CTFCondition_CritBoost
 vtable for CTFCraftingRecipeDefinition
 vtable for CTFCrossbow
@@ -71972,6 +72636,7 @@ vtable for CTFGameRulesProxy
 vtable for CTFGameStats
 vtable for CTFGenericBomb
 vtable for CTFGenericBombShim
+vtable for CTFGenericStringRestriction
 vtable for CTFGotoActionPoint
 vtable for CTFGrapplingHook
 vtable for CTFGrenadeLauncher
@@ -72079,25 +72744,24 @@ vtable for CTFQuestCountEvaluator
 vtable for CTFQuestCustomDamageRestriction
 vtable for CTFQuestEvaluator
 vtable for CTFQuestEventListener
-vtable for CTFQuestFriendRestriction
 vtable for CTFQuestGameTypeRestriction
 vtable for CTFQuestLoadoutPositionRestriction
 vtable for CTFQuestMapRestriction
 vtable for CTFQuestNotOperatorRestriction
+vtable for CTFQuestObjectiveConditionsDefinition
 vtable for CTFQuestObjectiveDefinition
 vtable for CTFQuestOperatorRestriction
 vtable for CTFQuestOrOperatorRestriction
+vtable for CTFQuestPlayerAliveRestriction
 vtable for CTFQuestPlayerClassRestriction
 vtable for CTFQuestPlayerConditionRestriction
+vtable for CTFQuestPlayerDisguiseRestriction
+vtable for CTFQuestPlayerIsOwnerRestriction
+vtable for CTFQuestPlayerJumpingRestriction
 vtable for CTFQuestPlayerObjectRestriction
-vtable for CTFQuestPlayerRestriction
-vtable for CTFQuestRoundWinRestriction
 vtable for CTFQuestScorerRestriction
 vtable for CTFQuestTeamRestriction
-vtable for CTFQuestUberDroppedRestriction
-vtable for CTFQuestWeaponNameRestriction
-vtable for CTFQuestWeaponRestriction
-vtable for CTFRDScoreTypeRestriction
+vtable for CTFQuestWeaponTypeRestriction
 vtable for CTFRagdoll
 vtable for CTFRaygun
 vtable for CTFReviveMarker
@@ -72252,17 +72916,20 @@ vtable for CTriggerCatapult
 vtable for CTriggerGravity
 vtable for CTriggerHurt
 vtable for CTriggerHurtShim
+vtable for CTriggerIgnite
 vtable for CTriggerIgniteArrows
 vtable for CTriggerImpact
 vtable for CTriggerLook
 vtable for CTriggerMultiple
 vtable for CTriggerOnce
+vtable for CTriggerParticle
 vtable for CTriggerPasstimeBall
 vtable for CTriggerPlayerMovement
 vtable for CTriggerPlayerRespawnOverride
 vtable for CTriggerProximity
 vtable for CTriggerPush
 vtable for CTriggerRemove
+vtable for CTriggerRemoveTFPlayerCondition
 vtable for CTriggerSave
 vtable for CTriggerSoundscape
 vtable for CTriggerStun
@@ -72481,6 +73148,7 @@ vtable for GCSDK::CSharedObjectCache
 vtable for GCSDK::CSharedObjectTypeCache
 vtable for GCSDK::CStructNetPacket
 vtable for GCSDK::CWorkThreadPool
+vtable for GCSDK::ISharedObjectListener
 vtable for GroundLocomotionCollisionTraceFilter
 vtable for HidingSpot
 vtable for IBaseObjectAutoList
@@ -72505,7 +73173,9 @@ vtable for IFuncRespawnRoomAutoList
 vtable for IFuncRespawnRoomVisualizerAutoList
 vtable for IGameSystem
 vtable for IGameSystemPerFrame
+vtable for IHalloweenGiftSpawnAutoList
 vtable for IHasBuildPoints
+vtable for IHealthKitAutoList
 vtable for IInfoPowerupSpawnAutoList
 vtable for IIntention
 vtable for ILocomotion
@@ -72559,6 +73229,7 @@ vtable for __cxxabiv1::__enum_type_info
 vtable for __cxxabiv1::__pointer_type_info
 vtable for __cxxabiv1::__si_class_type_info
 vtable for __cxxabiv1::__vmi_class_type_info
+vtable for condition_source_t
 vtable for fogparams_t
 vtable for localplayerscoring_t
 vtable for locksound_t
@@ -72697,6 +73368,7 @@ wrench_builds_minisentry
 wrench_number
 wrinkler
 writeback_queue
+xLfff.
 xbox_autothrottle
 xbox_steering_deadzone
 xbox_throttlebias
