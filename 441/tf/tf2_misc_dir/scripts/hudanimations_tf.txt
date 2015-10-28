@@ -22,6 +22,8 @@
 //			Spline - simple ease in/out curve
 //			Pulse - < freq > over the duration, the value is pulsed (cosine) freq times ending at the dest value (assuming freq is integral)
 //			Flicker - < randomness factor 0.0 to 1.0 > over duration, each frame if random # is less than factor, use end value, otherwise use prev value
+//			Gain - < bias > Lower bias values bias towards 0.5 and higher bias values bias away from it.
+//			Bias - < bias > Lower values bias the curve towards 0 and higher values bias it towards 1.
 //
 //	RunEvent <event name> <start time>
 //		starts another even running at the specified time
@@ -1062,6 +1064,203 @@ event CollectionCrafting_ShowFailure
 {
 	SetVisible ResponseTimeout	1	0
 	SetVisible CloseButton		1	0
+}
+
+//--------------------------------------------------------------------------
+event QuestItem_Identify_Expand
+{
+	StopEvent QuestItem_Identify_Collapse 0
+	Animate Dimmer wide 285 Bias 0.1	0.0 0.4
+	Animate Dimmer xpos 0	Bias 0.1	0.0 0.4
+}
+
+event QuestItem_Identify_Collapse
+{
+	StopEvent QuestItem_Identify_Expand 0
+	Animate Dimmer	wide 0	Accel 0.4 0.4
+	Animate Dimmer	xpos 142	Accel 0.4 0.4
+}
+
+event QuestItem_Complete_Expand
+{
+	Animate Dimmer wide 285 Deaccel	0.4 0.1
+	Animate Dimmer xpos 0	Deaccel 0.4 0.1
+}
+
+event QuestItem_Complete_Collapse
+{
+	Animate Dimmer	wide 0	Accel 0 0.4
+	Animate Dimmer	xpos 142	Accel 0 0.4
+}
+
+event QuestItem_Complete_Progress
+{
+	Animate Dimmer	wide 0	Linear 0 5
+	Animate Dimmer	xpos 142	Linear 0 5
+}
+
+//--------------------------------------------------------------------------
+event QuestItem_Expand
+{
+	Animate FrontFolderContainer		ypos 240	Gain 0.75 0 0.4
+	RunEventChild IdentifyButtonContainer QuestItem_Identify_Expand 0
+	RunEventChild TurnInContainer QuestItem_Complete_Expand 0
+}
+
+event QuestItem_Collapse
+{
+	Animate FrontFolderContainer		ypos 0	Gain 0.75 0 0.4
+	RunEventChild IdentifyButtonContainer QuestItem_Identify_Collapse 0
+	RunEventChild TurnInContainer QuestItem_Complete_Collapse 0
+}
+
+event QuestItem_TurningIn
+{
+	RunEventChild TurnInContainer QuestItem_Complete_Progress 0
+}
+
+event QuestItem_Reset
+{
+	Animate FrontFolderContainer		ypos 0	Linear 0 0
+	RunEventChild IdentifyButtonContainer QuestItem_Identify_Collapse 0
+	RunEventChild TurnInContainer QuestItem_Complete_Collapse 0
+}
+
+//--------------------------------------------------------------------------
+event QuestItem_DisableFrontMouse
+{
+	SetVisible FrontInputProxyPanel 0 0
+}
+
+event QuestItem_EnableFrontMouse
+{
+	SetVisible FrontInputProxyPanel 1 0
+}
+
+event QuestItem_Expand_Halloween
+{
+	StopEvent QuestItem_Collapse_Halloween 0
+
+	// Immediately disable the mouse proxy so the inactive hint goes away
+	RunEventChild FrontFolderContainer	QuestItem_DisableFrontMouse 0
+
+	// Slide the sleeve
+	Animate SleeveImage xpos 300 Bias 0.2  0.0 0.4
+	Animate EncodedStatus xpos 300 Bias 0.2  0.0 0.4
+	Animate ReadyToTurnInStatus xpos 300 Bias 0.2  0.0 0.4
+	Animate InactiveStatus xpos 300 Bias 0.2  0.0 0.4
+
+	// Once the sleeve is off, then "unroll" the paper
+	FireCommand	0.4 "playsound ui/quest_folder_open_halloween.wav"
+	RunEventChild IdentifyButtonContainer QuestItem_Identify_Expand 0.4
+	RunEventChild TurnInContainer QuestItem_Complete_Expand 0.4
+	Animate FrontFolderContainer		ypos 240	Gain 0.75 0.4 0.4
+	Animate QuestPaperContainer			tall 300    Gain 0.75 0.4 0.4
+
+	SetVisible FrontFolderContainer 0 0.8
+}
+
+event QuestItem_Collapse_Halloween
+{
+	StopEvent QuestItem_Expand_Halloween 0
+
+	// Roll up the paper
+	Animate FrontFolderContainer		ypos 0	Gain 0.75 0 0.4
+	Animate QuestPaperContainer			tall 70 Gain 0.75 0 0.4
+	RunEventChild IdentifyButtonContainer QuestItem_Identify_Collapse 0
+	RunEventChild TurnInContainer QuestItem_Complete_Collapse 0
+	RunEventChild FrontFolderContainer	QuestItem_EnableFrontMouse 0
+
+	// Put the sleeve back
+	FireCommand	0.5 "playsound ui/quest_folder_keeper_slide_on_halloween.wav"
+
+	Animate SleeveImage			xpos 15	Bias 0.8 0.5 0.2
+	Animate ReadyToTurnInStatus xpos 10		Bias 0.8 0.5 0.2
+	Animate InactiveStatus		xpos 10		Bias 0.8 0.5 0.2
+	Animate EncodedStatus		xpos 10		Bias 0.8 0.5 0.2
+
+	SetVisible FrontFolderContainer 1 0
+}
+
+event QuestItem_Reset_Halloween
+{
+	StopEvent QuestItem_Expand_Halloween 0
+	SetVisible FrontFolderContainer 1 0
+	RunEventChild FrontFolderContainer	QuestItem_EnableFrontMouse 0
+
+	// Roll up the paper
+	Animate FrontFolderContainer		ypos 0	Linear 0 0
+	Animate QuestPaperContainer			tall 70 Linear 0 0
+	Animate EncodedStatus				xpos 10 Bias 0  0 0
+	Animate ReadyToTurnInStatus			xpos 10 Bias 0  0 0
+	Animate InactiveStatus				xpos 10 Bias 0  0 0
+
+	// Put the sleeve back
+	Animate SleeveImage xpos 15	Linear 0 0
+}
+
+//--------------------------------------------------------------------------
+event QuestItem_Front_Selected
+{
+	StopEvent QuestItem_Front_OtherSelected 0
+	StopEvent QuestItem_Front_NoneSelected 0
+
+	Animate			MainContainer		ypos 0	Gain 0.75 0 0.4
+}
+
+event QuestItem_Front_OtherSelected
+{
+	StopEvent QuestItem_Front_Selected 0
+	StopEvent QuestItem_Front_NoneSelected 0
+
+	Animate			MainContainer		ypos 300	Gain 0.75 0 0.4
+}
+
+
+event QuestItem_Front_NoneSelected
+{
+	StopEvent QuestItem_Front_Selected 0
+	StopEvent QuestItem_Front_OtherSelected 0
+
+	Animate			MainContainer		ypos 180	Gain 0.75 0 0.4
+}
+
+//--------------------------------------------------------------------------
+event QuestItem_Back_Selected
+{
+	StopEvent QuestItem_Back_OtherSelected 0
+	StopEvent QuestItem_Back_NoneSelected 0
+
+	Animate			MainContainer		ypos 0	Gain 0.75 0 0.4
+}
+
+event QuestItem_Back_OtherSelected
+{
+	StopEvent QuestItem_Back_Selected 0
+	StopEvent QuestItem_Back_NoneSelected 0
+
+	Animate			MainContainer		ypos 300	Gain 0.75 0 0.8
+}
+
+
+event QuestItem_Back_NoneSelected
+{
+	StopEvent QuestItem_Back_Selected 0
+	StopEvent QuestItem_Back_OtherSelected 0
+
+	Animate			MainContainer		ypos 100	Gain 0.75 0 0.4
+}
+
+//--------------------------------------------------------------------------
+event QuestItem_Highlight_On_Halloween
+{
+	SetVisible GlowImage 1 0	
+	Animate GlowImage Alpha 255 Bias 0.8 0 0.2
+}
+
+event QuestItem_Highlight_Off_Halloween
+{
+	Animate GlowImage Alpha 0 Bias 0.8 0 0.2
 }
 
 //

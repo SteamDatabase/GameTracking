@@ -203,13 +203,17 @@
 			"ypos"			"p0.1"
 			"zpos"			"10"
 			"wide"			"p.95"
-			"tall"			"p.875"
+			"tall"			"o1"
 			"visible"		"1"
 			"enabled"		"1"
 			"proportionaltoparent" "1"
 
 			"entry_step" "10"
 			"entry_y"	"10"
+
+			"no_quests"		"#QuestLog_NoQuests"
+			"need_a_pass"	"#QuestLog_NeedPassForContracts"
+			"not_possible"	"#QuestLog_NoContractsPossible"
 		}
 	}
 }

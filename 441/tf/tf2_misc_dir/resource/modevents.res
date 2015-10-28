@@ -60,12 +60,12 @@
 
 	"player_death"		// a game event, name may be 32 charaters long
 	{
-		// this extends the original player_death 
-		"userid"	"short"   	// user ID who died				
+		// this extends the original player_death
+		"userid"	"short"   	// user ID who died
 		"victim_entindex"	"long"
 		"inflictor_entindex"	"long"	// ent index of inflictor (a sentry, for example)
 		"attacker"	"short"	 	// user ID who killed
-		"weapon"	"string" 	// weapon name killer used 
+		"weapon"	"string" 	// weapon name killer used
 		"weaponid"	"short"		// ID of weapon killer used
 		"damagebits"	"long"		// bits of type of damage
 		"customkill"	"short"		// type of custom kill
@@ -86,8 +86,9 @@
 		"duck_streak_victim"	"short" // (former) duck streak count for victim
 		"rocket_jump"		"bool"		// was the victim rocket jumping
 
-		"weapon_def_index"	"short"		// item def index of weapon killer used
-		
+		"weapon_def_index"	"long"		// item def index of weapon killer used
+		"crit_type"	"short"		// Crit type of kill.  0: None 1: Mini 2: Full
+
 	//	"dominated"	"short"		// did killer dominate victim with this kill
 	//	"assister_dominated" "short"	// did assister dominate victim with this kill
 	//	"revenge"	"short"		// did killer get revenge on victim with this kill
@@ -1172,6 +1173,7 @@
 		"weaponid" "short"
 		"damageamount" "short"
 		"crit" "bool"
+		"boss"	"short"		// 1=HHH 2=Monoculus 3=Merasmus
 	}
 	
 	"controlpoint_timer_updated"
@@ -1620,6 +1622,77 @@
 		"blocker" "short"
 	}
 
+	"damage_prevented"
+	{
+		"preventor"	"short"		// Who prevented the damage
+		"victim"	"short"		// Who took the damage that was prevented
+		"amount"	"short"		// How much got prevented
+		"condition"	"short"		// Which condition did the preventing
+	}
+
+	"halloween_boss_killed"
+	{
+		"boss"		"short"		// 1=HHH 2=Monoculus 3=Merasmus
+		"killer"	"short"		// userid of the killing player
+	}
+
+	"escaped_loot_island"
+	{
+		"player"	"short"		// userid of the escaping player
+	}
+
+	"tagged_player_as_it"
+	{
+		"player"	"short"		// userid of the tagging player
+	}
+
+	"merasmus_stunned"
+	{
+		"player"	"short"		// userid of the stunning player
+	}
+
+	"merasmus_prop_found"
+	{
+		"player"	"short"		// userid of the player that found the prop Merasmus was hiding in
+	}
+
+	"halloween_skeleton_killed"
+	{
+		"player"	"short"		// userid of the player that killed the skeleton
+	}
+
+	"escape_hell"
+	{
+		"player"	"short"		// userid of the player that escaped
+	}
+
+	"cross_spectral_bridge"
+	{
+		"player"	"short"		// userid of the player that crossed
+	}
+
+	"minigame_won"
+	{
+		"player"	"short"		// userid of the winning player
+		"game"		"short"		// index of the game
+	}
+
+	"respawn_ghost"
+	{
+		"reviver"	"short"		// userid of the reviving player
+		"ghost"		"short"		// userid of the player that got revived
+	}
+
+	"kill_in_hell"
+	{
+		"killer"	"short"		// userid of the killer
+		"victim"	"short"		// userid of the victim
+	}
+
+	"halloween_duck_collected"
+	{
+		"collector"	"short"		// userid of the collecting player
+	}
 	"special_score"
 	{
 		"player"	"byte"   	// index of the scorer
@@ -1629,6 +1702,13 @@
 	{
 		"killer"	"byte"		// index of the killer
 		"victim"	"byte"		// index of the victim
+	}
+
+	"halloween_soul_collected"
+	{
+		"intended_target"	"byte"	// userid of the intended target
+		"collecting_player"	"byte"	// userid of the player who picked up the soul
+		"soul_count"		"byte"	// number of souls collected (gift boxes)
 	}
 }
 

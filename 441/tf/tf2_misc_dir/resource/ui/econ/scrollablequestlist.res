@@ -13,15 +13,15 @@
 		"enabled"		"1"
 		"proportionaltoparent" "1"
 
-		"StoreAd"
+		"ItemAd"
 		{
 			"ControlName"			"CCyclingAdContainerPanel"
-			"fieldName"				"StoreAd"
+			"fieldName"				"ItemAd"
 			"xpos"					"cs-0.5"
 			"ypos"					"r80"
 			"zpos"					"100"
 			"wide"					"p0.9"
-			"tall"					"50"
+			"tall"					"60"
 			"visible"				"0"
 			"enabled"				"1"
 			"scaleImage"			"1"
@@ -34,41 +34,7 @@
 				"0"
 				{
 					"item"		"Unused Summer 2015 Operation Pass"
-						
-					"wide"		"f0"
-					"tall"		"f0"
-					"proportionaltoparent"	"1"
 					"show_market"	"0"
-				}
-			}
-		}
-
-		"MarketAd"
-		{
-			"ControlName"			"CCyclingAdContainerPanel"
-			"fieldName"				"MarketAd"
-			"xpos"					"cs-0.5"
-			"ypos"					"r80"
-			"zpos"					"100"
-			"wide"					"p0.9"
-			"tall"					"50"
-			"visible"				"0"
-			"enabled"				"1"
-			"scaleImage"			"1"
-			"proportionaltoparent"	"1"
-
-			"bgcolor_override"		"0 0 0 255"
-
-			"items"
-			{
-				"0"
-				{
-					"item"		"Unused Summer 2015 Operation Pass"
-						
-					"wide"		"f0"
-					"tall"		"f0"
-					"proportionaltoparent"	"1"
-					"show_market"	"1"
 				}
 			}
 		}
