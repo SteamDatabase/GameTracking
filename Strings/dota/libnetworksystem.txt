@@ -782,14 +782,13 @@ CCallResult<ConfigFetch, HTTPRequestCompleted_t>::GetCallbackSizeBytes()
 CCallResult<ConfigFetch, HTTPRequestCompleted_t>::Run(void*)
 CCallResult<ConfigFetch, HTTPRequestCompleted_t>::Run(void*, bool, unsigned long long)
 CCallback<CNetworkSystem, P2PSessionRequest_t, false>
-CCallback<CNetworkSystem, P2PSessionRequest_t, false>::GetCallbackSizeBytes()
 CCallback<CNetworkSystem, P2PSessionRequest_t, false>::Run(void*)
-CCallback<CNetworkSystem, P2PSessionRequest_t, false>::Run(void*, bool, unsigned long long)
 CCallback<CNetworkSystem, P2PSessionRequest_t, true>
-CCallback<CNetworkSystem, P2PSessionRequest_t, true>::GetCallbackSizeBytes()
 CCallback<CNetworkSystem, P2PSessionRequest_t, true>::Run(void*)
-CCallback<CNetworkSystem, P2PSessionRequest_t, true>::Run(void*, bool, unsigned long long)
 CCallbackBase
+CCallbackImpl<8>
+CCallbackImpl<8>::GetCallbackSizeBytes()
+CCallbackImpl<8>::Run(void*, bool, unsigned long long)
 CClassMemoryPool<CSerializedEntity, CUtlMemoryPoolMT<CSerializedEntity> >::Clear()
 CClassMemoryPool<NetworkFieldSerializerInfo_t, CUtlMemoryPool<NetworkFieldSerializerInfo_t> >::Clear()
 CCleanupUtlSymbolTable::~CCleanupUtlSymbolTable()
@@ -3391,6 +3390,7 @@ CUtlString::FormatV(char const*, __va_list_tag*)
 CUtlString::FreeMemoryBlock()
 CUtlString::Get() const
 CUtlString::Set(char const*)
+CUtlString::SetLength(int)
 CUtlString::operator+(char const*) const
 CUtlString::operator+=(char const*)
 CUtlString::operator=(CUtlString const&)
@@ -4114,6 +4114,7 @@ PLACEHOLDER_VALUE
 PLATFORM
 PackedFieldPathList_t::Alloc(int)
 PackedFieldPathList_t::Pack(CUtlLeanVectorFixedGrowable<unsigned int, (unsigned short)3, short> const*)
+PanoramaTextServices001
 PanoramaUIClient001
 PanoramaUIEngine001
 ParseRouterAddress(char const*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress&)
@@ -4209,6 +4210,7 @@ RBSAXBRBp
 RBSAXBRKSDUAp
 RBTAp
 RBTBRA
+RBTBRAp
 RBVATARBRAp
 RIO_ESTABLISH_CONNECTION
 RIO_NO_ROUTE
@@ -4260,13 +4262,12 @@ SPAWN_GROUP_SYNCHRONOUS_SPAWN
 SPEED
 STEAMAPPLIST_INTERFACE_VERSION001
 STEAMAPPS_INTERFACE_VERSION007
-STEAMCONTROLLER_INTERFACE_VERSION
 STEAMHTMLSURFACE_INTERFACE_VERSION_003
 STEAMHTTP_INTERFACE_VERSION002
 STEAMINVENTORY_INTERFACE_V001
 STEAMMUSICREMOTE_INTERFACE_VERSION001
 STEAMMUSIC_INTERFACE_VERSION001
-STEAMREMOTESTORAGE_INTERFACE_VERSION012
+STEAMREMOTESTORAGE_INTERFACE_VERSION013
 STEAMSCREENSHOTS_INTERFACE_VERSION002
 STEAMUGC_INTERFACE_VERSION007
 STEAMUNIFIEDMESSAGES_INTERFACE_VERSION001
@@ -4369,6 +4370,7 @@ SpawnGroupFlags_t
 SplitPacket
 Stats
 StatsService_001
+SteamController003
 SteamDatagramClient
 SteamDatagramLinkStats::Clear()
 SteamDatagramNetwork_SetupHardcodedRouterList(char const*)
@@ -4396,7 +4398,7 @@ SteamDatagramTransport::CSteamDatagramTransportClient::GetRouterCount()
 SteamDatagramTransport::CSteamDatagramTransportClient::LostSession(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, char const*)
 SteamDatagramTransport::CSteamDatagramTransportClient::ProcessPacket(unsigned char const*, int, sockaddr_in const&)
 SteamDatagramTransport::CSteamDatagramTransportClient::ReceivedPacketFromServer(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, int, unsigned long long)
-SteamDatagramTransport::CSteamDatagramTransportClient::RecvDatagram(void*, unsigned int, int)
+SteamDatagramTransport::CSteamDatagramTransportClient::RecvDatagram(void*, unsigned int, unsigned long long*, int)
 SteamDatagramTransport::CSteamDatagramTransportClient::RecvStats(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, CMsgSteamDatagramConnectionStatsRouterToClient&, unsigned long long)
 SteamDatagramTransport::CSteamDatagramTransportClient::RemoveServer(int)
 SteamDatagramTransport::CSteamDatagramTransportClient::RestartPingMeasurement()
@@ -4417,7 +4419,7 @@ SteamDatagramTransport::CSteamDatagramTransportGameserver::Destroy()
 SteamDatagramTransport::CSteamDatagramTransportGameserver::DiagnosticMessage(int, char const*, ...)
 SteamDatagramTransport::CSteamDatagramTransportGameserver::LocateClient(CSteamID, sockaddr const&, unsigned int, unsigned long long)
 SteamDatagramTransport::CSteamDatagramTransportGameserver::ProcessPacket(unsigned char const*, int, sockaddr const&)
-SteamDatagramTransport::CSteamDatagramTransportGameserver::RecvDatagram(void*, unsigned int, CSteamID*, int)
+SteamDatagramTransport::CSteamDatagramTransportGameserver::RecvDatagram(void*, unsigned int, CSteamID*, unsigned long long*, int)
 SteamDatagramTransport::CSteamDatagramTransportGameserver::RecvStats(CMsgSteamDatagramConnectionStatsRouterToServer const&, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client*, unsigned long long)
 SteamDatagramTransport::CSteamDatagramTransportGameserver::SendDatagram(void const*, unsigned int, CSteamID, int)
 SteamDatagramTransport::CSteamDatagramTransportGameserver::Think()
@@ -4478,6 +4480,7 @@ SteamDatagramTransport::steamdatagram_client_single_socket
 SteamDatagramTransport::steamdatagram_client_spew_level
 SteamDatagram_CreateClient(unsigned short, EResult*, char (&) [1024])
 SteamDatagram_GameserverListen(EUniverse, unsigned short, EResult*, char (&) [1024])
+SteamDatagram_GetCurrentTime()
 SteamDatagram_InitClient(EUniverse, ISteamHTTP*, char const*)
 SteamFriends015
 SteamGameServer012
@@ -4793,6 +4796,7 @@ _g_EarlyInit_Common
 _g_ExpressionEvaluator
 _g_ExtraMasks
 _g_HuffmanEncoder
+_g_IUITextServices
 _g_KeyValuesErrorStack
 _g_LittleBits
 _g_MatrixIdentity
@@ -6052,6 +6056,7 @@ typeinfo for CCallResult<ConfigFetch, HTTPRequestCompleted_t>
 typeinfo for CCallback<CNetworkSystem, P2PSessionRequest_t, false>
 typeinfo for CCallback<CNetworkSystem, P2PSessionRequest_t, true>
 typeinfo for CCallbackBase
+typeinfo for CCallbackImpl<8>
 typeinfo for CClientDatatableStack
 typeinfo for CConCommandMemberAccessor<CNetworkMessages>
 typeinfo for CDefaultAccessor
@@ -6296,6 +6301,7 @@ typeinfo name for CCallResult<ConfigFetch, HTTPRequestCompleted_t>
 typeinfo name for CCallback<CNetworkSystem, P2PSessionRequest_t, false>
 typeinfo name for CCallback<CNetworkSystem, P2PSessionRequest_t, true>
 typeinfo name for CCallbackBase
+typeinfo name for CCallbackImpl<8>
 typeinfo name for CClientDatatableStack
 typeinfo name for CConCommandMemberAccessor<CNetworkMessages>
 typeinfo name for CDefaultAccessor
@@ -6622,6 +6628,7 @@ vtable for CCLCMsg_VoiceData
 vtable for CCallResult<ConfigFetch, HTTPRequestCompleted_t>
 vtable for CCallback<CNetworkSystem, P2PSessionRequest_t, false>
 vtable for CCallback<CNetworkSystem, P2PSessionRequest_t, true>
+vtable for CCallbackImpl<8>
 vtable for CClientDatatableStack
 vtable for CConCommandMemberAccessor<CNetworkMessages>
 vtable for CDefaultAccessor

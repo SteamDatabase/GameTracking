@@ -116,6 +116,7 @@
  B SinCosTable
  B colorcorrection
  B g_EarlyInit_Common
+ B g_IUITextServices
  B g_MatrixIdentity
  B g_VBAllocTracker
  B g_nLinkerHack_SchemaAnchor_RegistrationCountFor_mathlib_extended
@@ -1915,10 +1916,11 @@
  T CResourceSystem::AppendResourceNamesFromCodeBasedManifest(CResourceSystem::NamedResourceManifest_t*, CUtlVectorFixedGrowable<CResourceSystem::StringBasedManifestItem_t, 256ul>&)
  T CResourceSystem::BeginShutdown()
  T CResourceSystem::BlockingLoadResourceByName(char const*, unsigned long long, char const*)
+ T CResourceSystem::BlockingLoadResourceByNameIntoJustInTimeManifest(char const*, unsigned long long, char const*)
  T CResourceSystem::BlockingLoadResourceFileNonStreamingPortion(char const*, void**, ResourceFileHeader_t const**)
  T CResourceSystem::BlockingReloadResource(ResourceId_t, unsigned long long)
  T CResourceSystem::BlockingReloadResource(char const*)
- T CResourceSystem::BlockingReloadResourceWithReplacementData(ResourceBindingBase_t const*, void*, int)
+ T CResourceSystem::BlockingReloadResourceWithReplacementData(ResourceBindingBase_t const*, void const*, int)
  T CResourceSystem::BlockingReloadResources(int, char const**, ResourceManifestLoadBehavior_t, char const*)
  T CResourceSystem::CResourceSystem()
  T CResourceSystem::Cmd_rs_dump_stats(CCommandContext const&, CCommand const&)
@@ -1945,6 +1947,7 @@
  T CResourceSystem::FlushPendingResourceRequestsForRemapChanges()
  T CResourceSystem::ForceSynchronizationAndBlockUntilManifestLoaded(HResourceManifest__*)
  T CResourceSystem::FrameUpdateForTypeManager(CResourceSystem::ResourceTypeRegistration_t&, int)
+ T CResourceSystem::FreeJustInTimeManifests()
  T CResourceSystem::FreeResourceFileNonStreamingPortion(ResourceNonStreamingDataHandle_t__*)
  T CResourceSystem::GetActualFileName(ResourceBindingBase_t const*, char*, int)
  T CResourceSystem::GetAllNamedResourcesByType(unsigned long long, CUtlVector<ResourceBindingBase_t const*, CUtlMemory<ResourceBindingBase_t const*, int> >&)
@@ -3292,6 +3295,7 @@
  T CUtlMemory<CUtlSymbolTable::StringPool_t*, int>::Grow(int)
  T CUtlMemory<CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048ul>::StringPool_t*, int>::Grow(int)
  T CUtlMemory<ConCommand::CallbackInfo_t, int>::Grow(int)
+ T CUtlMemory<HResourceManifest__*, int>::Grow(int)
  T CUtlMemory<IResourceSystemSingleThreaded**, int>::Grow(int)
  T CUtlMemory<IToolsResourceListener*, int>::Grow(int)
  T CUtlMemory<QueuedDeallocate_t, int>::Grow(int)
@@ -3345,6 +3349,7 @@
  T CUtlString::FreeMemoryBlock()
  T CUtlString::Get() const
  T CUtlString::Set(char const*)
+ T CUtlString::SetLength(int)
  T CUtlString::operator=(char const*)
  T CUtlSymbolTable::AddString(char const*)
  T CUtlSymbolTable::CUtlSymbolTable(int, int, bool)
@@ -3379,6 +3384,7 @@
  T CUtlVectorBase<CUtlSymbolTable::StringPool_t*, CUtlMemory<CUtlSymbolTable::StringPool_t*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048ul>::StringPool_t*, CUtlMemory<CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048ul>::StringPool_t*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<ConCommand::CallbackInfo_t, CUtlMemory<ConCommand::CallbackInfo_t, int> >::~CUtlVectorBase()
+ T CUtlVectorBase<HResourceManifest__*, CUtlMemory<HResourceManifest__*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<IResourceSystemSingleThreaded**, CUtlMemory<IResourceSystemSingleThreaded**, int> >::~CUtlVectorBase()
  T CUtlVectorBase<IToolsResourceListener*, CUtlMemory<IToolsResourceListener*, int> >::~CUtlVectorBase()
  T CUtlVectorBase<QueuedDeallocate_t, CUtlMemory<QueuedDeallocate_t, int> >::~CUtlVectorBase()
@@ -4175,6 +4181,7 @@
  memcmp
  memcpy
  memmove
+ memset
  pow
  printf
  pthread_mutex_destroy

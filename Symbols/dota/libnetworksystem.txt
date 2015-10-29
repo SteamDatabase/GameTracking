@@ -150,6 +150,7 @@
  B g_EarlyInit_Common
  B g_ExpressionEvaluator
  B g_ExtraMasks
+ B g_IUITextServices
  B g_KeyValuesErrorStack
  B g_LittleBits
  B g_MatrixIdentity
@@ -523,6 +524,7 @@
  D typeinfo for CCallback<CNetworkSystem, P2PSessionRequest_t, false>
  D typeinfo for CCallback<CNetworkSystem, P2PSessionRequest_t, true>
  D typeinfo for CCallbackBase
+ D typeinfo for CCallbackImpl<8>
  D typeinfo for CClientDatatableStack
  D typeinfo for CConCommandMemberAccessor<CNetworkMessages>
  D typeinfo for CDefaultAccessor
@@ -770,6 +772,7 @@
  D vtable for CCallResult<ConfigFetch, HTTPRequestCompleted_t>
  D vtable for CCallback<CNetworkSystem, P2PSessionRequest_t, false>
  D vtable for CCallback<CNetworkSystem, P2PSessionRequest_t, true>
+ D vtable for CCallbackImpl<8>
  D vtable for CClientDatatableStack
  D vtable for CConCommandMemberAccessor<CNetworkMessages>
  D vtable for CDefaultAccessor
@@ -1004,6 +1007,7 @@
  R typeinfo name for CCallback<CNetworkSystem, P2PSessionRequest_t, false>
  R typeinfo name for CCallback<CNetworkSystem, P2PSessionRequest_t, true>
  R typeinfo name for CCallbackBase
+ R typeinfo name for CCallbackImpl<8>
  R typeinfo name for CClientDatatableStack
  R typeinfo name for CConCommandMemberAccessor<CNetworkMessages>
  R typeinfo name for CDefaultAccessor
@@ -1564,12 +1568,10 @@
  T CCallResult<ConfigFetch, HTTPRequestCompleted_t>::GetCallbackSizeBytes()
  T CCallResult<ConfigFetch, HTTPRequestCompleted_t>::Run(void*)
  T CCallResult<ConfigFetch, HTTPRequestCompleted_t>::Run(void*, bool, unsigned long long)
- T CCallback<CNetworkSystem, P2PSessionRequest_t, false>::GetCallbackSizeBytes()
  T CCallback<CNetworkSystem, P2PSessionRequest_t, false>::Run(void*)
- T CCallback<CNetworkSystem, P2PSessionRequest_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<CNetworkSystem, P2PSessionRequest_t, true>::GetCallbackSizeBytes()
  T CCallback<CNetworkSystem, P2PSessionRequest_t, true>::Run(void*)
- T CCallback<CNetworkSystem, P2PSessionRequest_t, true>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<8>::GetCallbackSizeBytes()
+ T CCallbackImpl<8>::Run(void*, bool, unsigned long long)
  T CClassMemoryPool<CSerializedEntity, CUtlMemoryPoolMT<CSerializedEntity> >::Clear()
  T CClassMemoryPool<NetworkFieldSerializerInfo_t, CUtlMemoryPool<NetworkFieldSerializerInfo_t> >::Clear()
  T CCleanupUtlSymbolTable::~CCleanupUtlSymbolTable()
@@ -3918,6 +3920,7 @@
  T CUtlString::FreeMemoryBlock()
  T CUtlString::Get() const
  T CUtlString::Set(char const*)
+ T CUtlString::SetLength(int)
  T CUtlString::operator+(char const*) const
  T CUtlString::operator+=(char const*)
  T CUtlString::operator=(CUtlString const&)
@@ -4421,7 +4424,7 @@
  T SteamDatagramTransport::CSteamDatagramTransportClient::LostSession(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, char const*)
  T SteamDatagramTransport::CSteamDatagramTransportClient::ProcessPacket(unsigned char const*, int, sockaddr_in const&)
  T SteamDatagramTransport::CSteamDatagramTransportClient::ReceivedPacketFromServer(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, int, unsigned long long)
- T SteamDatagramTransport::CSteamDatagramTransportClient::RecvDatagram(void*, unsigned int, int)
+ T SteamDatagramTransport::CSteamDatagramTransportClient::RecvDatagram(void*, unsigned int, unsigned long long*, int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::RecvStats(SteamDatagramTransport::CSteamDatagramTransportClient::ServerData&, CMsgSteamDatagramConnectionStatsRouterToClient&, unsigned long long)
  T SteamDatagramTransport::CSteamDatagramTransportClient::RemoveServer(int)
  T SteamDatagramTransport::CSteamDatagramTransportClient::RestartPingMeasurement()
@@ -4440,7 +4443,7 @@
  T SteamDatagramTransport::CSteamDatagramTransportGameserver::DiagnosticMessage(int, char const*, ...)
  T SteamDatagramTransport::CSteamDatagramTransportGameserver::LocateClient(CSteamID, sockaddr const&, unsigned int, unsigned long long)
  T SteamDatagramTransport::CSteamDatagramTransportGameserver::ProcessPacket(unsigned char const*, int, sockaddr const&)
- T SteamDatagramTransport::CSteamDatagramTransportGameserver::RecvDatagram(void*, unsigned int, CSteamID*, int)
+ T SteamDatagramTransport::CSteamDatagramTransportGameserver::RecvDatagram(void*, unsigned int, CSteamID*, unsigned long long*, int)
  T SteamDatagramTransport::CSteamDatagramTransportGameserver::RecvStats(CMsgSteamDatagramConnectionStatsRouterToServer const&, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client*, unsigned long long)
  T SteamDatagramTransport::CSteamDatagramTransportGameserver::SendDatagram(void const*, unsigned int, CSteamID, int)
  T SteamDatagramTransport::CSteamDatagramTransportGameserver::Think()
@@ -4482,6 +4485,7 @@
  T SteamDatagramTransport::SteamDatagramNetwork::~SteamDatagramNetwork()
  T SteamDatagram_CreateClient(unsigned short, EResult*, char (&) [1024])
  T SteamDatagram_GameserverListen(EUniverse, unsigned short, EResult*, char (&) [1024])
+ T SteamDatagram_GetCurrentTime()
  T SteamDatagram_InitClient(EUniverse, ISteamHTTP*, char const*)
  T UtlMemory_CalcNewAllocationCount(int, int, int, int)
  T V_FixSlashes(char*, char)

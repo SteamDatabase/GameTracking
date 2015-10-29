@@ -761,10 +761,11 @@ CResourceSystem::AddRemapTable(ResourceRemapTable_t const*)
 CResourceSystem::AppendResourceNamesFromCodeBasedManifest(CResourceSystem::NamedResourceManifest_t*, CUtlVectorFixedGrowable<CResourceSystem::StringBasedManifestItem_t, 256ul>&)
 CResourceSystem::BeginShutdown()
 CResourceSystem::BlockingLoadResourceByName(char const*, unsigned long long, char const*)
+CResourceSystem::BlockingLoadResourceByNameIntoJustInTimeManifest(char const*, unsigned long long, char const*)
 CResourceSystem::BlockingLoadResourceFileNonStreamingPortion(char const*, void**, ResourceFileHeader_t const**)
 CResourceSystem::BlockingReloadResource(ResourceId_t, unsigned long long)
 CResourceSystem::BlockingReloadResource(char const*)
-CResourceSystem::BlockingReloadResourceWithReplacementData(ResourceBindingBase_t const*, void*, int)
+CResourceSystem::BlockingReloadResourceWithReplacementData(ResourceBindingBase_t const*, void const*, int)
 CResourceSystem::BlockingReloadResources(int, char const**, ResourceManifestLoadBehavior_t, char const*)
 CResourceSystem::CResourceSystem()
 CResourceSystem::Cmd_rs_dump_stats(CCommandContext const&, CCommand const&)
@@ -792,6 +793,7 @@ CResourceSystem::FlushPendingResourceRequestsForRemapChanges()
 CResourceSystem::ForceSynchronizationAndBlockUntilManifestLoaded(HResourceManifest__*)
 CResourceSystem::FrameUpdateForTypeManager(CResourceSystem::ResourceTypeRegistration_t&, int)
 CResourceSystem::FrameUpdateForTypeManager(CResourceSystem::ResourceTypeRegistration_t&, int)::s_nTypeManUpdate
+CResourceSystem::FreeJustInTimeManifests()
 CResourceSystem::FreeResourceFileNonStreamingPortion(ResourceNonStreamingDataHandle_t__*)
 CResourceSystem::GetActualFileName(ResourceBindingBase_t const*, char*, int)
 CResourceSystem::GetActualFileName(ResourceBindingBase_t const*, char*, int)::s_bHACK_VPCF2_Test
@@ -2391,6 +2393,7 @@ CUtlMemory<CUtlSymbolLarge, int>::Grow(int)
 CUtlMemory<CUtlSymbolTable::StringPool_t*, int>::Grow(int)
 CUtlMemory<CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048ul>::StringPool_t*, int>::Grow(int)
 CUtlMemory<ConCommand::CallbackInfo_t, int>::Grow(int)
+CUtlMemory<HResourceManifest__*, int>::Grow(int)
 CUtlMemory<IResourceSystemSingleThreaded**, int>::Grow(int)
 CUtlMemory<IToolsResourceListener*, int>::Grow(int)
 CUtlMemory<QueuedDeallocate_t, int>::Grow(int)
@@ -2444,6 +2447,7 @@ CUtlString::FormatV(char const*, __va_list_tag*)
 CUtlString::FreeMemoryBlock()
 CUtlString::Get() const
 CUtlString::Set(char const*)
+CUtlString::SetLength(int)
 CUtlString::operator=(char const*)
 CUtlStringToken
 CUtlSymbol::s_pSymbolTable
@@ -2480,6 +2484,7 @@ CUtlVectorBase<CUtlSymbolLarge, CUtlMemoryFixedGrowable<CUtlSymbolLarge, 512ul, 
 CUtlVectorBase<CUtlSymbolTable::StringPool_t*, CUtlMemory<CUtlSymbolTable::StringPool_t*, int> >::~CUtlVectorBase()
 CUtlVectorBase<CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048ul>::StringPool_t*, CUtlMemory<CUtlSymbolTableLargeBase<CNonThreadsafeTree<false>, false, 2048ul>::StringPool_t*, int> >::~CUtlVectorBase()
 CUtlVectorBase<ConCommand::CallbackInfo_t, CUtlMemory<ConCommand::CallbackInfo_t, int> >::~CUtlVectorBase()
+CUtlVectorBase<HResourceManifest__*, CUtlMemory<HResourceManifest__*, int> >::~CUtlVectorBase()
 CUtlVectorBase<IResourceSystemSingleThreaded**, CUtlMemory<IResourceSystemSingleThreaded**, int> >::~CUtlVectorBase()
 CUtlVectorBase<IToolsResourceListener*, CUtlMemory<IToolsResourceListener*, int> >::~CUtlVectorBase()
 CUtlVectorBase<QueuedDeallocate_t, CUtlMemory<QueuedDeallocate_t, int> >::~CUtlVectorBase()
@@ -3154,7 +3159,6 @@ InstallSchemaBindings
 InterfaceReg::InterfaceReg(void* (*)(), char const*)
 IsResourceNameValid(char const*)
 KeyValueCache001
-L95vb
 LIGHT_SOURCE_SHAPE_SPHERE
 LINUX
 LOWVIOLENCE
@@ -3261,6 +3265,7 @@ OldFeEdge_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEA
 OldFeEdge_t::s_pSchemaBinding
 OldFeEdge_t::s_pSchemaBindingForLocalModule
 POSIX
+PanoramaTextServices001
 PanoramaUIClient001
 PanoramaUIEngine001
 ParticleSystemMgr002
@@ -3831,6 +3836,7 @@ _ceilf
 _colorcorrection
 _floorf
 _g_EarlyInit_Common
+_g_IUITextServices
 _g_MatrixIdentity
 _g_VBAllocTracker
 _g_VProfCurrentProfile
@@ -3976,6 +3982,7 @@ _memchr
 _memcmp
 _memcpy
 _memmove
+_memset
 _printf
 _pthread_mutex_destroy
 _quat_identity
@@ -5044,6 +5051,8 @@ vrgrp
 vrman
 vrmap
 vrnmd
+vsndevtsB
+vsndstckB
 vstdlib
 vsurf
 vtable for CAsyncResourceDataRequest
@@ -5282,6 +5291,7 @@ vtable for __cxxabiv1::__class_type_info
 vtable for __cxxabiv1::__si_class_type_info
 vtable for __cxxabiv1::__vmi_class_type_info
 vvvtx
+vwenvmapB
 vwnod
 vwrld
 vwrlt

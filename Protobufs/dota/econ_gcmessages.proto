@@ -10,9 +10,7 @@ enum EGCItemMsg {
 	k_EMsgGCCraftResponse = 1003;
 	k_EMsgGCDelete = 1004;
 	k_EMsgGCVerifyCacheSubscription = 1005;
-	k_EMsgGCNameItem = 1006;
-	k_EMsgGCUnlockCrate = 1007;
-	k_EMsgGCUnlockCrateResponse = 1008;
+	k_EMsgClientToGCNameItem = 1006;
 	k_EMsgGCPaintItem = 1009;
 	k_EMsgGCPaintItemResponse = 1010;
 	k_EMsgGCGoldenWrenchBroadcast = 1011;
@@ -36,7 +34,7 @@ enum EGCItemMsg {
 	k_EMsgGCRemoveItemPaint = 1031;
 	k_EMsgGCUnwrapGiftRequest = 1037;
 	k_EMsgGCUnwrapGiftResponse = 1038;
-	k_EMsgGCSetItemStyle = 1039;
+	k_EMsgGCSetItemStyle_DEPRECATED = 1039;
 	k_EMsgGCUsedClaimCodeItem = 1040;
 	k_EMsgGCSortItems = 1041;
 	k_EMsgGC_RevolvingLootList_DEPRECATED = 1042;
@@ -61,7 +59,7 @@ enum EGCItemMsg {
 	k_EMsgGC_ReportAbuse = 1065;
 	k_EMsgGC_ReportAbuseResponse = 1066;
 	k_EMsgGCPresets_SelectPresetForClassReply = 1067;
-	k_EMsgGCNameItemNotification = 1068;
+	k_EMsgClientToGCNameItemResponse = 1068;
 	k_EMsgGCApplyConsumableEffects = 1069;
 	k_EMsgGCConsumableExhausted = 1070;
 	k_EMsgGCShowItemsPickedUp = 1071;
@@ -96,6 +94,7 @@ enum EGCItemMsg {
 	k_EMsgClientToGCRemoveItemGifterAttributes = 1109;
 	k_EMsgClientToGCRemoveItemName = 1110;
 	k_EMsgClientToGCRemoveItemDescription = 1111;
+	k_EMsgClientToGCRemoveItemAttributeResponse = 1112;
 	k_EMsgGCTradingBase = 1500;
 	k_EMsgGCTrading_InitiateTradeRequest = 1501;
 	k_EMsgGCTrading_InitiateTradeResponse = 1502;
@@ -180,6 +179,8 @@ enum EGCItemMsg {
 	k_EMsgClientToGCUnlockCrate = 2574;
 	k_EMsgClientToGCUnlockCrateResponse = 2575;
 	k_EMsgClientToGCUnpackBundle = 2576;
+	k_EMsgClientToGCSetItemStyle = 2577;
+	k_EMsgClientToGCSetItemStyleResponse = 2578;
 }
 
 enum EGCMsgResponse {
@@ -277,7 +278,7 @@ message CMsgRequestItemPurgatory_FinalizePurchaseResponse {
 }
 
 message CMsgRequestItemPurgatory_RefundPurchase {
-	optional uint64 item_id = 1;
+	repeated uint64 item_ids = 1;
 }
 
 message CMsgRequestItemPurgatory_RefundPurchaseResponse {
@@ -557,6 +558,21 @@ message CMsgClientToGCEquipItemsResponse {
 	optional fixed64 so_cache_version_id = 1;
 }
 
+message CMsgClientToGCSetItemStyle {
+	optional uint64 item_id = 1;
+	optional uint32 style_index = 2;
+}
+
+message CMsgClientToGCSetItemStyleResponse {
+	enum ESetStyle {
+		k_SetStyle_Succeeded = 0;
+		k_SetStyle_Failed = 1;
+		k_SetStyle_Failed_StyleIsLocked = 2;
+	}
+
+	optional .CMsgClientToGCSetItemStyleResponse.ESetStyle response = 1 [default = k_SetStyle_Succeeded];
+}
+
 message CMsgClientToGCUnlockItemStyle {
 	optional uint64 item_to_unlock = 1;
 	optional uint32 style_index = 2;
@@ -604,14 +620,40 @@ message CMsgClientToGCUnlockCrateResponse {
 	repeated .CMsgClientToGCUnlockCrateResponse.Item granted_items = 2;
 }
 
-message CMsgGCRemoveItemAttributeMsg {
+message CMsgClientToGCRemoveItemAttribute {
 	optional uint64 item_id = 1;
 }
 
-message CMsgGCNameItem {
+message CMsgClientToGCRemoveItemAttributeResponse {
+	enum ERemoveItemAttribute {
+		k_RemoveItemAttribute_Succeeded = 0;
+		k_RemoveItemAttribute_Failed = 1;
+		k_RemoveItemAttribute_Failed_ItemIsInvalid = 2;
+		k_RemoveItemAttribute_Failed_AttributeCannotBeRemoved = 3;
+		k_RemoveItemAttribute_Failed_AttributeDoesntExist = 4;
+	}
+
+	optional .CMsgClientToGCRemoveItemAttributeResponse.ERemoveItemAttribute response = 1 [default = k_RemoveItemAttribute_Succeeded];
+	optional uint64 item_id = 2;
+}
+
+message CMsgClientToGCNameItem {
 	optional uint64 subject_item_id = 1;
 	optional uint64 tool_item_id = 2;
 	optional string name = 3;
+}
+
+message CMsgClientToGCNameItemResponse {
+	enum ENameItem {
+		k_NameItem_Succeeded = 0;
+		k_NameItem_Failed = 1;
+		k_NameItem_Failed_ToolIsInvalid = 2;
+		k_NameItem_Failed_ItemIsInvalid = 3;
+		k_NameItem_Failed_NameIsInvalid = 4;
+	}
+
+	optional .CMsgClientToGCNameItemResponse.ENameItem response = 1 [default = k_NameItem_Succeeded];
+	optional uint64 item_id = 2;
 }
 
 message CMsgGCSetItemPosition {
