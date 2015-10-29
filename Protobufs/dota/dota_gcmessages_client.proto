@@ -2481,22 +2481,6 @@ message CMsgGCToClientEventStatusChanged {
 	repeated .EEvent active_events = 1;
 }
 
-message CMsgClientToGCExchangeItemsForOffering {
-	repeated uint64 item_ids = 1;
-	optional uint32 recycle_id = 2;
-}
-
-message CMsgClientToGCExchangeItemsForOfferingResponse {
-	enum EResponse {
-		eResponse_Success = 0;
-		eResponse_OfferingDisabled = 1;
-		eResponse_InvalidItems = 2;
-		eResponse_InternalError = 3;
-	}
-
-	optional .CMsgClientToGCExchangeItemsForOfferingResponse.EResponse response = 1 [default = eResponse_Success];
-}
-
 message CMsgClientToGCPlayerStatsRequest {
 	optional uint32 account_id = 1;
 }
@@ -2750,5 +2734,19 @@ message CMsgClientToGCCreateStaticRecipeResponse {
 	}
 
 	optional .CMsgClientToGCCreateStaticRecipeResponse.EResponse response = 1 [default = eResponse_Success];
+}
+
+message CDOTAReplayDownloadInfo {
+	message Highlight {
+		optional uint32 timestamp = 1;
+		optional string description = 2;
+	}
+
+	optional .CMsgDOTAMatchMinimal match = 1;
+	optional string title = 2;
+	optional string description = 3;
+	optional uint32 size = 4;
+	repeated string tags = 5;
+	optional bool exists_on_disk = 6;
 }
 
