@@ -4049,7 +4049,7 @@
 					}
 					"3"
 					{
-						"item"		"Taunt: Maggot's Condolence"
+						"item"		"Taunt: Soldier's Requiem"
 						"show_market"	"0"
 					}
 				}
