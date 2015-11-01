@@ -109,6 +109,15 @@ case $1 in
 # Dota 2
 373301)
 	ProcessVPK "$1"
+	
+	while IFS= read -r -d '' file
+	do
+		baseFile="${file%.*}.txt"
+		
+		echo "> VPK $baseFile"
+		
+		./.support/vpktool "$file" > "$baseFile"
+	done <   <(find "$1/game/dota/maps/" -type f -name "*.vpk" -print0)
 	;;
 
 373304)
