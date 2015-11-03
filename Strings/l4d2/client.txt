@@ -383,10 +383,10 @@
 9FXti
 9GXu8
 9NDrh
-9X0uS
 9bvcdt
 9fff.
 9wPtGf
+9x0uS
 ABGR8888
 ACHIEVED
 ACH_AIRLINE_FINALE_NO_DAMAGE
@@ -4292,34 +4292,29 @@ CCallQueueT<CTSQueue<CFunctor*, false> >::CallQueued()
 CCallQueueT<CTSQueue<CFunctor*, false> >::Flush()
 CCallQueueT<CTSQueue<CFunctor*, false> >::QueueFunctorInternal(CFunctor*)
 CCallback<CAchievementMgr, UserStatsStored_t, false>
-CCallback<CAchievementMgr, UserStatsStored_t, false>::GetCallbackSizeBytes()
 CCallback<CAchievementMgr, UserStatsStored_t, false>::Run(void*)
-CCallback<CAchievementMgr, UserStatsStored_t, false>::Run(void*, bool, unsigned long long)
 CCallback<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>
-CCallback<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>::GetCallbackSizeBytes()
 CCallback<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>::Run(void*)
-CCallback<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>::Run(void*, bool, unsigned long long)
 CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>
-CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>::GetCallbackSizeBytes()
 CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>::Run(void*)
-CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>::Run(void*, bool, unsigned long long)
 CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, false>
-CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, false>::GetCallbackSizeBytes()
 CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, false>::Run(void*)
-CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, false>::Run(void*, bool, unsigned long long)
 CCallback<CSteamWorksGameStatsUploader, LobbyEnter_t, false>
-CCallback<CSteamWorksGameStatsUploader, LobbyEnter_t, false>::GetCallbackSizeBytes()
 CCallback<CSteamWorksGameStatsUploader, LobbyEnter_t, false>::Run(void*)
-CCallback<CSteamWorksGameStatsUploader, LobbyEnter_t, false>::Run(void*, bool, unsigned long long)
 CCallback<C_SteamUserStats, UserStatsReceived_t, false>
-CCallback<C_SteamUserStats, UserStatsReceived_t, false>::GetCallbackSizeBytes()
 CCallback<C_SteamUserStats, UserStatsReceived_t, false>::Run(void*)
-CCallback<C_SteamUserStats, UserStatsReceived_t, false>::Run(void*, bool, unsigned long long)
 CCallback<C_SteamUserStats, UserStatsStored_t, false>
-CCallback<C_SteamUserStats, UserStatsStored_t, false>::GetCallbackSizeBytes()
 CCallback<C_SteamUserStats, UserStatsStored_t, false>::Run(void*)
-CCallback<C_SteamUserStats, UserStatsStored_t, false>::Run(void*, bool, unsigned long long)
 CCallbackBase
+CCallbackImpl<12>
+CCallbackImpl<12>::GetCallbackSizeBytes()
+CCallbackImpl<12>::Run(void*, bool, unsigned long long)
+CCallbackImpl<16>
+CCallbackImpl<16>::GetCallbackSizeBytes()
+CCallbackImpl<16>::Run(void*, bool, unsigned long long)
+CCallbackImpl<20>
+CCallbackImpl<20>::GetCallbackSizeBytes()
+CCallbackImpl<20>::Run(void*, bool, unsigned long long)
 CCallbackManual<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>
 CCallbackManual<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>
 CCallbackManual<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, false>
@@ -8009,6 +8004,7 @@ CInput::AdjustAngles(int, float)
 CInput::AdjustPitch(int, float, QAngle&)
 CInput::AdjustYaw(int, float, QAngle&)
 CInput::ApplyMouse(int, QAngle&, CUserCmd*, float, float)
+CInput::ApplySteamControllerCameraMove(int, QAngle&, CUserCmd*, Vector2D)
 CInput::CAM_CameraThirdThink()
 CInput::CAM_Command(int)
 CInput::CAM_EndDistance()
@@ -8036,6 +8032,7 @@ CInput::ClearStates()
 CInput::ComputeForwardMove(int, CUserCmd*)
 CInput::ComputeSideMove(int, CUserCmd*)
 CInput::ControllerCommands()
+CInput::ControllerModeActive()
 CInput::ControllerMove(int, float, CUserCmd*)
 CInput::CreateMove(int, float, bool)
 CInput::DeactivateMouse()
@@ -8048,6 +8045,7 @@ CInput::GetAccumulatedMouseDeltasAndResetAccumulators(int, float*, float*)
 CInput::GetButtonBits(int)
 CInput::GetFullscreenMousePos(int*, int*, int*, int*)
 CInput::GetLastForwardMove()
+CInput::GetLastUsedInput()
 CInput::GetLookSpring()
 CInput::GetMouseDelta(int, float, float, float*, float*)
 CInput::GetMouseDelta(int, float, float, float*, float*)::s_m_filter
@@ -8077,9 +8075,13 @@ CInput::MakeWeaponSelection(C_BaseCombatWeapon*)
 CInput::MouseMove(int, CUserCmd*)
 CInput::ResetMouse()
 CInput::ScaleMouse(int, float*, float*)
+CInput::SetControllerModeActive(bool)
 CInput::SetFullscreenMousePos(int, int)
+CInput::SetLastUsedInput(int)
 CInput::Shutdown_All()
 CInput::Shutdown_TrackIR()
+CInput::SteamControllerMove(int, float, CUserCmd*)
+CInput::SteamControllerMove(int, float, CUserCmd*)::bControllerTablesInitialized
 CInput::TrackIRMove(float, CUserCmd*)
 CInput::WriteUsercmdDeltaToBuffer(int, bf_write*, int, int, bool)
 CInput::~CInput()
@@ -8463,6 +8465,8 @@ CLocatorPanel::GetMessageMap()::s_pMap
 CLocatorPanel::GetPanelClassName()
 CLocatorPanel::GetTargetPosition(Vector const&, float, float*, float*, float*)
 CLocatorPanel::GetVar_m_hButtonFont(vgui::Panel*)
+CLocatorPanel::GetVar_m_hButtonFontSC(vgui::Panel*)
+CLocatorPanel::GetVar_m_hButtonFontSC_ss(vgui::Panel*)
 CLocatorPanel::GetVar_m_hButtonFont_ss(vgui::Panel*)
 CLocatorPanel::GetVar_m_hCaptionFont(vgui::Panel*)
 CLocatorPanel::GetVar_m_hCaptionFont_ss(vgui::Panel*)
@@ -8475,6 +8479,8 @@ CLocatorPanel::Paint()
 CLocatorPanel::PaintBackground()
 CLocatorPanel::PaintTarget(CLocatorTarget*)
 CLocatorPanel::PanelAnimationVar_m_hButtonFont::InitVar()::bAdded
+CLocatorPanel::PanelAnimationVar_m_hButtonFontSC::InitVar()::bAdded
+CLocatorPanel::PanelAnimationVar_m_hButtonFontSC_ss::InitVar()::bAdded
 CLocatorPanel::PanelAnimationVar_m_hButtonFont_ss::InitVar()::bAdded
 CLocatorPanel::PanelAnimationVar_m_hCaptionFont::InitVar()::bAdded
 CLocatorPanel::PanelAnimationVar_m_hCaptionFont_ss::InitVar()::bAdded
@@ -22470,6 +22476,7 @@ CalculateOffsettedPosition(C_BaseEntity const*, EEntityOffsetMode_t, Vector*)
 CallPhysicsSimulate
 CallPhysicsSimulate()
 CallVoteFailed
+Camera
 CampaignID
 CampaignScore_Enemy_Score
 CampaignScore_Yours_Score
@@ -25912,6 +25919,8 @@ InputSystemVersion001
 InstallStringTableCallback_GameRules()
 Instructor.LessonStart
 InstructorButtons
+InstructorButtonsSteamController
+InstructorButtonsSteamController_ss
 InstructorTitle
 InstructorTitle_ss
 IntGreaterThan(int const&, int const&)
@@ -27627,6 +27636,40 @@ S2_RIGHT
 S2_UP
 SAVE\faceposer
 SCORE
+SC_A_Button
+SC_B_Button
+SC_Back_Button
+SC_Gyro_Move
+SC_Gyro_Pitch
+SC_Gyro_Roll
+SC_Gyro_Yaw
+SC_L_Grip
+SC_L_Shoulder
+SC_L_Stick_Click
+SC_L_Stick_Move
+SC_L_Trigger_Click
+SC_L_Trigger_Pull
+SC_Left_Pad_Click
+SC_Left_Pad_DPad_E
+SC_Left_Pad_DPad_N
+SC_Left_Pad_DPad_S
+SC_Left_Pad_DPad_W
+SC_Left_Pad_Swipe
+SC_Left_Pad_Touch
+SC_None
+SC_R_Grip
+SC_R_Shoulder
+SC_R_Trigger_Pull
+SC_Right_Pad_Click
+SC_Right_Pad_DPad_E
+SC_Right_Pad_DPad_N
+SC_Right_Pad_DPad_S
+SC_Right_Pad_DPad_W
+SC_Right_Pad_Swipe
+SC_Right_Pad_Touch
+SC_Start_Button
+SC_X_Button
+SC_Y_Button
 SEMICOLON
 SERVER
 SHOTGUN
@@ -27714,12 +27757,19 @@ STAT_PLAYER_FRANCIS
 STAT_PLAYER_LOUIS
 STAT_PLAYER_ZOEY
 STAT_RESTARTS
-STEAMAPPS_INTERFACE_VERSION005
+STEAMAPPLIST_INTERFACE_VERSION001
+STEAMAPPS_INTERFACE_VERSION007
+STEAMHTMLSURFACE_INTERFACE_VERSION_003
 STEAMHTTP_INTERFACE_VERSION002
-STEAMREMOTESTORAGE_INTERFACE_VERSION010
+STEAMINVENTORY_INTERFACE_V001
+STEAMMUSICREMOTE_INTERFACE_VERSION001
+STEAMMUSIC_INTERFACE_VERSION001
+STEAMREMOTESTORAGE_INTERFACE_VERSION013
 STEAMSCREENSHOTS_INTERFACE_VERSION002
+STEAMUGC_INTERFACE_VERSION007
 STEAMUNIFIEDMESSAGES_INTERFACE_VERSION001
 STEAMUSERSTATS_INTERFACE_VERSION011
+STEAMVIDEO_INTERFACE_V001
 STICK1
 STICK2
 STRING
@@ -28085,14 +28135,15 @@ StatsSkipState
 Status
 StatusLabel
 Steam
-SteamFriends013
+SteamController003
+SteamFriends015
 SteamGameStats001
 SteamLightGreen
 SteamMatchMaking009
 SteamMatchMakingServers002
 SteamNetworking005
-SteamUser016
-SteamUtils005
+SteamUser018
+SteamUtils007
 SteamWeaponStatData
 Steam\cached\offline_
 StepSounds
@@ -30057,6 +30108,7 @@ __ZZN19CScriptedIconLesson22PreReadLessonsFromFileEvE10bFirstTime.b
 __ZZN20SplitScreenConVarRef4InitEPKcbE6bFirst.b
 __ZZN21CSplitScreenLetterBox11GetSettingsEPbPfS1_S1_S1_S1_S1_S1_E21bUsedDefaultsLastTime.b
 __ZZN4vgui5Panel22InitPropertyConvertersEvE11initialized.b
+__ZZN6CInput19SteamControllerMoveEifP8CUserCmdE13bWasUIVisible.b
 __ZZN9CHLClient24CheckStrictBindingTokensEPKcS1_E3arr180
 __ZZN9ConVarRef4InitEPKcbE6bFirst.b
 ___assert_rtn
@@ -32326,6 +32378,7 @@ certname
 chainsaw
 chainsaw_debug
 chair_charged
+changeclass
 changed
 channel
 chapter
@@ -32584,6 +32637,7 @@ cl_menuduration
 cl_modelfastpath
 cl_mouseenable
 cl_mouselook
+cl_mouselook_roll_compensation
 cl_music_debug
 cl_names_debug
 cl_new_impact_effects
@@ -33759,6 +33813,10 @@ g_ColorCorrectionVolumeList
 g_ComboBox_Helper
 g_ContinuousProgressBar_Helper
 g_Controller
+g_ControllerCameraHandle
+g_ControllerDigitalActionState
+g_ControllerDigitalGameActions
+g_ControllerMoveHandle
 g_CurrentViewID
 g_CvarToggleCheckButton_Helper
 g_DataObjectAccessSystem
@@ -33852,6 +33910,7 @@ g_SectionedListPanel_Helper
 g_SharedVarSaveDataOps
 g_SoundEmitterSystem
 g_SteamAPIContext
+g_SteamControllerOriginStrings
 g_SteamWorksGameStats
 g_StudioBoneCache
 g_TESystem
@@ -37136,6 +37195,8 @@ m_hAttacker
 m_hBindingsFont
 m_hBuildableButtonUseEnt
 m_hButtonFont
+m_hButtonFontSC
+m_hButtonFontSC_ss
 m_hButtonFont_ss
 m_hCaptionFont
 m_hCaptionFont_ss
@@ -40181,6 +40242,7 @@ particlesPerDimension
 passedresult
 paste
 pause
+pause_menu
 pchButtonFields
 perf_fire_bullet_firstpredictedonly
 perf_fire_bullet_single
@@ -41081,6 +41143,11 @@ sb_perf_dump_bots
 sb_perf_dump_low
 sb_perf_dump_low_dist
 sb_pushscale
+sc_enable
+sc_pitch_sensitivity
+sc_pitch_sensitivity_default
+sc_yaw_sensitivity
+sc_yaw_sensitivity_default
 scale
 scaleAmount
 scaleImage
@@ -42159,6 +42226,9 @@ typeinfo for CCallback<CSteamWorksGameStatsUploader, LobbyEnter_t, false>
 typeinfo for CCallback<C_SteamUserStats, UserStatsReceived_t, false>
 typeinfo for CCallback<C_SteamUserStats, UserStatsStored_t, false>
 typeinfo for CCallbackBase
+typeinfo for CCallbackImpl<12>
+typeinfo for CCallbackImpl<16>
+typeinfo for CCallbackImpl<20>
 typeinfo for CCallbackManual<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>
 typeinfo for CCallbackManual<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>
 typeinfo for CCallbackManual<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, false>
@@ -43895,6 +43965,9 @@ typeinfo name for CCallback<CSteamWorksGameStatsUploader, LobbyEnter_t, false>
 typeinfo name for CCallback<C_SteamUserStats, UserStatsReceived_t, false>
 typeinfo name for CCallback<C_SteamUserStats, UserStatsStored_t, false>
 typeinfo name for CCallbackBase
+typeinfo name for CCallbackImpl<12>
+typeinfo name for CCallbackImpl<16>
+typeinfo name for CCallbackImpl<20>
 typeinfo name for CCallbackManual<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>
 typeinfo name for CCallbackManual<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>
 typeinfo name for CCallbackManual<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, false>
@@ -48590,12 +48663,9 @@ vtable for CCSTextWindow
 vtable for CCSViewRender
 vtable for CCSWeaponInfo
 vtable for CCallback<CAchievementMgr, UserStatsStored_t, false>
-vtable for CCallback<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>
-vtable for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>
-vtable for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, false>
-vtable for CCallback<CSteamWorksGameStatsUploader, LobbyEnter_t, false>
-vtable for CCallback<C_SteamUserStats, UserStatsReceived_t, false>
-vtable for CCallback<C_SteamUserStats, UserStatsStored_t, false>
+vtable for CCallbackImpl<12>
+vtable for CCallbackImpl<16>
+vtable for CCallbackImpl<20>
 vtable for CCallbackManual<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>
 vtable for CCallbackManual<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>
 vtable for CCallbackManual<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, false>
