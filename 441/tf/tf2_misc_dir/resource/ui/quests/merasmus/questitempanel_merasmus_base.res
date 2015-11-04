@@ -158,6 +158,28 @@
 					"visible"		"0"
 				}
 
+				"QuickplayButton"
+				{
+					"xpos"			"25"
+					"ypos"			"52"
+					"wide"			"200"
+
+					"SubButton"
+					{
+						"wide"			"110"
+						"font"			"QuestInstructionText_Merasmus"
+						"labelText"		"#TF_Quest_PlayThisMap_Merasmission"
+
+						"auto_wide_tocontents"	"0"
+						"paintbackground"	"0"
+						"paintborder"		"1"
+						"RoundedCorners"	"0"
+						"border_default"			"ReplayDefaultBorder"
+						"defaultFgColor_override"	"TanLight"
+						"armedFgColor_override"		"Orange"
+					}
+				}
+
 
 				"IdentifyButtonContainer"
 				{

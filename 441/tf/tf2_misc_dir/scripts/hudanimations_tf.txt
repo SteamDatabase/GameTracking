@@ -1099,12 +1099,25 @@ event QuestItem_Complete_Progress
 	Animate Dimmer	xpos 142	Linear 0 5
 }
 
+event QuestItem_Quickplay_Flash
+{
+	Animate SubButton FgColor LightOrange	Linear 0	 0.1
+	Animate SubButton FgColor TanLight		Linear 0.1	 0.1
+	Animate SubButton FgColor LightOrange	Linear 0.2	 0.1
+	Animate SubButton FgColor TanLight		Linear 0.3	 0.1
+	Animate SubButton FgColor LightOrange	Linear 0.4	 0.1
+	Animate SubButton FgColor TanLight		Linear 0.5	 0.1
+}
+
 //--------------------------------------------------------------------------
 event QuestItem_Expand
 {
 	Animate FrontFolderContainer		ypos 240	Gain 0.75 0 0.4
 	RunEventChild IdentifyButtonContainer QuestItem_Identify_Expand 0
 	RunEventChild TurnInContainer QuestItem_Complete_Expand 0
+
+	SetInputEnabled FrontFolderContainer 0 0
+	RunEventChild QuickplayButton QuestItem_Quickplay_Flash 3
 }
 
 event QuestItem_Collapse
@@ -1112,6 +1125,8 @@ event QuestItem_Collapse
 	Animate FrontFolderContainer		ypos 0	Gain 0.75 0 0.4
 	RunEventChild IdentifyButtonContainer QuestItem_Identify_Collapse 0
 	RunEventChild TurnInContainer QuestItem_Complete_Collapse 0
+
+	SetInputEnabled FrontFolderContainer 1 0
 }
 
 event QuestItem_TurningIn
@@ -1124,6 +1139,8 @@ event QuestItem_Reset
 	Animate FrontFolderContainer		ypos 0	Linear 0 0
 	RunEventChild IdentifyButtonContainer QuestItem_Identify_Collapse 0
 	RunEventChild TurnInContainer QuestItem_Complete_Collapse 0
+
+	SetInputEnabled FrontFolderContainer 1 0
 }
 
 //--------------------------------------------------------------------------
@@ -1143,6 +1160,7 @@ event QuestItem_Expand_Halloween
 
 	// Immediately disable the mouse proxy so the inactive hint goes away
 	RunEventChild FrontFolderContainer	QuestItem_DisableFrontMouse 0
+	SetInputEnabled FrontFolderContainer 0 0
 
 	// Slide the sleeve
 	Animate SleeveImage xpos 300 Bias 0.2  0.0 0.4
@@ -1157,7 +1175,7 @@ event QuestItem_Expand_Halloween
 	Animate FrontFolderContainer		ypos 240	Gain 0.75 0.4 0.4
 	Animate QuestPaperContainer			tall 300    Gain 0.75 0.4 0.4
 
-	SetVisible FrontFolderContainer 0 0.8
+	RunEventChild QuickplayButton QuestItem_Quickplay_Flash 1
 }
 
 event QuestItem_Collapse_Halloween
@@ -1178,8 +1196,7 @@ event QuestItem_Collapse_Halloween
 	Animate ReadyToTurnInStatus xpos 10		Bias 0.8 0.5 0.2
 	Animate InactiveStatus		xpos 10		Bias 0.8 0.5 0.2
 	Animate EncodedStatus		xpos 10		Bias 0.8 0.5 0.2
-
-	SetVisible FrontFolderContainer 1 0
+	SetInputEnabled FrontFolderContainer 1 0
 }
 
 event QuestItem_Reset_Halloween
@@ -1197,6 +1214,7 @@ event QuestItem_Reset_Halloween
 
 	// Put the sleeve back
 	Animate SleeveImage xpos 15	Linear 0 0
+	SetInputEnabled FrontFolderContainer 1 0
 }
 
 //--------------------------------------------------------------------------

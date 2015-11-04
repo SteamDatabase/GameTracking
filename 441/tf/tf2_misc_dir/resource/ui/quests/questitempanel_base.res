@@ -286,6 +286,58 @@
 					}
 				}
 
+				"QuickplayButton"
+				{
+					"ControlName"	"EditablePanel"
+					"fieldname"		"QuickplayButton"
+					"xpos"			"30"
+					"ypos"			"35"
+					"zpos"			"101"
+					"wide"			"100"
+					"tall"			"15"
+					"visible"		"1"
+					"PaintBackgroundType"	"0"
+					"proportionaltoparent"	"1"
+
+					"SubButton"
+					{
+						"ControlName"	"CExImageButton"
+						"fieldName"		"SubButton"
+						"xpos"			"0"
+						"ypos"			"0"
+						"wide"			"f0"
+						"tall"			"f0"
+						"autoResize"	"0"
+						"pinCorner"		"3"
+						"visible"		"1"
+						"enabled"		"1"
+						"tabPosition"	"0"
+						"proportionaltoparent"	"1"
+						"labelText"		"#TF_Quest_PlayThisMap"
+						"use_proportional_insets" "1"
+						"font"			"QuestFlavorText"
+						"allcaps"	"1"
+						"textAlignment"	"center"
+						"dulltext"		"0"
+						"brighttext"	"0"
+						"default"		"1"
+						"actionsignallevel" "4"
+
+						"sound_depressed"	"UI/buttonclick.wav"
+						"sound_released"	"UI/buttonclickrelease.wav"
+
+						"auto_wide_tocontents"	"0"
+						"paintbackground"	"0"
+						"paintborder"		"1"
+						"RoundedCorners"	"0"
+						"border_default"			"ReplayDefaultBorder"
+						"defaultFgColor_override"	"TanLight"
+						"armedFgColor_override"		"Orange"
+
+						"command"	"quickplay"
+					}
+				}
+
 				"PaperClips"
 				{
 					"ControlName"	"ImagePanel"
@@ -833,10 +885,10 @@
 					"ControlName"	"CInputProxyPanel"
 					"fieldName"		"FrontInputProxyPanel"
 					"xpos"		"0"
-					"ypos"		"15"
+					"ypos"		"0"
 					"zpos"		"100"
 					"wide"		"f0"
-					"tall"		"80"
+					"tall"		"f0"
 					"visible"		"1"
 					"enabled"		"1"
 
