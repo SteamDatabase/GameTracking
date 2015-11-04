@@ -2004,6 +2004,7 @@
  B ICurrencyPackAutoList::m_ICurrencyPackAutoListAutoList
  B IDroppedWeaponAutoList::m_IDroppedWeaponAutoListAutoList
  B IExtraMapEntityAutoList::m_IExtraMapEntityAutoListAutoList
+ B IEyeballBossAutoList::m_IEyeballBossAutoListAutoList
  B IFlagDetectionZoneAutoList::m_IFlagDetectionZoneAutoListAutoList
  B IFuncForceFieldAutoList::m_IFuncForceFieldAutoListAutoList
  B IFuncNavPrerequisiteAutoList::m_IFuncNavPrerequisiteAutoListAutoList
@@ -2017,6 +2018,7 @@
  B IHalloweenGiftSpawnAutoList::m_IHalloweenGiftSpawnAutoListAutoList
  B IHealthKitAutoList::m_IHealthKitAutoListAutoList
  B IInfoPowerupSpawnAutoList::m_IInfoPowerupSpawnAutoListAutoList
+ B IMerasmusAutoList::m_IMerasmusAutoListAutoList
  B IMinigameAutoList::m_IMinigameAutoListAutoList
  B IMoveHelper::sm_pSingleton
  B IPasstimeBallControllerAutoList::m_IPasstimeBallControllerAutoListAutoList
@@ -3159,6 +3161,7 @@
  B tf_grenadelauncher_livetime
  B tf_grenadelauncher_min_contact_speed
  B tf_halloween_allow_ghost_hit_by_kart_delay
+ B tf_halloween_allow_truce_during_boss_event
  B tf_halloween_boss_spawn_interval
  B tf_halloween_boss_spawn_interval_variation
  B tf_halloween_bot_attack_range
@@ -11164,6 +11167,7 @@
  D typeinfo for IEntitySaveUtils
  D typeinfo for IEventRegisterCallback
  D typeinfo for IExtraMapEntityAutoList
+ D typeinfo for IEyeballBossAutoList
  D typeinfo for IFlagDetectionZoneAutoList
  D typeinfo for IForEachNavArea
  D typeinfo for IFuncForceFieldAutoList
@@ -11195,6 +11199,7 @@
  D typeinfo for ILagCompensationManager
  D typeinfo for ILocomotion
  D typeinfo for IMapEntityFilter
+ D typeinfo for IMerasmusAutoList
  D typeinfo for IMinigameAutoList
  D typeinfo for IModelLoadCallback
  D typeinfo for IMotionEvent
@@ -14023,6 +14028,7 @@
  D vtable for IDecalEmitterSystem
  D vtable for IDroppedWeaponAutoList
  D vtable for IExtraMapEntityAutoList
+ D vtable for IEyeballBossAutoList
  D vtable for IFlagDetectionZoneAutoList
  D vtable for IFuncForceFieldAutoList
  D vtable for IFuncNavPrerequisiteAutoList
@@ -14041,6 +14047,7 @@
  D vtable for IInfoPowerupSpawnAutoList
  D vtable for IIntention
  D vtable for ILocomotion
+ D vtable for IMerasmusAutoList
  D vtable for IMinigameAutoList
  D vtable for IModelLoadCallback
  D vtable for INextBot
@@ -16966,6 +16973,7 @@
  R typeinfo name for IEntitySaveUtils
  R typeinfo name for IEventRegisterCallback
  R typeinfo name for IExtraMapEntityAutoList
+ R typeinfo name for IEyeballBossAutoList
  R typeinfo name for IFlagDetectionZoneAutoList
  R typeinfo name for IForEachNavArea
  R typeinfo name for IFuncForceFieldAutoList
@@ -16997,6 +17005,7 @@
  R typeinfo name for ILagCompensationManager
  R typeinfo name for ILocomotion
  R typeinfo name for IMapEntityFilter
+ R typeinfo name for IMerasmusAutoList
  R typeinfo name for IMinigameAutoList
  R typeinfo name for IModelLoadCallback
  R typeinfo name for IMotionEvent
@@ -28773,6 +28782,7 @@
  T CModelSoundsCache::Rebuild(char const*)
  T CModelSoundsCache::Restore(CUtlBuffer&)
  T CModelSoundsCache::Save(CUtlBuffer&)
+ T CModelSoundsCache::~CModelSoundsCache()
  T CModelSoundsCacheSaver::LevelInitPostEntity()
  T CModelSoundsCacheSaver::LevelShutdownPostEntity()
  T CModelSoundsCacheSaver::~CModelSoundsCacheSaver()
@@ -36900,6 +36910,7 @@
  T CTFGameRules::IsPVEModeControlled(CBaseEntity*) const
  T CTFGameRules::IsQuickBuildTime()
  T CTFGameRules::IsSpawnPointValid(CBaseEntity*, CBasePlayer*, bool, PlayerTeamSpawnMode_t)
+ T CTFGameRules::IsTruceActive() const
  T CTFGameRules::IsUpgradeTierEnabled(CTFPlayer*, int, int)
  T CTFGameRules::IsUsingGrapplingHook() const
  T CTFGameRules::IsUsingSpells() const
@@ -36948,6 +36959,7 @@
  T CTFGameRules::RadiusDamage(CTFRadiusDamageInfo&)
  T CTFGameRules::RadiusDamage(CTakeDamageInfo const&, Vector const&, float, int, CBaseEntity*)
  T CTFGameRules::RecalculateControlPointState()
+ T CTFGameRules::RecalculateTruce()
  T CTFGameRules::RemoveAllBuildings(bool)
  T CTFGameRules::RemoveAllProjectiles()
  T CTFGameRules::RemoveAllProjectilesAndBuildings(bool)
@@ -37867,6 +37879,7 @@
  T CTFPlayer::CanMoveDuringTaunt()
  T CTFPlayer::CanPickupBuilding(CBaseObject*)
  T CTFPlayer::CanPickupDroppedWeapon(CTFDroppedWeapon const*)
+ T CTFPlayer::CanPlayerMove() const
  T CTFPlayer::CanScorePointForPD() const
  T CTFPlayer::CanSpeakVoiceCommand()
  T CTFPlayer::CancelEurekaTeleport()
@@ -41623,6 +41636,7 @@
  T CUtlMemory<IDroppedWeaponAutoList*, int>::Grow(int)
  T CUtlMemory<IEntityListener*, int>::Grow(int)
  T CUtlMemory<IExtraMapEntityAutoList*, int>::Grow(int)
+ T CUtlMemory<IEyeballBossAutoList*, int>::Grow(int)
  T CUtlMemory<IFlagDetectionZoneAutoList*, int>::Grow(int)
  T CUtlMemory<IFuncForceFieldAutoList*, int>::Grow(int)
  T CUtlMemory<IFuncNavPrerequisiteAutoList*, int>::Grow(int)
@@ -41639,6 +41653,7 @@
  T CUtlMemory<IHandleEntity*, int>::Grow(int)
  T CUtlMemory<IHealthKitAutoList*, int>::Grow(int)
  T CUtlMemory<IInfoPowerupSpawnAutoList*, int>::Grow(int)
+ T CUtlMemory<IMerasmusAutoList*, int>::Grow(int)
  T CUtlMemory<IMinigameAutoList*, int>::Grow(int)
  T CUtlMemory<INavAvoidanceObstacle*, int>::Grow(int)
  T CUtlMemory<INextBot*, int>::Grow(int)
@@ -43177,6 +43192,7 @@
  T CUtlVector<ICurrencyPackAutoList*, CUtlMemory<ICurrencyPackAutoList*, int> >::~CUtlVector()
  T CUtlVector<IDroppedWeaponAutoList*, CUtlMemory<IDroppedWeaponAutoList*, int> >::~CUtlVector()
  T CUtlVector<IExtraMapEntityAutoList*, CUtlMemory<IExtraMapEntityAutoList*, int> >::~CUtlVector()
+ T CUtlVector<IEyeballBossAutoList*, CUtlMemory<IEyeballBossAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFlagDetectionZoneAutoList*, CUtlMemory<IFlagDetectionZoneAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncForceFieldAutoList*, CUtlMemory<IFuncForceFieldAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncNavPrerequisiteAutoList*, CUtlMemory<IFuncNavPrerequisiteAutoList*, int> >::~CUtlVector()
@@ -43192,6 +43208,7 @@
  T CUtlVector<IHalloweenGiftSpawnAutoList*, CUtlMemory<IHalloweenGiftSpawnAutoList*, int> >::~CUtlVector()
  T CUtlVector<IHealthKitAutoList*, CUtlMemory<IHealthKitAutoList*, int> >::~CUtlVector()
  T CUtlVector<IInfoPowerupSpawnAutoList*, CUtlMemory<IInfoPowerupSpawnAutoList*, int> >::~CUtlVector()
+ T CUtlVector<IMerasmusAutoList*, CUtlMemory<IMerasmusAutoList*, int> >::~CUtlVector()
  T CUtlVector<IMinigameAutoList*, CUtlMemory<IMinigameAutoList*, int> >::~CUtlVector()
  T CUtlVector<IPasstimeBallControllerAutoList*, CUtlMemory<IPasstimeBallControllerAutoList*, int> >::~CUtlVector()
  T CUtlVector<IPasstimeBallSpawnAutoList*, CUtlMemory<IPasstimeBallSpawnAutoList*, int> >::~CUtlVector()
@@ -45618,6 +45635,7 @@
  T IEntityListener::OnEntityDeleted(CBaseEntity*)
  T IEntityListener::OnEntitySpawned(CBaseEntity*)
  T IExtraMapEntityAutoList::~IExtraMapEntityAutoList()
+ T IEyeballBossAutoList::~IEyeballBossAutoList()
  T IFlagDetectionZoneAutoList::~IFlagDetectionZoneAutoList()
  T IForEachNavArea::PostIteration(bool)
  T IFuncForceFieldAutoList::~IFuncForceFieldAutoList()
@@ -45734,6 +45752,7 @@
  T ILocomotion::Update()
  T ILocomotion::Walk()
  T ILocomotion::~ILocomotion()
+ T IMerasmusAutoList::~IMerasmusAutoList()
  T IMinigameAutoList::~IMinigameAutoList()
  T INextBot::BeginUpdate()
  T INextBot::ClearImmobileStatus()
@@ -53255,7 +53274,7 @@
  t __cxx_global_array_dtor102
  t __cxx_global_array_dtor105
  t __cxx_global_array_dtor106
- t __cxx_global_array_dtor1144
+ t __cxx_global_array_dtor1149
  t __cxx_global_array_dtor116
  t __cxx_global_array_dtor117
  t __cxx_global_array_dtor119
@@ -53311,8 +53330,8 @@
  t __cxx_global_array_dtor34
  t __cxx_global_array_dtor351
  t __cxx_global_array_dtor36
- t __cxx_global_array_dtor376
  t __cxx_global_array_dtor38
+ t __cxx_global_array_dtor380
  t __cxx_global_array_dtor39
  t __cxx_global_array_dtor397
  t __cxx_global_array_dtor40

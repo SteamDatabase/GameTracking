@@ -17351,6 +17351,7 @@ CModelSoundsCache::PrecacheSoundList()
 CModelSoundsCache::Rebuild(char const*)
 CModelSoundsCache::Restore(CUtlBuffer&)
 CModelSoundsCache::Save(CUtlBuffer&)
+CModelSoundsCache::~CModelSoundsCache()
 CModelSoundsCacheSaver
 CModelSoundsCacheSaver::LevelInitPostEntity()
 CModelSoundsCacheSaver::LevelShutdownPostEntity()
@@ -27122,6 +27123,7 @@ CTFGameRules::IsPVEModeActive() const
 CTFGameRules::IsPVEModeControlled(CBaseEntity*) const
 CTFGameRules::IsQuickBuildTime()
 CTFGameRules::IsSpawnPointValid(CBaseEntity*, CBasePlayer*, bool, PlayerTeamSpawnMode_t)
+CTFGameRules::IsTruceActive() const
 CTFGameRules::IsUpgradeTierEnabled(CTFPlayer*, int, int)
 CTFGameRules::IsUsingGrapplingHook() const
 CTFGameRules::IsUsingSpells() const
@@ -27173,6 +27175,7 @@ CTFGameRules::PushAllPlayersAway(Vector const&, float, float, int, CUtlVector<CT
 CTFGameRules::RadiusDamage(CTFRadiusDamageInfo&)
 CTFGameRules::RadiusDamage(CTakeDamageInfo const&, Vector const&, float, int, CBaseEntity*)
 CTFGameRules::RecalculateControlPointState()
+CTFGameRules::RecalculateTruce()
 CTFGameRules::RemoveAllBuildings(bool)
 CTFGameRules::RemoveAllProjectiles()
 CTFGameRules::RemoveAllProjectilesAndBuildings(bool)
@@ -28222,6 +28225,7 @@ CTFPlayer::CanHearAndReadChatFrom(CBasePlayer*)
 CTFPlayer::CanMoveDuringTaunt()
 CTFPlayer::CanPickupBuilding(CBaseObject*)
 CTFPlayer::CanPickupDroppedWeapon(CTFDroppedWeapon const*)
+CTFPlayer::CanPlayerMove() const
 CTFPlayer::CanScorePointForPD() const
 CTFPlayer::CanSpeakVoiceCommand()
 CTFPlayer::CancelEurekaTeleport()
@@ -32568,6 +32572,7 @@ CUtlMemory<ICurrencyPackAutoList*, int>::Grow(int)
 CUtlMemory<IDroppedWeaponAutoList*, int>::Grow(int)
 CUtlMemory<IEntityListener*, int>::Grow(int)
 CUtlMemory<IExtraMapEntityAutoList*, int>::Grow(int)
+CUtlMemory<IEyeballBossAutoList*, int>::Grow(int)
 CUtlMemory<IFlagDetectionZoneAutoList*, int>::Grow(int)
 CUtlMemory<IFuncForceFieldAutoList*, int>::Grow(int)
 CUtlMemory<IFuncNavPrerequisiteAutoList*, int>::Grow(int)
@@ -32584,6 +32589,7 @@ CUtlMemory<IHalloweenGiftSpawnAutoList*, int>::Grow(int)
 CUtlMemory<IHandleEntity*, int>::Grow(int)
 CUtlMemory<IHealthKitAutoList*, int>::Grow(int)
 CUtlMemory<IInfoPowerupSpawnAutoList*, int>::Grow(int)
+CUtlMemory<IMerasmusAutoList*, int>::Grow(int)
 CUtlMemory<IMinigameAutoList*, int>::Grow(int)
 CUtlMemory<INavAvoidanceObstacle*, int>::Grow(int)
 CUtlMemory<INextBot*, int>::Grow(int)
@@ -34235,6 +34241,7 @@ CUtlVector<ICaptureZoneAutoList*, CUtlMemory<ICaptureZoneAutoList*, int> >::~CUt
 CUtlVector<ICurrencyPackAutoList*, CUtlMemory<ICurrencyPackAutoList*, int> >::~CUtlVector()
 CUtlVector<IDroppedWeaponAutoList*, CUtlMemory<IDroppedWeaponAutoList*, int> >::~CUtlVector()
 CUtlVector<IExtraMapEntityAutoList*, CUtlMemory<IExtraMapEntityAutoList*, int> >::~CUtlVector()
+CUtlVector<IEyeballBossAutoList*, CUtlMemory<IEyeballBossAutoList*, int> >::~CUtlVector()
 CUtlVector<IFlagDetectionZoneAutoList*, CUtlMemory<IFlagDetectionZoneAutoList*, int> >::~CUtlVector()
 CUtlVector<IFuncForceFieldAutoList*, CUtlMemory<IFuncForceFieldAutoList*, int> >::~CUtlVector()
 CUtlVector<IFuncNavPrerequisiteAutoList*, CUtlMemory<IFuncNavPrerequisiteAutoList*, int> >::~CUtlVector()
@@ -34250,6 +34257,7 @@ CUtlVector<IGameSystemPerFrame*, CUtlMemory<IGameSystemPerFrame*, int> >::~CUtlV
 CUtlVector<IHalloweenGiftSpawnAutoList*, CUtlMemory<IHalloweenGiftSpawnAutoList*, int> >::~CUtlVector()
 CUtlVector<IHealthKitAutoList*, CUtlMemory<IHealthKitAutoList*, int> >::~CUtlVector()
 CUtlVector<IInfoPowerupSpawnAutoList*, CUtlMemory<IInfoPowerupSpawnAutoList*, int> >::~CUtlVector()
+CUtlVector<IMerasmusAutoList*, CUtlMemory<IMerasmusAutoList*, int> >::~CUtlVector()
 CUtlVector<IMinigameAutoList*, CUtlMemory<IMinigameAutoList*, int> >::~CUtlVector()
 CUtlVector<IPasstimeBallControllerAutoList*, CUtlMemory<IPasstimeBallControllerAutoList*, int> >::~CUtlVector()
 CUtlVector<IPasstimeBallSpawnAutoList*, CUtlMemory<IPasstimeBallSpawnAutoList*, int> >::~CUtlVector()
@@ -38963,6 +38971,9 @@ IEventRegisterCallback
 IExtraMapEntityAutoList
 IExtraMapEntityAutoList::m_IExtraMapEntityAutoListAutoList
 IExtraMapEntityAutoList::~IExtraMapEntityAutoList()
+IEyeballBossAutoList
+IEyeballBossAutoList::m_IEyeballBossAutoListAutoList
+IEyeballBossAutoList::~IEyeballBossAutoList()
 IFlagDetectionZoneAutoList
 IFlagDetectionZoneAutoList::m_IFlagDetectionZoneAutoListAutoList
 IFlagDetectionZoneAutoList::~IFlagDetectionZoneAutoList()
@@ -39124,6 +39135,9 @@ ILocomotion::Walk()
 ILocomotion::~ILocomotion()
 IMPORTANT
 IMapEntityFilter
+IMerasmusAutoList
+IMerasmusAutoList::m_IMerasmusAutoListAutoList
+IMerasmusAutoList::~IMerasmusAutoList()
 IMinigameAutoList::m_IMinigameAutoListAutoList
 IMinigameAutoList::~IMinigameAutoList()
 IModelLoadCallback
@@ -45323,7 +45337,7 @@ ___cxx_global_array_dtor
 ___cxx_global_array_dtor102
 ___cxx_global_array_dtor105
 ___cxx_global_array_dtor106
-___cxx_global_array_dtor1144
+___cxx_global_array_dtor1149
 ___cxx_global_array_dtor116
 ___cxx_global_array_dtor117
 ___cxx_global_array_dtor119
@@ -45379,8 +45393,8 @@ ___cxx_global_array_dtor33
 ___cxx_global_array_dtor34
 ___cxx_global_array_dtor351
 ___cxx_global_array_dtor36
-___cxx_global_array_dtor376
 ___cxx_global_array_dtor38
+___cxx_global_array_dtor380
 ___cxx_global_array_dtor39
 ___cxx_global_array_dtor397
 ___cxx_global_array_dtor40
@@ -46906,6 +46920,7 @@ _tf_grenadelauncher_chargescale
 _tf_grenadelauncher_livetime
 _tf_grenadelauncher_min_contact_speed
 _tf_halloween_allow_ghost_hit_by_kart_delay
+_tf_halloween_allow_truce_during_boss_event
 _tf_halloween_boss_spawn_interval
 _tf_halloween_boss_spawn_interval_variation
 _tf_halloween_bot_attack_range
@@ -56638,6 +56653,7 @@ m_bTouched
 m_bTrackAlarm
 m_bTrainCanRecede
 m_bTriggerDisabled
+m_bTruceActive
 m_bUnableToFire
 m_bUnderCrosshair
 m_bUnlockedSentence
@@ -61889,6 +61905,7 @@ queue.h
 queue_position
 queue_size
 quickplay_game_type
+quickplay_map
 quickplay_type
 quitting_results_in_penalty
 rDffff.
@@ -61958,6 +61975,7 @@ readystate
 readyup_remaining_time
 reason
 recalculate_holidays
+recalculate_truce
 recall
 receiver
 receiver_account_name
@@ -63700,6 +63718,7 @@ tf_grenadelauncher_min_contact_speed
 tf_gunshotsplash
 tf_gunshotsplash_minigun
 tf_halloween_allow_ghost_hit_by_kart_delay
+tf_halloween_allow_truce_during_boss_event
 tf_halloween_boss_spawn_interval
 tf_halloween_boss_spawn_interval_variation
 tf_halloween_bot_attack_range
@@ -67197,6 +67216,7 @@ typeinfo for IEntityListener
 typeinfo for IEntitySaveUtils
 typeinfo for IEventRegisterCallback
 typeinfo for IExtraMapEntityAutoList
+typeinfo for IEyeballBossAutoList
 typeinfo for IFlagDetectionZoneAutoList
 typeinfo for IForEachNavArea
 typeinfo for IFuncForceFieldAutoList
@@ -67228,6 +67248,7 @@ typeinfo for IKeyValuesDumpContextAsText
 typeinfo for ILagCompensationManager
 typeinfo for ILocomotion
 typeinfo for IMapEntityFilter
+typeinfo for IMerasmusAutoList
 typeinfo for IMinigameAutoList
 typeinfo for IModelLoadCallback
 typeinfo for IMotionEvent
@@ -70097,6 +70118,7 @@ typeinfo name for IEntityListener
 typeinfo name for IEntitySaveUtils
 typeinfo name for IEventRegisterCallback
 typeinfo name for IExtraMapEntityAutoList
+typeinfo name for IEyeballBossAutoList
 typeinfo name for IFlagDetectionZoneAutoList
 typeinfo name for IForEachNavArea
 typeinfo name for IFuncForceFieldAutoList
@@ -70128,6 +70150,7 @@ typeinfo name for IKeyValuesDumpContextAsText
 typeinfo name for ILagCompensationManager
 typeinfo name for ILocomotion
 typeinfo name for IMapEntityFilter
+typeinfo name for IMerasmusAutoList
 typeinfo name for IMinigameAutoList
 typeinfo name for IModelLoadCallback
 typeinfo name for IMotionEvent
@@ -73159,6 +73182,7 @@ vtable for ICurrencyPackAutoList
 vtable for IDecalEmitterSystem
 vtable for IDroppedWeaponAutoList
 vtable for IExtraMapEntityAutoList
+vtable for IEyeballBossAutoList
 vtable for IFlagDetectionZoneAutoList
 vtable for IFuncForceFieldAutoList
 vtable for IFuncNavPrerequisiteAutoList
@@ -73177,6 +73201,7 @@ vtable for IHealthKitAutoList
 vtable for IInfoPowerupSpawnAutoList
 vtable for IIntention
 vtable for ILocomotion
+vtable for IMerasmusAutoList
 vtable for IMinigameAutoList
 vtable for IModelLoadCallback
 vtable for INextBot
