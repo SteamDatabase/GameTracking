@@ -31,37 +31,37 @@ ProcessDepot ()
 {
 	while IFS= read -r -d '' file
 	do
-		baseFile=$(basename "$file" "$3")
+		baseFile=$(basename "$file" "$2")
 		
 		echo "> $baseFile"
 		
-		mono .support/ProtobufDumper.exe "$file" "Protobufs/$2/" > /dev/null
+		mono .support/ProtobufDumper.exe "$file" "Protobufs/$1/" > /dev/null
 		
-		mkdir -p "BuildbotPaths/$2"
+		mkdir -p "BuildbotPaths/$1"
 		
-		strings "$file" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/$2/$baseFile.txt"
+		strings "$file" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/$1/$baseFile.txt"
 		
 		nmBinary=nm
 		
-		if [ "$3" = ".dylib" ]
+		if [ "$2" = ".dylib" ]
 		then
 			nmBinary=./.support/nm-with-macho
 		fi
 		
-		if [ "$3" = ".dylib" ] || [ "$3" = ".so" ]
+		if [ "$2" = ".dylib" ] || [ "$2" = ".so" ]
 		then
-			mkdir -p "Symbols/$2"
+			mkdir -p "Symbols/$1"
 			
-			$nmBinary -C -p "$file" | grep -Evi "GCC_except_table|google::protobuf" | awk '{$1=""; print $0}' | sort -u > "Symbols/$2/$baseFile.txt"
+			$nmBinary -C -p "$file" | grep -Evi "GCC_except_table|google::protobuf" | awk '{$1=""; print $0}' | sort -u > "Symbols/$1/$baseFile.txt"
 		fi
 		
-		#if [ "$3" != ".dylib" ] || [ "$2" = "csgo" ]
+		#if [ "$2" != ".dylib" ] || [ "$1" = "csgo" ]
 		#then
-			mkdir -p "Strings/$2"
+			mkdir -p "Strings/$1"
 			
-			strings "$file" -n 5 | grep "^[a-zA-Z0-9\.\_\-]*$" | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -t_ | sort -u > "Strings/$2/$baseFile.txt"
+			strings "$file" -n 5 | grep "^[a-zA-Z0-9\.\_\-]*$" | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -t_ | sort -u > "Strings/$1/$baseFile.txt"
 		#fi
-	done <   <(find "$1/" -type f -name "*$3" -print0)
+	done <   <(find "$1/" -type f -name "*$2" -print0)
 }
 
 ProcessVPK ()
@@ -76,39 +76,41 @@ ProcessVPK ()
 	done <   <(find "$1/" -type f -name "*_dir.vpk" -print0)
 }
 
+echo "Processing depot $1..."
+
 # Do stuff based on the depotid
 case $1 in
 
 # Team Fortress 2
 441)
-	ProcessVPK "$1"
-	mono ./.support/SourceDecompiler/Decompiler.exe -i "$1/tf/tf2_misc_dir.vpk" -o "$1/tf/tf2_misc_dir/"
+	ProcessVPK "tf"
+	mono ./.support/SourceDecompiler/Decompiler.exe -i "tf/tf/tf2_misc_dir.vpk" -o "tf/tf/tf2_misc_dir/"
 	
-	iconv -t UTF-8 -f UCS-2 -o "$1/tf/resource/tf_english_utf8.txt" "$1/tf/resource/tf_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "tf/tf/resource/tf_english_utf8.txt" "tf/tf/resource/tf_english.txt"
 	;;
 
 232252)
-	ProcessDepot "$1" "tf" ".dylib"
+	ProcessDepot "tf" ".dylib"
 	;;
 
 # Counter-Strike: Global Offensive
 731)
-	ProcessVPK "$1"
+	ProcessVPK "csgo"
 	
-	iconv -t UTF-8 -f UCS-2 -o "$1/csgo/resource/csgo_english_utf8.txt" "$1/csgo/resource/csgo_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "csgo/csgo/resource/csgo_english_utf8.txt" "csgo/csgo/resource/csgo_english.txt"
 	;;
 
 733)
-	ProcessDepot "$1" "csgo" ".dylib"
+	ProcessDepot "csgo" ".dylib"
 	;;
 
 740)
-	ProcessDepot "$1" "csgo" ".so"
+	ProcessDepot "csgo" ".so"
 	;;
 
 # Dota 2
 373301)
-	ProcessVPK "$1"
+	ProcessVPK "dota"
 	
 	while IFS= read -r -d '' file
 	do
@@ -117,100 +119,95 @@ case $1 in
 		echo "> VPK $baseFile"
 		
 		./.support/vpktool "$file" > "$baseFile"
-	done <   <(find "$1/game/dota/maps/" -type f -name "*.vpk" -print0)
+	done <   <(find "dota/game/dota/maps/" -type f -name "*.vpk" -print0)
 	;;
 
 373304)
-	ProcessDepot "$1" "dota" ".dylib"
+	ProcessDepot "dota" ".dylib"
 	;;
 
 # Half-Life 2
 221)
-	ProcessVPK "$1"
+	ProcessVPK "hl2"
 	
-	iconv -t UTF-8 -f UCS-2 -o "$1/hl2/resource/hl2_english_utf8.txt" "$1/hl2/resource/hl2_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "hl2/hl2/resource/hl2_english_utf8.txt" "hl2/hl2/resource/hl2_english.txt"
 	;;
 
 223)
-	ProcessDepot "$1" "hl2" ".dylib"
+	ProcessDepot "hl2" ".dylib"
 	;;
 
 # Half-Life 2: Episode One
 389)
-	ProcessVPK "$1"
+	ProcessVPK "hl2ep1"
 	;;
 
 # Half-Life 2: Episode Two
 420)
-	ProcessVPK "$1"
+	ProcessVPK "hl2ep2"
 	;;
 
 # Half-Life 2: Death Match
 321)
-	ProcessVPK "$1"
+	ProcessVPK "hl2dm"
 	;;
 
 232372)
-	ProcessDepot "$1" "hl2dm" ".dylib"
+	ProcessDepot "hl2dm" ".dylib"
 	;;
 
 # Portal
 401)
-	ProcessVPK "$1"
+	ProcessVPK "portal"
 	
-	iconv -t UTF-8 -f UCS-2 -o "$1/portal/resource/portal_english_utf8.txt" "$1/portal/resource/portal_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "portal/portal/resource/portal_english_utf8.txt" "portal/portal/resource/portal_english.txt"
 	;;
 
 403)
-	ProcessDepot "$1" "portal" ".dylib"
+	ProcessDepot "portal" ".dylib"
 	;;
 
 # Portal 2
 621)
-	ProcessVPK "$1"
+	ProcessVPK "portal2"
 	
-	iconv -t UTF-8 -f UCS-2 -o "$1/portal2/resource/portal2_english_utf8.txt" "$1/portal2/resource/portal2_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "portal2/portal2/resource/portal2_english_utf8.txt" "portal2/portal2/resource/portal2_english.txt"
 	;;
 
 624)
-	ProcessDepot "$1" "portal2" ".dylib"
+	ProcessDepot "portal2" ".dylib"
 	;;
 
 # Left 4 Dead
 502)
-	ProcessVPK "$1"
+	ProcessVPK "l4d"
 	;;
 
 515)
-	ProcessDepot "$1" "l4d" ".dylib"
+	ProcessDepot "l4d" ".dylib"
 	;;
 
 # Left 4 Dead 2
 551)
-	ProcessVPK "$1"
+	ProcessVPK "l4d2"
 	;;
 
 553)
-	ProcessDepot "$1" "l4d2" ".dylib"
+	ProcessDepot "l4d2" ".dylib"
 	;;
 
 # Alien Swarm
 631)
-	ProcessVPK "$1"
+	ProcessVPK "alienswarm"
 	
-	iconv -t UTF-8 -f UCS-2 -o "$1/swarm/resource/swarm_english_utf8.txt" "$1/swarm/resource/swarm_english.txt"
+	iconv -t UTF-8 -f UCS-2 -o "alienswarm/swarm/resource/swarm_english_utf8.txt" "alienswarm/swarm/resource/swarm_english.txt"
 	
-	ProcessDepot "$1" "as" ".dll"
-	;;
-
-# SFM
-1841)
-	ProcessDepot "$1" "sfm" ".dll"
+	ProcessDepot "alienswarm" ".dll"
 	;;
 
 # OpenVR
 250822)
-	ProcessDepot "$1" "openvr" ".dylib"
+	ProcessDepot "steamvr" ".dylib"
 	;;
 
 esac
