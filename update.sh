@@ -111,6 +111,7 @@ case $1 in
 # Dota 2
 373301)
 	ProcessVPK "dota"
+	mono ./.support/SourceDecompiler/Decompiler.exe -i "dota/game/dota/pak01_dir.vpk" -o "dota/game/dota/pak01_dir/"
 	
 	while IFS= read -r -d '' file
 	do

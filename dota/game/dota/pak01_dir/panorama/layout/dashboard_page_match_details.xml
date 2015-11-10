@@ -1,0 +1,157 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="s2r://panorama/styles/dashboard_page_shared.vcss_c" />
+		<include src="s2r://panorama/styles/dashboard_page_match_details.vcss_c" />
+	</styles>
+
+	<script>
+		var FadeInLoading = function ()
+		{
+			$( '#ContainerLoading' ).RemoveClass( "FadeIn" );
+			$( '#ContainerLoading' ).AddClass( "FadeIn" );
+		};
+	</script>
+	
+	<DOTAMatchDetails onpagesetupsuccess="FadeInLoading();">
+		<Panel id="ContainerLoading">
+			<Panel class="Spinner Shadow" />
+			<Panel class="Spinner" />
+			<Label text="#dota_page_match_details_loading" />
+		</Panel>
+
+		<Panel id="ContainerLoaded">
+
+			<Panel id="ContainerDetails">
+				<Panel id="DetailsHeaderTop">
+					<Label id="DetailsHeaderLabelLeftNormalMatch" text="#dota_page_match_details_victory" />
+					<Label id="DetailsHeaderLabelLeftCustomGameMatch" text="{g:dota_custom_game_link:custom_game_id}" html="true" />
+					<Panel id="DetailsHeader">
+						<Panel id="LeaguePanel">
+							<Label class="DetailsHeaderLabel" text="#dota_page_match_details_header_league_name" />
+							<Button id="LeagueName">
+								<Label text="{s:league_name}" />
+							</Button>
+						</Panel>
+						<Panel id="DetailsHeaderCustomGameMapName">
+							<Label class="DetailsHeaderLabel" text="#dota_page_match_details_header_custom_game_map_name" />
+							<Label text="{s:custom_game_map_name}" />
+						</Panel>
+						<Panel>
+							<Label class="DetailsHeaderLabel" text="#dota_page_match_details_header_match_id" />
+							<Label text="{s:match_id}" allowtextselection="true" acceptsfocus="true" />
+						</Panel>
+						<Panel id="DetailsHeaderGameMode">
+							<Label class="DetailsHeaderLabel" text="#dota_page_match_details_header_game_mode" />
+							<Label text="{s:game_mode}" />
+						</Panel>
+						<Panel>
+							<Label class="DetailsHeaderLabel" text="#dota_page_match_details_header_duration" />
+							<Label text="{T:d:duration}" />
+						</Panel>
+						<Panel>
+							<Label class="DetailsHeaderLabel" text="#dota_page_match_details_header_timestamp" />
+							<Label text="{T:s:timestamp} {T:t:timestamp}" />
+						</Panel>
+					</Panel>
+				</Panel>
+
+				<Panel id="NormalMatchPlayers">
+					<Panel class="TeamIdentificationRow">
+						<Panel id="RadiantTeamLogoDefault" class="LobbyTeamIconDefault" />
+						<DOTAUGCImage id="RadiantTeamLogo" class="LobbyTeamIcon" />
+						<Label id="RadiantTeamName" text="{s:radiant_name}" />
+					</Panel>
+
+					<!-- Loaded via popup_match_details_row_legend.xml -->
+					<Panel class="PlayerRowLegend" id="RadiantPlayerRowLegend" />
+
+					<!-- Full of popup_match_details_row.xml blocks -->
+					<Panel class="PlayerRows" id="RadiantPlayerRows" />
+
+					<Panel class="TeamIdentificationRow">
+						<Panel id="DireTeamLogoDefault" class="LobbyTeamIconDefault" />
+						<DOTAUGCImage id="DireTeamLogo" class="LobbyTeamIcon" />
+						<Label id="DireTeamName" text="{s:dire_name}" />
+					</Panel>
+
+					<!-- Loaded via popup_match_details_row_legend.xml -->
+					<Panel class="PlayerRowLegend" id="DirePlayerRowLegend" />
+
+					<!-- Full of popup_match_details_row.xml blocks -->
+					<Panel class="PlayerRows" id="DirePlayerRows" />
+				</Panel>
+
+				<Panel id="CustomGameMatchPlayers" />
+
+				<Panel class="ReplayExistence" id="ReplayExistenceUnknown">
+					<Label text="#dota_page_match_details_replay_existence_unknown" />
+				</Panel>
+				<Panel class="ReplayExistence" id="ReplayExistenceCDNFound">
+					<Button id="DownloadReplayButton" class="BlueButton" onactivate="DOTADownloadReplay()">
+						<Label text="#dota_page_match_details_replay_existence_cdn_found" />
+					</Button>
+				</Panel>
+				<Panel class="ReplayExistence" id="ReplayExistenceCDNNotFound">
+					<Label text="#dota_page_match_details_replay_existence_not_found" />
+				</Panel>
+				<Panel class="ReplayExistence" id="ReplayExistenceDownloading">
+					<Label text="#dota_page_match_details_replay_existence_downloading" />
+					<ProgressBar id="DownloadProgressBar" class="MatchDetailsProgress"/>
+				</Panel>
+				<Panel class="ReplayExistence" id="ReplayExistenceDecompressing">
+					<Label text="#dota_page_match_details_replay_existence_decompressing" />
+					<ProgressBar id="DecompressProgressBar" class="MatchDetailsProgress"/>
+				</Panel>
+				<Panel class="ReplayExistence" id="ReplayExistenceError">
+					<Label text="{s:replay_existence_error}" />
+				</Panel>
+				<Panel class="ReplayExistence" id="ReplayExistenceDiskFound">
+					<Button id="WatchReplayButton" class="BlueButton" onactivate="DOTAWatchReplay( false )">
+						<Label text="#dota_page_match_details_replay_existence_disk_found_replay" />
+					</Button>
+					<Button id="WatchReplayHighlightsButton" class="BlueButton" onactivate="DOTAWatchReplay( true )">
+						<Label text="#dota_page_match_details_replay_existence_disk_found_highlights" />
+					</Button>
+				</Panel>
+				<Panel class="ReplayExistence" id="ReplayExistenceWrongEngine">
+					<Label text="#dota_page_match_details_replay_existence_wrong_engine" />
+				</Panel>
+			</Panel>
+
+			<Panel id="ContainerComments">
+				<Label id="CommentsHeader" text="#dota_page_match_details_match_discussion" />
+				<Panel id="VotingContainer">
+					<Panel id="VotingBlock">
+						<Panel id="VotingBarContainer">
+							<Panel id="VotingBarPositive" />
+							<Panel id="VotingBarNegative" />
+						</Panel>
+						<Label id="VotingText" text="#dota_page_match_details_voting_votes" />
+					</Panel>
+					<Panel class="VotingButtonsContainer" id="VotingButtonsLocalNone">
+						<Image class="VotingButtonPositive" onactivate="DOTAMatchCastVote( true )" />
+						<Image class="VotingButtonNegative" onactivate="DOTAMatchCastVote( false )" />
+					</Panel>
+					<Panel class="VotingButtonsContainer" id="VotingButtonsLocalVoted">
+						<Image class="VotingButtonPositive" />
+						<Image class="VotingButtonNegative" />
+					</Panel>
+				</Panel>
+				<Panel id="CommentTextEntryContainer">
+					<DOTAAvatarImage id="CommentTextEntryAvatarImage" steamid="local" />
+					<TextEntry id="CommentTextEntry" oninputsubmit="DOTAPostSocialMatchComment()">
+						<Label id="PlaceholderText" hittest="false" text="#dota_page_match_details_comment_placeholder" />
+					</TextEntry>
+				</Panel>
+
+				<!-- Full of popup_match_details_comment.xml blocks -->
+				<Label id="CommentsStatusLoading" text="#dota_page_match_details_comment_loading_comments" />
+				<Label id="CommentsStatusNone" text="#dota_page_match_details_comment_no_comments" />
+				<Panel id="Comments" />
+			</Panel>
+
+		</Panel>
+
+	</DOTAMatchDetails>
+</root>

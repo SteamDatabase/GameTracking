@@ -1,0 +1,1754 @@
+
+/* Defines referenced from code */
+@define fullPreviewTransitionDuration: 1s;
+@define openTreasureRotationSpeed: 40.0;
+@define openTreasureRotationAcceleration: 5.0;
+@define openTreasureSpinUpDuration: 2.0s;
+@define openTreasureEliminationDelay: 1.0s;
+
+
+/* Treasure rarity colors */
+@define rareTextColor: #9ede4c;
+@define rareGlowColor: #afde4b;
+@define rareHueRotation: 240deg;
+@define rareSaturation: 1.0;
+
+@define veryRareTextColor: #fd9d55;
+@define veryRareGlowColor: #fdc194;
+@define veryRareHueRotation: 150deg;
+@define veryRareSaturation: 1.0;
+
+@define extremelyRareTextColor: #fddb87;
+@define extremelyRareGlowColor: #fdca4a;
+@define extremelyRareHueRotation: 170deg;
+@define extremelyRareSaturation: 1.0;
+
+/* Override colors */
+@define bronzeTextColor: #cd8f68;
+@define bronzeGlowColor: #cd8f68;
+@define bronzeHueRotation: 155deg;
+@define bronzeSaturation: 1.0;
+
+@define silverTextColor: #ededed;
+@define silverGlowColor: #ededed;
+@define silverHueRotation: 0deg;
+@define silverSaturation: 0;
+
+@define goldTextColor: #ebcb6c;
+@define goldGlowColor: #ebd79c;
+@define goldHueRotation: 185deg;
+@define goldSaturation: 1.0;
+
+DOTATreasureDetailsPage
+{
+	width: 100%;
+	height: 100%;
+	padding-top: 130px;
+	background-color: #00000077;
+}
+
+/* Details Panel */
+@define detailsPadding: 14px;
+#TreasureDetails
+{
+	flow-children: down;
+	margin-right: 160px;
+	margin-top: 20px;
+	horizontal-align: right;
+	visibility: collapse;
+}
+
+.OpeningNone #TreasureDetails
+{
+	visibility: visible;
+}
+
+.AspectRatio4x3 #TreasureDetails, .AspectRatio5x4 #TreasureDetails
+{
+	margin-right: 14px;
+}
+
+#TreasureDetailsContents
+{
+	flow-children: down;
+	background-color: #000000aa;
+	padding: 14px 14px 0px 14px;
+	width: 440px;
+}
+
+.TreasureDetailsRow
+{
+	flow-children: right;
+	margin-bottom: detailsPadding;
+	tooltip-position: left;
+}
+
+#TreasureImage
+{
+	width: 86px;
+	height: width-percentage( 65% );
+	tooltip-position: left;
+}
+
+#TreasureIdentity
+{
+	flow-children: down;
+}
+
+#TreasureName
+{
+	//margin-left: detailsPadding;
+	margin-right: 5px;
+    font-size: 28px;
+	line-height: 28px;
+	margin-top: -6px;
+	font-weight: bold;
+    color: white;
+	text-transform: uppercase;
+	width: 325px;
+}
+
+.TreasureSeasonBar
+{
+	width: 100%;
+	visibility: collapse;
+}
+
+.ShowSeason .TreasureSeasonBar
+{
+	visibility: visible;
+}
+
+#TreasureDetails #TreasureSeasonLabel
+{
+	background-color: none;
+	margin-left: 6px;
+}
+
+
+.ColoredButton
+{
+	border-top: 1px solid #ffffff11;
+	border-left: 1px solid #ffffff06;
+	border-right: 1px solid #00000044;
+	border-bottom: 1px solid #00000088;
+	height: 44px;
+}
+
+.ColoredButton.Hover:enabled, .ColoredButton:hover:enabled
+{
+	brightness: 1.5;
+}
+.ColoredButton:active
+{
+	brightness: 2.0;
+}
+
+.PurchaseButton
+{
+	width: fill-parent-flow( 1.0 );
+}
+
+#PurchaseButtonContents
+{
+	horizontal-align: center;
+	flow-children: right;
+}
+
+.PurchaseButton Label
+{
+	vertical-align: middle;
+	horizontal-align: center;
+	text-align: center;
+	padding-top: 2px;
+	color: #ffffff;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	padding: 10px 6px 8px 10px;
+}
+
+#TreasurePriceLabel 
+{
+	color: white;
+	font-size: 22px;
+	font-weight: bold;
+	margin-top: -3px;
+	//vertical-align: center;
+}
+
+.PriceButton
+{
+	vertical-align: middle;
+	width: 82px;
+	margin-left: 0px;
+}
+
+.PriceButton Label
+{
+	horizontal-align: center;
+	text-align: center;
+	vertical-align: middle;
+	color: white;
+	padding: 10px 2px 8px 2px;
+}
+
+#TreasurePurchaseButton, #EventPurchaseButton
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #60842c ), to( #40601d ));
+	//background-color: gradient( linear, 0% 0%, 0% 100%, from( #47662b ), to( #2e4a17 ));
+	border-right: 1px solid #00000085;
+}
+
+#TreasurePriceButton, #EventPriceButton
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #60842c ), to( #40601d ));
+}
+
+#TreasurePriceContents
+{
+	horizontal-align: center;
+	flow-children: right;
+
+}
+
+#TreasureCurrencyIcon
+{
+	vertical-align: middle;
+	width: 20px;
+	height: 20px;
+	margin-bottom: -3px;
+
+	background-image: url("s2r://panorama/images/compendium/coin_icon_png.vtex");
+	background-size: contain;
+	background-repeat: no-repeat;
+
+	visibility: collapse;
+}
+
+.PurchaseWithEventPoints #TreasureCurrencyIcon
+{
+	visibility: visible;
+}
+
+#TreasureQuantityDropDown
+{
+	width: 82px;
+	height: 44px;
+	margin-left: 0px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #47662b ), to( #2e4a17 ));
+	box-shadow: none;
+	padding: 0px 10px;
+	background-position: right 23px 44%;
+	background-size: 17px 17px;
+	
+	
+}
+
+#TreasureQuantityDropDown Label
+{
+	vertical-align: middle;
+	font-size: 18px;
+	margin: 0px 0px 0px 0px;
+	color: #ffffff;
+}
+
+#TreasureQuantityDropDownDropDownMenu
+{
+	width: 80px;
+}
+
+#TreasurePurchaseRow
+{
+	visibility: collapse;
+}
+.PurchaseAvailable #TreasurePurchaseRow
+{
+	visibility: visible;
+}
+
+DropDown , 
+{
+	wash-color: #46652a77;
+}
+
+
+#EventPriceIcon
+{
+	width: 100%;
+	height: 100%;
+	margin: 3px;
+	
+
+	vertical-align: middle;
+	horizontal-align: center;
+
+	background-image: url("s2r://panorama/images/status_icons/compendium_psd.vtex");
+	background-repeat: no-repeat;
+	background-size: 40% 80%;
+	background-position: center;
+}
+
+#EventPurchaseRow
+{
+	visibility: collapse;
+}
+.EventPurchaseAvailable #EventPurchaseRow
+{
+	visibility: visible;
+}
+
+#CharmPurchaseButton
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #60842c ), to( #40601d ));
+	//background-color: gradient( linear, 0% 0%, 0% 100%, from( #1a3114 ), to( #11240e ));
+}
+#CharmPriceButton
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #24421c ), to( #18340e ));
+}
+#CharmPurchaseRow
+{
+	visibility: collapse;
+}
+.CharmAvailable #CharmPurchaseRow
+{
+	visibility: visible;
+}
+
+#CharmButtonContents
+{
+	horizontal-align: center;
+	flow-children: right;
+}
+
+#CharmButtonPrice
+{
+	color: white;
+	font-size: 22px;
+	font-weight: bold;
+	margin-top: -3px;
+}
+
+#CharmsOwned
+{
+	height: 100%;
+	width: 82px;
+	border-top: 1px solid #ffffff11;
+	//border-left: 1px solid #aaaaaa44;
+	border-right: 1px solid #00000044;
+	border-bottom: 1px solid #00000088;
+}
+#CharmsOwnedCount
+{
+	color: white;
+	font-size: 20px;
+	vertical-align: bottom;
+	horizontal-align: right;
+	margin-right: 6px;
+	text-shadow: 2px 2px 2px black;
+	visibility: collapse;
+}
+.OwnsCharm #CharmsOwnedCount
+{
+	visibility: visible;
+}
+
+
+#MarketPurchaseButton
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #245a4b ), to( #1d493d ));
+}
+#MarketPriceButton
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #307663 ), to( #245a4b ));
+}
+#MarketPurchaseRow
+{
+	visibility: collapse;
+}
+.MarketAvailable #MarketPurchaseRow
+{
+	visibility: visible;
+}
+.PartnerPerfectWorld #MarketPurchaseRow, .PartnerNexon #MarketPurchaseRow
+{
+	visibility: collapse;
+}
+.PurchaseAvailable.MarketAvailable #MarketPurchaseRow
+{
+	visibility: collapse;
+}
+
+#AutographRow
+{
+	visibility: collapse;
+}
+.AutographAvailable #AutographRow
+{
+	visibility: visible;
+}
+
+#AutographPrefix
+{
+	vertical-align: middle;
+	margin-right: 5px;
+	color: #c3cbd6;
+	font-size: 16px;
+	text-transform: uppercase;
+}
+
+#TreasureAutographDropDown
+{
+	height: 44px;
+	//border: 2px solid;
+}
+
+#AutographNone
+{
+	vertical-align: middle;
+}
+
+.AutographOption
+{
+	flow-children: right;
+	width: 100%;
+	border-top: 1px solid #00000066;
+	border-bottom: 1px solid #00000066;
+}
+
+#TreasureAutographDropDown .AutographOption
+{
+	border: 0px solid transparent;
+	
+}
+
+#TreasureAutographDropDownDropDownMenu.DropDownMenuVisible
+{
+	width: 315px;
+}
+
+#TreasureAutographDropDown .AutographOption .AutographOwned
+{
+	visibility: collapse;
+}
+
+.AutographOption DOTAEconItemImage
+{
+	margin-left: -3px;
+	height: 36px;
+	width: height-percentage( 150% );
+}
+
+.AutographOption > Label
+{
+	vertical-align: middle;
+	border: 0px;
+	width: fill-parent-flow( 1.0 );
+}
+
+.AutographOwned
+{
+	width: 54px;
+	height: 36px;
+	background-color: #3c6269cc;
+}
+
+.AutographOwnedCenter
+{
+	margin-left: 10px;
+	vertical-align: middle;
+	horizontal-align: left;
+	flow-children: right;
+}
+
+.AutographOwnedIcon
+{
+	width: 20px;
+	height: 20px;
+
+	background-image: url("s2r://panorama/images/icon_treasure_button_png.vtex");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+.AutographOwnedCenter > Label
+{
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	margin-left: 4px;
+	color: white;
+	width: fit-children;
+	background-color: transparent;
+}
+
+#OwnedTreasuresCount
+{
+	width: 100px;
+	height: 100%;
+}
+
+#OwnedTreasures
+{
+	flow-children: right;
+	width: 100%;
+
+	visibility: collapse;
+}
+
+.OwnsTreasure #OwnedTreasures
+{
+	visibility: visible;
+}
+
+#OwnedTreasuresButtons
+{
+	padding: 14px;
+	background-color: #24373dcc;
+	flow-children: right;
+}
+
+#GiftTreasureButton
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #1f395c ), to( #132646 ));
+	padding: 8px 14px 6px 14px;
+	width: 100px;
+	margin-left: 14px;
+}
+#GiftTreasureButton Label
+{
+	color: white;
+	horizontal-align: center;
+	text-transform: uppercase;
+}
+#GiftTreasureButton:disabled
+{
+	visibility: collapse;
+}
+
+#OpenTreasureButton
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #3484a7 ), to( #245575 ));
+	width: fill-parent-flow( 1.0 );
+	padding: 8px 14px 6px 14px;
+	transition-property: background-color, box-shadow;
+	transition-duration: .2s;
+	animation-name: pulseglow;
+	animation-duration: 3.5s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	box-shadow: fill #00000044 -4px -6px 8px 9px;
+}
+
+#OpenTreasureButton:hover
+{
+	box-shadow: fill #3484a744 -4px -6px 8px 9px;
+}
+
+@keyframes 'pulseglow'
+{
+	0%
+	{
+		background-color: gradient( linear, 0% 0%, 0% 100%, from( #67aeff ), to( #3c608d44 ) );
+	}
+	
+
+	50%
+	{
+		background-color: gradient( linear, 0% 0%, 0% 100%, from( #406a9f ), to( #3c608c44 ) );
+	}
+	
+	100%
+	{
+		background-color: gradient( linear, 0% 0%, 0% 100%, from( #67aeff ), to( #3c608d44 ) );
+	}
+}
+
+#OpenTreasureButton Label
+{
+	color: white;
+	text-transform: uppercase;
+	text-align: center;
+	horizontal-align: center;
+}
+
+#OpenTreasureButton #OpenTreasureQuantity
+{
+	color: #94dfff;
+	margin-left: 8px;
+}
+
+#TreasureNavigation
+{
+	margin-bottom: detailsPadding;
+	flow-children: right;
+	width: 100%;
+}
+
+#TreasureNavigation Button
+{
+	flow-children: right;
+	border: 1px solid white;
+	wash-color: #93bdcc;
+	opacity: .25;
+	padding: 6px 4px 3px 4px;
+}
+
+#TreasureNavigation Button Label
+{
+	color: white;
+	font-size: 16px;
+	text-transform: uppercase;
+	vertical-align: middle;
+}
+#TreasureNavigation Button Image
+{
+	vertical-align: middle;
+}
+
+#ViewAllTreasuresButton
+{
+	margin: 0px 12px;
+	width: fill-parent-flow( 1.0 );
+}
+
+.TreasureNavigationButtonContents
+{
+	flow-children: right;
+	horizontal-align: center;
+	vertical-align: middle;
+}
+
+#ViewAllTreasuresButton Image
+{
+	margin-left: detailsPadding;
+	margin-top: -3px;
+	height: 14px;
+}
+
+#TreasureNavigation Button:hover:enabled
+{
+	brightness: 2;
+}
+
+#TreasureNavigation Button:active
+{
+	brightness: 2.5;
+}
+
+#PreviousTreasureButton, #NextTreasureButton
+{
+	width: 100px;
+}
+
+#PreviousTreasureButton Image, #NextTreasureButton Image
+{
+	height: 16px;
+	width: 16px;
+	margin-top: -4px;
+}
+
+#PreviousTreasureButton
+{
+	horizontal-align: left;
+}
+
+#PreviousTreasureButton Image
+{
+	margin-right: detailsPadding;
+}
+
+#NextTreasureButton Image
+{
+	margin-left: detailsPadding;
+}
+
+
+#TreasureHelp
+{
+	flow-children: down;
+	background-color: #000000f6;
+	//border-radius: 6px;
+	//margin-top: 14px;
+	padding-bottom: 1px;
+	width: 100%;
+	
+}
+
+#TreasureHelpHeaderRow
+{
+	flow-children: right;
+	width: 100%;
+}
+
+#TreasureHelpIcon
+{
+	width: 20px;
+	height: 20px;
+	margin: 0px 12px;
+	vertical-align: middle;
+
+	background-color: #18386e;
+	border-radius: 50%;
+}
+
+#TreasureHelpIcon Label
+{
+	font-weight: bold;
+	font-size: 16px;
+	margin-top: 2px;
+	color: white;
+	horizontal-align: center;
+	vertical-align: center;
+	text-align: center;
+}
+#TreasureHelpHeader
+{
+	margin: 8px 8px 4px 0px;
+	color: #cccccc;
+	text-transform: uppercase;
+	vertical-align: middle;
+}
+
+#TreasureHelpDetails
+{
+	margin-left: 36px;
+	margin-bottom: 8px;
+	width: 390px;
+	flow-children: down;
+
+	visibility: collapse;
+}
+
+#TreasureHelp:hover #TreasureHelpDetails
+{
+	visibility: visible;
+}
+
+#TreasureHelpDetails Label
+{
+	color: #666666;
+	font-size: 16px;
+}
+
+#TreasureHelpRareItems
+{
+	margin-top: 10px;
+	visibility: collapse;
+}
+.HasRareItems #TreasureHelpRareItems
+{
+	visibility: visible;
+}
+
+/* View Controls */
+#ViewControls
+{
+	flow-children: right;
+	horizontal-align: right;
+	visibility: collapse;
+}
+
+#ViewControls RadioButton
+{
+	margin-left: 12px;
+	margin-top: 12px;
+}
+
+#ViewControls RadioButton .RadioBox
+{
+	border-radius: 0px;
+	border: 1px solid #51686f;
+	width: 71px;
+	height: 30px;
+	box-shadow: none;
+	//wash-color: #777777;
+	//pre-transform-scale2d: 0.8;
+
+	background-color: none;
+	background-size: contain;
+	background-repeat: no-repeat;
+		
+	transition-property: wash-color, brightness;
+	transition-duration: 0.3s;
+	transition-timing-function: ease-in-out;
+}
+
+#ViewControls RadioButton:selected .RadioBox
+{
+	//wash-color: none;
+	pre-transform-scale2d: 1;
+	background-color: #51686f;
+}
+
+#ViewControls RadioButton:hover .RadioBox
+{
+	brightness: 1.8;
+}
+
+#FullPreviewButton .RadioBox
+{
+	background-image: url("s2r://panorama/images/control_icons/camera_row_rev01_psd.vtex");
+}
+
+#DetailsViewButton .RadioBox
+{
+	background-image: url("s2r://panorama/images/control_icons/camera_single_rev01_psd.vtex");
+}
+
+
+
+.AllowFullPreview.OpeningNone #ViewControls,
+.AllowFullPreview.OpeningFinished #ViewControls
+{
+	visibility: visible;
+}
+
+
+/* Treasure Contents */
+#TreasureContentsContainer
+{
+	overflow: clip squish;
+	width: 100%;
+}
+
+#TreasureContents
+{
+	horizontal-align: center;
+	margin-top: -68px;
+	padding-top: 50px;
+	flow-children: right;
+
+	/* Need this to make sure that we don't clip children if there aren't enough to fill the screen */
+	min-width: 100%;
+
+	transform-origin: 0% 80%;
+
+	transition-property: transform;
+	transition-duration: fullPreviewTransitionDuration;
+}
+
+#ItemPreviewTempContainer
+{
+	visibility: collapse;
+}
+
+DOTATreasureDetailsPage.FullPreviewMode #TreasureContents .TreasureItem.Received
+{
+	brightness: 0.05;
+	transform: scale3d( 0.7, 0.7, 0.7 );
+	blur: gaussian( 3, 3, 2 );
+	saturation: .6;
+}
+
+#TreasureContents .TreasureItem
+{
+	width: 1050px;
+	height: 1000px;
+	margin: 0px -310px;
+	opacity-mask: url("s2r://panorama/images/masks/softedge_box_png.vtex");
+	pre-transform-scale2d: 1;
+
+	brightness: 0.12;
+	saturation: .6;
+	transform: scale3d( 0.7, 0.7, 0.7 );
+	blur: gaussian( 3, 3, 2 );
+
+	transition-property: position, transform, brightness, opacity, saturation, blur, pre-transform-scale2d;
+	transition-duration: 0.35s;
+}
+
+.FullPreviewTransition #TreasureContents .TreasureItem
+{
+	transition-duration: fullPreviewTransitionDuration;
+}
+
+.OpeningInProgress #TreasureContents .TreasureItem
+{
+	transition-duration: 0.4s;
+}
+
+#TreasureContents .TreasureItem #TreasureItemPreviewContainer, 
+#TreasureContents .TreasureItem #TreasureItemPreview
+{
+	width: 100%;
+	height: 100%;
+}
+
+#TreasureContents .TreasureItem .Shadow
+{
+	width: 100%;
+	height: 20%;
+	margin: 0px 50px 0px 50px;
+
+	background-color: gradient( radial, 50% 50%, 0% 0%, 70% 50%, from( #000000aa ), to( #00000000 ) ), gradient( radial, 50% 50%, 0% 0%, 35% 25%, from( #000000 ), to( #00000000 ) );
+	vertical-align: bottom;
+	margin-bottom: -50px;
+}
+
+#TreasureContents .TreasureItem.Offscreen
+{
+	visibility: collapse;
+}
+
+DOTATreasureDetailsPage.FullPreviewMode #TreasureContents .TreasureItem, #TreasureContents .TreasureItem.Focused
+{
+	brightness: 1.0;
+	z-index: 1;
+	blur: gaussian( 0, 0, 0 );
+	saturation: 1;
+	transform: translateY(-70px) translateX(0px);
+}
+
+DOTATreasureDetailsPage.FullPreviewMode #TreasureContents .TreasureItem, 
+{
+	transform: translateY(30px) translateX(0px);
+	pre-transform-scale2d: 0.8;
+}
+
+.OpeningInProgress #TreasureContents .TreasureItem.Eliminated
+{
+	saturation: 0.0;
+	opacity: 0.0;
+}
+
+.OpeningFinished #TreasureContents .TreasureItem.Eliminated
+{
+	saturation: 0.0;
+	opacity: 0.0;
+	visibility: collapse;
+}
+
+.TreasureItemRarityBackground
+{
+	width: 80%;
+	height: 100%;
+	horizontal-align: center;
+
+	background-image: url("s2r://panorama/images/glows/treasure_rare_glow_psd.vtex");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: 50% bottom;
+}
+
+/* Glow colors for the background behind rare items */
+.TreasureItem.TreasureItemRarity_Rare .TreasureItemRarityBackground				{ wash-color: rareGlowColor; }
+.TreasureItem.TreasureItemRarity_VeryRare .TreasureItemRarityBackground			{ wash-color: veryRareGlowColor; }
+.TreasureItem.TreasureItemRarity_ExtremelyRare .TreasureItemRarityBackground	{ wash-color: extremelyRareGlowColor; }
+.TreasureItem.OverrideClass.TreasureClassBronze .TreasureItemRarityBackground	{ wash-color: bronzeGlowColor; }
+.TreasureItem.OverrideClass.TreasureClassSilver .TreasureItemRarityBackground	{ wash-color: silverGlowColor;}
+.TreasureItem.OverrideClass.TreasureClassGold .TreasureItemRarityBackground		{ wash-color: goldGlowColor;}
+
+.TreasureItemRarityLabel
+{
+	vertical-align: bottom;
+	horizontal-align: center;
+	font-size: 48px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+/* Rarity label colors */
+.TreasureItemRarity_Rare .TreasureItemRarityLabel, .TreasureItemRarity_Rare #TreasureControlsRarityValue 						{ color: rareTextColor; }
+.TreasureItemRarity_VeryRare .TreasureItemRarityLabel, .TreasureItemRarity_VeryRare #TreasureControlsRarityValue				{ color: veryRareTextColor; }
+.TreasureItemRarity_ExtremelyRare .TreasureItemRarityLabel, .TreasureItemRarity_ExtremelyRare #TreasureControlsRarityValue		{ color: extremelyRareTextColor; }
+.OverrideClass.TreasureClassBronze .TreasureItemRarityLabel, .OverrideClass.TreasureClassBronze #TreasureControlsRarityValue	{ color: bronzeTextColor; }
+.OverrideClass.TreasureClassSilver .TreasureItemRarityLabel, .OverrideClass.TreasureClassSilver #TreasureControlsRarityValue	{ color: silverTextColor; }
+.OverrideClass.TreasureClassGold .TreasureItemRarityLabel, .OverrideClass.TreasureClassGold #TreasureControlsRarityValue		{ color: goldTextColor; }
+
+
+.TreasureItemRarityBackground, .TreasureItemRarityLabel
+{
+	opacity: 0.0;
+	transition-property: opacity;
+	transition-duration: fullPreviewTransitionDuration;
+}
+.FullPreviewMode .TreasureItemRarityBackground
+{
+	opacity: 0.1;
+}
+.FullPreviewMode .TreasureItemRarityLabel
+{
+	opacity: 1.0;
+}
+
+
+
+.MainPreviewRays
+{
+	transform: translateY(-90px) translateX(0px);
+	margin-right: -50px;
+	horizontal-align: center;
+	width: 75%;
+    height: 80%;
+    margin-left: -180px;
+    opacity-mask: url("s2r://panorama/images/masks/hero_model_opacity_mask_png.vtex");
+	transition-property: opacity;
+	transition-duration: 0.6s;
+}
+
+#PreviewRays2
+{
+	width: 50%;
+    height: 80%;
+}
+
+#ItemReceivedParticles
+{
+	width: 100%;
+	height: 50%;
+	horizontal-align: center;
+	vertical-align: bottom;
+	//transform: rotateX( 80deg ) translateY( 120px );
+
+	opacity: .75;
+    opacity-mask: url("s2r://panorama/images/masks/softedge_top_png.vtex");
+	transition-property: opacity;
+	transition-duration: 0.5s;
+}
+
+.OpeningNone #ItemReceivedEffect
+{
+	opacity: 0.0;
+}
+
+.FullPreviewMode .MainPreviewRays, .FullPreviewTransition .MainPreviewRays
+{
+	opacity: 0;
+}
+
+.TreasureItemRarity_Rare .MainPreviewRays,
+.TreasureItemRarity_Rare #RarityBackgroundGradient,
+.TreasureItemRarity_Rare #PreviewRaysSmall
+{
+	hue-rotation: rareHueRotation;
+	saturation: rareSaturation;
+}
+.TreasureItemRarity_VeryRare .MainPreviewRays,
+.TreasureItemRarity_VeryRare #RarityBackgroundGradient,
+.TreasureItemRarity_VeryRare #PreviewRaysSmall
+{
+	hue-rotation: veryRareHueRotation;
+	saturation: veryRareSaturation;
+}
+.TreasureItemRarity_ExtremelyRare .MainPreviewRays,
+.TreasureItemRarity_ExtremelyRare #RarityBackgroundGradient,
+.TreasureItemRarity_ExtremelyRare #PreviewRaysSmall
+{
+	hue-rotation: extremelyRareHueRotation;
+	saturation: extremelyRareSaturation;
+}
+.OverrideClass.TreasureClassBronze .MainPreviewRays,
+.OverrideClass.TreasureClassBronze #RarityBackgroundGradient,
+.OverrideClass.TreasureClassBronze #PreviewRaysSmall
+{
+	hue-rotation: bronzeHueRotation;
+	saturation: bronzeSaturation;
+}
+.OverrideClass.TreasureClassSilver .MainPreviewRays,
+.OverrideClass.TreasureClassSilver #RarityBackgroundGradient,
+.OverrideClass.TreasureClassSilver #PreviewRaysSmall
+{
+	hue-rotation: silverHueRotation;
+	saturation: silverSaturation;
+}
+.OverrideClass.TreasureClassGold .MainPreviewRays,
+.OverrideClass.TreasureClassGold #RarityBackgroundGradient,
+.OverrideClass.TreasureClassGold #PreviewRaysSmall
+{
+	hue-rotation: goldHueRotation;
+	saturation: goldSaturation;
+}
+
+.FullPreviewMode #TreasureContents .TreasureItem
+{
+	brightness: 1.0;
+	transform: scale3d( 0.7, 0.7, 0.7 );
+}
+
+
+/* Treasure Controls */
+#TreasureControls
+{
+	horizontal-align: center;
+	vertical-align: bottom;
+	flow-children: down;
+	margin-bottom: 130px;
+
+	transition-property: opacity;
+	transition-duration: 0.2s;
+}
+
+.FullPreviewMode #TreasureControls, .FullPreviewTransition #TreasureControls
+{
+	opacity: 0.0;
+}
+
+
+.TreasureControlsRow
+{
+	flow-children: right;
+}
+
+#ReceivedItem
+{
+	width: 390px;
+	margin: 0px 391px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #71b6bb99 ), to( #305d5a99 ) );
+	flow-children: right;
+
+	transform: translateY( 100% );
+
+	transition-property: transform;
+	transition-duration: 0.2s;
+}
+
+.ReceivedItem #ReceivedItem
+{
+	transform: translateY( 0% );
+}
+
+#ReceivedItem Label
+{
+	width: fill-parent-flow( 1.0 );
+	color: #dcf8fc;
+	text-transform: uppercase;
+	text-align: right;
+	margin: 4px 11px 0px 8px;
+	font-weight: bold;
+	font-size: 20px;
+	vertical-align: middle;
+}
+
+#ReceivedItemIcon
+{
+	width: 39px;
+	height: 39px;
+	background-color: #dffffe;
+	box-shadow: #bdeefd66 -2px -2px 4px 4px;
+}
+
+#ReceivedItemIconImage
+{
+	vertical-align: middle;
+	horizontal-align: center;
+	width: 80%;
+	height: 80%;
+
+	background-image: url("s2r://panorama/images/control_icons/check_shadow_png.vtex");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+
+	wash-color: #488391;
+}
+
+.SwitchItemButton
+{
+	height: 100%;
+	width: 36px;
+	min-width: 0px;
+	padding: 0px;
+}
+
+.SwitchItemButton Panel
+{
+	background-image: url("s2r://panorama/images/control_icons/arrow_dropdown_png.vtex");
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+	wash-color: #c1c8d0;
+}
+
+.SwitchItemButton:enabled:hover Panel
+{
+	wash-color: white;
+}
+
+#PreviousItemButton Panel {	transform: rotateZ( 90deg ); }
+#NextItemButton Panel {	transform: rotateZ( -90deg ); }
+
+#PreviousItemButton:active Panel {	transform: translateX( 1px ) translateY( -1px ) rotateZ( 90deg ); }
+#NextItemButton:active Panel {	transform: translateX( -1px ) translateY( 1px )  rotateZ( -90deg ); }
+
+#ItemDetailsButton
+{
+	flow-children: down;
+	margin: 0px 5px;
+	width: 390px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #373e46 ), to( #48555d ) );
+
+	border-style: solid;
+	border-width: 1px;
+	border-top-color: #555555;
+	border-left-color: #494949;
+	border-bottom-color: #333333;
+	border-right-color: #404040;
+}
+
+#ItemDetailsButton:enabled:hover
+{
+	brightness: 2.0;
+}
+
+#ItemDetailsButton:active
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #393939), to( #555555 ) );
+
+	border-top-color: #222222;
+	border-left-color: #303030;
+	border-bottom-color: #666666;
+	border-right-color: #444444;
+	sound: "ui_generic_button_click";
+}
+
+#ItemDetailsButton:active > Panel, #ItemDetailsButton:active > Label
+{
+	transform: translate3d( 1px, 1px, 0px );
+}
+
+#ItemRarityBand
+{
+	width: 100%;
+	height: 4px;
+}
+
+#UnitName
+{
+	color: #c4ceda;
+	font-size: 24px;
+	font-weight: bold;
+	text-transform: uppercase;
+	margin: 4px 8px 0px 8px;
+}
+
+#ItemDetailsRow
+{
+	flow-children: right;
+	margin: 0px 8px;
+}
+
+#ItemName
+{
+	font-size: 18px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #a5afbc;
+	margin-top: -1px;
+	margin-bottom: 4px;
+}
+
+/* Make sure these stay the same width so they remain centered */
+#TreasureControlsLeft, #TreasureControlsRight
+{
+	width: 350px;
+	height: 100%;
+}
+
+#TreasureControlsLeft
+{
+}
+
+#TreasureControlsEquip
+{
+	height: 100%;
+	horizontal-align: right;
+	margin-right: 5px;
+
+	visibility: collapse;
+}
+
+#TreasureControlsEquip.CanEquip, #TreasureControlsEquip.Equipped
+{
+	visibility: visible;
+}
+
+#EquipBackgroundGradient
+{
+	background-color: gradient( linear, 0% 0%, 100% 0%, from( transparent ), to( #59B0D210 ));
+	border-top: 1px solid #59B0D215;
+	border-bottom: 1px solid #59B0D215;
+	border-right: 1px solid #59B0D215;
+	width: 300px;
+	height: 100%;
+	opacity: 1;
+	opacity-mask: url("s2r://panorama/images/masks/gradient_rightleft_png.vtex")1;
+	transition-property: opacity;
+	transition-duration: 0.2s;
+	
+}
+
+#PreviewRaysSmallEquip
+{
+	transform: rotateZ(90deg);
+	transform-origin: 60% 90%;
+	margin-top: -300px;
+	//margin-left: -200px;
+	width: 250px;
+	height: 350px;
+    opacity: 1;
+    opacity-mask: url("s2r://panorama/images/masks/hero_model_opacity_mask_png.vtex");
+	transition-property: opacity;
+	transition-property: hue-rotation;
+	transition-duration: 0.2s;
+	
+}
+
+
+#TreasureControlsEquipButton
+{
+	//opacity: 0;
+	height: 40px;
+	vertical-align: middle;
+	horizontal-align: right;
+	margin-right: 14px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #3484a7 ), to( #245575 ));
+	transition-property: background-color, box-shadow;
+	transition-duration: .2s;
+	box-shadow: fill #00000044 -4px -6px 8px 9px;
+	padding: 8px 24px 6px 24px;
+	visibility: collapse;
+}
+
+#TreasureControlsEquipButton Label
+{
+	text-transform: uppercase;
+	color: white;
+	font-size: 18px;
+}
+
+#TreasureControlsEquip.CanEquip #TreasureControlsEquipButton
+{
+	visibility: visible;
+}
+
+#TreasureControlsItemEquipped
+{
+	vertical-align: middle;
+	horizontal-align: right;
+	margin-right: 14px;
+	margin-top: 4px;
+	text-transform: uppercase;
+	font-size: 20px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	color: #dcf8fc;
+	visibility: collapse;
+}
+
+#TreasureControlsEquip.Equipped #TreasureControlsItemEquipped
+{
+	visibility: visible;
+}
+
+#RarityBackgroundGradient
+{
+	background-color: gradient( linear, 0% 0%, 100% 0%, from( #59B0D210 ), to( transparent ));
+	border-top: 1px solid #59B0D215;
+	border-bottom: 1px solid #59B0D215;
+	border-left: 1px solid #59B0D215;
+	width: 300px;
+	height: 100%;
+	opacity: 0;
+	opacity-mask: url("s2r://panorama/images/masks/gradient_leftright_png.vtex")1;
+	transition-property: opacity;
+	transition-duration: 0.2s;
+}
+	
+
+#PreviewRaysSmall
+{
+	transform: rotateZ(-90deg);
+	transform-origin: 50% 0%;
+	margin-top: 45px;
+	margin-left: -184px;
+	width: 250px;
+	height: 350px;
+    opacity: 0;
+    opacity-mask: url("s2r://panorama/images/masks/hero_model_opacity_mask_png.vtex");
+	transition-property: opacity;
+	transition-property: hue-rotation;
+	transition-duration: 0.2s;
+	
+}
+
+.RarityVisible #PreviewRaysSmall
+{
+	opacity: 0.2;
+}
+.RarityVisible #RarityBackgroundGradient
+{
+	opacity: 1.0;
+}
+
+#TreasureControlsRarity
+{
+	margin-left: 5px;
+	overflow: clip;
+		
+	opacity: 0.0;
+
+	transition-property: opacity;
+	transition-duration: 0.2s;
+}
+
+.RarityVisible #TreasureControlsRarity
+{
+	opacity: 1.0;
+}
+
+#TreasureControlsRarityForeground
+{
+	flow-children: down;
+	margin-left: 10px;
+}
+
+#TreasureControlsRarity Label
+{
+	transform: translateY(8px);
+	margin-top: -3px;
+	font-size: 24px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+#TreasureControlsRarityTitle
+{
+	color: #dfefff;
+}
+
+/* Treasure Opening */
+#TreasureOpening
+{
+	flow-children: down;
+	vertical-align: top;
+	horizontal-align: right;
+	margin-right: 160px;
+}
+
+#TreasureOpeningTop
+{
+	vertical-align: top;
+	horizontal-align: right;
+	flow-children: down;
+	background-color: #00000077;
+	padding: 14px;
+	width: 440px;
+	margin-top: 40px;
+
+	transition-property: opacity;
+	transition-duration: 0.2s;
+}
+
+
+.AspectRatio4x3 #TreasureOpening, .AspectRatio5x4 #TreasureOpening
+{
+	margin-right: 60px;
+}
+
+#TreasureOpeningTitle
+{
+	horizontal-align: left;
+	font-size: 28px;
+	font-weight: bold;
+	color: white;
+	margin-top: -2px;
+	margin-bottom: 4px;
+	text-transform: uppercase;
+}
+
+#TreasureOpeningMessage.NoText
+{
+	visibility: collapse;
+}
+
+#TreasureOpeningMessage
+{
+	margin-bottom: 0px;
+}
+
+#OpeningInProgressDisplay
+{
+	width: 100%;
+	margin: 4px 0px;
+	visibility: collapse;
+}
+#OpeningInProgressDisplay .Spinner
+{
+	horizontal-align: center;
+}
+
+#TreasureOpeningResults
+{
+	flow-children: down;
+	margin-left: 0px;
+	visibility: collapse;
+}
+#TreasureOpeningResults .TreasureOpeningResult
+{
+	flow-children: right;
+}
+#TreasureOpeningResults .TreasureOpeningResultUnitName
+{
+	color: #d0d0d0;
+	text-transform: uppercase;
+}
+#TreasureOpeningResults .TreasureOpeningResultItemName
+{
+
+}
+
+#TreasureOpeningBottom
+{
+	vertical-align: top;
+	horizontal-align: right;
+	flow-children: right;
+	background-color: #48686844;
+	padding: 14px;
+	width: 440px;
+	margin-top: 0px;
+
+	transition-property: opacity;
+	transition-duration: 0.2s;
+}
+
+
+#StartOpeningButton  
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #3484a7 ), to( #245575 ));
+	width: fill-parent-flow( 1.0 );
+	transition-property: background-color, box-shadow;
+	transition-duration: .2s;
+	animation-name: pulseglow;
+	animation-duration: 3.5s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	box-shadow: fill #00000044 -4px -6px 8px 9px;
+	//width: 150px;
+	padding: 8px 14px 6px 14px;
+	margin: 0px 14px 0px 0px;
+    visibility: collapse;
+	border-top: 1px solid #ffffff11;
+	border-left: 1px solid #ffffff06;
+	border-right: 1px solid #00000044;
+	border-bottom: 1px solid #00000088;
+}
+
+#StartOpeningButton:hover
+{
+	box-shadow: fill #3484a744 -4px -4px 8px 8px;
+	brightness: 1.5;
+	
+}
+
+#CancelOpeningButton
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #4d5860 ) );
+	//background-color: #00000099;
+	//width: fill-parent-flow( 1.0 );
+	transition-property: background-color;
+	transition-duration: .2s;
+	box-shadow: fill #00000055 -2px -2px 4px 4px;
+	padding: 8px 24px 6px 24px;
+	//margin: 0px 7px;
+    visibility: collapse;
+	border: 1px solid;
+	border-top-color: #555555;
+	border-left-color: #494949;
+	border-bottom-color: #333333;
+	border-right-color: #404040;
+}
+
+#SkipOpeningButton
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #4d5860 ) );
+	width: fill-parent-flow( 1.0 );
+	transition-property: background-color;
+	transition-duration: .2s;
+	box-shadow: fill #00000055 -2px -2px 4px 4px;
+	padding: 8px 24px 6px 24px;
+	//margin: 0px 7px;
+    visibility: collapse;
+	border: 1px solid;
+	border-top-color: #555555;
+	border-left-color: #494949;
+	border-bottom-color: #333333;
+	border-right-color: #404040;
+}
+
+#TryOpeningAgainButton
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #4d5860 ) );
+	width: fill-parent-flow( 1.0 );
+	transition-property: background-color;
+	transition-duration: .2s;
+	box-shadow: fill #00000055 -2px -2px 4px 4px;
+	padding: 8px 24px 6px 24px;
+	//margin: 0px 7px;
+    visibility: collapse;
+	border: 1px solid;
+	border-top-color: #555555;
+	border-left-color: #494949;
+	border-bottom-color: #333333;
+	border-right-color: #404040;
+}
+
+#OpenAnotherButton 
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #3484a7 ), to( #245575 ));
+	width: fill-parent-flow( 1.0 );
+	transition-property: background-color, box-shadow;
+	transition-duration: .2s;
+	animation-name: pulseglow;
+	animation-duration: 3.5s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	box-shadow: fill #00000044 -4px -6px 8px 9px;
+	//width: 150px;
+	padding: 8px 14px 6px 14px;
+	margin: 0px 14px 0px 0px;
+    visibility: collapse;
+	border-top: 1px solid #ffffff11;
+	border-left: 1px solid #ffffff06;
+	border-right: 1px solid #00000044;
+	border-bottom: 1px solid #00000088;
+}
+
+#OpenAnotherButton:hover
+{
+	box-shadow: fill #3484a744 -4px -4px 8px 8px;
+	brightness: 1.5;
+}
+
+#FinishOpeningButton
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #4d5860 ) );
+	width: fill-parent-flow( 1.0 );
+	horizontal-align: right;
+	transition-property: background-color;
+	transition-duration: .2s;
+	box-shadow: fill #00000055 -2px -2px 4px 4px;
+	padding: 8px 24px 6px 24px;
+	//margin: 0px 7px;
+    visibility: collapse;
+	border: 1px solid;
+	border-top-color: #555555;
+	border-left-color: #494949;
+	border-bottom-color: #333333;
+	border-right-color: #404040;
+}
+
+
+#TreasureOpeningButtons Button 
+{
+	//background-color: gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #4d5860 ) );
+	//width: fill-parent-flow( 1.0 );
+	transition-property: background-color;
+	transition-duration: .2s;
+	//box-shadow: fill #3484a744 -4px -6px 8px 9px;
+	padding: 8px 24px 6px 24px;
+	//margin: 0px 7px;
+    visibility: collapse;
+	//border: 1px solid #00000011;
+}
+
+#TreasureOpeningButtons Button:hover
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #4c5561 ), to( #6c7d88 ) );
+
+	border-top-color: #aaaaaa77;
+	border-left-color: #aaaaaa33;
+	border-bottom-color: #333333;
+	border-right-color: #404040;
+}
+
+@keyframes 'pulseglow'
+{
+	0%
+	{
+		background-color: gradient( linear, 0% 0%, 0% 100%, from( #67aeff ), to( #3c608d11 ) );
+	}
+	
+
+	50%
+	{
+		background-color: gradient( linear, 0% 0%, 0% 100%, from( #406a9f ), to( #3c608c11 ) );
+	}
+	
+	100%
+	{
+		background-color: gradient( linear, 0% 0%, 0% 100%, from( #67aeff ), to( #3c608d11 ) );
+	}
+}
+
+#TreasureOpeningButtons Label
+{
+	color: white;
+	text-transform: uppercase;
+	text-align: center;
+	horizontal-align: center;
+}
+
+#TreasureOpeningButtonsContents
+{
+	horizontal-align: center;
+	flow-children: right;
+}
+
+#TreasureOpeningButtons Button Label
+{
+	color: white;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.OpeningNone #TreasureOpening
+{
+	opacity: 0.0;
+}
+
+.OpeningStart #StartOpeningButton, .OpeningStart #CancelOpeningButton
+{
+	visibility: visible;
+}
+
+.OpeningInProgress #OpeningInProgressDisplay, .OpeningInProgress #SkipOpeningButton
+{
+	visibility: visible;
+}
+
+.OpeningFailed #TryOpeningAgainButton, .OpeningFailed #CancelOpeningButton
+{
+	visibility: visible;
+}
+
+.OpeningFinished.OwnsTreasure #OpenAnotherButton, .OpeningFinished #FinishOpeningButton, .OpeningFinished #TreasureOpeningResults
+{
+	visibility: visible;
+}
+
+
+/* Treasure Extra Info */
+#TreasureExtraInfo
+{
+	margin-top: 20px;
+	margin-left: 160px;
+
+	opacity: 0.0;
+
+	transition-property: opacity;
+	transition-duration: 0.2s;
+}
+
+.AspectRatio4x3 #TreasureExtraInfo, .AspectRatio5x4 #TreasureExtraInfo
+{
+	margin-left: 14px;
+}
+
+.OpeningNone #TreasureExtraInfo
+{
+	opacity: 1.0;
+}

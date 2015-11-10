@@ -1,0 +1,360 @@
+/*
+   Styles for the base DOTA tooltip.
+
+   This handles the arrows and background for a tooltip. Individual xml/css
+   files provide the contents for specific types of tooltips
+*/
+
+#Contents
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #2d2d2d ), to( #2d2d2d ) );
+    padding: 12px;
+    border: 2px solid black;
+    margin: 0px;
+	box-shadow: #00000066 -4px -4px 8px 8px;
+}
+
+
+DOTATooltipFriendsMenu #Contents 
+{
+    background-color: #333f3d;
+}
+
+DOTATooltipFriendsMenu #BottomArrow
+{
+	wash-color: #333f3d;
+}
+
+DOTATooltipCustomGame #Contents 
+{
+	padding: 0px;
+
+    border: 1px solid #9BCAF455;
+}
+
+DOTATooltipCustomGame #LeftArrow, DOTATooltipCustomGame #RightArrow, DOTATooltipCustomGame #TopArrow, DOTATooltipCustomGame #BottomArrow
+{
+}
+
+DOTATooltipCustomGame #BottomArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/tooltip_arrow_bottom_customgames_psd.vtex");
+    wash-color: white;
+}
+DOTATooltipCustomGame #LeftArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/tooltip_arrow_left_customgames_psd.vtex");
+    wash-color: white;
+}
+DOTATooltipCustomGame #RightArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/tooltip_arrow_right_customgames_psd.vtex");
+    wash-color: white;
+}
+DOTATooltipCustomGame #TopArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/tooltip_arrow_top_customgames_psd.vtex");
+    wash-color: white;
+}
+
+#LeftArrow, #RightArrow, #TopArrow, #BottomArrow
+{
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    
+   /* The arrows sit at a higher z-index than the body of the tooltip.
+      This is so that the arrow can overlap on top of the border to
+      give it a more seamless look */
+    z-index: 1;
+    
+    /* Not visible by default */
+    visibility: collapse;
+	
+	background-size: contain;
+}
+
+#LeftArrow, #RightArrow
+{
+    /* Closely matches the actual image file contents, with a slightly
+       smaller width so that it overlaps the body correctly. */
+    width: 24px;
+    height: 24px;
+
+    /* Include a margin at the top and bottom*/
+    margin-top: 4px;
+    margin-bottom: 4px;
+	margin-right: 4px;
+}
+#LeftArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/tooltip_arrow_left_png.vtex");
+    wash-color: #2d2d2d;
+	margin-right: -5px;
+}
+#RightArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/tooltip_arrow_right_png.vtex");
+	wash-color: #2d2d2d;
+	margin-left: -2px;
+}
+
+#TopArrow, #BottomArrow
+{
+    width: 24px;
+    height: 21px;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+#TopArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/tooltip_arrow_top_png.vtex");
+	wash-color: #2d2d2d;
+	margin-bottom: -2px;
+}
+#BottomArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/tooltip_arrow_bottom_png.vtex");
+	wash-color: #2d2d2d;
+	margin-top: -2px;
+}
+
+/* The code will automatically set these styles on the tooltip body, so we just need to adjust the visibility */
+.TooltipContainer.LeftArrowVisible #LeftArrow
+{
+    visibility: visible;
+}
+.TooltipContainer.RightArrowVisible #RightArrow
+{
+    visibility: visible;
+}
+.TooltipContainer.TopArrowVisible #TopArrow
+{
+    visibility: visible;
+}
+.TooltipContainer.BottomArrowVisible #BottomArrow
+{
+    visibility: visible;
+}
+
+/* When an arrow is visible, remove the margin from that side 
+   and make sure the side is big enough that the arrow doesn't look silly */
+.TooltipContainer.LeftArrowVisible #Contents
+{
+    margin-left: 0px;
+    min-height: 40px;
+}
+.TooltipContainer.RightArrowVisible #Contents
+{
+    margin-right: 0px;
+    min-height: 40px;
+}
+.TooltipContainer.BottomArrowVisible #Contents
+{
+    margin-bottom: 0px;
+    min-width: 60px;
+}
+.TooltipContainer.TopArrowVisible #Contents
+{
+    margin-top: 0px;
+    min-width: 60px;
+}
+
+
+/* Flow the contents properly */
+.TooltipContainer
+{
+    flow-children: down;
+
+    opacity: 0.0;
+
+    transition-property: opacity;
+    transition-duration: 0.175s;
+}
+
+.TooltipContainer.TooltipVisible
+{
+    opacity: 1.0;
+    transition-delay: 0.0s;
+}
+
+.TooltipRow
+{
+    flow-children: right;
+}
+
+.GameModeTooltip.RightArrowVisible #Contents
+{
+	width: 400px;
+	min-height: 60px;
+	background-color: #3e464b;
+    padding: 10px 10px 10px 15px;
+    border-radius: 0px;
+    border: 1px solid black;
+	//border-right: 1px solid transparent;
+	//box-shadow: fill #000000aa -4px -4px 8px 8px;
+}
+
+.GameModeTooltip #RightArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/tooltip_arrow_right_png.vtex");
+	wash-color: #3e464b;
+	margin-left: -1px;
+}
+
+.SettingsTooltip #Contents
+{
+	max-width: 584px;
+	min-width: 584px;
+	margin-top: 2px;
+}
+
+.SettingsTooltip #TopArrow
+{
+	width: 0px;
+	height: 0px;
+}
+
+.ShortTextTooltip #Contents
+{
+	background-color: #2d2d2d;
+	padding: 8px 10px 6px 10px;
+	border-radius: 0px;
+	border: 1px solid black;
+	box-shadow: fill #000000aa -4px -4px 8px 8px;
+}
+
+.ShortTextTooltip #RightArrow
+{
+	margin-left: -1px;
+}
+
+.ShortTextTooltip #LeftArrow
+{
+	margin-right: -1px;
+}
+
+.ShortTextTooltip #BottomArrow
+{
+	margin-top: -1px;
+}
+
+.ShortTextTooltip #TopArrow
+{
+	margin-bottom: -1px;
+}
+
+
+/* Custom styling for Profile Card tooltip */
+DOTATooltipProfileCard #Contents
+{
+    background-color: transparent;
+    padding: 0px;
+    border: 0px solid transparent;
+    box-shadow: none;
+	transition-delay: 0.2s;
+}
+
+DOTATooltipProfileCard.TooltipVisible
+{
+	transition-delay: 0.0s;
+}
+
+/* Use margins on the arrows to make sure that we don't try to show the arrow over top of the badge */
+DOTATooltipProfileCard #RightArrow
+{
+	background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_right_png.vtex");
+	wash-color: #495757;
+	width: 16px;
+	height: 32px;
+
+	margin-left: -1px;
+}
+
+DOTATooltipProfileCard #TopArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_top_png.vtex");
+	wash-color: #495757;
+
+	width: 32px;
+	height: 16px;
+
+	margin-bottom: -1px;
+}
+
+DOTATooltipProfileCard #LeftArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_left_png.vtex");
+	wash-color: #495757;
+	width: 16px;
+	height: 32px;
+
+	margin-right: -1px;
+}
+
+DOTATooltipProfileCard #BottomArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_bottom_png.vtex");
+	wash-color: #495757;
+
+	width: 32px;
+	height: 16px;
+
+	margin-top: -1px;
+}
+
+.BindingsTooltip #Contents
+{
+    min-width: 576px;
+    max-width: 576px;
+    background-color: #2B2F30;
+    border: 2px solid black;
+}
+
+.BindingsTooltip .TooltipRow
+{
+    width: 450px;
+}
+
+.BindingsTooltip #TopArrow
+{
+    opacity: 1;
+    height: 10px;
+    wash-color: #2B2F30;
+}
+
+.BindingsTooltip .TextContents
+{
+    width: 100%;
+    transform: translateX(5px);
+}
+
+.BindingsTooltip.TooltipContainer
+{
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.1s;
+    margin-top: -2px;
+    margin-left: 8px;
+}
+
+.BindingsTooltip.TooltipContainer.TooltipVisible
+{
+    opacity: 1;
+}
+
+.LeaverConsequencesTooltip #Contents
+{
+	width: 330px;
+	background-color: #69312c;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #2d2d2d ), color-stop(.5, #2d2d2d), to( #69312c ) );
+}
+
+.LeaverConsequencesTooltip #TextLabel
+{
+	color: red;
+}
+
+.LeaverConsequencesTooltip #BottomArrow,
+{
+	wash-color: #69312c;
+}

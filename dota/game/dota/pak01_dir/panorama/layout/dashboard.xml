@@ -1,0 +1,301 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="s2r://panorama/styles/dashboard.vcss_c" />
+		<include src="s2r://panorama/styles/dashboard_search_results.vcss_c" />
+	</styles>
+
+	<DOTADashboard class="InitialDisplay NotOnTodayPage" hittest="false">
+
+		<Panel id="DashboardCore">
+
+			<Panel id="DashboardBackground">
+				<Panel id="DashboardBackgroundInitContainer">
+					<Panel id="BackgroundImage" />
+					<DOTAScenePanel id="BackgroundMap" />
+					<Panel id="BackgroundVignette" />
+					<Panel id="DashboardTopBarBackgroundGradient" />
+				</Panel>
+			</Panel>
+
+      <Panel id="DashboardBackgroundStatus">
+				<DOTAScenePanel id="BackgroundMapStatus" camera="shot_cameraA" map="scenes/find_match_status"/>
+			</Panel>
+      
+			<Panel id="DashboardForeground">
+				<Panel id="DashboardPages" hittest="false">
+					<!-- Filled in dynamically -->
+				</Panel>
+
+		 		<DOTATutorial id="Tutorial" />
+
+				<Panel id="DashboardPagesGuides" hittest="false">
+					<Panel id="Guide4x3" hittest="false" />
+				</Panel>
+			
+				<!-- clicking on the dashboard pages blocker closes the play tab -->
+				<Panel id="TopBarSecondaryContainer" hittest="false" >
+					<Panel id="TopBarSecondaryContent"  hittest="false" class="Hidden">
+						<Panel id="TopBarSecondaryTabs"  hittest="false" class="Hidden">
+							<!-- Added dynamically: -->
+
+							<!-- 
+							<RadioButton class="SecondaryTabButton" text="Tab 1" />
+							<Label class="SecondaryTabSeparator" text="/" />
+							<RadioButton class="SecondaryTabButton" text="Tab 2" />
+							<Label class="SecondaryTabSeparator" text="/" />
+							<RadioButton class="SecondaryTabButton" text="Tab 3" />            
+							-->
+						</Panel>
+						<Panel id="TopBarSearch">
+							<Panel id="TopBarSearchBackground" />
+							<Panel id="TopBarSearchContainer" >
+								<Panel id="SearchLoading" class="Spinner"/>
+								<Panel id="TopBarSearchBox">
+									<TextEntry id="SearchTextEntry" oninputsubmit="DOTASearchTextSubmitted()" onmovedown="DOTASearchFocusResults()" oncancel="DOTASearchHideResults()" />
+								<Button id="SearchButton" onactivate="DOTASearchTextSubmitted()" />
+								</Panel>
+							</Panel>
+						</Panel>
+					</Panel>
+				</Panel>
+
+				<Button id="DashboardPagesBlocker" hittest="false" onactivate="DOTAClosePlayTab()" />
+
+				<DOTAPlay id="Play" />
+
+				<DOTACustomLobby id="CustomLobby" />
+				
+<!-- FRIEND MENU WAS HERE !-->
+				
+				<Panel id="DashboardBottomRightControls"  hittest="false">
+					<Panel id="OpenPartyContainer">
+						<Button id="CurrentPartyVisibilityButton" onactivate="DOTAPartyVisibilityButtonClicked();" onmouseout="DOTAPartyVisibilityButtonMouseOut();" onmouseover="DOTAPartyVisibilityButtonMouseOver();" >
+							<Panel id="OpenPartyFrame1" class="OpenPartyAnimation" hittest="false"/>
+							<Panel id="OpenPartyFrame2" class="OpenPartyAnimation" hittest="false"/>
+							<Panel id="OpenPartyFrame3" class="OpenPartyAnimation" hittest="false"/>
+						</Button>
+					</Panel>
+					<Button id="FriendsButton" onactivate="DOTAFriendsButtonClicked();" onmouseout="DOTAFriendsButtonMouseOut();" onmouseover="DOTAFriendsButtonMouseOver();">
+						<Panel id="FriendsButtonContents" />
+					</Button>
+											
+					<Panel id="OpenPartyNotification" >
+						<Label id="OpenPartyNotificationNumber" text="3" />
+					</Panel>
+					
+					<DOTAParty id="CurrentParty" class="CurrentParty"/>
+					<Panel id="PendingInvitesSection">
+						<Button id="PendingInvites" onmouseover="DOTAShowPendingInvitesTooltip()" onmouseout="DOTAHidePendingInvitesTooltip()" onactivate="DOTAShowPendingInvitesContextMenu()">
+							<Label id="PendingInvitesLabel" text="+N" />
+						</Button>
+						<Panel id="PendingInvitesRadialSweepContainer" hittest="false">
+							<Panel id="PendingInvitesRadialSweep" class="RadialSweep" hittest="false"/>
+						</Panel>
+					</Panel>
+				</Panel>
+				
+				<Panel id="NotificationsContainer" class="Hidden">
+					<Panel id="Notifications" class="TopBottomFlow">
+					<Label id="NotificationsHeader" text="Notifications"/>
+						<Panel id="NotificationsContent" class="TopBottomFlow">
+							<Button class="LeftRightFlow NotificationsEntry NotificationItemDrop NewNotification">
+								<Panel class="NotificationTypeIcon"/>
+								<Panel class="NotificationInfo TopBottomFlow">
+									<Label class="NotificationText" text="You have received an Item Drop."/>
+									<Panel class="NotificationTimeContainer LeftRightFlow">
+										<Panel class="NotificationsTimeIcon"/>
+										<Label text="5hrs ago"/>
+									</Panel>
+								</Panel>
+							</Button>
+							<Button class="LeftRightFlow NotificationsEntry NotificationComment NewNotification">
+								<Panel class="NotificationTypeIcon"/>
+								<Panel class="NotificationInfo TopBottomFlow">
+									<Label class="NotificationText" text="This Guy commented on your status"/>
+									<Panel class="NotificationTimeContainer LeftRightFlow">
+										<Panel class="NotificationsTimeIcon"/>
+										<Label text="5hrs ago"/>
+									</Panel>
+								</Panel>
+							</Button>
+							<Button class="LeftRightFlow NotificationsEntry NotificationCommunity NewNotification">
+								<Panel class="NotificationTypeIcon"/>
+								<Panel class="NotificationInfo TopBottomFlow">
+									<Label class="NotificationText" text="Action has been taken against someone you reported"/>
+									<Panel class="NotificationTimeContainer LeftRightFlow">
+										<Panel class="NotificationsTimeIcon"/>
+										<Label text="5hrs ago"/>
+									</Panel>									
+								</Panel>
+							</Button>
+							<Button class="LeftRightFlow NotificationsEntry NotificationRelease">
+								<Panel class="NotificationTypeIcon"/>
+								<Panel class="NotificationInfo TopBottomFlow">
+									<Label class="NotificationText" text="Some special item you were waiting for has been released (i.e. Immortals III) Extra long line."/>
+									<Panel class="NotificationTimeContainer LeftRightFlow">
+										<Panel class="NotificationsTimeIcon"/>
+										<Label text="5hrs ago"/>
+									</Panel>									
+								</Panel>
+							</Button>
+							<Button class="LeftRightFlow NotificationsEntry NotificationCompendium">
+								<Panel class="NotificationTypeIcon"/>
+								<Panel class="NotificationInfo TopBottomFlow">
+									<Label class="NotificationText" text="The Majors Compendium has been updated to include predictions"/>
+									<Panel class="NotificationTimeContainer LeftRightFlow">
+										<Panel class="NotificationsTimeIcon"/>
+										<Label text="5hrs ago"/>
+									</Panel>									
+								</Panel>
+							</Button>
+							<Button class="LeftRightFlow NotificationsEntry NotificationAlert">
+								<Panel class="NotificationTypeIcon"/>
+								<Panel class="NotificationInfo TopBottomFlow">
+									<Label class="NotificationText" text="Generic Important Alert!"/>
+									<Panel class="NotificationTimeContainer LeftRightFlow">
+										<Panel class="NotificationsTimeIcon"/>
+										<Label text="5hrs ago"/>
+									</Panel>									
+								</Panel>
+							</Button>
+							<Button class="LeftRightFlow NotificationsEntry NotificationLeaderboard">
+								<Panel class="NotificationTypeIcon"/>
+								<Panel class="NotificationInfo TopBottomFlow">
+									<Label class="NotificationText" text="You are eligible for Leader Board!"/>
+									<Panel class="NotificationTimeContainer LeftRightFlow">
+										<Panel class="NotificationsTimeIcon"/>
+										<Label text="5hrs ago"/>
+									</Panel>									
+								</Panel>
+							</Button>
+							<Button class="LeftRightFlow NotificationsEntry NotificationLeague">
+								<Panel class="NotificationTypeIcon"/>
+								<Panel class="NotificationInfo TopBottomFlow">
+									<Label class="NotificationText" text="Something something Tournament"/>
+									<Panel class="NotificationTimeContainer LeftRightFlow">
+										<Panel class="NotificationsTimeIcon"/>
+										<Label text="5hrs ago"/>
+									</Panel>									
+								</Panel>
+							</Button>
+							<Button class="LeftRightFlow NotificationsEntry">
+								<Panel class="NotificationTypeIcon"/>
+								<Panel class="NotificationInfo TopBottomFlow">
+									<Label class="NotificationText" text="You have received something awesome and it's really great"/>
+									<Panel class="NotificationTimeContainer LeftRightFlow">
+										<Panel class="NotificationsTimeIcon"/>
+										<Label text="5hrs ago"/>
+									</Panel>									
+								</Panel>
+							</Button>							
+						</Panel>
+						<Button id="NotificationsClear" class=" ButtonBevel TopBottomFlow">
+							<Label text="CLEAR ALL"/>
+						</Button>
+					</Panel>
+				</Panel>
+
+				<Panel id="TopBar" hittest="false">
+
+					<Panel id="TopBarStatusBar">
+						<Panel id="TopBarStatusMessageContainer">
+							<Panel id="TopBarStatusSpinner" class="Spinner" />
+							<Label id="TopBarStatusMessage" class="Hidden" />
+						</Panel>
+					</Panel>
+
+					<Panel id="TopBarContent" hittest="false">
+
+						<Panel id="TopBarBackground" hittest="false">
+							<Panel class="TopBarBackgroundImage Active" hittest="false" />
+							<Panel id="TopBarBackgroundImage0" class="TopBarBackgroundImage Active" hittest="false" />
+							<Panel id="TopBarBackgroundImage1" class="TopBarBackgroundImage" hittest="false" />
+						</Panel>
+						
+						<Panel id="TopBarMainContent" hittest="false">
+
+							<Panel id="TopBarLeftButtons" class="LeftRightFlow">
+								<Button id="DOTAReturnToGameButton" class="TopBarSmallButton" onactivate="DOTAReturnToGame();" />
+								<Button id="DOTASettingsButton" class="ControlIconButton SettingsButton" onactivate="DOTASettings();" />
+								<Panel id="VerticalSeparator" />
+								<Panel id="NavigationControls">
+									<Button id="NavigateBackButton" onactivate="DOTANavigateBack()" />
+									<Button id="NavigateForwardButton" onactivate="DOTANavigateForward()" />
+								</Panel>
+							</Panel>
+
+							<Panel id="TopBarMainNav" class="LeftRightFlow" hittest="false">
+								<RadioButton id="TopBarHome" backgroundcamera="shot_cameraA" backgroundcameralerptime="1.2" group="DashboardMainTabs" selected="true" onactivate="DOTAShowHomePage()"
+											 onselect="DOTAGlobalSceneFireEntityInput( HomeButtonMap, ui_home_embers, start, 1 )" ondeselect="DOTAGlobalSceneFireEntityInput( HomeButtonMap, ui_home_embers, stopplayendcap, 1 )">
+									<DOTAScenePanel id="HomeButtonMap" camera="shot_camera" map="scenes/home_button" onload="DOTASceneFireEntityInput( ui_home_embers, start, 1 )" />
+								</RadioButton>
+								<RadioButton id="TopBarHeroes" backgroundcamera="shot_cameraB" backgroundcameralerptime="1.2" group="DashboardMainTabs" class="TopBarMenuItem"  onactivate="DOTAShowPrimaryTabPage( TopBarHeroes );">
+									<Label class="TitleFont" text="#DOTA_MainMenu_Heroes" />
+								</RadioButton>
+								<RadioButton id="TopBarWatch" backgroundcamera="shot_cameraC" backgroundcameralerptime="1.2" group="DashboardMainTabs" class="TopBarMenuItem" onactivate="DOTAShowPrimaryTabPage( TopBarWatch );">
+									<Label class="TitleFont" text="#DOTA_MainMenu_Watch" />
+								</RadioButton>
+								<RadioButton id="TopBarLearn" backgroundcamera="shot_cameraD" backgroundcameralerptime="1.2" group="DashboardMainTabs" class="TopBarMenuItem" onactivate="DOTAShowPrimaryTabPage( TopBarLearn );">
+									<Label class="TitleFont" text="#DOTA_MainMenu_Learn" />
+								</RadioButton>
+								<RadioButton id="TopBarMods" backgroundcamera="shot_cameraE" backgroundcameralerptime="1.2" group="DashboardMainTabs" class="TopBarMenuItem" onactivate="DOTAShowPrimaryTabPage( TopBarMods )">
+									<Label class="TitleFont" text="#DOTA_MainMenu_Mods" />
+								</RadioButton>
+							</Panel>
+
+							<Panel id="TopBarRightButtons">
+                                <Label id="TestBuildLabel" text="#Dota_Test_Build"/>
+								<Panel id="DevButtons" class="LeftRightFlow">
+									<Button id="HideDevButtons" class="BlueButton" onactivate="AddStyle( TopBarRightButtons, HideButtons )">
+										<Label text="H" />
+									</Button>
+									<Button id="ZooButton" class="BlueButton" onactivate="DOTAShowControlsLibraryPageTab( Default );">
+										<Label text="Control Zoo" />
+									</Button>
+									<Button id="BugButton" class="DebugButton" onactivate="DOTAReportBug();" onmouseout="DOTAHideTextTooltip();" onmouseover="DOTAShowTextTooltip( Report a bug! );" />
+									<Button id="ReloadPageButton" class="DebugButton" onactivate="DOTAReloadCurrentPage()" />
+									<Button id="GuidesButton" class="DebugButton" onactivate="ToggleStyle( DashboardPagesGuides, Visible )" />
+								</Panel>
+								<Button id="DOTANotificationButton" class="TopBarSmallButton NoNotifications" onactivate="ToggleStyle( NotificationsContainer, Hidden )" >
+									<Panel id="NotificationButtonIcon"/>
+									<Panel id="NotificationButtonCount" class="Hidden">
+										<Label id="NotificationButtonCountLabel" text="{d:dota_notification_count}"/>
+									</Panel>
+								</Button>
+								<Button id="DOTAQuitButton" class="TopBarSmallButton" onactivate="DOTAQuit();" />
+							</Panel>
+						</Panel>
+
+					</Panel>
+
+					<Panel id="TopBarDescendingContent" hittest="false">
+						<Panel id="SearchResults" class="Hidden" onmoveup="DOTASearchFocusText()" oncancel="DOTASearchHideResults()" />
+					</Panel>
+
+				</Panel>
+				
+			</Panel>
+		</Panel>
+		<DOTAPopupManager id="SubChatPopupManager" />
+
+		<Panel id="InitialDisplayPanelLogo" hittest="false"/>
+	
+		<DOTAChat id="Chat" chatstyle="dashboard" oncancel="SetInputFocus( DashboardPages )" />
+
+		<Panel id="DashboardBottomRight" hittest="false">
+			<Panel id="FriendMenuContainer" hittest="false">
+				<DOTAFriendMenu id="FriendMenu" />
+			</Panel>
+		</Panel>		
+		<!-- Make sure these are at the bottom to get the z-order right -->
+		
+		<DOTADashboardPopupManager id="DashboardPopupManager" onpopupsdismissed="SetInputFocus( DashboardPages )" />
+		<DOTAContextMenuManager id="ContextMenuManager" />
+		<DOTATooltipManager id="Tooltips" hittest="false" />
+		
+		<!-- Doesn't actually include the notifications, but we use its position to figure out where to show them -->
+		<Panel id="SteamNotificationsPlaceholder" />
+
+	</DOTADashboard>
+</root>

@@ -1,0 +1,236 @@
+"frontpage_contents"
+{
+	// "layout_pos"			- which layout position the cell will appear under. multiple cells with the same layout position are put into a carousel
+	// "image_url"			- Local path to the image, under <todo: path> . Image will be uploaded to the CDN and actual page will return the CDN url.
+	//						  '{cdn}' will be replaced with the appropriate cdn root for the client'
+	// "header_text"		- appears at the top of the Cell. used for category like "NEW HERO", "SALE", "CUSTOM GAME"
+	// "title_text"			- appears at the bottom of the cell on the information panel. The name or title of the item that is featured in the cell. Eg, "Pudge Wars", "Blades of Voth Domosh"
+	// "description_text"	- details string that appears below the title_text
+	// "click_url"			- panorama event that will fire when the user clicks the cell
+	// "price_def_index"	- if set to non-zero, price string will be added with the current store price of the item
+	// "custom_game_id"		- if non-zero, fill out image, title and link with appropriate values fetched from steam community
+	// "cycle_time"			- time for this carousel to cycle (only used on the first element of a specific layout_pos)
+	// "cell_type"			- Automatic cells, fill their own content and disregard content from above
+			// "blog"				- top post on blog.dota2.com	
+			// "playtab"			- non-sale, non-iframe cell from the playtab
+			// "custom_game"		- custom game. if "custom_game_id" is 1, select a random one
+			// "treasure"			- featured treasure according to the store controller
+			// "sale_item"			- sale item according to the store controller
+			
+	// todo
+	// turn image links into "{cdn}/apps/dota2/images/frontpage/reborn.png"
+	// don't include tint.jpg
+
+	// Common click_url parameters
+	// "DOTAShowItemDefPage( 16410 )"						-> http://www.dota2.com/store/itemdetails/16410/
+	// "BrowserGoToDOTAURL( reborn )"						-> http://www.dota2.com/reborn
+	// "BrowserGoToDOTAURL( international/compendium )"		-> http://www.dota2.com/international/compendium
+	// "DOTAShowCompendiumLeaguePage( League, 0, Page )"	Open up a compendium for a specific league to the designated page
+
+	// large cell
+	"0"
+	{
+		"layout_pos"			"0"
+		"cell_type"				"blog"
+		"blog_page"				"0"
+	}
+
+	"1"
+	{
+		"layout_pos"			"0"
+		"cell_type"				"blog"
+		"blog_page"				"1"
+	}
+
+//	"2"
+//	{
+//		"layout_pos"			"0"
+//		"cell_type"				"playtab"
+//	}
+
+	// Custom game
+	"4"
+	{
+		"layout_pos"			"1"
+		"cell_type"				"custom_panel"
+		"custom_cell_id"		"FrontpageCellHalloween2015"
+		"custom_cell_xml"		"layout/banners/front_page_halloween_2015.xml"
+		"click_url"				"DOTAShowReferencePageStyled( file://{resources}/layout/leaf_pages/dashboard_page_halloween2015.xml, PageTwoActive )"
+	}
+	
+	
+//	"4_2"
+//	{
+//		"layout_pos"			"1"
+//		"cell_type"				"friends_custom_game"
+//	}
+
+	"5"
+	{
+		"layout_pos"			"2"
+		"cell_type"				"toplive"
+		"cycle_time"			"20"
+	}
+	"5_2"
+	{
+		"layout_pos"			"2"
+		"cell_type"				"progame"
+	}
+
+
+	"6_pts"
+	{
+		"layout_pos"			"3"
+		"cell_type"				"custom_panel"
+		"custom_cell_id"		"FrontpageBannerSellCompendium"
+		"custom_cell_xml"		"layout/banners/front_page_compendium_upsale.xml"
+		"click_url"				"DOTAShowCompendiumLeaguePage(3671, 0, page_rewards)"
+		"header_text"			"#FrontPage_FallMajor2015_Points_Header"
+		"title_text"			"#FrontPage_FallMajor2015_Points_Title"
+		"description_text"		"#FrontPage_FallMajor2015_Points_Description"
+		"filters"
+		{
+			"owned"
+			{
+				"filter_type"		"EventPoints"
+				"filter_args"		"9 MustOwn"
+				"comparison"		"!="
+				"ref_value"			"0"
+			}
+		}
+	}
+	"6_buy"
+	{
+		"layout_pos"			"3"
+		"cell_type"				"custom_panel"
+		"custom_cell_id"		"FrontpageBannerSellCompendiumPoints"
+		"custom_cell_xml"		"layout/banners/front_page_compendium_upsale.xml"
+		"click_url"				"BrowserGoToDOTAURL( fallcompendium )"
+		"header_text"			"#FrontPage_FallMajor2015_Compendium_Header"
+		"title_text"			"#FrontPage_FallMajor2015_Compendium_Title"
+		"description_text"		"#FrontPage_FallMajor2015_Compendium_Description"
+		"filters"
+		{
+			"unowned"
+			{
+				"filter_type"		"EventPoints"
+				"filter_args"		"9 MustOwn"
+				"comparison"		"="
+				"ref_value"			"0"
+			}
+			"noitems"
+			{
+				"filter_type"		"ItemCount"
+				"filter_args"		"16728,16727"
+				"comparison"		"="
+				"ref_value"			"0"
+			}
+		}
+	}
+	"6_activatebase"
+	{
+		"layout_pos"			"3"
+		"cell_type"				"custom_panel"
+		"custom_cell_id"		"FrontpageBannerSellActivateCompendium1"
+		"custom_cell_xml"		"layout/banners/front_page_compendium_upsale.xml"
+		"click_url"				"DOTAConsumeEconItemByDef( 16728 )"
+		"header_text"			"#FrontPage_FallMajor2015_Compendium_Header"
+		"title_text"			"#FrontPage_FallMajor2015_Activate_Title"
+		"description_text"		"#FrontPage_FallMajor2015_Activate_Description"
+		"filters"
+		{
+			"unowned"
+			{
+				"filter_type"		"EventPoints"
+				"filter_args"		"9 MustOwn"
+				"comparison"		"="
+				"ref_value"			"0"
+			}
+			"has_base"
+			{
+				"filter_type"		"ItemCount"
+				"filter_args"		"16728"
+				"comparison"		"!="
+				"ref_value"			"0"
+			}
+			"has_nolvl25"
+			{
+				"filter_type"		"ItemCount"
+				"filter_args"		"16727"
+				"comparison"		"="
+				"ref_value"			"0"
+			}
+		}
+	}
+	"6_activatelvl25"
+	{
+		"layout_pos"			"3"
+		"cell_type"				"custom_panel"
+		"custom_cell_id"		"FrontpageBannerSellActivateCompendium25"
+		"custom_cell_xml"		"layout/banners/front_page_compendium_upsale.xml"
+		"click_url"				"DOTAConsumeEconItemByDef( 16727 )"
+		"header_text"			"#FrontPage_FallMajor2015_Compendium_Header"
+		"title_text"			"#FrontPage_FallMajor2015_Activate_Title"
+		"description_text"		"#FrontPage_FallMajor2015_Activate_Description"
+		"filters"
+		{
+			"unowned"
+			{
+				"filter_type"		"EventPoints"
+				"filter_args"		"9 MustOwn"
+				"comparison"		"="
+				"ref_value"			"0"
+			}
+			"has_lvl25"
+			{
+				"filter_type"		"ItemCount"
+				"filter_args"		"16727"
+				"comparison"		"!="
+				"ref_value"			"0"
+			}
+		}
+	}
+
+	//"6_coin"
+	//{
+	//	"layout_pos"			"3"
+	//	"click_url"				"DOTAShowCompendiumLeaguePage(3671, 0, page_coins)"
+	//	"cell_type"				"custom_panel"
+	//	"custom_cell_id"		"FrontpageSingleItemTreasure"
+	//	"custom_cell_xml"		"layout/frontpage_single_item_treasure.xml"
+	//	"header_text"			"#FrontPage_FallMajor2015_Compendium_Header"
+	//	"title_text"			"#FrontPage_FallMajor2015_CoinTreasure_Title"
+	//	"description_text"		"#FrontPage_FallMajor2015_CoinTreasure_Description"
+	//}
+	"6_tribute_ii"
+	{
+		"layout_pos"			"3"
+		"cell_type"				"default"
+		"image_url"				"file://{images}/front_page/ads/fall_majors_2015_tribute_ii.png"
+		"click_url"				"DOTAShowItemDefPage( 11686 )"
+		"header_text"			"#FrontPage_FallMajor2015_Compendium_Header"
+		"title_text"			"#FrontPage_FallMajor2015_Tribute2_Title"
+		"description_text"		"#FrontPage_FallMajor2015_Tribute2_Description"
+	}
+	"7_sale_item"
+	{
+		"layout_pos"			"4"
+		"cell_type"			"sale_item"
+	}
+	"7_cache_i"
+	{
+		"layout_pos"			"4"
+		"cell_type"				"default"
+		"image_url"				"file://{images}/front_page/ads/fall_majors_2015_soaring_cache.png"
+		"click_url"				"DOTAShowItemDefPage( 11687 )"
+		"header_text"			"#FrontPage_FallMajor2015_SoaringCache_Header"
+		"title_text"			"#FrontPage_FallMajor2015_SoaringCache_Title"
+		"description_text"		"#FrontPage_FallMajor2015_SoaringCache_Description"
+	}
+
+	"8"
+	{
+		"layout_pos"			"5"
+		"cell_type"				"lastmatch"
+	}
+}
