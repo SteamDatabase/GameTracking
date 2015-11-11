@@ -96,6 +96,7 @@ case $1 in
 # Counter-Strike: Global Offensive
 731)
 	ProcessVPK "csgo"
+	mono ./.support/SourceDecompiler/Decompiler.exe -i "csgo/csgo/pak01_dir.vpk" -o "csgo/csgo/pak01_dir/"
 	
 	iconv -t UTF-8 -f UCS-2 -o "csgo/csgo/resource/csgo_english_utf8.txt" "csgo/csgo/resource/csgo_english.txt"
 	;;
