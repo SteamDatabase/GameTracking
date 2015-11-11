@@ -234,6 +234,8 @@ Scheme
         "Buttons"            "materials/vgui/fonts/buttons_32.vbf"			[!$PS3]
         "Buttons"            "materials/vgui/fonts/buttons_ps3_32.vbf"		[$PS3 && !$INPUTSWAPAB]
         "Buttons"            "materials/vgui/fonts/buttons_ps3_j_32.vbf"	[$PS3 && $INPUTSWAPAB]
+        "Buttons"            "materials/vgui/fonts/buttons_ps3_j_32.vbf"	[$PS3 && $INPUTSWAPAB]
+		"ButtonsSC"			 "materials/vgui/fonts/buttons_sc_32.vbf"
 	}
 
 	//////////////////////// FONTS /////////////////////////////

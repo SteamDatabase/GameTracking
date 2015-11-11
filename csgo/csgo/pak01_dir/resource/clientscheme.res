@@ -1273,6 +1273,16 @@ Scheme
 				"scaley"		"0.5"
 			}
 		}
+		"InstructorButtonsSteamController"
+		{
+			"1"
+			{
+				"bitmap"	"1"
+				"name"		"ButtonsSC"
+				"scalex"	"0.5"
+				"scaley"	"0.5"
+			}
+		}
 		"InstructorKeyBindings"
 		{
 			"1"

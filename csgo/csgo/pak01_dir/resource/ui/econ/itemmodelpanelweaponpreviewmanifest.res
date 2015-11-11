@@ -1148,6 +1148,28 @@
 		}
 	}	
 	
+	"trophy_majors"
+	{
+		"rule"
+		{
+			"type" "other"
+			"model_partial" "trophy_majors"
+		}
+		"config"
+		{
+			"light_directional_clearall" 	"1"
+			"shadow_light_color"			"[10.0 10.0 10.0]"
+			"light_ambient"				"[0.0 0.0 0.0]"
+			"light_directional_add" 		"rgb[90 90 90] attach[cam_inspect_light]"
+			"light_directional_add" 		"rgb[4 8 10] dir[1 0.25 -1]"
+			"light_directional_add" 		"rgb[4 8 10] dir[-1 -0.75 -1]"
+			
+			"root_mdl"					"models/inventory_items/pedestal_trophy.mdl"
+			"root_anim"					"ACT_IDLE_INSPECT_START"		
+			"root_anim_loop"			"ACT_IDLE_INSPECT_LOOP"
+		}
+	}
+	
 	"music_kit"
 	{
 		"rule"

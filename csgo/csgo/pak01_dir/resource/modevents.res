@@ -373,6 +373,7 @@
 		"winner"	"byte"		// winner team/user i
 		"reason"	"byte"		// reson why team won
 		"message"	"string"	// end round message 
+		"legacy"	"byte"		// server-generated legacy value
 	}
 
 	"grenade_bounce"
