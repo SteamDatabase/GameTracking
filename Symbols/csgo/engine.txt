@@ -2034,6 +2034,9 @@
  b sv_logflush
  b sv_logsdir
  b sv_logsecret
+ b sv_logsocket
+ b sv_logsocket2
+ b sv_logsocket2_substr
  b sv_master_legacy_mode
  b sv_master_share_game_socket
  b sv_max_queries_sec
@@ -2089,6 +2092,7 @@
  b sv_reservation_timeout
  b sv_search_key
  b sv_sendtables
+ b sv_setsteamaccount
  b sv_show_cull_props
  b sv_show_usermessage
  b sv_showtags_command
@@ -4293,6 +4297,10 @@
  r typeinfo for CCallback<CSteam3Server, SteamServersDisconnected_t, true>
  r typeinfo for CCallback<CSteam3Server, ValidateAuthTicketResponse_t, true>
  r typeinfo for CCallbackBase
+ r typeinfo for CCallbackImpl<1>
+ r typeinfo for CCallbackImpl<20>
+ r typeinfo for CCallbackImpl<4>
+ r typeinfo for CCallbackImpl<8>
  r typeinfo for CClientDatatableStack
  r typeinfo for CClientFrame
  r typeinfo for CClientFrameManager
@@ -4891,6 +4899,10 @@
  r typeinfo name for CCallback<CSteam3Server, SteamServersDisconnected_t, true>
  r typeinfo name for CCallback<CSteam3Server, ValidateAuthTicketResponse_t, true>
  r typeinfo name for CCallbackBase
+ r typeinfo name for CCallbackImpl<1>
+ r typeinfo name for CCallbackImpl<20>
+ r typeinfo name for CCallbackImpl<4>
+ r typeinfo name for CCallbackImpl<8>
  r typeinfo name for CClientDatatableStack
  r typeinfo name for CClientFrame
  r typeinfo name for CClientFrameManager
@@ -5942,6 +5954,10 @@
  r vtable for CCallback<CSteam3Server, SteamServersDisconnected_t, true>
  r vtable for CCallback<CSteam3Server, ValidateAuthTicketResponse_t, true>
  r vtable for CCallbackBase
+ r vtable for CCallbackImpl<1>
+ r vtable for CCallbackImpl<20>
+ r vtable for CCallbackImpl<4>
+ r vtable for CCallbackImpl<8>
  r vtable for CClientDatatableStack
  r vtable for CClientFrame
  r vtable for CClientFrameManager
@@ -7499,21 +7515,20 @@
  t CC_PureServerFindFile(CCommand const&)
  t CC_PureServerListTrackedFiles(CCommand const&)
  t CC_TransmitEvents(CCommand const&)
- t CCallback<CSteam3Server, GSPolicyResponse_t, true>::GetCallbackSizeBytes()
  t CCallback<CSteam3Server, GSPolicyResponse_t, true>::Run(void*)
- t CCallback<CSteam3Server, GSPolicyResponse_t, true>::Run(void*, bool, unsigned long long)
- t CCallback<CSteam3Server, SteamServerConnectFailure_t, true>::GetCallbackSizeBytes()
  t CCallback<CSteam3Server, SteamServerConnectFailure_t, true>::Run(void*)
- t CCallback<CSteam3Server, SteamServerConnectFailure_t, true>::Run(void*, bool, unsigned long long)
- t CCallback<CSteam3Server, SteamServersConnected_t, true>::GetCallbackSizeBytes()
  t CCallback<CSteam3Server, SteamServersConnected_t, true>::Run(void*)
- t CCallback<CSteam3Server, SteamServersConnected_t, true>::Run(void*, bool, unsigned long long)
- t CCallback<CSteam3Server, SteamServersDisconnected_t, true>::GetCallbackSizeBytes()
  t CCallback<CSteam3Server, SteamServersDisconnected_t, true>::Run(void*)
- t CCallback<CSteam3Server, SteamServersDisconnected_t, true>::Run(void*, bool, unsigned long long)
- t CCallback<CSteam3Server, ValidateAuthTicketResponse_t, true>::GetCallbackSizeBytes()
  t CCallback<CSteam3Server, ValidateAuthTicketResponse_t, true>::Run(void*)
- t CCallback<CSteam3Server, ValidateAuthTicketResponse_t, true>::Run(void*, bool, unsigned long long)
+ t CCallbackImpl<1>::GetCallbackSizeBytes()
+ t CCallbackImpl<1>::Run(void*, bool, unsigned long long)
+ t CCallbackImpl<1>::~CCallbackImpl()
+ t CCallbackImpl<20>::GetCallbackSizeBytes()
+ t CCallbackImpl<20>::Run(void*, bool, unsigned long long)
+ t CCallbackImpl<4>::GetCallbackSizeBytes()
+ t CCallbackImpl<4>::Run(void*, bool, unsigned long long)
+ t CCallbackImpl<8>::GetCallbackSizeBytes()
+ t CCallbackImpl<8>::Run(void*, bool, unsigned long long)
  t CChangeFrameList::CChangeFrameList(CChangeFrameList const&)
  t CChangeFrameList::CChangeFrameList(int, int)
  t CChangeFrameList::Copy()
@@ -11750,7 +11765,7 @@
  t CSteam3Server::OnLogonFailure(SteamServerConnectFailure_t*)
  t CSteam3Server::OnLogonSuccess(SteamServersConnected_t*)
  t CSteam3Server::OnValidateAuthTicketResponse(ValidateAuthTicketResponse_t*)
- t CSteam3Server::OnValidateAuthTicketResponse(ValidateAuthTicketResponse_t*) [clone .part.27]
+ t CSteam3Server::OnValidateAuthTicketResponse(ValidateAuthTicketResponse_t*) [clone .part.29]
  t CSteam3Server::OnValidateAuthTicketResponseHelper(CBaseClient*, EAuthSessionResponse)
  t CSteam3Server::RunFrame()
  t CSteam3Server::SendUpdatedServerDetails()
@@ -17165,12 +17180,12 @@
  t KeyValues::~KeyValues()
  t Key_BindingForKey(ButtonCode_t)
  t Key_CheckDoneTrapping(ButtonCode_t&)
- t Key_CodeForBinding(char const*, int, int, int)
+ t Key_CodeForBinding(char const*, int, int, BindingLookupOption_t)
  t Key_CountBindings()
  t Key_Event(InputEvent_t const&)
  t Key_ForceBind_f(CCommand const&)
  t Key_Init()
- t Key_NameForBinding(char const*, int, int, int)
+ t Key_NameForBinding(char const*, int, int, BindingLookupOption_t)
  t Key_SetBinding(ButtonCode_t, char const*)
  t Key_Shutdown()
  t Key_StartTrapMode()
@@ -22615,6 +22630,7 @@
  t sv_dump_entity_pack_stats(CCommand const&)
  t sv_dump_serialized_entities_mem(CCommand const&)
  t sv_precacheinfo(CCommand const&)
+ t sv_setsteamaccount_f(CCommand const&)
  t sv_showtags(CCommand const&)
  t thread_test_tslist(CCommand const&)
  t thread_test_tsqueue(CCommand const&)
