@@ -255,6 +255,7 @@
 -networkspewentity
 -networkspewexcludes
 -networkvar_validate
+-nothreadedsockets
 -perfectworld
 -reuse
 -sse2
@@ -373,12 +374,10 @@ BenchmarkService001
 Bidirectional_Messages
 BinaryProperties_GetValue
 Bitfield
-BuildGammaTable(float, float, float, int)
 BuildVerboseSpew(int, int, int, CFieldPath const&, void const*)
 Builtin
 C0A9G
 C0HcK
-C333333
 CAtomicManipulator<CTransform>
 CAtomicManipulator<CTransform>::Allocate()
 CAtomicManipulator<CTransform>::AllocateAndCopy(void const*)
@@ -777,6 +776,10 @@ CCLCMsg_VoiceData::SerializeWithCachedSizesToArray(unsigned char*) const
 CCLCMsg_VoiceData::SetCachedSize(int) const
 CCLCMsg_VoiceData::default_instance_
 CCLCMsg_VoiceData::~CCLCMsg_VoiceData()
+CCallResult<CNetworkSystem, HTTPRequestCompleted_t>
+CCallResult<CNetworkSystem, HTTPRequestCompleted_t>::GetCallbackSizeBytes()
+CCallResult<CNetworkSystem, HTTPRequestCompleted_t>::Run(void*)
+CCallResult<CNetworkSystem, HTTPRequestCompleted_t>::Run(void*, bool, unsigned long long)
 CCallResult<ConfigFetch, HTTPRequestCompleted_t>
 CCallResult<ConfigFetch, HTTPRequestCompleted_t>::GetCallbackSizeBytes()
 CCallResult<ConfigFetch, HTTPRequestCompleted_t>::Run(void*)
@@ -811,6 +814,7 @@ CDefOps<NetworkFieldSerializerInfo_t const*>::LessFunc(NetworkFieldSerializerInf
 CDefOps<int>::LessFunc(int const&, int const&)
 CDefOps<netadr_t>::LessFunc(netadr_t const&, netadr_t const&)
 CDefOps<unsigned int>::LessFunc(unsigned int const&, unsigned int const&)
+CDefOps<unsigned long long>::LessFunc(unsigned long long const&, unsigned long long const&)
 CDefOps<void*>::LessFunc(void* const&, void* const&)
 CDefaultAccessor
 CDefaultAccessor::RegisterConCommandBase(ConCommandBase*)
@@ -1049,6 +1053,9 @@ CFmtStrN<256, false>::InitQuietTruncation()
 CFunctor
 CGlobalConfigValueRegistry::sm_bRegistered
 CHandle
+CIPRateLimit::CheckIP(netadr_t)
+CIPRateLimit::LessIP(CIPRateLimit::iprate_s const&, CIPRateLimit::iprate_s const&)
+CIPRateLimit::~CIPRateLimit()
 CKeyValues_Data::Internal_ClearData()
 CKeyValues_Data::Internal_GetString(char const*, char*, unsigned long)
 CKeyValues_Data::Internal_SetString(char const*)
@@ -1665,7 +1672,8 @@ CNetChan::Describe() const
 CNetChan::DescribeSplitPacketMissingChunks(CUtlVector<short, CUtlMemory<short, int> >&) const
 CNetChan::DetachSplitPlayer(CSplitScreenSlot)
 CNetChan::FinishRegisteringMessageHandlers()
-CNetChan::FlowNewPacket(PacketFlow_t, int, int, int, int, int)
+CNetChan::FlowIncomingAck(int, int, unsigned long long)
+CNetChan::FlowNewPacket(PacketFlow_t, int, unsigned long long, int, int, int)
 CNetChan::FlowUpdate(PacketFlow_t, int)
 CNetChan::GenerateConnectionID(int*, unsigned long)
 CNetChan::GetAddress() const
@@ -1680,6 +1688,7 @@ CNetChan::GetCommandRate() const
 CNetChan::GetDataRate() const
 CNetChan::GetDropNumber() const
 CNetChan::GetLatency(int) const
+CNetChan::GetLatencyBreakdown(NetChanStat_t*, NetChanStat_t*, NetChanStat_t*, NetChanStat_t*) const
 CNetChan::GetLatencyStats(int) const
 CNetChan::GetMaxRoutablePayloadSize()
 CNetChan::GetName() const
@@ -2093,13 +2102,13 @@ CNetworkSystem::CloseNetworkSocket(int, int)
 CNetworkSystem::CloseSocket(int)
 CNetworkSystem::ComputeNumberOfSplitsForPacket(int, int) const
 CNetworkSystem::Connect(void* (*)(char const*, int*))
-CNetworkSystem::ConnectSocket(int, netadr_t const&)
 CNetworkSystem::CreateNetChannel(int, CPeerToPeerAddress const&, char const*)
 CNetworkSystem::CreateNetChannel(int, ns_address const*, char const*, unsigned int, unsigned int)
 CNetworkSystem::CreateSocket(int, int, int, int, int, char const*)
 CNetworkSystem::CreateSocket(int, int, int, int, int, char const*)::bInittedNetwork
 CNetworkSystem::DescribeSocket(int) const
 CNetworkSystem::EnableLoopbackBetweenSockets(int, int)
+CNetworkSystem::FindAllNetChannelAddresses(int, CUtlVector<sockaddr, CUtlMemory<sockaddr, int> >&)
 CNetworkSystem::FindNetChannel(int, ns_address const&)
 CNetworkSystem::FindSocket(CUtlStringToken const&)
 CNetworkSystem::FindSplitPacketEntry(int, ns_address const&, bool)
@@ -2114,8 +2123,8 @@ CNetworkSystem::GetNetTime() const
 CNetworkSystem::GetPacket(int, unsigned char*)
 CNetworkSystem::GetPublicAdr() const
 CNetworkSystem::GetScratchBuffer()
-CNetworkSystem::GetSplitPacket(int, NetPacket_t*, int*)
-CNetworkSystem::GetSplitPacket(int, NetPacket_t*, int*)::s_nSplitPacketLossCounter
+CNetworkSystem::GetSplitPacket(int, NetPacket_t*, ReceivedData_t*, ns_address const&, int*)
+CNetworkSystem::GetSplitPacket(int, NetPacket_t*, ReceivedData_t*, ns_address const&, int*)::s_nSplitPacketLossCounter
 CNetworkSystem::GetSteamDatagramClient()
 CNetworkSystem::GetUDPPort(int)
 CNetworkSystem::HasQeueuedPackets(INetChannel const*) const
@@ -2128,9 +2137,9 @@ CNetworkSystem::IsP2PConnectionActive(CPeerToPeerAddress const&, int)
 CNetworkSystem::IsSafeFileToDownload(char const*)
 CNetworkSystem::IsValidFileTransferExtension(char const*)
 CNetworkSystem::LagPacket(bool, NetPacket_t*)
-CNetworkSystem::ListenSocket(int, bool)
 CNetworkSystem::MessageData(unsigned int, unsigned short, unsigned int, unsigned char*)
 CNetworkSystem::NET_SendToImpl(int, char const*, int, sockaddr const*, int, int)
+CNetworkSystem::OnFloodReportHTTPRequestCompleted(HTTPRequestCompleted_t*, bool)
 CNetworkSystem::OnNetPublicAdrChanged()
 CNetworkSystem::OnP2PSessionRequestClient(P2PSessionRequest_t*)
 CNetworkSystem::OnP2PSessionRequestServer(P2PSessionRequest_t*)
@@ -2142,6 +2151,7 @@ CNetworkSystem::OutOfBandPrintf(int, ns_address const&, char const*, ...)
 CNetworkSystem::P2PAcceptableConnectionsChanged(ESteamP2PConnectionOwner)
 CNetworkSystem::PollSocket(int, IConnectionlessPacketHandler*)
 CNetworkSystem::PollSocket(int, IConnectionlessPacketHandler*)::__executeCount
+CNetworkSystem::PostFloodReportToWebAPI(int, bool)
 CNetworkSystem::PrintChannelStatus(INetChannel*) const
 CNetworkSystem::PrintSteamdatagramClientStatus() const
 CNetworkSystem::ProcessIncomingP2PRequests(ESteamP2PConnectionOwner, ISteamP2PAllowConnection*)
@@ -2181,7 +2191,7 @@ CNetworkSystem::ShutdownPeerToPeerNetworking(int)
 CNetworkSystem::SleepUntilMessages(int, int)
 CNetworkSystem::StringToSockaddr(char const*, sockaddr*)
 CNetworkSystem::TerminatePeerToPeerSockets(int)
-CNetworkSystem::UnpackDatagram(int, NetPacket_t*)
+CNetworkSystem::UnpackDatagram(int, NetPacket_t*, ns_address const&, ReceivedData_t*)
 CNetworkSystem::UpdateNetGraph(float)
 CNetworkSystem::UpdateNetGraph(float)::cl_cmdrate_var
 CNetworkSystem::UpdateNetGraph(float)::cl_interp
@@ -2196,7 +2206,6 @@ CNetworkSystemUtils::Shutdown()
 CNetworkSystemUtils::~CNetworkSystemUtils()
 CNetworkedQuantizedFloat
 COLORCORRECTION_VERSION_1
-COrderedConstructor_Create<void, CResolveOrderedFunc<void, &(ResolveOrderedSystem_EarlyInit_Common(COrderedConstructor_DependencyManagement<void>&))>, false>::AddRef(bool)
 COrderedConstructor_Create<void, CResolveOrderedFunc<void, &(ResolveOrderedSystem_EarlyInit_Common(COrderedConstructor_DependencyManagement<void>&))>, false>::~COrderedConstructor_Create()
 CPPTYPE_BOOL
 CPPTYPE_DOUBLE
@@ -2214,6 +2223,7 @@ CParallelProcessorAbstract<CParallelProcessor<BuildFlattenedSerializerInfo_t, CM
 CParallelProcessorAbstract<CParallelProcessor<BuildFlattenedSerializerInfo_t, CMemberFuncJobItemProcessor<BuildFlattenedSerializerInfo_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1> >::Run()
 CParallelProcessorAbstract<CParallelProcessor<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CMemberFuncJobItemProcessor<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1> >::ProcessingThread(int)
 CParallelProcessorAbstract<CParallelProcessor<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CMemberFuncJobItemProcessor<CBuildNetworkSerializerHierarchyOrder::BuildEntry_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1> >::Run()
+CPostConnectCallback
 CPostConnectCallback::CPostConnectCallback(int)
 CPostConnectCallback::s_nInstallOrder
 CPostConnectCallback::s_pFirstCallback
@@ -2929,11 +2939,17 @@ CStrongHandleVoid::operator=(ResourceBindingBase_t const*)
 CStructChangeCallbackManager::Execute()
 CStructChangeCallbackManager::QueueCallback(void*, CUtlAbstractDelegate const&, int, CFieldPath const&, char const*, NetworkFieldChangedDelegateType_t, int, int, void*)
 CTHcCP
+CTSPool<ReceivedData_t>::~CTSPool()
 CTSQueue<CNetworkFieldChangedEventQueue::ChangeInfo_t, false>::PushItem(CNetworkFieldChangedEventQueue::ChangeInfo_t const&)
 CTSQueue<CNetworkMessageSignalQueue<CEventIDManager_NetChan, BogusType_t>::QueuedMessage_t, false>::CTSQueue()
 CTSQueue<CNetworkMessageSignalQueue<CEventIDManager_NetChan, BogusType_t>::QueuedMessage_t, false>::Pop()
 CTSQueue<CNetworkMessageSignalQueue<CEventIDManager_NetChan, BogusType_t>::QueuedMessage_t, false>::Purge()
 CTSQueue<CNetworkMessageSignalQueue<CEventIDManager_NetChan, BogusType_t>::QueuedMessage_t, false>::PushItem(CNetworkMessageSignalQueue<CEventIDManager_NetChan, BogusType_t>::QueuedMessage_t const&)
+CTSQueue<ReceivedData_t*, false>::CTSQueue()
+CTSQueue<ReceivedData_t*, false>::Pop()
+CTSQueue<ReceivedData_t*, false>::PopItem(ReceivedData_t**)
+CTSQueue<ReceivedData_t*, false>::Purge()
+CTSQueue<ReceivedData_t*, false>::PushItem(ReceivedData_t* const&)
 CTSQueue<loopback_t*, false>::CTSQueue()
 CTSQueue<loopback_t*, false>::Pop()
 CTSQueue<loopback_t*, false>::PopItem(loopback_t**)
@@ -2977,6 +2993,18 @@ CThreadSpinRWLock::UnlockRead()
 CThreadSpinRWLock::UnlockWrite()
 CThreadSyncObject::Wait(unsigned int)
 CThreadSyncObject::~CThreadSyncObject()
+CThreadedSocketQueue::CSocketThread::CSocketThread(int, int, CUtlVectorMT<CUtlVector<CThreadedSocketQueue::SLimitReport, CUtlMemory<CThreadedSocketQueue::SLimitReport, int> >, CThreadFastMutex>&)
+CThreadedSocketQueue::CSocketThread::CallbackThreadProc(void*)
+CThreadedSocketQueue::CSocketThread::ThreadProc()
+CThreadedSocketQueue::CSocketThread::~CSocketThread()
+CThreadedSocketQueue::CloseSocket(int)
+CThreadedSocketQueue::GetSocketThread(int, int, bool)
+CThreadedSocketQueue::ProcessSocket_Start(int, int)
+CThreadedSocketQueue::ProcessSocket_Start(int, int)::sPreviousOutputTime
+CThreadedSocketQueue::ProcessSocket_Start(int, int)::sPreviousWebAPITime
+CThreadedSocketQueue::RecieveData(int)
+CThreadedSocketQueue::ShouldUseSocketsThreaded()::s_bThreaded
+CThreadedSocketQueue::~CThreadedSocketQueue()
 CTier0AppSystem<INetworkSystem>
 CTier0AppSystem<INetworkSystemUtils>
 CTier1AppSystem<INetworkSystem, 0>
@@ -2985,7 +3013,6 @@ CTier2AppSystem<INetworkSystem, 0>
 CTier2AppSystem<INetworkSystem, 0>::Disconnect()
 CTier2AppSystem<INetworkSystem, 0>::GetTier()
 CTier2AppSystem<INetworkSystem, 0>::Reconnect(void* (*)(char const*, int*), char const*)
-CTier2AppSystem<INetworkSystemUtils, 0>
 CTier2AppSystem<INetworkSystemUtils, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<INetworkSystemUtils, 0>::Disconnect()
 CTier2AppSystem<INetworkSystemUtils, 0>::GetTier()
@@ -3078,6 +3105,7 @@ CUtlMap<CFieldPath, CDTIField, unsigned short, bool (*)(CFieldPath const&, CFiel
 CUtlMap<CFieldPath, CDTIField, unsigned short, bool (*)(CFieldPath const&, CFieldPath const&)>::Node_t::Node_t(CUtlMap<CFieldPath, CDTIField, unsigned short, bool (*)(CFieldPath const&, CFieldPath const&)>::Node_t const&)
 CUtlMap<CSchemaType const*, NetworkFieldSerializerGroup_t*, unsigned short, bool (*)(CSchemaType const* const&, CSchemaType const* const&)>::Insert(CSchemaType const* const&, NetworkFieldSerializerGroup_t* const&)
 CUtlMap<FlattenedSerializerHandle_t__*, CDTISerializerInfo*, unsigned short, bool (*)(FlattenedSerializerHandle_t__* const&, FlattenedSerializerHandle_t__* const&)>::Insert(FlattenedSerializerHandle_t__* const&, CDTISerializerInfo* const&)
+CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Insert(int const&, CThreadedSocketQueue::CSocketThread* const&)
 CUtlMap<int, INetworkMessageInternal*, unsigned short, bool (*)(int const&, int const&)>::Insert(int const&, INetworkMessageInternal* const&)
 CUtlMap<int, int, unsigned short, bool (*)(int const&, int const&)>::Insert(int const&, int const&)
 CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Find(netadr_t const&) const
@@ -3122,6 +3150,7 @@ CUtlMemory<CSendProxyData, int>::Grow(int)
 CUtlMemory<CSplitPacketEntry, int>::Grow(int)
 CUtlMemory<CStackPair*, int>::Grow(int)
 CUtlMemory<CSteamID, int>::Grow(int)
+CUtlMemory<CThreadedSocketQueue::SLimitReport, int>::Grow(int)
 CUtlMemory<CUtlSignaller_Base*, int>::Grow(int)
 CUtlMemory<CUtlSignaller_Identified<CEventIDManager_NetChan>::ConnectedSlot_t, int>::Grow(int)
 CUtlMemory<CUtlSignaller_Identified<CEventIDManager_NetChan>::EventAndDelegate_t, int>::Grow(int)
@@ -3166,6 +3195,7 @@ CUtlMemory<SteamDatagramTransport::SteamDatagramNetwork::RouterCluster, int>::Gr
 CUtlMemory<UtlLinkedListElem_t<CUtlKeyValuePair<CFieldPath, empty_t>, unsigned int>, unsigned int>::Grow(int)
 CUtlMemory<UtlLinkedListElem_t<NetPacket_t*, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CBucketTree::Spew(char const*)::s_t, int>, int>::Grow(int)
+CUtlMemory<UtlRBTreeNode_t<CIPRateLimit::iprate_s, int>, int>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CNetChan::SplitPlayer_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CProceduralDataContextMgr::Entry_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CServerSerializerMeta::Entry_t, int>, int>::Grow(int)
@@ -3178,6 +3208,7 @@ CUtlMemory<UtlRBTreeNode_t<CUtlMap<NSPacketReason_t, int, unsigned short, bool (
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CFlattenedSerializer*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CSchemaClassField_Dynamic*, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int>::Grow(int)
+CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, INetworkMessageInternal*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, int, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<netadr_t, SteamDatagramTransport::CSteamDatagramTransportClient::ServerData, int, bool (*)(netadr_t const&, netadr_t const&)>::Node_t, int>, int>::Grow(int)
@@ -3185,6 +3216,7 @@ CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CSchemaType*, unsigned short, b
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, CUtlString, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, SteamDatagramTransport::SharedClusterData*, int, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, int>, int>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
+CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int>, int>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlSymbolTable::CStringPoolIndex, unsigned short>, unsigned short>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<CUtlSymbolTableLargeBaseTreeEntry_t*, long long>, long long>::Grow(int)
 CUtlMemory<UtlRBTreeNode_t<NetworkFieldSerializerInfo_t const*, unsigned short>, unsigned short>::Grow(int)
@@ -3199,6 +3231,7 @@ CUtlMemory<int, int>::Grow(int)
 CUtlMemory<order_t, int>::Grow(int)
 CUtlMemory<pollfd, int>::Grow(int)
 CUtlMemory<short, int>::Grow(int)
+CUtlMemory<sockaddr, int>::Grow(int)
 CUtlMemory<unsigned char, int>::Grow(int)
 CUtlMemory<unsigned int, int>::Grow(int)
 CUtlMemory<unsigned short, int>::Grow(int)
@@ -3220,8 +3253,6 @@ CUtlMemoryPoolMT<CUtlTSHashBase<NetworkFieldSerializerInfo_t const*, 4096, unsig
 CUtlMemoryPoolMT<CUtlTSHashBase<NetworkFieldSerializerInfo_t const*, 4096, unsigned long long, CUtlTSHashPreHashedKeyMethod<unsigned long long>, CThreadSpinRWLock>::HashFixedDataInternal_t<NetworkFieldSerializerInfo_t const*> >::Clear()
 CUtlMemoryPoolMT<FieldMetaInfo_t>::Alloc()
 CUtlMemoryPoolMT<FieldMetaInfo_t>::Free(FieldMetaInfo_t*)
-CUtlNoEscConversion
-CUtlNoEscConversion::FindConversion(char const*, int*)
 CUtlPriorityQueue<CQueuedPacketSender::CQueuedPacket*, CDefUtlPriorityQueueLessFunc<CQueuedPacketSender::CQueuedPacket*>, CUtlMemory<CQueuedPacketSender::CQueuedPacket*, int>, CDefUtlPriorityQueueSetIndexFunc<CQueuedPacketSender::CQueuedPacket*> >::RemoveAtHead()
 CUtlPriorityQueue<CQueuedPacketSender::CQueuedPacket*, CDefUtlPriorityQueueLessFunc<CQueuedPacketSender::CQueuedPacket*>, CUtlMemory<CQueuedPacketSender::CQueuedPacket*, int>, CDefUtlPriorityQueueSetIndexFunc<CQueuedPacketSender::CQueuedPacket*> >::RevaluateElement(int)
 CUtlPriorityQueue<SendQueueItem_t*, CDefUtlPriorityQueueLessFunc<SendQueueItem_t*>, CUtlMemory<SendQueueItem_t*, int>, CDefUtlPriorityQueueSetIndexFunc<SendQueueItem_t*> >::RemoveAtHead()
@@ -3231,6 +3262,13 @@ CUtlRBTree<CBucketTree::Spew(char const*)::s_t, int, bool (*)(CBucketTree::Spew(
 CUtlRBTree<CBucketTree::Spew(char const*)::s_t, int, bool (*)(CBucketTree::Spew(char const*)::s_t const&, CBucketTree::Spew(char const*)::s_t const&), CUtlMemory<UtlRBTreeNode_t<CBucketTree::Spew(char const*)::s_t, int>, int> >::RotateLeft(int)
 CUtlRBTree<CBucketTree::Spew(char const*)::s_t, int, bool (*)(CBucketTree::Spew(char const*)::s_t const&, CBucketTree::Spew(char const*)::s_t const&), CUtlMemory<UtlRBTreeNode_t<CBucketTree::Spew(char const*)::s_t, int>, int> >::RotateRight(int)
 CUtlRBTree<CBucketTree::Spew(char const*)::s_t, int, bool (*)(CBucketTree::Spew(char const*)::s_t const&, CBucketTree::Spew(char const*)::s_t const&), CUtlMemory<UtlRBTreeNode_t<CBucketTree::Spew(char const*)::s_t, int>, int> >::~CUtlRBTree()
+CUtlRBTree<CIPRateLimit::iprate_s, int, bool (*)(CIPRateLimit::iprate_s const&, CIPRateLimit::iprate_s const&), CUtlMemory<UtlRBTreeNode_t<CIPRateLimit::iprate_s, int>, int> >::InsertAt(int, bool, CIPRateLimit::iprate_s const*)
+CUtlRBTree<CIPRateLimit::iprate_s, int, bool (*)(CIPRateLimit::iprate_s const&, CIPRateLimit::iprate_s const&), CUtlMemory<UtlRBTreeNode_t<CIPRateLimit::iprate_s, int>, int> >::InsertRebalance(int)
+CUtlRBTree<CIPRateLimit::iprate_s, int, bool (*)(CIPRateLimit::iprate_s const&, CIPRateLimit::iprate_s const&), CUtlMemory<UtlRBTreeNode_t<CIPRateLimit::iprate_s, int>, int> >::RemoveRebalance(int)
+CUtlRBTree<CIPRateLimit::iprate_s, int, bool (*)(CIPRateLimit::iprate_s const&, CIPRateLimit::iprate_s const&), CUtlMemory<UtlRBTreeNode_t<CIPRateLimit::iprate_s, int>, int> >::RotateLeft(int)
+CUtlRBTree<CIPRateLimit::iprate_s, int, bool (*)(CIPRateLimit::iprate_s const&, CIPRateLimit::iprate_s const&), CUtlMemory<UtlRBTreeNode_t<CIPRateLimit::iprate_s, int>, int> >::RotateRight(int)
+CUtlRBTree<CIPRateLimit::iprate_s, int, bool (*)(CIPRateLimit::iprate_s const&, CIPRateLimit::iprate_s const&), CUtlMemory<UtlRBTreeNode_t<CIPRateLimit::iprate_s, int>, int> >::Unlink(int)
+CUtlRBTree<CIPRateLimit::iprate_s, int, bool (*)(CIPRateLimit::iprate_s const&, CIPRateLimit::iprate_s const&), CUtlMemory<UtlRBTreeNode_t<CIPRateLimit::iprate_s, int>, int> >::~CUtlRBTree()
 CUtlRBTree<CNetChan::SplitPlayer_t, unsigned short, bool (*)(CNetChan::SplitPlayer_t const&, CNetChan::SplitPlayer_t const&), CUtlMemory<UtlRBTreeNode_t<CNetChan::SplitPlayer_t, unsigned short>, unsigned short> >::Insert(CNetChan::SplitPlayer_t const&, ERBTreeInsertBehavior)
 CUtlRBTree<CNetChan::SplitPlayer_t, unsigned short, bool (*)(CNetChan::SplitPlayer_t const&, CNetChan::SplitPlayer_t const&), CUtlMemory<UtlRBTreeNode_t<CNetChan::SplitPlayer_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
 CUtlRBTree<CNetChan::SplitPlayer_t, unsigned short, bool (*)(CNetChan::SplitPlayer_t const&, CNetChan::SplitPlayer_t const&), CUtlMemory<UtlRBTreeNode_t<CNetChan::SplitPlayer_t, unsigned short>, unsigned short> >::NewNode(CNetChan::SplitPlayer_t const*)
@@ -3301,6 +3339,13 @@ CUtlRBTree<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, 
 CUtlRBTree<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::RotateLeft(int)
 CUtlRBTree<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::RotateRight(int)
 CUtlRBTree<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t, int, CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, FieldMatch_t, int, bool (*)(char const* const&, char const* const&)>::Node_t, int>, int> >::~CUtlRBTree()
+CUtlRBTree<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short, CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
+CUtlRBTree<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short, CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short> >::PurgeAndDeleteElements()
+CUtlRBTree<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short, CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short> >::RemoveRebalance(unsigned short)
+CUtlRBTree<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short, CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
+CUtlRBTree<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short, CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
+CUtlRBTree<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short, CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short> >::Unlink(unsigned short)
+CUtlRBTree<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short, CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, CThreadedSocketQueue::CSocketThread*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
 CUtlRBTree<CUtlMap<int, INetworkMessageInternal*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short, CUtlMap<int, INetworkMessageInternal*, unsigned short, bool (*)(int const&, int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, INetworkMessageInternal*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
 CUtlRBTree<CUtlMap<int, INetworkMessageInternal*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short, CUtlMap<int, INetworkMessageInternal*, unsigned short, bool (*)(int const&, int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, INetworkMessageInternal*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
 CUtlRBTree<CUtlMap<int, INetworkMessageInternal*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short, CUtlMap<int, INetworkMessageInternal*, unsigned short, bool (*)(int const&, int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<int, INetworkMessageInternal*, unsigned short, bool (*)(int const&, int const&)>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
@@ -3337,6 +3382,14 @@ CUtlRBTree<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int cons
 CUtlRBTree<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short, CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
 CUtlRBTree<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short, CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
 CUtlRBTree<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short, CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, int, unsigned short, bool (*)(unsigned int const&, unsigned int const&)>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
+CUtlRBTree<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int, CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int>, int> >::Insert(CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t const&, ERBTreeInsertBehavior)
+CUtlRBTree<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int, CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int>, int> >::InsertRebalance(int)
+CUtlRBTree<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int, CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int>, int> >::NewNode(CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t const*)
+CUtlRBTree<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int, CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int>, int> >::RemoveRebalance(int)
+CUtlRBTree<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int, CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int>, int> >::RotateLeft(int)
+CUtlRBTree<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int, CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int>, int> >::RotateRight(int)
+CUtlRBTree<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int, CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int>, int> >::Unlink(int)
+CUtlRBTree<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int, CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CThreadedSocketQueue::CSocketThread::CPerNetChanRatelimit_t, int, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, int>, int> >::~CUtlRBTree()
 CUtlRBTree<CUtlSymbolTable::CStringPoolIndex, unsigned short, CUtlSymbolTable::CLess, CUtlMemory<UtlRBTreeNode_t<CUtlSymbolTable::CStringPoolIndex, unsigned short>, unsigned short> >::Find(CUtlSymbolTable::CStringPoolIndex const&) const
 CUtlRBTree<CUtlSymbolTable::CStringPoolIndex, unsigned short, CUtlSymbolTable::CLess, CUtlMemory<UtlRBTreeNode_t<CUtlSymbolTable::CStringPoolIndex, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlSymbolTable::CStringPoolIndex const&, bool, unsigned short&, bool&, bool&)
 CUtlRBTree<CUtlSymbolTable::CStringPoolIndex, unsigned short, CUtlSymbolTable::CLess, CUtlMemory<UtlRBTreeNode_t<CUtlSymbolTable::CStringPoolIndex, unsigned short>, unsigned short> >::InsertAt(unsigned short, bool, CUtlSymbolTable::CStringPoolIndex const*)
@@ -3462,6 +3515,7 @@ CUtlVectorBase<CSplitPacketEntry, CUtlMemory<CSplitPacketEntry, int> >::AddToTai
 CUtlVectorBase<CSplitPacketEntry, CUtlMemory<CSplitPacketEntry, int> >::~CUtlVectorBase()
 CUtlVectorBase<CStackPair*, CUtlMemoryFixedGrowable<CStackPair*, 256ul, int> >::~CUtlVectorBase()
 CUtlVectorBase<CSteamID, CUtlMemoryFixedGrowable<CSteamID, 4ul, int> >::~CUtlVectorBase()
+CUtlVectorBase<CThreadedSocketQueue::SLimitReport, CUtlMemory<CThreadedSocketQueue::SLimitReport, int> >::~CUtlVectorBase()
 CUtlVectorBase<CUtlSignalQueue<CEventIDManager_NetChan>*, CUtlMemory<CUtlSignalQueue<CEventIDManager_NetChan>*, int> >::~CUtlVectorBase()
 CUtlVectorBase<CUtlSignaller_Base*, CUtlMemory<CUtlSignaller_Base*, int> >::~CUtlVectorBase()
 CUtlVectorBase<CUtlSignaller_Identified<CEventIDManager_NetChan>::ConnectedSlot_t, CUtlMemory<CUtlSignaller_Identified<CEventIDManager_NetChan>::ConnectedSlot_t, int> >::~CUtlVectorBase()
@@ -3513,6 +3567,7 @@ CUtlVectorBase<int, CUtlMemoryFixedGrowable<int, 4ul, int> >::~CUtlVectorBase()
 CUtlVectorBase<order_t, CUtlMemory<order_t, int> >::~CUtlVectorBase()
 CUtlVectorBase<pollfd, CUtlMemoryFixedGrowable<pollfd, 64ul, int> >::~CUtlVectorBase()
 CUtlVectorBase<short, CUtlMemory<short, int> >::~CUtlVectorBase()
+CUtlVectorBase<sockaddr, CUtlMemory<sockaddr, int> >::~CUtlVectorBase()
 CUtlVectorBase<unsigned char, CUtlMemory<unsigned char, int> >::~CUtlVectorBase()
 CUtlVectorBase<unsigned int, CUtlMemory<unsigned int, int> >::~CUtlVectorBase()
 CUtlVectorBase<unsigned short, CUtlMemory<unsigned short, int> >::~CUtlVectorBase()
@@ -3527,6 +3582,8 @@ CaselessStringLessThan(char const* const&, char const* const&)
 Cffffff.
 ChangeAccessorFieldPathIndex_t
 Characterize(CFieldPath const&, CFieldPath const&)
+CheckConnectionLessRateLimits(ns_address const&)
+CheckConnectionLessRateLimits(ns_address const&)::autoMutex__
 ClearField
 CmdLinkAH
 Color
@@ -3631,6 +3688,7 @@ ERROR
 ESplitScreenMessageType
 ESteamDatagramMsgID
 E\IcEX
+EconItemToolModel_001
 EngineServiceMgr001
 Entities
 EnumDescriptorProto
@@ -3800,6 +3858,7 @@ HcN01
 HcO8H
 HcQ8H
 HcQxH
+HcRXH
 HelpSystem_001
 HostStateMgr001
 IAppSystem
@@ -3889,6 +3948,7 @@ KeyValuesJSONParser::ParseValue(KeyValues*)
 KeyValuesJSONParser::~KeyValuesJSONParser()
 Kfff.
 L70Hc
+L95H6
 LABEL_OPTIONAL
 LABEL_REPEATED
 LABEL_REQUIRED
@@ -3940,10 +4000,12 @@ MSG_SPLITSCREEN_ADDUSER
 MSG_SPLITSCREEN_REMOVEUSER
 MapListService_001
 MaterialUtils_001
-MathLib_Init(float, float, float, int)
+MathLib_Init()
 MatrixAngles(matrix3x4_t const&, QAngle&)
 MatrixQuaternion(matrix3x4_t const&, Quaternion&)
 MatrixTransform(matrix3x4_t const&, CTransform&)
+McehM
+McuhM
 MeshSystem001
 MeshUtils001
 MessageOptions
@@ -4197,7 +4259,6 @@ PushTwoPack5LeftDeltaZero
 QAngle
 Q_UChar32ToUTF8(wchar_t, char*)
 Q_UTF32ToUTF8(wchar_t const*, char*, int, EStringConvertErrorPolicy)
-Qkkbal
 Quaternion
 QuaternionAngles(Quaternion const&, QAngle&)
 QuaternionMatrix(Quaternion const&, Vector const&, matrix3x4_t&)
@@ -4210,7 +4271,7 @@ RBSAXBRBp
 RBSAXBRKSDUAp
 RBTAp
 RBTBRA
-RBTBRAp
+RBTBREp
 RBVATARBRAp
 RIO_ESTABLISH_CONNECTION
 RIO_NO_ROUTE
@@ -4521,6 +4582,7 @@ ToolScriptManager001
 ToolService_001
 UNSPECIFIED_LOGGING_COLOR
 UPDATE_STRING_TOKEN_DATABASE
+UUUUUUUUUUUUUUUU3333333333333333
 UninterpretedOption
 Unknown
 UserInfoChangeService_001
@@ -4594,12 +4656,10 @@ WorldRendererMgr001
 \BXCRCXCRCXCRCXCRCXCRCXCRCXCRCXCRCXCRCXCRCXCRCXCRCXCRCXCRCXCRCXCRCXCRC
 \u3H9
 \uRMc
-_.memset_pattern
 _AssertMsg_ConditionFailed
 _BinaryProperties_GetValue
 _CMemAllocSystemInitialize
 _CommandLine
-_ConDMsg
 _CreateInterface
 _CreateSimpleThread
 _GetCPUInformation
@@ -4627,6 +4687,7 @@ _Plat_ExitProcess
 _Plat_FloatTime
 _Plat_GetEnv
 _Plat_GetLocalTime
+_Plat_GetTime
 _Plat_IsInDebugSession
 _Plat_IsInTestMode
 _Plat_MSTime
@@ -4640,7 +4701,6 @@ _RandomInt
 _RandomSeed
 _RegisterStringToken
 _ReleaseThreadHandle
-_SinCosTable
 _SteamAPI_GetHSteamPipe
 _SteamAPI_GetHSteamUser
 _SteamAPI_RegisterCallResult
@@ -4658,7 +4718,6 @@ _ThreadJoin
 _ThreadSetDebugNameS2
 _ThreadSetPriority
 _ThreadSleep
-_ThreadYield
 _V_ComposeFileName(char const*, char const*, char*, int)
 _V_MakeAbsolutePath(char*, int, char const*, char const*, bool)
 _V_stricmp(char const*, char const*)
@@ -4674,7 +4733,6 @@ __CreateCNetworkSystemUtilsINetworkSystemUtils_interface()
 __DATA
 __DefaultRuneLocale
 __GLOBAL__sub_I_all_projects_common_code.cpp
-__GLOBAL__sub_I_bitbuf.cpp
 __GLOBAL__sub_I_convar.cpp
 __GLOBAL__sub_I_csteamdatagramclient.cpp
 __GLOBAL__sub_I_csteamdatagramserver.cpp
@@ -4685,6 +4743,7 @@ __GLOBAL__sub_I_fieldpathpacker.cpp
 __GLOBAL__sub_I_flattenedserializers.cpp
 __GLOBAL__sub_I_inetchannel_h_schema.gen_cpp
 __GLOBAL__sub_I_inetworkproceduraldatahelper_h_schema.gen_cpp
+__GLOBAL__sub_I_ipratelimit.cpp
 __GLOBAL__sub_I_keyvalues.cpp
 __GLOBAL__sub_I_mathlib_base.cpp
 __GLOBAL__sub_I_netchan.cpp
@@ -4726,14 +4785,14 @@ ___cxa_guard_acquire
 ___cxa_guard_release
 ___cxa_pure_virtual
 ___cxa_throw
-___cxx_global_var_init178
-___cxx_global_var_init179
-___cxx_global_var_init180
 ___cxx_global_var_init181
 ___cxx_global_var_init182
 ___cxx_global_var_init183
 ___cxx_global_var_init184
 ___cxx_global_var_init185
+___cxx_global_var_init186
+___cxx_global_var_init187
+___cxx_global_var_init188
 ___cxx_global_var_init78
 ___cxx_global_var_init79
 ___cxx_global_var_init80
@@ -4778,11 +4837,9 @@ _bind
 _ceilf
 _close
 _colorcorrection
-_connect
 _fclose
 _ffffff.
 _fflush
-_floorf
 _fmodf
 _fopen
 _fprintf
@@ -4791,18 +4848,19 @@ _free
 _fseek
 _ftell
 _fwrite
-_g_BitWriteMasks
 _g_EarlyInit_Common
 _g_ExpressionEvaluator
-_g_ExtraMasks
 _g_HuffmanEncoder
 _g_IUITextServices
-_g_KeyValuesErrorStack
-_g_LittleBits
 _g_MatrixIdentity
 _g_NSPacketReasons
+_g_NetThreadedBuffers
 _g_PacketFlowNames
 _g_PacketLogger
+_g_ThreadedSocketQueue
+_g_Tier1_BitWriteMasks
+_g_Tier1_CRC32Table
+_g_Tier1_CRC64Table
 _g_VBAllocTracker
 _g_VProfCurrentProfile
 _g_bDTIEnabled
@@ -4832,6 +4890,7 @@ _g_pConfigurationSystem
 _g_pDataCache
 _g_pDmeMakefileUtils
 _g_pDotaCardGameClient
+_g_pEconItemToolModel
 _g_pEngineClient
 _g_pEngineServer
 _g_pEngineServiceMgr
@@ -4956,9 +5015,6 @@ _gethostbyname
 _gethostname
 _inet_addr
 _ioctl
-_lineartolightmap
-_lineartovertex
-_listen
 _malloc
 _mdllib
 _memchr
@@ -4966,13 +5022,18 @@ _memcmp
 _memcpy
 _memmove
 _memset
-_memset_pattern16
 _miniprofiler_ResolveChanges
 _net_maxroutable
 _net_queue_trace
 _net_queued_packet_thread
 _net_showudp
 _net_showudp_remoteonly
+_net_threaded_report_flood_psec
+_net_threaded_report_flood_url
+_net_threaded_report_flood_url_min_interval
+_net_threaded_socket_burst_cap
+_net_threaded_socket_recovery_rate
+_net_threaded_socket_recovery_time
 _network_connection_token
 _poll
 _printf
@@ -4988,7 +5049,6 @@ _quat_identity
 _raise
 _recvfrom
 _remove
-_s_NoEscConversion
 _s_StringCharConversion
 _s_bMathlibInitialized
 _s_pInterfaceRegs
@@ -5028,7 +5088,6 @@ _wcstof
 _wcstol
 _write
 aWbW\
-aco-nz
 activated
 active_spawngroup_handle
 added
@@ -5163,7 +5222,6 @@ code_filename
 codec
 color
 color32
-color_conversion.cpp
 command
 computer_guid
 configFetch
@@ -5280,9 +5338,6 @@ g_BuiltInTypes
 g_CleanupSymbolTable
 g_FakeFieldAndTypeNames
 g_FieldSerializerPool
-g_KVMutex
-g_Mathlib_GammaToLinear
-g_Mathlib_LinearToGamma
 g_NetworkingStats
 g_OpTypes
 g_PacketFlags
@@ -5316,6 +5371,8 @@ guard variable for CNetworkSystem::UpdateNetGraph(float)::cl_cmdrate_var
 guard variable for CNetworkSystem::UpdateNetGraph(float)::cl_interp
 guard variable for CNetworkSystem::UpdateNetGraph(float)::cl_interp_ratio
 guard variable for CNetworkSystem::UpdateNetGraph(float)::cl_updaterate_var
+guard variable for CThreadedSocketQueue::ShouldUseSocketsThreaded()::s_bThreaded
+guard variable for CheckConnectionLessRateLimits(ns_address const&)::autoMutex__
 guard variable for GetSchemaToNetMapOwner()::s_MapOwner
 guard variable for RegisterAtomicType_CNetworkedQuantizedFloat(ISchemaSystem*)::SID_AtomicMeta2_CNetworkedQuantizedFloat
 guard variable for RegisterAtomicType_CNetworkedQuantizedFloat(ISchemaSystem*)::s_AtomicTypeInfoCNetworkedQuantizedFloat
@@ -5368,6 +5425,7 @@ interface.cpp
 interfaces.cpp
 invalid
 ipname
+ipratelimit.cpp
 is_ambient
 is_background_map
 is_dedicated
@@ -5405,8 +5463,6 @@ leading_comments
 length_delimited
 libnetworksystem.dylib
 lifetime
-lineartoscreen
-lineartotexture
 listen
 localhost
 localnamefixup
@@ -5518,12 +5574,19 @@ net_status(CCommandContext const&, CCommand const&)
 net_status_command
 net_steamdatagramtransport_forceproxyaddr
 net_table_name
+net_threaded_report_flood_psec
+net_threaded_report_flood_url
+net_threaded_report_flood_url_min_interval
+net_threaded_socket_burst_cap
+net_threaded_socket_recovery_rate
+net_threaded_socket_recovery_time
 net_usesocketsforloopback
 net_validatemessages
 netadr.cpp
 netadr_t::Clear()
 netadr_t::CompareAdr(netadr_t const&, bool) const
 netadr_t::GetIPHostByteOrder() const
+netadr_t::GetIPNetworkByteOrder() const
 netadr_t::GetPort() const
 netadr_t::GetType() const
 netadr_t::IsLocalhost() const
@@ -5624,7 +5687,6 @@ out_packets_per_sec_x10
 outgoing
 outgoing_acknowledged
 output_type
-pCRC64Table
 package
 packed
 packets_dropped_pct
@@ -5664,7 +5726,6 @@ props
 protocol
 proxies
 public_dependency
-pulCRCTable
 py_generic_services
 qangle
 qangle_pitch_yaw
@@ -5677,6 +5738,7 @@ r8wa1
 r8wm1
 random_seed
 randsse.cpp
+rateChecker
 reason
 received_nosession
 receivingclients
@@ -5686,6 +5748,7 @@ reliable
 reliable_sound
 repeated
 required
+reset
 resource_type
 revision
 rffff.
@@ -5695,7 +5758,6 @@ routing_clusters
 runningstat.cpp
 s1_mapname
 sPE9eX
-sVwES
 s_DefaultAccessor
 s_EmptyConVar
 s_ErrorNetMessageInfo
@@ -5705,7 +5767,6 @@ s_NetworkMessages
 s_NetworkOverrideTypes
 s_NetworkSystem
 s_NetworkSystemUtils
-s_SIMDRandContexts
 s_SchemaInstallCallback
 s_arValveAddresses
 s_bMathlibInitializedGlobalConstructorOnly
@@ -5718,12 +5779,12 @@ s_nCVarFlag
 s_nConnectionCount
 s_nDLLIdentifier
 s_nManifestCount
+s_nRandSIMDSeed
 s_nRegistrationCount
 s_pBinaryBlockEncoders
 s_pBoolEncoders
 s_pConfigRegistry
 s_pConnectionRegistration
-s_pConversionArrays_NoEscConversion
 s_pConversionArrays_StringCharConversion
 s_pDependencies
 s_pFirst
@@ -5782,6 +5843,7 @@ serializer_version
 serializers
 serializing
 server
+server_addr
 server_count
 server_ip_address
 server_sample
@@ -5956,6 +6018,10 @@ string_value
 strnlen
 strtools.cpp
 strtools_unicode.cpp
+sv_logblocks
+sv_max_queries_sec
+sv_max_queries_sec_global
+sv_max_queries_window
 sv_maxroutable
 sv_steamdatagramtransport_port
 svc_BSPDecal
@@ -5993,7 +6059,6 @@ tSfff.
 tVfff.
 tXffff.
 table_id
-texturetolinear
 they_hear_you
 tick_interval
 ticket
@@ -6052,6 +6117,7 @@ typeinfo for CCLCMsg_ServerStatus
 typeinfo for CCLCMsg_SplitPlayerConnect
 typeinfo for CCLCMsg_SplitPlayerDisconnect
 typeinfo for CCLCMsg_VoiceData
+typeinfo for CCallResult<CNetworkSystem, HTTPRequestCompleted_t>
 typeinfo for CCallResult<ConfigFetch, HTTPRequestCompleted_t>
 typeinfo for CCallback<CNetworkSystem, P2PSessionRequest_t, false>
 typeinfo for CCallback<CNetworkSystem, P2PSessionRequest_t, true>
@@ -6210,7 +6276,6 @@ typeinfo for CTier2AppSystem<INetworkSystem, 0>
 typeinfo for CTier2AppSystem<INetworkSystemUtils, 0>
 typeinfo for CUtlCStringConversion
 typeinfo for CUtlCharConversion
-typeinfo for CUtlNoEscConversion
 typeinfo for CUtlSlot
 typeinfo for ConCommand
 typeinfo for ConCommandBase
@@ -6297,6 +6362,7 @@ typeinfo name for CCLCMsg_ServerStatus
 typeinfo name for CCLCMsg_SplitPlayerConnect
 typeinfo name for CCLCMsg_SplitPlayerDisconnect
 typeinfo name for CCLCMsg_VoiceData
+typeinfo name for CCallResult<CNetworkSystem, HTTPRequestCompleted_t>
 typeinfo name for CCallResult<ConfigFetch, HTTPRequestCompleted_t>
 typeinfo name for CCallback<CNetworkSystem, P2PSessionRequest_t, false>
 typeinfo name for CCallback<CNetworkSystem, P2PSessionRequest_t, true>
@@ -6454,7 +6520,6 @@ typeinfo name for CTier2AppSystem<INetworkSystem, 0>
 typeinfo name for CTier2AppSystem<INetworkSystemUtils, 0>
 typeinfo name for CUtlCStringConversion
 typeinfo name for CUtlCharConversion
-typeinfo name for CUtlNoEscConversion
 typeinfo name for CUtlSlot
 typeinfo name for ConCommand
 typeinfo name for ConCommandBase
@@ -6504,10 +6569,9 @@ typeinfo name for snappy::Source
 typeinfo name for snappy::UncheckedByteArraySink
 u0ffff.
 u1ffffff.
-uFfffff.
 uGetResourceManifest
-uGzEH
 uLM9w
+uUffff.
 uint16
 uint32
 uint64
@@ -6531,6 +6595,7 @@ unsigned int std::__1::__sort5<std::__1::__less<ServerWithSessionSort, ServerWit
 unsigned int std::__1::__sort5<std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress>&, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress*, std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddress, SteamDatagramTransport::SteamDatagramNetwork::RouterAddress>&)
 unsigned int std::__1::__sort5<std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup>&, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup>&)
 unsigned int std::__1::__sort5<std::__1::__less<order_t, order_t>&, order_t*>(order_t*, order_t*, order_t*, order_t*, order_t*, std::__1::__less<order_t, order_t>&)
+unsigned short-ff.
 update_baseline
 updated_entries
 user_data_fixed_size
@@ -6545,7 +6610,6 @@ utlstring.cpp
 utlstringtoken.cpp
 utlsymbol.cpp
 utlsymbollarge_h_schema.gen_cpp
-uyfffff.
 vHct
 val_bool
 val_byte
@@ -6625,6 +6689,7 @@ vtable for CCLCMsg_ServerStatus
 vtable for CCLCMsg_SplitPlayerConnect
 vtable for CCLCMsg_SplitPlayerDisconnect
 vtable for CCLCMsg_VoiceData
+vtable for CCallResult<CNetworkSystem, HTTPRequestCompleted_t>
 vtable for CCallResult<ConfigFetch, HTTPRequestCompleted_t>
 vtable for CCallback<CNetworkSystem, P2PSessionRequest_t, false>
 vtable for CCallback<CNetworkSystem, P2PSessionRequest_t, true>
@@ -6762,7 +6827,6 @@ vtable for CSendSerializerStack
 vtable for CSerializerStack
 vtable for CUtlCStringConversion
 vtable for CUtlCharConversion
-vtable for CUtlNoEscConversion
 vtable for ConCommand
 vtable for ConVar
 vtable for INetChannel

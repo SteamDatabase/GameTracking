@@ -58,6 +58,7 @@
  B INT_VECTOR3_ORIGIN
  B InfoForResourceTypeCAnimationGroupResource::s_pSchemaBinding
  B InfoForResourceTypeCAnimationResource::s_pSchemaBinding
+ B InfoForResourceTypeCDotaItemDefinitionResource::s_pSchemaBinding
  B InfoForResourceTypeCEntityLump::s_pSchemaBinding
  B InfoForResourceTypeCLightTree::s_pSchemaBinding
  B InfoForResourceTypeCModel::s_pSchemaBinding
@@ -113,7 +114,6 @@
  B ResourceRemapRule_t::s_pSchemaBinding
  B ResourceRemapTable_t::s_pSchemaBinding
  B ResourceSpecialDependency_t::s_pSchemaBinding
- B SinCosTable
  B colorcorrection
  B g_EarlyInit_Common
  B g_IUITextServices
@@ -142,6 +142,7 @@
  B g_pDataCache
  B g_pDmeMakefileUtils
  B g_pDotaCardGameClient
+ B g_pEconItemToolModel
  B g_pEngineClient
  B g_pEngineServer
  B g_pEngineServiceMgr
@@ -251,12 +252,9 @@
  B g_pWorkshopSetup
  B g_pWorldRendererBuilderMgr
  B g_pWorldRendererMgr
- B lineartolightmap
- B lineartovertex
  B mdllib
  B p4
  B quat_identity
- B s_NoEscConversion
  B s_StringCharConversion
  B s_bMathlibInitialized
  B s_pInterfaceRegs
@@ -447,6 +445,7 @@
  D GetEndMask(int)::bitStringEndMasks
  D InfoForResourceTypeCAnimationGroupResource::s_pSchemaBindingForLocalModule
  D InfoForResourceTypeCAnimationResource::s_pSchemaBindingForLocalModule
+ D InfoForResourceTypeCDotaItemDefinitionResource::s_pSchemaBindingForLocalModule
  D InfoForResourceTypeCEntityLump::s_pSchemaBindingForLocalModule
  D InfoForResourceTypeCLightTree::s_pSchemaBindingForLocalModule
  D InfoForResourceTypeCModel::s_pSchemaBindingForLocalModule
@@ -545,6 +544,7 @@
  D SchemaPrivateAccessor<FourVectors2D>::s_ModuleClassBinding
  D SchemaPrivateAccessor<InfoForResourceTypeCAnimationGroupResource>::s_ModuleClassBinding
  D SchemaPrivateAccessor<InfoForResourceTypeCAnimationResource>::s_ModuleClassBinding
+ D SchemaPrivateAccessor<InfoForResourceTypeCDotaItemDefinitionResource>::s_ModuleClassBinding
  D SchemaPrivateAccessor<InfoForResourceTypeCEntityLump>::s_ModuleClassBinding
  D SchemaPrivateAccessor<InfoForResourceTypeCLightTree>::s_ModuleClassBinding
  D SchemaPrivateAccessor<InfoForResourceTypeCModel>::s_ModuleClassBinding
@@ -725,6 +725,7 @@
  D typeinfo for CSchemaClassBinding<FourVectors2D>
  D typeinfo for CSchemaClassBinding<InfoForResourceTypeCAnimationGroupResource>
  D typeinfo for CSchemaClassBinding<InfoForResourceTypeCAnimationResource>
+ D typeinfo for CSchemaClassBinding<InfoForResourceTypeCDotaItemDefinitionResource>
  D typeinfo for CSchemaClassBinding<InfoForResourceTypeCEntityLump>
  D typeinfo for CSchemaClassBinding<InfoForResourceTypeCLightTree>
  D typeinfo for CSchemaClassBinding<InfoForResourceTypeCModel>
@@ -843,7 +844,6 @@
  D typeinfo for CTier2AppSystem<IResourceSystem, 0>
  D typeinfo for CUtlCStringConversion
  D typeinfo for CUtlCharConversion
- D typeinfo for CUtlNoEscConversion
  D typeinfo for CVConResourceProfileCommandHandler
  D typeinfo for ConCommand
  D typeinfo for ConCommandBase
@@ -990,6 +990,7 @@
  D vtable for CSchemaClassBinding<FourVectors2D>
  D vtable for CSchemaClassBinding<InfoForResourceTypeCAnimationGroupResource>
  D vtable for CSchemaClassBinding<InfoForResourceTypeCAnimationResource>
+ D vtable for CSchemaClassBinding<InfoForResourceTypeCDotaItemDefinitionResource>
  D vtable for CSchemaClassBinding<InfoForResourceTypeCEntityLump>
  D vtable for CSchemaClassBinding<InfoForResourceTypeCLightTree>
  D vtable for CSchemaClassBinding<InfoForResourceTypeCModel>
@@ -1102,12 +1103,10 @@
  D vtable for CSchemaRegistration_resourcesystem
  D vtable for CUtlCStringConversion
  D vtable for CUtlCharConversion
- D vtable for CUtlNoEscConversion
  D vtable for CVConResourceProfileCommandHandler
  D vtable for ConCommand
  D vtable for ConVar
  GetCPUInformation
- GetOSType
  KeyValuesSystem
  LOG_GENERAL
  LoggingSystem_GetChannelVerbosity
@@ -1121,6 +1120,7 @@
  Msg
  Plat_ExitProcess
  Plat_FloatTime
+ Plat_GetOSType
  Plat_GetPlatformError
  Plat_IsHighDPI
  Plat_IsInDebugSession
@@ -1253,6 +1253,7 @@
  R typeinfo name for CSchemaClassBinding<FourVectors2D>
  R typeinfo name for CSchemaClassBinding<InfoForResourceTypeCAnimationGroupResource>
  R typeinfo name for CSchemaClassBinding<InfoForResourceTypeCAnimationResource>
+ R typeinfo name for CSchemaClassBinding<InfoForResourceTypeCDotaItemDefinitionResource>
  R typeinfo name for CSchemaClassBinding<InfoForResourceTypeCEntityLump>
  R typeinfo name for CSchemaClassBinding<InfoForResourceTypeCLightTree>
  R typeinfo name for CSchemaClassBinding<InfoForResourceTypeCModel>
@@ -1371,7 +1372,6 @@
  R typeinfo name for CTier2AppSystem<IResourceSystem, 0>
  R typeinfo name for CUtlCStringConversion
  R typeinfo name for CUtlCharConversion
- R typeinfo name for CUtlNoEscConversion
  R typeinfo name for CVConResourceProfileCommandHandler
  R typeinfo name for ConCommand
  R typeinfo name for ConCommandBase
@@ -1406,7 +1406,6 @@
  T AllocResourceNameImp(bool, char const*)
  T AppendGameResourceFileExtensionSuffix(char const*, char*, int)
  T BinaryProperties_GetValue
- T BuildGammaTable(float, float, float, int)
  T CAsyncCallStackTracker::CAsyncCallStackTracker()
  T CAsyncCallStackTracker::Initialize(bool, int (*)(void**, int, int), unsigned int, unsigned int)
  T CAsyncCallStackTracker::SynchronousSectionEnd(bool, int (*)(void**, int, int), unsigned int)
@@ -1833,7 +1832,6 @@
  T CNullTypeManager::RequiresManifestResourceFinishedCall() const
  T CNullTypeManager::RequiresPostLoadFixup()
  T CNullTypeManager::Shutdown()
- T COrderedConstructor_Create<void, CResolveOrderedFunc<void, &(ResolveOrderedSystem_EarlyInit_Common(COrderedConstructor_DependencyManagement<void>&))>, false>::AddRef(bool)
  T COrderedConstructor_Create<void, CResolveOrderedFunc<void, &(ResolveOrderedSystem_EarlyInit_Common(COrderedConstructor_DependencyManagement<void>&))>, false>::~COrderedConstructor_Create()
  T CPostConnectCallback::CPostConnectCallback(int)
  T CRD_BlockingLoadResourceFileDataUtils::SetRequestInvalid()
@@ -2565,6 +2563,17 @@
  T CSchemaClassBinding<InfoForResourceTypeCAnimationResource>::GetSize() const
  T CSchemaClassBinding<InfoForResourceTypeCAnimationResource>::IsAbstractBinding() const
  T CSchemaClassBinding<InfoForResourceTypeCAnimationResource>::Register(ISchemaSystem*, char const*, char const*)
+ T CSchemaClassBinding<InfoForResourceTypeCDotaItemDefinitionResource>::Allocate() const
+ T CSchemaClassBinding<InfoForResourceTypeCDotaItemDefinitionResource>::AllocateAndCopyConstruct(void const*) const
+ T CSchemaClassBinding<InfoForResourceTypeCDotaItemDefinitionResource>::CanAllocate() const
+ T CSchemaClassBinding<InfoForResourceTypeCDotaItemDefinitionResource>::ConstructInPlace(void*) const
+ T CSchemaClassBinding<InfoForResourceTypeCDotaItemDefinitionResource>::Copy(void*, void const*) const
+ T CSchemaClassBinding<InfoForResourceTypeCDotaItemDefinitionResource>::Deallocate(void*) const
+ T CSchemaClassBinding<InfoForResourceTypeCDotaItemDefinitionResource>::DeduceDerivedType(void const*) const
+ T CSchemaClassBinding<InfoForResourceTypeCDotaItemDefinitionResource>::DestructInPlace(void*) const
+ T CSchemaClassBinding<InfoForResourceTypeCDotaItemDefinitionResource>::GetSize() const
+ T CSchemaClassBinding<InfoForResourceTypeCDotaItemDefinitionResource>::IsAbstractBinding() const
+ T CSchemaClassBinding<InfoForResourceTypeCDotaItemDefinitionResource>::Register(ISchemaSystem*, char const*, char const*)
  T CSchemaClassBinding<InfoForResourceTypeCEntityLump>::Allocate() const
  T CSchemaClassBinding<InfoForResourceTypeCEntityLump>::AllocateAndCopyConstruct(void const*) const
  T CSchemaClassBinding<InfoForResourceTypeCEntityLump>::CanAllocate() const
@@ -3325,7 +3334,6 @@
  T CUtlMemoryPoolMT<CUtlTSHashBase<CResourceSystem::ResourceData_t, 1021, unsigned long long, CUtlTSHashGenericHashMethod<unsigned long long>, CThreadSpinRWLock>::HashFixedDataInternal_t<CResourceSystem::ResourceData_t> >::Free(CUtlTSHashBase<CResourceSystem::ResourceData_t, 1021, unsigned long long, CUtlTSHashGenericHashMethod<unsigned long long>, CThreadSpinRWLock>::HashFixedDataInternal_t<CResourceSystem::ResourceData_t>*)
  T CUtlMemoryPoolMT<CUtlTSHashBase<CUtlSymbolLarge, 1021, CUtlSymbolLarge, CUtlTSHashGenericHashMethod<CUtlSymbolLarge>, CThreadSpinRWLock>::HashFixedDataInternal_t<CUtlSymbolLarge> >::Alloc()
  T CUtlMemoryPoolMT<CUtlTSHashBase<CUtlSymbolLarge, 1021, CUtlSymbolLarge, CUtlTSHashGenericHashMethod<CUtlSymbolLarge>, CThreadSpinRWLock>::HashFixedDataInternal_t<CUtlSymbolLarge> >::Clear()
- T CUtlNoEscConversion::FindConversion(char const*, int*)
  T CUtlRBTree<CUtlSymbolTable::CStringPoolIndex, unsigned short, CUtlSymbolTable::CLess, CUtlMemory<UtlRBTreeNode_t<CUtlSymbolTable::CStringPoolIndex, unsigned short>, unsigned short> >::Find(CUtlSymbolTable::CStringPoolIndex const&) const
  T CUtlRBTree<CUtlSymbolTable::CStringPoolIndex, unsigned short, CUtlSymbolTable::CLess, CUtlMemory<UtlRBTreeNode_t<CUtlSymbolTable::CStringPoolIndex, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlSymbolTable::CStringPoolIndex const&, bool, unsigned short&, bool&, bool&)
  T CUtlRBTree<CUtlSymbolTable::CStringPoolIndex, unsigned short, CUtlSymbolTable::CLess, CUtlMemory<UtlRBTreeNode_t<CUtlSymbolTable::CStringPoolIndex, unsigned short>, unsigned short> >::InsertAt(unsigned short, bool, CUtlSymbolTable::CStringPoolIndex const*)
@@ -3401,7 +3409,7 @@
  T CUtlVectorBase<void*, CUtlMemory<void*, int> >::~CUtlVectorBase()
  T CUtlVectorFixed<NullTypeManager_t, 16ul>::~CUtlVectorFixed()
  T CVConResourceProfileCommandHandler::MessageData(unsigned int, unsigned short, unsigned int, unsigned char*)
- T CVarBitVecBase<unsigned short>::Resize(int, bool)
+ T CVarBitVecBase<unsigned short, (unsigned short)32>::Resize(int, bool)
  T CallPostConnect()
  T ComputeResourceIdFromResourceName(char const*)
  T ComputeResourceIdFromResourceName(unsigned long long, char const*)
@@ -3489,7 +3497,7 @@
  T LeakTrackerIterationCallback_GroupedRecords(ResourceLeakTrackingGroup_t, unsigned int, unsigned long long*, bool, void* const*, unsigned long, void*)
  T LeakTrackerIterationCallback_IndividualRecords(ResourceLeakTrackingGroup_t, unsigned long long, unsigned long long, bool, void* const*, unsigned long, unsigned char const*, unsigned long, void*)
  T LightDesc_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)
- T MathLib_Init(float, float, float, int)
+ T MathLib_Init()
  T MurmurHash2(void const*, int, unsigned int)
  T MurmurHash2LowerCase(char const*, unsigned int)
  T MurmurHash64(void const*, int, unsigned int)
@@ -3651,7 +3659,6 @@
  ThreadGetCurrentProcessId
  ThreadInterlockedExchange64
  ThreadNanoSleep
- ThreadYield
  Warning
  _DefaultRuneLocale
  _GetCallStack
@@ -3723,6 +3730,7 @@
  b FourVectors2D::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b InfoForResourceTypeCAnimationGroupResource::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b InfoForResourceTypeCAnimationResource::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
+ b InfoForResourceTypeCDotaItemDefinitionResource::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b InfoForResourceTypeCEntityLump::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b InfoForResourceTypeCLightTree::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b InfoForResourceTypeCModel::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
@@ -3797,8 +3805,6 @@
  b UNSPECIFIED_LOGGING_COLOR
  b __g_InterfaceRegCResourceSystemIResourceSystem_reg
  b g_CleanupSymbolTable
- b g_Mathlib_GammaToLinear
- b g_Mathlib_LinearToGamma
  b guard variable for CResourceSystem::GetActualFileName(ResourceBindingBase_t const*, char*, int)::s_bHACK_VPCF2_Test
  b guard variable for RegisterAtomicType_CResourceArray(ISchemaSystem*)::s_AtomicTypeInfoCResourceArray
  b guard variable for RegisterAtomicType_CResourceDeferredReference(ISchemaSystem*)::s_AtomicTypeInfoCResourceDeferredReference
@@ -3819,8 +3825,6 @@
  b guard variable for RegisterAtomicType_ResourceId_t(ISchemaSystem*)::s_AtomicTypeInfoResourceId_t
  b guard variable for ResourceLeakTrackingEnabled()::s_bTrackResourceLeaks
  b guard variable for ResourceLeakTracking_RecordKeepingStyle()::s_recordKeepingStyle
- b lineartoscreen
- b lineartotexture
  b resource_leaks_command
  b s_AnonymousResourceName
  b s_Dependencies
@@ -3828,7 +3832,6 @@
  b s_NullTypeManagers
  b s_ResourceProfileMessageBlock
  b s_ResourceSystem
- b s_SIMDRandContexts
  b s_SchemaInstallCallback
  b s_bMathlibInitializedGlobalConstructorOnly
  b s_bRegistered
@@ -3837,12 +3840,11 @@
  b s_nCVarFlag
  b s_nConnectionCount
  b s_nManifestCount
+ b s_nRandSIMDSeed
  b s_nRegistrationCount
  b s_pConfigRegistry
  b s_pConnectionRegistration
  b s_pFirst
- b texturetolinear
- ceilf
  d AABB_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassInfo_AABB_t
  d AABB_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassMembers_AABB_t
  d CRCMD_SetProfileMode::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassInfo_CRCMD_SetProfileMode
@@ -3972,6 +3974,9 @@
  d InfoForResourceTypeCAnimationResource::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassInfo_InfoForResourceTypeCAnimationResource
  d InfoForResourceTypeCAnimationResource::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassMeta_InfoForResourceTypeCAnimationResource
  d InfoForResourceTypeCAnimationResource::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassMeta_InfoForResourceTypeCAnimationResource0_MResourceTypeForInfoType_Value
+ d InfoForResourceTypeCDotaItemDefinitionResource::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassInfo_InfoForResourceTypeCDotaItemDefinitionResource
+ d InfoForResourceTypeCDotaItemDefinitionResource::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassMeta_InfoForResourceTypeCDotaItemDefinitionResource
+ d InfoForResourceTypeCDotaItemDefinitionResource::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassMeta_InfoForResourceTypeCDotaItemDefinitionResource0_MResourceTypeForInfoType_Value
  d InfoForResourceTypeCEntityLump::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassInfo_InfoForResourceTypeCEntityLump
  d InfoForResourceTypeCEntityLump::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassMeta_InfoForResourceTypeCEntityLump
  d InfoForResourceTypeCEntityLump::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassMeta_InfoForResourceTypeCEntityLump0_MResourceTypeForInfoType_Value
@@ -4171,10 +4176,8 @@
  d s_VConCommandHandler
  d s_flResourceExitAfterTime
  d s_nDLLIdentifier
- d s_pConversionArrays_NoEscConversion
  d s_pConversionArrays_StringCharConversion
  dyld_stub_binder
- floorf
  g_VProfCurrentProfile
  g_pMemAlloc
  memchr
@@ -4182,11 +4185,9 @@
  memcpy
  memmove
  memset
- pow
  printf
  pthread_mutex_destroy
  raise
- sin
  sscanf
  std::terminate()
  strchr

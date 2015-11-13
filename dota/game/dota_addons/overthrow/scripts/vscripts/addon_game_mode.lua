@@ -50,6 +50,19 @@ function Precache( context )
        	PrecacheResource( "particle", "particles/addons_gameplay/player_deferred_light.vpcf", context )
        	PrecacheResource( "particle", "particles/items_fx/black_king_bar_avatar.vpcf", context )
        	PrecacheResource( "particle", "particles/treasure_courier_death.vpcf", context )
+       	PrecacheResource( "particle", "particles/econ/wards/f2p/f2p_ward/f2p_ward_true_sight_ambient.vpcf", context )
+       	PrecacheResource( "particle", "particles/econ/items/lone_druid/lone_druid_cauldron/lone_druid_bear_entangle_dust_cauldron.vpcf", context )
+       	PrecacheResource( "particle", "particles/newplayer_fx/npx_landslide_debris.vpcf", context )
+       	
+	--Cache particles for traps
+		PrecacheResource( "particle_folder", "particles/units/heroes/hero_dragon_knight", context )
+		PrecacheResource( "particle_folder", "particles/units/heroes/hero_venomancer", context )
+		PrecacheResource( "particle_folder", "particles/units/heroes/hero_axe", context )
+		PrecacheResource( "particle_folder", "particles/units/heroes/hero_life_stealer", context )
+
+	--Cache sounds for traps
+		PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts", context )
+		PrecacheResource( "soundfile", "soundevents/soundevents_conquest.vsndevts", context )
 end
 
 function Activate()
@@ -142,14 +155,6 @@ function COverthrowGameMode:InitGameMode()
 		self.m_GoldRadiusMin = 300
 		self.m_GoldRadiusMax = 1400
 		self.m_GoldDropPercent = 8
-	elseif GetMapName() == "temple_quintet" then
-		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, 5 )
-		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 5 )
-		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_1, 5 )
-		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_2, 5 )
-		self.m_GoldRadiusMin = 300
-		self.m_GoldRadiusMax = 1400
-		self.m_GoldDropPercent = 10
 	else
 		self.m_GoldRadiusMin = 250
 		self.m_GoldRadiusMax = 550

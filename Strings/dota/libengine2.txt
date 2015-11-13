@@ -503,7 +503,6 @@
 --CNetworkGameClientBase
 --CNetworkGameServerBase
 -1080
--IConVar
 -NETWORK_DISCONNECT_DIRECT_CONNECT_RESERVATION
 -adapter
 -addon
@@ -720,7 +719,6 @@
 27015
 27020
 30000
-333333
 33333333I9
 3fff.
 3fffff.
@@ -845,7 +843,7 @@ AddInt64
 AddMessage
 AddOnInfo
 AddPointToBounds(Vector const&, Vector&, Vector&)
-AddScaleformViewToSceneSystem(bool, SwapChainHandle_t__*, RenderViewport_t const&, ISceneView*&, HSceneViewRenderTarget__*&)
+AddScaleformViewToSceneSystem(bool, SwapChainHandle_t__*, RenderViewport_t const&, ISceneView*&, HSceneViewRenderTarget__*&, bool)
 AddSpawnMessageToDemoSpawnGroups(CUtlVector<SDemoInitialSpawnGroupEntry, CUtlMemory<SDemoInitialSpawnGroupEntry, int> >&, CDemoMessagePB<(EDemoCommands)15, CDemoSpawnGroups>&, NetMessageHandle_t__*, void const*)
 AddSpewRecord(char const*)
 AddSpewRecord(char const*)::s_bReentrancyGuard
@@ -857,6 +855,8 @@ AdditiveFilterManifest
 AdditiveFilterManifest::s_ManifestRegistrar
 AdditiveFilterManifest::s_pManifest
 AngleMatrix(QAngle const&, Vector const&, matrix3x4_t&)
+AngleVectorsFLU(QAngle const&, Vector*, Vector*, Vector*)
+AngleVectorsForward(QAngle const&, Vector*)
 AnimatingImagePanel
 AnimationController
 AnimationFrameData
@@ -964,7 +964,6 @@ BuildDialog
 BuildFileList(char const*, char const*, char const*, bool, BuildFileListType_t, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
 BuildFileList(char const*, char const*, char const*, bool, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
 BuildFileList_R(CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&, char const*, char const*)
-BuildGammaTable(float, float, float, int)
 BuildGroupPtr
 BuildModeControls
 BuildModeDialog
@@ -1066,6 +1065,7 @@ CAppSystemDict::CreateAppWindow(char const*, int, int, int, int, int)
 CAppSystemDict::CreateApplication()
 CAppSystemDict::DictSortLessFunc(CUtlStringMap<CAppSystemDict::InterfaceInfo_t, CUtlSymbolTable>&, int const&, int const&)
 CAppSystemDict::FindSystem(char const*)
+CAppSystemDict::FreeSystemEntry(CAppSystemDict::AppSystem_t*)
 CAppSystemDict::GetConsoleLogFilename() const
 CAppSystemDict::GetFactory()
 CAppSystemDict::GetInitializationPhase() const
@@ -4186,14 +4186,23 @@ CEngineSoundServices::AddBoxOverlay(Vector const&, Vector const&, Vector const&,
 CEngineSoundServices::AddLineOverlay(Vector const&, Vector const&, int, int, int, int, bool, double)
 CEngineSoundServices::AddScreenTextOverlay(float, float, float, unsigned char, unsigned char, unsigned char, unsigned char, char const*)
 CEngineSoundServices::AddTextOverlay(Vector const&, double, char const*)
+CEngineSoundServices::CalculateOcclusion(Vector const&, Vector, float, float, float)
+CEngineSoundServices::ComputeDerivedAudioState(AudioState_t const&, audio_listener_vectors_t&)
+CEngineSoundServices::EconGetSoundEventReplacement(char const*)
+CEngineSoundServices::GetCameraDirection(Vector&)
+CEngineSoundServices::GetCameraPosition(Vector&)
 CEngineSoundServices::GetClientMouthInfo(int)
+CEngineSoundServices::GetEntity2AbsOrigin(CEntityIndex, Vector*)
+CEngineSoundServices::GetEntity2AttachmentAbsOrigin(CEntityIndex, Vector*, CUtlStringToken&)
 CEngineSoundServices::GetPointContents(Vector, int)
 CEngineSoundServices::GetSoundSpatialization(CEntityIndex, SpatializationInfo_t&)
 CEngineSoundServices::GetSurfaceAudioReflectivity(CGameTrace const*)
 CEngineSoundServices::GetToolSpatialization(int, SoundGuid_t, SpatializationInfo_t&)
 CEngineSoundServices::Init()
+CEngineSoundServices::IsPointUnderWater(float, float)
 CEngineSoundServices::NotifySteamOfBadInstall()
 CEngineSoundServices::OnChangeVoiceStatus(CEntityIndex, CSplitScreenSlot, bool)
+CEngineSoundServices::OnSoundEventEnd(SoundEventGuid_t)
 CEngineSoundServices::ShouldSuppressNonUISounds()
 CEngineSoundServices::Shutdown()
 CEngineSoundServices::TraceRay(Ray_t const&, RnQueryAttr_t, CGameTrace*)
@@ -5069,7 +5078,6 @@ CKeyValues3Table::FindOrCreateMember_Internal(CUtlStringToken, char const*, bool
 CKeyValues3Table::~CKeyValues3Table()
 CKeyValuesErrorStack::ReportError(char const*)
 CKeyValuesTokenReader::ReadToken(bool&, bool&)
-CKeyValuesTokenReader::s_pTokenBuf
 CKeyValues_Data::Internal_ClearData()
 CKeyValues_Data::Internal_CopyData(CKeyValues_Data const&)
 CKeyValues_Data::Internal_GetColor(Color)
@@ -5093,6 +5101,7 @@ CL_ChangeCloudSettingsCvar(IConVar*, char const*, float)
 CL_CreateClientClassInfosFromServerClasses(ServerClass*, C_ServerClassInfo**, int*)
 CL_DecompressBZipFile(char const*, char const*)
 CL_DownloadUpdate()
+CL_EndMovie()::host_framerate
 CL_GetBackgroundLevelName(char*, int, bool)
 CL_GetBackgroundMovie(char*, int)
 CL_GetBackgroundMusic(char*, int, bool)
@@ -5110,7 +5119,9 @@ CL_LoadWhitelist(INetworkStringTable*, char const*)
 CL_PlayDemo_f(CCommandContext const&, CCommand const&)
 CL_QueueDownload(char const*)
 CL_RateCvarChanged(IConVar*, char const*, float)
+CL_RecordMovieFrame()
 CL_ShouldRedownloadFile(char const*)::gamedir
+CL_StartMovie(char const*, int, int, int, float, int)::host_framerate
 CL_TimeDemoQuit_f(CCommandContext const&, CCommand const&)
 CL_TimeDemo_Helper(char const*, char const*, char const*)
 CL_TimeDemo_VProfRecord_f(CCommandContext const&, CCommand const&)
@@ -7861,7 +7872,6 @@ CONSTRAINT_TYPE_TWIST
 CONTENT
 CONTENTADDONS
 CONTENTROOT
-COrderedConstructor_Create<void, CResolveOrderedFunc<void, &(ResolveOrderedSystem_EarlyInit_Common(COrderedConstructor_DependencyManagement<void>&))>, false>::AddRef(bool)
 COrderedConstructor_Create<void, CResolveOrderedFunc<void, &(ResolveOrderedSystem_EarlyInit_Common(COrderedConstructor_DependencyManagement<void>&))>, false>::~COrderedConstructor_Create()
 CPPTYPE_BOOL
 CPPTYPE_DOUBLE
@@ -10901,11 +10911,12 @@ CScreenshotService::Init()
 CScreenshotService::OnFrameBoundary(EventFrameBoundary_t const&)
 CScreenshotService::RegisterEventMap(CEventDispatcher<CEventIDManager_Default>*, EventMapRegistrationType_t)
 CScreenshotService::RequestJPEGScreenshot(IScreenshotCallback*, int, long long)
+CScreenshotService::RequestNamedScreenshot(char const*, bool)
 CScreenshotService::Screenshot(int, int, ImageFormat, unsigned char*, int, long long)
 CScreenshotService::ScreenshotJPEG(int, int, unsigned char*, int, long long)
 CScreenshotService::ServiceScreenshotRequests(SwapChainHandle_t__*)
 CScreenshotService::Shutdown()
-CScreenshotService::WriteScreenshotToFile(char const*, char const*, CUtlBuffer&)
+CScreenshotService::WriteScreenshotToFile(char const*, char const*, CUtlBuffer&, bool)
 CScreenshotService::~CScreenshotService()
 CSendProxyDataList::Copy(CSendProxyDataList const&)
 CSequentialPrerequisite
@@ -11432,6 +11443,7 @@ CTier1AppSystem<IVEngineServer2, 0>
 CTier1AppSystem<IVProfExport, 0>
 CTier1AppSystem<IVoiceServer, 0>
 CTier1AppSystem<IXboxSystem, 0>
+CTier1AppSystemDict
 CTier1AppSystemDict::Init()
 CTier1AppSystemDict::SetModPath(char const*)
 CTier1Application
@@ -11995,6 +12007,7 @@ CUtlMemory<ButtonCode_t, int>::Grow(int)
 CUtlMemory<CAppSystemDict::AppSystemRequest_t, int>::Grow(int)
 CUtlMemory<CAppSystemDict::AppSystem_t, int>::Grow(int)
 CUtlMemory<CAppSystemDict::InterfaceInfo_t, int>::Grow(int)
+CUtlMemory<CAppSystemDict::ModuleInfo_t, int>::Grow(int)
 CUtlMemory<CBaseConstraint*, int>::Grow(int)
 CUtlMemory<CBaseDemoAction*, int>::Grow(int)
 CUtlMemory<CBlackBoxRecord*, int>::Grow(int)
@@ -12231,8 +12244,6 @@ CUtlMemoryPoolMT<CFrameSnapshot>::Free(CFrameSnapshot*)
 CUtlMemoryPoolMT<CFrameSnapshot>::~CUtlMemoryPoolMT()
 CUtlMemoryPoolMT<CUtlTSHashBase<CUtlSymbolTableLargeBaseTreeEntry_t*, 2048, CUtlSymbolTableLargeBaseTreeEntry_t*, CCThreadsafeTreeHashMethod<2048, CUtlSymbolTableLargeBaseTreeEntry_t*, false>, CThreadSpinRWLock>::HashFixedDataInternal_t<CUtlSymbolTableLargeBaseTreeEntry_t*> >::Alloc()
 CUtlMemoryPoolMT<CUtlTSHashBase<CUtlSymbolTableLargeBaseTreeEntry_t*, 2048, CUtlSymbolTableLargeBaseTreeEntry_t*, CCThreadsafeTreeHashMethod<2048, CUtlSymbolTableLargeBaseTreeEntry_t*, false>, CThreadSpinRWLock>::HashFixedDataInternal_t<CUtlSymbolTableLargeBaseTreeEntry_t*> >::Clear()
-CUtlNoEscConversion
-CUtlNoEscConversion::FindConversion(char const*, int*)
 CUtlQueue<int, CUtlMemory<int, int> >::Insert(int const&)
 CUtlRBTree<CIPRateLimit::iprate_s, int, bool (*)(CIPRateLimit::iprate_s const&, CIPRateLimit::iprate_s const&), CUtlMemory<UtlRBTreeNode_t<CIPRateLimit::iprate_s, int>, int> >::InsertAt(int, bool, CIPRateLimit::iprate_s const*)
 CUtlRBTree<CIPRateLimit::iprate_s, int, bool (*)(CIPRateLimit::iprate_s const&, CIPRateLimit::iprate_s const&), CUtlMemory<UtlRBTreeNode_t<CIPRateLimit::iprate_s, int>, int> >::InsertRebalance(int)
@@ -12515,6 +12526,7 @@ CUtlVectorBase<ButtonCode_t, CUtlMemory<ButtonCode_t, int> >::~CUtlVectorBase()
 CUtlVectorBase<CAppSystemDict::AppSystemRequest_t, CUtlMemory<CAppSystemDict::AppSystemRequest_t, int> >::~CUtlVectorBase()
 CUtlVectorBase<CAppSystemDict::AppSystem_t, CUtlMemory<CAppSystemDict::AppSystem_t, int> >::~CUtlVectorBase()
 CUtlVectorBase<CAppSystemDict::InterfaceInfo_t, CUtlMemory<CAppSystemDict::InterfaceInfo_t, int> >::~CUtlVectorBase()
+CUtlVectorBase<CAppSystemDict::ModuleInfo_t, CUtlMemory<CAppSystemDict::ModuleInfo_t, int> >::~CUtlVectorBase()
 CUtlVectorBase<CBaseConstraint*, CUtlMemory<CBaseConstraint*, int> >::PurgeAndDeleteElements()
 CUtlVectorBase<CBaseConstraint*, CUtlMemory<CBaseConstraint*, int> >::~CUtlVectorBase()
 CUtlVectorBase<CBaseDemoAction*, CUtlMemory<CBaseDemoAction*, int> >::~CUtlVectorBase()
@@ -12673,6 +12685,7 @@ CUtlVectorBase<char const*, CUtlMemory<char const*, int> >::~CUtlVectorBase()
 CUtlVectorBase<char const*, CUtlMemoryFixedGrowable<char const*, 8ul, int> >::~CUtlVectorBase()
 CUtlVectorBase<char*, CUtlMemory<char*, int> >::~CUtlVectorBase()
 CUtlVectorBase<char, CUtlMemory<char, int> >::~CUtlVectorBase()
+CUtlVectorBase<char, CUtlMemoryFixedGrowable<char, 512ul, int> >::~CUtlVectorBase()
 CUtlVectorBase<client_textmessage_t, CUtlMemory<client_textmessage_t, int> >::~CUtlVectorBase()
 CUtlVectorBase<float, CUtlMemory<float, int> >::~CUtlVectorBase()
 CUtlVectorBase<int, CUtlMemory<int, int> >::~CUtlVectorBase()
@@ -12935,10 +12948,11 @@ CVProfile::GetNumBudgetGroups()
 CVProfile::GetNumCounters() const
 CVProfile::OutputReport(int, char const*, int)
 CVProfile::ResetCounters(CounterGroup_t)
-CVarBitVecBase<unsigned short>::FindNextSetBit(int) const
-CVarBitVecBase<unsigned short>::Resize(int, bool)
+CVarBitVecBase<unsigned short, (unsigned short)32>::FindNextSetBit(int) const
+CVarBitVecBase<unsigned short, (unsigned short)32>::Resize(int, bool)
 CVarSortFunc(ConVar* const&, ConVar* const&)
 CVarSortLessFunc(ConVar* const&, ConVar* const&)
+CVariantBase<CEntityVariantAllocator>::~CVariantBase()
 CVisRender
 CVisRender::AgeList(float, float)
 CVisRender::CVisRender(CPVS*)
@@ -13324,7 +13338,6 @@ D.TfC
 D0TE1
 D15S1
 D16_SHADOW
-D19CTier1AppSystemDict
 D24FS8
 D24S8
 D24X4S4
@@ -13512,6 +13525,7 @@ ESplitScreenMessageType
 EXECUTABLE_PATH
 E\IcEX
 EclipseCVarHandler(IConVar*, char const*, float)
+EconItemToolModel_001
 EditMenu
 EditablePanel
 Efffff.
@@ -13841,7 +13855,6 @@ Expanded
 ExtensionRange
 ExtractClipPlanesFromNonTransposedMatrix(VMatrix const&, VPlane*, bool)
 F0Hcz01
-F0fffff.
 F4IcF0
 F8Hcz81
 FADEINOUT
@@ -13995,10 +14008,8 @@ GenericThreadLocals::CThreadLocalBase::CThreadLocalBase()
 GenericThreadLocals::CThreadLocalBase::~CThreadLocalBase()
 GenericThreadLocals::CThreadLocalPtr<CSplitScreenService::SplitSlot_t>::~CThreadLocalPtr()
 GetActiveMapName()
-GetBitForBitnum(int)::bitsForBitnum
 GetBool
 GetBuildVersion()
-GetCStringCharConversion()
 GetCommand
 GetCurrentMod()
 GetDedicatedServerAppID()
@@ -14022,7 +14033,6 @@ GetModAndAddonPathsFromModOrAddonName(char*, int, char*, int, char const*)
 GetNameOfModule()
 GetNetworkGroupColor(char const*)
 GetNetworkVersion()
-GetNoEscCharConversion()
 GetNumSplitScreenUsersAttachedToEdict
 GetObjectClassName(int)
 GetPanelAnimationDictionary()
@@ -14098,6 +14108,7 @@ HcKXH
 HcKlH
 HcN01
 HcpX1
+HcsxH
 Health
 HeapCompactionService001
 HelpSystem_001
@@ -14152,6 +14163,7 @@ ICommandCallback
 ICommandCompletionCallback
 IComputeWorldOriginCallback
 IConCommandBaseAccessor
+IConVar
 IConnectionlessPacketHandler
 IConnectionlessPacketHandler::~IConnectionlessPacketHandler()
 IConsoleDisplayFunc
@@ -14499,7 +14511,7 @@ KeyValues::ParseIncludedKeys(char const*, char const*, IBaseFileSystem*, char co
 KeyValues::ProcessResolutionKeys(char const*)
 KeyValues::ReadAsBinary(CUtlBuffer&)
 KeyValues::ReadAsBinaryInternal(CUtlBuffer&, char*, unsigned long)
-KeyValues::RecursiveLoadFromBuffer(char const*, CKeyValuesTokenReader&, bool (*)(char const*))
+KeyValues::RecursiveLoadFromBuffer(CKeyValuesErrorStack*, char const*, CKeyValuesTokenReader&, bool (*)(char const*))
 KeyValues::RecursiveMergeKeyValues(KeyValues*)
 KeyValues::RecursiveSaveToFile(CUtlBuffer&, int, bool)
 KeyValues::RecursiveSaveToFile(IBaseFileSystem*, void*, CUtlBuffer*, int, bool, bool)
@@ -14525,7 +14537,8 @@ KeyValues::~KeyValues()
 Kfff.
 KillFocus
 L941tE
-L95CY9
+L95a\8
+L95mSA
 LABEL_OPTIONAL
 LABEL_REPEATED
 LABEL_REQUIRED
@@ -14696,7 +14709,7 @@ MaterialGroup_t::s_pSchemaBinding
 MaterialGroup_t::s_pSchemaBindingForLocalModule
 MaterialSystem2App
 MaterialUtils_001
-MathLib_Init(float, float, float, int)
+MathLib_Init()
 MatrixAngles(matrix3x4_t const&, QAngle&)
 MatrixInverseGeneral(VMatrix const&, VMatrix&)
 MatrixInvert(matrix3x4_t const&, matrix3x4_t&)
@@ -14704,8 +14717,6 @@ MatrixInvertTR(matrix3x4_t const&, matrix3x4_t&)
 MatrixSetIdentity(VMatrix&)
 Maximize
 Mcf8M
-McfpM
-McgpM
 Mcw8G
 MemTools_BeginFrame()
 Menu.ArmedBgColor
@@ -15208,7 +15219,6 @@ Q_UTF8ToUChar32(char const*, wchar_t&, bool&)
 Q_UTF8ToUTF32(char const*, wchar_t*, int, EStringConvertErrorPolicy)
 Q_log2(unsigned int)
 Qfffff.
-Qkkbal
 Quaternion
 QueryPort
 QueuedLoaderVersion001
@@ -15226,17 +15236,17 @@ RBRBRBRBRBRBRBRD
 RBRBRBRBRBRBSARBRBRBRBRBRBRAp
 RBRBRBRBRBRCTAp
 RBRBUARBRBRBUAUAUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBSAp
-RBRBVATARBVATARBVATARBRBRA
 RBRCp
 RBRGp
 RBTAp
-RBTBRBRBRBR0
+RBTBRBRBRBRBRAp
 RBTBRBRBTBRBTBRBTBp
 RBTBRBTBp
 RBTBRBUARAVI
 RBTBp
 RBUARBUARBUARBVBp
 RBVAp
+RBVBRBRBWAVAp
 RBXAp
 RCONClient()
 RCONServer()
@@ -15628,6 +15638,7 @@ SV_RedirectEnd()
 SV_RedirectFlush()
 SV_ReplicateConVarChange(ConVar const*, char const*)
 SV_WriteClassInfosBuffer(ServerClass*, bf_write*)
+S_CreateOcclusionExtents(Vector const&, Vector const&, Vector*, float)
 SaveButton
 ScalableImagePanel
 ScaleFormUI
@@ -16296,11 +16307,11 @@ UsesPanorama
 UsesScaleform
 UtlMemory_CalcNewAllocationCount(int, int, int, int)
 V8ffffff.
+VATARBVATARBVATARBRBRA
 VATBRBSAp
 VApplication001
 VAvi001
 VBAllocTracker001
-VBRBRBWAVAp
 VBSARBRBRBRBRBRBRBRBRBR0
 VBTBp
 VBaseFileSystem011
@@ -16584,6 +16595,7 @@ VarsMenu
 Vector
 Vector3DMultiplyPositionProjective(VMatrix const&, Vector const&, Vector&)
 Vector4D
+VectorAngles(Vector const&, QAngle&)
 VectorITransform(float const*, matrix3x4_t const&, float*)
 VectorNormalize(Vector&)
 VectorVectorsFLU(Vector const&, Vector&, Vector&)
@@ -16725,7 +16737,6 @@ _DownloadCompleteColor
 _DownloadErrorColor
 _Four_Zeros
 _GetCPUInformation
-_GetOSType
 _GetResourceManifestCount
 _GetResourceManifests
 _HangWatchdogInternal_BeginScope
@@ -16826,6 +16837,7 @@ _Plat_GetModuleProcAddress
 _Plat_GetMonitorBounds
 _Plat_GetMonitorResolution
 _Plat_GetOSDescriptionString
+_Plat_GetOSType
 _Plat_GetPagedPoolInfo
 _Plat_GetPeakRSS
 _Plat_GetTimeString
@@ -16879,9 +16891,9 @@ _RandomFloat
 _RandomInt
 _RandomSeed
 _RegisterStringToken
+_RequireKeyValuesSystem
 _SCDynamicStoreCopyProxies
 _SetAssertionPrompt
-_SinCosTable
 _Source2Main
 _StackStats_DumpNamedInstance
 _StackStats_EnumerateRegisteredInstances
@@ -16914,7 +16926,6 @@ _ThreadSetDebugNameS2
 _ThreadSetPriority
 _ThreadSetProcessPriority
 _ThreadSleep
-_ThreadYield
 _Tier0DebugDrawAge
 _Tier0DebugDrawLockLines
 _Tier0DebugDrawLockedQueryLine
@@ -16996,7 +17007,6 @@ __GLOBAL__sub_I_animationcontroller.cpp
 __GLOBAL__sub_I_appsystemdict.cpp
 __GLOBAL__sub_I_basespawngroup.cpp
 __GLOBAL__sub_I_benchmarkservice.cpp
-__GLOBAL__sub_I_bitbuf.cpp
 __GLOBAL__sub_I_bitbuf_errorhandler.cpp
 __GLOBAL__sub_I_bitmapimagepanel.cpp
 __GLOBAL__sub_I_blackbox.cpp
@@ -17650,7 +17660,6 @@ _g_ActiveDLightIndex
 _g_ActiveELightIndex
 _g_AnimatingImagePanelLinkerHack
 _g_AnimatingImagePanelPullInModule
-_g_BitWriteMasks
 _g_BugService
 _g_ButtonLinkerHack
 _g_ButtonPullInModule
@@ -17681,7 +17690,6 @@ _g_EngineStats
 _g_ExpandButtonLinkerHack
 _g_ExpandButtonPullInModule
 _g_ExpressionEvaluator
-_g_ExtraMasks
 _g_FocusPanelList
 _g_GraphPanelLinkerHack
 _g_GraphPanelPullInModule
@@ -17692,7 +17700,6 @@ _g_IUITextServices
 _g_ImagePanelLinkerHack
 _g_ImagePanelPullInModule
 _g_KeyFocusPanel
-_g_KeyValuesErrorStack
 _g_LabelLinkerHack
 _g_LabelPullInModule
 _g_ListPanelLinkerHack
@@ -17700,7 +17707,6 @@ _g_ListPanelPullInModule
 _g_ListViewPanelLinkerHack
 _g_ListViewPanelPullInModule
 _g_ListenServerLoadingProgressDescriptions
-_g_LittleBits
 _g_Log
 _g_MapListService
 _g_MatrixIdentity
@@ -17744,6 +17750,8 @@ _g_SteamP2PAllowConnection
 _g_TelemetryService
 _g_TextEntryLinkerHack
 _g_TextEntryPullInModule
+_g_Tier1_BitWriteMasks
+_g_Tier1_CRC32Table
 _g_ToggleButtonLinkerHack
 _g_ToggleButtonPullInModule
 _g_TreeViewLinkerHack
@@ -17799,6 +17807,7 @@ _g_pDataCache
 _g_pDedicatedConsole
 _g_pDmeMakefileUtils
 _g_pDotaCardGameClient
+_g_pEconItemToolModel
 _g_pEngineClient
 _g_pEnginePVSManager
 _g_pEngineServer
@@ -18060,8 +18069,7 @@ _kCFProxyTypeNone
 _kCFProxyUsernameKey
 _kLastSnapshotTag
 _lasterrorU
-_lineartolightmap
-_lineartovertex
+_ldexp
 _listen
 _lseek
 _malloc
@@ -18091,7 +18099,6 @@ _password
 _per_scan_setup
 _player0_using_joystick
 _poll
-_power2_n
 _pre_process_context
 _pre_process_data
 _prepare_for_pass
@@ -18170,7 +18177,6 @@ _rgb_ycc_convert
 _rgb_ycc_start
 _s_DMXAllocator
 _s_DragDropHelper
-_s_NoEscConversion
 _s_SinglePlayerSharedMemoryManager
 _s_StringCharConversion
 _s_bExitWhenEmpty
@@ -18567,6 +18573,7 @@ checkbutton.cpp
 checksum_crc.cpp
 checksum_engine.cpp
 checksum_md5.cpp
+child_panel_count
 chilren_have_3dtransforms
 choosesound
 circularprogressbar.cpp
@@ -18714,7 +18721,6 @@ condump
 condump(CCommandContext const&, CCommand const&)
 condump_command
 config
-configurationsystem
 configure
 configureuser
 configvalue.cpp
@@ -19106,6 +19112,9 @@ encryptedPayloadKey
 encrypted_password
 end_position
 end_time
+endmovie
+endmovie(CCommandContext const&, CCommand const&)
+endmovie_command
 engine
 engine2
 engine2.cpp
@@ -19286,14 +19295,11 @@ g_HeapCompactionServiceRegister
 g_ImageFormatInfo
 g_ImagePanel_Helper
 g_KBMgr
-g_KVMutex
 g_KeyValues2ErrorStack
 g_Label_Helper
 g_ListPanel_Helper
 g_ListViewPanel_Helper
 g_MapListServiceRegister
-g_Mathlib_GammaToLinear
-g_Mathlib_LinearToGamma
 g_MenuBar_Helper
 g_MenuButton_Helper
 g_MenuItem_Helper
@@ -19480,6 +19486,8 @@ guard variable for CHLTVServer::ConnectRelay(CUtlVector<ns_address, CUtlMemory<n
 guard variable for CHLTVServer::GetRelayAddress()::adr
 guard variable for CInstantReplay::GetDemoFile()::s_dummy
 guard variable for CL_BenchFrame_f(CCommandContext const&, CCommand const&)::mat_no_renderable_passes
+guard variable for CL_EndMovie()::host_framerate
+guard variable for CL_StartMovie(char const*, int, int, int, float, int)::host_framerate
 guard variable for CLoopTypeClientServer::OutputListeners()::pClientSchemas
 guard variable for CLoopTypeClientServer::OutputListeners()::pServerSchemas
 guard variable for CLoopTypeSimple::OutputListeners()::eventIDs
@@ -19572,6 +19580,7 @@ guard variable for g_playdemo_CompletionFunc(char const*, CUtlVector<CUtlString,
 guard variable for g_timedemo_CompletionFunc(char const*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)::timedemoComplete
 guard variable for g_timedemo_vprofrecord_CompletionFunc(char const*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)::timedemo_vprofrecordComplete
 guard variable for g_timedemoquit_CompletionFunc(char const*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)::timedemoquitComplete
+guard variable for startmovie(CCommandContext const&, CCommand const&)::host_framerate
 guard variable for vgui::AnimatingImagePanel::GetKBMap()::s_pMap
 guard variable for vgui::AnimatingImagePanel::GetMessageMap()::s_pMap
 guard variable for vgui::AnimationController::GetKBMap()::s_pMap
@@ -20030,8 +20039,6 @@ lightdesc.cpp
 lightstyles
 line_height
 linear_gradient
-lineartoscreen
-lineartotexture
 listdemo
 listdemo_command
 listen
@@ -20641,9 +20648,11 @@ newPanel
 nextdemo
 nextdemo(CCommandContext const&, CCommand const&)
 nextdemo_command
+nfff.
 nfffff.
 nffffff.
 no_standard_descriptor_accessor
+nocodecprompt
 nodegraph
 noise
 nomapvalidation
@@ -20867,7 +20876,6 @@ p2p_listpeers
 p2p_lockdown_global_trust_everyone
 p2p_lockdown_global_trust_friends
 p2p_relay_maxhops
-p8RBp
 p8p8p
 pHct2
 pHpHp
@@ -20992,7 +21000,6 @@ proxies
 public
 public_dependency
 publiccontent
-pulCRCTable
 pure_server.cpp
 pure_server_whitelist.txt
 pvs.cpp
@@ -21226,7 +21233,6 @@ s_NetworkStringTableClient
 s_NetworkStringTableServer
 s_RenderService
 s_RenderServiceRegister
-s_SIMDRandContexts
 s_ScaleformProceduralLayer
 s_SchemaInstallCallback
 s_SimpleEngineLoopService
@@ -21279,6 +21285,7 @@ s_bSortAscendingSecondary
 s_bSuppressRebindChecks
 s_currentSortingColumnTypeIsText
 s_enginevguiDeps
+s_flPreviousHostFramerate
 s_hAdditiveFilterMaterial
 s_iDuplicateIndex
 s_minidumpComment
@@ -21288,11 +21295,11 @@ s_nDLLIdentifier
 s_nHostSpawnCount
 s_nLastSortColumn
 s_nManifestCount
+s_nRandSIMDSeed
 s_nRegistrationCount
 s_pAppSystemDict
 s_pConfigRegistry
 s_pConnectionRegistration
-s_pConversionArrays_NoEscConversion
 s_pConversionArrays_StringCharConversion
 s_pCurrentSortingColumn
 s_pCurrentSortingListPanel
@@ -21504,6 +21511,10 @@ start_time
 startdemos
 startdemos(CCommandContext const&, CCommand const&)
 startdemos_command
+startmovie
+startmovie(CCommandContext const&, CCommand const&)
+startmovie(CCommandContext const&, CCommand const&)::host_framerate
+startmovie_command
 starttick
 starttime
 state
@@ -21978,13 +21989,13 @@ textinsetx
 textinsety
 texture_bottom_right
 texture_id
+texture_opacity
 texture_pointer
 texture_sample_mode
 texture_serial
 texture_top_left
 textureid
 textureidconverter
-texturetolinear
 tf_medigun_autoheal
 tfffff.
 tgawriter.cpp
@@ -23304,7 +23315,6 @@ typeinfo for CUploadGameStats
 typeinfo for CUserInfoChangeService
 typeinfo for CUtlCStringConversion
 typeinfo for CUtlCharConversion
-typeinfo for CUtlNoEscConversion
 typeinfo for CUtlSlot
 typeinfo for CVConActivateMessage
 typeinfo for CVConAutoCompleteHelper
@@ -24749,7 +24759,6 @@ typeinfo name for CUploadGameStats
 typeinfo name for CUserInfoChangeService
 typeinfo name for CUtlCStringConversion
 typeinfo name for CUtlCharConversion
-typeinfo name for CUtlNoEscConversion
 typeinfo name for CUtlSlot
 typeinfo name for CVConActivateMessage
 typeinfo name for CVConAutoCompleteHelper
@@ -25020,11 +25029,11 @@ typeinfo name for vgui::TreeViewSubPanel
 typeinfo name for vgui::URLLabel
 u6ff.
 uDHcGlH
-uFfffff.
 uLM9w
 uTzRH
 uUIcE
 uUfff.
+uUffff.
 ubHcH
 ucrc32(unsigned long, unsigned char const*, unsigned int)
 ui_scale_factor
@@ -25071,6 +25080,7 @@ url_name
 urlhandler.cpp
 urllabel.cpp
 use_proportional_insets
+useexactfilename
 usepreconnectlogic
 user_data_fixed_size
 user_data_size
@@ -25093,7 +25103,6 @@ utlstring.cpp
 utlstringtoken
 utlstringtoken.cpp
 utlsymbol.cpp
-uyfffff.
 v5ff.
 vAfff.
 vHct
@@ -26000,7 +26009,6 @@ vgui::FrameButton::OnMousePressed(ButtonCode_t)
 vgui::FrameButton::PerformLayout()
 vgui::FrameButton::SetDisabledLook(bool)
 vgui::FrameButton::~FrameButton()
-vgui::FrameSystemButton
 vgui::FrameSystemButton::ApplySchemeSettings(vgui::IScheme*)
 vgui::FrameSystemButton::ChainToAnimationMap()::chained
 vgui::FrameSystemButton::ChainToMap()::chained
@@ -28938,7 +28946,6 @@ vtable for CUploadGameStats
 vtable for CUserInfoChangeService
 vtable for CUtlCStringConversion
 vtable for CUtlCharConversion
-vtable for CUtlNoEscConversion
 vtable for CVConActivateMessage
 vtable for CVConAutoCompleteHelper
 vtable for CVConCommandMessage

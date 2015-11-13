@@ -55,6 +55,16 @@ model:CreateSequence(
 	}
 )
 
+model:CreateSequence(
+	{
+		name = "lightning_zeus_turns",
+		delta = true,
+		poseParamX = model:CreatePoseParameter( "turn", -1, 1, 0, false ),
+		sequences = {
+			{ "@zeus_turns_lookFrame_0", "@zeus_turns_lookFrame_1", "@zeus_turns_lookFrame_2" }
+		}
+	}
+)
 
 -- AsTurningRun
 
@@ -71,6 +81,87 @@ model:CreateSequence(
 		},
 		activities = {
 			{ name = "ACT_DOTA_RUN", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "zeus_run_haste",
+		sequences = {
+			{ "@zeus_run_haste" }
+		},
+		addlayer = {
+			"zeus_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "haste", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "zeus_run_injured",
+		sequences = {
+			{ "@zeus_run_injured" }
+		},
+		addlayer = {
+			"zeus_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "injured", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "lightning_zeus_run",
+		sequences = {
+			{ "@lightning_zeus_run" }
+		},
+		addlayer = {
+			"lightning_zeus_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "lightning", weight = 1 }
+		}
+	}
+)
+model:CreateSequence(
+	{
+		name = "lightning_zeus_run_haste",
+		sequences = {
+			{ "@lightning_zeus_run_haste" }
+		},
+		addlayer = {
+			"lightning_zeus_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "lightning", weight = 1 },
+			{ name = "haste", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "lightning_zeus_run_injured",
+		sequences = {
+			{ "@lightning_zeus_run_injured" }
+		},
+		addlayer = {
+			"lightning_zeus_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "lightning", weight = 1 },
+			{ name = "injured", weight = 1 }
 		}
 	}
 )

@@ -9,27 +9,161 @@ DOTAPageStoreItemDetailsPrimaryControls
 	flow-children: right;
 }
 
-#ExitButton
+
+/* 
+	ItemInfo is the main container under which all controls related
+	to the visible item are grouped, and have many CSS classes and dialog variables
+	set related to the current equipped set.
+*/
+
+.RightAlign
 {
-	width: 41px;
-	height: 41px;
-	vertical-align: center;
 	horizontal-align: right;
-	background-image: url("s2r://panorama/images/control_icons/x_close_png.vtex");
-	background-size: 60%;
-	background-repeat: no-repeat;
-	background-color: #000000;
-	background-position: 50% 50%;
-	margin-left: 10px;
-	margin-top: 1px;
-	wash-color: #b3c6cc;
-	transition-property: background-color;
-	transition-duration: .2s;
-    box-shadow: -1px -1px 2px 2px #ffffff22;
+	flow-children: right;
 }
 
-#ExitButton:hover
+#ItemInfo
 {
-    box-shadow: -1px -1px 2px 2px #ffffff66;
-	wash-color: #ffffff;
+	width: 100%;
+    vertical-align: bottom;
+	margin-bottom: 4px;
+	flow-children: down;
+	horizontal-align: right;
+	opacity: 1.0;
+	transition-property: opacity;
+    transition-duration: 0.1s;
+	transition-delay: .0s;
+}
+
+/* Affects all labels in this group */
+#ItemInfo Label
+{
+    vertical-align: middle;
+	horizontal-align: right;
+    text-transform: uppercase;
+    font-weight: normal;
+	letter-spacing: 1px;
+	
+}
+
+/* Hides all item set information when we're switching heroes */
+.DOTAEconItemPage.HeroUnavailable #ItemInfo
+{
+	opacity: 0;
+	transition-delay: 0.0s; 
+	transition-duration: 0.1s;
+    visibility: collapse;
+}
+
+/* This shows the rarity. It is diabled when we show the default set, which has no rarity */
+#ItemRarity
+{
+	horizontal-align: right;
+	font-weight: medium;
+	font-size: 18px;
+	margin-right: 7px;
+	margin-right: 7px;
+}
+
+/* This shows the style. It is diabled when we don't have multiple styles */
+#ItemStyle
+{
+    margin-left: 10px;
+	visibility: collapse;
+	flow-children: right;
+	
+}
+
+#ItemInfo.MultipleStyles #ItemStyle
+{
+    visibility: visible;
+}
+
+/* The team selector shows radiant/dire buttons, for couriers */
+.TeamSelector
+{
+    visibility: collapse;
+	width: 39px;
+	height: 39px;
+	vertical-align: center;
+	background-size: 80%;
+	background-repeat: no-repeat;
+	background-color: #333333;
+	background-position: 50% 50%;
+	margin-right: 10px;
+	margin-top: 3px;
+	transition-property: background-color;
+	transition-duration: .2s;
+}
+
+#ItemInfo.HasTeamSpecificViews .TeamSelector
+{
+    visibility: visible;
+}
+
+/* The details mode button */
+.TeamSelector.Radiant
+{
+	background-image: url("s2r://panorama/images/team_icons/radiant_png.vtex");
+}
+
+.TeamSelector.Dire
+{
+	background-image: url("s2r://panorama/images/team_icons/dire_png.vtex");
+}
+
+.TeamSelector.Radiant
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #3c8c73 ), to( #3c3c73 ));
+}
+
+#ItemInfo.DireSelected .TeamSelector.Radiant
+{
+	background-color: #333333;
+}
+
+#ItemInfo.DireSelected .TeamSelector.Dire
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #73803c ), to( #733c3c ));
+}
+
+.TeamSelector.Radiant:hover
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #3c8cb3 ), to( #3c3cb3 ));
+}
+
+.TeamSelector.Dire:hover
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #b3803c ), to( #b33c3c ));
+}
+
+/* The item set name */
+#ItemName
+{
+    font-size: 24px;
+	font-weight: medium;
+    color: #ffffffb4;
+	padding-top: -3px;
+	margin-right: 6px;
+}
+
+#ItemStyleSelector 
+{
+	flow-children: right;
+	margin-left: 10px;
+	margin-right: -2px;
+}
+
+#ItemStyleSelector RadioButton 
+{
+	margin-left: 0px;
+	margin-right: 10px;
+	margin-top: 1px;
+	width: 17px;
+	height: 17px;
+}
+
+#ItemStyleSelector RadioButton:selected .RadioBox
+{
+	box-shadow: #5b62bf -1px -1px 8px 2px;
 }
