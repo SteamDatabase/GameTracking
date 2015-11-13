@@ -1,4 +1,4 @@
-"Resource/UI/notifications/notify_how_to_control_kart.res"
+"Resource/UI/notifications/notify_how_to_control_ghost.res"
 {
 	"Notification_Background"
 	{
