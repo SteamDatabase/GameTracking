@@ -820,6 +820,48 @@
 			"fgcolor"		"Black"
 		}
 	}
+
+	"TournamentReadyHintIcon"
+	{
+		"ControlName"	"CExLabel"
+		"fieldName"		"TournamentReadyHintIcon"
+		"font"			"GameUIButtonsSteamControllerSmallest"
+		"xpos"			"0"
+		"ypos"			"54"
+		"zpos"			"3"
+		"wide"			"40"
+		"tall"			"20"
+		"autoResize"	"0"
+		"pinCorner"		"0"
+		"visible"		"0"
+		"enabled"		"0"
+		"labelText"		"Y"
+		"textAlignment"	"left"
+
+		if_mvm
+		{
+			"xpos"			"166"
+			"ypos"			"101"
+			"wide"			"190"
+			"tall"			"22"
+		}
+
+		if_competitive
+		{
+			"xpos"			"236"
+			"ypos"			"106"
+			"wide"			"190"
+			"tall"			"22"
+		}
+
+		if_readymode
+		{
+			"xpos"			"236"
+			"ypos"			"106"
+			"wide"			"190"
+			"tall"			"22"
+		}
+	}
 	
 	"CountdownBG"
 	{
