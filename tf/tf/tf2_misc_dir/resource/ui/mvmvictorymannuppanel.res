@@ -147,8 +147,6 @@
 		"wide"			"399"
 		"tall"			"40"
 		"visible"		"1"
-		"proportionalToParent"	"1"
-
 
 		"PlayerTab1"
 		{
