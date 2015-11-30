@@ -188,6 +188,19 @@ message CVRMsg_TrackedCamera_GetDistortionResponse {
 	optional float v = 3;
 }
 
+message CVRMsg_TrackedCamera_GetProjection {
+	optional uint32 device_index = 1;
+	optional float width = 2;
+	optional float height = 3;
+	optional float z_near = 4;
+	optional float z_far = 5;
+}
+
+message CVRMsg_TrackedCamera_GetProjectionResponse {
+	optional bool result = 1;
+	repeated float matrix_value = 2;
+}
+
 message CVRMsg_GetProperty {
 	enum PropertyDataType {
 		PropType_String = 1;
@@ -312,10 +325,20 @@ message CVRMsg_DriverDebugResponse {
 
 message CVRMsg_QuitProcessRequest {
 	optional uint32 process_id = 1;
+	optional bool force = 2;
 }
 
 message CVRMsg_QuitProcessResponse {
 	optional bool response = 1;
+}
+
+message CVRMsg_AcknowledgeQuit_Exiting {
+}
+
+message CVRMsg_AcknowledgeQuit_UserPrompt {
+}
+
+message CVRMsg_AbortApplicationTransition {
 }
 
 message CVRMsg_StartProcess {
@@ -333,6 +356,9 @@ message CVRMsg_SetMasterProcess {
 }
 
 message CVRMsg_SetMasterProcessResponse {
+}
+
+message CVRMsg_StartAutolaunchOverlays {
 }
 
 message CVRMsg_GetApplicationInfo {

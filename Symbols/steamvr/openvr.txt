@@ -1,5 +1,8 @@
 
  .objc_class_name_NSAutoreleasePool
+ B CVRMsg_AbortApplicationTransition::default_instance_
+ B CVRMsg_AcknowledgeQuit_Exiting::default_instance_
+ B CVRMsg_AcknowledgeQuit_UserPrompt::default_instance_
  B CVRMsg_ApplicationInfo::default_instance_
  B CVRMsg_ApplicationInfo_Manifest::default_instance_
  B CVRMsg_ApplicationInfo_Options::default_instance_
@@ -72,6 +75,7 @@
  B CVRMsg_Settings_SetValue_Response::default_instance_
  B CVRMsg_Settings_Sync::default_instance_
  B CVRMsg_Settings_Sync_Response::default_instance_
+ B CVRMsg_StartAutolaunchOverlays::default_instance_
  B CVRMsg_StartProcess::default_instance_
  B CVRMsg_StartProcessResponse::default_instance_
  B CVRMsg_TrackedCamera_Enable::default_instance_
@@ -82,6 +86,8 @@
  B CVRMsg_TrackedCamera_GetFirmwareDescriptionResponse::default_instance_
  B CVRMsg_TrackedCamera_GetFrameDimensions::default_instance_
  B CVRMsg_TrackedCamera_GetFrameDimensionsResponse::default_instance_
+ B CVRMsg_TrackedCamera_GetProjection::default_instance_
+ B CVRMsg_TrackedCamera_GetProjectionResponse::default_instance_
  B CVRMsg_TrackedCamera_GetVideoStreamElapsedTime::default_instance_
  B CVRMsg_TrackedCamera_GetVideoStreamElapsedTimeResponse::default_instance_
  B CVRMsg_TrackedCamera_GetVideoStreamFormat::default_instance_
@@ -112,6 +118,7 @@
  B g_machClient
  B g_nCurThreadSuspendCount
  B g_pCurThread
+ B s_sLogBaseFilename
  D VTT for std::__1::basic_ifstream<char, std::__1::char_traits<char> >
  D VTT for std::__1::basic_ostringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >
  D VTT for std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >
@@ -149,6 +156,10 @@
  D typeinfo for CVRCompositor_005
  D typeinfo for CVRCompositor_006
  D typeinfo for CVRCompositor_007
+ D typeinfo for CVRCompositor_008
+ D typeinfo for CVRMsg_AbortApplicationTransition
+ D typeinfo for CVRMsg_AcknowledgeQuit_Exiting
+ D typeinfo for CVRMsg_AcknowledgeQuit_UserPrompt
  D typeinfo for CVRMsg_ApplicationInfo
  D typeinfo for CVRMsg_ApplicationInfo_Manifest
  D typeinfo for CVRMsg_ApplicationInfo_Options
@@ -221,6 +232,7 @@
  D typeinfo for CVRMsg_Settings_SetValue_Response
  D typeinfo for CVRMsg_Settings_Sync
  D typeinfo for CVRMsg_Settings_Sync_Response
+ D typeinfo for CVRMsg_StartAutolaunchOverlays
  D typeinfo for CVRMsg_StartProcess
  D typeinfo for CVRMsg_StartProcessResponse
  D typeinfo for CVRMsg_TrackedCamera_Enable
@@ -231,6 +243,8 @@
  D typeinfo for CVRMsg_TrackedCamera_GetFirmwareDescriptionResponse
  D typeinfo for CVRMsg_TrackedCamera_GetFrameDimensions
  D typeinfo for CVRMsg_TrackedCamera_GetFrameDimensionsResponse
+ D typeinfo for CVRMsg_TrackedCamera_GetProjection
+ D typeinfo for CVRMsg_TrackedCamera_GetProjectionResponse
  D typeinfo for CVRMsg_TrackedCamera_GetVideoStreamElapsedTime
  D typeinfo for CVRMsg_TrackedCamera_GetVideoStreamElapsedTimeResponse
  D typeinfo for CVRMsg_TrackedCamera_GetVideoStreamFormat
@@ -254,11 +268,13 @@
  D typeinfo for CVRMsg_TrackedCamera_SupportsPauseResume
  D typeinfo for CVRMsg_TrackedCamera_SupportsPauseResumeResponse
  D typeinfo for CVRMsg_TriggerHapticPulse
+ D typeinfo for CVRNotifications_001
  D typeinfo for CVROverlay_001
  D typeinfo for CVROverlay_002
  D typeinfo for CVROverlay_003
  D typeinfo for CVROverlay_004
  D typeinfo for CVROverlay_005
+ D typeinfo for CVROverlay_006
  D typeinfo for CVRRenderModels_001
  D typeinfo for CVRSystemLatest
  D typeinfo for CVRSystem_001
@@ -268,6 +284,7 @@
  D typeinfo for CVRSystem_005
  D typeinfo for CVRSystem_006
  D typeinfo for CVRSystem_007
+ D typeinfo for CVRSystem_008
  D typeinfo for ChaperoneInterfaceRegistration<CVRChaperone_001>
  D typeinfo for ChaperoneInterfaceRegistration<CVRChaperone_002>
  D typeinfo for ChaperoneSetupInterfaceRegistration<CVRChaperoneSetup_001>
@@ -280,6 +297,7 @@
  D typeinfo for CompositorInterfaceRegistration<CVRCompositor_005>
  D typeinfo for CompositorInterfaceRegistration<CVRCompositor_006>
  D typeinfo for CompositorInterfaceRegistration<CVRCompositor_007>
+ D typeinfo for CompositorInterfaceRegistration<CVRCompositor_008>
  D typeinfo for GenericInterfaceRegistration
  D typeinfo for HmdInterfaceRegistration<CHmd_001>
  D typeinfo for HmdInterfaceRegistration<CHmd_002>
@@ -294,6 +312,7 @@
  D typeinfo for HmdInterfaceRegistration<CVRSystem_005>
  D typeinfo for HmdInterfaceRegistration<CVRSystem_006>
  D typeinfo for HmdInterfaceRegistration<CVRSystem_007>
+ D typeinfo for HmdInterfaceRegistration<CVRSystem_008>
  D typeinfo for IHmdSystem_002
  D typeinfo for IHmdSystem_003
  D typeinfo for IPC::BinarySemaphore
@@ -309,11 +328,13 @@
  D typeinfo for Json::StyledWriter
  D typeinfo for Json::ValueAllocator
  D typeinfo for Json::Writer
+ D typeinfo for NotificationsInterfaceRegistration<CVRNotifications_001>
  D typeinfo for OverlayInterfaceRegistration<CVROverlay_001>
  D typeinfo for OverlayInterfaceRegistration<CVROverlay_002>
  D typeinfo for OverlayInterfaceRegistration<CVROverlay_003>
  D typeinfo for OverlayInterfaceRegistration<CVROverlay_004>
  D typeinfo for OverlayInterfaceRegistration<CVROverlay_005>
+ D typeinfo for OverlayInterfaceRegistration<CVROverlay_006>
  D typeinfo for RenderModelsInterfaceRegistration<CVRRenderModels_001>
  D typeinfo for SystemInterfaceRegistration<CHmdSystem_001>
  D typeinfo for SystemInterfaceRegistration<CHmdSystem_004>
@@ -344,6 +365,7 @@
  D typeinfo for vr::IVRCompositorSystemInternal
  D typeinfo for vr::IVRControlPanel
  D typeinfo for vr::IVRDashboardManager
+ D typeinfo for vr::IVRExtendedDisplay
  D typeinfo for vr::IVRNotifications
  D typeinfo for vr::IVROculusDirect
  D typeinfo for vr::IVROverlay
@@ -380,6 +402,10 @@
  D vtable for CVRCompositor_005
  D vtable for CVRCompositor_006
  D vtable for CVRCompositor_007
+ D vtable for CVRCompositor_008
+ D vtable for CVRMsg_AbortApplicationTransition
+ D vtable for CVRMsg_AcknowledgeQuit_Exiting
+ D vtable for CVRMsg_AcknowledgeQuit_UserPrompt
  D vtable for CVRMsg_ApplicationInfo
  D vtable for CVRMsg_ApplicationInfo_Manifest
  D vtable for CVRMsg_ApplicationInfo_Options
@@ -452,6 +478,7 @@
  D vtable for CVRMsg_Settings_SetValue_Response
  D vtable for CVRMsg_Settings_Sync
  D vtable for CVRMsg_Settings_Sync_Response
+ D vtable for CVRMsg_StartAutolaunchOverlays
  D vtable for CVRMsg_StartProcess
  D vtable for CVRMsg_StartProcessResponse
  D vtable for CVRMsg_TrackedCamera_Enable
@@ -462,6 +489,8 @@
  D vtable for CVRMsg_TrackedCamera_GetFirmwareDescriptionResponse
  D vtable for CVRMsg_TrackedCamera_GetFrameDimensions
  D vtable for CVRMsg_TrackedCamera_GetFrameDimensionsResponse
+ D vtable for CVRMsg_TrackedCamera_GetProjection
+ D vtable for CVRMsg_TrackedCamera_GetProjectionResponse
  D vtable for CVRMsg_TrackedCamera_GetVideoStreamElapsedTime
  D vtable for CVRMsg_TrackedCamera_GetVideoStreamElapsedTimeResponse
  D vtable for CVRMsg_TrackedCamera_GetVideoStreamFormat
@@ -485,11 +514,13 @@
  D vtable for CVRMsg_TrackedCamera_SupportsPauseResume
  D vtable for CVRMsg_TrackedCamera_SupportsPauseResumeResponse
  D vtable for CVRMsg_TriggerHapticPulse
+ D vtable for CVRNotifications_001
  D vtable for CVROverlay_001
  D vtable for CVROverlay_002
  D vtable for CVROverlay_003
  D vtable for CVROverlay_004
  D vtable for CVROverlay_005
+ D vtable for CVROverlay_006
  D vtable for CVRRenderModels_001
  D vtable for CVRSystemLatest
  D vtable for CVRSystem_001
@@ -499,6 +530,7 @@
  D vtable for CVRSystem_005
  D vtable for CVRSystem_006
  D vtable for CVRSystem_007
+ D vtable for CVRSystem_008
  D vtable for ChaperoneInterfaceRegistration<CVRChaperone_001>
  D vtable for ChaperoneInterfaceRegistration<CVRChaperone_002>
  D vtable for ChaperoneSetupInterfaceRegistration<CVRChaperoneSetup_001>
@@ -511,6 +543,7 @@
  D vtable for CompositorInterfaceRegistration<CVRCompositor_005>
  D vtable for CompositorInterfaceRegistration<CVRCompositor_006>
  D vtable for CompositorInterfaceRegistration<CVRCompositor_007>
+ D vtable for CompositorInterfaceRegistration<CVRCompositor_008>
  D vtable for GenericInterfaceRegistration
  D vtable for HmdInterfaceRegistration<CHmd_001>
  D vtable for HmdInterfaceRegistration<CHmd_002>
@@ -525,6 +558,7 @@
  D vtable for HmdInterfaceRegistration<CVRSystem_005>
  D vtable for HmdInterfaceRegistration<CVRSystem_006>
  D vtable for HmdInterfaceRegistration<CVRSystem_007>
+ D vtable for HmdInterfaceRegistration<CVRSystem_008>
  D vtable for IHmdSystem_002
  D vtable for IHmdSystem_003
  D vtable for IPC::BinarySemaphore
@@ -534,11 +568,13 @@
  D vtable for InterfaceRegistrationBase
  D vtable for Json::DefaultValueAllocator
  D vtable for Json::StyledWriter
+ D vtable for NotificationsInterfaceRegistration<CVRNotifications_001>
  D vtable for OverlayInterfaceRegistration<CVROverlay_001>
  D vtable for OverlayInterfaceRegistration<CVROverlay_002>
  D vtable for OverlayInterfaceRegistration<CVROverlay_003>
  D vtable for OverlayInterfaceRegistration<CVROverlay_004>
  D vtable for OverlayInterfaceRegistration<CVROverlay_005>
+ D vtable for OverlayInterfaceRegistration<CVROverlay_006>
  D vtable for RenderModelsInterfaceRegistration<CVRRenderModels_001>
  D vtable for SystemInterfaceRegistration<CHmdSystem_001>
  D vtable for SystemInterfaceRegistration<CHmdSystem_004>
@@ -593,6 +629,10 @@
  R typeinfo name for CVRCompositor_005
  R typeinfo name for CVRCompositor_006
  R typeinfo name for CVRCompositor_007
+ R typeinfo name for CVRCompositor_008
+ R typeinfo name for CVRMsg_AbortApplicationTransition
+ R typeinfo name for CVRMsg_AcknowledgeQuit_Exiting
+ R typeinfo name for CVRMsg_AcknowledgeQuit_UserPrompt
  R typeinfo name for CVRMsg_ApplicationInfo
  R typeinfo name for CVRMsg_ApplicationInfo_Manifest
  R typeinfo name for CVRMsg_ApplicationInfo_Options
@@ -665,6 +705,7 @@
  R typeinfo name for CVRMsg_Settings_SetValue_Response
  R typeinfo name for CVRMsg_Settings_Sync
  R typeinfo name for CVRMsg_Settings_Sync_Response
+ R typeinfo name for CVRMsg_StartAutolaunchOverlays
  R typeinfo name for CVRMsg_StartProcess
  R typeinfo name for CVRMsg_StartProcessResponse
  R typeinfo name for CVRMsg_TrackedCamera_Enable
@@ -675,6 +716,8 @@
  R typeinfo name for CVRMsg_TrackedCamera_GetFirmwareDescriptionResponse
  R typeinfo name for CVRMsg_TrackedCamera_GetFrameDimensions
  R typeinfo name for CVRMsg_TrackedCamera_GetFrameDimensionsResponse
+ R typeinfo name for CVRMsg_TrackedCamera_GetProjection
+ R typeinfo name for CVRMsg_TrackedCamera_GetProjectionResponse
  R typeinfo name for CVRMsg_TrackedCamera_GetVideoStreamElapsedTime
  R typeinfo name for CVRMsg_TrackedCamera_GetVideoStreamElapsedTimeResponse
  R typeinfo name for CVRMsg_TrackedCamera_GetVideoStreamFormat
@@ -698,11 +741,13 @@
  R typeinfo name for CVRMsg_TrackedCamera_SupportsPauseResume
  R typeinfo name for CVRMsg_TrackedCamera_SupportsPauseResumeResponse
  R typeinfo name for CVRMsg_TriggerHapticPulse
+ R typeinfo name for CVRNotifications_001
  R typeinfo name for CVROverlay_001
  R typeinfo name for CVROverlay_002
  R typeinfo name for CVROverlay_003
  R typeinfo name for CVROverlay_004
  R typeinfo name for CVROverlay_005
+ R typeinfo name for CVROverlay_006
  R typeinfo name for CVRRenderModels_001
  R typeinfo name for CVRSystemLatest
  R typeinfo name for CVRSystem_001
@@ -712,6 +757,7 @@
  R typeinfo name for CVRSystem_005
  R typeinfo name for CVRSystem_006
  R typeinfo name for CVRSystem_007
+ R typeinfo name for CVRSystem_008
  R typeinfo name for ChaperoneInterfaceRegistration<CVRChaperone_001>
  R typeinfo name for ChaperoneInterfaceRegistration<CVRChaperone_002>
  R typeinfo name for ChaperoneSetupInterfaceRegistration<CVRChaperoneSetup_001>
@@ -724,6 +770,7 @@
  R typeinfo name for CompositorInterfaceRegistration<CVRCompositor_005>
  R typeinfo name for CompositorInterfaceRegistration<CVRCompositor_006>
  R typeinfo name for CompositorInterfaceRegistration<CVRCompositor_007>
+ R typeinfo name for CompositorInterfaceRegistration<CVRCompositor_008>
  R typeinfo name for GenericInterfaceRegistration
  R typeinfo name for HmdInterfaceRegistration<CHmd_001>
  R typeinfo name for HmdInterfaceRegistration<CHmd_002>
@@ -738,6 +785,7 @@
  R typeinfo name for HmdInterfaceRegistration<CVRSystem_005>
  R typeinfo name for HmdInterfaceRegistration<CVRSystem_006>
  R typeinfo name for HmdInterfaceRegistration<CVRSystem_007>
+ R typeinfo name for HmdInterfaceRegistration<CVRSystem_008>
  R typeinfo name for IHmdSystem_002
  R typeinfo name for IHmdSystem_003
  R typeinfo name for IPC::BinarySemaphore
@@ -753,11 +801,13 @@
  R typeinfo name for Json::StyledWriter
  R typeinfo name for Json::ValueAllocator
  R typeinfo name for Json::Writer
+ R typeinfo name for NotificationsInterfaceRegistration<CVRNotifications_001>
  R typeinfo name for OverlayInterfaceRegistration<CVROverlay_001>
  R typeinfo name for OverlayInterfaceRegistration<CVROverlay_002>
  R typeinfo name for OverlayInterfaceRegistration<CVROverlay_003>
  R typeinfo name for OverlayInterfaceRegistration<CVROverlay_004>
  R typeinfo name for OverlayInterfaceRegistration<CVROverlay_005>
+ R typeinfo name for OverlayInterfaceRegistration<CVROverlay_006>
  R typeinfo name for RenderModelsInterfaceRegistration<CVRRenderModels_001>
  R typeinfo name for SystemInterfaceRegistration<CHmdSystem_001>
  R typeinfo name for SystemInterfaceRegistration<CHmdSystem_004>
@@ -788,6 +838,7 @@
  R typeinfo name for vr::IVRCompositorSystemInternal
  R typeinfo name for vr::IVRControlPanel
  R typeinfo name for vr::IVRDashboardManager
+ R typeinfo name for vr::IVRExtendedDisplay
  R typeinfo name for vr::IVRNotifications
  R typeinfo name for vr::IVROculusDirect
  R typeinfo name for vr::IVROverlay
@@ -818,12 +869,14 @@
  T CDriverManager::GetDriverBaseDir()
  T CDriverManager::LoadDriver(unsigned int, CDriverManager::HmdDriverContext, bool, vr::IServerDriverHost*, vr::IClientDriverHost*)
  T CDriverManager::~CDriverManager()
+ T CHmdSystemLatest::AbortTransition()
  T CHmdSystemLatest::BHmdPresentForDriver(int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&)
  T CHmdSystemLatest::BIsHmdPresent()
  T CHmdSystemLatest::BIsHmdPresentInternal(char const*)
  T CHmdSystemLatest::CHmdSystemLatest()
  T CHmdSystemLatest::Cleanup()
- T CHmdSystemLatest::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CHmdSystemLatest::ForceQuitProcess(unsigned int)
+ T CHmdSystemLatest::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CHmdSystemLatest::GetCurrentCompositorInterface(char const*)
  T CHmdSystemLatest::GetCurrentDisplayInterface(char const*)
  T CHmdSystemLatest::GetDriverCount()
@@ -832,15 +885,16 @@
  T CHmdSystemLatest::GetDriverDisplayModelNumber(char const*, char const*, char*, unsigned int)
  T CHmdSystemLatest::GetDriverDisplaySerialNumber(char const*, char const*, char*, unsigned int)
  T CHmdSystemLatest::GetDriverId(unsigned int, char*, unsigned int)
- T CHmdSystemLatest::GetFloatTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CHmdSystemLatest::GetGenericInterface(char const*, vr::HmdError*)
+ T CHmdSystemLatest::GetEnglishStringForHmdError(vr::EVRInitError)
+ T CHmdSystemLatest::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CHmdSystemLatest::GetGenericInterface(char const*, vr::EVRInitError*)
+ T CHmdSystemLatest::GetIDForVRInitError(vr::EVRInitError)
  T CHmdSystemLatest::GetIPD()
- T CHmdSystemLatest::GetInt32TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CHmdSystemLatest::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CHmdSystemLatest::GetSettings()
- T CHmdSystemLatest::GetStringForHmdError(vr::HmdError)
- T CHmdSystemLatest::GetStringTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, char*, unsigned int, vr::TrackedPropertyError*)
+ T CHmdSystemLatest::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*)
  T CHmdSystemLatest::GetTrackedDeviceClass(unsigned int)
- T CHmdSystemLatest::GetUint64TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CHmdSystemLatest::GetUint64TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CHmdSystemLatest::Init(vr::EVRApplicationType)
  T CHmdSystemLatest::IsInterfaceVersionValid(char const*)
  T CHmdSystemLatest::IsTrackedDeviceConnected(unsigned int)
@@ -849,123 +903,124 @@
  T CHmdSystemLatest::QuitProcess(unsigned int)
  T CHmdSystemLatest::SetIPD(float)
  T CHmdSystemLatest::SetMasterProcessToThis()
+ T CHmdSystemLatest::StartAutolaunchOverlays()
  T CHmdSystemLatest::StartVRProcess(char const*, char const**, unsigned int, char const*)
  T CHmdSystemLatest::~CHmdSystemLatest()
  T CHmdSystem_001::Cleanup()
- T CHmdSystem_001::GetControlPanel(char const*, vr::HmdError*)
+ T CHmdSystem_001::GetControlPanel(char const*, vr::EVRInitError*)
  T CHmdSystem_001::GetCurrentHmd(char const*)
  T CHmdSystem_001::Init()
  T CHmdSystem_001::IsInterfaceVersionValid(char const*)
  T CHmdSystem_004::BIsHmdPresent(char const*)
  T CHmdSystem_004::Cleanup()
  T CHmdSystem_004::GetCurrentHmd(char const*)
- T CHmdSystem_004::GetGenericInterface(char const*, vr::HmdError*)
- T CHmdSystem_004::GetStringForHmdError(vr::HmdError)
+ T CHmdSystem_004::GetGenericInterface(char const*, vr::EVRInitError*)
+ T CHmdSystem_004::GetStringForHmdError(vr::EVRInitError)
  T CHmdSystem_004::Init(char const*, char const*)
  T CHmdSystem_004::IsInterfaceVersionValid(char const*)
- T CHmd_001::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CHmd_001::ComputeDistortion(vr::EVREye, float, float)
  T CHmd_001::GetD3D9AdapterIndex()
  T CHmd_001::GetDisplayId(char*, unsigned int)
  T CHmd_001::GetDriverId(char*, unsigned int)
- T CHmd_001::GetEyeMatrix(vr::Hmd_Eye)
- T CHmd_001::GetEyeOutputViewport(vr::Hmd_Eye, vr::GraphicsAPIConvention, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
- T CHmd_001::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
- T CHmd_001::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
+ T CHmd_001::GetEyeMatrix(vr::EVREye)
+ T CHmd_001::GetEyeOutputViewport(vr::EVREye, vr::EGraphicsAPIConvention, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CHmd_001::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CHmd_001::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
  T CHmd_001::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
- T CHmd_001::GetViewMatrix(float, vr::HmdMatrix44_t*, vr::HmdMatrix44_t*, vr::HmdTrackingResult*)
+ T CHmd_001::GetViewMatrix(float, vr::HmdMatrix44_t*, vr::HmdMatrix44_t*, vr::ETrackingResult*)
  T CHmd_001::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
- T CHmd_001::GetWorldFromHeadPose(float, vr::HmdMatrix34_t*, vr::HmdTrackingResult*)
+ T CHmd_001::GetWorldFromHeadPose(float, vr::HmdMatrix34_t*, vr::ETrackingResult*)
  T CHmd_001::WillDriftInYaw()
- T CHmd_002::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CHmd_002::ComputeDistortion(vr::EVREye, float, float)
  T CHmd_002::GetD3D9AdapterIndex()
  T CHmd_002::GetDisplayId(char*, unsigned int)
  T CHmd_002::GetDriverId(char*, unsigned int)
- T CHmd_002::GetEyeMatrix(vr::Hmd_Eye)
- T CHmd_002::GetEyeOutputViewport(vr::Hmd_Eye, vr::GraphicsAPIConvention, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CHmd_002::GetEyeMatrix(vr::EVREye)
+ T CHmd_002::GetEyeOutputViewport(vr::EVREye, vr::EGraphicsAPIConvention, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
  T CHmd_002::GetLastWorldFromHeadPose(vr::HmdMatrix34_t*)
- T CHmd_002::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
- T CHmd_002::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
+ T CHmd_002::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CHmd_002::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
  T CHmd_002::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
- T CHmd_002::GetViewMatrix(float, vr::HmdMatrix44_t*, vr::HmdMatrix44_t*, vr::HmdTrackingResult*)
+ T CHmd_002::GetViewMatrix(float, vr::HmdMatrix44_t*, vr::HmdMatrix44_t*, vr::ETrackingResult*)
  T CHmd_002::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
- T CHmd_002::GetWorldFromHeadPose(float, vr::HmdMatrix34_t*, vr::HmdTrackingResult*)
+ T CHmd_002::GetWorldFromHeadPose(float, vr::HmdMatrix34_t*, vr::ETrackingResult*)
  T CHmd_002::WillDriftInYaw()
  T CHmd_002::ZeroTracker()
- T CHmd_003::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CHmd_003::ComputeDistortion(vr::EVREye, float, float)
  T CHmd_003::GetD3D9AdapterIndex()
  T CHmd_003::GetDXGIOutputInfo(int*, int*)
  T CHmd_003::GetDisplayId(char*, unsigned int)
  T CHmd_003::GetDriverId(char*, unsigned int)
- T CHmd_003::GetEyeMatrix(vr::Hmd_Eye)
- T CHmd_003::GetEyeOutputViewport(vr::Hmd_Eye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CHmd_003::GetEyeMatrix(vr::EVREye)
+ T CHmd_003::GetEyeOutputViewport(vr::EVREye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
  T CHmd_003::GetLastWorldFromHeadPose(vr::HmdMatrix34_t*)
- T CHmd_003::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
- T CHmd_003::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
+ T CHmd_003::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CHmd_003::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
  T CHmd_003::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
- T CHmd_003::GetViewMatrix(float, vr::HmdMatrix44_t*, vr::HmdMatrix44_t*, vr::HmdTrackingResult*)
+ T CHmd_003::GetViewMatrix(float, vr::HmdMatrix44_t*, vr::HmdMatrix44_t*, vr::ETrackingResult*)
  T CHmd_003::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
- T CHmd_003::GetWorldFromHeadPose(float, vr::HmdMatrix34_t*, vr::HmdTrackingResult*)
+ T CHmd_003::GetWorldFromHeadPose(float, vr::HmdMatrix34_t*, vr::ETrackingResult*)
  T CHmd_003::WillDriftInYaw()
  T CHmd_003::ZeroTracker()
- T CHmd_004::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CHmd_004::ComputeDistortion(vr::EVREye, float, float)
  T CHmd_004::GetD3D9AdapterIndex()
  T CHmd_004::GetDXGIOutputInfo(int*, int*)
  T CHmd_004::GetDisplayId(char*, unsigned int)
  T CHmd_004::GetDriverId(char*, unsigned int)
- T CHmd_004::GetEyeOutputViewport(vr::Hmd_Eye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
- T CHmd_004::GetHeadFromEyePose(vr::Hmd_Eye)
+ T CHmd_004::GetEyeOutputViewport(vr::EVREye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CHmd_004::GetHeadFromEyePose(vr::EVREye)
  T CHmd_004::GetLastTrackerFromHeadPose(vr::HmdMatrix34_t*)
- T CHmd_004::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
- T CHmd_004::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
+ T CHmd_004::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CHmd_004::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
  T CHmd_004::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
- T CHmd_004::GetTrackerFromHeadPose(float, vr::HmdMatrix34_t*, vr::HmdTrackingResult*)
+ T CHmd_004::GetTrackerFromHeadPose(float, vr::HmdMatrix34_t*, vr::ETrackingResult*)
  T CHmd_004::GetTrackerZeroPose()
- T CHmd_004::GetViewMatrix(float, vr::HmdMatrix44_t*, vr::HmdMatrix44_t*, vr::HmdTrackingResult*)
+ T CHmd_004::GetViewMatrix(float, vr::HmdMatrix44_t*, vr::HmdMatrix44_t*, vr::ETrackingResult*)
  T CHmd_004::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
  T CHmd_004::WillDriftInYaw()
  T CHmd_004::ZeroTracker()
  T CHmd_005::AttachToWindow(void*)
- T CHmd_005::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CHmd_005::ComputeDistortion(vr::EVREye, float, float)
  T CHmd_005::GetD3D9AdapterIndex()
  T CHmd_005::GetDXGIOutputInfo(int*, int*)
  T CHmd_005::GetDisplayId(char*, unsigned int)
  T CHmd_005::GetDriverId(char*, unsigned int)
- T CHmd_005::GetEyeOutputViewport(vr::Hmd_Eye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
- T CHmd_005::GetHeadFromEyePose(vr::Hmd_Eye)
+ T CHmd_005::GetEyeOutputViewport(vr::EVREye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CHmd_005::GetHeadFromEyePose(vr::EVREye)
  T CHmd_005::GetLastTrackerFromHeadPose(vr::HmdMatrix34_t*)
- T CHmd_005::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
- T CHmd_005::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
+ T CHmd_005::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CHmd_005::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
  T CHmd_005::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
- T CHmd_005::GetTrackerFromHeadPose(float, vr::HmdMatrix34_t*, vr::HmdTrackingResult*)
+ T CHmd_005::GetTrackerFromHeadPose(float, vr::HmdMatrix34_t*, vr::ETrackingResult*)
  T CHmd_005::GetTrackerZeroPose()
- T CHmd_005::GetViewMatrix(float, vr::HmdMatrix44_t*, vr::HmdMatrix44_t*, vr::HmdTrackingResult*)
+ T CHmd_005::GetViewMatrix(float, vr::HmdMatrix44_t*, vr::HmdMatrix44_t*, vr::ETrackingResult*)
  T CHmd_005::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
  T CHmd_005::WillDriftInYaw()
  T CHmd_005::ZeroTracker()
  T CHmd_006::AttachToWindow(void*)
- T CHmd_006::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CHmd_006::ComputeDistortion(vr::EVREye, float, float)
  T CHmd_006::FreeRenderModel(RenderModel001_t*)
- T CHmd_006::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CHmd_006::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CHmd_006::GetD3D9AdapterIndex()
  T CHmd_006::GetDXGIOutputInfo(int*, int*)
  T CHmd_006::GetDeviceToAbsoluteTrackingPose(float, vr::TrackedDevicePose_t*, unsigned int)
  T CHmd_006::GetEventTypeNameFromEnum(vr::EVREventType)
- T CHmd_006::GetEyeOutputViewport(vr::Hmd_Eye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
- T CHmd_006::GetEyeToHeadTransform(vr::Hmd_Eye)
- T CHmd_006::GetFloatTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CHmd_006::GetHiddenAreaMesh(vr::Hmd_Eye)
+ T CHmd_006::GetEyeOutputViewport(vr::EVREye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CHmd_006::GetEyeToHeadTransform(vr::EVREye)
+ T CHmd_006::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CHmd_006::GetHiddenAreaMesh(vr::EVREye)
  T CHmd_006::GetIPD()
- T CHmd_006::GetInt32TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CHmd_006::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
- T CHmd_006::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
- T CHmd_006::GetPropErrorNameFromEnum(vr::TrackedPropertyError)
+ T CHmd_006::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CHmd_006::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CHmd_006::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
+ T CHmd_006::GetPropErrorNameFromEnum(vr::ETrackedPropertyError)
  T CHmd_006::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
- T CHmd_006::GetStringTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, char*, unsigned int, vr::TrackedPropertyError*)
+ T CHmd_006::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*)
  T CHmd_006::GetTimeSinceLastVsync(float*, unsigned long long*)
  T CHmd_006::GetTrackedDeviceClass(unsigned int)
  T CHmd_006::GetTrackedDeviceInfoDEPRECATED(TrackedDeviceInfoDEPRECATED_t*, unsigned int)
  T CHmd_006::GetTrackerZeroPose()
- T CHmd_006::GetUint64TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CHmd_006::GetUint64TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CHmd_006::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
  T CHmd_006::IsTrackedDeviceConnected(unsigned int)
  T CHmd_006::LoadRenderModel(char const*, RenderModel001_t*)
@@ -987,7 +1042,7 @@
  T COculusDirectClient::DestroySwapTextureSet(void*)
  T COculusDirectClient::Init(CVRClient*)
  T COculusDirectClient::Present()
- T COculusDirectClient::SubmitLayer(unsigned int, vr::Hmd_Eye, vr::GraphicsAPIConvention, void*, vr::VRTextureBounds_t const*, vr::HmdMatrix34_t const*)
+ T COculusDirectClient::SubmitLayer(unsigned int, vr::EVREye, void*, vr::VRTextureBounds_t const*, vr::HmdMatrix34_t const*)
  T CRenderModelManager::BInit(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T CRenderModelManager::CRenderModelManager()
  T CRenderModelManager::Cleanup()
@@ -1012,7 +1067,7 @@
  T CSharedTextureHelper::BeginFrameTiming()
  T CSharedTextureHelper::EndFrameTiming()
  T CSharedTextureHelper::GetSharedTextureData(void*, void*, unsigned int)
- T CSharedTextureHelper::GetSharedTextureHandle(vr::GraphicsAPIConvention, void*, vr::VRTextureBounds_t*, int, vr::VRSubmitFlags_t, CSharedTextureHelper::Error*)
+ T CSharedTextureHelper::GetSharedTextureHandle(vr::Texture_t const*, vr::VRTextureBounds_t*, int, vr::EVRSubmitFlags, CSharedTextureHelper::Error*)
  T CSharedTextureHelper::GetSharedTextureSize(void*, unsigned int*, unsigned int*)
  T CSharedTextureHelper::Init(int, void*, vr::IVROculusDirect*)
  T CSharedTextureHelper::Release()
@@ -1021,13 +1076,13 @@
  T CTrackedCameraFrameQueue::Read(int*)
  T CTrackedCameraFrameQueue::Write(int)
  T CTrackedDevicePropertyCache::CTrackedDevicePropertyCache()
- T CTrackedDevicePropertyCache::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*, unsigned int)
- T CTrackedDevicePropertyCache::GetFloatTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*, unsigned int)
- T CTrackedDevicePropertyCache::GetInt32TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*, unsigned int)
- T CTrackedDevicePropertyCache::GetMatrix34TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*, unsigned int)
- T CTrackedDevicePropertyCache::GetPropertyInternal(unsigned int, vr::TrackedDeviceProperty, unsigned int, CVRMsg_GetPropertyResponse const**, unsigned int)
- T CTrackedDevicePropertyCache::GetStringTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, char*, unsigned int, vr::TrackedPropertyError*, unsigned int)
- T CTrackedDevicePropertyCache::GetUint64TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*, unsigned int)
+ T CTrackedDevicePropertyCache::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*, unsigned int)
+ T CTrackedDevicePropertyCache::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*, unsigned int)
+ T CTrackedDevicePropertyCache::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*, unsigned int)
+ T CTrackedDevicePropertyCache::GetMatrix34TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*, unsigned int)
+ T CTrackedDevicePropertyCache::GetPropertyInternal(unsigned int, vr::ETrackedDeviceProperty, unsigned int, CVRMsg_GetPropertyResponse const**, unsigned int)
+ T CTrackedDevicePropertyCache::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*, unsigned int)
+ T CTrackedDevicePropertyCache::GetUint64TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*, unsigned int)
  T CTrackedDevicePropertyCache::Reset(CVRClient*)
  T CTrackedDevicePropertyCache::~CTrackedDevicePropertyCache()
  T CVRApplications_001::AddApplicationManifest(char const*, bool)
@@ -1116,17 +1171,17 @@
  T CVRChaperone_002::SetSceneColor(vr::HmdColor_t)
  T CVRClient::BStartVRServer()
  T CVRClient::Cleanup()
- T CVRClient::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CVRClient::ComputeDistortion(vr::EVREye, float, float)
  T CVRClient::Init(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, vr::EVRApplicationType)
  T CVRClientCore_001::BIsHmdPresent(char const*)
  T CVRClientCore_001::Cleanup()
- T CVRClientCore_001::GetGenericInterface(char const*, vr::HmdError*)
- T CVRClientCore_001::GetStringForHmdError(vr::HmdError)
+ T CVRClientCore_001::GetGenericInterface(char const*, vr::EVRInitError*)
+ T CVRClientCore_001::GetStringForHmdError(vr::EVRInitError)
  T CVRClientCore_001::Init(char const*, char const*)
  T CVRClientCore_001::IsInterfaceVersionValid(char const*)
  T CVRCompositorClient::BInitialized() const
  T CVRCompositorClient::BStartVRCompositor()
- T CVRCompositorClient::BeginFrame_DEPRECATED(vr::Hmd_Eye, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRCompositorClient::BeginFrame_DEPRECATED(vr::EVREye, vr::TrackedDevicePose_t*, unsigned int)
  T CVRCompositorClient::CVRCompositorClient()
  T CVRCompositorClient::CanRenderScene()
  T CVRCompositorClient::Cleanup()
@@ -1140,7 +1195,7 @@
  T CVRCompositorClient::CreateDashboardOverlay(char const*, char const*, unsigned long long*, unsigned long long*)
  T CVRCompositorClient::CreateOverlay(char const*, char const*, unsigned long long*)
  T CVRCompositorClient::DestroyOverlay(unsigned long long)
- T CVRCompositorClient::EndFrame_DEPRECATED(vr::Hmd_Eye, void*, vr::VRTextureBounds_t*)
+ T CVRCompositorClient::EndFrame_DEPRECATED(vr::EVREye, void*, vr::VRTextureBounds_t*)
  T CVRCompositorClient::FadeGrid(float, bool)
  T CVRCompositorClient::FadeToColor(float, float, float, float, float, bool)
  T CVRCompositorClient::FindOverlay(char const*, unsigned long long*)
@@ -1152,16 +1207,16 @@
  T CVRCompositorClient::GetOverlayAlpha(unsigned long long, float*)
  T CVRCompositorClient::GetOverlayAutoCurveDistanceRangeInMeters(unsigned long long, float*, float*)
  T CVRCompositorClient::GetOverlayColor(unsigned long long, float*, float*, float*)
- T CVRCompositorClient::GetOverlayErrorNameFromEnum(vr::VROverlayError)
+ T CVRCompositorClient::GetOverlayErrorNameFromEnum(vr::EVROverlayError)
  T CVRCompositorClient::GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
- T CVRCompositorClient::GetOverlayGamma(unsigned long long, float*)
  T CVRCompositorClient::GetOverlayImageData(unsigned long long, void*, unsigned int, unsigned int*, unsigned int*)
  T CVRCompositorClient::GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
- T CVRCompositorClient::GetOverlayKey(unsigned long long, char*, unsigned int, vr::VROverlayError*)
+ T CVRCompositorClient::GetOverlayKey(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
  T CVRCompositorClient::GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
- T CVRCompositorClient::GetOverlayName(unsigned long long, char*, unsigned int, vr::VROverlayError*)
+ T CVRCompositorClient::GetOverlayName(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
  T CVRCompositorClient::GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
- T CVRCompositorClient::GetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin*, vr::HmdMatrix34_t*)
+ T CVRCompositorClient::GetOverlayTextureColorSpace(unsigned long long, vr::EColorSpace*)
+ T CVRCompositorClient::GetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin*, vr::HmdMatrix34_t*)
  T CVRCompositorClient::GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
  T CVRCompositorClient::GetOverlayTransformType(unsigned long long, vr::VROverlayTransformType*)
  T CVRCompositorClient::GetOverlayWidthInMeters(unsigned long long, float*)
@@ -1187,14 +1242,14 @@
  T CVRCompositorClient::SetOverlayColor(unsigned long long, float, float, float)
  T CVRCompositorClient::SetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool)
  T CVRCompositorClient::SetOverlayFromFile(unsigned long long, char const*)
- T CVRCompositorClient::SetOverlayGamma(unsigned long long, float)
  T CVRCompositorClient::SetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod)
  T CVRCompositorClient::SetOverlayMouseScale(unsigned long long, vr::HmdVector2_t const*)
  T CVRCompositorClient::SetOverlayNeighbor(vr::EOverlayDirection, unsigned long long, unsigned long long)
  T CVRCompositorClient::SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
- T CVRCompositorClient::SetOverlayTexture(unsigned long long, vr::GraphicsAPIConvention, void*)
+ T CVRCompositorClient::SetOverlayTexture(unsigned long long, vr::Texture_t const*)
  T CVRCompositorClient::SetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t const*)
- T CVRCompositorClient::SetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ T CVRCompositorClient::SetOverlayTextureColorSpace(unsigned long long, vr::EColorSpace)
+ T CVRCompositorClient::SetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
  T CVRCompositorClient::SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
  T CVRCompositorClient::SetOverlayWidthInMeters(unsigned long long, float)
  T CVRCompositorClient::SetOverlay_DEPRECATED(void*, vr::Compositor_OverlaySettings*)
@@ -1204,31 +1259,26 @@
  T CVRCompositorClient::ShowKeyboardInternal(unsigned long long, bool, vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
  T CVRCompositorClient::ShowMirrorWindow()
  T CVRCompositorClient::ShowOverlay(unsigned long long)
- T CVRCompositorClient::Submit(vr::Hmd_Eye, vr::GraphicsAPIConvention, void*, vr::VRTextureBounds_t const*, vr::VRSubmitFlags_t)
+ T CVRCompositorClient::Submit(vr::EVREye, vr::Texture_t const*, vr::VRTextureBounds_t const*, vr::EVRSubmitFlags)
  T CVRCompositorClient::WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
  T CVRCompositorClientBase::CVRCompositorClientBase()
  T CVRCompositorClientBase::CanRenderScene()
  T CVRCompositorClientBase::ClearSkyboxOverride()
  T CVRCompositorClientBase::GetFrameTimeRemaining()
  T CVRCompositorClientBase::GetFrameTiming(vr::Compositor_FrameTiming*, unsigned int)
- T CVRCompositorClientBase::GetGamma()
- T CVRCompositorClientBase::GetLastError(char*, unsigned int)
  T CVRCompositorClientBase::GetLastFrameRenderer()
  T CVRCompositorClientBase::GetLastPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
  T CVRCompositorClientBase::GetTrackingSpace()
- T CVRCompositorClientBase::GetVSync()
  T CVRCompositorClientBase::IsFullscreen()
  T CVRCompositorClientBase::IsMirrorWindowVisible()
- T CVRCompositorClientBase::SetGamma(float)
- T CVRCompositorClientBase::SetSkyboxOverride(vr::GraphicsAPIConvention, void*, void*, void*, void*, void*, void*)
- T CVRCompositorClientBase::SetTrackingSpace(vr::TrackingUniverseOrigin)
- T CVRCompositorClientBase::SetVSync(bool)
- T CVRCompositor_001::BeginFrame(vr::Hmd_Eye, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRCompositorClientBase::SetSkyboxOverride(vr::Texture_t const*, unsigned int)
+ T CVRCompositorClientBase::SetTrackingSpace(vr::ETrackingUniverseOrigin)
+ T CVRCompositor_001::BeginFrame(vr::EVREye, vr::TrackedDevicePose_t*, unsigned int)
  T CVRCompositor_001::ClearFrameBuffer()
  T CVRCompositor_001::CompositorBringToFront()
  T CVRCompositor_001::CompositorGoToBack()
  T CVRCompositor_001::CompositorQuit()
- T CVRCompositor_001::EndFrame(vr::Hmd_Eye, void*, vr::VRTextureBounds_t*)
+ T CVRCompositor_001::EndFrame(vr::EVREye, void*, vr::VRTextureBounds_t*)
  T CVRCompositor_001::FadeGrid(float, bool)
  T CVRCompositor_001::FadeToColor(float, float, float, float, float)
  T CVRCompositor_001::GetFrameTiming(unsigned int)
@@ -1241,12 +1291,12 @@
  T CVRCompositor_001::SetOverlayRaw(void*, unsigned int, unsigned int, unsigned int, Compositor_OverlaySettings_004*)
  T CVRCompositor_001::SetVSync(bool)
  T CVRCompositor_001::~CVRCompositor_001()
- T CVRCompositor_002::BeginFrame_DEPRECATED(vr::Hmd_Eye, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRCompositor_002::BeginFrame_DEPRECATED(vr::EVREye, vr::TrackedDevicePose_t*, unsigned int)
  T CVRCompositor_002::ClearFrameBuffer()
  T CVRCompositor_002::CompositorBringToFront()
  T CVRCompositor_002::CompositorGoToBack()
  T CVRCompositor_002::CompositorQuit()
- T CVRCompositor_002::EndFrame_DEPRECATED(vr::Hmd_Eye, void*, vr::VRTextureBounds_t*)
+ T CVRCompositor_002::EndFrame_DEPRECATED(vr::EVREye, void*, vr::VRTextureBounds_t*)
  T CVRCompositor_002::FadeGrid(float, bool)
  T CVRCompositor_002::FadeToColor(float, float, float, float, float)
  T CVRCompositor_002::GetFrameTiming(unsigned int)
@@ -1260,7 +1310,7 @@
  T CVRCompositor_002::SetOverlayRaw(void*, unsigned int, unsigned int, unsigned int, Compositor_OverlaySettings_004*)
  T CVRCompositor_002::SetOverlay_DEPRECATED(void*, Compositor_OverlaySettings_004*)
  T CVRCompositor_002::SetVSync(bool)
- T CVRCompositor_002::Submit(vr::Hmd_Eye, void*, vr::VRTextureBounds_t*)
+ T CVRCompositor_002::Submit(vr::EVREye, void*, vr::VRTextureBounds_t*)
  T CVRCompositor_002::WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int)
  T CVRCompositor_002::~CVRCompositor_002()
  T CVRCompositor_003::ClearLastSubmittedFrame()
@@ -1281,7 +1331,7 @@
  T CVRCompositor_003::SetOverlayFromFile(char const*, Compositor_OverlaySettings_004*)
  T CVRCompositor_003::SetOverlayRaw(void*, unsigned int, unsigned int, unsigned int, Compositor_OverlaySettings_004*)
  T CVRCompositor_003::SetVSync(bool)
- T CVRCompositor_003::Submit(vr::Hmd_Eye, void*, vr::VRTextureBounds_t*)
+ T CVRCompositor_003::Submit(vr::EVREye, void*, vr::VRTextureBounds_t*)
  T CVRCompositor_003::WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int)
  T CVRCompositor_004::ClearLastSubmittedFrame()
  T CVRCompositor_004::ClearOverlay()
@@ -1302,7 +1352,7 @@
  T CVRCompositor_004::SetOverlayFromFile(char const*, Compositor_OverlaySettings_004*)
  T CVRCompositor_004::SetOverlayRaw(void*, unsigned int, unsigned int, unsigned int, Compositor_OverlaySettings_004*)
  T CVRCompositor_004::SetVSync(bool)
- T CVRCompositor_004::Submit(vr::Hmd_Eye, void*, vr::VRTextureBounds_t*)
+ T CVRCompositor_004::Submit(vr::EVREye, void*, vr::VRTextureBounds_t*)
  T CVRCompositor_004::WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int)
  T CVRCompositor_005::BEnsureLegacyOverlay(vr::Compositor_OverlaySettings*)
  T CVRCompositor_005::ClearLastSubmittedFrame()
@@ -1310,7 +1360,7 @@
  T CVRCompositor_005::CompositorBringToFront()
  T CVRCompositor_005::CompositorGoToBack()
  T CVRCompositor_005::CompositorQuit()
- T CVRCompositor_005::ComputeOverlayIntersection(vr::Compositor_OverlaySettings const*, float, vr::TrackingUniverseOrigin, vr::HmdVector3_t, vr::HmdVector3_t, vr::HmdVector2_t*, vr::HmdVector3_t*)
+ T CVRCompositor_005::ComputeOverlayIntersection(vr::Compositor_OverlaySettings const*, float, vr::ETrackingUniverseOrigin, vr::HmdVector3_t, vr::HmdVector3_t, vr::HmdVector2_t*, vr::HmdVector3_t*)
  T CVRCompositor_005::FadeGrid(float, bool)
  T CVRCompositor_005::FadeToColor(float, float, float, float, float, bool)
  T CVRCompositor_005::GetCurrentSceneProcess()
@@ -1326,9 +1376,9 @@
  T CVRCompositor_005::SetOverlay(void*, vr::Compositor_OverlaySettings*)
  T CVRCompositor_005::SetOverlayFromFile(char const*, vr::Compositor_OverlaySettings*)
  T CVRCompositor_005::SetOverlayRaw(void*, unsigned int, unsigned int, unsigned int, vr::Compositor_OverlaySettings*)
- T CVRCompositor_005::SetTrackingSpace(vr::TrackingUniverseOrigin)
+ T CVRCompositor_005::SetTrackingSpace(vr::ETrackingUniverseOrigin)
  T CVRCompositor_005::SetVSync(bool)
- T CVRCompositor_005::Submit(vr::Hmd_Eye, void*, vr::VRTextureBounds_t*)
+ T CVRCompositor_005::Submit(vr::EVREye, void*, vr::VRTextureBounds_t*)
  T CVRCompositor_005::WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int)
  T CVRCompositor_006::CanRenderScene()
  T CVRCompositor_006::ClearLastSubmittedFrame()
@@ -1346,9 +1396,9 @@
  T CVRCompositor_006::IsFullscreen()
  T CVRCompositor_006::SetGamma(float)
  T CVRCompositor_006::SetGraphicsDevice(Compositor_DeviceType, void*)
- T CVRCompositor_006::SetTrackingSpace(vr::TrackingUniverseOrigin)
+ T CVRCompositor_006::SetTrackingSpace(vr::ETrackingUniverseOrigin)
  T CVRCompositor_006::SetVSync(bool)
- T CVRCompositor_006::Submit(vr::Hmd_Eye, void*, vr::VRTextureBounds_t*)
+ T CVRCompositor_006::Submit(vr::EVREye, void*, vr::VRTextureBounds_t*)
  T CVRCompositor_006::WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
  T CVRCompositor_007::CanRenderScene()
  T CVRCompositor_007::ClearLastSubmittedFrame()
@@ -1365,10 +1415,72 @@
  T CVRCompositor_007::GetVSync()
  T CVRCompositor_007::IsFullscreen()
  T CVRCompositor_007::SetGamma(float)
- T CVRCompositor_007::SetTrackingSpace(vr::TrackingUniverseOrigin)
+ T CVRCompositor_007::SetTrackingSpace(vr::ETrackingUniverseOrigin)
  T CVRCompositor_007::SetVSync(bool)
- T CVRCompositor_007::Submit(vr::Hmd_Eye, vr::GraphicsAPIConvention, void*, vr::VRTextureBounds_t const*)
+ T CVRCompositor_007::Submit(vr::EVREye, vr::EGraphicsAPIConvention, void*, vr::VRTextureBounds_t const*)
  T CVRCompositor_007::WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRCompositor_008::CanRenderScene()
+ T CVRCompositor_008::ClearLastSubmittedFrame()
+ T CVRCompositor_008::ClearSkyboxOverride()
+ T CVRCompositor_008::CompositorBringToFront()
+ T CVRCompositor_008::CompositorDumpImages()
+ T CVRCompositor_008::CompositorGoToBack()
+ T CVRCompositor_008::CompositorQuit()
+ T CVRCompositor_008::FadeGrid(float, bool)
+ T CVRCompositor_008::FadeToColor(float, float, float, float, float, bool)
+ T CVRCompositor_008::GetCurrentSceneFocusProcess()
+ T CVRCompositor_008::GetFrameTimeRemaining()
+ T CVRCompositor_008::GetFrameTiming(vr::Compositor_FrameTiming*, unsigned int)
+ T CVRCompositor_008::GetGamma()
+ T CVRCompositor_008::GetLastError(char*, unsigned int)
+ T CVRCompositor_008::GetLastFrameRenderer()
+ T CVRCompositor_008::GetLastPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRCompositor_008::GetTrackingSpace()
+ T CVRCompositor_008::GetVSync()
+ T CVRCompositor_008::HideMirrorWindow()
+ T CVRCompositor_008::IsFullscreen()
+ T CVRCompositor_008::IsMirrorWindowVisible()
+ T CVRCompositor_008::PostPresentHandoff()
+ T CVRCompositor_008::SetGamma(float)
+ T CVRCompositor_008::SetSkyboxOverride(vr::EGraphicsAPIConvention, void*, void*, void*, void*, void*, void*)
+ T CVRCompositor_008::SetTrackingSpace(vr::ETrackingUniverseOrigin)
+ T CVRCompositor_008::SetVSync(bool)
+ T CVRCompositor_008::ShowMirrorWindow()
+ T CVRCompositor_008::Submit(vr::EVREye, vr::EGraphicsAPIConvention, void*, vr::VRTextureBounds_t const*, vr::EVRSubmitFlags)
+ T CVRCompositor_008::WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRMsg_AbortApplicationTransition::ByteSize() const
+ T CVRMsg_AbortApplicationTransition::CVRMsg_AbortApplicationTransition()
+ T CVRMsg_AbortApplicationTransition::Clear()
+ T CVRMsg_AbortApplicationTransition::GetCachedSize() const
+ T CVRMsg_AbortApplicationTransition::GetMetadata() const
+ T CVRMsg_AbortApplicationTransition::IsInitialized() const
+ T CVRMsg_AbortApplicationTransition::MergeFrom(CVRMsg_AbortApplicationTransition const&)
+ T CVRMsg_AbortApplicationTransition::New() const
+ T CVRMsg_AbortApplicationTransition::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_AbortApplicationTransition::SetCachedSize(int) const
+ T CVRMsg_AbortApplicationTransition::~CVRMsg_AbortApplicationTransition()
+ T CVRMsg_AcknowledgeQuit_Exiting::ByteSize() const
+ T CVRMsg_AcknowledgeQuit_Exiting::CVRMsg_AcknowledgeQuit_Exiting()
+ T CVRMsg_AcknowledgeQuit_Exiting::Clear()
+ T CVRMsg_AcknowledgeQuit_Exiting::GetCachedSize() const
+ T CVRMsg_AcknowledgeQuit_Exiting::GetMetadata() const
+ T CVRMsg_AcknowledgeQuit_Exiting::IsInitialized() const
+ T CVRMsg_AcknowledgeQuit_Exiting::MergeFrom(CVRMsg_AcknowledgeQuit_Exiting const&)
+ T CVRMsg_AcknowledgeQuit_Exiting::New() const
+ T CVRMsg_AcknowledgeQuit_Exiting::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_AcknowledgeQuit_Exiting::SetCachedSize(int) const
+ T CVRMsg_AcknowledgeQuit_Exiting::~CVRMsg_AcknowledgeQuit_Exiting()
+ T CVRMsg_AcknowledgeQuit_UserPrompt::ByteSize() const
+ T CVRMsg_AcknowledgeQuit_UserPrompt::CVRMsg_AcknowledgeQuit_UserPrompt()
+ T CVRMsg_AcknowledgeQuit_UserPrompt::Clear()
+ T CVRMsg_AcknowledgeQuit_UserPrompt::GetCachedSize() const
+ T CVRMsg_AcknowledgeQuit_UserPrompt::GetMetadata() const
+ T CVRMsg_AcknowledgeQuit_UserPrompt::IsInitialized() const
+ T CVRMsg_AcknowledgeQuit_UserPrompt::MergeFrom(CVRMsg_AcknowledgeQuit_UserPrompt const&)
+ T CVRMsg_AcknowledgeQuit_UserPrompt::New() const
+ T CVRMsg_AcknowledgeQuit_UserPrompt::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_AcknowledgeQuit_UserPrompt::SetCachedSize(int) const
+ T CVRMsg_AcknowledgeQuit_UserPrompt::~CVRMsg_AcknowledgeQuit_UserPrompt()
  T CVRMsg_ApplicationInfo::ByteSize() const
  T CVRMsg_ApplicationInfo::CVRMsg_ApplicationInfo()
  T CVRMsg_ApplicationInfo::Clear()
@@ -2170,6 +2282,17 @@
  T CVRMsg_Settings_Sync_Response::SerializeWithCachedSizesToArray(unsigned char*) const
  T CVRMsg_Settings_Sync_Response::SetCachedSize(int) const
  T CVRMsg_Settings_Sync_Response::~CVRMsg_Settings_Sync_Response()
+ T CVRMsg_StartAutolaunchOverlays::ByteSize() const
+ T CVRMsg_StartAutolaunchOverlays::CVRMsg_StartAutolaunchOverlays()
+ T CVRMsg_StartAutolaunchOverlays::Clear()
+ T CVRMsg_StartAutolaunchOverlays::GetCachedSize() const
+ T CVRMsg_StartAutolaunchOverlays::GetMetadata() const
+ T CVRMsg_StartAutolaunchOverlays::IsInitialized() const
+ T CVRMsg_StartAutolaunchOverlays::MergeFrom(CVRMsg_StartAutolaunchOverlays const&)
+ T CVRMsg_StartAutolaunchOverlays::New() const
+ T CVRMsg_StartAutolaunchOverlays::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_StartAutolaunchOverlays::SetCachedSize(int) const
+ T CVRMsg_StartAutolaunchOverlays::~CVRMsg_StartAutolaunchOverlays()
  T CVRMsg_StartProcess::ByteSize() const
  T CVRMsg_StartProcess::CVRMsg_StartProcess()
  T CVRMsg_StartProcess::Clear()
@@ -2280,6 +2403,28 @@
  T CVRMsg_TrackedCamera_GetFrameDimensionsResponse::SerializeWithCachedSizesToArray(unsigned char*) const
  T CVRMsg_TrackedCamera_GetFrameDimensionsResponse::SetCachedSize(int) const
  T CVRMsg_TrackedCamera_GetFrameDimensionsResponse::~CVRMsg_TrackedCamera_GetFrameDimensionsResponse()
+ T CVRMsg_TrackedCamera_GetProjection::ByteSize() const
+ T CVRMsg_TrackedCamera_GetProjection::CVRMsg_TrackedCamera_GetProjection()
+ T CVRMsg_TrackedCamera_GetProjection::Clear()
+ T CVRMsg_TrackedCamera_GetProjection::GetCachedSize() const
+ T CVRMsg_TrackedCamera_GetProjection::GetMetadata() const
+ T CVRMsg_TrackedCamera_GetProjection::IsInitialized() const
+ T CVRMsg_TrackedCamera_GetProjection::MergeFrom(CVRMsg_TrackedCamera_GetProjection const&)
+ T CVRMsg_TrackedCamera_GetProjection::New() const
+ T CVRMsg_TrackedCamera_GetProjection::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_TrackedCamera_GetProjection::SetCachedSize(int) const
+ T CVRMsg_TrackedCamera_GetProjection::~CVRMsg_TrackedCamera_GetProjection()
+ T CVRMsg_TrackedCamera_GetProjectionResponse::ByteSize() const
+ T CVRMsg_TrackedCamera_GetProjectionResponse::CVRMsg_TrackedCamera_GetProjectionResponse()
+ T CVRMsg_TrackedCamera_GetProjectionResponse::Clear()
+ T CVRMsg_TrackedCamera_GetProjectionResponse::GetCachedSize() const
+ T CVRMsg_TrackedCamera_GetProjectionResponse::GetMetadata() const
+ T CVRMsg_TrackedCamera_GetProjectionResponse::IsInitialized() const
+ T CVRMsg_TrackedCamera_GetProjectionResponse::MergeFrom(CVRMsg_TrackedCamera_GetProjectionResponse const&)
+ T CVRMsg_TrackedCamera_GetProjectionResponse::New() const
+ T CVRMsg_TrackedCamera_GetProjectionResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_TrackedCamera_GetProjectionResponse::SetCachedSize(int) const
+ T CVRMsg_TrackedCamera_GetProjectionResponse::~CVRMsg_TrackedCamera_GetProjectionResponse()
  T CVRMsg_TrackedCamera_GetVideoStreamElapsedTime::ByteSize() const
  T CVRMsg_TrackedCamera_GetVideoStreamElapsedTime::CVRMsg_TrackedCamera_GetVideoStreamElapsedTime()
  T CVRMsg_TrackedCamera_GetVideoStreamElapsedTime::Clear()
@@ -2533,19 +2678,22 @@
  T CVRMsg_TriggerHapticPulse::SerializeWithCachedSizesToArray(unsigned char*) const
  T CVRMsg_TriggerHapticPulse::SetCachedSize(int) const
  T CVRMsg_TriggerHapticPulse::~CVRMsg_TriggerHapticPulse()
+ T CVRNotifications_001::CreateNotification(unsigned long long, unsigned long long, char const*, char const*, char const*, vr::NotificationBitmap_t const*, unsigned int*)
+ T CVRNotifications_001::DismissNotification(unsigned int)
+ T CVRNotifications_001::GetErrorString(vr::EVRNotificationError, char*, unsigned int)
  T CVROverlay_001::ComputeOverlayIntersection(unsigned long long, vr::VROverlayIntersectionParams_t const*, vr::VROverlayIntersectionResults_t*)
  T CVROverlay_001::CreateOverlay(char const*, char const*, unsigned long long*)
  T CVROverlay_001::DestroyOverlay(unsigned long long)
  T CVROverlay_001::FindOverlay(char const*, unsigned long long*)
  T CVROverlay_001::GetHighQualityOverlay()
  T CVROverlay_001::GetOverlayAlpha(unsigned long long, float*)
- T CVROverlay_001::GetOverlayErrorNameFromEnum(vr::VROverlayError)
+ T CVROverlay_001::GetOverlayErrorNameFromEnum(vr::EVROverlayError)
  T CVROverlay_001::GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
  T CVROverlay_001::GetOverlayGamma(unsigned long long, float*)
  T CVROverlay_001::GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
  T CVROverlay_001::GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
  T CVROverlay_001::GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
- T CVROverlay_001::GetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin*, vr::HmdMatrix34_t*)
+ T CVROverlay_001::GetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin*, vr::HmdMatrix34_t*)
  T CVROverlay_001::GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
  T CVROverlay_001::GetOverlayTransformType(unsigned long long, vr::VROverlayTransformType*)
  T CVROverlay_001::GetOverlayVisibility(unsigned long long, VROverlayVisibility*)
@@ -2566,7 +2714,7 @@
  T CVROverlay_001::SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
  T CVROverlay_001::SetOverlayTexture(unsigned long long, void*)
  T CVROverlay_001::SetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t const*)
- T CVROverlay_001::SetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ T CVROverlay_001::SetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
  T CVROverlay_001::SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
  T CVROverlay_001::SetOverlayVisibility(unsigned long long, VROverlayVisibility)
  T CVROverlay_001::SetOverlayWidthInMeters(unsigned long long, float)
@@ -2581,15 +2729,15 @@
  T CVROverlay_002::GetHighQualityOverlay()
  T CVROverlay_002::GetOverlayAlpha(unsigned long long, float*)
  T CVROverlay_002::GetOverlayColor(unsigned long long, float*, float*, float*)
- T CVROverlay_002::GetOverlayErrorNameFromEnum(vr::VROverlayError)
+ T CVROverlay_002::GetOverlayErrorNameFromEnum(vr::EVROverlayError)
  T CVROverlay_002::GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
  T CVROverlay_002::GetOverlayGamma(unsigned long long, float*)
  T CVROverlay_002::GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
- T CVROverlay_002::GetOverlayKey(unsigned long long, char*, unsigned int, vr::VROverlayError*)
+ T CVROverlay_002::GetOverlayKey(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
  T CVROverlay_002::GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
- T CVROverlay_002::GetOverlayName(unsigned long long, char*, unsigned int, vr::VROverlayError*)
+ T CVROverlay_002::GetOverlayName(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
  T CVROverlay_002::GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
- T CVROverlay_002::GetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin*, vr::HmdMatrix34_t*)
+ T CVROverlay_002::GetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin*, vr::HmdMatrix34_t*)
  T CVROverlay_002::GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
  T CVROverlay_002::GetOverlayTransformType(unsigned long long, vr::VROverlayTransformType*)
  T CVROverlay_002::GetOverlayWidthInMeters(unsigned long long, float*)
@@ -2609,9 +2757,9 @@
  T CVROverlay_002::SetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod)
  T CVROverlay_002::SetOverlayMouseScale(unsigned long long, vr::HmdVector2_t const*)
  T CVROverlay_002::SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
- T CVROverlay_002::SetOverlayTexture(unsigned long long, vr::GraphicsAPIConvention, void*)
+ T CVROverlay_002::SetOverlayTexture(unsigned long long, vr::EGraphicsAPIConvention, void*)
  T CVROverlay_002::SetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t const*)
- T CVROverlay_002::SetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ T CVROverlay_002::SetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
  T CVROverlay_002::SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
  T CVROverlay_002::SetOverlayWidthInMeters(unsigned long long, float)
  T CVROverlay_002::ShowDashboard(char const*)
@@ -2626,16 +2774,16 @@
  T CVROverlay_003::GetHighQualityOverlay()
  T CVROverlay_003::GetOverlayAlpha(unsigned long long, float*)
  T CVROverlay_003::GetOverlayColor(unsigned long long, float*, float*, float*)
- T CVROverlay_003::GetOverlayErrorNameFromEnum(vr::VROverlayError)
+ T CVROverlay_003::GetOverlayErrorNameFromEnum(vr::EVROverlayError)
  T CVROverlay_003::GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
  T CVROverlay_003::GetOverlayGamma(unsigned long long, float*)
  T CVROverlay_003::GetOverlayImageData(unsigned long long, void*, unsigned int, unsigned int*, unsigned int*)
  T CVROverlay_003::GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
- T CVROverlay_003::GetOverlayKey(unsigned long long, char*, unsigned int, vr::VROverlayError*)
+ T CVROverlay_003::GetOverlayKey(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
  T CVROverlay_003::GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
- T CVROverlay_003::GetOverlayName(unsigned long long, char*, unsigned int, vr::VROverlayError*)
+ T CVROverlay_003::GetOverlayName(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
  T CVROverlay_003::GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
- T CVROverlay_003::GetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin*, vr::HmdMatrix34_t*)
+ T CVROverlay_003::GetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin*, vr::HmdMatrix34_t*)
  T CVROverlay_003::GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
  T CVROverlay_003::GetOverlayTransformType(unsigned long long, vr::VROverlayTransformType*)
  T CVROverlay_003::GetOverlayWidthInMeters(unsigned long long, float*)
@@ -2655,9 +2803,9 @@
  T CVROverlay_003::SetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod)
  T CVROverlay_003::SetOverlayMouseScale(unsigned long long, vr::HmdVector2_t const*)
  T CVROverlay_003::SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
- T CVROverlay_003::SetOverlayTexture(unsigned long long, vr::GraphicsAPIConvention, void*)
+ T CVROverlay_003::SetOverlayTexture(unsigned long long, vr::EGraphicsAPIConvention, void*)
  T CVROverlay_003::SetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t const*)
- T CVROverlay_003::SetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ T CVROverlay_003::SetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
  T CVROverlay_003::SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
  T CVROverlay_003::SetOverlayWidthInMeters(unsigned long long, float)
  T CVROverlay_003::ShowDashboard(char const*)
@@ -2673,16 +2821,16 @@
  T CVROverlay_004::GetOverlayAlpha(unsigned long long, float*)
  T CVROverlay_004::GetOverlayAutoCurveDistanceRangeInMeters(unsigned long long, float*, float*)
  T CVROverlay_004::GetOverlayColor(unsigned long long, float*, float*, float*)
- T CVROverlay_004::GetOverlayErrorNameFromEnum(vr::VROverlayError)
+ T CVROverlay_004::GetOverlayErrorNameFromEnum(vr::EVROverlayError)
  T CVROverlay_004::GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
  T CVROverlay_004::GetOverlayGamma(unsigned long long, float*)
  T CVROverlay_004::GetOverlayImageData(unsigned long long, void*, unsigned int, unsigned int*, unsigned int*)
  T CVROverlay_004::GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
- T CVROverlay_004::GetOverlayKey(unsigned long long, char*, unsigned int, vr::VROverlayError*)
+ T CVROverlay_004::GetOverlayKey(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
  T CVROverlay_004::GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
- T CVROverlay_004::GetOverlayName(unsigned long long, char*, unsigned int, vr::VROverlayError*)
+ T CVROverlay_004::GetOverlayName(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
  T CVROverlay_004::GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
- T CVROverlay_004::GetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin*, vr::HmdMatrix34_t*)
+ T CVROverlay_004::GetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin*, vr::HmdMatrix34_t*)
  T CVROverlay_004::GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
  T CVROverlay_004::GetOverlayTransformType(unsigned long long, vr::VROverlayTransformType*)
  T CVROverlay_004::GetOverlayWidthInMeters(unsigned long long, float*)
@@ -2703,9 +2851,9 @@
  T CVROverlay_004::SetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod)
  T CVROverlay_004::SetOverlayMouseScale(unsigned long long, vr::HmdVector2_t const*)
  T CVROverlay_004::SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
- T CVROverlay_004::SetOverlayTexture(unsigned long long, vr::GraphicsAPIConvention, void*)
+ T CVROverlay_004::SetOverlayTexture(unsigned long long, vr::EGraphicsAPIConvention, void*)
  T CVROverlay_004::SetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t const*)
- T CVROverlay_004::SetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ T CVROverlay_004::SetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
  T CVROverlay_004::SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
  T CVROverlay_004::SetOverlayWidthInMeters(unsigned long long, float)
  T CVROverlay_004::ShowDashboard(char const*)
@@ -2722,16 +2870,16 @@
  T CVROverlay_005::GetOverlayAlpha(unsigned long long, float*)
  T CVROverlay_005::GetOverlayAutoCurveDistanceRangeInMeters(unsigned long long, float*, float*)
  T CVROverlay_005::GetOverlayColor(unsigned long long, float*, float*, float*)
- T CVROverlay_005::GetOverlayErrorNameFromEnum(vr::VROverlayError)
+ T CVROverlay_005::GetOverlayErrorNameFromEnum(vr::EVROverlayError)
  T CVROverlay_005::GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
  T CVROverlay_005::GetOverlayGamma(unsigned long long, float*)
  T CVROverlay_005::GetOverlayImageData(unsigned long long, void*, unsigned int, unsigned int*, unsigned int*)
  T CVROverlay_005::GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
- T CVROverlay_005::GetOverlayKey(unsigned long long, char*, unsigned int, vr::VROverlayError*)
+ T CVROverlay_005::GetOverlayKey(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
  T CVROverlay_005::GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
- T CVROverlay_005::GetOverlayName(unsigned long long, char*, unsigned int, vr::VROverlayError*)
+ T CVROverlay_005::GetOverlayName(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
  T CVROverlay_005::GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
- T CVROverlay_005::GetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin*, vr::HmdMatrix34_t*)
+ T CVROverlay_005::GetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin*, vr::HmdMatrix34_t*)
  T CVROverlay_005::GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
  T CVROverlay_005::GetOverlayTransformType(unsigned long long, vr::VROverlayTransformType*)
  T CVROverlay_005::GetOverlayWidthInMeters(unsigned long long, float*)
@@ -2754,14 +2902,71 @@
  T CVROverlay_005::SetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod)
  T CVROverlay_005::SetOverlayMouseScale(unsigned long long, vr::HmdVector2_t const*)
  T CVROverlay_005::SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
- T CVROverlay_005::SetOverlayTexture(unsigned long long, vr::GraphicsAPIConvention, void*)
+ T CVROverlay_005::SetOverlayTexture(unsigned long long, vr::EGraphicsAPIConvention, void*)
  T CVROverlay_005::SetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t const*)
- T CVROverlay_005::SetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ T CVROverlay_005::SetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
  T CVROverlay_005::SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
  T CVROverlay_005::SetOverlayWidthInMeters(unsigned long long, float)
  T CVROverlay_005::ShowDashboard(char const*)
  T CVROverlay_005::ShowKeyboard(vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool)
  T CVROverlay_005::ShowOverlay(unsigned long long)
+ T CVROverlay_006::ClearOverlayTexture(unsigned long long)
+ T CVROverlay_006::ComputeOverlayIntersection(unsigned long long, vr::VROverlayIntersectionParams_t const*, vr::VROverlayIntersectionResults_t*)
+ T CVROverlay_006::CreateDashboardOverlay(char const*, char const*, unsigned long long*, unsigned long long*)
+ T CVROverlay_006::CreateOverlay(char const*, char const*, unsigned long long*)
+ T CVROverlay_006::DestroyOverlay(unsigned long long)
+ T CVROverlay_006::FindOverlay(char const*, unsigned long long*)
+ T CVROverlay_006::GetDashboardOverlaySceneProcess(unsigned long long, unsigned int*)
+ T CVROverlay_006::GetGamepadFocusOverlay()
+ T CVROverlay_006::GetHighQualityOverlay()
+ T CVROverlay_006::GetKeyboardText(char*, unsigned int)
+ T CVROverlay_006::GetOverlayAlpha(unsigned long long, float*)
+ T CVROverlay_006::GetOverlayAutoCurveDistanceRangeInMeters(unsigned long long, float*, float*)
+ T CVROverlay_006::GetOverlayColor(unsigned long long, float*, float*, float*)
+ T CVROverlay_006::GetOverlayErrorNameFromEnum(vr::EVROverlayError)
+ T CVROverlay_006::GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
+ T CVROverlay_006::GetOverlayGamma(unsigned long long, float*)
+ T CVROverlay_006::GetOverlayImageData(unsigned long long, void*, unsigned int, unsigned int*, unsigned int*)
+ T CVROverlay_006::GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
+ T CVROverlay_006::GetOverlayKey(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
+ T CVROverlay_006::GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
+ T CVROverlay_006::GetOverlayName(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
+ T CVROverlay_006::GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
+ T CVROverlay_006::GetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin*, vr::HmdMatrix34_t*)
+ T CVROverlay_006::GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
+ T CVROverlay_006::GetOverlayTransformType(unsigned long long, vr::VROverlayTransformType*)
+ T CVROverlay_006::GetOverlayWidthInMeters(unsigned long long, float*)
+ T CVROverlay_006::HandleControllerOverlayInteractionAsMouse(unsigned long long, unsigned int)
+ T CVROverlay_006::HideKeyboard()
+ T CVROverlay_006::HideOverlay(unsigned long long)
+ T CVROverlay_006::IsActiveDashboardOverlay(unsigned long long)
+ T CVROverlay_006::IsDashboardVisible()
+ T CVROverlay_006::IsHoverTargetOverlay(unsigned long long)
+ T CVROverlay_006::IsOverlayVisible(unsigned long long)
+ T CVROverlay_006::MoveGamepadFocusToNeighbor(vr::EOverlayDirection, unsigned long long)
+ T CVROverlay_006::PollNextOverlayEvent(unsigned long long, vr::VREvent_t*)
+ T CVROverlay_006::SetDashboardOverlaySceneProcess(unsigned long long, unsigned int)
+ T CVROverlay_006::SetGamepadFocusOverlay(unsigned long long)
+ T CVROverlay_006::SetHighQualityOverlay(unsigned long long)
+ T CVROverlay_006::SetOverlayAlpha(unsigned long long, float)
+ T CVROverlay_006::SetOverlayAutoCurveDistanceRangeInMeters(unsigned long long, float, float)
+ T CVROverlay_006::SetOverlayColor(unsigned long long, float, float, float)
+ T CVROverlay_006::SetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool)
+ T CVROverlay_006::SetOverlayFromFile(unsigned long long, char const*)
+ T CVROverlay_006::SetOverlayGamma(unsigned long long, float)
+ T CVROverlay_006::SetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod)
+ T CVROverlay_006::SetOverlayMouseScale(unsigned long long, vr::HmdVector2_t const*)
+ T CVROverlay_006::SetOverlayNeighbor(vr::EOverlayDirection, unsigned long long, unsigned long long)
+ T CVROverlay_006::SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
+ T CVROverlay_006::SetOverlayTexture(unsigned long long, vr::EGraphicsAPIConvention, void*)
+ T CVROverlay_006::SetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t const*)
+ T CVROverlay_006::SetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ T CVROverlay_006::SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
+ T CVROverlay_006::SetOverlayWidthInMeters(unsigned long long, float)
+ T CVROverlay_006::ShowDashboard(char const*)
+ T CVROverlay_006::ShowKeyboard(vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
+ T CVROverlay_006::ShowKeyboardForOverlay(unsigned long long, vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
+ T CVROverlay_006::ShowOverlay(unsigned long long)
  T CVRPathRegistry::BLoadFromFile()
  T CVRPathRegistry::BSaveToFile() const
  T CVRPathRegistry::CVRPathRegistry()
@@ -2784,56 +2989,61 @@
  T CVRSharedStatePtrBase::CVRSharedStatePtrBase(CVRSharedState*)
  T CVRSharedStatePtrBase::GetSharedStatePointer()
  T CVRSharedStatePtrBase::~CVRSharedStatePtrBase()
+ T CVRSystemLatest::AcknowledgeQuit_Exiting()
+ T CVRSystemLatest::AcknowledgeQuit_UserPrompt()
  T CVRSystemLatest::ApplyTransform(vr::TrackedDevicePose_t*, vr::TrackedDevicePose_t const*, vr::HmdMatrix34_t const*)
- T CVRSystemLatest::AttachToWindow(void*)
  T CVRSystemLatest::CaptureInputFocus()
- T CVRSystemLatest::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CVRSystemLatest::ComputeDistortion(vr::EVREye, float, float)
  T CVRSystemLatest::DriverDebugRequest(unsigned int, char const*, char*, unsigned int)
  T CVRSystemLatest::GenerateLocalMouseEvents(unsigned int, float, float, vr::VRControllerState001_t const&, bool, unsigned long long, unsigned long long)
- T CVRSystemLatest::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystemLatest::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystemLatest::GetButtonIdNameFromEnum(vr::EVRButtonId)
+ T CVRSystemLatest::GetChaperoneDataRefreshIndex() const
+ T CVRSystemLatest::GetCompositorProcessId()
  T CVRSystemLatest::GetControllerAxisTypeNameFromEnum(vr::EVRControllerAxisType)
  T CVRSystemLatest::GetControllerState(unsigned int, vr::VRControllerState001_t*)
- T CVRSystemLatest::GetControllerStateWithPose(vr::TrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
- T CVRSystemLatest::GetControllerStateWithPoseInternal(vr::TrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
+ T CVRSystemLatest::GetControllerStateWithPose(vr::ETrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
+ T CVRSystemLatest::GetControllerStateWithPoseInternal(vr::ETrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
  T CVRSystemLatest::GetD3D9AdapterIndex()
+ T CVRSystemLatest::GetDXGIOutputInfo(int*)
  T CVRSystemLatest::GetDXGIOutputInfo(int*, int*)
- T CVRSystemLatest::GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRSystemLatest::GetDeviceToAbsoluteTrackingPose(vr::ETrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
  T CVRSystemLatest::GetEventTypeNameFromEnum(vr::EVREventType)
- T CVRSystemLatest::GetEyeOutputViewport(vr::Hmd_Eye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
- T CVRSystemLatest::GetEyeToHeadTransform(vr::Hmd_Eye)
- T CVRSystemLatest::GetFloatTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystemLatest::GetHiddenAreaMesh(vr::Hmd_Eye)
+ T CVRSystemLatest::GetEyeOutputViewport(vr::EVREye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CVRSystemLatest::GetEyeToHeadTransform(vr::EVREye)
+ T CVRSystemLatest::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystemLatest::GetHiddenAreaMesh(vr::EVREye)
  T CVRSystemLatest::GetHoverTargetOverlay()
- T CVRSystemLatest::GetInt32TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystemLatest::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystemLatest::GetMCImage(unsigned int*, unsigned int*, unsigned int*, void*, unsigned int)
- T CVRSystemLatest::GetMatrix34TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystemLatest::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
- T CVRSystemLatest::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
- T CVRSystemLatest::GetPropErrorNameFromEnum(vr::TrackedPropertyError)
+ T CVRSystemLatest::GetMatrix34TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystemLatest::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CVRSystemLatest::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
+ T CVRSystemLatest::GetPropErrorNameFromEnum(vr::ETrackedPropertyError)
  T CVRSystemLatest::GetRawZeroPoseToStandingAbsoluteTrackingPose()
  T CVRSystemLatest::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
  T CVRSystemLatest::GetSeatedZeroPoseToStandingAbsoluteTrackingPose()
- T CVRSystemLatest::GetSortedTrackedDeviceIndicesOfClass(vr::TrackedDeviceClass, unsigned int*, unsigned int, unsigned int)
- T CVRSystemLatest::GetStringTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, char*, unsigned int, vr::TrackedPropertyError*)
+ T CVRSystemLatest::GetSortedTrackedDeviceIndicesOfClass(vr::ETrackedDeviceClass, unsigned int*, unsigned int, unsigned int)
+ T CVRSystemLatest::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*)
  T CVRSystemLatest::GetTimeSinceLastVsync(float*, unsigned long long*)
  T CVRSystemLatest::GetTrackedDeviceActivityLevel(unsigned int)
  T CVRSystemLatest::GetTrackedDeviceClass(unsigned int)
- T CVRSystemLatest::GetUint64TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystemLatest::GetUint64TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystemLatest::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
  T CVRSystemLatest::GetZeroPoseFromDevicePose(VRTrackingState_Pose_t const&, vr::HmdMatrix34_t*) const
- T CVRSystemLatest::HandleAutomaticControllerOverlayInteractionAsMouse(unsigned int, vr::VROverlayEventSettings_t const*, unsigned int, vr::TrackingUniverseOrigin, vr::TrackedDevicePose_t*, unsigned int, unsigned long long, vr::HmdVector3_t*, unsigned int*)
+ T CVRSystemLatest::HandleAutomaticControllerOverlayInteractionAsMouse(unsigned int, vr::VROverlayEventSettings_t const*, unsigned int, vr::ETrackingUniverseOrigin, vr::TrackedDevicePose_t*, unsigned int, unsigned long long, vr::HmdVector3_t*, unsigned int*)
+ T CVRSystemLatest::IncrementChaperoneDataRefreshIndex()
  T CVRSystemLatest::IsDisplayOnDesktop()
  T CVRSystemLatest::IsInputFocusCapturedByAnotherProcess()
  T CVRSystemLatest::IsTrackedDeviceConnected(unsigned int)
  T CVRSystemLatest::PerformFirmwareUpdate(unsigned int)
  T CVRSystemLatest::PollNextEvent(vr::VREvent_t*)
- T CVRSystemLatest::PollNextEventWithPose(vr::TrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
- T CVRSystemLatest::PollNextEventWithPoseInternal(vr::TrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*, unsigned long long)
+ T CVRSystemLatest::PollNextEventWithPose(vr::ETrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
+ T CVRSystemLatest::PollNextEventWithPoseInternal(vr::ETrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*, unsigned long long)
  T CVRSystemLatest::PollNextOverlayEvent(unsigned long long, vr::VREvent_t*)
  T CVRSystemLatest::PostGlobalEvent(vr::VREvent_t const&)
  T CVRSystemLatest::PostOverlayEvent(unsigned long long, vr::VREvent_t const&)
- T CVRSystemLatest::PredictRawPose(vr::TrackingUniverseOrigin, double, double, vr::ChaperoneInfo*, VRTrackingState_Pose_t const&, vr::TrackedDevicePose_t*)
+ T CVRSystemLatest::PredictRawPose(vr::ETrackingUniverseOrigin, double, vr::ChaperoneInfo*, VRTrackingState_Pose_t const&, vr::TrackedDevicePose_t*)
  T CVRSystemLatest::PushOverlayEvent(VRTrackingState_Event_t, unsigned long long)
  T CVRSystemLatest::ReleaseInputFocus()
  T CVRSystemLatest::Reset(CVRClient*, CRenderModelManager*, vr::IVRControlPanel*)
@@ -2845,56 +3055,56 @@
  T CVRSystemLatest::ThisProcessIsCompositor()
  T CVRSystemLatest::TriggerHapticPulse(unsigned int, unsigned int, unsigned short)
  T CVRSystem_001::AttachToWindow(void*)
- T CVRSystem_001::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CVRSystem_001::ComputeDistortion(vr::EVREye, float, float)
  T CVRSystem_001::FreeRenderModel(RenderModel001_t*)
- T CVRSystem_001::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_001::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystem_001::GetD3D9AdapterIndex()
  T CVRSystem_001::GetDXGIOutputInfo(int*, int*)
- T CVRSystem_001::GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRSystem_001::GetDeviceToAbsoluteTrackingPose(vr::ETrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
  T CVRSystem_001::GetEventTypeNameFromEnum(vr::EVREventType)
- T CVRSystem_001::GetEyeOutputViewport(vr::Hmd_Eye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
- T CVRSystem_001::GetEyeToHeadTransform(vr::Hmd_Eye)
- T CVRSystem_001::GetFloatTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_001::GetHiddenAreaMesh(vr::Hmd_Eye)
- T CVRSystem_001::GetInt32TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_001::GetMatrix34TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_001::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
- T CVRSystem_001::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
- T CVRSystem_001::GetPropErrorNameFromEnum(vr::TrackedPropertyError)
+ T CVRSystem_001::GetEyeOutputViewport(vr::EVREye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CVRSystem_001::GetEyeToHeadTransform(vr::EVREye)
+ T CVRSystem_001::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_001::GetHiddenAreaMesh(vr::EVREye)
+ T CVRSystem_001::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_001::GetMatrix34TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_001::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CVRSystem_001::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
+ T CVRSystem_001::GetPropErrorNameFromEnum(vr::ETrackedPropertyError)
  T CVRSystem_001::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
  T CVRSystem_001::GetSeatedZeroPoseToStandingAbsoluteTrackingPose()
- T CVRSystem_001::GetStringTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, char*, unsigned int, vr::TrackedPropertyError*)
+ T CVRSystem_001::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*)
  T CVRSystem_001::GetTimeSinceLastVsync(float*, unsigned long long*)
  T CVRSystem_001::GetTrackedDeviceClass(unsigned int)
- T CVRSystem_001::GetUint64TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_001::GetUint64TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystem_001::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
  T CVRSystem_001::IsTrackedDeviceConnected(unsigned int)
  T CVRSystem_001::LoadRenderModel(char const*, RenderModel001_t*)
  T CVRSystem_001::PollNextEvent(VREvent001_t*)
  T CVRSystem_001::ResetSeatedZeroPose()
  T CVRSystem_002::AttachToWindow(void*)
- T CVRSystem_002::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CVRSystem_002::ComputeDistortion(vr::EVREye, float, float)
  T CVRSystem_002::FreeRenderModel(RenderModel001_t*)
- T CVRSystem_002::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_002::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystem_002::GetD3D9AdapterIndex()
  T CVRSystem_002::GetDXGIOutputInfo(int*, int*)
- T CVRSystem_002::GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRSystem_002::GetDeviceToAbsoluteTrackingPose(vr::ETrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
  T CVRSystem_002::GetEventTypeNameFromEnum(vr::EVREventType)
- T CVRSystem_002::GetEyeOutputViewport(vr::Hmd_Eye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
- T CVRSystem_002::GetEyeToHeadTransform(vr::Hmd_Eye)
- T CVRSystem_002::GetFloatTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_002::GetHiddenAreaMesh(vr::Hmd_Eye)
- T CVRSystem_002::GetInt32TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_002::GetMatrix34TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_002::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
- T CVRSystem_002::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
- T CVRSystem_002::GetPropErrorNameFromEnum(vr::TrackedPropertyError)
+ T CVRSystem_002::GetEyeOutputViewport(vr::EVREye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CVRSystem_002::GetEyeToHeadTransform(vr::EVREye)
+ T CVRSystem_002::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_002::GetHiddenAreaMesh(vr::EVREye)
+ T CVRSystem_002::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_002::GetMatrix34TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_002::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CVRSystem_002::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
+ T CVRSystem_002::GetPropErrorNameFromEnum(vr::ETrackedPropertyError)
  T CVRSystem_002::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
  T CVRSystem_002::GetSeatedZeroPoseToStandingAbsoluteTrackingPose()
- T CVRSystem_002::GetStringTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, char*, unsigned int, vr::TrackedPropertyError*)
+ T CVRSystem_002::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*)
  T CVRSystem_002::GetTimeSinceLastVsync(float*, unsigned long long*)
  T CVRSystem_002::GetTrackedDeviceClass(unsigned int)
- T CVRSystem_002::GetUint64TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_002::GetUint64TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystem_002::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
  T CVRSystem_002::IsTrackedDeviceConnected(unsigned int)
  T CVRSystem_002::LoadRenderModel(char const*, RenderModel001_t*)
@@ -2902,155 +3112,155 @@
  T CVRSystem_002::ResetSeatedZeroPose()
  T CVRSystem_003::AttachToWindow(void*)
  T CVRSystem_003::CaptureInputFocus()
- T CVRSystem_003::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CVRSystem_003::ComputeDistortion(vr::EVREye, float, float)
  T CVRSystem_003::DriverDebugRequest(unsigned int, char const*, char*, unsigned int)
  T CVRSystem_003::FreeRenderModel(RenderModel001_t*)
- T CVRSystem_003::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_003::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystem_003::GetButtonIdNameFromEnum(vr::EVRButtonId)
  T CVRSystem_003::GetControllerAxisTypeNameFromEnum(vr::EVRControllerAxisType)
  T CVRSystem_003::GetControllerState(unsigned int, vr::VRControllerState001_t*)
- T CVRSystem_003::GetControllerStateWithPose(vr::TrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
+ T CVRSystem_003::GetControllerStateWithPose(vr::ETrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
  T CVRSystem_003::GetD3D9AdapterIndex()
  T CVRSystem_003::GetDXGIOutputInfo(int*, int*)
- T CVRSystem_003::GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRSystem_003::GetDeviceToAbsoluteTrackingPose(vr::ETrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
  T CVRSystem_003::GetEventTypeNameFromEnum(vr::EVREventType)
- T CVRSystem_003::GetEyeOutputViewport(vr::Hmd_Eye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
- T CVRSystem_003::GetEyeToHeadTransform(vr::Hmd_Eye)
- T CVRSystem_003::GetFloatTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_003::GetHiddenAreaMesh(vr::Hmd_Eye)
- T CVRSystem_003::GetInt32TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_003::GetMatrix34TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_003::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
- T CVRSystem_003::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
- T CVRSystem_003::GetPropErrorNameFromEnum(vr::TrackedPropertyError)
+ T CVRSystem_003::GetEyeOutputViewport(vr::EVREye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CVRSystem_003::GetEyeToHeadTransform(vr::EVREye)
+ T CVRSystem_003::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_003::GetHiddenAreaMesh(vr::EVREye)
+ T CVRSystem_003::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_003::GetMatrix34TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_003::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CVRSystem_003::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
+ T CVRSystem_003::GetPropErrorNameFromEnum(vr::ETrackedPropertyError)
  T CVRSystem_003::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
  T CVRSystem_003::GetSeatedZeroPoseToStandingAbsoluteTrackingPose()
- T CVRSystem_003::GetStringTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, char*, unsigned int, vr::TrackedPropertyError*)
+ T CVRSystem_003::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*)
  T CVRSystem_003::GetTimeSinceLastVsync(float*, unsigned long long*)
  T CVRSystem_003::GetTrackedDeviceClass(unsigned int)
- T CVRSystem_003::GetUint64TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_003::GetUint64TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystem_003::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
  T CVRSystem_003::HandleControllerOverlayInteractionAsMouse(vr::Compositor_OverlaySettings const&, vr::HmdVector2_t, vr::HmdVector2_t, unsigned int, vr::EVRControllerEventOutputType)
  T CVRSystem_003::IsInputFocusCapturedByAnotherProcess()
  T CVRSystem_003::IsTrackedDeviceConnected(unsigned int)
  T CVRSystem_003::LoadRenderModel(char const*, RenderModel001_t*)
  T CVRSystem_003::PollNextEvent(vr::VREvent_t*)
- T CVRSystem_003::PollNextEventWithPose(vr::TrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
+ T CVRSystem_003::PollNextEventWithPose(vr::ETrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
  T CVRSystem_003::ReleaseInputFocus()
  T CVRSystem_003::ResetSeatedZeroPose()
  T CVRSystem_003::TriggerHapticPulse(unsigned int, unsigned int, unsigned short)
  T CVRSystem_004::AttachToWindow(void*)
  T CVRSystem_004::CaptureInputFocus()
- T CVRSystem_004::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CVRSystem_004::ComputeDistortion(vr::EVREye, float, float)
  T CVRSystem_004::DriverDebugRequest(unsigned int, char const*, char*, unsigned int)
- T CVRSystem_004::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_004::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystem_004::GetButtonIdNameFromEnum(vr::EVRButtonId)
  T CVRSystem_004::GetControllerAxisTypeNameFromEnum(vr::EVRControllerAxisType)
  T CVRSystem_004::GetControllerState(unsigned int, vr::VRControllerState001_t*)
- T CVRSystem_004::GetControllerStateWithPose(vr::TrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
+ T CVRSystem_004::GetControllerStateWithPose(vr::ETrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
  T CVRSystem_004::GetD3D9AdapterIndex()
  T CVRSystem_004::GetDXGIOutputInfo(int*, int*)
- T CVRSystem_004::GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRSystem_004::GetDeviceToAbsoluteTrackingPose(vr::ETrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
  T CVRSystem_004::GetEventTypeNameFromEnum(vr::EVREventType)
- T CVRSystem_004::GetEyeOutputViewport(vr::Hmd_Eye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
- T CVRSystem_004::GetEyeToHeadTransform(vr::Hmd_Eye)
- T CVRSystem_004::GetFloatTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_004::GetHiddenAreaMesh(vr::Hmd_Eye)
- T CVRSystem_004::GetInt32TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_004::GetMatrix34TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_004::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
- T CVRSystem_004::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
- T CVRSystem_004::GetPropErrorNameFromEnum(vr::TrackedPropertyError)
+ T CVRSystem_004::GetEyeOutputViewport(vr::EVREye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CVRSystem_004::GetEyeToHeadTransform(vr::EVREye)
+ T CVRSystem_004::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_004::GetHiddenAreaMesh(vr::EVREye)
+ T CVRSystem_004::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_004::GetMatrix34TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_004::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CVRSystem_004::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
+ T CVRSystem_004::GetPropErrorNameFromEnum(vr::ETrackedPropertyError)
  T CVRSystem_004::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
  T CVRSystem_004::GetSeatedZeroPoseToStandingAbsoluteTrackingPose()
- T CVRSystem_004::GetStringTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, char*, unsigned int, vr::TrackedPropertyError*)
+ T CVRSystem_004::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*)
  T CVRSystem_004::GetTimeSinceLastVsync(float*, unsigned long long*)
  T CVRSystem_004::GetTrackedDeviceClass(unsigned int)
- T CVRSystem_004::GetUint64TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_004::GetUint64TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystem_004::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
  T CVRSystem_004::IsInputFocusCapturedByAnotherProcess()
  T CVRSystem_004::IsTrackedDeviceConnected(unsigned int)
  T CVRSystem_004::PollNextEvent(vr::VREvent_t*)
- T CVRSystem_004::PollNextEventWithPose(vr::TrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
+ T CVRSystem_004::PollNextEventWithPose(vr::ETrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
  T CVRSystem_004::ReleaseInputFocus()
  T CVRSystem_004::ResetSeatedZeroPose()
  T CVRSystem_004::TriggerHapticPulse(unsigned int, unsigned int, unsigned short)
  T CVRSystem_005::AttachToWindow(void*)
  T CVRSystem_005::CaptureInputFocus()
- T CVRSystem_005::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CVRSystem_005::ComputeDistortion(vr::EVREye, float, float)
  T CVRSystem_005::DriverDebugRequest(unsigned int, char const*, char*, unsigned int)
- T CVRSystem_005::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_005::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystem_005::GetButtonIdNameFromEnum(vr::EVRButtonId)
  T CVRSystem_005::GetControllerAxisTypeNameFromEnum(vr::EVRControllerAxisType)
  T CVRSystem_005::GetControllerState(unsigned int, vr::VRControllerState001_t*)
- T CVRSystem_005::GetControllerStateWithPose(vr::TrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
+ T CVRSystem_005::GetControllerStateWithPose(vr::ETrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
  T CVRSystem_005::GetD3D9AdapterIndex()
  T CVRSystem_005::GetDXGIOutputInfo(int*, int*)
- T CVRSystem_005::GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRSystem_005::GetDeviceToAbsoluteTrackingPose(vr::ETrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
  T CVRSystem_005::GetEventTypeNameFromEnum(vr::EVREventType)
- T CVRSystem_005::GetEyeOutputViewport(vr::Hmd_Eye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
- T CVRSystem_005::GetEyeToHeadTransform(vr::Hmd_Eye)
- T CVRSystem_005::GetFloatTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_005::GetHiddenAreaMesh(vr::Hmd_Eye)
- T CVRSystem_005::GetInt32TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_005::GetMatrix34TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_005::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
- T CVRSystem_005::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
- T CVRSystem_005::GetPropErrorNameFromEnum(vr::TrackedPropertyError)
+ T CVRSystem_005::GetEyeOutputViewport(vr::EVREye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CVRSystem_005::GetEyeToHeadTransform(vr::EVREye)
+ T CVRSystem_005::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_005::GetHiddenAreaMesh(vr::EVREye)
+ T CVRSystem_005::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_005::GetMatrix34TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_005::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CVRSystem_005::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
+ T CVRSystem_005::GetPropErrorNameFromEnum(vr::ETrackedPropertyError)
  T CVRSystem_005::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
  T CVRSystem_005::GetSeatedZeroPoseToStandingAbsoluteTrackingPose()
- T CVRSystem_005::GetSortedTrackedDeviceIndicesOfClass(vr::TrackedDeviceClass, unsigned int*, unsigned int, unsigned int)
- T CVRSystem_005::GetStringTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, char*, unsigned int, vr::TrackedPropertyError*)
+ T CVRSystem_005::GetSortedTrackedDeviceIndicesOfClass(vr::ETrackedDeviceClass, unsigned int*, unsigned int, unsigned int)
+ T CVRSystem_005::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*)
  T CVRSystem_005::GetTimeSinceLastVsync(float*, unsigned long long*)
  T CVRSystem_005::GetTrackedDeviceClass(unsigned int)
- T CVRSystem_005::GetUint64TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_005::GetUint64TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystem_005::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
  T CVRSystem_005::IsInputFocusCapturedByAnotherProcess()
  T CVRSystem_005::IsTrackedDeviceConnected(unsigned int)
  T CVRSystem_005::PerformFirmwareUpdate(unsigned int)
  T CVRSystem_005::PollNextEvent(vr::VREvent_t*)
- T CVRSystem_005::PollNextEventWithPose(vr::TrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
+ T CVRSystem_005::PollNextEventWithPose(vr::ETrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
  T CVRSystem_005::ReleaseInputFocus()
  T CVRSystem_005::ResetSeatedZeroPose()
  T CVRSystem_005::TriggerHapticPulse(unsigned int, unsigned int, unsigned short)
  T CVRSystem_006::AttachToWindow(void*)
  T CVRSystem_006::CaptureInputFocus()
- T CVRSystem_006::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CVRSystem_006::ComputeDistortion(vr::EVREye, float, float)
  T CVRSystem_006::DriverDebugRequest(unsigned int, char const*, char*, unsigned int)
- T CVRSystem_006::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_006::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystem_006::GetButtonIdNameFromEnum(vr::EVRButtonId)
  T CVRSystem_006::GetControllerAxisTypeNameFromEnum(vr::EVRControllerAxisType)
  T CVRSystem_006::GetControllerState(unsigned int, vr::VRControllerState001_t*)
- T CVRSystem_006::GetControllerStateWithPose(vr::TrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
+ T CVRSystem_006::GetControllerStateWithPose(vr::ETrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
  T CVRSystem_006::GetD3D9AdapterIndex()
  T CVRSystem_006::GetDXGIOutputInfo(int*, int*)
- T CVRSystem_006::GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRSystem_006::GetDeviceToAbsoluteTrackingPose(vr::ETrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
  T CVRSystem_006::GetEventTypeNameFromEnum(vr::EVREventType)
- T CVRSystem_006::GetEyeOutputViewport(vr::Hmd_Eye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
- T CVRSystem_006::GetEyeToHeadTransform(vr::Hmd_Eye)
- T CVRSystem_006::GetFloatTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_006::GetHiddenAreaMesh(vr::Hmd_Eye)
- T CVRSystem_006::GetInt32TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_006::GetMatrix34TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_006::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
- T CVRSystem_006::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
- T CVRSystem_006::GetPropErrorNameFromEnum(vr::TrackedPropertyError)
+ T CVRSystem_006::GetEyeOutputViewport(vr::EVREye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CVRSystem_006::GetEyeToHeadTransform(vr::EVREye)
+ T CVRSystem_006::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_006::GetHiddenAreaMesh(vr::EVREye)
+ T CVRSystem_006::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_006::GetMatrix34TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_006::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CVRSystem_006::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
+ T CVRSystem_006::GetPropErrorNameFromEnum(vr::ETrackedPropertyError)
  T CVRSystem_006::GetRawZeroPoseToStandingAbsoluteTrackingPose()
  T CVRSystem_006::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
  T CVRSystem_006::GetSeatedZeroPoseToStandingAbsoluteTrackingPose()
- T CVRSystem_006::GetSortedTrackedDeviceIndicesOfClass(vr::TrackedDeviceClass, unsigned int*, unsigned int, unsigned int)
- T CVRSystem_006::GetStringTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, char*, unsigned int, vr::TrackedPropertyError*)
+ T CVRSystem_006::GetSortedTrackedDeviceIndicesOfClass(vr::ETrackedDeviceClass, unsigned int*, unsigned int, unsigned int)
+ T CVRSystem_006::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*)
  T CVRSystem_006::GetTimeSinceLastVsync(float*, unsigned long long*)
  T CVRSystem_006::GetTrackedDeviceActivityLevel(unsigned int)
  T CVRSystem_006::GetTrackedDeviceClass(unsigned int)
- T CVRSystem_006::GetUint64TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_006::GetUint64TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystem_006::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
  T CVRSystem_006::IsDisplayOnDesktop()
  T CVRSystem_006::IsInputFocusCapturedByAnotherProcess()
  T CVRSystem_006::IsTrackedDeviceConnected(unsigned int)
  T CVRSystem_006::PerformFirmwareUpdate(unsigned int)
  T CVRSystem_006::PollNextEvent(vr::VREvent_t*)
- T CVRSystem_006::PollNextEventWithPose(vr::TrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
+ T CVRSystem_006::PollNextEventWithPose(vr::ETrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
  T CVRSystem_006::ReleaseInputFocus()
  T CVRSystem_006::ResetSeatedZeroPose()
  T CVRSystem_006::SetDisplayVisibility(bool)
@@ -3058,46 +3268,89 @@
  T CVRSystem_007::ApplyTransform(vr::TrackedDevicePose_t*, vr::TrackedDevicePose_t const&, vr::HmdMatrix34_t const&)
  T CVRSystem_007::AttachToWindow(void*)
  T CVRSystem_007::CaptureInputFocus()
- T CVRSystem_007::ComputeDistortion(vr::Hmd_Eye, float, float)
+ T CVRSystem_007::ComputeDistortion(vr::EVREye, float, float)
  T CVRSystem_007::DriverDebugRequest(unsigned int, char const*, char*, unsigned int)
- T CVRSystem_007::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_007::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystem_007::GetButtonIdNameFromEnum(vr::EVRButtonId)
  T CVRSystem_007::GetControllerAxisTypeNameFromEnum(vr::EVRControllerAxisType)
  T CVRSystem_007::GetControllerState(unsigned int, vr::VRControllerState001_t*)
- T CVRSystem_007::GetControllerStateWithPose(vr::TrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
+ T CVRSystem_007::GetControllerStateWithPose(vr::ETrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
  T CVRSystem_007::GetD3D9AdapterIndex()
  T CVRSystem_007::GetDXGIOutputInfo(int*, int*)
- T CVRSystem_007::GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRSystem_007::GetDeviceToAbsoluteTrackingPose(vr::ETrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
  T CVRSystem_007::GetEventTypeNameFromEnum(vr::EVREventType)
- T CVRSystem_007::GetEyeOutputViewport(vr::Hmd_Eye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
- T CVRSystem_007::GetEyeToHeadTransform(vr::Hmd_Eye)
- T CVRSystem_007::GetFloatTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_007::GetHiddenAreaMesh(vr::Hmd_Eye)
- T CVRSystem_007::GetInt32TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_007::GetMatrix34TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
- T CVRSystem_007::GetProjectionMatrix(vr::Hmd_Eye, float, float, vr::GraphicsAPIConvention)
- T CVRSystem_007::GetProjectionRaw(vr::Hmd_Eye, float*, float*, float*, float*)
- T CVRSystem_007::GetPropErrorNameFromEnum(vr::TrackedPropertyError)
+ T CVRSystem_007::GetEyeOutputViewport(vr::EVREye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CVRSystem_007::GetEyeToHeadTransform(vr::EVREye)
+ T CVRSystem_007::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_007::GetHiddenAreaMesh(vr::EVREye)
+ T CVRSystem_007::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_007::GetMatrix34TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_007::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CVRSystem_007::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
+ T CVRSystem_007::GetPropErrorNameFromEnum(vr::ETrackedPropertyError)
  T CVRSystem_007::GetRawZeroPoseToStandingAbsoluteTrackingPose()
  T CVRSystem_007::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
  T CVRSystem_007::GetSeatedZeroPoseToStandingAbsoluteTrackingPose()
- T CVRSystem_007::GetSortedTrackedDeviceIndicesOfClass(vr::TrackedDeviceClass, unsigned int*, unsigned int, unsigned int)
- T CVRSystem_007::GetStringTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, char*, unsigned int, vr::TrackedPropertyError*)
+ T CVRSystem_007::GetSortedTrackedDeviceIndicesOfClass(vr::ETrackedDeviceClass, unsigned int*, unsigned int, unsigned int)
+ T CVRSystem_007::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*)
  T CVRSystem_007::GetTimeSinceLastVsync(float*, unsigned long long*)
  T CVRSystem_007::GetTrackedDeviceActivityLevel(unsigned int)
  T CVRSystem_007::GetTrackedDeviceClass(unsigned int)
- T CVRSystem_007::GetUint64TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T CVRSystem_007::GetUint64TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CVRSystem_007::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
  T CVRSystem_007::IsDisplayOnDesktop()
  T CVRSystem_007::IsInputFocusCapturedByAnotherProcess()
  T CVRSystem_007::IsTrackedDeviceConnected(unsigned int)
  T CVRSystem_007::PerformFirmwareUpdate(unsigned int)
  T CVRSystem_007::PollNextEvent(vr::VREvent_t*)
- T CVRSystem_007::PollNextEventWithPose(vr::TrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
+ T CVRSystem_007::PollNextEventWithPose(vr::ETrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
  T CVRSystem_007::ReleaseInputFocus()
  T CVRSystem_007::ResetSeatedZeroPose()
  T CVRSystem_007::SetDisplayVisibility(bool)
  T CVRSystem_007::TriggerHapticPulse(unsigned int, unsigned int, unsigned short)
+ T CVRSystem_008::ApplyTransform(vr::TrackedDevicePose_t*, vr::TrackedDevicePose_t const*, vr::HmdMatrix34_t const*)
+ T CVRSystem_008::AttachToWindow(void*)
+ T CVRSystem_008::CaptureInputFocus()
+ T CVRSystem_008::ComputeDistortion(vr::EVREye, float, float)
+ T CVRSystem_008::DriverDebugRequest(unsigned int, char const*, char*, unsigned int)
+ T CVRSystem_008::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_008::GetButtonIdNameFromEnum(vr::EVRButtonId)
+ T CVRSystem_008::GetControllerAxisTypeNameFromEnum(vr::EVRControllerAxisType)
+ T CVRSystem_008::GetControllerState(unsigned int, vr::VRControllerState001_t*)
+ T CVRSystem_008::GetControllerStateWithPose(vr::ETrackingUniverseOrigin, unsigned int, vr::VRControllerState001_t*, vr::TrackedDevicePose_t*)
+ T CVRSystem_008::GetD3D9AdapterIndex()
+ T CVRSystem_008::GetDXGIOutputInfo(int*, int*)
+ T CVRSystem_008::GetDeviceToAbsoluteTrackingPose(vr::ETrackingUniverseOrigin, float, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRSystem_008::GetEventTypeNameFromEnum(vr::EVREventType)
+ T CVRSystem_008::GetEyeOutputViewport(vr::EVREye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
+ T CVRSystem_008::GetEyeToHeadTransform(vr::EVREye)
+ T CVRSystem_008::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_008::GetHiddenAreaMesh(vr::EVREye)
+ T CVRSystem_008::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_008::GetMatrix34TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_008::GetProjectionMatrix(vr::EVREye, float, float, vr::EGraphicsAPIConvention)
+ T CVRSystem_008::GetProjectionRaw(vr::EVREye, float*, float*, float*, float*)
+ T CVRSystem_008::GetPropErrorNameFromEnum(vr::ETrackedPropertyError)
+ T CVRSystem_008::GetRawZeroPoseToStandingAbsoluteTrackingPose()
+ T CVRSystem_008::GetRecommendedRenderTargetSize(unsigned int*, unsigned int*)
+ T CVRSystem_008::GetSeatedZeroPoseToStandingAbsoluteTrackingPose()
+ T CVRSystem_008::GetSortedTrackedDeviceIndicesOfClass(vr::ETrackedDeviceClass, unsigned int*, unsigned int, unsigned int)
+ T CVRSystem_008::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*)
+ T CVRSystem_008::GetTimeSinceLastVsync(float*, unsigned long long*)
+ T CVRSystem_008::GetTrackedDeviceActivityLevel(unsigned int)
+ T CVRSystem_008::GetTrackedDeviceClass(unsigned int)
+ T CVRSystem_008::GetUint64TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CVRSystem_008::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
+ T CVRSystem_008::IsDisplayOnDesktop()
+ T CVRSystem_008::IsInputFocusCapturedByAnotherProcess()
+ T CVRSystem_008::IsTrackedDeviceConnected(unsigned int)
+ T CVRSystem_008::PerformFirmwareUpdate(unsigned int)
+ T CVRSystem_008::PollNextEvent(vr::VREvent_t*)
+ T CVRSystem_008::PollNextEventWithPose(vr::ETrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*)
+ T CVRSystem_008::ReleaseInputFocus()
+ T CVRSystem_008::ResetSeatedZeroPose()
+ T CVRSystem_008::SetDisplayVisibility(bool)
+ T CVRSystem_008::TriggerHapticPulse(unsigned int, unsigned int, unsigned short)
  T CVRTrackedCameraStream::CVRTrackedCameraStream()
  T CVRTrackedCameraStream::Cleanup()
  T CVRTrackedCameraStream::GetFrameBuffer(int)
@@ -3134,6 +3387,8 @@
  T CompositorInterfaceRegistration<CVRCompositor_006>::~CompositorInterfaceRegistration()
  T CompositorInterfaceRegistration<CVRCompositor_007>::GetInterface()
  T CompositorInterfaceRegistration<CVRCompositor_007>::~CompositorInterfaceRegistration()
+ T CompositorInterfaceRegistration<CVRCompositor_008>::GetInterface()
+ T CompositorInterfaceRegistration<CVRCompositor_008>::~CompositorInterfaceRegistration()
  T ComputeOverlayIntersectionInternal(VRCompositor_OverlaySettings_t const*, float, vr::HmdVector3_t, vr::HmdVector3_t, vr::HmdVector2_t*, vr::HmdVector3_t*, vr::HmdVector3_t*, float*)
  T CreateOverlayInternal(VRCompositorState_t*, char const*, char const*, unsigned long long*)
  T DXGI2::GetDisplayVisibility(int)
@@ -3147,29 +3402,31 @@
  T GenericInterfaceRegistration::GetInterface()
  T GenericInterfaceRegistration::~GenericInterfaceRegistration()
  T GetChaperoneInterfaceInternal()
+ T GetEnglishStringForHmdError(vr::EVRInitError)
  T GetEnvironmentVariable(char const*)
  T GetFileLength(char const*)
- T GetGenericInterfaceInternal(char const*, vr::HmdError*)
+ T GetGenericInterfaceInternal(char const*, vr::EVRInitError*)
  T GetHMDLatestInterfaceInternal()
  T GetHomeDir()
+ T GetIDForVRInitError(vr::EVRInitError)
  T GetModuleRelativeRuntimeDir()
  T GetResourceBaseDir()
- T GetStringForCompositorError(vr::VRCompositorError)
- T GetStringForHmdError(vr::HmdError)
+ T GetStringForCompositorError(vr::EVRCompositorError)
  T GetStringForVRApplicationTransitionState(vr::EVRApplicationTransitionState)
  T GetStringForVRApplicationsError(vr::EVRApplicationError)
  T GetStringForVRButtonId(vr::EVRButtonId)
  T GetStringForVRControllerAxisType(vr::EVRControllerAxisType)
  T GetStringForVREventType(vr::EVREventType)
- T GetStringForVROverlayError(vr::VROverlayError)
+ T GetStringForVROverlayError(vr::EVROverlayError)
  T GetStringForVRSettingsError(vr::EVRSettingsError)
  T GetSystemTicksFromTime(double)
  T GetSystemTime()
+ T GetSystemTimeFrequency()
  T GetSystemTimeFromTicks(unsigned long long)
  T GetSystemTimeInTicks()
  T GetThisModulePath()
  T GetUniverseIDFromHMDLatest()
- T GetVRLogTimeString()
+ T GetVRLogTimeString(bool)
  T HasInterfaceAdapter(char const*)
  T HmdInterfaceRegistration<CHmd_001>::GetInterface()
  T HmdInterfaceRegistration<CHmd_001>::~HmdInterfaceRegistration()
@@ -3197,6 +3454,8 @@
  T HmdInterfaceRegistration<CVRSystem_006>::~HmdInterfaceRegistration()
  T HmdInterfaceRegistration<CVRSystem_007>::GetInterface()
  T HmdInterfaceRegistration<CVRSystem_007>::~HmdInterfaceRegistration()
+ T HmdInterfaceRegistration<CVRSystem_008>::GetInterface()
+ T HmdInterfaceRegistration<CVRSystem_008>::~HmdInterfaceRegistration()
  T HmdMatrix_GetRotationEuler(vr::HmdMatrix34_t const&)
  T HmdQuadFromJson_V0(Json::Value const&, vr::HmdQuad_t&)
  T HmdSystemFactory
@@ -3207,14 +3466,14 @@
  T HmdVector3ToJson(vr::HmdVector3_t const&)
  T IHmdSystem_002::Cleanup()
  T IHmdSystem_002::GetCurrentHmd(char const*)
- T IHmdSystem_002::GetGenericInterface(char const*, vr::HmdError*)
+ T IHmdSystem_002::GetGenericInterface(char const*, vr::EVRInitError*)
  T IHmdSystem_002::Init(char const*, char const*)
  T IHmdSystem_002::IsInterfaceVersionValid(char const*)
  T IHmdSystem_003::BIsHmdPresent()
  T IHmdSystem_003::Cleanup()
  T IHmdSystem_003::GetCurrentHmd(char const*)
- T IHmdSystem_003::GetGenericInterface(char const*, vr::HmdError*)
- T IHmdSystem_003::GetStringForHmdError(vr::HmdError)
+ T IHmdSystem_003::GetGenericInterface(char const*, vr::EVRInitError*)
+ T IHmdSystem_003::GetStringForHmdError(vr::EVRInitError)
  T IHmdSystem_003::Init(char const*, char const*)
  T IHmdSystem_003::IsInterfaceVersionValid(char const*)
  T IPC::BinarySemaphore::Destroy()
@@ -3245,7 +3504,7 @@
  T IPC::crc32(unsigned int, void*, unsigned int)
  T InitLog(char const*, char const*)
  T InitSystemBaseTimeTicks(unsigned long long)
- T InitializeInterfaceAdapters(vr::IVRSystem*, vr::IVRClientCore*, vr::IVRCompositor*, vr::IVRChaperone*, vr::IVRChaperoneSetup*, vr::IVROverlay*, vr::IVRRenderModels*, vr::IVRApplications*)
+ T InitializeInterfaceAdapters()
  T InterfaceRegistrationBase::~InterfaceRegistrationBase()
  T Json::DefaultValueAllocator::duplicateStringValue(char const*, unsigned int)
  T Json::DefaultValueAllocator::makeMemberName(char const*)
@@ -3329,6 +3588,8 @@
  T LiquidVR::SetDisplayVisibility(int, LiquidVR::DisplayVisibility)
  T Log(LogLevel, char const*, ...)
  T Log(char const*, ...)
+ T NotificationsInterfaceRegistration<CVRNotifications_001>::GetInterface()
+ T NotificationsInterfaceRegistration<CVRNotifications_001>::~NotificationsInterfaceRegistration()
  T NotifyVR_InitSuccess()
  T NotifyVR_Shutdown()
  T NvAPI::GetDisplayVisibility(int)
@@ -3343,6 +3604,8 @@
  T OverlayInterfaceRegistration<CVROverlay_004>::~OverlayInterfaceRegistration()
  T OverlayInterfaceRegistration<CVROverlay_005>::GetInterface()
  T OverlayInterfaceRegistration<CVROverlay_005>::~OverlayInterfaceRegistration()
+ T OverlayInterfaceRegistration<CVROverlay_006>::GetInterface()
+ T OverlayInterfaceRegistration<CVROverlay_006>::~OverlayInterfaceRegistration()
  T Path_Compact(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char)
  T Path_Exists(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T Path_FixSlashes(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char)
@@ -3362,13 +3625,14 @@
  T Path_StripExtension(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T Path_StripFilename(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char)
  T Path_WriteStringToTextFile(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char const*)
+ T Plat_IsInDebugSession()
  T RegisterInterface(char const*, void*)
  T RenderModelsInterfaceRegistration<CVRRenderModels_001>::GetInterface()
  T RenderModelsInterfaceRegistration<CVRRenderModels_001>::RenderModelsInterfaceRegistration(char const*)
  T RenderModelsInterfaceRegistration<CVRRenderModels_001>::~RenderModelsInterfaceRegistration()
  T ReturnStdString(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char*, unsigned int)
  T SetEnvironmentVariable(char const*, char const*)
- T SetOverlayTransformAbsoluteInternal(VRCompositorState_t*, unsigned long long, vr::TrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ T SetOverlayTransformAbsoluteInternal(VRCompositorState_t*, unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
  T SharedLib_GetFunction(void*, char const*)
  T SharedLib_Load(char const*)
  T SharedLib_Unload(void*)
@@ -3432,6 +3696,7 @@
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_GetDistortionResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_GetDistortionResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_GetFirmwareDescriptionResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_GetFirmwareDescriptionResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_GetFrameDimensionsResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_GetFrameDimensionsResponse&, unsigned int)
+ T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_GetProjectionResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_GetProjectionResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_GetVideoStreamElapsedTimeResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_GetVideoStreamElapsedTimeResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_GetVideoStreamFormatResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_GetVideoStreamFormatResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_IsVideoStreamActiveResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_IsVideoStreamActiveResponse&, unsigned int)
@@ -3478,6 +3743,7 @@
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_GetDistortion, CVRMsg_TrackedCamera_GetDistortionResponse>(unsigned int, CVRMsg_TrackedCamera_GetDistortion const&, unsigned int, CVRMsg_TrackedCamera_GetDistortionResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_GetFirmwareDescription, CVRMsg_TrackedCamera_GetFirmwareDescriptionResponse>(unsigned int, CVRMsg_TrackedCamera_GetFirmwareDescription const&, unsigned int, CVRMsg_TrackedCamera_GetFirmwareDescriptionResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_GetFrameDimensions, CVRMsg_TrackedCamera_GetFrameDimensionsResponse>(unsigned int, CVRMsg_TrackedCamera_GetFrameDimensions const&, unsigned int, CVRMsg_TrackedCamera_GetFrameDimensionsResponse&, unsigned int)
+ T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_GetProjection, CVRMsg_TrackedCamera_GetProjectionResponse>(unsigned int, CVRMsg_TrackedCamera_GetProjection const&, unsigned int, CVRMsg_TrackedCamera_GetProjectionResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_GetVideoStreamElapsedTime, CVRMsg_TrackedCamera_GetVideoStreamElapsedTimeResponse>(unsigned int, CVRMsg_TrackedCamera_GetVideoStreamElapsedTime const&, unsigned int, CVRMsg_TrackedCamera_GetVideoStreamElapsedTimeResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_GetVideoStreamFormat, CVRMsg_TrackedCamera_GetVideoStreamFormatResponse>(unsigned int, CVRMsg_TrackedCamera_GetVideoStreamFormat const&, unsigned int, CVRMsg_TrackedCamera_GetVideoStreamFormatResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_IsVideoStreamActive, CVRMsg_TrackedCamera_IsVideoStreamActiveResponse>(unsigned int, CVRMsg_TrackedCamera_IsVideoStreamActive const&, unsigned int, CVRMsg_TrackedCamera_IsVideoStreamActiveResponse&, unsigned int)
@@ -3490,7 +3756,9 @@
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_StopVideoStream, CVRMsg_TrackedCamera_StopVideoStreamResponse>(unsigned int, CVRMsg_TrackedCamera_StopVideoStream const&, unsigned int, CVRMsg_TrackedCamera_StopVideoStreamResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_SupportsPauseResume, CVRMsg_TrackedCamera_SupportsPauseResumeResponse>(unsigned int, CVRMsg_TrackedCamera_SupportsPauseResume const&, unsigned int, CVRMsg_TrackedCamera_SupportsPauseResumeResponse&, unsigned int)
  T bool std::__1::__insertion_sort_incomplete<bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&), CDriverManager::HmdDriver_t*>(CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&))
- T non-virtual thunk to CHmdSystemLatest::GetBoolTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T non-virtual thunk to CHmdSystemLatest::AbortTransition()
+ T non-virtual thunk to CHmdSystemLatest::ForceQuitProcess(unsigned int)
+ T non-virtual thunk to CHmdSystemLatest::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T non-virtual thunk to CHmdSystemLatest::GetCurrentCompositorInterface(char const*)
  T non-virtual thunk to CHmdSystemLatest::GetCurrentDisplayInterface(char const*)
  T non-virtual thunk to CHmdSystemLatest::GetDriverCount()
@@ -3499,26 +3767,27 @@
  T non-virtual thunk to CHmdSystemLatest::GetDriverDisplayModelNumber(char const*, char const*, char*, unsigned int)
  T non-virtual thunk to CHmdSystemLatest::GetDriverDisplaySerialNumber(char const*, char const*, char*, unsigned int)
  T non-virtual thunk to CHmdSystemLatest::GetDriverId(unsigned int, char*, unsigned int)
- T non-virtual thunk to CHmdSystemLatest::GetFloatTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T non-virtual thunk to CHmdSystemLatest::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T non-virtual thunk to CHmdSystemLatest::GetIPD()
- T non-virtual thunk to CHmdSystemLatest::GetInt32TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T non-virtual thunk to CHmdSystemLatest::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T non-virtual thunk to CHmdSystemLatest::GetSettings()
- T non-virtual thunk to CHmdSystemLatest::GetStringTrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, char*, unsigned int, vr::TrackedPropertyError*)
+ T non-virtual thunk to CHmdSystemLatest::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*)
  T non-virtual thunk to CHmdSystemLatest::GetTrackedDeviceClass(unsigned int)
- T non-virtual thunk to CHmdSystemLatest::GetUint64TrackedDeviceProperty(unsigned int, vr::TrackedDeviceProperty, vr::TrackedPropertyError*)
+ T non-virtual thunk to CHmdSystemLatest::GetUint64TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T non-virtual thunk to CHmdSystemLatest::IsTrackedDeviceConnected(unsigned int)
  T non-virtual thunk to CHmdSystemLatest::LoadSharedResource(char const*, char*, unsigned int)
  T non-virtual thunk to CHmdSystemLatest::QuitProcess(unsigned int)
  T non-virtual thunk to CHmdSystemLatest::SetIPD(float)
  T non-virtual thunk to CHmdSystemLatest::SetMasterProcessToThis()
+ T non-virtual thunk to CHmdSystemLatest::StartAutolaunchOverlays()
  T non-virtual thunk to CHmdSystemLatest::StartVRProcess(char const*, char const**, unsigned int, char const*)
- T non-virtual thunk to CVRCompositorClient::BeginFrame_DEPRECATED(vr::Hmd_Eye, vr::TrackedDevicePose_t*, unsigned int)
+ T non-virtual thunk to CVRCompositorClient::BeginFrame_DEPRECATED(vr::EVREye, vr::TrackedDevicePose_t*, unsigned int)
  T non-virtual thunk to CVRCompositorClient::ClearOverlayTexture(unsigned long long)
  T non-virtual thunk to CVRCompositorClient::ComputeOverlayIntersection(unsigned long long, vr::VROverlayIntersectionParams_t const*, vr::VROverlayIntersectionResults_t*)
  T non-virtual thunk to CVRCompositorClient::CreateDashboardOverlay(char const*, char const*, unsigned long long*, unsigned long long*)
  T non-virtual thunk to CVRCompositorClient::CreateOverlay(char const*, char const*, unsigned long long*)
  T non-virtual thunk to CVRCompositorClient::DestroyOverlay(unsigned long long)
- T non-virtual thunk to CVRCompositorClient::EndFrame_DEPRECATED(vr::Hmd_Eye, void*, vr::VRTextureBounds_t*)
+ T non-virtual thunk to CVRCompositorClient::EndFrame_DEPRECATED(vr::EVREye, void*, vr::VRTextureBounds_t*)
  T non-virtual thunk to CVRCompositorClient::FindOverlay(char const*, unsigned long long*)
  T non-virtual thunk to CVRCompositorClient::GetDashboardOverlaySceneProcess(unsigned long long, unsigned int*)
  T non-virtual thunk to CVRCompositorClient::GetGamepadFocusOverlay()
@@ -3527,16 +3796,16 @@
  T non-virtual thunk to CVRCompositorClient::GetOverlayAlpha(unsigned long long, float*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayAutoCurveDistanceRangeInMeters(unsigned long long, float*, float*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayColor(unsigned long long, float*, float*, float*)
- T non-virtual thunk to CVRCompositorClient::GetOverlayErrorNameFromEnum(vr::VROverlayError)
+ T non-virtual thunk to CVRCompositorClient::GetOverlayErrorNameFromEnum(vr::EVROverlayError)
  T non-virtual thunk to CVRCompositorClient::GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
- T non-virtual thunk to CVRCompositorClient::GetOverlayGamma(unsigned long long, float*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayImageData(unsigned long long, void*, unsigned int, unsigned int*, unsigned int*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
- T non-virtual thunk to CVRCompositorClient::GetOverlayKey(unsigned long long, char*, unsigned int, vr::VROverlayError*)
+ T non-virtual thunk to CVRCompositorClient::GetOverlayKey(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
- T non-virtual thunk to CVRCompositorClient::GetOverlayName(unsigned long long, char*, unsigned int, vr::VROverlayError*)
+ T non-virtual thunk to CVRCompositorClient::GetOverlayName(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
- T non-virtual thunk to CVRCompositorClient::GetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin*, vr::HmdMatrix34_t*)
+ T non-virtual thunk to CVRCompositorClient::GetOverlayTextureColorSpace(unsigned long long, vr::EColorSpace*)
+ T non-virtual thunk to CVRCompositorClient::GetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin*, vr::HmdMatrix34_t*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayTransformType(unsigned long long, vr::VROverlayTransformType*)
  T non-virtual thunk to CVRCompositorClient::GetOverlayWidthInMeters(unsigned long long, float*)
@@ -3557,14 +3826,14 @@
  T non-virtual thunk to CVRCompositorClient::SetOverlayColor(unsigned long long, float, float, float)
  T non-virtual thunk to CVRCompositorClient::SetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool)
  T non-virtual thunk to CVRCompositorClient::SetOverlayFromFile(unsigned long long, char const*)
- T non-virtual thunk to CVRCompositorClient::SetOverlayGamma(unsigned long long, float)
  T non-virtual thunk to CVRCompositorClient::SetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod)
  T non-virtual thunk to CVRCompositorClient::SetOverlayMouseScale(unsigned long long, vr::HmdVector2_t const*)
  T non-virtual thunk to CVRCompositorClient::SetOverlayNeighbor(vr::EOverlayDirection, unsigned long long, unsigned long long)
  T non-virtual thunk to CVRCompositorClient::SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
- T non-virtual thunk to CVRCompositorClient::SetOverlayTexture(unsigned long long, vr::GraphicsAPIConvention, void*)
+ T non-virtual thunk to CVRCompositorClient::SetOverlayTexture(unsigned long long, vr::Texture_t const*)
  T non-virtual thunk to CVRCompositorClient::SetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t const*)
- T non-virtual thunk to CVRCompositorClient::SetOverlayTransformAbsolute(unsigned long long, vr::TrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ T non-virtual thunk to CVRCompositorClient::SetOverlayTextureColorSpace(unsigned long long, vr::EColorSpace)
+ T non-virtual thunk to CVRCompositorClient::SetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
  T non-virtual thunk to CVRCompositorClient::SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
  T non-virtual thunk to CVRCompositorClient::SetOverlayWidthInMeters(unsigned long long, float)
  T non-virtual thunk to CVRCompositorClient::SetOverlay_DEPRECATED(void*, vr::Compositor_OverlaySettings*)
@@ -3573,9 +3842,13 @@
  T non-virtual thunk to CVRCompositorClient::ShowKeyboardForOverlay(unsigned long long, vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
  T non-virtual thunk to CVRCompositorClient::ShowOverlay(unsigned long long)
  T non-virtual thunk to CVRSystemLatest::GenerateLocalMouseEvents(unsigned int, float, float, vr::VRControllerState001_t const&, bool, unsigned long long, unsigned long long)
+ T non-virtual thunk to CVRSystemLatest::GetCompositorProcessId()
+ T non-virtual thunk to CVRSystemLatest::GetDXGIOutputInfo(int*, int*)
+ T non-virtual thunk to CVRSystemLatest::GetEyeOutputViewport(vr::EVREye, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
  T non-virtual thunk to CVRSystemLatest::GetHoverTargetOverlay()
  T non-virtual thunk to CVRSystemLatest::GetMCImage(unsigned int*, unsigned int*, unsigned int*, void*, unsigned int)
- T non-virtual thunk to CVRSystemLatest::HandleAutomaticControllerOverlayInteractionAsMouse(unsigned int, vr::VROverlayEventSettings_t const*, unsigned int, vr::TrackingUniverseOrigin, vr::TrackedDevicePose_t*, unsigned int, unsigned long long, vr::HmdVector3_t*, unsigned int*)
+ T non-virtual thunk to CVRSystemLatest::GetWindowBounds(int*, int*, unsigned int*, unsigned int*)
+ T non-virtual thunk to CVRSystemLatest::HandleAutomaticControllerOverlayInteractionAsMouse(unsigned int, vr::VROverlayEventSettings_t const*, unsigned int, vr::ETrackingUniverseOrigin, vr::TrackedDevicePose_t*, unsigned int, unsigned long long, vr::HmdVector3_t*, unsigned int*)
  T non-virtual thunk to CVRSystemLatest::PollNextOverlayEvent(unsigned long long, vr::VREvent_t*)
  T non-virtual thunk to CVRSystemLatest::PostGlobalEvent(vr::VREvent_t const&)
  T non-virtual thunk to CVRSystemLatest::PostOverlayEvent(unsigned long long, vr::VREvent_t const&)
@@ -3600,6 +3873,7 @@
  T protobuf_AssignDesc_vr_5fmessages_2eproto()
  T protobuf_ShutdownFile_vr_5fmessages_2eproto()
  T stbi_failure_reason
+ T stbi_image_free
  T stbi_load
  T std::__1::__deque_base<Json::Reader::ErrorInfo, std::__1::allocator<Json::Reader::ErrorInfo> >::clear()
  T std::__1::__split_buffer<Json::Reader::ErrorInfo*, std::__1::allocator<Json::Reader::ErrorInfo*> >::push_back(Json::Reader::ErrorInfo*&&)
@@ -3640,7 +3914,7 @@
  T std::__1::__tree<std::__1::__value_type<unsigned long long, std::__1::pair<vr::RenderModel_t*, vr::RenderModel_TextureMap_t*> >, std::__1::__map_value_compare<unsigned long long, std::__1::__value_type<unsigned long long, std::__1::pair<vr::RenderModel_t*, vr::RenderModel_TextureMap_t*> >, std::__1::less<unsigned long long>, true>, std::__1::allocator<std::__1::__value_type<unsigned long long, std::__1::pair<vr::RenderModel_t*, vr::RenderModel_TextureMap_t*> > > >::destroy(std::__1::__tree_node<std::__1::__value_type<unsigned long long, std::__1::pair<vr::RenderModel_t*, vr::RenderModel_TextureMap_t*> >, void*>*)
  T std::__1::__tree<std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*>, std::__1::__map_value_compare<unsigned long long, std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*>, std::__1::less<unsigned long long>, true>, std::__1::allocator<std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*> > >::__node_insert_unique(std::__1::__tree_node<std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*>, void*>*)
  T std::__1::__tree<std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*>, std::__1::__map_value_compare<unsigned long long, std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*>, std::__1::less<unsigned long long>, true>, std::__1::allocator<std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*> > >::destroy(std::__1::__tree_node<std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*>, void*>*)
- T std::__1::__tree<std::__1::__value_type<vr::TrackedDeviceProperty, CVRMsg_GetPropertyResponse>, std::__1::__map_value_compare<vr::TrackedDeviceProperty, std::__1::__value_type<vr::TrackedDeviceProperty, CVRMsg_GetPropertyResponse>, std::__1::less<vr::TrackedDeviceProperty>, true>, std::__1::allocator<std::__1::__value_type<vr::TrackedDeviceProperty, CVRMsg_GetPropertyResponse> > >::destroy(std::__1::__tree_node<std::__1::__value_type<vr::TrackedDeviceProperty, CVRMsg_GetPropertyResponse>, void*>*)
+ T std::__1::__tree<std::__1::__value_type<vr::ETrackedDeviceProperty, CVRMsg_GetPropertyResponse>, std::__1::__map_value_compare<vr::ETrackedDeviceProperty, std::__1::__value_type<vr::ETrackedDeviceProperty, CVRMsg_GetPropertyResponse>, std::__1::less<vr::ETrackedDeviceProperty>, true>, std::__1::allocator<std::__1::__value_type<vr::ETrackedDeviceProperty, CVRMsg_GetPropertyResponse> > >::destroy(std::__1::__tree_node<std::__1::__value_type<vr::ETrackedDeviceProperty, CVRMsg_GetPropertyResponse>, void*>*)
  T std::__1::__tree<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >::__insert_node_at(std::__1::__tree_node_base<void*>*, std::__1::__tree_node_base<void*>*&, std::__1::__tree_node_base<void*>*)
  T std::__1::__tree<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >::__insert_unique(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T std::__1::__tree<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >::__node_insert_unique(std::__1::__tree_node<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, void*>*)
@@ -3745,7 +4019,7 @@
  T std::__1::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, int> > >::__find_equal_key(std::__1::__tree_node_base<void*>*&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T std::__1::map<tinyobj::vertex_index, unsigned int, std::__1::less<tinyobj::vertex_index>, std::__1::allocator<std::__1::pair<tinyobj::vertex_index const, unsigned int> > >::operator[](tinyobj::vertex_index const&)
  T std::__1::map<unsigned long long, std::__1::pair<vr::RenderModel_t*, vr::RenderModel_TextureMap_t*>, std::__1::less<unsigned long long>, std::__1::allocator<std::__1::pair<unsigned long long const, std::__1::pair<vr::RenderModel_t*, vr::RenderModel_TextureMap_t*> > > >::operator[](unsigned long long const&)
- T std::__1::map<vr::TrackedDeviceProperty, CVRMsg_GetPropertyResponse, std::__1::less<vr::TrackedDeviceProperty>, std::__1::allocator<std::__1::pair<vr::TrackedDeviceProperty const, CVRMsg_GetPropertyResponse> > >::operator[](vr::TrackedDeviceProperty const&)
+ T std::__1::map<vr::ETrackedDeviceProperty, CVRMsg_GetPropertyResponse, std::__1::less<vr::ETrackedDeviceProperty>, std::__1::allocator<std::__1::pair<vr::ETrackedDeviceProperty const, CVRMsg_GetPropertyResponse> > >::operator[](vr::ETrackedDeviceProperty const&)
  T std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> > std::__1::__pad_and_output<char, std::__1::char_traits<char> >(std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> >, char const*, char const*, char const*, std::__1::ios_base&, char)
  T std::__1::pair<std::__1::__tree_iterator<int, std::__1::__tree_node<int, void*>*, int>, bool> std::__1::__tree<int, std::__1::less<int>, std::__1::allocator<int> >::__insert_unique<int>(int&&)
  T std::__1::pair<std::__1::__tree_iterator<int, std::__1::__tree_node<int, void*>*, long>, bool> std::__1::__tree<int, std::__1::less<int>, std::__1::allocator<int> >::__insert_unique<int>(int&&)
@@ -3840,6 +4114,7 @@
  T vr::CVRApplicationsLatest::GetTransitionState()
  T vr::CVRApplicationsLatest::IdentifyApplication(unsigned int, char const*)
  T vr::CVRApplicationsLatest::IsApplicationInstalled(char const*)
+ T vr::CVRApplicationsLatest::IsQuitUserPromptRequested()
  T vr::CVRApplicationsLatest::LaunchApplication(char const*)
  T vr::CVRApplicationsLatest::LaunchDashboardOverlay(char const*)
  T vr::CVRApplicationsLatest::PerformApplicationPrelaunchCheck(char const*)
@@ -3855,7 +4130,8 @@
  T vr::CVRChaperoneLatest::GetBoundsColor(vr::HmdColor_t*, int, float)
  T vr::CVRChaperoneLatest::GetCalibrationState()
  T vr::CVRChaperoneLatest::GetCalibrationStateInternal(vr::ChaperoneInfo&)
- T vr::CVRChaperoneLatest::GetChaperoneInfo(unsigned long long)
+ T vr::CVRChaperoneLatest::GetChaperoneInfo(vr::ChaperoneInfo&, unsigned long long)
+ T vr::CVRChaperoneLatest::GetChaperoneInfoForEdit(unsigned long long)
  T vr::CVRChaperoneLatest::GetLiveCollisionBoundsInfo(vr::HmdQuad_t*, unsigned int*)
  T vr::CVRChaperoneLatest::GetLiveSeatedZeroPoseToRawTrackingPose(vr::HmdMatrix34_t*)
  T vr::CVRChaperoneLatest::GetPlayAreaRect(vr::HmdQuad_t*)
@@ -3867,6 +4143,7 @@
  T vr::CVRChaperoneLatest::GetWorkingStandingZeroPoseToRawTrackingPose(vr::HmdMatrix34_t*)
  T vr::CVRChaperoneLatest::InitChaperoneInfo(vr::EChaperoneConfigFile)
  T vr::CVRChaperoneLatest::MatchToPreviousUniverse(vr::ChaperoneInfo&)
+ T vr::CVRChaperoneLatest::PostGlobalChaperoneEvent(vr::EVREventType, unsigned long long, unsigned long long)
  T vr::CVRChaperoneLatest::ReloadFromDisk(vr::EChaperoneConfigFile)
  T vr::CVRChaperoneLatest::ReloadInfo()
  T vr::CVRChaperoneLatest::RevertWorkingCopy()
@@ -3897,15 +4174,14 @@
  T vr::CVRDashboardManagerLatest::SetKeyboardResultText(char const*)
  T vr::CVRDashboardManagerLatest::SetNotificationPriority(char const*, unsigned int)
  T vr::CVRDashboardManagerLatest::SetToastOverlayRendererToThis()
- T vr::CVRDashboardManagerLatest::SetToastTexture(vr::GraphicsAPIConvention, void*)
+ T vr::CVRDashboardManagerLatest::SetToastTexture(vr::Texture_t const*)
  T vr::CVRDashboardManagerLatest::ShowDashboard(unsigned int)
  T vr::CVRDashboardManagerLatest::UpdateKeyboardPosition()
  T vr::CVRDashboardManagerLatest::~CVRDashboardManagerLatest()
  T vr::CVRNotificationsLatest::BInit(CVRClient*, CVRCompositorClient*)
  T vr::CVRNotificationsLatest::CVRNotificationsLatest()
- T vr::CVRNotificationsLatest::CreateNotification(unsigned long long, unsigned long long, char const*, char const*, char const*, vr::NotificationBitmap const*, unsigned int*)
- T vr::CVRNotificationsLatest::DismissNotification(unsigned int)
- T vr::CVRNotificationsLatest::GetErrorString(vr::NotificationError_t, char*, unsigned int)
+ T vr::CVRNotificationsLatest::CreateNotification(unsigned long long, unsigned long long, vr::EVRNotificationType, char const*, vr::EVRNotificationStyle, vr::NotificationBitmap_t const*, unsigned int*)
+ T vr::CVRNotificationsLatest::RemoveNotification(unsigned int)
  T vr::CVRNotificationsLatest::~CVRNotificationsLatest()
  T vr::CVRSettingsLatest::BInit(CVRSystemLatest*, CVRClient*)
  T vr::CVRSettingsLatest::CVRSettingsLatest()
@@ -3926,6 +4202,7 @@
  T vr::CVRTrackedCamera::GetCameraDistortion(unsigned int, float, float, float*, float*)
  T vr::CVRTrackedCamera::GetCameraFirmwareDescription(unsigned int, char*, unsigned int)
  T vr::CVRTrackedCamera::GetCameraFrameDimensions(unsigned int, vr::ECameraVideoStreamFormat, unsigned int*, unsigned int*)
+ T vr::CVRTrackedCamera::GetCameraProjection(unsigned int, float, float, float, float, vr::HmdMatrix44_t*)
  T vr::CVRTrackedCamera::GetCameraVideoStreamFormat(unsigned int)
  T vr::CVRTrackedCamera::GetVideoStreamElapsedTime(unsigned int)
  T vr::CVRTrackedCamera::GetVideoStreamFrame(unsigned int)
@@ -3942,6 +4219,7 @@
  T vr::CVRTrackedCamera::StopVideoStream(unsigned int)
  T vr::CVRTrackedCamera::SupportsPauseResume(unsigned int)
  T vr::CVRTrackedCamera::~CVRTrackedCamera()
+ T vr::ChaperoneInfo::ChaperoneInfo()
  T vr::ChaperoneInfo::FromJson(Json::Value const&, unsigned int)
  T vr::ChaperoneInfo::FromJson_V0(Json::Value const&)
  T vr::ChaperoneInfo::RefreshTrackedDevicePoses()
@@ -3985,6 +4263,12 @@
  atan2
  atof
  atoi
+ b (anonymous namespace)::CVRMsg_AbortApplicationTransition_descriptor_
+ b (anonymous namespace)::CVRMsg_AbortApplicationTransition_reflection_
+ b (anonymous namespace)::CVRMsg_AcknowledgeQuit_Exiting_descriptor_
+ b (anonymous namespace)::CVRMsg_AcknowledgeQuit_Exiting_reflection_
+ b (anonymous namespace)::CVRMsg_AcknowledgeQuit_UserPrompt_descriptor_
+ b (anonymous namespace)::CVRMsg_AcknowledgeQuit_UserPrompt_reflection_
  b (anonymous namespace)::CVRMsg_ApplicationInfo_Manifest_descriptor_
  b (anonymous namespace)::CVRMsg_ApplicationInfo_Manifest_reflection_
  b (anonymous namespace)::CVRMsg_ApplicationInfo_Options_descriptor_
@@ -4130,6 +4414,8 @@
  b (anonymous namespace)::CVRMsg_Settings_Sync_Response_reflection_
  b (anonymous namespace)::CVRMsg_Settings_Sync_descriptor_
  b (anonymous namespace)::CVRMsg_Settings_Sync_reflection_
+ b (anonymous namespace)::CVRMsg_StartAutolaunchOverlays_descriptor_
+ b (anonymous namespace)::CVRMsg_StartAutolaunchOverlays_reflection_
  b (anonymous namespace)::CVRMsg_StartProcessResponse_descriptor_
  b (anonymous namespace)::CVRMsg_StartProcessResponse_reflection_
  b (anonymous namespace)::CVRMsg_StartProcess_descriptor_
@@ -4150,6 +4436,10 @@
  b (anonymous namespace)::CVRMsg_TrackedCamera_GetFrameDimensionsResponse_reflection_
  b (anonymous namespace)::CVRMsg_TrackedCamera_GetFrameDimensions_descriptor_
  b (anonymous namespace)::CVRMsg_TrackedCamera_GetFrameDimensions_reflection_
+ b (anonymous namespace)::CVRMsg_TrackedCamera_GetProjectionResponse_descriptor_
+ b (anonymous namespace)::CVRMsg_TrackedCamera_GetProjectionResponse_reflection_
+ b (anonymous namespace)::CVRMsg_TrackedCamera_GetProjection_descriptor_
+ b (anonymous namespace)::CVRMsg_TrackedCamera_GetProjection_reflection_
  b (anonymous namespace)::CVRMsg_TrackedCamera_GetVideoStreamElapsedTimeResponse_descriptor_
  b (anonymous namespace)::CVRMsg_TrackedCamera_GetVideoStreamElapsedTimeResponse_reflection_
  b (anonymous namespace)::CVRMsg_TrackedCamera_GetVideoStreamElapsedTime_descriptor_
@@ -4197,19 +4487,23 @@
  b (anonymous namespace)::CVRMsg_TriggerHapticPulse_descriptor_
  b (anonymous namespace)::CVRMsg_TriggerHapticPulse_reflection_
  b (anonymous namespace)::protobuf_AssignDescriptors_once_
- b CVRCompositorClient::Submit(vr::Hmd_Eye, vr::GraphicsAPIConvention, void*, vr::VRTextureBounds_t const*, vr::VRSubmitFlags_t)::bFirstTime
- b CVRSystemLatest::GetPropErrorNameFromEnum(vr::TrackedPropertyError)::buf
- b CVRSystemLatest::PollNextEventWithPoseInternal(vr::TrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*, unsigned long long)::bLogOnce
+ b BlockingWait(int*, unsigned int, int*)::_systemTickFrequency
+ b BlockingWait(int*, unsigned int, int*)::nAttempts
+ b CVRCompositorClient::Submit(vr::EVREye, vr::Texture_t const*, vr::VRTextureBounds_t const*, vr::EVRSubmitFlags)::bFirstTime
+ b CVRSystemLatest::GetPropErrorNameFromEnum(vr::ETrackedPropertyError)::buf
+ b CVRSystemLatest::PollNextEventWithPoseInternal(vr::ETrackingUniverseOrigin, vr::VREvent_t*, vr::TrackedDevicePose_t*, unsigned long long)::bLogOnce
  b CVRSystemLatest::TriggerHapticPulse(unsigned int, unsigned int, unsigned short)::k_ulHapticRequestEnforcedDelayMS
- b GetStringForCompositorError(vr::VRCompositorError)::buf
- b GetStringForHmdError(vr::HmdError)::buf
+ b GetEnglishStringForHmdError(vr::EVRInitError)::buf
+ b GetIDForVRInitError(vr::EVRInitError)::buf
+ b GetStringForCompositorError(vr::EVRCompositorError)::buf
  b GetStringForVRApplicationTransitionState(vr::EVRApplicationTransitionState)::buf
  b GetStringForVRApplicationsError(vr::EVRApplicationError)::buf
  b GetStringForVRButtonId(vr::EVRButtonId)::buf
  b GetStringForVRControllerAxisType(vr::EVRControllerAxisType)::buf
  b GetStringForVREventType(vr::EVREventType)::buf
- b GetStringForVROverlayError(vr::VROverlayError)::buf
+ b GetStringForVROverlayError(vr::EVROverlayError)::buf
  b GetStringForVRSettingsError(vr::EVRSettingsError)::buf
+ b InitLog(char const*, char const*)::sb_combinedLogging
  b Json::valueAllocator()::defaultAllocator
  b chaperone001
  b chaperone002
@@ -4225,11 +4519,15 @@
  b g_pChaperoneSetupLatest
  b g_pClientCoreLatest
  b g_pCompositorLatest
+ b g_pExtendedDisplayLatest
  b g_pHmdLatest
  b g_pLoggingMutex
+ b g_pNotificationsLatest
  b g_pOverlayLatest
  b g_pRenderModelsLatest
+ b guard variable for BlockingWait(int*, unsigned int, int*)::_systemTickFrequency
  b guard variable for CVRSystemLatest::TriggerHapticPulse(unsigned int, unsigned int, unsigned short)::k_ulHapticRequestEnforcedDelayMS
+ b guard variable for InitLog(char const*, char const*)::sb_combinedLogging
  b guard variable for Json::valueAllocator()::defaultAllocator
  b hmd001
  b hmd002
@@ -4238,6 +4536,7 @@
  b hmd005
  b hmd006
  b protobuf_AddDesc_vr_5fmessages_2eproto()::already_here
+ b s_pCombinedLogFile
  b s_pLogFile
  b selectBuf
  b sg_bAcquireSyncInPresent
@@ -4263,11 +4562,14 @@
  b vrchaperonesetup003
  b vrcompositor006
  b vrcompositor007
+ b vrcompositor008
+ b vrnotifications001
  b vroverlay001
  b vroverlay002
  b vroverlay003
  b vroverlay004
  b vroverlay005
+ b vroverlay006
  b vrrendermodels001
  b vrsystem001
  b vrsystem002
@@ -4276,6 +4578,7 @@
  b vrsystem005
  b vrsystem006
  b vrsystem007
+ b vrsystem008
  bootstrap_look_up
  bootstrap_port
  ceilf
@@ -4323,6 +4626,7 @@
  getcwd
  getenv
  getpid
+ gettimeofday
  launch_data_alloc
  launch_data_dict_insert
  launch_data_free
@@ -4373,6 +4677,9 @@
  qsort
  r IPC::gTable
  r first_row_filter
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_AbortApplicationTransition_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_AcknowledgeQuit_Exiting_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_AcknowledgeQuit_UserPrompt_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_ApplicationInfo_Manifest_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_ApplicationInfo_Options_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_ApplicationInfo_offsets_
@@ -4445,6 +4752,7 @@
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_Settings_SetValue_Response_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_Settings_Sync_Response_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_Settings_Sync_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_StartAutolaunchOverlays_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_StartProcessResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_StartProcess_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_EnableResponse_offsets_
@@ -4455,6 +4763,8 @@
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetFirmwareDescription_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetFrameDimensionsResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetFrameDimensions_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetProjectionResponse_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetProjection_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetVideoStreamElapsedTimeResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetVideoStreamElapsedTime_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetVideoStreamFormatResponse_offsets_
@@ -4609,6 +4919,7 @@
  strtoul
  strtoull
  swprintf
+ sysctl
  t (anonymous namespace)::GetChildVector2d(double*, char const*, Json::Value const&)
  t (anonymous namespace)::GetChildVector3d(vr::HmdVector3d_t*, char const*, Json::Value const&)
  t (anonymous namespace)::protobuf_RegisterTypes(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
@@ -4657,7 +4968,6 @@
  t stbi__zbuild_huffman(stbi__zhuffman*, unsigned char*, int)
  t tinyobj::exportFaceGroupToShape(tinyobj::shape_t&, std::__1::map<tinyobj::vertex_index, unsigned int, std::__1::less<tinyobj::vertex_index>, std::__1::allocator<std::__1::pair<tinyobj::vertex_index const, unsigned int> > >, std::__1::vector<float, std::__1::allocator<float> > const&, std::__1::vector<float, std::__1::allocator<float> > const&, std::__1::vector<float, std::__1::allocator<float> > const&, std::__1::vector<std::__1::vector<tinyobj::vertex_index, std::__1::allocator<tinyobj::vertex_index> >, std::__1::allocator<std::__1::vector<tinyobj::vertex_index, std::__1::allocator<tinyobj::vertex_index> > > > const&, int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, bool)
  t tinyobj::updateVertex(std::__1::map<tinyobj::vertex_index, unsigned int, std::__1::less<tinyobj::vertex_index>, std::__1::allocator<std::__1::pair<tinyobj::vertex_index const, unsigned int> > >&, std::__1::vector<float, std::__1::allocator<float> >&, std::__1::vector<float, std::__1::allocator<float> >&, std::__1::vector<float, std::__1::allocator<float> >&, std::__1::vector<float, std::__1::allocator<float> > const&, std::__1::vector<float, std::__1::allocator<float> > const&, std::__1::vector<float, std::__1::allocator<float> > const&, tinyobj::vertex_index const&)
- time
  typeinfo for std::__1::basic_iostream<char, std::__1::char_traits<char> >
  typeinfo for std::__1::basic_istream<char, std::__1::char_traits<char> >
  typeinfo for std::__1::basic_ostream<char, std::__1::char_traits<char> >
@@ -4670,7 +4980,6 @@
  unsetenv$UNIX2003
  usleep
  usleep$UNIX2003
- vfprintf
  virtual thunk to std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()
  virtual thunk to std::__1::basic_istream<char, std::__1::char_traits<char> >::~basic_istream()
  virtual thunk to std::__1::basic_ostream<char, std::__1::char_traits<char> >::~basic_ostream()
