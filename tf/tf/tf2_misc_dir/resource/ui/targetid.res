@@ -161,7 +161,7 @@
 		"xpos"			"10"
 		"xpos_minmode"	"30"
 		"ypos"			"20"
-		"ypos_minmode"	"19"
+		"ypos_minmode"	"16"
 		"zpos"			"12"
 		"wide"			"8"
 		"tall"			"8"
