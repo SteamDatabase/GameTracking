@@ -36,6 +36,7 @@
 		"dominated"		"short"		// did killer dominate victim with this kill
 		"revenge"		"short"		// did killer get revenge on victim with this kill
 		"penetrated"	"short"	// number of objects shot penetrated before killing target
+		"noreplay"		"bool"  // if replay data is unavailable, this will be present and set to false
 	}
 
 	"other_death"
@@ -374,6 +375,7 @@
 		"reason"	"byte"		// reson why team won
 		"message"	"string"	// end round message 
 		"legacy"	"byte"		// server-generated legacy value
+		"player_count"	"short"		// total number of players alive at the end of round, used for statistics gathering, computed on the server in the event client is in replay when receiving this message
 	}
 
 	"grenade_bounce"

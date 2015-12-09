@@ -614,6 +614,24 @@
 		}
 	}
 	
+	"stickerpreview_revolver"
+	{
+		"rule"
+		{
+			"model" "v_pist_revolver"
+			"sticker_preview" "1"
+		}
+		"config"
+		{
+			"root_mdl"			"models/weapons/pedestal_firstperson.mdl"
+			"weaponmergemdl_add" "models/weapons/ct_arms_sas.mdl"
+			"weapon_anim"		"lookat01_sticker"
+			"weapon_anim_loop"	"lookat01_sticker_loop"
+			"camera_offset"		"3.290000 0.330000 -3.150000"
+			"camera_orient"		"0.190000 -11.480000 6.240000"
+		}
+	}
+	
 	"stickerpreview_pistol_shared"
 	{
 		"rule"

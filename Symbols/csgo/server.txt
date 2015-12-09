@@ -11,7 +11,7 @@
  CThread::IsThreadRunning()
  CThread::Join(unsigned int)
  CThread::SetName(char const*)
- CThread::Start(unsigned int, CThread::ThreadPriorityEnum_t)
+ CThread::Start(unsigned int, ThreadPriorityEnum_t)
  CThread::WaitForCreateComplete(CThreadEvent*)
  CThread::~CThread()
  CThreadEvent::CThreadEvent(bool)
@@ -183,6 +183,8 @@
  b (anonymous namespace)::CCLCMsg_CmdKeyValues_reflection_
  b (anonymous namespace)::CCLCMsg_FileCRCCheck_descriptor_
  b (anonymous namespace)::CCLCMsg_FileCRCCheck_reflection_
+ b (anonymous namespace)::CCLCMsg_HltvReplay_descriptor_
+ b (anonymous namespace)::CCLCMsg_HltvReplay_reflection_
  b (anonymous namespace)::CCLCMsg_ListenEvents_descriptor_
  b (anonymous namespace)::CCLCMsg_ListenEvents_reflection_
  b (anonymous namespace)::CCLCMsg_LoadingProgress_descriptor_
@@ -331,8 +333,6 @@
  b (anonymous namespace)::CClientHeaderOverwatchEvidence_reflection_
  b (anonymous namespace)::CDataGCCStrike15_v2_MatchInfo_descriptor_
  b (anonymous namespace)::CDataGCCStrike15_v2_MatchInfo_reflection_
- b (anonymous namespace)::CDataGCCStrike15_v2_MatchmakingLockedInMatch_descriptor_
- b (anonymous namespace)::CDataGCCStrike15_v2_MatchmakingLockedInMatch_reflection_
  b (anonymous namespace)::CDataGCCStrike15_v2_TournamentGroupTeam_descriptor_
  b (anonymous namespace)::CDataGCCStrike15_v2_TournamentGroupTeam_reflection_
  b (anonymous namespace)::CDataGCCStrike15_v2_TournamentGroup_Picks_descriptor_
@@ -827,6 +827,8 @@
  b (anonymous namespace)::CMsgSelectItemPresetForClass_reflection_
  b (anonymous namespace)::CMsgServerAvailable_descriptor_
  b (anonymous namespace)::CMsgServerAvailable_reflection_
+ b (anonymous namespace)::CMsgServerHello_descriptor_
+ b (anonymous namespace)::CMsgServerHello_reflection_
  b (anonymous namespace)::CMsgSetItemPositions_ItemPosition_descriptor_
  b (anonymous namespace)::CMsgSetItemPositions_ItemPosition_reflection_
  b (anonymous namespace)::CMsgSetItemPositions_descriptor_
@@ -947,6 +949,8 @@
  b (anonymous namespace)::CSVCMsg_GameEvent_reflection_
  b (anonymous namespace)::CSVCMsg_GetCvarValue_descriptor_
  b (anonymous namespace)::CSVCMsg_GetCvarValue_reflection_
+ b (anonymous namespace)::CSVCMsg_HltvReplay_descriptor_
+ b (anonymous namespace)::CSVCMsg_HltvReplay_reflection_
  b (anonymous namespace)::CSVCMsg_Menu_descriptor_
  b (anonymous namespace)::CSVCMsg_Menu_reflection_
  b (anonymous namespace)::CSVCMsg_PacketEntities_descriptor_
@@ -1012,6 +1016,7 @@
  b (anonymous namespace)::EGCMsgResponse_descriptor_
  b (anonymous namespace)::EGCSystemMsg_descriptor_
  b (anonymous namespace)::EGCToGCMsg_descriptor_
+ b (anonymous namespace)::ENetworkDisconnectionReason_descriptor_
  b (anonymous namespace)::ESOMsg_descriptor_
  b (anonymous namespace)::ESplitScreenMessageType_descriptor_
  b (anonymous namespace)::EUnlockStyle_descriptor_
@@ -1043,6 +1048,7 @@
  b (anonymous namespace)::PlayerQuestData_reflection_
  b (anonymous namespace)::PlayerRankingInfo_descriptor_
  b (anonymous namespace)::PlayerRankingInfo_reflection_
+ b (anonymous namespace)::ReplayEventType_t_descriptor_
  b (anonymous namespace)::SVC_Messages_descriptor_
  b (anonymous namespace)::ServerHltvInfo_descriptor_
  b (anonymous namespace)::ServerHltvInfo_reflection_
@@ -1364,6 +1370,7 @@
  b CCLCMsg_ClientInfo::default_instance_
  b CCLCMsg_CmdKeyValues::default_instance_
  b CCLCMsg_FileCRCCheck::default_instance_
+ b CCLCMsg_HltvReplay::default_instance_
  b CCLCMsg_ListenEvents::default_instance_
  b CCLCMsg_LoadingProgress::default_instance_
  b CCLCMsg_Move::default_instance_
@@ -1376,6 +1383,7 @@
  b CCSBotManager::GetRandomPositionInZone(CCSBotManager::Zone const*) const::pos
  b CCSBotManager::m_isMapDataLoaded
  b CCSBot_DataDescInit::g_DataMapHolder
+ b CCSGCServerSystem::PreInitGC()::sv_steamdatagramtransport_port
  b CCSGameRules::CCSGameRules()::sv_mmqueue_reservation
  b CCSGameRules::CheckForGiftsLeaderboardUpdate()::sv_mmqueue_reservation
  b CCSGameRules::CheckGameOver()::s_pchTournamentServer
@@ -1393,6 +1401,7 @@
  b CCSPlayer::HandleCommand_JoinTeam(int, bool, int)::sv_mmqueue_reservation
  b CCSPlayer::ImpactTrace(CGameTrace*, int, char*)::violence_hblood
  b CCSPlayer::PostThink()::pAttr_MusicID
+ b CCSPlayer::StartHltvReplayEvent(ClientReplayEventParams_t const&)::spec_replay_leadup_time
  b CCSPlayerAnimState::CalcSequenceIndex(char const*, ...)::dict
  b CCSPlayerInventory::GetActiveQuestID()::pAttr
  b CCSPlayerInventory::GetActiveQuestID()::pAttr_QuestID
@@ -1566,18 +1575,16 @@
  b CCSWeaponInfo::GetZoomTime2(CEconItemView const*, int, float) const::hAttribAlt
  b CCSWeaponInfo::HasAlternateFastSlowReload(CEconItemView const*, int, float) const::hAttrib
  b CCSWeaponInfo::HasAlternateFastSlowReload(CEconItemView const*, int, float) const::hAttribAlt
- b CCSWeaponInfo::HasBulletAltfire(CEconItemView const*, int, float) const::hAttrib
- b CCSWeaponInfo::HasBulletAltfire(CEconItemView const*, int, float) const::hAttribAlt
  b CCSWeaponInfo::HasBurstMode(CEconItemView const*, int, float) const::hAttrib
  b CCSWeaponInfo::HasBurstMode(CEconItemView const*, int, float) const::hAttribAlt
- b CCSWeaponInfo::HasPostponeFire(CEconItemView const*, int, float) const::hAttrib
- b CCSWeaponInfo::HasPostponeFire(CEconItemView const*, int, float) const::hAttribAlt
  b CCSWeaponInfo::HasSilencer(CEconItemView const*, int, float) const::hAttrib
  b CCSWeaponInfo::HasSilencer(CEconItemView const*, int, float) const::hAttribAlt
  b CCSWeaponInfo::HasTraditionalScope(CEconItemView const*, int, float) const::hAttrib
  b CCSWeaponInfo::HasTraditionalScope(CEconItemView const*, int, float) const::hAttribAlt
  b CCSWeaponInfo::IsFullAuto(CEconItemView const*, int, float) const::hAttrib
  b CCSWeaponInfo::IsFullAuto(CEconItemView const*, int, float) const::hAttribAlt
+ b CCSWeaponInfo::IsRevolver(CEconItemView const*, int, float) const::hAttrib
+ b CCSWeaponInfo::IsRevolver(CEconItemView const*, int, float) const::hAttribAlt
  b CCSWeaponInfo::m_bCSWeaponInfoLookupInitialized
  b CCS_GameStats
  b CC_CollisionTest(CCommand const&)::targets
@@ -1609,7 +1616,6 @@
  b CCurveData::GetBoundedSample(ICurveDataAccessor*, int, bool&)::nullstart
  b CCycler_DataDescInit::g_DataMapHolder
  b CDataGCCStrike15_v2_MatchInfo::default_instance_
- b CDataGCCStrike15_v2_MatchmakingLockedInMatch::default_instance_
  b CDataGCCStrike15_v2_TournamentGroup::default_instance_
  b CDataGCCStrike15_v2_TournamentGroupTeam::default_instance_
  b CDataGCCStrike15_v2_TournamentGroup_Picks::default_instance_
@@ -2118,6 +2124,7 @@
  b CMsgSelectItemPresetForClass::default_instance_
  b CMsgSelectItemPresetForClassReply::default_instance_
  b CMsgServerAvailable::default_instance_
+ b CMsgServerHello::default_instance_
  b CMsgSetItemPositions::default_instance_
  b CMsgSetItemPositions_ItemPosition::default_instance_
  b CMsgSetPresetItemPosition::default_instance_
@@ -2340,6 +2347,7 @@
  b CSVCMsg_GameEventList_key_t::default_instance_
  b CSVCMsg_GameEvent_key_t::default_instance_
  b CSVCMsg_GetCvarValue::default_instance_
+ b CSVCMsg_HltvReplay::default_instance_
  b CSVCMsg_Menu::default_instance_
  b CSVCMsg_PacketEntities::default_instance_
  b CSVCMsg_PaintmapData::default_instance_
@@ -2377,6 +2385,8 @@
  b CServerGameDLL::LevelInit(char const*, char const*, char const*, char const*, bool, bool)::map_wants_save_disable
  b CServerGameDLL::UpdateGCInformation()::s_chMapName
  b CServerGameDLL::UpdateGCInformation()::s_nGcSessionInstanceIdx
+ b CServerGameDLL::UpdateGCInformation()::s_nTvPortCurrent
+ b CServerGameDLL::UpdateGCInformation()::s_nTvPortReported
  b CServerGameDLL::UpdateGCInformation()::s_uiLastTime
  b CServerNetworkProperty_DataDescInit::g_DataMapHolder
  b CShadowControl_DataDescInit::g_DataMapHolder
@@ -3121,6 +3131,8 @@
  b GCSDK::CProtoBufMsg<CMsgSOMultipleObjects>::s_pMemoryPool
  b GCSDK::CProtoBufMsg<CMsgSOSingleObject>::s_bRegisteredWithMemoryPoolMgr
  b GCSDK::CProtoBufMsg<CMsgSOSingleObject>::s_pMemoryPool
+ b GCSDK::CProtoBufMsg<CMsgServerHello>::s_bRegisteredWithMemoryPoolMgr
+ b GCSDK::CProtoBufMsg<CMsgServerHello>::s_pMemoryPool
  b GCSDK::CProtoBufMsgBase::s_PoolRegMutex
  b GCSDK::CSharedObject::sm_vecFactories
  b GCSDK::CWorkThreadPool::sm_pWorkItemsCompletedSignal
@@ -3182,6 +3194,9 @@
  b GlobalEventLog
  b GlobalStatistics::default_instance_
  b Helper_AddMusicKitMVPsPendingSend(CEconItemView*, CCSGameRules::CQMMPlayerData_t*, int)::pAttr_KillEater
+ b Helper_FillServerReservationStateAndPlayers(CMsgGCCStrike15_v2_MatchmakingServerReservationResponse&)::s_nTvPort
+ b Helper_FillServerReservationStateAndPlayers(CMsgGCCStrike15_v2_MatchmakingServerReservationResponse&)::sv_steamdatagramtransport_port
+ b Helper_FillServerReservationStateAndPlayers(CMsgGCCStrike15_v2_MatchmakingServerReservationResponse&)::tv_advertise_watchable
  b Helper_GetNullWeaponInfo()::gNullWeaponInfo
  b HidingSpot::m_masterMarker
  b HintNodeData_DataDescInit::g_DataMapHolder
@@ -5518,6 +5533,7 @@
  b guard variable for CBeam::GetAbsEndPos() const::vecAbsPos
  b guard variable for CCSBotManager::GetDifficultyLevel()::sv_mmqueue_reservation
  b guard variable for CCSBotManager::GetRandomPositionInZone(CCSBotManager::Zone const*) const::pos
+ b guard variable for CCSGCServerSystem::PreInitGC()::sv_steamdatagramtransport_port
  b guard variable for CCSGameRules::CCSGameRules()::sv_mmqueue_reservation
  b guard variable for CCSGameRules::CheckForGiftsLeaderboardUpdate()::sv_mmqueue_reservation
  b guard variable for CCSGameRules::CheckGameOver()::s_pchTournamentServer
@@ -5532,6 +5548,7 @@
  b guard variable for CCSPlayer::HandleCommand_JoinTeam(int, bool, int)::sv_mmqueue_reservation
  b guard variable for CCSPlayer::ImpactTrace(CGameTrace*, int, char*)::violence_hblood
  b guard variable for CCSPlayer::PostThink()::pAttr_MusicID
+ b guard variable for CCSPlayer::StartHltvReplayEvent(ClientReplayEventParams_t const&)::spec_replay_leadup_time
  b guard variable for CCSPlayerAnimState::CalcSequenceIndex(char const*, ...)::dict
  b guard variable for CCSPlayerInventory::GetActiveQuestID()::pAttr
  b guard variable for CCSPlayerInventory::GetActiveQuestID()::pAttr_QuestID
@@ -5637,18 +5654,16 @@
  b guard variable for CCSWeaponInfo::GetZoomTime2(CEconItemView const*, int, float) const::hAttribAlt
  b guard variable for CCSWeaponInfo::HasAlternateFastSlowReload(CEconItemView const*, int, float) const::hAttrib
  b guard variable for CCSWeaponInfo::HasAlternateFastSlowReload(CEconItemView const*, int, float) const::hAttribAlt
- b guard variable for CCSWeaponInfo::HasBulletAltfire(CEconItemView const*, int, float) const::hAttrib
- b guard variable for CCSWeaponInfo::HasBulletAltfire(CEconItemView const*, int, float) const::hAttribAlt
  b guard variable for CCSWeaponInfo::HasBurstMode(CEconItemView const*, int, float) const::hAttrib
  b guard variable for CCSWeaponInfo::HasBurstMode(CEconItemView const*, int, float) const::hAttribAlt
- b guard variable for CCSWeaponInfo::HasPostponeFire(CEconItemView const*, int, float) const::hAttrib
- b guard variable for CCSWeaponInfo::HasPostponeFire(CEconItemView const*, int, float) const::hAttribAlt
  b guard variable for CCSWeaponInfo::HasSilencer(CEconItemView const*, int, float) const::hAttrib
  b guard variable for CCSWeaponInfo::HasSilencer(CEconItemView const*, int, float) const::hAttribAlt
  b guard variable for CCSWeaponInfo::HasTraditionalScope(CEconItemView const*, int, float) const::hAttrib
  b guard variable for CCSWeaponInfo::HasTraditionalScope(CEconItemView const*, int, float) const::hAttribAlt
  b guard variable for CCSWeaponInfo::IsFullAuto(CEconItemView const*, int, float) const::hAttrib
  b guard variable for CCSWeaponInfo::IsFullAuto(CEconItemView const*, int, float) const::hAttribAlt
+ b guard variable for CCSWeaponInfo::IsRevolver(CEconItemView const*, int, float) const::hAttrib
+ b guard variable for CCSWeaponInfo::IsRevolver(CEconItemView const*, int, float) const::hAttribAlt
  b guard variable for CCollisionProperty::CollisionToWorldTransform() const::s_matTemp
  b guard variable for CCommentarySystem::InitCommentary()::commentarySpawnedSemaphoreName
  b guard variable for CCommentarySystem::InitCommentary()::infoTargetStr
@@ -5778,6 +5793,8 @@
  b guard variable for GetSceneManager()::s_SceneManager
  b guard variable for GetStickerAttributeDefHandle(int, EStickerAttributeType)::s_DummyAttr
  b guard variable for Helper_AddMusicKitMVPsPendingSend(CEconItemView*, CCSGameRules::CQMMPlayerData_t*, int)::pAttr_KillEater
+ b guard variable for Helper_FillServerReservationStateAndPlayers(CMsgGCCStrike15_v2_MatchmakingServerReservationResponse&)::sv_steamdatagramtransport_port
+ b guard variable for Helper_FillServerReservationStateAndPlayers(CMsgGCCStrike15_v2_MatchmakingServerReservationResponse&)::tv_advertise_watchable
  b guard variable for Helper_GetNullWeaponInfo()::gNullWeaponInfo
  b guard variable for Host_Say(edict_t*, CCommand const&, bool)::tv_encryptdata_key
  b guard variable for Host_Say(edict_t*, CCommand const&, bool)::tv_encryptdata_key_pub
@@ -7503,6 +7520,7 @@
  b mp_td_dmgtokick
  b mp_td_dmgtowarn
  b mp_td_spawndmgthreshold
+ b mp_team_timeout_time
  b mp_teamcashawards
  b mp_teamflag_1
  b mp_teamflag_2
@@ -7693,6 +7711,8 @@
  b nav_walk
  b nav_warp_to_mark
  b nav_world_center
+ b network_connection_token
+ b network_connection_token_default
  b networkstringtable
  b nextPitch
  b nextlevel
@@ -7881,6 +7901,7 @@
  b protobuf_AddDesc_gcsdk_5fgcmessages_2eproto()::already_here
  b protobuf_AddDesc_gcsystemmsgs_2eproto()::already_here
  b protobuf_AddDesc_netmessages_2eproto()::already_here
+ b protobuf_AddDesc_network_5fconnection_2eproto()::already_here
  b protobuf_AddDesc_steammessages_2eproto()::already_here
  b pvs_min_player_distance
  b quat_identity
@@ -7900,6 +7921,9 @@
  b radarvis
  b raggib
  b random_valve
+ b replay_death_command
+ b replay_start_command
+ b replay_stop_command
  b report_entities_command
  b report_simthinklist_command
  b report_soundpatch_command
@@ -8130,6 +8154,10 @@
  b spec_freeze_time
  b spec_freeze_time_lock
  b spec_freeze_traveltime
+ b spec_replay_bot
+ b spec_replay_cam_delay
+ b spec_replay_cam_options
+ b spec_replay_winddown_time
  b speechListIndex
  b speechListSounds
  b spotlight_end
@@ -8144,6 +8172,7 @@
  b static_descriptor_initializer_gcsdk_5fgcmessages_2eproto_
  b static_descriptor_initializer_gcsystemmsgs_2eproto_
  b static_descriptor_initializer_netmessages_2eproto_
+ b static_descriptor_initializer_network_5fconnection_2eproto_
  b static_descriptor_initializer_steammessages_2eproto_
  b staticpropmgr
  b std::__ioinit
@@ -8405,6 +8434,7 @@
  b sv_vote_issue_scramble_teams_allowed
  b sv_vote_issue_surrender_allowed
  b sv_vote_issue_swap_teams_allowed
+ b sv_vote_issue_timeout_allowed
  b sv_vote_kick_ban_duration
  b sv_vote_quorum_ratio
  b sv_vote_timer_duration
@@ -8440,6 +8470,8 @@
  b thinkfunc_t_DataDescInit::g_DataMapHolder
  b throttle_expensive_ai
  b timeleft_command
+ b timeout_ct_start_command
+ b timeout_terrorist_start_command
  b token
  b tokencount
  b tr_best_course_time
@@ -10514,6 +10546,11 @@
  r CCLCMsg_FileCRCCheck::kPackFileIdFieldNumber
  r CCLCMsg_FileCRCCheck::kPackFileNumberFieldNumber
  r CCLCMsg_FileCRCCheck::kPathFieldNumber
+ r CCLCMsg_HltvReplay::kEventTimeFieldNumber
+ r CCLCMsg_HltvReplay::kPrimaryTargetEntIndexFieldNumber
+ r CCLCMsg_HltvReplay::kRequestFieldNumber
+ r CCLCMsg_HltvReplay::kSlowdownLengthFieldNumber
+ r CCLCMsg_HltvReplay::kSlowdownRateFieldNumber
  r CCLCMsg_ListenEvents::kEventMaskFieldNumber
  r CCLCMsg_LoadingProgress::kProgressFieldNumber
  r CCLCMsg_Move::kDataFieldNumber
@@ -10552,6 +10589,7 @@
  r CCSUsrMsg_CurrentTimescale::kCurTimescaleFieldNumber
  r CCSUsrMsg_Damage::kAmountFieldNumber
  r CCSUsrMsg_Damage::kInflictorWorldPosFieldNumber
+ r CCSUsrMsg_Damage::kVictimEntindexFieldNumber
  r CCSUsrMsg_DesiredTimescale::kDesiredTimescaleFieldNumber
  r CCSUsrMsg_DesiredTimescale::kDurationRealtimeSecFieldNumber
  r CCSUsrMsg_DesiredTimescale::kInterpolatorTypeFieldNumber
@@ -10710,10 +10748,6 @@
  r CDataGCCStrike15_v2_MatchInfo::kRoundstatsLegacyFieldNumber
  r CDataGCCStrike15_v2_MatchInfo::kRoundstatsallFieldNumber
  r CDataGCCStrike15_v2_MatchInfo::kWatchablematchinfoFieldNumber
- r CDataGCCStrike15_v2_MatchmakingLockedInMatch::kClientReservationFieldNumber
- r CDataGCCStrike15_v2_MatchmakingLockedInMatch::kLastRoundStatsTempFieldNumber
- r CDataGCCStrike15_v2_MatchmakingLockedInMatch::kRtime32ServerInfoFieldNumber
- r CDataGCCStrike15_v2_MatchmakingLockedInMatch::kServerStatsFieldNumber
  r CDataGCCStrike15_v2_TournamentGroup::kDescFieldNumber
  r CDataGCCStrike15_v2_TournamentGroup::kGroupidFieldNumber
  r CDataGCCStrike15_v2_TournamentGroup::kNameFieldNumber
@@ -11023,6 +11057,7 @@
  r CMsgGCCStrike15_v2_ClientReportServer::kMatchIdFieldNumber
  r CMsgGCCStrike15_v2_ClientReportServer::kRptAbusivemodelsFieldNumber
  r CMsgGCCStrike15_v2_ClientReportServer::kRptBadmotdFieldNumber
+ r CMsgGCCStrike15_v2_ClientReportServer::kRptInventoryabuseFieldNumber
  r CMsgGCCStrike15_v2_ClientReportServer::kRptListingabuseFieldNumber
  r CMsgGCCStrike15_v2_ClientReportServer::kRptPoorperfFieldNumber
  r CMsgGCCStrike15_v2_ClientRequestJoinFriendData::kAccountIdFieldNumber
@@ -11115,12 +11150,13 @@
  r CMsgGCCStrike15_v2_MatchmakingGC2ClientHello::kRankingFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingGC2ClientHello::kSurveyVoteFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingGC2ClientHello::kVacBannedFieldNumber
+ r CMsgGCCStrike15_v2_MatchmakingGC2ClientReserve::kLegacyServeripFieldNumber
+ r CMsgGCCStrike15_v2_MatchmakingGC2ClientReserve::kLegacyServerportFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingGC2ClientReserve::kMapFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingGC2ClientReserve::kReservationFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingGC2ClientReserve::kReservationidFieldNumber
+ r CMsgGCCStrike15_v2_MatchmakingGC2ClientReserve::kServerAddressFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingGC2ClientReserve::kServeridFieldNumber
- r CMsgGCCStrike15_v2_MatchmakingGC2ClientReserve::kServeripFieldNumber
- r CMsgGCCStrike15_v2_MatchmakingGC2ClientReserve::kServerportFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingGC2ClientUpdate::kErrorFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingGC2ClientUpdate::kFailpingAccountIdSessionsFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingGC2ClientUpdate::kFailreadyAccountIdSessionsFieldNumber
@@ -11183,6 +11219,7 @@
  r CMsgGCCStrike15_v2_MatchmakingServerReservationResponse::kRewardItemAttrValueFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingServerReservationResponse::kRewardPlayerAccountsFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingServerReservationResponse::kServerVersionFieldNumber
+ r CMsgGCCStrike15_v2_MatchmakingServerReservationResponse::kSteamdatagramPortFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingServerReservationResponse::kTournamentTagFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingServerReservationResponse::kTvInfoFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingServerRoundStats::kAssistsFieldNumber
@@ -11562,8 +11599,14 @@
  r CMsgSelectItemPresetForClass::kClassIdFieldNumber
  r CMsgSelectItemPresetForClass::kPresetIdFieldNumber
  r CMsgSelectItemPresetForClassReply::kSuccessFieldNumber
+ r CMsgServerHello::kLegacyClientLauncherFieldNumber
+ r CMsgServerHello::kLegacyClientSessionNeedFieldNumber
+ r CMsgServerHello::kSocacheHaveVersionsFieldNumber
+ r CMsgServerHello::kSteamdatagramPortFieldNumber
+ r CMsgServerHello::kVersionFieldNumber
  r CMsgSetItemPositions::kItemPositionsFieldNumber
  r CMsgSetItemPositions_ItemPosition::kItemIdFieldNumber
+ r CMsgSetItemPositions_ItemPosition::kLegacyItemIdFieldNumber
  r CMsgSetItemPositions_ItemPosition::kPositionFieldNumber
  r CMsgSetPresetItemPosition::kClassIdFieldNumber
  r CMsgSetPresetItemPosition::kItemIdFieldNumber
@@ -11623,6 +11666,7 @@
  r CNETMsg_SignonState::kSpawnCountFieldNumber
  r CNETMsg_SplitScreenUser::kSlotFieldNumber
  r CNETMsg_StringCmd::kCommandFieldNumber
+ r CNETMsg_Tick::kHltvReplayFlagsFieldNumber
  r CNETMsg_Tick::kHostComputationtimeFieldNumber
  r CNETMsg_Tick::kHostComputationtimeStdDeviationFieldNumber
  r CNETMsg_Tick::kHostFramestarttimeStdDeviationFieldNumber
@@ -11767,6 +11811,7 @@
  r CSVCMsg_GameEvent::kEventNameFieldNumber
  r CSVCMsg_GameEvent::kEventidFieldNumber
  r CSVCMsg_GameEvent::kKeysFieldNumber
+ r CSVCMsg_GameEvent::kPassthroughFieldNumber
  r CSVCMsg_GameEventList::kDescriptorsFieldNumber
  r CSVCMsg_GameEventList_descriptor_t::kEventidFieldNumber
  r CSVCMsg_GameEventList_descriptor_t::kKeysFieldNumber
@@ -11784,6 +11829,13 @@
  r CSVCMsg_GameEvent_key_t::kValWstringFieldNumber
  r CSVCMsg_GetCvarValue::kCookieFieldNumber
  r CSVCMsg_GetCvarValue::kCvarNameFieldNumber
+ r CSVCMsg_HltvReplay::kDelayFieldNumber
+ r CSVCMsg_HltvReplay::kPrimaryTargetFieldNumber
+ r CSVCMsg_HltvReplay::kReplaySlowdownBeginFieldNumber
+ r CSVCMsg_HltvReplay::kReplaySlowdownEndFieldNumber
+ r CSVCMsg_HltvReplay::kReplaySlowdownRateFieldNumber
+ r CSVCMsg_HltvReplay::kReplayStartAtFieldNumber
+ r CSVCMsg_HltvReplay::kReplayStopAtFieldNumber
  r CSVCMsg_Menu::kDialogTypeFieldNumber
  r CSVCMsg_Menu::kMenuKeyValuesFieldNumber
  r CSVCMsg_PacketEntities::kBaselineFieldNumber
@@ -11863,6 +11915,7 @@
  r CSVCMsg_UpdateStringTable::kTableIdFieldNumber
  r CSVCMsg_UserMessage::kMsgDataFieldNumber
  r CSVCMsg_UserMessage::kMsgTypeFieldNumber
+ r CSVCMsg_UserMessage::kPassthroughFieldNumber
  r CSVCMsg_VoiceData::kAudibleMaskFieldNumber
  r CSVCMsg_VoiceData::kCasterFieldNumber
  r CSVCMsg_VoiceData::kClientFieldNumber
@@ -11896,14 +11949,14 @@
  r CSWTCH.2387
  r CSWTCH.25
  r CSWTCH.27
- r CSWTCH.3294
- r CSWTCH.3377
+ r CSWTCH.3316
+ r CSWTCH.3399
  r CSWTCH.36
  r CSWTCH.390
  r CSWTCH.40
  r CSWTCH.42
  r CSWTCH.44
- r CSWTCH.4450
+ r CSWTCH.4482
  r CSWTCH.46
  r CSWTCH.502
  r CSWTCH.613
@@ -11913,7 +11966,6 @@
  r CSWTCH.844
  r CSWTCH.846
  r CSWTCH.887
- r CSWTCH.962
  r CSWTCH.965
  r CSWTCH.978
  r CSWTCH.980
@@ -12310,7 +12362,6 @@
  r protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()::CAttribute_String_offsets_
  r protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()::CClientHeaderOverwatchEvidence_offsets_
  r protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()::CDataGCCStrike15_v2_MatchInfo_offsets_
- r protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()::CDataGCCStrike15_v2_MatchmakingLockedInMatch_offsets_
  r protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()::CDataGCCStrike15_v2_TournamentGroupTeam_offsets_
  r protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()::CDataGCCStrike15_v2_TournamentGroup_Picks_offsets_
  r protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()::CDataGCCStrike15_v2_TournamentGroup_offsets_
@@ -12514,6 +12565,7 @@
  r protobuf_AssignDesc_gcsdk_5fgcmessages_2eproto()::CMsgSOMultipleObjects_SingleObject_offsets_
  r protobuf_AssignDesc_gcsdk_5fgcmessages_2eproto()::CMsgSOMultipleObjects_offsets_
  r protobuf_AssignDesc_gcsdk_5fgcmessages_2eproto()::CMsgSOSingleObject_offsets_
+ r protobuf_AssignDesc_gcsdk_5fgcmessages_2eproto()::CMsgServerHello_offsets_
  r protobuf_AssignDesc_gcsdk_5fgcmessages_2eproto()::CWorkshop_GetContributors_Request_offsets_
  r protobuf_AssignDesc_gcsdk_5fgcmessages_2eproto()::CWorkshop_GetContributors_Response_offsets_
  r protobuf_AssignDesc_gcsdk_5fgcmessages_2eproto()::CWorkshop_PopulateItemDescriptions_Request_ItemDescriptionsLanguageBlock_offsets_
@@ -12527,6 +12579,7 @@
  r protobuf_AssignDesc_netmessages_2eproto()::CCLCMsg_ClientInfo_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CCLCMsg_CmdKeyValues_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CCLCMsg_FileCRCCheck_offsets_
+ r protobuf_AssignDesc_netmessages_2eproto()::CCLCMsg_HltvReplay_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CCLCMsg_ListenEvents_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CCLCMsg_LoadingProgress_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CCLCMsg_Move_offsets_
@@ -12563,6 +12616,7 @@
  r protobuf_AssignDesc_netmessages_2eproto()::CSVCMsg_GameEvent_key_t_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CSVCMsg_GameEvent_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CSVCMsg_GetCvarValue_offsets_
+ r protobuf_AssignDesc_netmessages_2eproto()::CSVCMsg_HltvReplay_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CSVCMsg_Menu_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CSVCMsg_PacketEntities_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CSVCMsg_PaintmapData_offsets_
@@ -12958,6 +13012,7 @@
  r typeinfo for CCLCMsg_ClientInfo
  r typeinfo for CCLCMsg_CmdKeyValues
  r typeinfo for CCLCMsg_FileCRCCheck
+ r typeinfo for CCLCMsg_HltvReplay
  r typeinfo for CCLCMsg_ListenEvents
  r typeinfo for CCLCMsg_LoadingProgress
  r typeinfo for CCLCMsg_Move
@@ -13146,7 +13201,6 @@
  r typeinfo for CCycler
  r typeinfo for CDEagle
  r typeinfo for CDataGCCStrike15_v2_MatchInfo
- r typeinfo for CDataGCCStrike15_v2_MatchmakingLockedInMatch
  r typeinfo for CDataGCCStrike15_v2_TournamentGroup
  r typeinfo for CDataGCCStrike15_v2_TournamentGroupTeam
  r typeinfo for CDataGCCStrike15_v2_TournamentGroup_Picks
@@ -14256,6 +14310,7 @@
  r typeinfo for CMsgSelectItemPresetForClass
  r typeinfo for CMsgSelectItemPresetForClassReply
  r typeinfo for CMsgServerAvailable
+ r typeinfo for CMsgServerHello
  r typeinfo for CMsgSetItemPositions
  r typeinfo for CMsgSetItemPositions_ItemPosition
  r typeinfo for CMsgSetPresetItemPosition
@@ -14488,6 +14543,7 @@
  r typeinfo for CSVCMsg_GameEventList_key_t
  r typeinfo for CSVCMsg_GameEvent_key_t
  r typeinfo for CSVCMsg_GetCvarValue
+ r typeinfo for CSVCMsg_HltvReplay
  r typeinfo for CSVCMsg_Menu
  r typeinfo for CSVCMsg_PacketEntities
  r typeinfo for CSVCMsg_PaintmapData
@@ -14547,6 +14603,7 @@
  r typeinfo for CSimplePhysics::IHelper
  r typeinfo for CSimplePhysicsBrush
  r typeinfo for CSimplePhysicsProp
+ r typeinfo for CSingleUserAndReplayRecipientFilter
  r typeinfo for CSingleUserRecipientFilter
  r typeinfo for CSingleplayRules
  r typeinfo for CSkipKeys
@@ -14570,6 +14627,7 @@
  r typeinfo for CSprite
  r typeinfo for CSpriteOriented
  r typeinfo for CSpriteTrail
+ r typeinfo for CStartTimeOutIssue
  r typeinfo for CStatueProp
  r typeinfo for CStdStringSaveRestoreOps
  r typeinfo for CSteamJet
@@ -14903,6 +14961,7 @@
  r typeinfo for GCSDK::CProtoBufMsg<CMsgSOCacheUnsubscribed>
  r typeinfo for GCSDK::CProtoBufMsg<CMsgSOMultipleObjects>
  r typeinfo for GCSDK::CProtoBufMsg<CMsgSOSingleObject>
+ r typeinfo for GCSDK::CProtoBufMsg<CMsgServerHello>
  r typeinfo for GCSDK::CProtoBufMsgBase
  r typeinfo for GCSDK::CProtoBufMsgBase::IProtoBufSendHandler
  r typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgApplySticker>
@@ -14928,6 +14987,7 @@
  r typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgSOCacheUnsubscribed>
  r typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgSOMultipleObjects>
  r typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgSOSingleObject>
+ r typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgServerHello>
  r typeinfo for GCSDK::CProtoBufMsgMemoryPoolBase
  r typeinfo for GCSDK::CProtoBufNetPacket
  r typeinfo for GCSDK::CProtoBufSharedObject<CSOEconDefaultEquippedDefinitionInstanceClient, 43>
@@ -15466,6 +15526,7 @@
  r typeinfo name for CCLCMsg_ClientInfo
  r typeinfo name for CCLCMsg_CmdKeyValues
  r typeinfo name for CCLCMsg_FileCRCCheck
+ r typeinfo name for CCLCMsg_HltvReplay
  r typeinfo name for CCLCMsg_ListenEvents
  r typeinfo name for CCLCMsg_LoadingProgress
  r typeinfo name for CCLCMsg_Move
@@ -15654,7 +15715,6 @@
  r typeinfo name for CCycler
  r typeinfo name for CDEagle
  r typeinfo name for CDataGCCStrike15_v2_MatchInfo
- r typeinfo name for CDataGCCStrike15_v2_MatchmakingLockedInMatch
  r typeinfo name for CDataGCCStrike15_v2_TournamentGroup
  r typeinfo name for CDataGCCStrike15_v2_TournamentGroupTeam
  r typeinfo name for CDataGCCStrike15_v2_TournamentGroup_Picks
@@ -16764,6 +16824,7 @@
  r typeinfo name for CMsgSelectItemPresetForClass
  r typeinfo name for CMsgSelectItemPresetForClassReply
  r typeinfo name for CMsgServerAvailable
+ r typeinfo name for CMsgServerHello
  r typeinfo name for CMsgSetItemPositions
  r typeinfo name for CMsgSetItemPositions_ItemPosition
  r typeinfo name for CMsgSetPresetItemPosition
@@ -16996,6 +17057,7 @@
  r typeinfo name for CSVCMsg_GameEventList_key_t
  r typeinfo name for CSVCMsg_GameEvent_key_t
  r typeinfo name for CSVCMsg_GetCvarValue
+ r typeinfo name for CSVCMsg_HltvReplay
  r typeinfo name for CSVCMsg_Menu
  r typeinfo name for CSVCMsg_PacketEntities
  r typeinfo name for CSVCMsg_PaintmapData
@@ -17055,6 +17117,7 @@
  r typeinfo name for CSimplePhysics::IHelper
  r typeinfo name for CSimplePhysicsBrush
  r typeinfo name for CSimplePhysicsProp
+ r typeinfo name for CSingleUserAndReplayRecipientFilter
  r typeinfo name for CSingleUserRecipientFilter
  r typeinfo name for CSingleplayRules
  r typeinfo name for CSkipKeys
@@ -17078,6 +17141,7 @@
  r typeinfo name for CSprite
  r typeinfo name for CSpriteOriented
  r typeinfo name for CSpriteTrail
+ r typeinfo name for CStartTimeOutIssue
  r typeinfo name for CStatueProp
  r typeinfo name for CStdStringSaveRestoreOps
  r typeinfo name for CSteamJet
@@ -17411,6 +17475,7 @@
  r typeinfo name for GCSDK::CProtoBufMsg<CMsgSOCacheUnsubscribed>
  r typeinfo name for GCSDK::CProtoBufMsg<CMsgSOMultipleObjects>
  r typeinfo name for GCSDK::CProtoBufMsg<CMsgSOSingleObject>
+ r typeinfo name for GCSDK::CProtoBufMsg<CMsgServerHello>
  r typeinfo name for GCSDK::CProtoBufMsgBase
  r typeinfo name for GCSDK::CProtoBufMsgBase::IProtoBufSendHandler
  r typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgApplySticker>
@@ -17436,6 +17501,7 @@
  r typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgSOCacheUnsubscribed>
  r typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgSOMultipleObjects>
  r typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgSOSingleObject>
+ r typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgServerHello>
  r typeinfo name for GCSDK::CProtoBufMsgMemoryPoolBase
  r typeinfo name for GCSDK::CProtoBufNetPacket
  r typeinfo name for GCSDK::CProtoBufSharedObject<CSOEconDefaultEquippedDefinitionInstanceClient, 43>
@@ -17975,6 +18041,7 @@
  r vtable for CCLCMsg_ClientInfo
  r vtable for CCLCMsg_CmdKeyValues
  r vtable for CCLCMsg_FileCRCCheck
+ r vtable for CCLCMsg_HltvReplay
  r vtable for CCLCMsg_ListenEvents
  r vtable for CCLCMsg_LoadingProgress
  r vtable for CCLCMsg_Move
@@ -18161,7 +18228,6 @@
  r vtable for CCycler
  r vtable for CDEagle
  r vtable for CDataGCCStrike15_v2_MatchInfo
- r vtable for CDataGCCStrike15_v2_MatchmakingLockedInMatch
  r vtable for CDataGCCStrike15_v2_TournamentGroup
  r vtable for CDataGCCStrike15_v2_TournamentGroupTeam
  r vtable for CDataGCCStrike15_v2_TournamentGroup_Picks
@@ -19269,6 +19335,7 @@
  r vtable for CMsgSelectItemPresetForClass
  r vtable for CMsgSelectItemPresetForClassReply
  r vtable for CMsgServerAvailable
+ r vtable for CMsgServerHello
  r vtable for CMsgSetItemPositions
  r vtable for CMsgSetItemPositions_ItemPosition
  r vtable for CMsgSetPresetItemPosition
@@ -19499,6 +19566,7 @@
  r vtable for CSVCMsg_GameEventList_key_t
  r vtable for CSVCMsg_GameEvent_key_t
  r vtable for CSVCMsg_GetCvarValue
+ r vtable for CSVCMsg_HltvReplay
  r vtable for CSVCMsg_Menu
  r vtable for CSVCMsg_PacketEntities
  r vtable for CSVCMsg_PaintmapData
@@ -19558,6 +19626,7 @@
  r vtable for CSimplePhysics::IHelper
  r vtable for CSimplePhysicsBrush
  r vtable for CSimplePhysicsProp
+ r vtable for CSingleUserAndReplayRecipientFilter
  r vtable for CSingleUserRecipientFilter
  r vtable for CSingleplayRules
  r vtable for CSkipKeys
@@ -19581,6 +19650,7 @@
  r vtable for CSprite
  r vtable for CSpriteOriented
  r vtable for CSpriteTrail
+ r vtable for CStartTimeOutIssue
  r vtable for CStatueProp
  r vtable for CStdStringSaveRestoreOps
  r vtable for CSteamJet
@@ -19906,6 +19976,7 @@
  r vtable for GCSDK::CProtoBufMsg<CMsgSOCacheUnsubscribed>
  r vtable for GCSDK::CProtoBufMsg<CMsgSOMultipleObjects>
  r vtable for GCSDK::CProtoBufMsg<CMsgSOSingleObject>
+ r vtable for GCSDK::CProtoBufMsg<CMsgServerHello>
  r vtable for GCSDK::CProtoBufMsgBase
  r vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgApplySticker>
  r vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgClientHello>
@@ -19930,6 +20001,7 @@
  r vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgSOCacheUnsubscribed>
  r vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgSOMultipleObjects>
  r vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgSOSingleObject>
+ r vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgServerHello>
  r vtable for GCSDK::CProtoBufMsgMemoryPoolBase
  r vtable for GCSDK::CProtoBufNetPacket
  r vtable for GCSDK::CProtoBufSharedObject<CSOEconDefaultEquippedDefinitionInstanceClient, 43>
@@ -24740,7 +24812,7 @@
  t CBaseEntity::Intersects(CBaseEntity*)
  t CBaseEntity::InvalidatePhysicsRecursive(int)
  t CBaseEntity::IsAIWalkable()
- t CBaseEntity::IsAlive()
+ t CBaseEntity::IsAlive() const
  t CBaseEntity::IsBSPModel() const
  t CBaseEntity::IsBaseCombatWeapon() const
  t CBaseEntity::IsBaseObject() const
@@ -26818,6 +26890,25 @@
  t CCLCMsg_FileCRCCheck::default_instance()
  t CCLCMsg_FileCRCCheck::descriptor()
  t CCLCMsg_FileCRCCheck::~CCLCMsg_FileCRCCheck()
+ t CCLCMsg_HltvReplay::ByteSize() const
+ t CCLCMsg_HltvReplay::CCLCMsg_HltvReplay()
+ t CCLCMsg_HltvReplay::CCLCMsg_HltvReplay(CCLCMsg_HltvReplay const&)
+ t CCLCMsg_HltvReplay::Clear()
+ t CCLCMsg_HltvReplay::CopyFrom(CCLCMsg_HltvReplay const&)
+ t CCLCMsg_HltvReplay::GetCachedSize() const
+ t CCLCMsg_HltvReplay::GetMetadata() const
+ t CCLCMsg_HltvReplay::InitAsDefaultInstance()
+ t CCLCMsg_HltvReplay::IsInitialized() const
+ t CCLCMsg_HltvReplay::MergeFrom(CCLCMsg_HltvReplay const&)
+ t CCLCMsg_HltvReplay::New() const
+ t CCLCMsg_HltvReplay::SerializeWithCachedSizesToArray(unsigned char*) const
+ t CCLCMsg_HltvReplay::SetCachedSize(int) const
+ t CCLCMsg_HltvReplay::SharedCtor()
+ t CCLCMsg_HltvReplay::SharedDtor()
+ t CCLCMsg_HltvReplay::Swap(CCLCMsg_HltvReplay*)
+ t CCLCMsg_HltvReplay::default_instance()
+ t CCLCMsg_HltvReplay::descriptor()
+ t CCLCMsg_HltvReplay::~CCLCMsg_HltvReplay()
  t CCLCMsg_ListenEvents::ByteSize() const
  t CCLCMsg_ListenEvents::CCLCMsg_ListenEvents()
  t CCLCMsg_ListenEvents::CCLCMsg_ListenEvents(CCLCMsg_ListenEvents const&)
@@ -27485,7 +27576,7 @@
  t CCSGameRules::AddHostageRescueTime()
  t CCSGameRules::AddTeamAccount(int, TeamCashAward::Type)
  t CCSGameRules::AddTeamAccount(int, TeamCashAward::Type, int, char const*)
- t CCSGameRules::AddTeamAccount(int, TeamCashAward::Type, int, char const*) [clone .part.662]
+ t CCSGameRules::AddTeamAccount(int, TeamCashAward::Type, int, char const*) [clone .part.693]
  t CCSGameRules::AllowTaunts()
  t CCSGameRules::AreTeamsPlayingSwitchedSides() const
  t CCSGameRules::AssignStartingMoneyToAllPlayers()
@@ -27533,8 +27624,10 @@
  t CCSGameRules::DeathNotice(CBasePlayer*, CTakeDamageInfo const&)
  t CCSGameRules::DefaultFOV()
  t CCSGameRules::DumpTimers() const
+ t CCSGameRules::EndCTTimeOut()
  t CCSGameRules::EndGameFrame()
  t CCSGameRules::EndRound()
+ t CCSGameRules::EndTerroristTimeOut()
  t CCSGameRules::EndWarmup()
  t CCSGameRules::FAllowNPCs()
  t CCSGameRules::FPlayerCanRespawn(CBasePlayer*)
@@ -27673,6 +27766,7 @@
  t CCSGameRules::ModifyRealtimeBotDifficulty(CCSPlayer*)
  t CCSGameRules::MoveHumansToHumanTeam()
  t CCSGameRules::NeededPlayersCheck(bool&)
+ t CCSGameRules::OnReplayPrompt(CBasePlayer*, CBasePlayer*)
  t CCSGameRules::PickRandomWeaponForDMBonus()
  t CCSGameRules::PlayTextureSounds()
  t CCSGameRules::PlayerCanHearChat(CBasePlayer*, CBasePlayer*, bool)
@@ -27741,6 +27835,8 @@
  t CCSGameRules::SpawningLatePlayer(CCSPlayer*)
  t CCSGameRules::SplitScoreAmongPlayersInRange(int, int, CCSPlayer*, Vector const&, float, float)
  t CCSGameRules::SplitScoreAmongPlayersInZone(int, int, CCSPlayer*, unsigned int)
+ t CCSGameRules::StartCTTimeOut()
+ t CCSGameRules::StartTerroristTimeOut()
  t CCSGameRules::StartWarmup()
  t CCSGameRules::SwapAllPlayers()
  t CCSGameRules::SwitchTeamsAtRoundReset()
@@ -28220,6 +28316,7 @@
  t CCSPlayer::ShowViewPortPanel(char const*, bool, KeyValues*)
  t CCSPlayer::Spawn()
  t CCSPlayer::SpawnArmorValue() const
+ t CCSPlayer::StartHltvReplayEvent(ClientReplayEventParams_t const&)
  t CCSPlayer::StartNewBulletGroup()
  t CCSPlayer::StartReplayMode(float, float, int)
  t CCSPlayer::State_Enter(CSPlayerState)
@@ -28253,6 +28350,7 @@
  t CCSPlayer::Taunt()
  t CCSPlayer::TraceAttack(CTakeDamageInfo const&, Vector const&, CGameTrace*)
  t CCSPlayer::TransferInventory(CCSPlayer*)
+ t CCSPlayer::TryGungameRespawn()
  t CCSPlayer::Unblind()
  t CCSPlayer::UpdateAddonBits()
  t CCSPlayer::UpdateDispatchLayer(CAnimationLayer*, CStudioHdr*, int)
@@ -29708,12 +29806,11 @@
  t CCSWeaponInfo::GetZoomTime1(CEconItemView const*, int, float) const
  t CCSWeaponInfo::GetZoomTime2(CEconItemView const*, int, float) const
  t CCSWeaponInfo::HasAlternateFastSlowReload(CEconItemView const*, int, float) const
- t CCSWeaponInfo::HasBulletAltfire(CEconItemView const*, int, float) const
  t CCSWeaponInfo::HasBurstMode(CEconItemView const*, int, float) const
- t CCSWeaponInfo::HasPostponeFire(CEconItemView const*, int, float) const
  t CCSWeaponInfo::HasSilencer(CEconItemView const*, int, float) const
  t CCSWeaponInfo::HasTraditionalScope(CEconItemView const*, int, float) const
  t CCSWeaponInfo::IsFullAuto(CEconItemView const*, int, float) const
+ t CCSWeaponInfo::IsRevolver(CEconItemView const*, int, float) const
  t CCSWeaponInfo::Parse(KeyValues*, char const*)
  t CCSWeaponInfo::RefreshDynamicParameters()
  t CCSWeaponInfo::~CCSWeaponInfo()
@@ -30649,25 +30746,6 @@
  t CDataGCCStrike15_v2_MatchInfo::default_instance()
  t CDataGCCStrike15_v2_MatchInfo::descriptor()
  t CDataGCCStrike15_v2_MatchInfo::~CDataGCCStrike15_v2_MatchInfo()
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::ByteSize() const
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::CDataGCCStrike15_v2_MatchmakingLockedInMatch()
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::CDataGCCStrike15_v2_MatchmakingLockedInMatch(CDataGCCStrike15_v2_MatchmakingLockedInMatch const&)
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::Clear()
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::CopyFrom(CDataGCCStrike15_v2_MatchmakingLockedInMatch const&)
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::GetCachedSize() const
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::GetMetadata() const
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::InitAsDefaultInstance()
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::IsInitialized() const
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::MergeFrom(CDataGCCStrike15_v2_MatchmakingLockedInMatch const&)
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::New() const
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::SerializeWithCachedSizesToArray(unsigned char*) const
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::SetCachedSize(int) const
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::SharedCtor()
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::SharedDtor()
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::Swap(CDataGCCStrike15_v2_MatchmakingLockedInMatch*)
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::default_instance()
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::descriptor()
- t CDataGCCStrike15_v2_MatchmakingLockedInMatch::~CDataGCCStrike15_v2_MatchmakingLockedInMatch()
  t CDataGCCStrike15_v2_TournamentGroup::ByteSize() const
  t CDataGCCStrike15_v2_TournamentGroup::CDataGCCStrike15_v2_TournamentGroup()
  t CDataGCCStrike15_v2_TournamentGroup::CDataGCCStrike15_v2_TournamentGroup(CDataGCCStrike15_v2_TournamentGroup const&)
@@ -40970,6 +41048,25 @@
  t CMsgServerAvailable::default_instance()
  t CMsgServerAvailable::descriptor()
  t CMsgServerAvailable::~CMsgServerAvailable()
+ t CMsgServerHello::ByteSize() const
+ t CMsgServerHello::CMsgServerHello()
+ t CMsgServerHello::CMsgServerHello(CMsgServerHello const&)
+ t CMsgServerHello::Clear()
+ t CMsgServerHello::CopyFrom(CMsgServerHello const&)
+ t CMsgServerHello::GetCachedSize() const
+ t CMsgServerHello::GetMetadata() const
+ t CMsgServerHello::InitAsDefaultInstance()
+ t CMsgServerHello::IsInitialized() const
+ t CMsgServerHello::MergeFrom(CMsgServerHello const&)
+ t CMsgServerHello::New() const
+ t CMsgServerHello::SerializeWithCachedSizesToArray(unsigned char*) const
+ t CMsgServerHello::SetCachedSize(int) const
+ t CMsgServerHello::SharedCtor()
+ t CMsgServerHello::SharedDtor()
+ t CMsgServerHello::Swap(CMsgServerHello*)
+ t CMsgServerHello::default_instance()
+ t CMsgServerHello::descriptor()
+ t CMsgServerHello::~CMsgServerHello()
  t CMsgSetItemPositions::ByteSize() const
  t CMsgSetItemPositions::CMsgSetItemPositions()
  t CMsgSetItemPositions::CMsgSetItemPositions(CMsgSetItemPositions const&)
@@ -41328,6 +41425,7 @@
  t CMultiplayRules::IsMultiplayer()
  t CMultiplayRules::ItemShouldRespawn(CItem*)
  t CMultiplayRules::LoadVoiceCommandScript()
+ t CMultiplayRules::OnReplayPrompt(CBasePlayer*, CBasePlayer*)
  t CMultiplayRules::PlayFootstepSounds(CBasePlayer*)
  t CMultiplayRules::PlayTextureSounds()
  t CMultiplayRules::PlayerCanHearChat(CBasePlayer*, CBasePlayer*, bool)
@@ -44748,6 +44846,25 @@
  t CSVCMsg_GetCvarValue::default_instance()
  t CSVCMsg_GetCvarValue::descriptor()
  t CSVCMsg_GetCvarValue::~CSVCMsg_GetCvarValue()
+ t CSVCMsg_HltvReplay::ByteSize() const
+ t CSVCMsg_HltvReplay::CSVCMsg_HltvReplay()
+ t CSVCMsg_HltvReplay::CSVCMsg_HltvReplay(CSVCMsg_HltvReplay const&)
+ t CSVCMsg_HltvReplay::Clear()
+ t CSVCMsg_HltvReplay::CopyFrom(CSVCMsg_HltvReplay const&)
+ t CSVCMsg_HltvReplay::GetCachedSize() const
+ t CSVCMsg_HltvReplay::GetMetadata() const
+ t CSVCMsg_HltvReplay::InitAsDefaultInstance()
+ t CSVCMsg_HltvReplay::IsInitialized() const
+ t CSVCMsg_HltvReplay::MergeFrom(CSVCMsg_HltvReplay const&)
+ t CSVCMsg_HltvReplay::New() const
+ t CSVCMsg_HltvReplay::SerializeWithCachedSizesToArray(unsigned char*) const
+ t CSVCMsg_HltvReplay::SetCachedSize(int) const
+ t CSVCMsg_HltvReplay::SharedCtor()
+ t CSVCMsg_HltvReplay::SharedDtor()
+ t CSVCMsg_HltvReplay::Swap(CSVCMsg_HltvReplay*)
+ t CSVCMsg_HltvReplay::default_instance()
+ t CSVCMsg_HltvReplay::descriptor()
+ t CSVCMsg_HltvReplay::~CSVCMsg_HltvReplay()
  t CSVCMsg_Menu::ByteSize() const
  t CSVCMsg_Menu::CSVCMsg_Menu()
  t CSVCMsg_Menu::CSVCMsg_Menu(CSVCMsg_Menu const&)
@@ -45482,6 +45599,7 @@
  t CServerGameClients::ClientFullyConnect(edict_t*)
  t CServerGameClients::ClientNameHandler(unsigned long long, char const*)
  t CServerGameClients::ClientPutInServer(edict_t*, char const*)
+ t CServerGameClients::ClientReplayEvent(edict_t*, ClientReplayEventParams_t const&)
  t CServerGameClients::ClientSettingsChanged(edict_t*)
  t CServerGameClients::ClientSetupVisibility(edict_t*, edict_t*, unsigned char*, int)
  t CServerGameClients::ClientVoice(edict_t*)
@@ -45703,6 +45821,8 @@
  t CSimplePhysicsProp::Use(CBaseEntity*, CBaseEntity*, USE_TYPE, float)
  t CSimplePhysicsProp::~CSimplePhysicsProp()
  t CSimpleSimTimer::GetBaseMap()
+ t CSingleUserAndReplayRecipientFilter::CSingleUserAndReplayRecipientFilter(CBasePlayer*)
+ t CSingleUserAndReplayRecipientFilter::~CSingleUserAndReplayRecipientFilter()
  t CSingleUserRecipientFilter::CSingleUserRecipientFilter(CBasePlayer*)
  t CSingleUserRecipientFilter::~CSingleUserRecipientFilter()
  t CSingleplayRules::AllowAutoTargetCrosshair()
@@ -46082,6 +46202,19 @@
  t CSpriteTrail::~CSpriteTrail()
  t CStandardSendProxies::CStandardSendProxies()
  t CStandardSendProxiesV1::CStandardSendProxiesV1()
+ t CStartTimeOutIssue::CanCallVote(int, char const*, char const*, vote_create_failed_t&, int&)
+ t CStartTimeOutIssue::CanTeamCallVote(int) const
+ t CStartTimeOutIssue::ExecuteCommand()
+ t CStartTimeOutIssue::GetDisplayString()
+ t CStartTimeOutIssue::GetOtherTeamDisplayString()
+ t CStartTimeOutIssue::GetVoteIssue()
+ t CStartTimeOutIssue::GetVotePassedString()
+ t CStartTimeOutIssue::IsAllyRestrictedVote()
+ t CStartTimeOutIssue::IsEnabled()
+ t CStartTimeOutIssue::IsEnabledInQueuedMatchmaking()
+ t CStartTimeOutIssue::ListIssueDetails(CBasePlayer*)
+ t CStartTimeOutIssue::MakeVoteFailErrorCodeForClients(vote_create_failed_t)
+ t CStartTimeOutIssue::~CStartTimeOutIssue()
  t CStatueProp::CStatueProp()
  t CStatueProp::CollisionPartnerThink()
  t CStatueProp::ComputeWorldSpaceSurroundingBox(Vector*, Vector*)
@@ -48369,7 +48502,7 @@
  t CUtlMemory<inflictorstate_t, int>::~CUtlMemory()
  t CUtlMemory<int, int>::Grow(int)
  t CUtlMemory<int, int>::Grow(int) [clone .part.159]
- t CUtlMemory<int, int>::Grow(int) [clone .part.712]
+ t CUtlMemory<int, int>::Grow(int) [clone .part.743]
  t CUtlMemory<int, int>::Purge()
  t CUtlMemory<int, int>::~CUtlMemory()
  t CUtlMemory<item_list_entry_t, int>::Grow(int)
@@ -50596,7 +50729,6 @@
  t CWeaponCSBase::AddPriorOwner(CCSPlayer*)
  t CWeaponCSBase::AddToPriorOwnerList(CCSPlayer*)
  t CWeaponCSBase::AddViewmodelBob(CBaseViewModel*, Vector&, QAngle&)
- t CWeaponCSBase::AllowTaunts()
  t CWeaponCSBase::AttemptToMaterialize()
  t CWeaponCSBase::BulletWasFired(Vector const&, Vector const&)
  t CWeaponCSBase::CWeaponCSBase()
@@ -50673,6 +50805,7 @@
  t CWeaponCSBase::IsPredicted() const
  t CWeaponCSBase::IsReloadVisuallyComplete()
  t CWeaponCSBase::IsRemoveable()
+ t CWeaponCSBase::IsRevolver() const
  t CWeaponCSBase::IsSilenced() const
  t CWeaponCSBase::IsUseable()
  t CWeaponCSBase::ItemBusyFrame()
@@ -50705,9 +50838,7 @@
  t CWeaponCSBase::UpdateShieldState()
  t CWeaponCSBase::Use(CBaseEntity*, CBaseEntity*, USE_TYPE, float)
  t CWeaponCSBase::WasOwnedByTeam(int)
- t CWeaponCSBase::WeaponHasBulletAltfire() const
  t CWeaponCSBase::WeaponHasBurst() const
- t CWeaponCSBase::WeaponHasPrefireAnim() const
  t CWeaponCSBase::WeaponReset()
  t CWeaponCSBase::YouForgotToImplementOrDeclareServerClass()
  t CWeaponCSBase::~CWeaponCSBase()
@@ -50718,7 +50849,6 @@
  t CWeaponCSBaseGun::DoFireEffects()
  t CWeaponCSBaseGun::DoesUnzoomAfterShot() const
  t CWeaponCSBaseGun::Drop(Vector const&)
- t CWeaponCSBaseGun::FireDelayedPrimary()
  t CWeaponCSBaseGun::GetCSWpnData() const
  t CWeaponCSBaseGun::GetCSZoomLevel()
  t CWeaponCSBaseGun::GetDeployActivity()
@@ -50729,6 +50859,7 @@
  t CWeaponCSBaseGun::Holster(CBaseCombatWeapon*)
  t CWeaponCSBaseGun::IsFullAuto() const
  t CWeaponCSBaseGun::IsInBurstMode() const
+ t CWeaponCSBaseGun::IsRevolver() const
  t CWeaponCSBaseGun::IsZoomed() const
  t CWeaponCSBaseGun::ItemBusyFrame()
  t CWeaponCSBaseGun::ItemPostFrame()
@@ -50738,9 +50869,7 @@
  t CWeaponCSBaseGun::SecondaryAttack()
  t CWeaponCSBaseGun::SendWeaponAnim(int)
  t CWeaponCSBaseGun::Spawn()
- t CWeaponCSBaseGun::WeaponHasBulletAltfire() const
  t CWeaponCSBaseGun::WeaponHasBurst() const
- t CWeaponCSBaseGun::WeaponHasPrefireAnim() const
  t CWeaponCSBaseGun::WeaponIdle()
  t CWeaponCSBaseGun::YouForgotToImplementOrDeclareServerClass()
  t CWeaponCSBaseGun::~CWeaponCSBaseGun()
@@ -51770,6 +51899,8 @@
  t EItemCriteriaOperatorFromName(char const*)
  t EItemTypeFromName(char const*)
  t ENTINDEX(CBaseEntity*)
+ t ENetworkDisconnectionReason_IsValid(int)
+ t ENetworkDisconnectionReason_descriptor()
  t ESOMsg_IsValid(int)
  t ESOMsg_descriptor()
  t ESplitScreenMessageType_IsValid(int)
@@ -52306,6 +52437,7 @@
  t GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_MatchEndRewardDropsNotification>::~CProtoBufMsg()
  t GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_MatchEndRunRewardDrops>::GetGenericBody() const
  t GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_MatchEndRunRewardDrops>::~CProtoBufMsg()
+ t GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_MatchmakingServerReservationResponse>::AllocProto()
  t GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_MatchmakingServerReservationResponse>::GetGenericBody() const
  t GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_MatchmakingServerReservationResponse>::~CProtoBufMsg()
  t GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_Server2GCClientValidate>::GetGenericBody() const
@@ -52332,6 +52464,8 @@
  t GCSDK::CProtoBufMsg<CMsgSOMultipleObjects>::~CProtoBufMsg()
  t GCSDK::CProtoBufMsg<CMsgSOSingleObject>::GetGenericBody() const
  t GCSDK::CProtoBufMsg<CMsgSOSingleObject>::~CProtoBufMsg()
+ t GCSDK::CProtoBufMsg<CMsgServerHello>::GetGenericBody() const
+ t GCSDK::CProtoBufMsg<CMsgServerHello>::~CProtoBufMsg()
  t GCSDK::CProtoBufMsgBase::AllocateMessageMemory(unsigned int, CMsgProtoBufHeader const&, unsigned int, unsigned int*)
  t GCSDK::CProtoBufMsgBase::BAsyncSend(GCSDK::CProtoBufMsgBase::IProtoBufSendHandler&) const
  t GCSDK::CProtoBufMsgBase::BAsyncSendWithPreSerializedBody(GCSDK::CProtoBufMsgBase::IProtoBufSendHandler&, unsigned char const*, unsigned int) const
@@ -52410,6 +52544,9 @@
  t GCSDK::CProtoBufMsgMemoryPool<CMsgSOSingleObject>::GetName()
  t GCSDK::CProtoBufMsgMemoryPool<CMsgSOSingleObject>::InternalAlloc()
  t GCSDK::CProtoBufMsgMemoryPool<CMsgSOSingleObject>::~CProtoBufMsgMemoryPool()
+ t GCSDK::CProtoBufMsgMemoryPool<CMsgServerHello>::GetName()
+ t GCSDK::CProtoBufMsgMemoryPool<CMsgServerHello>::InternalAlloc()
+ t GCSDK::CProtoBufMsgMemoryPool<CMsgServerHello>::~CProtoBufMsgMemoryPool()
  t GCSDK::CProtoBufMsgMemoryPoolBase::Alloc()
  t GCSDK::CProtoBufMsgMemoryPoolBase::CProtoBufMsgMemoryPoolBase(unsigned int, unsigned int)
  t GCSDK::CProtoBufMsgMemoryPoolBase::GetEstimatedSize()
@@ -52950,7 +53087,7 @@
  t Helper_CleanupStringForSaveRoundDataInformation(char*)
  t Helper_DoesPlayerHaveAssassinateQuestForTeam(CCSPlayer*, int)
  t Helper_ExtractIntegersFromValuesString(char const*, CCopyableUtlVector<unsigned int>&)
- t Helper_FilenameTokenReplace(char*, int, char const*, char const*) [clone .constprop.1210]
+ t Helper_FilenameTokenReplace(char*, int, char const*, char const*) [clone .constprop.1241]
  t Helper_FillServerReservationStateAndPlayers(CMsgGCCStrike15_v2_MatchmakingServerReservationResponse&)
  t Helper_GetIconKeyForItem(unsigned short, unsigned int, unsigned int)
  t Helper_GetNullWeaponInfo()
@@ -53373,6 +53510,7 @@
  t JumpConnector::TryToConnect(CNavArea*, CNavArea*, CUtlVectorUltraConservative<NavConnect, CUtlVectorUltraConservativeAllocator> const*, NavDirType)
  t JumpConnector::TryToConnect(CNavArea*, CUtlVectorUltraConservative<NavConnect, CUtlVectorUltraConservativeAllocator> const*, CUtlVectorUltraConservative<NavConnect, CUtlVectorUltraConservativeAllocator> const*, NavDirType)
  t KeyValues::AddSubKey(KeyValues*)
+ t KeyValues::AddSubkeyUsingKnownLastChild(KeyValues*, KeyValues*)
  t KeyValues::AppendIncludedKeys(CUtlVector<KeyValues*, CUtlMemory<KeyValues*, int> >&)
  t KeyValues::AutoDelete::~AutoDelete()
  t KeyValues::ChainKeyValue(KeyValues*)
@@ -53380,12 +53518,14 @@
  t KeyValues::ContainsSubKey(KeyValues*)
  t KeyValues::CopySubkeys(KeyValues*) const
  t KeyValues::CreateKey(char const*)
+ t KeyValues::CreateKeyUsingKnownLastChild(char const*, KeyValues*)
  t KeyValues::CreateNewKey()
  t KeyValues::Dump(IKeyValuesDumpContext*, int)
  t KeyValues::ElideSubKey(KeyValues*)
  t KeyValues::EvaluateConditional(char const*, bool (*)(char const*))
  t KeyValues::FindKey(char const*, bool)
  t KeyValues::FindKey(int) const
+ t KeyValues::FindLastSubKey()
  t KeyValues::FromString(char const*, char const*, char const**)
  t KeyValues::GetColor(char const*, Color const&)
  t KeyValues::GetDataType() const
@@ -54220,6 +54360,8 @@
  t RemovePooledString(char const*)
  t RemovePositionWatcher(CBaseEntity*, CBaseEntity*)
  t RemoveVPhysicsStateWatcher(CBaseEntity*, CBaseEntity*)
+ t ReplayEventType_t_IsValid(int)
+ t ReplayEventType_t_descriptor()
  t ReportPenetration(CBaseEntity*, float) [clone .part.73]
  t ReportPositionChanged(CBaseEntity*)
  t ReportVPhysicsStateChanged(IPhysicsObject*, CBaseEntity*, bool)
@@ -55592,6 +55734,7 @@
  t _GLOBAL__sub_I__Z45protobuf_AssignDesc_base_5fgcmessages_2eprotov
  t _GLOBAL__sub_I__Z45protobuf_AssignDesc_econ_5fgcmessages_2eprotov
  t _GLOBAL__sub_I__Z46protobuf_AssignDesc_gcsdk_5fgcmessages_2eprotov
+ t _GLOBAL__sub_I__Z48protobuf_AssignDesc_network_5fconnection_2eprotov
  t _GLOBAL__sub_I__Z50protobuf_AssignDesc_cstrike15_5fgcmessages_2eprotov
  t _GLOBAL__sub_I__Z52protobuf_AssignDesc_cstrike15_5fusermessages_2eprotov
  t _GLOBAL__sub_I__Z7MD5InitP12MD5Context_t
@@ -58490,6 +58633,7 @@
  t protobuf_AddDesc_gcsdk_5fgcmessages_2eproto()
  t protobuf_AddDesc_gcsystemmsgs_2eproto()
  t protobuf_AddDesc_netmessages_2eproto()
+ t protobuf_AddDesc_network_5fconnection_2eproto()
  t protobuf_AddDesc_steammessages_2eproto()
  t protobuf_AssignDesc_base_5fgcmessages_2eproto()
  t protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()
@@ -58498,6 +58642,7 @@
  t protobuf_AssignDesc_gcsdk_5fgcmessages_2eproto()
  t protobuf_AssignDesc_gcsystemmsgs_2eproto()
  t protobuf_AssignDesc_netmessages_2eproto()
+ t protobuf_AssignDesc_network_5fconnection_2eproto()
  t protobuf_AssignDesc_steammessages_2eproto()
  t protobuf_ShutdownFile_base_5fgcmessages_2eproto()
  t protobuf_ShutdownFile_cstrike15_5fgcmessages_2eproto()
@@ -58506,6 +58651,7 @@
  t protobuf_ShutdownFile_gcsdk_5fgcmessages_2eproto()
  t protobuf_ShutdownFile_gcsystemmsgs_2eproto()
  t protobuf_ShutdownFile_netmessages_2eproto()
+ t protobuf_ShutdownFile_network_5fconnection_2eproto()
  t protobuf_ShutdownFile_steammessages_2eproto()
  t putcentral(zlist*, unsigned int (*)(void*, char const*, unsigned int), void*)
  t putend(int, unsigned long, unsigned long, unsigned int, char*, unsigned int (*)(void*, char const*, unsigned int), void*)
@@ -58521,6 +58667,9 @@
  t read_sleb128(unsigned char const*, long*)
  t read_uleb128
  t read_uleb128(unsigned char const*, unsigned long*)
+ t replay_death(CCommand const&)
+ t replay_start(CCommand const&)
+ t replay_stop(CCommand const&)
  t report_entities(CCommand const&)
  t report_simthinklist(CCommand const&)
  t report_soundpatch(CCommand const&)
@@ -60787,6 +60936,8 @@
  t testStitchConnection(CNavArea*, CNavArea*, Vector const&, Vector const&) [clone .isra.80]
  t thinkfunc_t::GetBaseMap()
  t timeleft(CCommand const&)
+ t timeout_ct_start(CCommand const&)
+ t timeout_terrorist_start(CCommand const&)
  t timet_to_timestamp(long)
  t tv_time_remaining(CCommand const&)
  t tweak_ammo_impulses(CCommand const&)
