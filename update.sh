@@ -129,6 +129,10 @@ case $1 in
 	;;
 
 # Dota 2 Test
+205791)
+	ProcessVPK "dota_test"
+	;;
+
 205794)
 	ProcessDepot "dota_test" ".dylib"
 	;;
