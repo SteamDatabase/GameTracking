@@ -128,6 +128,11 @@ case $1 in
 	ProcessDepot "dota" ".dylib"
 	;;
 
+# Dota 2 Test
+205794)
+	ProcessDepot "dota_test" ".dylib"
+	;;
+
 # Half-Life 2
 221)
 	ProcessVPK "hl2"
