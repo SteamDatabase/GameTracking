@@ -65,10 +65,8 @@
 				<DOTAPlay id="Play" />
 
 				<DOTACustomLobby id="CustomLobby" />
-				
-<!-- FRIEND MENU WAS HERE !-->
-				
-				<Panel id="DashboardBottomRightControls"  hittest="false">
+
+				<Panel id="SocialControls"  hittest="false">
 					<Panel id="OpenPartyContainer">
 						<Button id="CurrentPartyVisibilityButton" onactivate="DOTAPartyVisibilityButtonClicked();" onmouseout="DOTAPartyVisibilityButtonMouseOut();" onmouseover="DOTAPartyVisibilityButtonMouseOver();" >
 							<Panel id="OpenPartyFrame1" class="OpenPartyAnimation" hittest="false"/>
@@ -196,6 +194,13 @@
 					</Panel>
 				</Panel>
 
+				
+				<Panel id="RecentArmoryItemsMenuContainer" hittest="false">
+					<DOTARecentArmoryItemsMenu id="RecentArmoryItemsMenu"
+						onmouseover="DOTASetRecentArmoryItemsMenuVisible( true )"
+						onmouseout="AsyncEvent( 0.0, DOTASetRecentArmoryItemsMenuVisible( false ) )" />
+				</Panel>
+					
 				<Panel id="TopBar" hittest="false">
 
 					<Panel id="TopBarStatusBar">
@@ -207,8 +212,12 @@
 
 					<Panel id="TopBarContent" hittest="false">
 
-						<Panel id="TopBarBackground" hittest="false" />
-						
+						<Panel id="TopBarBackground" hittest="false">
+							<Panel id="TopBarArmoryBackground" hittest="false" />
+							<Panel id="TopBarExitBackground" hittest="false" />
+							<Panel id="TopBarArmoryHover" hittest="false" />
+						</Panel>
+
 						<Panel id="TopBarMainContent" hittest="false">
 
 							<Panel id="TopBarLeftButtons" class="LeftRightFlow">
@@ -229,6 +238,9 @@
 								<RadioButton id="TopBarHeroes" backgroundcamera="shot_cameraB" backgroundcameralerptime="1.2" group="DashboardMainTabs" class="TopBarMenuItem"  onactivate="DOTAShowPrimaryTabPage( TopBarHeroes );">
 									<Label class="TitleFont" text="#DOTA_MainMenu_Heroes" />
 								</RadioButton>
+								<RadioButton id="TopBarStore" backgroundcamera="shot_cameraB" backgroundcameralerptime="1.2" group="DashboardMainTabs" class="TopBarMenuItem"  onactivate="DOTAShowPrimaryTabPage( TopBarStore );" onmouseover="DOTAAcknowledgeViolator( store_tab_violator )">
+									<Label class="TitleFont" text="#DOTA_MainMenu_Store" />
+								</RadioButton>
 								<RadioButton id="TopBarWatch" backgroundcamera="shot_cameraC" backgroundcameralerptime="1.2" group="DashboardMainTabs" class="TopBarMenuItem" onactivate="DOTAShowPrimaryTabPage( TopBarWatch );">
 									<Label class="TitleFont" text="#DOTA_MainMenu_Watch" />
 								</RadioButton>
@@ -238,6 +250,8 @@
 								<RadioButton id="TopBarMods" backgroundcamera="shot_cameraE" backgroundcameralerptime="1.2" group="DashboardMainTabs" class="TopBarMenuItem" onactivate="DOTAShowPrimaryTabPage( TopBarMods )">
 									<Label class="TitleFont" text="#DOTA_MainMenu_Mods" />
 								</RadioButton>
+
+
 							</Panel>
 
 							<Panel id="TopBarRightButtons">
@@ -253,13 +267,36 @@
 									<Button id="ReloadPageButton" class="DebugButton" onactivate="DOTAReloadCurrentPage()" />
 									<Button id="GuidesButton" class="DebugButton" onactivate="ToggleStyle( DashboardPagesGuides, Visible )" />
 								</Panel>
+								<RadioButton id="TopBarArmory" group="DashboardMainTabs" class="TopBarSmallButton"
+											 onactivate="DOTAShowArmoryPage();"
+											 onmouseover="DOTASetRecentArmoryItemsMenuVisible( true ); AddStyle( TopBarArmoryHover, Hover ); DOTAHideTextTooltip(); DOTAAcknowledgeViolator( armory_button_violator )"
+											 onmouseout="AsyncEvent( 0.0, DOTASetRecentArmoryItemsMenuVisible( false ) ); RemoveStyle( TopBarArmoryHover, Hover )" />
 								<Button id="DOTANotificationButton" class="TopBarSmallButton NoNotifications" onactivate="ToggleStyle( NotificationsContainer, Hidden )" >
 									<Panel id="NotificationButtonIcon"/>
 									<Panel id="NotificationButtonCount" class="Hidden">
 										<Label id="NotificationButtonCountLabel" text="{d:dota_notification_count}"/>
 									</Panel>
 								</Button>
-								<Button id="DOTAQuitButton" class="TopBarSmallButton" onactivate="DOTAQuit();" />
+								<Button id="DOTAQuitButton" class="TopBarSmallButton" onactivate="DOTAQuit();"
+										onmouseover="AddStyle( TopBarExitBackground, Hover )"
+										onmouseout="RemoveStyle( TopBarExitBackground, Hover )" />
+							</Panel>
+
+							<Panel id="TopBarViolators" hittest="false">
+								<DOTAViolator id="TopBarStoreViolator" name="store_tab_violator" class="TopBarViolator Acknowledged" hittest="false">
+									<Panel class="ViolatorContents" hittest="false">									
+										<Panel class="ViolatorLeftPoint" hittest="false" />
+										<Label text="#DOTA_New" hittest="false" />
+										<Panel class="ViolatorRightPoint" hittest="false" />
+									</Panel>
+								</DOTAViolator>
+								<DOTAViolator id="TopBarArmoryViolator" name="armory_button_violator" class="TopBarViolator Acknowledged" hittest="false">
+									<Panel class="ViolatorContents" hittest="false">									
+										<Panel class="ViolatorLeftPoint" hittest="false" />
+										<Label text="#DOTA_New" hittest="false" />
+										<Panel class="ViolatorRightPoint" hittest="false" />
+									</Panel>
+								</DOTAViolator>
 							</Panel>
 						</Panel>
 
@@ -279,19 +316,20 @@
 	
 		<DOTAChat id="Chat" chatstyle="dashboard" oncancel="SetInputFocus( DashboardPages )" />
 
-		<Panel id="DashboardBottomRight" hittest="false">
-			<Panel id="FriendMenuContainer" hittest="false">
-				<DOTAFriendMenu id="FriendMenu" />
-			</Panel>
-		</Panel>		
+		<Panel id="FriendMenuContainer" hittest="false">
+			<DOTAFriendMenu id="FriendMenu" />
+		</Panel>
+
 		<!-- Make sure these are at the bottom to get the z-order right -->
-		
 		<DOTADashboardPopupManager id="DashboardPopupManager" onpopupsdismissed="SetInputFocus( DashboardPages )" />
 		<DOTAContextMenuManager id="ContextMenuManager" />
 		<DOTATooltipManager id="Tooltips" hittest="false" />
 		
 		<!-- Doesn't actually include the notifications, but we use its position to figure out where to show them -->
-		<Panel id="SteamNotificationsPlaceholder" />
+		<Panel id="SteamNotificationsPlaceholder" hittest="false" />
 
+		<!-- Debug only visual aid -->
+		<Image id="DebugForegroundOverlay" hittest="false" />
+		
 	</DOTADashboard>
 </root>

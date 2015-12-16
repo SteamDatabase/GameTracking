@@ -90,7 +90,7 @@ function Criterion:Describe()
     if self.func then 
         description = "Criterion functor " .. tostring(self.func)
     else 
-        description = "Criterion " .. self.operation .. " " .. self.value
+        description = "Criterion " .. self.key .. " " .. self.operation .. " " .. self.value
     end
 
     if self.modifiers then 
@@ -473,7 +473,14 @@ function RRule:Describe(verbose)
         self.group_params:Describe()
         print("selection_state:")
         for k, v in pairs(self.selection_state) do
-            print("\t" .. k .. " : " .. v)
+    		if type(v) == "table" then			
+    			print("\t" .. k .. " : " )
+    			for _, up in pairs( v ) do
+    				print("\t\t" .. up.params.scenename )
+    			end
+    		else
+    			print("\t" .. k .. " : " .. v)
+    		end
         end
         print()
     end
@@ -502,7 +509,8 @@ end
 function RRule:SelectResponse() 
     if Convars:GetFloat("rr_debugresponses") > 0 then 
         print("Matched rule: ")
-        self:Describe(false)
+		local verbose = ( Convars:GetFloat("rr_debugresponses") == 3 )
+        self:Describe(verbose)
     end
     
     -- TODO: plumb disablement into the RR system so that this rule is no longer checked in FindBestMatch!

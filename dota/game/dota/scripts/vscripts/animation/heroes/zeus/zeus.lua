@@ -72,9 +72,9 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "zeus_run",
+		name = "zeus_run_anim",
 		sequences = {
-			{ "@zeus_run" }
+			{ "@zeus_run_anim" }
 		},
 		addlayer = {
 			"zeus_turns"
@@ -87,9 +87,9 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "zeus_run_haste",
+		name = "zeus_run_haste_anim",
 		sequences = {
-			{ "@zeus_run_haste" }
+			{ "@zeus_run_haste_anim" }
 		},
 		addlayer = {
 			"zeus_turns"
@@ -103,9 +103,9 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "zeus_run_injured",
+		name = "zeus_run_injured_anim",
 		sequences = {
-			{ "@zeus_run_injured" }
+			{ "@zeus_run_injured_anim" }
 		},
 		addlayer = {
 			"zeus_turns"
@@ -119,9 +119,9 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "lightning_zeus_run",
+		name = "lightning_zeus_run_anim",
 		sequences = {
-			{ "@lightning_zeus_run" }
+			{ "@lightning_zeus_run_anim" }
 		},
 		addlayer = {
 			"lightning_zeus_turns"
@@ -134,9 +134,9 @@ model:CreateSequence(
 )
 model:CreateSequence(
 	{
-		name = "lightning_zeus_run_haste",
+		name = "lightning_zeus_run_haste_anim",
 		sequences = {
-			{ "@lightning_zeus_run_haste" }
+			{ "@lightning_zeus_run_haste_anim" }
 		},
 		addlayer = {
 			"lightning_zeus_turns"
@@ -151,9 +151,9 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "lightning_zeus_run_injured",
+		name = "lightning_zeus_run_injured_anim",
 		sequences = {
-			{ "@lightning_zeus_run_injured" }
+			{ "@lightning_zeus_run_injured_anim" }
 		},
 		addlayer = {
 			"lightning_zeus_turns"

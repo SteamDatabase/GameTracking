@@ -84,13 +84,13 @@ ASARBSAXAp
 ASARBSAXBRA
 ATTACHMENT_INFLUENCE_FLAGS_NONE
 ATTACHMENT_INFLUENCE_FLAGS_ROOT_TRANSFORM
-AVSLc5
+AVSLc5B
 AWAVATS
 AWAVATSA
 AWAVATSE
 AWAVATSH
 AWAVATSI
-AWAVATSLc5N
+AWAVATSLc5
 AWAVATSM
 AWAVAUATSH
 AWAVAUATSL
@@ -1014,11 +1014,13 @@ CAttachment::s_pSchemaBindingForLocalModule
 CAutoGameSystem
 CBaseAppSystem<IDebugDrawQueueMgr>
 CBaseAppSystem<IDebugDrawQueueMgr>::GetBuildType()
+CBaseAppSystem<IDebugDrawQueueMgr>::GetDependencies()
 CBaseAppSystem<IDebugDrawQueueMgr>::IsSingleton()
 CBaseAppSystem<IDebugDrawQueueMgr>::PreShutdown()
 CBaseAppSystem<IDebugDrawQueueMgr>::QueryInterface(char const*)
 CBaseAppSystem<IDotaMapUtils>
 CBaseAppSystem<IDotaMapUtils>::GetBuildType()
+CBaseAppSystem<IDotaMapUtils>::GetDependencies()
 CBaseAppSystem<IDotaMapUtils>::IsSingleton()
 CBaseAppSystem<IDotaMapUtils>::PreShutdown()
 CBaseAppSystem<IDotaMapUtils>::QueryInterface(char const*)
@@ -1036,16 +1038,19 @@ CBaseAppSystem<IGameSystem2HostHook>::PreShutdown()
 CBaseAppSystem<IGameSystem2HostHook>::QueryInterface(char const*)
 CBaseAppSystem<IHostUtils>
 CBaseAppSystem<IHostUtils>::GetBuildType()
+CBaseAppSystem<IHostUtils>::GetDependencies()
 CBaseAppSystem<IHostUtils>::IsSingleton()
 CBaseAppSystem<IHostUtils>::PreShutdown()
 CBaseAppSystem<IHostUtils>::QueryInterface(char const*)
 CBaseAppSystem<IPredictionDiffMgr>
 CBaseAppSystem<IPredictionDiffMgr>::GetBuildType()
+CBaseAppSystem<IPredictionDiffMgr>::GetDependencies()
 CBaseAppSystem<IPredictionDiffMgr>::IsSingleton()
 CBaseAppSystem<IPredictionDiffMgr>::PreShutdown()
 CBaseAppSystem<IPredictionDiffMgr>::QueryInterface(char const*)
 CBaseAppSystem<ISource2Host>
 CBaseAppSystem<ISource2Host>::GetBuildType()
+CBaseAppSystem<ISource2Host>::GetDependencies()
 CBaseAppSystem<ISource2Host>::IsSingleton()
 CBaseAppSystem<ISource2Host>::PreShutdown()
 CBaseAppSystem<ISource2Host>::QueryInterface(char const*)
@@ -1248,6 +1253,7 @@ CGameSystem2HostHook::LoopDeactivateAllSystems(EngineLoopState_t const&, bool)
 CGameSystem2HostHook::LoopInitAllSystems(GameSessionConfiguration_t const&, ILoopModePrerequisiteRegistry*, IGameSystemEventDispatcher*)
 CGameSystem2HostHook::LoopShutdownAllSystems()
 CGameSystem2HostHook::Shutdown()
+CGameSystem2HostHook::~CGameSystem2HostHook()
 CGameSystemEventDispatcher
 CGameSystemEventDispatcher::RegisterListener(int, IGameSystem*)
 CGameSystemEventDispatcher::UnregisterListener(IGameSystem*)
@@ -1359,6 +1365,7 @@ CLoopModeRegistry::UnregisterLoopModes()
 CLoopModeRegistry::sm_pFirst
 CManifestRegistrar::RegisterAll()
 CManifestRegistrar::UnregisterAll()
+CManifestRegistrar::UnregisterManifests(ResourceManifestDesc_t**, int)
 CMaterialDrawDescriptor
 CMaterialDrawDescriptor::CMaterialDrawDescriptor()
 CMaterialDrawDescriptor::Init(CMaterialDrawDescriptor const&)
@@ -3883,6 +3890,7 @@ CSource2HostDota
 CSource2HostDota::GetDependencies()
 CSource2HostDota::Init()
 CSource2HostDota::Shutdown()
+CSource2HostDota::~CSource2HostDota()
 CStrongHandle
 CTSSimpleList<CTempFieldPathList::SListElement>::~CTSSimpleList()
 CTSSimpleList<CTempPackedFieldPathVec::SListElement>::~CTSSimpleList()
@@ -3916,18 +3924,62 @@ CTier1AppSystem<IPredictionDiffMgr, 0>
 CTier1AppSystem<ISource2Host, 0>
 CTier1AppSystem<IWeaponInfo, 0>
 CTier2AppSystem<IDebugDrawQueueMgr, 0>
+CTier2AppSystem<IDebugDrawQueueMgr, 0>::Connect(void* (*)(char const*, int*))
+CTier2AppSystem<IDebugDrawQueueMgr, 0>::Disconnect()
+CTier2AppSystem<IDebugDrawQueueMgr, 0>::GetTier()
+CTier2AppSystem<IDebugDrawQueueMgr, 0>::Init()
+CTier2AppSystem<IDebugDrawQueueMgr, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IDebugDrawQueueMgr, 0>::Shutdown()
 CTier2AppSystem<IDotaMapUtils, 0>
+CTier2AppSystem<IDotaMapUtils, 0>::Connect(void* (*)(char const*, int*))
+CTier2AppSystem<IDotaMapUtils, 0>::Disconnect()
+CTier2AppSystem<IDotaMapUtils, 0>::GetTier()
+CTier2AppSystem<IDotaMapUtils, 0>::Init()
+CTier2AppSystem<IDotaMapUtils, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IDotaMapUtils, 0>::Shutdown()
 CTier2AppSystem<IGameModelInfo, 0>
 CTier2AppSystem<IGameModelInfo, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IGameModelInfo, 0>::Disconnect()
+CTier2AppSystem<IGameModelInfo, 0>::GetTier()
 CTier2AppSystem<IGameModelInfo, 0>::Init()
 CTier2AppSystem<IGameModelInfo, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IGameModelInfo, 0>::Shutdown()
+CTier2AppSystem<IGameModelInfo, 0>::~CTier2AppSystem()
 CTier2AppSystem<IGameSystem2HostHook, 0>
+CTier2AppSystem<IGameSystem2HostHook, 0>::Connect(void* (*)(char const*, int*))
+CTier2AppSystem<IGameSystem2HostHook, 0>::Disconnect()
+CTier2AppSystem<IGameSystem2HostHook, 0>::GetTier()
+CTier2AppSystem<IGameSystem2HostHook, 0>::Init()
+CTier2AppSystem<IGameSystem2HostHook, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IGameSystem2HostHook, 0>::Shutdown()
 CTier2AppSystem<IHostUtils, 0>
+CTier2AppSystem<IHostUtils, 0>::Connect(void* (*)(char const*, int*))
+CTier2AppSystem<IHostUtils, 0>::Disconnect()
+CTier2AppSystem<IHostUtils, 0>::GetTier()
+CTier2AppSystem<IHostUtils, 0>::Init()
+CTier2AppSystem<IHostUtils, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IHostUtils, 0>::Shutdown()
 CTier2AppSystem<IPredictionDiffMgr, 0>
+CTier2AppSystem<IPredictionDiffMgr, 0>::Connect(void* (*)(char const*, int*))
+CTier2AppSystem<IPredictionDiffMgr, 0>::Disconnect()
+CTier2AppSystem<IPredictionDiffMgr, 0>::GetTier()
+CTier2AppSystem<IPredictionDiffMgr, 0>::Init()
+CTier2AppSystem<IPredictionDiffMgr, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IPredictionDiffMgr, 0>::Shutdown()
 CTier2AppSystem<ISource2Host, 0>
+CTier2AppSystem<ISource2Host, 0>::Connect(void* (*)(char const*, int*))
+CTier2AppSystem<ISource2Host, 0>::Disconnect()
+CTier2AppSystem<ISource2Host, 0>::GetTier()
+CTier2AppSystem<ISource2Host, 0>::Init()
+CTier2AppSystem<ISource2Host, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<ISource2Host, 0>::Shutdown()
 CTier2AppSystem<IWeaponInfo, 0>
+CTier2AppSystem<IWeaponInfo, 0>::Connect(void* (*)(char const*, int*))
+CTier2AppSystem<IWeaponInfo, 0>::Disconnect()
+CTier2AppSystem<IWeaponInfo, 0>::GetTier()
+CTier2AppSystem<IWeaponInfo, 0>::Init()
+CTier2AppSystem<IWeaponInfo, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IWeaponInfo, 0>::Shutdown()
 CTier3AppSystem<IDebugDrawQueueMgr, 0>
 CTier3AppSystem<IDotaMapUtils, 0>
 CTier3AppSystem<IGameModelInfo, 0>
@@ -3961,18 +4013,18 @@ CUtlCharConversion
 CUtlCharConversion::FindConversion(char const*, int*)
 CUtlDict<CAttachment, int>::Purge()
 CUtlDict<CHitBoxSet, int>::Purge()
-CUtlHashtable<CSchemaClassInfo const*, CClassVisitInfo*, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t>::BumpEntry(unsigned int)
-CUtlHashtable<CSchemaClassInfo const*, CClassVisitInfo*, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<CSchemaClassInfo const*, CClassVisitInfo*, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t>::DoRealloc(int)
-CUtlHashtable<ResourceId_t, char const*, DefaultHashFunctor<ResourceId_t>, DefaultEqualFunctor<ResourceId_t>, undefined_t>::BumpEntry(unsigned int)
-CUtlHashtable<ResourceId_t, char const*, DefaultHashFunctor<ResourceId_t>, DefaultEqualFunctor<ResourceId_t>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<ResourceId_t, char const*, DefaultHashFunctor<ResourceId_t>, DefaultEqualFunctor<ResourceId_t>, undefined_t>::DoRealloc(int)
-CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t>::BumpEntry(unsigned int)
-CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t>::DoRealloc(int)
-CUtlHashtable<int, unsigned int, DefaultHashFunctor<int>, DefaultEqualFunctor<int>, undefined_t>::BumpEntry(unsigned int)
-CUtlHashtable<int, unsigned int, DefaultHashFunctor<int>, DefaultEqualFunctor<int>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<int, unsigned int, DefaultHashFunctor<int>, DefaultEqualFunctor<int>, undefined_t>::DoRealloc(int)
+CUtlHashtable<CSchemaClassInfo const*, CClassVisitInfo*, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<CSchemaClassInfo const*, CClassVisitInfo*>, int> >::BumpEntry(unsigned int)
+CUtlHashtable<CSchemaClassInfo const*, CClassVisitInfo*, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<CSchemaClassInfo const*, CClassVisitInfo*>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<CSchemaClassInfo const*, CClassVisitInfo*, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<CSchemaClassInfo const*, CClassVisitInfo*>, int> >::DoRealloc(int)
+CUtlHashtable<ResourceId_t, char const*, DefaultHashFunctor<ResourceId_t>, DefaultEqualFunctor<ResourceId_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<ResourceId_t, char const*>, int> >::BumpEntry(unsigned int)
+CUtlHashtable<ResourceId_t, char const*, DefaultHashFunctor<ResourceId_t>, DefaultEqualFunctor<ResourceId_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<ResourceId_t, char const*>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<ResourceId_t, char const*, DefaultHashFunctor<ResourceId_t>, DefaultEqualFunctor<ResourceId_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<ResourceId_t, char const*>, int> >::DoRealloc(int)
+CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<SaveClassReference_t, empty_t>, int> >::BumpEntry(unsigned int)
+CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<SaveClassReference_t, empty_t>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<SaveClassReference_t, empty_t>, int> >::DoRealloc(int)
+CUtlHashtable<int, unsigned int, DefaultHashFunctor<int>, DefaultEqualFunctor<int>, undefined_t, CUtlMemory<CUtlHashtableEntry<int, unsigned int>, int> >::BumpEntry(unsigned int)
+CUtlHashtable<int, unsigned int, DefaultHashFunctor<int>, DefaultEqualFunctor<int>, undefined_t, CUtlMemory<CUtlHashtableEntry<int, unsigned int>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<int, unsigned int, DefaultHashFunctor<int>, DefaultEqualFunctor<int>, undefined_t, CUtlMemory<CUtlHashtableEntry<int, unsigned int>, int> >::DoRealloc(int)
 CUtlMap<char const*, gender_t, unsigned char, bool (*)(char const* const&, char const* const&)>::Insert(char const* const&, gender_t const&)
 CUtlMemory<AddedGameSystem_t, int>::Grow(int)
 CUtlMemory<BuilderModelBoneFlexDriverControl_t, int>::Grow(int)
@@ -4111,6 +4163,7 @@ CUtlVectorBase<RenderSkeletonBone_t, CUtlMemory<RenderSkeletonBone_t, int> >::Pu
 CUtlVectorBase<RenderSkeletonBone_t, CUtlMemory<RenderSkeletonBone_t, int> >::SetCount(int)
 CUtlVectorBase<RenderSkeletonBone_t, CUtlMemory<RenderSkeletonBone_t, int> >::operator=(CUtlVectorBase<RenderSkeletonBone_t, CUtlMemory<RenderSkeletonBone_t, int> > const&)
 CUtlVectorBase<RenderSkeletonBone_t, CUtlMemory<RenderSkeletonBone_t, int> >::~CUtlVectorBase()
+CUtlVectorBase<ResourceManifestDesc_t*, CUtlMemory<ResourceManifestDesc_t*, int> >::~CUtlVectorBase()
 CUtlVectorBase<TraceDataForDraw_t, CUtlMemory<TraceDataForDraw_t, int> >::Purge()
 CUtlVectorBase<TraceDataForDraw_t, CUtlMemory<TraceDataForDraw_t, int> >::~CUtlVectorBase()
 CUtlVectorBase<char const*, CUtlMemoryFixedGrowable<char const*, 8ul, int> >::~CUtlVectorBase()
@@ -4244,6 +4297,7 @@ CWeaponInfo::GetAmmoDef()
 CWeaponInfo::Init()
 CWeaponInfo::LookupWeaponInfo(char const*)
 CWeaponInfo::Shutdown()
+CWeaponInfo::~CWeaponInfo()
 CWeaponInfoTypeManager
 CWeaponInfoTypeManager::Allocate(void const*, IResourceAllocatorUtils*)
 CWeaponInfoTypeManager::Deallocate(void*, IResourceDeallocatorUtils*)
@@ -4339,6 +4393,7 @@ DisconnectGameInterfaces()
 DisconnectInterfaces()
 DisconnectTier1Libraries()
 DisconnectTier2Libraries()
+DisconnectTier2ManualManifests(ResourceManifestDesc_t**, int)
 DmeSurfaceAudioParams
 DmeSurfaceAudioSounds
 DmeSurfacePhysicsParams
@@ -4764,7 +4819,6 @@ H__Znwm
 HammerMapLoader001
 HasField
 HashString(char const*)
-Hc5nA
 HcG0H
 Health
 HelpSystem_001
@@ -4937,6 +4991,7 @@ IVTableIndexCalculator::GetIndex_7()
 IVTableIndexCalculator::GetIndex_8()
 IVTableIndexCalculator::GetIndex_9()
 IWeaponInfo
+IcE0I9
 IcE4H
 IcEXA
 IcEpA
@@ -5001,7 +5056,6 @@ KeyValues::RemoveEverything()
 KeyValues::deleteThis()
 KeyValues::~KeyValues()
 Kfff.
-L95sg
 LABEL_OPTIONAL
 LABEL_REPEATED
 LABEL_REQUIRED
@@ -5016,6 +5070,7 @@ Location
 LoggingSystem_Log(int, LoggingSeverity_t, Color, char const*, ...)
 LoggingSystem_Log(int, LoggingSeverity_t, LeafCodeInfo_t const&, char const*, ...)
 LookupWeaponInfoSlot
+M8fff.
 MATCHFRAMEWORK_001
 MAliases
 MAlignment
@@ -5214,7 +5269,6 @@ Quaternion
 QueuedLoaderVersion001
 RBRAp
 RBRBRA
-RBRBRBRBRBRBRBRBRBRBRBRBRBSARBRBRBRBRBRBRBp
 RBRBSAp
 RBRBTAp
 RBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBRAp
@@ -5435,7 +5489,7 @@ RnTriangle_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_ME
 RnTriangle_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
 RnTriangle_t::s_pSchemaBinding
 RnTriangle_t::s_pSchemaBindingForLocalModule
-SARBRBRBRBRBRBRBRAp
+SARBRBRBRBRBRBRB\LRAp
 SBRAp
 SBTBRBRG
 SINGLE
@@ -5630,7 +5684,6 @@ SkeletonBoneBbox_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_
 SkeletonBoneBbox_t::s_pSchemaBinding
 SkeletonBoneBbox_t::s_pSchemaBindingForLocalModule
 SoundData
-SoundMixGroupSystem001
 SoundOpSystem001
 SoundOpSystemEdit001
 SoundService_001
@@ -5698,7 +5751,6 @@ VBAllocTracker001
 VBaseFileSystem011
 VBik001
 VConComm001
-VDataCache003
 VDebugService_001
 VDmeMakeFileUtils001
 VEngineCvar007
@@ -6095,6 +6147,7 @@ _dota_use_heightmap
 _fflush
 _floorf
 _fprintf
+_free
 _g_EarlyInit_Common
 _g_ExpressionEvaluator
 _g_ExtrefInfoMap
@@ -6126,7 +6179,6 @@ _g_pBenchmarkService
 _g_pCVar
 _g_pClientSidePrediction
 _g_pConfigurationSystem
-_g_pDataCache
 _g_pDebugDrawQueueMgr
 _g_pDmeMakefileUtils
 _g_pDotaCardGameClient
@@ -6205,7 +6257,6 @@ _g_pSchemaSystem
 _g_pSchemaTestExternal_One
 _g_pSchemaTestExternal_Two
 _g_pScriptManager
-_g_pSoundMixGroupSystem
 _g_pSoundOpSystem
 _g_pSoundOpSystemEdit
 _g_pSoundService
@@ -6248,6 +6299,7 @@ _g_pWeaponInfo
 _g_pWorkshopSetup
 _g_pWorldRendererBuilderMgr
 _g_pWorldRendererMgr
+_malloc
 _mdllib
 _memchr
 _memcmp
@@ -7087,6 +7139,7 @@ s_nGameConnectionCount
 s_nManifestCount
 s_nRandSIMDSeed
 s_nRegistrationCount
+s_nResourceFCRegisteredCount
 s_outOfGameEventDispatcher
 s_pConfigRegistry
 s_pConnectionRegistration
@@ -8213,7 +8266,7 @@ uint32
 uint64
 uninterpreted_option
 unknown
-unsigned int CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t>::DoInsert<SaveClassReference_t const&>(SaveClassReference_t const&, empty_t const&, unsigned int, bool*)
+unsigned int CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<SaveClassReference_t, empty_t>, int> >::DoInsert<SaveClassReference_t const&>(SaveClassReference_t const&, empty_t const&, unsigned int, bool*)
 userid
 usermsgs
 utlbuffer.cpp
@@ -8230,6 +8283,7 @@ value
 varint
 vfff.
 viewmodel
+vmdl1
 vmesh
 void CKV3TransferLoadContext::LoadValueFromMember<Quaternion>(char const*, CUtlStringToken, Quaternion&)
 void CKV3TransferLoadContext::LoadValueFromMember<Vector>(char const*, CUtlStringToken, Vector&)
@@ -8730,6 +8784,14 @@ vtable for CSchemaWeakHandleInspectionManipulator<InfoForResourceTypeCSequenceGr
 vtable for CSchemaWeakHandleInspectionManipulator<InfoForResourceTypeIMaterial2>
 vtable for CSource2HostDota
 vtable for CTestGameSystem
+vtable for CTier2AppSystem<IDebugDrawQueueMgr, 0>
+vtable for CTier2AppSystem<IDotaMapUtils, 0>
+vtable for CTier2AppSystem<IGameModelInfo, 0>
+vtable for CTier2AppSystem<IGameSystem2HostHook, 0>
+vtable for CTier2AppSystem<IHostUtils, 0>
+vtable for CTier2AppSystem<IPredictionDiffMgr, 0>
+vtable for CTier2AppSystem<ISource2Host, 0>
+vtable for CTier2AppSystem<IWeaponInfo, 0>
 vtable for CUtlCStringConversion
 vtable for CUtlCharConversion
 vtable for CWeaponInfo

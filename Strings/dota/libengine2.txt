@@ -561,6 +561,9 @@
 -netconpassword
 -netconport
 -netspike
+-no_bundle_module
+-no_tier2_bundle
+-no_tier3_bundle
 -noborder
 -nobreakpad
 -nodedicatedconsole
@@ -606,6 +609,8 @@
 -tools
 -tvmasteronly
 -unbufferedio
+-use_tier2_bundle
+-use_tier3_bundle
 -uselogdir
 -usercon
 -vconport
@@ -751,16 +756,16 @@ ARBRBRAp
 ARBRBRBRBR0
 ARBRBRBRBRBRBRBR0
 ARBRBRBRBRBRBRBRAp
-ARBRBRBRBRBRBRBRBRAp
-ARBRBRBRBRBRBRBRBRBRBRBRBRBR0
+ARBRBRBRBRBRBRBRBR0
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBWAp
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBTBRBp
-ARBRBSCRBRBRBRBRBRBRBRBRAp
+ARBRBSCRBRBRBRBRBRBRBRF\0
 ARBRBTAp
 ARBRBVBRBRBVBRBYASA
 ARBRBWAp
 ARBRBp
 ARBRDSAp
+ARBRD\0
 ARBSARB
 ARBSAp
 ARBTA
@@ -906,6 +911,7 @@ BRAS0
 BRAY0
 BRBRATAp
 BRBRAp
+BRBRBRBRBRBRBRBRBRAp
 BZ2_blockSort(EState*)
 BZ2_bz__AssertH__fail(int)
 BZ2_compressBlock(EState*, unsigned char)
@@ -1036,6 +1042,7 @@ C2S_CONNECT_Message::default_instance_
 C2S_CONNECT_Message::~C2S_CONNECT_Message()
 C2S_CONNECT_Message_t
 C2S_CONNECT_Message_t::~C2S_CONNECT_Message_t()
+C8F948
 CActivateMainMenuPanel
 CActivateMainMenuPanel::ApplySchemeSettings(vgui::IScheme*)
 CActivateMainMenuPanel::CActivateMainMenuPanel(vgui::Panel*)
@@ -2026,11 +2033,13 @@ CBaseAppSystem<IEngineServiceMgr>::PreShutdown()
 CBaseAppSystem<IEngineServiceMgr>::QueryInterface(char const*)
 CBaseAppSystem<IEngineVGuiInternal>
 CBaseAppSystem<IEngineVGuiInternal>::GetBuildType()
+CBaseAppSystem<IEngineVGuiInternal>::GetDependencies()
 CBaseAppSystem<IEngineVGuiInternal>::IsSingleton()
 CBaseAppSystem<IEngineVGuiInternal>::PreShutdown()
 CBaseAppSystem<IEngineVGuiInternal>::QueryInterface(char const*)
 CBaseAppSystem<IGameEventSystem>
 CBaseAppSystem<IGameEventSystem>::GetBuildType()
+CBaseAppSystem<IGameEventSystem>::GetDependencies()
 CBaseAppSystem<IGameEventSystem>::IsSingleton()
 CBaseAppSystem<IGameEventSystem>::PreShutdown()
 CBaseAppSystem<IGameEventSystem>::QueryInterface(char const*)
@@ -2103,6 +2112,7 @@ CBaseAppSystem<INetworkServerService>::PreShutdown()
 CBaseAppSystem<INetworkServerService>::QueryInterface(char const*)
 CBaseAppSystem<INetworkService>
 CBaseAppSystem<INetworkService>::GetBuildType()
+CBaseAppSystem<INetworkService>::GetDependencies()
 CBaseAppSystem<INetworkService>::IsSingleton()
 CBaseAppSystem<INetworkService>::PreShutdown()
 CBaseAppSystem<INetworkService>::QueryInterface(char const*)
@@ -2174,6 +2184,7 @@ CBaseAppSystem<IToolGameSimulationDispatcher>::PreShutdown()
 CBaseAppSystem<IToolGameSimulationDispatcher>::QueryInterface(char const*)
 CBaseAppSystem<IToolGameSimulationSystem>
 CBaseAppSystem<IToolGameSimulationSystem>::GetBuildType()
+CBaseAppSystem<IToolGameSimulationSystem>::GetDependencies()
 CBaseAppSystem<IToolGameSimulationSystem>::IsSingleton()
 CBaseAppSystem<IToolGameSimulationSystem>::PreShutdown()
 CBaseAppSystem<IToolGameSimulationSystem>::QueryInterface(char const*)
@@ -3215,12 +3226,13 @@ CDefaultAccessor
 CDefaultAccessor::RegisterConCommandBase(ConCommandBase*)
 CDefaultClientConfig
 CDefaultClientConfig::AllocateScratchRenderTargets(SwapChainHandle_t__*, RenderDeviceInfo_t const&, RenderMultisampleType_t)
+CDefaultClientConfig::ChangeWorldMountNameByNetworkVersion(char const*, int) const
 CDefaultClientConfig::GetDesiredRenderingPipeline()
 CDefaultClientConfig::GetMaxSplitscreenPlayers()
 CDefaultClientConfig::InstantReplayShouldIgnoreMessage(int) const
 CDefaultClientConfig::InstantReplayShouldSkipMessage(int) const
+CDefaultClientConfig::ValidateNetworkVersion(int) const
 CDefaultHitbox::CDefaultHitbox()
-CDefaultHitbox::~CDefaultHitbox()
 CDefaultServerConfig
 CDefaultServerConfig::AllowDedicatedServers(EUniverse) const
 CDefaultServerConfig::AllowPlayerToTakeOverBots()
@@ -3234,7 +3246,6 @@ CDefaultServerConfig::GetPlayerLimits(int&, int&, int&, bool&)
 CDefaultServerConfig::GetTickInterval()
 CDefaultServerConfig::OnClientFullyConnect(CEntityIndex)
 CDefaultServerConfig::ShouldNotifyLocalClientConnectionStateChanges()
-CDefaultServerConfig::ValidateNetworkVersion(int) const
 CDeltaEntityCache::AddDeltaBits(CEntityIndex, int, int, bf_write*)
 CDeltaEntityCache::FindDeltaBits(CEntityIndex, int, int&)
 CDemoActionCDTrackStart
@@ -3891,6 +3902,7 @@ CEngineClient::GetBackgroundMovie(char*, int)
 CEngineClient::GetBackgroundMusic(char*, int, bool)
 CEngineClient::GetBugSubmissionCount() const
 CEngineClient::GetBuildVersion() const
+CEngineClient::GetConnectedServerNetworkVersion()
 CEngineClient::GetDemoPlaybackFileName()
 CEngineClient::GetDemoPlaybackStartTick()
 CEngineClient::GetDemoPlaybackTick()
@@ -3998,9 +4010,9 @@ CEngineClient::TickProgressBar()
 CEngineClient::TouchLight(dlight_t*)
 CEngineClient::UnloadSpawnGroup(unsigned int, ESpawnGroupUnloadOption)
 CEngineClient::UnzipZip(char const*, char const*, char const*, bool, bool, bool)
-CEngineClient::UpdateAddonSearchPaths(bool, bool, char const*)
 CEngineClient::UpdateDAndELights()
 CEngineClient::WriteScreenshot(char const*)
+CEngineClient::~CEngineClient()
 CEngineConsole
 CEngineConsole::CEngineConsole()
 CEngineConsole::ChainToAnimationMap()::chained
@@ -4116,7 +4128,7 @@ CEngineServer::StaticDecal(Vector const&, int, CEntityIndex, int, bool)
 CEngineServer::SynchronizeAndBlockUntilLoaded(unsigned int)
 CEngineServer::SynchronouslySpawnGroup(unsigned int)
 CEngineServer::UnloadSpawnGroup(unsigned int, ESpawnGroupUnloadOption)
-CEngineServer::UpdateAddonSearchPaths(bool, bool, char const*)
+CEngineServer::~CEngineServer()
 CEngineServiceMgr
 CEngineServiceMgr::ActivateServicesForLoop(char const*, CUtlVector<IEngineService*, CUtlMemory<IEngineService*, int> > const&, CUtlVector<IEngineService*, CUtlMemory<IEngineService*, int> >&)
 CEngineServiceMgr::CEngineServiceMgr()
@@ -4667,7 +4679,6 @@ CHFontProperty
 CHFontProperty::GetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
 CHFontProperty::InitFromDefault(vgui::Panel*, PanelAnimationMapEntry*)
 CHFontProperty::SetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
-CHL9x
 CHLTVClient
 CHLTVClient::CHLTVClient(CNetworkGameServerBase*, CPlayerSlot)
 CHLTVClient::Clear()
@@ -4881,6 +4892,7 @@ CHitBoxSetList::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_
 CHitBoxSetList::s_pSchemaBinding
 CHitBoxSetList::s_pSchemaBindingForLocalModule
 CHostStateMgr
+CHostStateMgr::ActivatePending()
 CHostStateMgr::CHostStateMgr()
 CHostStateMgr::Init()
 CHostStateMgr::IsInGameLoop()
@@ -5353,6 +5365,7 @@ CMachineConfigValue<int>::~CMachineConfigValue()
 CManifestRegistrar::CManifestRegistrar(ResourceManifestDesc_t*)
 CManifestRegistrar::RegisterAll()
 CManifestRegistrar::UnregisterAll()
+CManifestRegistrar::UnregisterManifests(ResourceManifestDesc_t**, int)
 CMapListService
 CMapListService::BuildList(bool)
 CMapListService::CMapListService()
@@ -7579,6 +7592,7 @@ CNetworkGameServerBase::SetServerTick(int)
 CNetworkGameServerBase::SetSpawnGroupDescription(unsigned int, char const*)
 CNetworkGameServerBase::SetTimescale(float)
 CNetworkGameServerBase::Shutdown()
+CNetworkGameServerBase::SpawnGroupThink()
 CNetworkGameServerBase::SpawnServer(char const*)
 CNetworkGameServerBase::StartChangeLevel()
 CNetworkGameServerBase::StartHLTVMaster()
@@ -10987,6 +11001,7 @@ CServerSideClient::ProcessPacketStart(NetMessagePacketStart_t const&)
 CServerSideClient::ProcessRespondCvarValue(CCLCMsg_RespondCvarValue_t const&)
 CServerSideClient::ProcessSignonStateMsg(int, int)
 CServerSideClient::ProcessVoiceData(CCLCMsg_VoiceData_t const&)
+CServerSideClient::Reactivate(int)
 CServerSideClient::Reconnect()
 CServerSideClient::SendNetMessage(NetMessageHandle_t__*, void const*, NetChannelBufType_t)
 CServerSideClient::SendSignonData()
@@ -11076,7 +11091,7 @@ CServerSideClientBase::ProcessStringCmd(CNETMsg_StringCmd_t const&)
 CServerSideClientBase::ProcessTick(CNETMsg_Tick_t const&)
 CServerSideClientBase::ProcessVoiceData(CCLCMsg_VoiceData_t const&)
 CServerSideClientBase::QueueAuthTicketCanceled()
-CServerSideClientBase::Reactivate()
+CServerSideClientBase::Reactivate(int)
 CServerSideClientBase::Reconnect()
 CServerSideClientBase::SendInitialSpawnGroups()
 CServerSideClientBase::SendNetMessage(NetMessageHandle_t__*, void const*, NetChannelBufType_t)
@@ -11138,6 +11153,7 @@ CSocketCreator::~CSocketCreator()
 CSoundService
 CSoundService::AsyncPollForVoiceData()
 CSoundService::AsyncPollForVoiceData()::snd_mute_losefocus
+CSoundService::CSoundService()
 CSoundService::FilterList(CUtlVector<CUtlString, CUtlMemory<CUtlString, int> > const&, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&, CUtlString&, char const*)
 CSoundService::GetNetworkedVoiceLevel(unsigned long long, VoiceRecordingLevel_t*)
 CSoundService::Init()
@@ -11327,6 +11343,7 @@ CTextConsolePosix::PrintRaw(char const*, int)
 CTextConsolePosix::ShutDown()
 CTextConsolePosix::~CTextConsolePosix()
 CTextMessageMgr
+CTextMessageMgr::CTextMessageMgr()
 CTextMessageMgr::Init()
 CTextMessageMgr::ParseDirective(char const*)
 CTextMessageMgr::ParseDirective(char const*)::g_pchSkipName
@@ -11494,166 +11511,265 @@ CTier1Application::~CTier1Application()
 CTier2AppSystem<IBenchmarkService, 0>
 CTier2AppSystem<IBenchmarkService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IBenchmarkService, 0>::Disconnect()
+CTier2AppSystem<IBenchmarkService, 0>::GetTier()
+CTier2AppSystem<IBenchmarkService, 0>::Init()
 CTier2AppSystem<IBenchmarkService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IBenchmarkService, 0>::Shutdown()
+CTier2AppSystem<IBenchmarkService, 0>::~CTier2AppSystem()
 CTier2AppSystem<IBlackBox, 0>
 CTier2AppSystem<IBlackBox, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IBlackBox, 0>::Disconnect()
+CTier2AppSystem<IBlackBox, 0>::GetTier()
 CTier2AppSystem<IBlackBox, 0>::Init()
 CTier2AppSystem<IBlackBox, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IBlackBox, 0>::Shutdown()
 CTier2AppSystem<IEngineService, 0>
 CTier2AppSystem<IEngineService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IEngineService, 0>::Disconnect()
+CTier2AppSystem<IEngineService, 0>::GetTier()
 CTier2AppSystem<IEngineService, 0>::Init()
 CTier2AppSystem<IEngineService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IEngineService, 0>::Shutdown()
+CTier2AppSystem<IEngineService, 0>::~CTier2AppSystem()
 CTier2AppSystem<IEngineServiceMgr, 0>
+CTier2AppSystem<IEngineServiceMgr, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IEngineServiceMgr, 0>::Disconnect()
+CTier2AppSystem<IEngineServiceMgr, 0>::GetTier()
+CTier2AppSystem<IEngineServiceMgr, 0>::Init()
 CTier2AppSystem<IEngineServiceMgr, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IEngineServiceMgr, 0>::Shutdown()
 CTier2AppSystem<IEngineVGuiInternal, 0>
+CTier2AppSystem<IEngineVGuiInternal, 0>::Connect(void* (*)(char const*, int*))
+CTier2AppSystem<IEngineVGuiInternal, 0>::Disconnect()
+CTier2AppSystem<IEngineVGuiInternal, 0>::GetTier()
+CTier2AppSystem<IEngineVGuiInternal, 0>::Init()
 CTier2AppSystem<IEngineVGuiInternal, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IEngineVGuiInternal, 0>::Shutdown()
+CTier2AppSystem<IEngineVGuiInternal, 0>::~CTier2AppSystem()
 CTier2AppSystem<IGameEventSystem, 0>
 CTier2AppSystem<IGameEventSystem, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IGameEventSystem, 0>::Disconnect()
+CTier2AppSystem<IGameEventSystem, 0>::GetTier()
+CTier2AppSystem<IGameEventSystem, 0>::Init()
 CTier2AppSystem<IGameEventSystem, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IGameEventSystem, 0>::Shutdown()
 CTier2AppSystem<IGameResourceService, 0>
+CTier2AppSystem<IGameResourceService, 0>::Connect(void* (*)(char const*, int*))
+CTier2AppSystem<IGameResourceService, 0>::Disconnect()
+CTier2AppSystem<IGameResourceService, 0>::GetTier()
+CTier2AppSystem<IGameResourceService, 0>::Init()
 CTier2AppSystem<IGameResourceService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IGameResourceService, 0>::Shutdown()
+CTier2AppSystem<IGameResourceService, 0>::~CTier2AppSystem()
 CTier2AppSystem<IGameUIFuncs, 0>
 CTier2AppSystem<IGameUIFuncs, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IGameUIFuncs, 0>::Disconnect()
+CTier2AppSystem<IGameUIFuncs, 0>::GetTier()
 CTier2AppSystem<IGameUIFuncs, 0>::Init()
 CTier2AppSystem<IGameUIFuncs, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IGameUIFuncs, 0>::Shutdown()
 CTier2AppSystem<IGameUIService, 0>
+CTier2AppSystem<IGameUIService, 0>::Connect(void* (*)(char const*, int*))
+CTier2AppSystem<IGameUIService, 0>::Disconnect()
+CTier2AppSystem<IGameUIService, 0>::GetTier()
+CTier2AppSystem<IGameUIService, 0>::Init()
 CTier2AppSystem<IGameUIService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IGameUIService, 0>::Shutdown()
+CTier2AppSystem<IGameUIService, 0>::~CTier2AppSystem()
 CTier2AppSystem<IHostStateMgr, 0>
 CTier2AppSystem<IHostStateMgr, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IHostStateMgr, 0>::Disconnect()
+CTier2AppSystem<IHostStateMgr, 0>::GetTier()
+CTier2AppSystem<IHostStateMgr, 0>::Init()
 CTier2AppSystem<IHostStateMgr, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IHostStateMgr, 0>::Shutdown()
 CTier2AppSystem<IInputService, 0>
 CTier2AppSystem<IInputService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IInputService, 0>::Disconnect()
+CTier2AppSystem<IInputService, 0>::GetTier()
+CTier2AppSystem<IInputService, 0>::Init()
 CTier2AppSystem<IInputService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IInputService, 0>::Shutdown()
+CTier2AppSystem<IInputService, 0>::~CTier2AppSystem()
 CTier2AppSystem<IKeyValueCache, 0>
 CTier2AppSystem<IKeyValueCache, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IKeyValueCache, 0>::Disconnect()
+CTier2AppSystem<IKeyValueCache, 0>::GetTier()
 CTier2AppSystem<IKeyValueCache, 0>::Init()
 CTier2AppSystem<IKeyValueCache, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IKeyValueCache, 0>::Shutdown()
 CTier2AppSystem<IMapListService, 0>
 CTier2AppSystem<IMapListService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IMapListService, 0>::Disconnect()
+CTier2AppSystem<IMapListService, 0>::GetTier()
 CTier2AppSystem<IMapListService, 0>::Init()
 CTier2AppSystem<IMapListService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IMapListService, 0>::Shutdown()
+CTier2AppSystem<IMapListService, 0>::~CTier2AppSystem()
 CTier2AppSystem<INetworkClientService, 0>
 CTier2AppSystem<INetworkClientService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<INetworkClientService, 0>::Disconnect()
+CTier2AppSystem<INetworkClientService, 0>::GetTier()
 CTier2AppSystem<INetworkClientService, 0>::Init()
 CTier2AppSystem<INetworkClientService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<INetworkClientService, 0>::Shutdown()
+CTier2AppSystem<INetworkClientService, 0>::~CTier2AppSystem()
 CTier2AppSystem<INetworkP2PService, 0>
 CTier2AppSystem<INetworkP2PService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<INetworkP2PService, 0>::Disconnect()
+CTier2AppSystem<INetworkP2PService, 0>::GetTier()
 CTier2AppSystem<INetworkP2PService, 0>::Init()
 CTier2AppSystem<INetworkP2PService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<INetworkP2PService, 0>::Shutdown()
+CTier2AppSystem<INetworkP2PService, 0>::~CTier2AppSystem()
 CTier2AppSystem<INetworkServerService, 0>
 CTier2AppSystem<INetworkServerService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<INetworkServerService, 0>::Disconnect()
+CTier2AppSystem<INetworkServerService, 0>::GetTier()
+CTier2AppSystem<INetworkServerService, 0>::Init()
 CTier2AppSystem<INetworkServerService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<INetworkServerService, 0>::Shutdown()
+CTier2AppSystem<INetworkServerService, 0>::~CTier2AppSystem()
 CTier2AppSystem<INetworkService, 0>
 CTier2AppSystem<INetworkService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<INetworkService, 0>::Disconnect()
+CTier2AppSystem<INetworkService, 0>::GetTier()
+CTier2AppSystem<INetworkService, 0>::Init()
 CTier2AppSystem<INetworkService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<INetworkService, 0>::Shutdown()
+CTier2AppSystem<INetworkService, 0>::~CTier2AppSystem()
 CTier2AppSystem<INetworkStringTableContainer, 0>
 CTier2AppSystem<INetworkStringTableContainer, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<INetworkStringTableContainer, 0>::Disconnect()
+CTier2AppSystem<INetworkStringTableContainer, 0>::GetTier()
 CTier2AppSystem<INetworkStringTableContainer, 0>::Init()
 CTier2AppSystem<INetworkStringTableContainer, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<INetworkStringTableContainer, 0>::Shutdown()
+CTier2AppSystem<INetworkStringTableContainer, 0>::~CTier2AppSystem()
 CTier2AppSystem<IRenderService, 0>
 CTier2AppSystem<IRenderService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IRenderService, 0>::Disconnect()
+CTier2AppSystem<IRenderService, 0>::GetTier()
+CTier2AppSystem<IRenderService, 0>::Init()
 CTier2AppSystem<IRenderService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IRenderService, 0>::Shutdown()
+CTier2AppSystem<IRenderService, 0>::~CTier2AppSystem()
 CTier2AppSystem<ISoundService, 0>
 CTier2AppSystem<ISoundService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<ISoundService, 0>::Disconnect()
+CTier2AppSystem<ISoundService, 0>::GetTier()
+CTier2AppSystem<ISoundService, 0>::Init()
 CTier2AppSystem<ISoundService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<ISoundService, 0>::Shutdown()
+CTier2AppSystem<ISoundService, 0>::~CTier2AppSystem()
 CTier2AppSystem<ISplitScreenService, 0>
 CTier2AppSystem<ISplitScreenService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<ISplitScreenService, 0>::Disconnect()
+CTier2AppSystem<ISplitScreenService, 0>::GetTier()
+CTier2AppSystem<ISplitScreenService, 0>::Init()
 CTier2AppSystem<ISplitScreenService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<ISplitScreenService, 0>::Shutdown()
+CTier2AppSystem<ISplitScreenService, 0>::~CTier2AppSystem()
 CTier2AppSystem<IStatsService, 0>
 CTier2AppSystem<IStatsService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IStatsService, 0>::Disconnect()
+CTier2AppSystem<IStatsService, 0>::GetTier()
+CTier2AppSystem<IStatsService, 0>::Init()
 CTier2AppSystem<IStatsService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IStatsService, 0>::Shutdown()
+CTier2AppSystem<IStatsService, 0>::~CTier2AppSystem()
 CTier2AppSystem<ITextMessageMgr, 0>
 CTier2AppSystem<ITextMessageMgr, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<ITextMessageMgr, 0>::Disconnect()
+CTier2AppSystem<ITextMessageMgr, 0>::GetTier()
+CTier2AppSystem<ITextMessageMgr, 0>::Init()
 CTier2AppSystem<ITextMessageMgr, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<ITextMessageMgr, 0>::Shutdown()
 CTier2AppSystem<IToolGameSimulationDispatcher, 0>
 CTier2AppSystem<IToolGameSimulationDispatcher, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IToolGameSimulationDispatcher, 0>::Disconnect()
+CTier2AppSystem<IToolGameSimulationDispatcher, 0>::GetTier()
 CTier2AppSystem<IToolGameSimulationDispatcher, 0>::Init()
 CTier2AppSystem<IToolGameSimulationDispatcher, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IToolGameSimulationDispatcher, 0>::Shutdown()
 CTier2AppSystem<IToolGameSimulationSystem, 0>
 CTier2AppSystem<IToolGameSimulationSystem, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IToolGameSimulationSystem, 0>::Disconnect()
+CTier2AppSystem<IToolGameSimulationSystem, 0>::GetTier()
+CTier2AppSystem<IToolGameSimulationSystem, 0>::Init()
 CTier2AppSystem<IToolGameSimulationSystem, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IToolGameSimulationSystem, 0>::Shutdown()
 CTier2AppSystem<IToolService, 0>
 CTier2AppSystem<IToolService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IToolService, 0>::Disconnect()
+CTier2AppSystem<IToolService, 0>::GetTier()
+CTier2AppSystem<IToolService, 0>::Init()
 CTier2AppSystem<IToolService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IToolService, 0>::Shutdown()
+CTier2AppSystem<IToolService, 0>::~CTier2AppSystem()
 CTier2AppSystem<IUploadGameStats, 0>
 CTier2AppSystem<IUploadGameStats, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IUploadGameStats, 0>::Disconnect()
+CTier2AppSystem<IUploadGameStats, 0>::GetTier()
 CTier2AppSystem<IUploadGameStats, 0>::Init()
 CTier2AppSystem<IUploadGameStats, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IUploadGameStats, 0>::Shutdown()
 CTier2AppSystem<IUserInfoChangeService, 0>
 CTier2AppSystem<IUserInfoChangeService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IUserInfoChangeService, 0>::Disconnect()
+CTier2AppSystem<IUserInfoChangeService, 0>::GetTier()
+CTier2AppSystem<IUserInfoChangeService, 0>::Init()
 CTier2AppSystem<IUserInfoChangeService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IUserInfoChangeService, 0>::Shutdown()
+CTier2AppSystem<IUserInfoChangeService, 0>::~CTier2AppSystem()
 CTier2AppSystem<IVDebugService, 0>
 CTier2AppSystem<IVDebugService, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IVDebugService, 0>::Disconnect()
+CTier2AppSystem<IVDebugService, 0>::GetTier()
+CTier2AppSystem<IVDebugService, 0>::Init()
 CTier2AppSystem<IVDebugService, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<IVDebugService, 0>::Shutdown()
+CTier2AppSystem<IVDebugService, 0>::~CTier2AppSystem()
 CTier2AppSystem<IVEfx, 0>
 CTier2AppSystem<IVEfx, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IVEfx, 0>::Disconnect()
+CTier2AppSystem<IVEfx, 0>::GetTier()
 CTier2AppSystem<IVEfx, 0>::Init()
 CTier2AppSystem<IVEfx, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IVEfx, 0>::Shutdown()
 CTier2AppSystem<IVEngineClient2, 0>
 CTier2AppSystem<IVEngineClient2, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IVEngineClient2, 0>::Disconnect()
+CTier2AppSystem<IVEngineClient2, 0>::GetTier()
 CTier2AppSystem<IVEngineClient2, 0>::Init()
 CTier2AppSystem<IVEngineClient2, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IVEngineClient2, 0>::Shutdown()
 CTier2AppSystem<IVEngineServer2, 0>
 CTier2AppSystem<IVEngineServer2, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IVEngineServer2, 0>::Disconnect()
+CTier2AppSystem<IVEngineServer2, 0>::GetTier()
 CTier2AppSystem<IVEngineServer2, 0>::Init()
 CTier2AppSystem<IVEngineServer2, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IVEngineServer2, 0>::Shutdown()
 CTier2AppSystem<IVProfExport, 0>
 CTier2AppSystem<IVProfExport, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IVProfExport, 0>::Disconnect()
+CTier2AppSystem<IVProfExport, 0>::GetTier()
 CTier2AppSystem<IVProfExport, 0>::Init()
 CTier2AppSystem<IVProfExport, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IVProfExport, 0>::Shutdown()
 CTier2AppSystem<IVoiceServer, 0>
 CTier2AppSystem<IVoiceServer, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IVoiceServer, 0>::Disconnect()
+CTier2AppSystem<IVoiceServer, 0>::GetTier()
 CTier2AppSystem<IVoiceServer, 0>::Init()
 CTier2AppSystem<IVoiceServer, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IVoiceServer, 0>::Shutdown()
+CTier2AppSystem<IVoiceServer, 0>::~CTier2AppSystem()
 CTier2AppSystem<IXboxSystem, 0>
 CTier2AppSystem<IXboxSystem, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<IXboxSystem, 0>::Disconnect()
+CTier2AppSystem<IXboxSystem, 0>::GetTier()
 CTier2AppSystem<IXboxSystem, 0>::Init()
 CTier2AppSystem<IXboxSystem, 0>::Reconnect(void* (*)(char const*, int*), char const*)
 CTier2AppSystem<IXboxSystem, 0>::Shutdown()
@@ -11828,19 +11944,20 @@ CToolService::GetCharacterList(CUtlVector<CUtlString, CUtlMemory<CUtlString, int
 CToolService::GetCharacterNameForModel(char const*, char*, int)
 CToolService::GetDefaultChoreoDirForModel(char const*, char*, int)
 CToolService::GetDefaultControlPointAutoUpdates(char const*, CUtlVector<EconControlPointInfo_t, CUtlMemory<EconControlPointInfo_t, int> >&)
-CToolService::GetDefaultModelNameForCharacter(char const*, char*, int)
 CToolService::GetDefaultScaleForCharacter(char const*)
 CToolService::GetDefaultScaleForModel(char const*)
 CToolService::GetEconItemNamesForCharacter(char const*, bool, bool, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
 CToolService::GetEconItemNamesForModel(char const*, bool, bool, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
 CToolService::GetEconItemSystem_Client()
 CToolService::GetEconItemSystem_Server()
+CToolService::GetEconItemsInfoForCharacter(char const*, char const*, bool, bool, bool, CUtlVector<EconItemInfo_t, CUtlMemory<EconItemInfo_t, int> >&)
+CToolService::GetEconItemsInfoForModel(char const*, char const*, bool, bool, bool, CUtlVector<EconItemInfo_t, CUtlMemory<EconItemInfo_t, int> >&)
 CToolService::GetEntityInfo(int, KeyValues&, IToolFramework2Host::EntityListSource_t)
 CToolService::GetEntityList(IToolFramework2Host::EntityList_t&, IToolFramework2Host::EntityListSource_t)
 CToolService::GetGlobalLightParameters(int*, float*, float*)
-CToolService::GetInfoForEconItems(char const*, char const*, bool, bool, bool, CUtlVector<EconItemInfo_t, CUtlMemory<EconItemInfo_t, int> >&)
 CToolService::GetLoadedMapName() const
 CToolService::GetModelCombineInfo(CWeakHandle<InfoForResourceTypeCModel>, CStrongHandleCopyable<InfoForResourceTypeCModel>*, int*, CUtlVector<CStrongHandleCopyable<InfoForResourceTypeCModel>, CUtlMemory<CStrongHandleCopyable<InfoForResourceTypeCModel>, int> > const**, CUtlVector<int, CUtlMemory<int, int> > const**)
+CToolService::GetModelNameForCharacter(char const*, int, char*, int)
 CToolService::GetNavMeshData(CNavData*)
 CToolService::GetServiceDependencies()
 CToolService::GetServiceDependencies()::s_Dependencies
@@ -11874,6 +11991,7 @@ CUploadGameStats::IsGameStatsLoggingEnabled()
 CUploadGameStats::IsHDREnabled()
 CUploadGameStats::UpdateConnection()
 CUploadGameStats::UploadGameStats(char const*, unsigned int, unsigned int, void const*)
+CUploadGameStats::~CUploadGameStats()
 CUserConfigValue<CUtlString>::~CUserConfigValue()
 CUserConfigValue<bool>::~CUserConfigValue()
 CUserConfigValue<float>::~CUserConfigValue()
@@ -11945,9 +12063,9 @@ CUtlDict<vgui::IPanelAnimationPropertyConverter*, int>::~CUtlDict()
 CUtlFixedMemory<UtlLinkedListElem_t<CCommandBuffer::Command_t, long long> >::Grow(int)
 CUtlHandleTable<vgui::BuildGroup, 20>::AddHandle()
 CUtlHandleTable<vgui::BuildGroup, 20>::~CUtlHandleTable()
-CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t>::BumpEntry(unsigned int)
-CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t>::DoRealloc(int)
+CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<SaveClassReference_t, empty_t>, int> >::BumpEntry(unsigned int)
+CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<SaveClassReference_t, empty_t>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<SaveClassReference_t, empty_t>, int> >::DoRealloc(int)
 CUtlLeanVectorFixedGrowableBase<unsigned int, (unsigned short)3, short>::EnsureCapacity(int, bool)
 CUtlLeanVectorImpl<CUtlLeanVectorFixedGrowableBase<unsigned int, (unsigned short)3, short>, unsigned int, short>::AddToTailGetPtr()
 CUtlLinkedList<CClientFrame*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CClientFrame*, unsigned short>, unsigned short> >::AllocInternal(bool)
@@ -12670,6 +12788,7 @@ CUtlVectorBase<RenderSkeletonBone_t, CUtlMemory<RenderSkeletonBone_t, int> >::op
 CUtlVectorBase<RenderSkeletonBone_t, CUtlMemory<RenderSkeletonBone_t, int> >::~CUtlVectorBase()
 CUtlVectorBase<RequestContext*, CUtlMemory<RequestContext*, int> >::~CUtlVectorBase()
 CUtlVectorBase<ResourceBindingBase_t const*, CUtlMemory<ResourceBindingBase_t const*, int> >::~CUtlVectorBase()
+CUtlVectorBase<ResourceManifestDesc_t*, CUtlMemory<ResourceManifestDesc_t*, int> >::~CUtlVectorBase()
 CUtlVectorBase<SDemoInitialSpawnGroupEntry, CUtlMemory<SDemoInitialSpawnGroupEntry, int> >::~CUtlVectorBase()
 CUtlVectorBase<SerializerMatchInfo_t, CUtlMemory<SerializerMatchInfo_t, int> >::~CUtlVectorBase()
 CUtlVectorBase<ServerClass*, CUtlMemory<ServerClass*, int> >::~CUtlVectorBase()
@@ -13075,6 +13194,7 @@ ChangeMapToolEvent::SetCachedSize(int) const
 ChangeMapToolEvent::default_instance_
 ChangeMapToolEvent::~ChangeMapToolEvent()
 ChangePlaybackRate
+ChangeWorldMountNameByNetworkVersion(char const*, int)
 CharacterSetBuild(characterset_t*, char const*)
 CheckBreakOnMissingResource(char const*)
 CheckButton
@@ -13449,6 +13569,7 @@ DisarmItem
 DisconnectInterfaces()
 DisconnectTier1Libraries()
 DisconnectTier2Libraries()
+DisconnectTier2ManualManifests(ResourceManifestDesc_t**, int)
 Disconnected
 Divider
 DmeSurfaceAudioParams
@@ -13523,7 +13644,6 @@ ERROR
 ESplitScreenMessageType
 EXECUTABLE_PATH
 E\IcEX
-EclipseCVarHandler(IConVar*, char const*, float)
 EconItemToolModel_001
 EditMenu
 EditablePanel
@@ -14098,15 +14218,15 @@ HasGameUI
 HasModAppSystems
 HashString(char const*)
 HcC0H
-HcChH
 HcG0H
-HcGdH
+HcGhH
 HcGlH
 HcKLH
-HcKXH
 HcKlH
+HcKpH
 HcN01
 HcpX1
+Hcs8H
 HcsxH
 Health
 HeapCompactionService001
@@ -14291,7 +14411,6 @@ IVoiceServer
 IWorldLoadUnloadCallback
 IXboxSystem
 Ic0D9
-IcAhH
 IcE4H
 IcE8A
 IcEXA
@@ -14307,7 +14426,7 @@ IcG8M
 IcGhH9
 IcMhI9
 IcO8I
-IcUXH
+IcUpH
 IcV0H9
 IceKey::IceKey(int)
 IceKey::decrypt(unsigned char const*, unsigned char*) const
@@ -14515,7 +14634,7 @@ KeyValues::RecursiveMergeKeyValues(KeyValues*)
 KeyValues::RecursiveSaveToFile(CUtlBuffer&, int, bool)
 KeyValues::RecursiveSaveToFile(IBaseFileSystem*, void*, CUtlBuffer*, int, bool, bool)
 KeyValues::RemoveEverything()
-KeyValues::RemoveSubKey(KeyValues*)
+KeyValues::RemoveSubKey(KeyValues*, bool)
 KeyValues::SaveToFile(IBaseFileSystem*, char const*, char const*, bool)
 KeyValues::SetColor(char const*, Color)
 KeyValues::SetFloat(char const*, float)
@@ -14536,7 +14655,8 @@ KeyValues::~KeyValues()
 Kfff.
 KillFocus
 L941tE
-L95-SA
+L95CB8
+L95zr8
 LABEL_OPTIONAL
 LABEL_REPEATED
 LABEL_REQUIRED
@@ -14573,8 +14693,6 @@ LastSource
 LastTarget
 LayoutFileChanged
 Lc41H
-LccHIi
-LckhD
 LcoHM
 Lcs8M
 LeavePVS
@@ -15228,9 +15346,11 @@ RBRBRBRAp
 RBRBRBRBRBRBRBRAp
 RBRBRBRBRBRBRBRBRBRBR0
 RBRBRBRBRBRBRBRBRBRBRBRBRBp
-RBRBRBRBRBRBRBRBTAp
-RBRBRBRBRBRBRBRD
-RBRBRBRBRBRBSARBRBRBRBRBRBRAp
+RBRBRBRBRBRBRBRB\KR0
+RBRBRBRBRBRBRBRB\KRE
+RBRBRBRBRBRBRBRD\KR0
+RBRBRBRBRBRBRB\Fp
+RBRBRBRBRBRBRB\Lp
 RBRBRBRBRBRCTAp
 RBRBUARBRBRBUAUAUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBUARBSAp
 RBRCp
@@ -15247,7 +15367,7 @@ RBVBRBRBWAVAp
 RBXAp
 RCONClient()
 RCONServer()
-RD\FRCp
+RD\H\H\FRCp
 RENDER_SYSTEM_DLL_DX11
 RENDER_SYSTEM_DLL_DX9
 RENDER_SYSTEM_DLL_EMPTY
@@ -15257,7 +15377,6 @@ RENDER_SYSTEM_DLL_NONE
 RENDER_SYSTEM_DLL_VULKAN
 RENDER_SYSTEM_DLL_X360
 REPLAY
-RESBZASBRBRBRBRBTBp
 RESOURCE_TYPE_POST_PROCESSING
 RES_FATALIFMISSING
 RES_PRELOAD
@@ -15333,6 +15452,11 @@ ReleaseInstancedRegistry(IRegistry*)
 ReleaseLast
 ReleaseMessage
 ReloadLocalization
+RemapBundledModuleName(char const*)
+RemapBundledModuleName(char const*)::s_bCheckedCmd
+RemapBundledModuleName(char const*)::s_bNoTier2Bundle
+RemapBundledModuleName(char const*)::s_bNoTier3Bundle
+RemapBundledModuleName(char const*)::s_pNoBundleModule
 RemoveConVarHook()
 RemoveLast
 RenderBufferBinding_t
@@ -15397,7 +15521,6 @@ ResourceManifestDesc_t* InitManifestDesc<LoopModeRemoteConnectVr::CTemplateArg>(
 ResourceManifestDesc_t* InitManifestDesc<LoopModeRemoteConnectVr::CTemplateArg>(LoopModeRemoteConnectVr::CTemplateArg&)::s_pManifestEntries
 ResourceManifestRegistry001
 ResourceSystem009
-ResourceSystemProtectedV001
 ResourceSystemTools001
 Resource\warning.wav
 RestartMapToolEvent
@@ -15567,6 +15690,7 @@ RnTriangle_t::s_pSchemaBinding
 RnTriangle_t::s_pSchemaBindingForLocalModule
 RoundedCorners
 RunGameEngine005
+SAZASBRBRBRBRBTBp
 SBRAp
 SBTBRBRG
 SCVBRBVBRBVBRBYASAp
@@ -15584,6 +15708,8 @@ SIGNONSTATE_NEW
 SIGNONSTATE_NONE
 SIGNONSTATE_PRESPAWN
 SIGNONSTATE_SPAWN
+SOURCE2_NO_BUNDLES
+SOURCE2_USE_BUNDLES
 SPAWN_GROUP_ALLOCATED
 SPAWN_GROUP_BLOCK_UNTIL_LOADED
 SPAWN_GROUP_DONT_SPAWN_ENTITIES
@@ -15937,7 +16063,6 @@ Sleeping
 SocketErrorString(int)
 SocketWouldBlock()
 SortServerTags(char* const*, char* const*)
-SoundMixGroupSystem001
 SoundName
 SoundOpSystem001
 SoundOpSystemEdit001
@@ -16307,13 +16432,12 @@ VATBRBSAp
 VApplication001
 VAvi001
 VBAllocTracker001
-VBSARBRBRBRBRBRBRBRBRBR0
+VBSARBRBRBRBRBRBRBRBRBRB\KR0
 VBTBp
 VBaseFileSystem011
 VBik001
 VConComm001
 VCvarQuery001
-VDataCache003
 VDebug
 VDebugService_001
 VDebugStringToSimType(char const*)
@@ -16663,6 +16787,7 @@ WIN32
 WINDOWS
 WINXP
 WRITEOUT
+WatchDogHandler()
 Wfff.
 Win32UploadGameStatsBlocking(TGameStatsParameters const&)
 WindowDisabledBgColor
@@ -16680,8 +16805,10 @@ X360_DST24
 X360_DST24F
 XBRBXBRBXBRBXBRBXBRBXBRBSAp
 XboxSystemInterface001
+Xfff.
 Xffff.
 YARBp
+YAVBp
 Yfff.
 Zfffff.
 Zffffff.
@@ -16802,6 +16929,7 @@ _OSAtomicCompareAndSwap64Barrier
 _OSMemoryBarrier
 _Plat_ApproximateProcessMemoryUsage
 _Plat_AttachDebuggerToProcess
+_Plat_BeginWatchdogTimer
 _Plat_ChangeCurrentFrame
 _Plat_CheckSDL
 _Plat_CreateGameInstanceMutex
@@ -16812,6 +16940,7 @@ _Plat_DesktopNotify
 _Plat_DestroyGameInstanceMutex
 _Plat_DestroyWindow
 _Plat_DisableIOBuffering
+_Plat_EndWatchdogTimer
 _Plat_ExitProcess
 _Plat_FileExists
 _Plat_FileSize
@@ -16866,6 +16995,7 @@ _Plat_SetActiveWindow
 _Plat_SetCurrentFrame
 _Plat_SetDefaultMonitorIndex
 _Plat_SetFullscreenMinimizeOnFocusLoss
+_Plat_SetWatchdogHandlerFunction
 _Plat_SetWindowIcon
 _Plat_SetWindowPos
 _Plat_SetWindowTitle
@@ -16907,6 +17037,7 @@ _SteamAPI_Shutdown
 _SteamAPI_UnregisterCallResult
 _SteamAPI_UnregisterCallback
 _SteamAPI_UseBreakpadCrashHandler
+_SteamAPI_WriteMiniDump
 _SteamClient
 _SteamGameServer_GetHSteamPipe
 _SteamGameServer_GetHSteamUser
@@ -17058,7 +17189,6 @@ __GLOBAL__sub_I_fieldpath.cpp
 __GLOBAL__sub_I_fileopendialog.cpp
 __GLOBAL__sub_I_gameeventsystem_cpp_schema.gen_cpp
 __GLOBAL__sub_I_gameresourceservice.cpp
-__GLOBAL__sub_I_gametrace.cpp
 __GLOBAL__sub_I_gameuifuncs.cpp
 __GLOBAL__sub_I_gameuiservice.cpp
 __GLOBAL__sub_I_graphpanel.cpp
@@ -17291,7 +17421,6 @@ ___cxx_global_var_init139
 ___cxx_global_var_init14
 ___cxx_global_var_init140
 ___cxx_global_var_init141
-___cxx_global_var_init142
 ___cxx_global_var_init144
 ___cxx_global_var_init145
 ___cxx_global_var_init146
@@ -17370,7 +17499,6 @@ ___cxx_global_var_init273
 ___cxx_global_var_init3
 ___cxx_global_var_init30
 ___cxx_global_var_init31
-___cxx_global_var_init313
 ___cxx_global_var_init314
 ___cxx_global_var_init315
 ___cxx_global_var_init316
@@ -17379,6 +17507,7 @@ ___cxx_global_var_init318
 ___cxx_global_var_init319
 ___cxx_global_var_init32
 ___cxx_global_var_init320
+___cxx_global_var_init321
 ___cxx_global_var_init33
 ___cxx_global_var_init34
 ___cxx_global_var_init35
@@ -17523,7 +17652,6 @@ _access_virt_sarray
 _acos
 _add_huff_table
 _addons
-_addons_eclipse_content
 _alloc_barray
 _alloc_large
 _alloc_sarray
@@ -17798,7 +17926,6 @@ _g_pClientDemoRecorder
 _g_pClientInstantReplay
 _g_pClientSidePrediction
 _g_pConfigurationSystem
-_g_pDataCache
 _g_pDedicatedConsole
 _g_pDmeMakefileUtils
 _g_pDotaCardGameClient
@@ -17888,7 +18015,6 @@ _g_pScriptManager
 _g_pServerGameDirector
 _g_pSharedChangeInfo
 _g_pSinglePlayerSharedMemoryManager
-_g_pSoundMixGroupSystem
 _g_pSoundOpSystem
 _g_pSoundOpSystemEdit
 _g_pSoundService
@@ -17946,6 +18072,7 @@ _g_unSteamDedicatedServerAppID
 _gameui_xbox
 _getenv
 _gethostbyname
+_getpid
 _getpwuid
 _getrlimit
 _getuid
@@ -18063,6 +18190,7 @@ _kCFProxyTypeKey
 _kCFProxyTypeNone
 _kCFProxyUsernameKey
 _kLastSnapshotTag
+_kill
 _lasterrorU
 _ldexp
 _listen
@@ -18358,7 +18486,6 @@ addonroot
 addons
 addons(CCommandContext const&, CCommand const&)
 addons_command
-addons_eclipse_content
 address
 adler32(unsigned long, unsigned char const*, unsigned int)
 aggregate_value
@@ -18532,6 +18659,7 @@ buildnum.cpp
 built_from_cl
 built_from_cl.txt
 bulletimpact
+bundled_module_info.cpp
 button
 button.cpp
 bytes
@@ -18681,6 +18809,7 @@ clientportany
 clients
 clientsideentity
 climbable
+clip_after_transform
 clockdriftmgr.cpp
 closecaption
 cmd(CCommandContext const&, CCommand const&)
@@ -19091,6 +19220,7 @@ eQueryCvarValueStatus_NotACvar
 editable
 editablepanel.cpp
 effect
+efx
 ehandle
 elasticity
 element
@@ -19278,7 +19408,6 @@ g_ContinuousProgressBar_Helper
 g_CriticalFileList
 g_CvarQuery
 g_CvarToggleCheckButton_Helper
-g_DefaultHitbox
 g_DemoActionManager
 g_Divider_Helper
 g_DragDropCapture
@@ -19338,6 +19467,7 @@ g_flLastConsistencyCheckTime
 g_listdemo_CompletionFunc(char const*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
 g_listdemo_CompletionFunc(char const*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)::listdemoComplete
 g_nSpewLines
+g_pDefaultHitbox
 g_pDefaultSurfaceprop
 g_pInterfaceGlobals
 g_pLoadingProgressDescriptions
@@ -19801,6 +19931,7 @@ imagecolor
 imageformat.cpp
 imagelist.cpp
 imagepanel.cpp
+imemanager
 impact
 impactHardThreshold
 impacthard
@@ -20922,6 +21053,7 @@ particle_size_variance
 particle_system
 particle_velocity_max
 particle_velocity_min
+particles
 particles_per_second
 particles_per_second_variance
 passes
@@ -21010,8 +21142,8 @@ quit(CCommandContext const&, CCommand const&)
 quit_command
 r1ff.
 r2ffff.
-r4ff.
 r6ffffff.
+r7fffff.
 r9fff.
 rBff.
 rCffff.
@@ -21117,6 +21249,7 @@ removeip
 removeip(CCommandContext const&, CCommand const&)
 removeip_command
 render_target
+renderingpipelines
 renderingworld.cpp
 rendermesh.cpp
 rendermesh_h_schema.gen_cpp
@@ -21157,6 +21290,7 @@ resource_type
 resourcedictionary.cpp
 resourcehandle
 resourcestream.cpp
+resourcesystem
 resourefiles
 restart
 restart(CCommandContext const&, CCommand const&)
@@ -21292,6 +21426,7 @@ s_nLastSortColumn
 s_nManifestCount
 s_nRandSIMDSeed
 s_nRegistrationCount
+s_nResourceFCRegisteredCount
 s_pAppSystemDict
 s_pConfigRegistry
 s_pConnectionRegistration
@@ -21304,9 +21439,10 @@ s_pFirst
 s_pInputValueRegistry
 s_pPauseGroupName
 s_pRenderDeviceSetup
-s_pResourceSystemProtected
 s_pSortFunc
 s_pSplitScreenLayouts
+s_pTier2BundleModules
+s_pTier3BundleModules
 s_pfnDelegateFactory
 s_pszPasswordMessage
 s_pszRebuildStringTableNames
@@ -21931,7 +22067,6 @@ t3ff.
 t3ffff.
 t3fffff.
 t3ffffff.
-t4L9x
 t4fff.
 t4fffff.
 t5IcM
@@ -21996,11 +22131,13 @@ tfffff.
 tgawriter.cpp
 they_hear_you
 thickness
-tiLc5
+tiLc5\
 tick_interval
 tier1.cpp
 tier2.cpp
+tier2_bundle
 tier2_logging.cpp
+tier3_bundle
 tileHorizontally
 tileImage
 tileVertically
@@ -25053,7 +25190,7 @@ unpause
 unpaused
 unreserved
 unsigned
-unsigned int CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t>::DoInsert<SaveClassReference_t const&>(SaveClassReference_t const&, empty_t const&, unsigned int, bool*)
+unsigned int CUtlHashtable<SaveClassReference_t, empty_t, SaveClassReferenceHashFunc_t, DefaultEqualFunctor<SaveClassReference_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<SaveClassReference_t, empty_t>, int> >::DoInsert<SaveClassReference_t const&>(SaveClassReference_t const&, empty_t const&, unsigned int, bool*)
 unsigned int std::__1::regex_traits<char>::__lookup_classname<std::__1::__wrap_iter<char const*> >(std::__1::__wrap_iter<char const*>, std::__1::__wrap_iter<char const*>, bool, char) const
 unsigned short-fff.
 unused
@@ -28930,6 +29067,41 @@ vtable for CTextOnlyLoggingListener
 vtable for CTextShadowData
 vtable for CTextureIdProperty
 vtable for CTier1Application
+vtable for CTier2AppSystem<IBenchmarkService, 0>
+vtable for CTier2AppSystem<IBlackBox, 0>
+vtable for CTier2AppSystem<IEngineService, 0>
+vtable for CTier2AppSystem<IEngineServiceMgr, 0>
+vtable for CTier2AppSystem<IEngineVGuiInternal, 0>
+vtable for CTier2AppSystem<IGameEventSystem, 0>
+vtable for CTier2AppSystem<IGameResourceService, 0>
+vtable for CTier2AppSystem<IGameUIFuncs, 0>
+vtable for CTier2AppSystem<IGameUIService, 0>
+vtable for CTier2AppSystem<IHostStateMgr, 0>
+vtable for CTier2AppSystem<IInputService, 0>
+vtable for CTier2AppSystem<IKeyValueCache, 0>
+vtable for CTier2AppSystem<IMapListService, 0>
+vtable for CTier2AppSystem<INetworkClientService, 0>
+vtable for CTier2AppSystem<INetworkP2PService, 0>
+vtable for CTier2AppSystem<INetworkServerService, 0>
+vtable for CTier2AppSystem<INetworkService, 0>
+vtable for CTier2AppSystem<INetworkStringTableContainer, 0>
+vtable for CTier2AppSystem<IRenderService, 0>
+vtable for CTier2AppSystem<ISoundService, 0>
+vtable for CTier2AppSystem<ISplitScreenService, 0>
+vtable for CTier2AppSystem<IStatsService, 0>
+vtable for CTier2AppSystem<ITextMessageMgr, 0>
+vtable for CTier2AppSystem<IToolGameSimulationDispatcher, 0>
+vtable for CTier2AppSystem<IToolGameSimulationSystem, 0>
+vtable for CTier2AppSystem<IToolService, 0>
+vtable for CTier2AppSystem<IUploadGameStats, 0>
+vtable for CTier2AppSystem<IUserInfoChangeService, 0>
+vtable for CTier2AppSystem<IVDebugService, 0>
+vtable for CTier2AppSystem<IVEfx, 0>
+vtable for CTier2AppSystem<IVEngineClient2, 0>
+vtable for CTier2AppSystem<IVEngineServer2, 0>
+vtable for CTier2AppSystem<IVProfExport, 0>
+vtable for CTier2AppSystem<IVoiceServer, 0>
+vtable for CTier2AppSystem<IXboxSystem, 0>
 vtable for CTier2AppSystemDict
 vtable for CTier2Application
 vtable for CTier3AppSystem<IToolGameSimulationDispatcher, 0>

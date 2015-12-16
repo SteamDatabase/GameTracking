@@ -49,7 +49,6 @@
 .TitleBar
 {
     width: 100%;
-	flow-children: right;
 	background-color: gradient( linear, 0% 0%, 100% 50%, from( #2b2e2fee ), to( #2b2e2f ) );
 }
 
@@ -57,8 +56,22 @@
 {
     font-size: 32px;
     font-weight: bold;
-	color: white;
+	color: white;            
+    width: 525px;
 	vertical-align: center;
+}
+ 
+.TitleContainer
+{
+    flow-children: right;
+    width: 100%;
+    height: fit-children;
+	vertical-align: center;
+}
+
+.TitleSpacer
+{
+    width: fill-parent-flow(1.0);
 }
 
 /* Related to displaying brand logo */
@@ -71,7 +84,7 @@
     visibility: collapse;
 }
 
-.Root.HasBrand .BrandPanel
+.SubpageRoot.HasBrand .BrandPanel
 {
     visibility: visible;
 }
@@ -79,14 +92,30 @@
 /* Used to display the brand logo and name */
 #EconBrandIcon
 {
+    width: 76px; //height-percentage( 100% ) we should be using height-percentage here, but a but prevents it
     height: 100%;
-	horizontal-align: right;
+    margin: 16px;
+    margin-right: 28px;
+    vertical-align: center;
 }
 
 .EconBrandName
 {
     vertical-align: bottom;
+}
+
+/* Close button */
+.SubpageRoot .CloseButton
+{
+	vertical-align: top;
 	horizontal-align: right;
+	background-color: #000000bb;
+	transition-property: background-color;
+}
+
+.SubpageRoot .CloseButton:hover
+{
+	background-color: #000000;
 }
 
 /* Color stripe between the econ item name title and the banner details */
@@ -104,7 +133,13 @@
 	border-top: 1px solid black;
 	border-bottom: 1px solid black;
 	width: 100%;
-	min-height: 57px;
+	height: 90px;
+}
+
+#ItemHeader #HeroIcon
+{
+	width: height-percentage( 177.77% );
+	height: 100%;
 }
 
 #BannerText
@@ -112,7 +147,7 @@
 	margin-left: 16px;
 	margin-top: 6px;
     flow-children: down;
-    width: 100%;
+    width: fill-parent-flow( 1.0 );
 }
 
 /* Contains information about the current sub item/set selected */
@@ -126,12 +161,105 @@
     visibility: visible;
 }
 
+/* Shows the associated league information */
+.LeagueInfo 
+{
+    width: 300px;
+    flow-children: down;
+    visibility: collapse;
+}
+
+.SubpageRoot.HasLeague .LeagueInfo 
+{
+    visibility: visible;
+}
+
+.LeagueName
+{
+    color: white;
+    font-size: 18px;
+    horizontal-align: center;
+}
+
+.PrizePoolContainer 
+{
+    horizontal-align: center;
+    flow-children: right;
+}
+
+.PrizePool
+{
+    color: #987E2D;
+    vertical-align: center;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin-right: 4px;
+}
+
+.PrizePoolAmount
+{
+    color: #EEC021;
+    vertical-align: center;
+    font-size: 22px;
+    text-transform: uppercase;
+}
+
+.PrizePoolContribContainer 
+{
+    horizontal-align: center;
+    flow-children: right;
+}
+
+.PrizePoolContribImage
+{
+    margin-bottom: 3px;
+    margin-right: 6px;
+    vertical-align: center;
+}
+
+.PrizePoolContrib 
+{
+    color: white;
+    vertical-align: center;
+    font-size: 14px;
+    width: 250px;
+}
+               
+#EconBrandBanner
+{
+    width: 100%;
+    visibility: collapse;
+}
+
+.SubpageRoot.HasBrandBanner #EconBrandBanner
+{
+    visibility: visible;
+}
+
+/* Section List formatting */
+.SectionList
+{
+    width: 100%;
+    height: fill-parent-flow( 1.0 );
+    flow-children: down;
+    overflow: squish scroll;
+}
+
+.SectionListFooter
+{
+    margin-top: 8px;
+}
+
 /* Generic section formatting */
 .Section
 {
-    margin: 6px;
+    width: 100%;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-top: 8px;
 	background-color: #141415;
 	border-top: 1px solid #222222;
+    flow-children: down;
 }
 
 .SectionTitle 
@@ -144,7 +272,40 @@
 .SectionTitle Label
 {
     text-transform: uppercase;
-	color: aqua;
+	color: #99ffff;
+}
+
+/* Used to display the description */
+.Description
+{
+    height: fit-children;
+    visibility: collapse;
+}
+
+.SubpageRoot.HasDescription .Description
+{
+    visibility: visible;
+}
+
+.Description Label
+{
+    width: 100%;
+    margin: 6px;
+	color: #99ffff;
+    overflow: clip scroll;
+}
+
+/* Used to display custom controls defined on the website */
+#CustomControls
+{
+    width: 100%;
+    height: fit-children;
+    visibility: collapse;
+}
+
+#CustomControls.HasCustomControls
+{
+    visibility: visible;
 }
 
 /* Used to display all sub pieces of the current item so you can select one to view */
@@ -162,42 +323,10 @@
 }
 
 /* Scroll controls to select 3d previews */
-.ScrollControls 
+#StoreScrollControls 
 {
-	flow-children: right;
 	horizontal-align: right;
-	
 	margin-bottom: 5px;
-	//overflow: noclip;
-}
-
-.ScrollControls:disabled
-{
-	visibility: collapse;
-}
-
-#StoreListCount 
-{
-	flow-children: right;
-	vertical-align: center;
-	margin-right: 5px;
-}
-
-#StoreListCount.LargeItemCount
-{
-    visibility: collapse;
-}
-
-#StoreListCountText
-{
-    visibility: collapse;
-	text-align: right;
-	margin-right: 10px;
-}
-
-#StoreListCountText.LargeItemCount
-{
-    visibility: visible;
 }
 
 /* Styles related to the 3D previews */
@@ -242,90 +371,154 @@
     width: 100%;
 }
 
-/* Used to display all asset modifiers associated with the curren item */
-#Modifiers
+/* Bundles/treasures in which this is contained */
+.ContainedWithin
+{
+    visibility: collapse;
+}
+
+.SubpageRoot.IsContained .ContainedWithin
+{
+    visibility: visible;
+}
+
+.BundleGroup
+{
+    width: 100%;
+    flow-children: right;
+}
+
+#BundleIconList
+{
+    width: fit-children;
+    height: fit-children;
+    flow-children: right;
+    overflow: scroll squish;
+}
+
+.BundleName
+{
+    font-size: 32px;
+    font-weight: bold;
+	color: white;            
+	vertical-align: center;
+    visibility: collapse;
+}
+ 
+.SubpageRoot.InSingleContainer .BundleName
+{
+    visibility: visible;
+}
+
+.SubItemsAndAbilities
+{
+    width: 100%;
+    flow-children: right;
+}
+
+/* Items In set */
+.IndividualItems
+{
+    visibility: collapse;
+}
+
+.SubpageRoot.HasIndividualItems .IndividualItems
+{
+    visibility: visible;
+}
+
+.SubItemsAndAbilities .Section
+{
+    width: fill-parent-flow(1.0);
+}
+
+#ItemIconList
+{
+    flow-children: right;
+    vertical-align: center;
+	margin-left: 6px;
+    margin-bottom: 6px;
+}
+
+#ItemIconList DOTAEconItem
+{
+    margin-right: 10px;
+	margin-top: 2px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+
+    width: 50px;
+    height: 52px;
+    /* border: 1px solid black; */
+
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
+    tooltip-position: bottom;
+}
+
+/* Ability icons */
+.AbilityIcons
+{
+    visibility: collapse;
+}
+
+.SubpageRoot.HasAbilityIcons .AbilityIcons
+{
+    visibility: visible;
+}
+
+.SubpageRoot.HasAbilityIcons.HasIndividualItems .AbilityIcons
+{
+    margin-left: 0px;
+}
+
+#AbilityIconList
+{
+    flow-children: right;
+    vertical-align: center;
+	margin-left: 6px;
+    margin-bottom: 6px;
+}
+
+DOTAAbilityImage
+{
+    margin-right: 10px;
+	margin-top: 2px;
+    width: 50px;
+    height: 52px;
+    /* border: 1px solid black; */
+
+    saturation: 0;
+
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
+    tooltip-position: bottom;
+}
+
+DOTAAbilityImage.HasModifiedAbilityIcon
+{
+    saturation: 1;
+}
+
+/* Used to display all asset modifiers associated with the current item */
+.Details #Modifiers
 {
 	width: 100%;
-	margin-left: 16px;
-	margin-right: 16px;
+	margin-left: 8px;
+	margin-right: 8px;
 	flow-children: down;
 }
 
-.ListContainer
+.Details .ListedModifier
 {
-	flow-children: right-wrap;
-	width: 100%;
-}
-
-.ListedModifier
-{
-	width: 45%;
+	width: 180px;
 	flow-children: right;
 	margin-left: 6px;
 	margin-top: 3px;
 	margin-bottom: 3px;
-}
-
-.ListedModifier Label
-{
-	font-size: 16px;
-	font-weight: thin;
-	vertical-align: middle;
-	margin-left: 8px;
-}
-
-.ModifierIcon
-{
-	width: 24px;
-	height: 24px;
-	background-image: url("s2r://panorama/images/status_icons/modifier_animation_psd.vtex");
-	background-repeat: no-repeat;
-	background-position: center 50% 50%;
-	background-size: 24px 24px;
-}
-
-#ModifierIcon_Icons
-{
-	background-image: url("s2r://panorama/images/status_icons/modifier_icons_psd.vtex");
-}
-
-#ModifierIcon_SpellEffects
-{
-	background-image: url("s2r://panorama/images/status_icons/modifier_spelleffects_psd.vtex");
-}
-
-#ModifierIcon_AmbientEffects
-{
-	background-image: url("s2r://panorama/images/status_icons/modifier_ambienteffects_psd.vtex");
-}
-
-#ModifierIcon_Voice
-{
-	background-image: url("s2r://panorama/images/status_icons/modifier_voice_psd.vtex");
-}
-
-#ModifierIcon_Animation
-{
-	background-image: url("s2r://panorama/images/status_icons/modifier_animation_psd.vtex");
-}
-
-.SectionTitleBar
-{
-	width: fill-parent-flow( 1.0 );
-	background-color: #555757;
-	vertical-align: middle;
-	margin-left: 6px;
-	height: 1px;
-}
-
-.EconTooltipSectionTitle
-{
-	flow-children: right;
-}
-
-.EconTooltipSectionTitle Label
-{
-	color: white;
+    overflow: clip scroll;
 }
 
 /* Footer at the bottom */
@@ -347,7 +540,7 @@
     vertical-align: center;
 }
 
- .FooterButton
+.FooterButton
 {
 	vertical-align: middle;
 	horizontal-align: center;
@@ -358,5 +551,35 @@
 
 .FooterButton Label
 {
-	font-size: 24px;
+	font-size: 22px;
+}
+
+.LoadoutButton 
+{
+    visibility: collapse;
+}
+
+.ButtonBevel.LoadoutButton
+{
+    padding-top: 3px;
+    padding-bottom: 2px;
+    min-height: 0px;
+}
+
+.SubpageRoot.EnableLoadoutButton .LoadoutButton
+{
+    visibility: visible;
+}
+
+.Spacer
+{
+	min-width: 300px;
+    margin-right: 24px;
+    margin-left: 24px;
+    visibility: visible;
+}
+
+.SubpageRoot.EnableLoadoutButton .Spacer
+{
+    visibility: collapse;
 }

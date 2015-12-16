@@ -47,21 +47,18 @@ function EnablePendulum( triggerName, heroHandle )
 		DoEntFire( triggerName .. "_shake", "StartShake", "", 0, self, self )
 		DoEntFire( pendulumTrigger, "Enable", "", 4, self, self )
 		DoEntFire( pendulumTrigger, "Disable", "", 9, self, self )
-
+		DoEntFire( triggerName .. "_shake", "StopShake", "", 16, self, self )
+		DoEntFire( triggerName .. "_debris", "Stop", "", 16, self, self )
 		local trapName = triggerName .. "_npc"
 		local npc = Entities:FindByName( nil, trapName )
 		npc.KillerToCredit = triggerHeroList[1]
-		npc:SetContextThink( "DisableTrap", function() return DisablePendulum( triggerName, heroHandle ) end, 16.67 )
+		npc:SetContextThink( "DisableTrap", function() return DisablePendulum( triggerName, heroHandle ) end, 60 )
 	end
 	return -1
 end
 
 function DisablePendulum( triggerName, heroHandle )
 	--print( "Disabling Pendulum" )
-	local pendulumTrigger = triggerName .. "_trigger"
-	DoEntFire( triggerName .. "_shake", "StopShake", "", 0, self, self )
-	DoEntFire( triggerName .. "_debris", "Stop", "", 0, self, self )
-	--DoEntFire( pendulumTrigger, "Disable", "", 0, self, self )
 	isPendulumReady = true
 	if triggerCounter > 0 then
 		--print("Reactivate the trap")

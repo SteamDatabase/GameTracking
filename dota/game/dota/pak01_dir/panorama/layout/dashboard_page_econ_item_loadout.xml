@@ -8,9 +8,14 @@
 		<Panel id="HeroOptionsTabs">
 			<RadioButton class="HeroOptionsTab" group="HeroOptionsTab" selected="true" text="#DOTA_HeroLoadout_Loadout" onactivate="DOTAShowHeroPageTab( HeroOptionsTabSets )" />
 			<Label class="HeroOptionsTabSeparator" text="/" />
-			<RadioButton class="HeroOptionsTab" group="HeroOptionsTab" text="#DOTA_HeroLoadout_About" onactivate="DOTAShowHeroPageTab( HeroOptionsTabAbout )" />
+			<Panel class="HeroOptionsTabWithViolatorContainer">
+				<DOTAViolator id="HeroStatsViolator" name="per_hero_stats_violator">
+					<Label text="#DOTA_ViolatorNew" />
+				</DOTAViolator>
+				<RadioButton class="HeroOptionsTab" id="HeroOptionButtonStats" group="HeroOptionsTab" text="#DOTA_HeroLoadout_Stats" onactivate="DOTAShowHeroPageTab( HeroOptionsTabStats ); DOTAAcknowledgeViolator( per_hero_stats_violator )" />
+			</Panel>
 			<Label class="HeroOptionsTabSeparator" text="/" />
-			<RadioButton class="HeroOptionsTab" group="HeroOptionsTab" disabled="true" text="#DOTA_HeroLoadout_Guides" onactivate="DOTAShowHeroPageTab( HeroOptionsTabGuides )" />
+			<RadioButton class="HeroOptionsTab" group="HeroOptionsTab" text="#DOTA_HeroLoadout_About" onactivate="DOTAShowHeroPageTab( HeroOptionsTabAbout )" />
 		</Panel>
     <Panel id="GlobalItemShuffleGroup">
       <Panel class="ShuffleContainer" >
@@ -49,14 +54,7 @@
 							<Panel class="HeroSetOwned" >
 								<Panel class="HeroSetOwnedHeader">
 									<Label class="HeroSetCategoryTitle" text="#DOTA_OwnedItemSet_Selector_Title" />
-									<Panel id="OwnedScrollControls" class="ScrollControls" >
-										<Panel id="OwnedListCount">
-											<!-- filled in dynamically -->
-										</Panel>
-                    <Label id="OwnedListCountText" text="#DOTA_ItemSet_Count_text" acceptsfocus="true" selectionpos="auto" />
-                    <Panel id="OwnedPrevious" class="PaginationArrow Left" onactivate="DOTAScrollEconItemSet( true, false )" />
-										<Panel id="OwnedNext" class="PaginationArrow Right" onactivate="DOTAScrollEconItemSet( true, true )" />
-									</Panel>
+									<CarouselNav id="OwnedScrollControls" class="ScrollControls" carouselid="OwnedSetList" maxpips="20" />
 								</Panel>
 								<DOTAHeroSetList class="HeroSetList Owned" id="OwnedSetList" panels-visible="3">
 									<!-- filled in dynamically -->
@@ -67,14 +65,7 @@
 					<Panel class="HeroSetCategory Available" >
 						<Panel class="HeroSetCategoryHeader" >
 							<Label class="HeroSetCategoryTitle" text="#DOTA_OwnedItemSet_Available_Title" />
-							<Panel id="AvailableScrollControls" class="ScrollControls" >
-								<Panel id="AvailableListCount">
-									<!-- filled in dynamically -->
-								</Panel>
-                <Label id="AvailableListCountText" text="#DOTA_ItemSet_Count_text" acceptsfocus="true" selectionpos="auto" />
-                <Panel id="AvailablePrevious" class="PaginationArrow Left" onactivate="DOTAScrollEconItemSet( false, false )" />
-								<Panel id="AvailableNext" class="PaginationArrow Right" onactivate="DOTAScrollEconItemSet( false, true )" />
-							</Panel>
+							<CarouselNav id="AvailableScrollControls" class="ScrollControls" carouselid="AvailableSetList" maxpips="20" />
 						</Panel>
 						<DOTAHeroSetList class="HeroSetList Available" id="AvailableSetList" panels-visible="3">
 							<!-- filled in dynamically -->
@@ -83,11 +74,6 @@
 				</Panel>
 
 				<Panel id="HeroOptionsTabAbout" class="HeroOptionsTabContent">
-
-					<Panel class="HeroStats">
-						<!-- todo -->
-					</Panel>
-
 					<Panel class="HeroDescription">
 						<Label id="HeroOverview" class="HeroDescriptionText" text="{s:hero_hype}" />
 						<Label class="HeroDescriptionHeader" text="#DOTA_HeroLoadout_Roles" />
@@ -99,6 +85,8 @@
 						<Label id="HeroLore" class="HeroDescriptionText" />
 					</Panel>
 				</Panel>
+
+				<DOTALoadoutHeroStats id="HeroOptionsTabStats" class="HeroOptionsTabContent" />
 
 				<Panel id="HeroOptionsTabGuides" class="HeroOptionsTabContent">
 					<Label text="" />

@@ -1,3 +1,4 @@
+ AssertMsg_ConditionFailed
  B AABB_t::s_pSchemaBinding
  B CGlobalConfigValueRegistry::sm_bRegistered
  B CPostConnectCallback::s_nInstallOrder
@@ -139,7 +140,6 @@
  B g_pCVar
  B g_pClientSidePrediction
  B g_pConfigurationSystem
- B g_pDataCache
  B g_pDmeMakefileUtils
  B g_pDotaCardGameClient
  B g_pEconItemToolModel
@@ -210,7 +210,6 @@
  B g_pSchemaTestExternal_One
  B g_pSchemaTestExternal_Two
  B g_pScriptManager
- B g_pSoundMixGroupSystem
  B g_pSoundOpSystem
  B g_pSoundOpSystemEdit
  B g_pSoundService
@@ -865,7 +864,6 @@
  D typeinfo for IResourceHandleUtils
  D typeinfo for IResourceManifestRegistry
  D typeinfo for IResourceSystem
- D typeinfo for IResourceSystemProtected
  D typeinfo for IResourceSystemSingleThreaded
  D typeinfo for IResourceSystemTools
  D typeinfo for IResourceSystemUtils
@@ -1101,6 +1099,7 @@
  D vtable for CSchemaRegistration_mathlib_extended
  D vtable for CSchemaRegistration_resourcefile
  D vtable for CSchemaRegistration_resourcesystem
+ D vtable for CTier2AppSystem<IResourceSystem, 0>
  D vtable for CUtlCStringConversion
  D vtable for CUtlCharConversion
  D vtable for CVConResourceProfileCommandHandler
@@ -1393,7 +1392,6 @@
  R typeinfo name for IResourceHandleUtils
  R typeinfo name for IResourceManifestRegistry
  R typeinfo name for IResourceSystem
- R typeinfo name for IResourceSystemProtected
  R typeinfo name for IResourceSystemSingleThreaded
  R typeinfo name for IResourceSystemTools
  R typeinfo name for IResourceSystemUtils
@@ -1767,8 +1765,10 @@
  T CAtomicManipulator<float __vector(4)>::GetAlignOf()
  T CAtomicManipulator<float __vector(4)>::GetSizeOf()
  T CBaseAppSystem<IResourceSystem>::GetBuildType()
+ T CBaseAppSystem<IResourceSystem>::GetDependencies()
  T CBaseAppSystem<IResourceSystem>::IsSingleton()
  T CBaseAppSystem<IResourceSystem>::PreShutdown()
+ T CBaseAppSystem<IResourceSystem>::QueryInterface(char const*)
  T CBaseFile::ReadLines(CUtlStringList&, int)
  T CBaseFileResourceDataProvider::BlockingLoadResourceFileData(char const*, IRD_BlockingLoadResourceFileDataUtils*)
  T CBaseFileResourceDataProvider::DeallocateResource(void*, IResourceDeallocatorUtils*)
@@ -1810,6 +1810,7 @@
  T CLoggingMetaTextN<2048>::CLoggingMetaTextN(char const*, char const*, ...)
  T CManifestRegistrar::RegisterAll()
  T CManifestRegistrar::UnregisterAll()
+ T CManifestRegistrar::UnregisterManifests(ResourceManifestDesc_t**, int)
  T CMemberFunctor1<CResourceSystem*, void (CResourceSystem::*)(IAsyncResourceDataRequest*), CAsyncResourceDataRequest*, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>::operator()()
  T CMemberFunctor1<CResourceSystem*, void (CResourceSystem::*)(IAsyncResourceDataRequest*), CAsyncResourceDataRequest*, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>::~CMemberFunctor1()
  T CMemberFunctor3<CResourceSystem*, void (CResourceSystem::*)(IAsyncFileRequest*, CResourceManifest*, CAsyncCallStackTracker*), IAsyncFileRequest*, CResourceManifest*, CAsyncCallStackTracker*, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>::operator()()
@@ -1952,6 +1953,8 @@
  T CResourceSystem::GetDependencies()
  T CResourceSystem::GetErrorResource(unsigned long long)
  T CResourceSystem::GetGroupManifestResources(char const*, CUtlVector<char const*, CUtlMemory<char const*, int> >&)
+ T CResourceSystem::GetJustInTimeManifestCount()
+ T CResourceSystem::GetJustInTimeManifestResources(CUtlVector<ResourceBindingBase_t const*, CUtlMemory<ResourceBindingBase_t const*, int> >&)
  T CResourceSystem::GetLoadingManifestForResource(ResourceBindingBase_t const*)
  T CResourceSystem::GetManifestLoadedCount(HResourceManifest__*)
  T CResourceSystem::GetManifestToStartLoading(CResourceSystem::PendingResourceManifest_t*, bool*)
@@ -3272,7 +3275,9 @@
  T CTier2AppSystem<IResourceSystem, 0>::Connect(void* (*)(char const*, int*))
  T CTier2AppSystem<IResourceSystem, 0>::Disconnect()
  T CTier2AppSystem<IResourceSystem, 0>::GetTier()
+ T CTier2AppSystem<IResourceSystem, 0>::Init()
  T CTier2AppSystem<IResourceSystem, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+ T CTier2AppSystem<IResourceSystem, 0>::Shutdown()
  T CUtlBlockMemory<ResourceBindingBase_t const*, int>::ChangeSize(int)
  T CUtlBuffer::AddNullTermination()
  T CUtlBuffer::CUtlBuffer(int, int, int)
@@ -3287,10 +3292,10 @@
  T CUtlBuffer::VaPrintf(char const*, __va_list_tag*)
  T CUtlCStringConversion::FindConversion(char const*, int*)
  T CUtlCharConversion::FindConversion(char const*, int*)
- T CUtlHashtable<ResourceBindingBase_t const*, empty_t, DefaultHashFunctor<ResourceBindingBase_t const*>, DefaultEqualFunctor<ResourceBindingBase_t const*>, undefined_t>::BumpEntry(unsigned int)
- T CUtlHashtable<ResourceBindingBase_t const*, empty_t, DefaultHashFunctor<ResourceBindingBase_t const*>, DefaultEqualFunctor<ResourceBindingBase_t const*>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
- T CUtlHashtable<ResourceBindingBase_t const*, empty_t, DefaultHashFunctor<ResourceBindingBase_t const*>, DefaultEqualFunctor<ResourceBindingBase_t const*>, undefined_t>::DoRealloc(int)
- T CUtlHashtable<ResourceBindingBase_t const*, empty_t, DefaultHashFunctor<ResourceBindingBase_t const*>, DefaultEqualFunctor<ResourceBindingBase_t const*>, undefined_t>::Insert(ResourceBindingBase_t const*)
+ T CUtlHashtable<ResourceBindingBase_t const*, empty_t, DefaultHashFunctor<ResourceBindingBase_t const*>, DefaultEqualFunctor<ResourceBindingBase_t const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<ResourceBindingBase_t const*, empty_t>, int> >::BumpEntry(unsigned int)
+ T CUtlHashtable<ResourceBindingBase_t const*, empty_t, DefaultHashFunctor<ResourceBindingBase_t const*>, DefaultEqualFunctor<ResourceBindingBase_t const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<ResourceBindingBase_t const*, empty_t>, int> >::DoInsertUnconstructed(unsigned int, bool)
+ T CUtlHashtable<ResourceBindingBase_t const*, empty_t, DefaultHashFunctor<ResourceBindingBase_t const*>, DefaultEqualFunctor<ResourceBindingBase_t const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<ResourceBindingBase_t const*, empty_t>, int> >::DoRealloc(int)
+ T CUtlHashtable<ResourceBindingBase_t const*, empty_t, DefaultHashFunctor<ResourceBindingBase_t const*>, DefaultEqualFunctor<ResourceBindingBase_t const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<ResourceBindingBase_t const*, empty_t>, int> >::Insert(ResourceBindingBase_t const*)
  T CUtlLinkedList<CResourceManifest*, unsigned short, false, unsigned short, CUtlMemory<UtlLinkedListElem_t<CResourceManifest*, unsigned short>, unsigned short> >::AllocInternal(bool)
  T CUtlMemory<CResourceManifest*, int>::Grow(int)
  T CUtlMemory<CResourceManifest::DependentResource_t, int>::Grow(int)
@@ -3470,6 +3475,7 @@
  T DisconnectInterfaces()
  T DisconnectTier1Libraries()
  T DisconnectTier2Libraries()
+ T DisconnectTier2ManualManifests(ResourceManifestDesc_t**, int)
  T FeFitMatrix_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)
  T FeNodeBase_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)
  T FeSimdFitMatrices_t::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)
@@ -3688,6 +3694,7 @@
  b CRMSG_Resource_ExtReference::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b CRMSG_Resource_NewId::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b CRMSG_System_Event::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
+ b CResourceSystem::BlockingLoadResourceByNameIntoJustInTimeManifest(char const*, unsigned long long, char const*)::_assertionStatics
  b CResourceSystem::FrameUpdateForTypeManager(CResourceSystem::ResourceTypeRegistration_t&, int)::s_nTypeManUpdate
  b CResourceSystem::GetActualFileName(ResourceBindingBase_t const*, char*, int)::s_bHACK_VPCF2_Test
  b CResourceSystem::ResourceReferenceLeakTracking_ReportReferences(ResourceBindingBase_t const*)::bShowResourceLeakTrackingMessageOnce
@@ -3728,6 +3735,7 @@
  b FourCovMatrices3::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b FourQuaternions::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b FourVectors2D::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
+ b INT_VECTOR2_ORIGIN
  b InfoForResourceTypeCAnimationGroupResource::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b InfoForResourceTypeCAnimationResource::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
  b InfoForResourceTypeCDotaItemDefinitionResource::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::s_pInitializedResult
@@ -3842,6 +3850,7 @@
  b s_nManifestCount
  b s_nRandSIMDSeed
  b s_nRegistrationCount
+ b s_nResourceFCRegisteredCount
  b s_pConfigRegistry
  b s_pConnectionRegistration
  b s_pFirst
@@ -3865,6 +3874,7 @@
  d CRMSG_Resource_NewId::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassMembers_CRMSG_Resource_NewId
  d CRMSG_System_Event::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassInfo_CRMSG_System_Event
  d CRMSG_System_Event::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassMembers_CRMSG_System_Event
+ d CResourceSystem::BlockingLoadResourceByNameIntoJustInTimeManifest(char const*, unsigned long long, char const*)::_assertionConstants
  d CovMatrix3::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassInfo_CovMatrix3
  d CovMatrix3::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassMembers_CovMatrix3
  d CovMatrix3::RegisterClassSchema_N__MISSING_DECL_MEANS_MACRO__UNRESOLVED_EXT_MEANS_SCHEMA_GENERATED_CODE(ISchemaSystem*, char const*, char const*)::ImplSchema_ClassMeta_CovMatrix3
@@ -4178,8 +4188,10 @@
  d s_nDLLIdentifier
  d s_pConversionArrays_StringCharConversion
  dyld_stub_binder
+ free
  g_VProfCurrentProfile
  g_pMemAlloc
+ malloc
  memchr
  memcmp
  memcpy

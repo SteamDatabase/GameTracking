@@ -515,10 +515,13 @@ CAtomicManipulator<matrix3x4a_t>::GetAlignOf()
 CAtomicManipulator<matrix3x4a_t>::GetSizeOf()
 CBaseAppSystem<INetworkSystem>
 CBaseAppSystem<INetworkSystem>::GetBuildType()
+CBaseAppSystem<INetworkSystem>::GetDependencies()
 CBaseAppSystem<INetworkSystem>::IsSingleton()
 CBaseAppSystem<INetworkSystem>::PreShutdown()
+CBaseAppSystem<INetworkSystem>::QueryInterface(char const*)
 CBaseAppSystem<INetworkSystemUtils>
 CBaseAppSystem<INetworkSystemUtils>::GetBuildType()
+CBaseAppSystem<INetworkSystemUtils>::GetDependencies()
 CBaseAppSystem<INetworkSystemUtils>::IsSingleton()
 CBaseAppSystem<INetworkSystemUtils>::PreShutdown()
 CBaseAppSystem<INetworkSystemUtils>::QueryInterface(char const*)
@@ -587,7 +590,7 @@ CBucketTree::Spew(char const*)
 CBucketTree::Spew(char const*)::s_t::Less(s_t const&, s_t const&)
 CBuildNetworkSerializerHierarchyOrder::BuildEntityClassNetworkSerializer(CBuildNetworkSerializerHierarchyOrder::BuildEntry_t&)
 CBuildNetworkSerializerHierarchyOrder::ComputeDepth(BuildFlattenedSerializerInfo_t&)
-CBuildNetworkSerializerHierarchyOrder::ComputeDepth(int, BuildFlattenedSerializerInfo_t*, CUtlHashtable<CSchemaClassInfo const*, empty_t, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t>&, CSchemaClassInfo const*&)
+CBuildNetworkSerializerHierarchyOrder::ComputeDepth(int, BuildFlattenedSerializerInfo_t*, CUtlHashtable<CSchemaClassInfo const*, empty_t, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<CSchemaClassInfo const*, empty_t>, int> >&, CSchemaClassInfo const*&)
 CBuildNetworkSerializerHierarchyOrder::ParallelProcess()
 CBuildNetworkSerializerHierarchyOrder::SortByDepth(BuildFlattenedSerializerInfo_t*, int)
 CCLCMsg_BaselineAck
@@ -1065,6 +1068,7 @@ CLZSS::GetActualSize(unsigned char*)
 CLZSS::SafeUncompress(unsigned char*, unsigned char*, unsigned int)
 CManifestRegistrar::RegisterAll()
 CManifestRegistrar::UnregisterAll()
+CManifestRegistrar::UnregisterManifests(ResourceManifestDesc_t**, int)
 CMemberFunctor1<CParallelProcessorAbstract<CParallelProcessor<BuildFlattenedSerializerInfo_t, CMemberFuncJobItemProcessor<BuildFlattenedSerializerInfo_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1> >*, void (CParallelProcessorAbstract<CParallelProcessor<BuildFlattenedSerializerInfo_t, CMemberFuncJobItemProcessor<BuildFlattenedSerializerInfo_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1> >::*)(int), int, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>
 CMemberFunctor1<CParallelProcessorAbstract<CParallelProcessor<BuildFlattenedSerializerInfo_t, CMemberFuncJobItemProcessor<BuildFlattenedSerializerInfo_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1> >*, void (CParallelProcessorAbstract<CParallelProcessor<BuildFlattenedSerializerInfo_t, CMemberFuncJobItemProcessor<BuildFlattenedSerializerInfo_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1> >::*)(int), int, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>::operator()()
 CMemberFunctor1<CParallelProcessorAbstract<CParallelProcessor<BuildFlattenedSerializerInfo_t, CMemberFuncJobItemProcessor<BuildFlattenedSerializerInfo_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1> >*, void (CParallelProcessorAbstract<CParallelProcessor<BuildFlattenedSerializerInfo_t, CMemberFuncJobItemProcessor<BuildFlattenedSerializerInfo_t, CBuildNetworkSerializerHierarchyOrder, CBuildNetworkSerializerHierarchyOrder>, 1> >::*)(int), int, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>::~CMemberFunctor1()
@@ -3010,13 +3014,18 @@ CTier0AppSystem<INetworkSystemUtils>
 CTier1AppSystem<INetworkSystem, 0>
 CTier1AppSystem<INetworkSystemUtils, 0>
 CTier2AppSystem<INetworkSystem, 0>
+CTier2AppSystem<INetworkSystem, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<INetworkSystem, 0>::Disconnect()
 CTier2AppSystem<INetworkSystem, 0>::GetTier()
+CTier2AppSystem<INetworkSystem, 0>::Init()
 CTier2AppSystem<INetworkSystem, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<INetworkSystem, 0>::Shutdown()
 CTier2AppSystem<INetworkSystemUtils, 0>::Connect(void* (*)(char const*, int*))
 CTier2AppSystem<INetworkSystemUtils, 0>::Disconnect()
 CTier2AppSystem<INetworkSystemUtils, 0>::GetTier()
+CTier2AppSystem<INetworkSystemUtils, 0>::Init()
 CTier2AppSystem<INetworkSystemUtils, 0>::Reconnect(void* (*)(char const*, int*), char const*)
+CTier2AppSystem<INetworkSystemUtils, 0>::Shutdown()
 CTransform
 CType
 CUniqueFieldsLookup::FindOrAddField(SerializerUniqueField_t const&)
@@ -3049,42 +3058,43 @@ CUtlDict<CFlattenedSerializer*, int>::Purge()
 CUtlDict<CSchemaClassField_Dynamic*, int>::Purge()
 CUtlDict<CSchemaClassField_Dynamic*, int>::PurgeAndDeleteElements()
 CUtlDict<FieldMatch_t, int>::Purge()
-CUtlHashtable<CSchemaClassInfo const*, empty_t, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t>::BumpEntry(unsigned int)
-CUtlHashtable<CSchemaClassInfo const*, empty_t, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<CSchemaClassInfo const*, empty_t, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t>::DoRealloc(int)
-CUtlHashtable<CSchemaClassInfo const*, empty_t, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t>::Insert(CSchemaClassInfo const*)
-CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t>::BumpEntry(unsigned int)
-CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t>::DoRealloc(int)
-CUtlHashtable<CUtlAbstractDelegate, CStructChangeCallbackManager::VisitInfo_t, DefaultHashFunctor<CUtlAbstractDelegate>, DefaultEqualFunctor<CUtlAbstractDelegate>, undefined_t>::BumpEntry(unsigned int)
-CUtlHashtable<CUtlAbstractDelegate, CStructChangeCallbackManager::VisitInfo_t, DefaultHashFunctor<CUtlAbstractDelegate>, DefaultEqualFunctor<CUtlAbstractDelegate>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<CUtlAbstractDelegate, CStructChangeCallbackManager::VisitInfo_t, DefaultHashFunctor<CUtlAbstractDelegate>, DefaultEqualFunctor<CUtlAbstractDelegate>, undefined_t>::DoRealloc(int)
-CUtlHashtable<CUtlAbstractDelegate, CStructChangeCallbackManager::VisitInfo_t, DefaultHashFunctor<CUtlAbstractDelegate>, DefaultEqualFunctor<CUtlAbstractDelegate>, undefined_t>::Find(CUtlAbstractDelegate const&) const
-CUtlHashtable<CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::IndirectIndex, empty_t, CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::HashProxy, CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::EqualProxy, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::IndirectIndex, empty_t, CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::HashProxy, CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::EqualProxy, undefined_t>::DoRealloc(int)
-CUtlHashtable<CUtlStringToken, int, CUtlStringTokenHashFunctor, DefaultEqualFunctor<CUtlStringToken>, undefined_t>::BumpEntry(unsigned int)
-CUtlHashtable<CUtlStringToken, int, CUtlStringTokenHashFunctor, DefaultEqualFunctor<CUtlStringToken>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<CUtlStringToken, int, CUtlStringTokenHashFunctor, DefaultEqualFunctor<CUtlStringToken>, undefined_t>::DoRealloc(int)
-CUtlHashtable<NetworkFieldSerializerInfo_t const*, FieldMetaInfo_t*, DefaultHashFunctor<NetworkFieldSerializerInfo_t const*>, DefaultEqualFunctor<NetworkFieldSerializerInfo_t const*>, undefined_t>::BumpEntry(unsigned int)
-CUtlHashtable<NetworkFieldSerializerInfo_t const*, FieldMetaInfo_t*, DefaultHashFunctor<NetworkFieldSerializerInfo_t const*>, DefaultEqualFunctor<NetworkFieldSerializerInfo_t const*>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<NetworkFieldSerializerInfo_t const*, FieldMetaInfo_t*, DefaultHashFunctor<NetworkFieldSerializerInfo_t const*>, DefaultEqualFunctor<NetworkFieldSerializerInfo_t const*>, undefined_t>::DoRealloc(int)
-CUtlHashtable<NetworkFieldSerializerInfo_t const*, bool, DefaultHashFunctor<NetworkFieldSerializerInfo_t const*>, DefaultEqualFunctor<NetworkFieldSerializerInfo_t const*>, undefined_t>::BumpEntry(unsigned int)
-CUtlHashtable<NetworkFieldSerializerInfo_t const*, bool, DefaultHashFunctor<NetworkFieldSerializerInfo_t const*>, DefaultEqualFunctor<NetworkFieldSerializerInfo_t const*>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<NetworkFieldSerializerInfo_t const*, bool, DefaultHashFunctor<NetworkFieldSerializerInfo_t const*>, DefaultEqualFunctor<NetworkFieldSerializerInfo_t const*>, undefined_t>::DoRealloc(int)
-CUtlHashtable<SerializerUniqueField_t, int, DefaultHashFunctor<SerializerUniqueField_t>, DefaultEqualFunctor<SerializerUniqueField_t>, undefined_t>::BumpEntry(unsigned int)
-CUtlHashtable<SerializerUniqueField_t, int, DefaultHashFunctor<SerializerUniqueField_t>, DefaultEqualFunctor<SerializerUniqueField_t>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<SerializerUniqueField_t, int, DefaultHashFunctor<SerializerUniqueField_t>, DefaultEqualFunctor<SerializerUniqueField_t>, undefined_t>::DoRealloc(int)
-CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::BumpEntry(unsigned int)
-CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::DoRealloc(int)
-CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::Insert(unsigned int)
-CUtlHashtable<unsigned short, empty_t, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t>::BumpEntry(unsigned int)
-CUtlHashtable<unsigned short, empty_t, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<unsigned short, empty_t, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t>::DoRealloc(int)
-CUtlHashtable<unsigned short, empty_t, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t>::Find(unsigned short) const
-CUtlHashtable<unsigned short, short, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
-CUtlHashtable<unsigned short, short, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t>::DoRealloc(int)
-CUtlHashtable<unsigned short, short, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t>::Insert(unsigned short, short, bool*)
+CUtlHashtable<CSchemaClassInfo const*, empty_t, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<CSchemaClassInfo const*, empty_t>, int> >::BumpEntry(unsigned int)
+CUtlHashtable<CSchemaClassInfo const*, empty_t, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<CSchemaClassInfo const*, empty_t>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<CSchemaClassInfo const*, empty_t, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<CSchemaClassInfo const*, empty_t>, int> >::DoRealloc(int)
+CUtlHashtable<CSchemaClassInfo const*, empty_t, DefaultHashFunctor<CSchemaClassInfo const*>, DefaultEqualFunctor<CSchemaClassInfo const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<CSchemaClassInfo const*, empty_t>, int> >::Insert(CSchemaClassInfo const*)
+CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t, CUtlMemory<CUtlHashtableEntry<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client>, int> >::BumpEntry(unsigned int)
+CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t, CUtlMemory<CUtlHashtableEntry<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t, CUtlMemory<CUtlHashtableEntry<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client>, int> >::DoRealloc(int)
+CUtlHashtable<CUtlAbstractDelegate, CStructChangeCallbackManager::VisitInfo_t, DefaultHashFunctor<CUtlAbstractDelegate>, DefaultEqualFunctor<CUtlAbstractDelegate>, undefined_t, CUtlMemoryFixedGrowable<CUtlHashtableEntry<CUtlAbstractDelegate, CStructChangeCallbackManager::VisitInfo_t>, 512ul, int> >::BumpEntry(unsigned int)
+CUtlHashtable<CUtlAbstractDelegate, CStructChangeCallbackManager::VisitInfo_t, DefaultHashFunctor<CUtlAbstractDelegate>, DefaultEqualFunctor<CUtlAbstractDelegate>, undefined_t, CUtlMemoryFixedGrowable<CUtlHashtableEntry<CUtlAbstractDelegate, CStructChangeCallbackManager::VisitInfo_t>, 512ul, int> >::CUtlHashtable(int)
+CUtlHashtable<CUtlAbstractDelegate, CStructChangeCallbackManager::VisitInfo_t, DefaultHashFunctor<CUtlAbstractDelegate>, DefaultEqualFunctor<CUtlAbstractDelegate>, undefined_t, CUtlMemoryFixedGrowable<CUtlHashtableEntry<CUtlAbstractDelegate, CStructChangeCallbackManager::VisitInfo_t>, 512ul, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<CUtlAbstractDelegate, CStructChangeCallbackManager::VisitInfo_t, DefaultHashFunctor<CUtlAbstractDelegate>, DefaultEqualFunctor<CUtlAbstractDelegate>, undefined_t, CUtlMemoryFixedGrowable<CUtlHashtableEntry<CUtlAbstractDelegate, CStructChangeCallbackManager::VisitInfo_t>, 512ul, int> >::DoRealloc(int)
+CUtlHashtable<CUtlAbstractDelegate, CStructChangeCallbackManager::VisitInfo_t, DefaultHashFunctor<CUtlAbstractDelegate>, DefaultEqualFunctor<CUtlAbstractDelegate>, undefined_t, CUtlMemoryFixedGrowable<CUtlHashtableEntry<CUtlAbstractDelegate, CStructChangeCallbackManager::VisitInfo_t>, 512ul, int> >::Find(CUtlAbstractDelegate const&) const
+CUtlHashtable<CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::IndirectIndex, empty_t, CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::HashProxy, CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::EqualProxy, undefined_t, CUtlMemory<CUtlHashtableEntry<CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::IndirectIndex, empty_t>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::IndirectIndex, empty_t, CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::HashProxy, CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::EqualProxy, undefined_t, CUtlMemory<CUtlHashtableEntry<CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::IndirectIndex, empty_t>, int> >::DoRealloc(int)
+CUtlHashtable<CUtlStringToken, int, CUtlStringTokenHashFunctor, DefaultEqualFunctor<CUtlStringToken>, undefined_t, CUtlMemory<CUtlHashtableEntry<CUtlStringToken, int>, int> >::BumpEntry(unsigned int)
+CUtlHashtable<CUtlStringToken, int, CUtlStringTokenHashFunctor, DefaultEqualFunctor<CUtlStringToken>, undefined_t, CUtlMemory<CUtlHashtableEntry<CUtlStringToken, int>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<CUtlStringToken, int, CUtlStringTokenHashFunctor, DefaultEqualFunctor<CUtlStringToken>, undefined_t, CUtlMemory<CUtlHashtableEntry<CUtlStringToken, int>, int> >::DoRealloc(int)
+CUtlHashtable<NetworkFieldSerializerInfo_t const*, FieldMetaInfo_t*, DefaultHashFunctor<NetworkFieldSerializerInfo_t const*>, DefaultEqualFunctor<NetworkFieldSerializerInfo_t const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<NetworkFieldSerializerInfo_t const*, FieldMetaInfo_t*>, int> >::BumpEntry(unsigned int)
+CUtlHashtable<NetworkFieldSerializerInfo_t const*, FieldMetaInfo_t*, DefaultHashFunctor<NetworkFieldSerializerInfo_t const*>, DefaultEqualFunctor<NetworkFieldSerializerInfo_t const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<NetworkFieldSerializerInfo_t const*, FieldMetaInfo_t*>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<NetworkFieldSerializerInfo_t const*, FieldMetaInfo_t*, DefaultHashFunctor<NetworkFieldSerializerInfo_t const*>, DefaultEqualFunctor<NetworkFieldSerializerInfo_t const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<NetworkFieldSerializerInfo_t const*, FieldMetaInfo_t*>, int> >::DoRealloc(int)
+CUtlHashtable<NetworkFieldSerializerInfo_t const*, bool, DefaultHashFunctor<NetworkFieldSerializerInfo_t const*>, DefaultEqualFunctor<NetworkFieldSerializerInfo_t const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<NetworkFieldSerializerInfo_t const*, bool>, int> >::BumpEntry(unsigned int)
+CUtlHashtable<NetworkFieldSerializerInfo_t const*, bool, DefaultHashFunctor<NetworkFieldSerializerInfo_t const*>, DefaultEqualFunctor<NetworkFieldSerializerInfo_t const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<NetworkFieldSerializerInfo_t const*, bool>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<NetworkFieldSerializerInfo_t const*, bool, DefaultHashFunctor<NetworkFieldSerializerInfo_t const*>, DefaultEqualFunctor<NetworkFieldSerializerInfo_t const*>, undefined_t, CUtlMemory<CUtlHashtableEntry<NetworkFieldSerializerInfo_t const*, bool>, int> >::DoRealloc(int)
+CUtlHashtable<SerializerUniqueField_t, int, DefaultHashFunctor<SerializerUniqueField_t>, DefaultEqualFunctor<SerializerUniqueField_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<SerializerUniqueField_t, int>, int> >::BumpEntry(unsigned int)
+CUtlHashtable<SerializerUniqueField_t, int, DefaultHashFunctor<SerializerUniqueField_t>, DefaultEqualFunctor<SerializerUniqueField_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<SerializerUniqueField_t, int>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<SerializerUniqueField_t, int, DefaultHashFunctor<SerializerUniqueField_t>, DefaultEqualFunctor<SerializerUniqueField_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<SerializerUniqueField_t, int>, int> >::DoRealloc(int)
+CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t, CUtlMemory<CUtlHashtableEntry<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing>, int> >::BumpEntry(unsigned int)
+CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t, CUtlMemory<CUtlHashtableEntry<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t, CUtlMemory<CUtlHashtableEntry<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing>, int> >::DoRealloc(int)
+CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t, CUtlMemory<CUtlHashtableEntry<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing>, int> >::Insert(unsigned int)
+CUtlHashtable<unsigned short, empty_t, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t, CUtlMemory<CUtlHashtableEntry<unsigned short, empty_t>, int> >::BumpEntry(unsigned int)
+CUtlHashtable<unsigned short, empty_t, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t, CUtlMemory<CUtlHashtableEntry<unsigned short, empty_t>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<unsigned short, empty_t, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t, CUtlMemory<CUtlHashtableEntry<unsigned short, empty_t>, int> >::DoRealloc(int)
+CUtlHashtable<unsigned short, empty_t, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t, CUtlMemory<CUtlHashtableEntry<unsigned short, empty_t>, int> >::Find(unsigned short) const
+CUtlHashtable<unsigned short, short, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t, CUtlMemory<CUtlHashtableEntry<unsigned short, short>, int> >::DoInsertUnconstructed(unsigned int, bool)
+CUtlHashtable<unsigned short, short, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t, CUtlMemory<CUtlHashtableEntry<unsigned short, short>, int> >::DoRealloc(int)
+CUtlHashtable<unsigned short, short, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t, CUtlMemory<CUtlHashtableEntry<unsigned short, short>, int> >::Insert(unsigned short, short, bool*)
 CUtlKeyValuePair<CFieldPath, empty_t>::CUtlKeyValuePair<CFieldPath>(CFieldPath const&)
 CUtlLeanVectorFixedGrowableBase<CEncodeInfo, (unsigned short)6, short>::EnsureCapacity(int, bool)
 CUtlLeanVectorFixedGrowableBase<CFieldListEncoderIterator::CSerializerLookup, (unsigned short)6, short>::EnsureCapacity(int, bool)
@@ -3498,6 +3508,7 @@ CUtlVectorBase<CFlattenedSerializer::SerializerField_t, CUtlMemory<CFlattenedSer
 CUtlVectorBase<CFlattenedSerializer::UserGroupProxy_t, CUtlMemory<CFlattenedSerializer::UserGroupProxy_t, int> >::~CUtlVectorBase()
 CUtlVectorBase<CFlattenedSerializer::VarNameData_t, CUtlMemory<CFlattenedSerializer::VarNameData_t, int> >::~CUtlVectorBase()
 CUtlVectorBase<CNetChan*, CUtlMemory<CNetChan*, int> >::~CUtlVectorBase()
+CUtlVectorBase<CNetChan*, CUtlMemoryFixedGrowable<CNetChan*, 32ul, int> >::~CUtlVectorBase()
 CUtlVectorBase<CNetChan::ReliableDataBlock_t, CUtlMemory<CNetChan::ReliableDataBlock_t, int> >::~CUtlVectorBase()
 CUtlVectorBase<CNetworkEncodingStats::Update(float)::ClassAndField_t, CUtlMemory<CNetworkEncodingStats::Update(float)::ClassAndField_t, int> >::~CUtlVectorBase()
 CUtlVectorBase<CNetworkMessages::ChangeCallbackInfo_t, CUtlMemory<CNetworkMessages::ChangeCallbackInfo_t, int> >::~CUtlVectorBase()
@@ -3546,6 +3557,7 @@ CUtlVectorBase<NetworkOverride_t const*, CUtlMemory<NetworkOverride_t const*, in
 CUtlVectorBase<NetworkOverride_t*, CUtlMemory<NetworkOverride_t*, int> >::~CUtlVectorBase()
 CUtlVectorBase<NetworkUserGroupProxyInfo_t**, CUtlMemory<NetworkUserGroupProxyInfo_t**, int> >::~CUtlVectorBase()
 CUtlVectorBase<NetworkVarDecl_t*, CUtlMemory<NetworkVarDecl_t*, int> >::~CUtlVectorBase()
+CUtlVectorBase<ResourceManifestDesc_t*, CUtlMemory<ResourceManifestDesc_t*, int> >::~CUtlVectorBase()
 CUtlVectorBase<SendQueueItem_t*, CUtlMemory<SendQueueItem_t*, int> >::~CUtlVectorBase()
 CUtlVectorBase<SerializerUniqueField_t, CUtlMemory<SerializerUniqueField_t, int> >::~CUtlVectorBase()
 CUtlVectorBase<ServerWithSessionSort, CUtlMemory<ServerWithSessionSort, int> >::~CUtlVectorBase()
@@ -3678,6 +3690,7 @@ DevMsg(char const*, ...)
 DisconnectInterfaces()
 DisconnectTier1Libraries()
 DisconnectTier2Libraries()
+DisconnectTier2ManualManifests(ResourceManifestDesc_t**, int)
 DotaCardGameClient_001
 E0A9F
 E9w0M
@@ -3835,6 +3848,7 @@ GetRepeatedString
 GetRepeatedStringReference
 GetRepeatedUInt32
 GetRepeatedUInt64
+GetSchemaToNetMapOwner()
 GetSchemaToNetMapOwner()::s_MapOwner
 GetString
 GetStringReference
@@ -3948,8 +3962,7 @@ KeyValuesJSONParser::ParseValue(KeyValues*)
 KeyValuesJSONParser::~KeyValuesJSONParser()
 Kfff.
 L70Hc
-L9-NH
-L95fE
+L95zR
 LABEL_OPTIONAL
 LABEL_REPEATED
 LABEL_REQUIRED
@@ -4005,8 +4018,6 @@ MathLib_Init()
 MatrixAngles(matrix3x4_t const&, QAngle&)
 MatrixQuaternion(matrix3x4_t const&, Quaternion&)
 MatrixTransform(matrix3x4_t const&, CTransform&)
-McehM
-McuhM
 MeshSystem001
 MeshUtils001
 MessageOptions
@@ -4272,7 +4283,7 @@ RBSAXBRBp
 RBSAXBRKSDUAp
 RBTAp
 RBTBRA
-RBTBREp
+RBTBRF\0
 RBVATARBRAp
 RIO_ESTABLISH_CONNECTION
 RIO_NO_ROUTE
@@ -4315,7 +4326,7 @@ RoutingCluster
 RunningStat::Push(double)
 RunningStat::RunningStat()
 SAXAp
-SCSARBRBSASASARBRBRBRBRBRAp
+SCSARBRBSASASARBRBRBRBRB\BRAp
 SPAWN_GROUP_BLOCK_UNTIL_LOADED
 SPAWN_GROUP_DONT_SPAWN_ENTITIES
 SPAWN_GROUP_LOAD_STREAMING_DATA
@@ -4410,7 +4421,6 @@ SignedPayload_t::default_instance_
 SignedPayload_t::~SignedPayload_t()
 Signon
 SocketErrorString(int)
-SoundMixGroupSystem001
 SoundOpSystem001
 SoundOpSystemEdit001
 SoundService_001
@@ -4596,7 +4606,6 @@ VBAllocTracker001
 VBaseFileSystem011
 VBik001
 VConComm001
-VDataCache003
 VDebugService_001
 VDmeMakeFileUtils001
 VEngineCvar007
@@ -4786,7 +4795,6 @@ ___cxa_guard_acquire
 ___cxa_guard_release
 ___cxa_pure_virtual
 ___cxa_throw
-___cxx_global_var_init181
 ___cxx_global_var_init182
 ___cxx_global_var_init183
 ___cxx_global_var_init184
@@ -4794,6 +4802,7 @@ ___cxx_global_var_init185
 ___cxx_global_var_init186
 ___cxx_global_var_init187
 ___cxx_global_var_init188
+___cxx_global_var_init189
 ___cxx_global_var_init78
 ___cxx_global_var_init79
 ___cxx_global_var_init80
@@ -4888,7 +4897,6 @@ _g_pBenchmarkService
 _g_pCVar
 _g_pClientSidePrediction
 _g_pConfigurationSystem
-_g_pDataCache
 _g_pDmeMakefileUtils
 _g_pDotaCardGameClient
 _g_pEconItemToolModel
@@ -4968,7 +4976,6 @@ _g_pSchemaSystem
 _g_pSchemaTestExternal_One
 _g_pSchemaTestExternal_Two
 _g_pScriptManager
-_g_pSoundMixGroupSystem
 _g_pSoundOpSystem
 _g_pSoundOpSystemEdit
 _g_pSoundService
@@ -5405,8 +5412,8 @@ inpacket.message
 input_type
 instantaneous
 int CDeltaFieldPathReader::DeltaDecode<true>()
-int CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t>::DoRemove<CSteamID const&>(CSteamID const&, unsigned int)
-int CUtlHashtable<unsigned short, empty_t, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t>::DoRemove<unsigned short>(unsigned short, unsigned int)
+int CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t, CUtlMemory<CUtlHashtableEntry<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client>, int> >::DoRemove<CSteamID const&>(CSteamID const&, unsigned int)
+int CUtlHashtable<unsigned short, empty_t, DefaultHashFunctor<unsigned short>, DefaultEqualFunctor<unsigned short>, undefined_t, CUtlMemory<CUtlHashtableEntry<unsigned short, empty_t>, int> >::DoRemove<unsigned short>(unsigned short, unsigned int)
 int CUtlSortVector<int, CNetworkMessages::CPriorityLess, CUtlVector<int, CUtlMemory<int, int> > >::Find<int>(int const&) const::_assertionConstants
 int CUtlSortVector<int, CNetworkMessages::CPriorityLess, CUtlVector<int, CUtlMemory<int, int> > >::Find<int>(int const&) const::_assertionStatics
 int CUtlSortVector<int, CNetworkMessages::CPriorityLess, CUtlVector<int, CUtlMemory<int, int> > >::FindLessOrEqual<int>(int const&, bool*) const::_assertionConstants
@@ -5782,6 +5789,7 @@ s_nDLLIdentifier
 s_nManifestCount
 s_nRandSIMDSeed
 s_nRegistrationCount
+s_nResourceFCRegisteredCount
 s_pBinaryBlockEncoders
 s_pBoolEncoders
 s_pConfigRegistry
@@ -6569,6 +6577,7 @@ typeinfo name for snappy::Sink
 typeinfo name for snappy::Source
 typeinfo name for snappy::UncheckedByteArraySink
 u0ffff.
+u1HcKXH
 u1ffffff.
 uGetResourceManifest
 uLM9w
@@ -6582,9 +6591,9 @@ uncompressed_size
 uninterpreted_option
 unknown
 unreliable
-unsigned int CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t>::DoInsert<CSteamID const&>(CSteamID const&, unsigned int)
-unsigned int CUtlHashtable<CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::IndirectIndex, empty_t, CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::HashProxy, CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::EqualProxy, undefined_t>::DoLookup<CFieldPath const&>(CFieldPath const&, unsigned int, unsigned int*) const
-unsigned int CUtlHashtable<SerializerUniqueField_t, int, DefaultHashFunctor<SerializerUniqueField_t>, DefaultEqualFunctor<SerializerUniqueField_t>, undefined_t>::DoInsert<SerializerUniqueField_t const&>(SerializerUniqueField_t const&, int, unsigned int, bool*)
+unsigned int CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t, CUtlMemory<CUtlHashtableEntry<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client>, int> >::DoInsert<CSteamID const&>(CSteamID const&, unsigned int)
+unsigned int CUtlHashtable<CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::IndirectIndex, empty_t, CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::HashProxy, CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::EqualProxy, undefined_t, CUtlMemory<CUtlHashtableEntry<CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::IndirectIndex, empty_t>, int> >::DoLookup<CFieldPath const&>(CFieldPath const&, unsigned int, unsigned int*) const
+unsigned int CUtlHashtable<SerializerUniqueField_t, int, DefaultHashFunctor<SerializerUniqueField_t>, DefaultEqualFunctor<SerializerUniqueField_t>, undefined_t, CUtlMemory<CUtlHashtableEntry<SerializerUniqueField_t, int>, int> >::DoInsert<SerializerUniqueField_t const&>(SerializerUniqueField_t const&, int, unsigned int, bool*)
 unsigned int CUtlStableHashtable<CFieldPath, empty_t, HashComplexFieldPath_t, DefaultEqualFunctor<CFieldPath>, unsigned int, undefined_t>::DoInsert<CFieldPath const&>(CFieldPath const&)
 unsigned int std::__1::__sort3<std::__1::__less<ServerWithSessionSort, ServerWithSessionSort>&, ServerWithSessionSort*>(ServerWithSessionSort*, ServerWithSessionSort*, ServerWithSessionSort*, std::__1::__less<ServerWithSessionSort, ServerWithSessionSort>&)
 unsigned int std::__1::__sort3<std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup>&, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*>(SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup*, std::__1::__less<SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup, SteamDatagramTransport::SteamDatagramNetwork::RouterAddressLookup>&)
@@ -6826,6 +6835,8 @@ vtable for CSchemaManipulator<matrix3x4a_t>
 vtable for CSchemaRegistration_networksystem
 vtable for CSendSerializerStack
 vtable for CSerializerStack
+vtable for CTier2AppSystem<INetworkSystem, 0>
+vtable for CTier2AppSystem<INetworkSystemUtils, 0>
 vtable for CUtlCStringConversion
 vtable for CUtlCharConversion
 vtable for ConCommand
