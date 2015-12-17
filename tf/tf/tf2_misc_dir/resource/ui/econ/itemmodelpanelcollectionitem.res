@@ -12,6 +12,7 @@
 		"model_ypos"	"3"
 		"model_wide"	"195"
 		"model_tall"	"130"
+		"text_wide"		"180"
 		"text_forcesize" "2"
 	}
 	
@@ -145,7 +146,7 @@
 			"tall"			"30"
 			"autoResize"	"0"
 			"pinCorner"		"0"
-			"visible"		"1"
+			"visible"		"0"
 			"enabled"		"1"
 			"labelText"		"%collectionname%"
 			"textAlignment"	"west"
@@ -165,7 +166,7 @@
 			"tall"			"60"
 			"autoResize"	"0"
 			"pinCorner"		"0"
-			"visible"		"1"
+			"visible"		"0"
 			"enabled"		"1"
 			"labelText"		"%collectionlist%"
 			"textAlignment"	"west"
@@ -182,7 +183,7 @@
 			"zpos"			"1"
 			"wide"			"145"
 			"tall"			"9"
-			"visible"		"1"
+			"visible"		"0"
 			"PaintBackgroundType"	"2"
 			"bgcolor_override"		"215 206 182 255"
 		}
@@ -319,6 +320,21 @@
 		{
 			"ControlName"	"ImagePanel"
 			"fieldName"		"is_unusual_icon"
+			"xpos"			"4"
+			"ypos"			"4"
+			"zpos"			"2"
+			"autoResize"	"0"
+			"pinCorner"		"0"
+			"wide"			"16"
+			"tall"			"16"
+			"visible"		"0"
+			"enabled"		"1"
+			"scaleImage"	"1"
+		}
+		"is_loaner_icon"
+		{
+			"ControlName"	"ImagePanel"
+			"fieldName"		"is_loaner_icon"
 			"xpos"			"4"
 			"ypos"			"4"
 			"zpos"			"2"

@@ -156,7 +156,6 @@
 				"model_tall"	"30"
 				"text_ypos"		"100"		// Hide it off the bottom
 				"text_center"	"1"
-				"name_only"		"1"
 				"paint_icon_hide" "1"
 				"actionsignallevel"	"4"
 				"proportionaltoparent"	"1"
@@ -436,6 +435,7 @@
 			"paint_icon_hide" "1"
 			"model_hide"	"1"
 			"text_forcesize"	"4"
+			"name_only"	"1"
 
 			"itemmodelpanel"
 			{

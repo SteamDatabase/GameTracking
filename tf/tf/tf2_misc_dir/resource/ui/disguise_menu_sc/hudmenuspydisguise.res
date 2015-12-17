@@ -322,7 +322,7 @@
 	
 	"TeamToggleHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"TeamToggleHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"130"
@@ -334,10 +334,11 @@
 		"pinCorner"		"0"
 		"visible"		"1"
 		"enabled"		"1"
-		"labelText"		"Y"
 		"textAlignment"	"Left"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_toggle_function"
 	}
 	
 	"TeamToggleHintLabel"
@@ -362,7 +363,7 @@
 	
 	"DisguiseHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"DisguiseHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"280"
@@ -374,10 +375,11 @@
 		"pinCorner"		"0"
 		"visible"		"1"
 		"enabled"		"1"
-		"labelText"		"A"
 		"textAlignment"	"Left"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 	
 	"DisguiseHintLabel"
@@ -402,7 +404,7 @@
 		
 	"CancelHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"CancelHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"20"
@@ -414,10 +416,11 @@
 		"pinCorner"		"0"
 		"visible"		"1"
 		"enabled"		"1"
-		"labelText"		"B"
 		"textAlignment"	"Left"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_cancel"
 	}
 	
 	"CancelHintLabel"
@@ -459,7 +462,7 @@
 
 	"PrevHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"PrevHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"-9"
@@ -471,15 +474,16 @@
 		"pinCorner"		"0"
 		"visible"		"1"
 		"enabled"		"1"
-		"labelText"		"A"
 		"textAlignment"	"Center"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_left"
 	}
 
 	"NextHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"NextHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"440"
@@ -495,5 +499,7 @@
 		"textAlignment"	"Center"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_right"
 	}
 }

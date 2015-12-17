@@ -251,7 +251,7 @@
 	
 	"BuildHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"BuildHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"330"			// align me to the left edge of the first selection
@@ -263,10 +263,11 @@
 		"pinCorner"		"0"
 		"visible"		"1"
 		"enabled"		"1"
-		"labelText"		"1"
 		"textAlignment"	"Left"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 	
 	"BuildHintLabel_Bright"
@@ -312,7 +313,7 @@
 	
 	"DestroyHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"DestroyHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"200"			// align me to the left edge of the first selection
@@ -324,10 +325,11 @@
 		"pinCorner"		"0"
 		"visible"		"1"
 		"enabled"		"1"
-		"labelText"		"0"
 		"textAlignment"	"Left"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_toggle_function"
 	}
 	
 	"DestroyHintLabel_Bright"
@@ -373,7 +375,7 @@
 	
 	"CancelHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"CancelHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"20"			// align me to the left edge of the first selection
@@ -385,10 +387,11 @@
 		"pinCorner"		"0"
 		"visible"		"1"
 		"enabled"		"1"
-		"labelText"		"B"
 		"textAlignment"	"Left"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_cancel"
 	}
 	
 	"CancelHintLabel"
@@ -430,7 +433,7 @@
 
 	"PrevHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"PrevHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"-5"
@@ -446,11 +449,13 @@
 		"textAlignment"	"Center"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_left"
 	}
 
 	"NextHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"NextHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"413"
@@ -462,9 +467,10 @@
 		"pinCorner"		"0"
 		"visible"		"1"
 		"enabled"		"1"
-		"labelText"		"B"
 		"textAlignment"	"Center"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_right"
 	}
 }

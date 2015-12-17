@@ -262,6 +262,8 @@
 (anonymous namespace)::CMsgGCQuestComplete_Request_reflection_
 (anonymous namespace)::CMsgGCQuestCompleted_descriptor_
 (anonymous namespace)::CMsgGCQuestCompleted_reflection_
+(anonymous namespace)::CMsgGCQuestDiscard_Request_descriptor_
+(anonymous namespace)::CMsgGCQuestDiscard_Request_reflection_
 (anonymous namespace)::CMsgGCQuestObjective_PointsChangeResponse_descriptor_
 (anonymous namespace)::CMsgGCQuestObjective_PointsChangeResponse_reflection_
 (anonymous namespace)::CMsgGCQuestObjective_PointsChange_descriptor_
@@ -847,6 +849,7 @@
 .CXu4
 .Cttv
 .EServerModificationItemType
+.FDv6
 .FLt5
 .FPsO
 .Fttf
@@ -888,7 +891,7 @@
 0.45f
 0.70f
 0.75f
-00000
+0.95f
 000000
 000000000000
 0000000000000
@@ -897,6 +900,7 @@
 0000000000000000000000000000000000000
 00000000000000000000000000000000000000
 000000000000000000000000000000000000000
+0000P
 00010203040506070809101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899
 000P000
 0123456789abcdef
@@ -906,9 +910,9 @@
 04-02
 08-23
 08-25
-0C13CEconItemView
 0CMsgGC_Client_UseServerModificationItem_Response
 0E28CSteamWorksGameStatsUploader
+0P0000
 0ffff.
 0fffff.
 0ffffff.
@@ -946,6 +950,8 @@
 2015-10-20
 2015-11-05
 2015-11-12
+2015-12-01
+2016-01-05
 21.CMsgTFRequestChatChannelListResponse.ChatChannel
 22.CMsgAMGetUserGameStatsResponse.Achievement_Blocks
 22.CMsgGC_GameServer_ListResponse.GameServerIdentity
@@ -4521,6 +4527,7 @@ Behavior<CZombie>::Update(CZombie*, float)
 Behavior<CZombie>::~Behavior()
 BehaviorModifiers
 Behind
+Bffffff
 Bffffff.
 Bias(float, float)
 Bias(float, float)::lastExponent
@@ -7843,6 +7850,7 @@ CBaseEntity::ShouldAttractAutoAim(CBaseEntity*)
 CBaseEntity::ShouldBlockNav() const
 CBaseEntity::ShouldCollide(int, int) const
 CBaseEntity::ShouldDrawWaterImpacts()
+CBaseEntity::ShouldForceTransmitsForTeam(int)
 CBaseEntity::ShouldSavePhysics()
 CBaseEntity::ShouldToggle(USE_TYPE, int)
 CBaseEntity::ShouldTransmit(CCheckTransmitInfo const*)
@@ -10671,9 +10679,6 @@ CEconItemSchema::BInitItems(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlSt
 CEconItemSchema::BInitItems(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)::pAttrDef_ContainsCollection
 CEconItemSchema::BInitKillEaterScoreTypes(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CEconItemSchema::BInitLootLists(KeyValues*, KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CEconItemSchema::BInitLootLists(KeyValues*, KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)::CCollectionLootListIterator
-CEconItemSchema::BInitLootLists(KeyValues*, KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)::CCollectionLootListIterator::OnIterate(unsigned short)
-CEconItemSchema::BInitLootLists(KeyValues*, KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)::CCollectionLootListIterator::~CCollectionLootListIterator()
 CEconItemSchema::BInitOperationDefinitions(KeyValues*, KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CEconItemSchema::BInitQualities(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CEconItemSchema::BInitRarities(KeyValues*, KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
@@ -10853,6 +10858,11 @@ CEconTool_DuckToken::CanApplyTo(IEconItemInterface const*, IEconItemInterface co
 CEconTool_DuckToken::~CEconTool_DuckToken()
 CEconTool_DuelingMinigame
 CEconTool_DuelingMinigame::~CEconTool_DuelingMinigame()
+CEconTool_Festivizer
+CEconTool_Festivizer::CEconTool_Festivizer(char const*, char const*, item_capabilities_t, KeyValues*)
+CEconTool_Festivizer::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const
+CEconTool_Festivizer::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttribDef_Festivizer
+CEconTool_Festivizer::~CEconTool_Festivizer()
 CEconTool_Gift
 CEconTool_Gift::BFinishInitialization()
 CEconTool_Gift::CEconTool_Gift(char const*, char const*, KeyValues*)
@@ -12736,6 +12746,10 @@ CEntityFactory<CTFCannon>
 CEntityFactory<CTFCannon>::Create(char const*)
 CEntityFactory<CTFCannon>::Destroy(IServerNetworkable*)
 CEntityFactory<CTFCannon>::GetEntitySize()
+CEntityFactory<CTFChargedSMG>
+CEntityFactory<CTFChargedSMG>::Create(char const*)
+CEntityFactory<CTFChargedSMG>::Destroy(IServerNetworkable*)
+CEntityFactory<CTFChargedSMG>::GetEntitySize()
 CEntityFactory<CTFCleaver>
 CEntityFactory<CTFCleaver>::Create(char const*)
 CEntityFactory<CTFCleaver>::Destroy(IServerNetworkable*)
@@ -13416,6 +13430,10 @@ CEntityFactory<CTrainingModeLogic>
 CEntityFactory<CTrainingModeLogic>::Create(char const*)
 CEntityFactory<CTrainingModeLogic>::Destroy(IServerNetworkable*)
 CEntityFactory<CTrainingModeLogic>::GetEntitySize()
+CEntityFactory<CTriggerAddOrRemoveTFPlayerAttributes>
+CEntityFactory<CTriggerAddOrRemoveTFPlayerAttributes>::Create(char const*)
+CEntityFactory<CTriggerAddOrRemoveTFPlayerAttributes>::Destroy(IServerNetworkable*)
+CEntityFactory<CTriggerAddOrRemoveTFPlayerAttributes>::GetEntitySize()
 CEntityFactory<CTriggerAddTFPlayerCondition>
 CEntityFactory<CTriggerAddTFPlayerCondition>::Create(char const*)
 CEntityFactory<CTriggerAddTFPlayerCondition>::Destroy(IServerNetworkable*)
@@ -17079,6 +17097,8 @@ CMaterialModifyControl::YouForgotToImplementOrDeclareServerClass()
 CMaterialModifyControl::m_DataMap
 CMaterialModifyControl::~CMaterialModifyControl()
 CMaterialModifyControl_DataDescInit::g_DataMapHolder
+CMaterialOverrideContainer<IEconItemInterface>
+CMaterialOverrideContainer<IEconItemInterface>::GetMaterialOverride(int)
 CMaterialReference::CMaterialReference(char const*, char const*, bool)
 CMaterialReference::Init(char const*, char const*, bool)
 CMaterialReference::~CMaterialReference()
@@ -18489,6 +18509,18 @@ CMsgGCQuestCompleted::SerializeWithCachedSizesToArray(unsigned char*) const
 CMsgGCQuestCompleted::SetCachedSize(int) const
 CMsgGCQuestCompleted::default_instance_
 CMsgGCQuestCompleted::~CMsgGCQuestCompleted()
+CMsgGCQuestDiscard_Request
+CMsgGCQuestDiscard_Request::ByteSize() const
+CMsgGCQuestDiscard_Request::Clear()
+CMsgGCQuestDiscard_Request::GetCachedSize() const
+CMsgGCQuestDiscard_Request::GetMetadata() const
+CMsgGCQuestDiscard_Request::IsInitialized() const
+CMsgGCQuestDiscard_Request::MergeFrom(CMsgGCQuestDiscard_Request const&)
+CMsgGCQuestDiscard_Request::New() const
+CMsgGCQuestDiscard_Request::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGCQuestDiscard_Request::SetCachedSize(int) const
+CMsgGCQuestDiscard_Request::default_instance_
+CMsgGCQuestDiscard_Request::~CMsgGCQuestDiscard_Request()
 CMsgGCQuestObjective_PointsChange
 CMsgGCQuestObjective_PointsChange::ByteSize() const
 CMsgGCQuestObjective_PointsChange::CMsgGCQuestObjective_PointsChange()
@@ -21582,6 +21614,7 @@ CNavMesh::GetMarkedArea() const
 CNavMesh::GetNavArea(CBaseEntity*, int, float) const
 CNavMesh::GetNavArea(Vector const&, float) const
 CNavMesh::GetNavAreaByID(unsigned int) const
+CNavMesh::GetNavDataFromFile(CUtlBuffer&, bool*)
 CNavMesh::GetNearestNavArea(CBaseEntity*, int, float) const
 CNavMesh::GetNearestNavArea(Vector const&, bool, float, bool, bool, int) const
 CNavMesh::GetNearestNavArea(Vector const&, bool, float, bool, bool, int) const::searchMarker
@@ -23180,7 +23213,9 @@ CPopulationManager::EndlessParseBotUpgrades()
 CPopulationManager::EndlessRollEscalation()
 CPopulationManager::EndlessSetAttributesForBot(CTFBot*)
 CPopulationManager::EndlessShouldResetFlag()
+CPopulationManager::FindDefaultPopulationFileShortNames(CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
 CPopulationManager::FindOrAddPlayerUpgradeHistory(CSteamID)
+CPopulationManager::FindPopulationFileByShortName(char const*, CUtlString&)
 CPopulationManager::FireGameEvent(IGameEvent*)
 CPopulationManager::ForgetOtherBottleUpgrades(CTFPlayer*, CEconItemView*, int)
 CPopulationManager::GetCurrentWave()
@@ -25071,7 +25106,7 @@ CSoundscapeSystem::PrintDebugInfo()
 CSoundscapeSystem::RemoveSoundscapeEntity(CEnvSoundscape*)
 CSoundscapeSystem::Shutdown()
 CSoundscapeSystem::~CSoundscapeSystem()
-CSpawnLocation::FindSpawnLocation(Vector&) const
+CSpawnLocation::FindSpawnLocation(Vector&)
 CSpawnLocation::Parse(KeyValues*)
 CSpawnLocation::SelectSpawnArea() const
 CSpellPickup
@@ -25592,11 +25627,16 @@ CTFArcherProxy::Update()
 CTFArcherProxy::~CTFArcherProxy()
 CTFBall_Ornament
 CTFBall_Ornament::ApplyBallImpactEffectOnVictim(CBaseEntity*)
+CTFBall_Ornament::Explode(CGameTrace*, int)
 CTFBall_Ornament::GetBallModelName() const
 CTFBall_Ornament::GetBallViewModelName() const
 CTFBall_Ornament::GetServerClass()
 CTFBall_Ornament::GetWeaponID() const
+CTFBall_Ornament::IsAllowedToExplode()
+CTFBall_Ornament::PipebombTouch(CBaseEntity*)
 CTFBall_Ornament::Precache()
+CTFBall_Ornament::VPhysicsCollision(int, gamevcollisionevent_t*)
+CTFBall_Ornament::VPhysicsCollisionThink()
 CTFBall_Ornament::YouForgotToImplementOrDeclareServerClass()
 CTFBall_Ornament::~CTFBall_Ornament()
 CTFBaseBoss
@@ -25742,6 +25782,7 @@ CTFBonesaw::DoMeleeDamage(CBaseEntity*, CGameTrace&)
 CTFBonesaw::GetBoneSawSpeedMod()
 CTFBonesaw::GetServerClass()
 CTFBonesaw::GetWeaponID() const
+CTFBonesaw::SecondaryAttack()
 CTFBonesaw::YouForgotToImplementOrDeclareServerClass()
 CTFBonesaw::~CTFBonesaw()
 CTFBot
@@ -26621,6 +26662,18 @@ CTFCannon::GetServerClass()
 CTFCannon::GetWeaponID() const
 CTFCannon::YouForgotToImplementOrDeclareServerClass()
 CTFCannon::~CTFCannon()
+CTFChargedSMG
+CTFChargedSMG::ApplyOnHitAttributes(CBaseEntity*, CTFPlayer*, CTakeDamageInfo const&)
+CTFChargedSMG::CanPerformSecondaryAttack() const
+CTFChargedSMG::GetDataDescMap()
+CTFChargedSMG::GetServerClass()
+CTFChargedSMG::GetWeaponID() const
+CTFChargedSMG::SecondaryAttack()
+CTFChargedSMG::WeaponReset()
+CTFChargedSMG::YouForgotToImplementOrDeclareServerClass()
+CTFChargedSMG::m_DataMap
+CTFChargedSMG::~CTFChargedSMG()
+CTFChargedSMG_DataDescInit::g_DataMapHolder
 CTFCleaver
 CTFCleaver::CreateJarProjectile(Vector const&, QAngle const&, Vector const&, Vector const&, CBaseCombatCharacter*, CTFWeaponInfo const&)
 CTFCleaver::GetAngularImpulse()
@@ -26682,7 +26735,7 @@ CTFCondition::~CTFCondition()
 CTFConditionList
 CTFConditionList::Add(ETFCond, float, CTFPlayer*, CBaseEntity*)
 CTFConditionList::CTFConditionList()
-CTFConditionList::GetProvider(ETFCond)
+CTFConditionList::GetProvider(ETFCond) const
 CTFConditionList::InCond(ETFCond) const
 CTFConditionList::NetworkStateChanged()
 CTFConditionList::NetworkStateChanged(void*)
@@ -26718,6 +26771,10 @@ CTFCrossbow::GetServerClass()
 CTFCrossbow::GetWeaponID() const
 CTFCrossbow::Holster(CBaseCombatWeapon*)
 CTFCrossbow::IsViewModelFlipped()
+CTFCrossbow::ItemPostFrame()
+CTFCrossbow::ModifyProjectile(CBaseEntity*)
+CTFCrossbow::SecondaryAttack()
+CTFCrossbow::WeaponRegenerate()
 CTFCrossbow::YouForgotToImplementOrDeclareServerClass()
 CTFCrossbow::m_DataMap
 CTFCrossbow::~CTFCrossbow()
@@ -27122,9 +27179,9 @@ CTFGameRules::IsBirthday() const
 CTFGameRules::IsConnectedUserInfoChangeAllowed(CBasePlayer*)
 CTFGameRules::IsDefaultGameMode()
 CTFGameRules::IsHolidayActive(int) const
-CTFGameRules::IsInArenaMode()
+CTFGameRules::IsInArenaMode() const
 CTFGameRules::IsInItemTestingMode()
-CTFGameRules::IsInKothMode()
+CTFGameRules::IsInKothMode() const
 CTFGameRules::IsInTraining()
 CTFGameRules::IsPVEModeActive() const
 CTFGameRules::IsPVEModeControlled(CBaseEntity*) const
@@ -27173,6 +27230,7 @@ CTFGameRules::PlayerReadyStatus_UpdatePlayerState(CTFPlayer*, bool)
 CTFGameRules::PlayerRoundScoreSortFunc(PlayerRoundScore_t const*, PlayerRoundScore_t const*)
 CTFGameRules::PointsMayAlwaysBeBlocked()
 CTFGameRules::PointsMayBeCaptured()
+CTFGameRules::PowerupModeFlagStandoffActive()
 CTFGameRules::PowerupTeamImbalance(int)
 CTFGameRules::PreRound_End()
 CTFGameRules::Precache()
@@ -27390,6 +27448,9 @@ CTFGenericStringRestriction::GetOutputKeyValues(KeyValues*)
 CTFGenericStringRestriction::GetRequiredParamKeys(KeyValues*)
 CTFGenericStringRestriction::PassesRestrictions(IGameEvent*) const
 CTFGenericStringRestriction::~CTFGenericStringRestriction()
+CTFGenericSubStringRestriction
+CTFGenericSubStringRestriction::PassesRestrictions(IGameEvent*) const
+CTFGenericSubStringRestriction::~CTFGenericSubStringRestriction()
 CTFGotoActionPoint
 CTFGotoActionPoint::GetName() const
 CTFGotoActionPoint::OnStart(CTFBot*, Action<CTFBot>*)
@@ -27442,6 +27503,7 @@ CTFGrenadeLauncher::Holster(CBaseCombatWeapon*)
 CTFGrenadeLauncher::IsBlastImpactWeapon() const
 CTFGrenadeLauncher::IsDoubleDonk(CBaseEntity const*) const
 CTFGrenadeLauncher::ItemPostFrame()
+CTFGrenadeLauncher::ItemPreFrame()
 CTFGrenadeLauncher::LaunchGrenade()
 CTFGrenadeLauncher::Misfire()
 CTFGrenadeLauncher::PostFire()
@@ -27449,6 +27511,7 @@ CTFGrenadeLauncher::PrimaryAttack()
 CTFGrenadeLauncher::Reload()
 CTFGrenadeLauncher::ResetDetonateTime()
 CTFGrenadeLauncher::SecondaryAttack()
+CTFGrenadeLauncher::SendWeaponAnim(int)
 CTFGrenadeLauncher::Spawn()
 CTFGrenadeLauncher::WeaponIdle()
 CTFGrenadeLauncher::WeaponReset()
@@ -28267,7 +28330,7 @@ CTFPlayer::DoNoiseMaker()
 CTFPlayer::DoTauntAttack()
 CTFPlayer::DrawDebugTextOverlays()
 CTFPlayer::DropAmmoPack(CTakeDamageInfo const&, bool, bool)
-CTFPlayer::DropCurrencyPack(CurrencyRewards_t, int, CBasePlayer*)
+CTFPlayer::DropCurrencyPack(CurrencyRewards_t, int, bool, CBasePlayer*)
 CTFPlayer::DropDeathCallingCard(CTFPlayer*, CTFPlayer*)
 CTFPlayer::DropFlag(bool)
 CTFPlayer::DropHealthPack(CTakeDamageInfo const&, bool)
@@ -28505,6 +28568,7 @@ CTFPlayer::RemoveAmmo(int, char const*)
 CTFPlayer::RemoveAmmo(int, int)
 CTFPlayer::RemoveBuildResources(int)
 CTFPlayer::RemoveCurrency(int)
+CTFPlayer::RemoveCustomAttribute(char const*)
 CTFPlayer::RemoveDisguise()
 CTFPlayer::RemoveInvisibility()
 CTFPlayer::RemoveMeleeCrit()
@@ -28542,6 +28606,7 @@ CTFPlayer::SetTauntYaw(float)
 CTFPlayer::SetupVisibility(CBaseEntity*, unsigned char*, int)
 CTFPlayer::ShouldAnnounceAchievement()
 CTFPlayer::ShouldCollide(int, int) const
+CTFPlayer::ShouldForceTransmitsForTeam(int)
 CTFPlayer::ShouldGainInstantSpawn()
 CTFPlayer::ShouldGib(CTakeDamageInfo const&)
 CTFPlayer::ShouldShowVoiceSubtitleToEnemy()
@@ -28704,8 +28769,10 @@ CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSD
 CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)::pItemDef_Halloween2015Pass
 CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)::pItemDef_InvasionPass
 CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)::pItemDef_Summer2015Operation
+CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)::pItemDef_Winter2016Pass
 CTFPlayerInventory::SOUpdated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
 CTFPlayerInventory::ValidateInventoryPositions()
+CTFPlayerInventory::~CTFPlayerInventory()
 CTFPlayerMove
 CTFPlayerMove::FinishMove(CBasePlayer*, CUserCmd*, CMoveData*)
 CTFPlayerMove::SetupMove(CBasePlayer*, CUserCmd*, IMoveHelper*, CMoveData*)
@@ -28732,6 +28799,7 @@ CTFPlayerShared::CTFPlayerShared()
 CTFPlayerShared::CalcChargeCrit(bool)
 CTFPlayerShared::CalculateChargeCap() const
 CTFPlayerShared::CalculateObjectCost(CTFPlayer*, int)
+CTFPlayerShared::CanBeDebuffed() const
 CTFPlayerShared::CanRecieveMedigunChargeEffect(medigun_charge_types) const
 CTFPlayerShared::CanRuneCharge() const
 CTFPlayerShared::CheckForAchievement(int)
@@ -28758,7 +28826,7 @@ CTFPlayerShared::GetConditionAssistFromAttacker()::nTrackedConditions
 CTFPlayerShared::GetConditionAssistFromVictim()
 CTFPlayerShared::GetConditionAssistFromVictim()::nTrackedConditions
 CTFPlayerShared::GetConditionDuration(ETFCond) const
-CTFPlayerShared::GetConditionProvider(ETFCond)
+CTFPlayerShared::GetConditionProvider(ETFCond) const
 CTFPlayerShared::GetCritMult()
 CTFPlayerShared::GetDesiredPlayerClassIndex()
 CTFPlayerShared::GetDisguiseMaxBuffedHealth(bool, bool)
@@ -28975,6 +29043,7 @@ CTFProjectile_Arrow::Deflected(CBaseEntity*, Vector&)
 CTFProjectile_Arrow::GetArrowSkin() const
 CTFProjectile_Arrow::GetAssistant()
 CTFProjectile_Arrow::GetBoneAttachmentInfo(mstudiobbox_t*, CBaseAnimating*, Vector&, QAngle&, int&, int&)
+CTFProjectile_Arrow::GetDamage()
 CTFProjectile_Arrow::GetDataDescMap()
 CTFProjectile_Arrow::GetProjectileType() const
 CTFProjectile_Arrow::GetScorer()
@@ -29106,7 +29175,6 @@ CTFProjectile_GrapplingHook_DataDescInit::g_DataMapHolder
 CTFProjectile_HealingBolt
 CTFProjectile_HealingBolt::CanHeadshot()
 CTFProjectile_HealingBolt::GetCollideWithTeammatesDelay() const
-CTFProjectile_HealingBolt::GetDamage()
 CTFProjectile_HealingBolt::GetDataDescMap()
 CTFProjectile_HealingBolt::GetServerClass()
 CTFProjectile_HealingBolt::ImpactTeamPlayer(CTFPlayer*)
@@ -29122,6 +29190,7 @@ CTFProjectile_Jar::Explode(CGameTrace*, int)
 CTFProjectile_Jar::ExplodesOnHit()
 CTFProjectile_Jar::GetBoneAttachmentInfo(mstudiobbox_t*, CBaseAnimating*, Vector&, QAngle&, int&, int&)
 CTFProjectile_Jar::GetDamage()
+CTFProjectile_Jar::GetDamageRadius()
 CTFProjectile_Jar::GetEffectCondition()
 CTFProjectile_Jar::GetImpactEffect()
 CTFProjectile_Jar::GetProjectileType() const
@@ -29429,6 +29498,7 @@ CTFQuestCondition
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFConditionQuestCondition>()
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFFlagEventTypeRestriction>()
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFGenericStringRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFGenericSubStringRestriction>()
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestAndOperatorRestriction>()
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestCustomDamageRestriction>()
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestGameTypeRestriction>()
@@ -29440,12 +29510,14 @@ CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerAliveRestrictio
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerClassRestriction>()
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerConditionRestriction>()
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerDisguiseRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerDistanceRestriction>()
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerIsOwnerRestriction>()
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerJumpingRestriction>()
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestPlayerObjectRestriction>()
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestScorerRestriction>()
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestTeamRestriction>()
 CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFQuestWeaponTypeRestriction>()
+CTFQuestCondition* CreateCTFQuestConditionSubClass<CTFWeaponClassRestriction>()
 CTFQuestCondition::AddChildByName(char const*)
 CTFQuestCondition::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CTFQuestCondition::GetChildren(CUtlVector<CTFQuestCondition*, CUtlMemory<CTFQuestCondition*, int> >&)
@@ -29589,6 +29661,12 @@ CTFQuestPlayerDisguiseRestriction::BPlayerCheck(CTFPlayer const*, IGameEvent*) c
 CTFQuestPlayerDisguiseRestriction::GetOutputKeyValues(KeyValues*)
 CTFQuestPlayerDisguiseRestriction::GetRequiredParamKeys(KeyValues*)
 CTFQuestPlayerDisguiseRestriction::~CTFQuestPlayerDisguiseRestriction()
+CTFQuestPlayerDistanceRestriction
+CTFQuestPlayerDistanceRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+CTFQuestPlayerDistanceRestriction::BPlayerCheck(CTFPlayer const*, IGameEvent*) const
+CTFQuestPlayerDistanceRestriction::GetOutputKeyValues(KeyValues*)
+CTFQuestPlayerDistanceRestriction::GetRequiredParamKeys(KeyValues*)
+CTFQuestPlayerDistanceRestriction::~CTFQuestPlayerDistanceRestriction()
 CTFQuestPlayerIsOwnerRestriction
 CTFQuestPlayerIsOwnerRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CTFQuestPlayerIsOwnerRestriction::BPlayerCheck(CTFPlayer const*, IGameEvent*) const
@@ -29632,8 +29710,6 @@ CTFQuestTeamRestriction::PassesRestrictions(IGameEvent*) const
 CTFQuestTeamRestriction::~CTFQuestTeamRestriction()
 CTFQuestWeaponTypeRestriction
 CTFQuestWeaponTypeRestriction::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
-CTFQuestWeaponTypeRestriction::GetOutputKeyValues(KeyValues*)
-CTFQuestWeaponTypeRestriction::GetRequiredParamKeys(KeyValues*)
 CTFQuestWeaponTypeRestriction::GetValueString() const
 CTFQuestWeaponTypeRestriction::PassesRestrictions(IGameEvent*) const
 CTFQuestWeaponTypeRestriction::~CTFQuestWeaponTypeRestriction()
@@ -29666,6 +29742,7 @@ CTFRaygun::YouForgotToImplementOrDeclareServerClass()
 CTFRaygun::m_pClassSendTable
 CTFRaygun::~CTFRaygun()
 CTFRequiredQuestItemsSet::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+CTFRequiredQuestItemsSet::BPostInit(CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CTFReviveMarker
 CTFReviveMarker::AddMarkerHealth(float)
 CTFReviveMarker::CTFReviveMarker()
@@ -29914,6 +29991,7 @@ CTFSMG::GetServerClass()
 CTFSMG::GetWeaponID() const
 CTFSMG::YouForgotToImplementOrDeclareServerClass()
 CTFSMG::m_DataMap
+CTFSMG::m_pClassSendTable
 CTFSMG::~CTFSMG()
 CTFSMG_DataDescInit::g_DataMapHolder
 CTFScatterGun
@@ -30674,6 +30752,9 @@ CTFWeaponBuilder::WheatleySapperIdle(CTFPlayer*)
 CTFWeaponBuilder::YouForgotToImplementOrDeclareServerClass()
 CTFWeaponBuilder::m_pClassSendTable
 CTFWeaponBuilder::~CTFWeaponBuilder()
+CTFWeaponClassRestriction
+CTFWeaponClassRestriction::PassesRestrictions(IGameEvent*) const
+CTFWeaponClassRestriction::~CTFWeaponClassRestriction()
 CTFWeaponInfo
 CTFWeaponInfo::Parse(KeyValues*, char const*)
 CTFWeaponInvis
@@ -30797,14 +30878,14 @@ CTFWearable::m_DataMap
 CTFWearable::m_pClassSendTable
 CTFWearable::~CTFWearable()
 CTFWearableDemoShield
+CTFWearableDemoShield::CalculateChargeDamage(float)
 CTFWearableDemoShield::CanCharge(CTFPlayer*)
 CTFWearableDemoShield::DoSpecialAction(CTFPlayer*)
 CTFWearableDemoShield::EndSpecialAction(CTFPlayer*)
 CTFWearableDemoShield::Equip(CBasePlayer*)
-CTFWearableDemoShield::GetDamage()
-CTFWearableDemoShield::GetDamageForce()
 CTFWearableDemoShield::GetDataDescMap()
 CTFWearableDemoShield::GetServerClass()
+CTFWearableDemoShield::GetShieldDamageForce(float)
 CTFWearableDemoShield::Precache()
 CTFWearableDemoShield::ShieldBash(CTFPlayer*, float)
 CTFWearableDemoShield::UnEquip(CBasePlayer*)
@@ -31235,10 +31316,10 @@ CTeamplayRoundBasedRules::InRoundRestart()
 CTeamplayRoundBasedRules::InitTeams()
 CTeamplayRoundBasedRules::InternalHandleTeamWin(int)
 CTeamplayRoundBasedRules::IsGameUnderTimeLimit()
-CTeamplayRoundBasedRules::IsInArenaMode()
+CTeamplayRoundBasedRules::IsInArenaMode() const
 CTeamplayRoundBasedRules::IsInHighlanderMode()
 CTeamplayRoundBasedRules::IsInItemTestingMode()
-CTeamplayRoundBasedRules::IsInKothMode()
+CTeamplayRoundBasedRules::IsInKothMode() const
 CTeamplayRoundBasedRules::IsInTournamentMode()
 CTeamplayRoundBasedRules::IsInTraining()
 CTeamplayRoundBasedRules::IsPreviouslyPlayedRound(string_t)
@@ -31723,6 +31804,14 @@ CTrainingModeLogic::SetTrainingObjective(char const*)
 CTrainingModeLogic::m_DataMap
 CTrainingModeLogic::~CTrainingModeLogic()
 CTrainingModeLogic_DataDescInit::g_DataMapHolder
+CTriggerAddOrRemoveTFPlayerAttributes
+CTriggerAddOrRemoveTFPlayerAttributes::EndTouch(CBaseEntity*)
+CTriggerAddOrRemoveTFPlayerAttributes::GetDataDescMap()
+CTriggerAddOrRemoveTFPlayerAttributes::Spawn()
+CTriggerAddOrRemoveTFPlayerAttributes::StartTouch(CBaseEntity*)
+CTriggerAddOrRemoveTFPlayerAttributes::m_DataMap
+CTriggerAddOrRemoveTFPlayerAttributes::~CTriggerAddOrRemoveTFPlayerAttributes()
+CTriggerAddOrRemoveTFPlayerAttributes_DataDescInit::g_DataMapHolder
 CTriggerAddTFPlayerCondition
 CTriggerAddTFPlayerCondition::EndTouch(CBaseEntity*)
 CTriggerAddTFPlayerCondition::GetDataDescMap()
@@ -32623,6 +32712,7 @@ CUtlMemory<ITFTeamTrainWatcher*, int>::Grow(int)
 CUtlMemory<ITFTeleportLocationAutoList*, int>::Grow(int)
 CUtlMemory<ITriggerAreaCaptureAutoList*, int>::Grow(int)
 CUtlMemory<ITriggerHurtAutoList*, int>::Grow(int)
+CUtlMemory<ITriggerPlayerRespawnOverride*, int>::Grow(int)
 CUtlMemory<IZombieAutoList*, int>::Grow(int)
 CUtlMemory<IncursionEntry_t, int>::Grow(int)
 CUtlMemory<KeyValues*, int>::Grow(int)
@@ -32811,6 +32901,7 @@ CUtlMemory<schema_string_table_entry_t, int>::Grow(int)
 CUtlMemory<simthinkentry_t, int>::Grow(int)
 CUtlMemory<static_attrib_t, int>::Grow(int)
 CUtlMemory<std::pair<CTFPlayer*, float>, int>::Grow(int)
+CUtlMemory<std::pair<char const*, int>, int>::Grow(int)
 CUtlMemory<string_t, int>::Grow(int)
 CUtlMemory<studiohdr_t const*, int>::Grow(int)
 CUtlMemory<stun_struct_t, int>::Grow(int)
@@ -34283,6 +34374,7 @@ CUtlVector<ITFTeamTrainWatcher*, CUtlMemory<ITFTeamTrainWatcher*, int> >::~CUtlV
 CUtlVector<ITFTeleportLocationAutoList*, CUtlMemory<ITFTeleportLocationAutoList*, int> >::~CUtlVector()
 CUtlVector<ITriggerAreaCaptureAutoList*, CUtlMemory<ITriggerAreaCaptureAutoList*, int> >::~CUtlVector()
 CUtlVector<ITriggerHurtAutoList*, CUtlMemory<ITriggerHurtAutoList*, int> >::~CUtlVector()
+CUtlVector<ITriggerPlayerRespawnOverride*, CUtlMemory<ITriggerPlayerRespawnOverride*, int> >::~CUtlVector()
 CUtlVector<IZombieAutoList*, CUtlMemory<IZombieAutoList*, int> >::~CUtlVector()
 CUtlVector<MvMMap_t, CUtlMemory<MvMMap_t, int> >::Purge()
 CUtlVector<MvMMap_t, CUtlMemory<MvMMap_t, int> >::~CUtlVector()
@@ -34613,6 +34705,7 @@ CWave::WaveCompleteUpdate()
 CWave::WaveIntermissionUpdate()
 CWave::~CWave()
 CWaveSpawnPopulator
+CWaveSpawnPopulator::CWaveSpawnPopulator(CPopulationManager*)
 CWaveSpawnPopulator::ForceFinish()
 CWaveSpawnPopulator::GetCurrencyAmountPerDeath()
 CWaveSpawnPopulator::OnPlayerKilled(CTFPlayer*)
@@ -37374,6 +37467,9 @@ DT_WaterBullet::g_SendTableInit
 DT_WaterLODControl
 DT_WaterLODControl::g_SendTable
 DT_WaterLODControl::g_SendTableInit
+DT_WeaponChargedSMG
+DT_WeaponChargedSMG::g_SendTable
+DT_WeaponChargedSMG::g_SendTableInit
 DT_WeaponCompoundBow
 DT_WeaponCompoundBow::g_SendTable
 DT_WeaponCompoundBow::g_SendTableInit
@@ -37729,6 +37825,9 @@ EUnlockStyle
 EVENTQUEUE_SAVE_RESTORE_VERSION
 EVENTS
 EconEntity_KillEaterEventPassesRestrictionCheck(IEconItemInterface const*, CEconItemAttributeDefinition const*, CEconItemAttributeDefinition const*, CSteamID)
+EconEntity_NonEquippedItemKillTracking(CTFPlayer*, CTFPlayer*, int)
+EconEntity_NonEquippedItemKillTracking(CTFPlayer*, CTFPlayer*, unsigned short, kill_eater_event_t, int)
+EconEntity_NonEquippedItemKillTracking(CTFPlayer*, CTFPlayer*, unsigned short, kill_eater_event_t, int)::pAttrDef_DeactiveDate
 EconEntity_NonEquippedItemKillTracking_NoPartnerBatched(CTFPlayer*, unsigned short, kill_eater_event_t, int)
 EconEntity_NonEquippedItemKillTracking_NoPartnerBatched(CTFPlayer*, unsigned short, kill_eater_event_t, int)::pAttrDef_DeactiveDate
 EconEntity_OnOwnerKillEaterEvent(CEconEntity*, CTFPlayer*, CTFPlayer*, kill_eater_event_t, int)
@@ -38068,6 +38167,7 @@ Frequency
 Frozen
 FullRound
 FuncTrackChange.Blocking
+G0fffff.
 G1A1F
 GAMEEVENTSMANAGER002
 GCClientSystem()
@@ -38939,8 +39039,6 @@ IEconItemInterface::IsPermanentlyUntradable() const
 IEconItemInterface::IsPermanentlyUntradable() const::pAttrib_AlwaysTradable
 IEconItemInterface::IsPermanentlyUntradable() const::pAttrib_CannotTrade
 IEconItemInterface::IsPermanentlyUntradable() const::pAttrib_NonEconomy
-IEconItemInterface::IsTemporaryItem() const
-IEconItemInterface::IsTemporaryItem() const::pAttrib_ExpirationDate
 IEconItemInterface::IsTradable() const
 IEconItemInterface::IsUsableInCrafting() const
 IEconItemInterface::IsUsableInCrafting() const::pAttrib_AlwaysUsableInCraft
@@ -38954,7 +39052,6 @@ IEconItemUntypedAttributeIterator::OnIterateAttributeValue(CEconItemAttributeDef
 IEconItemUntypedAttributeIterator::OnIterateAttributeValue(CEconItemAttributeDefinition const*, unsigned int)
 IEconItemUntypedAttributeIterator::OnIterateAttributeValue(CEconItemAttributeDefinition const*, unsigned long long const&)
 IEconLootList
-IEconLootList::IEconLootListIterator
 IEconTool
 IEconTool::BFinishInitialization()
 IEconTool::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const
@@ -39498,6 +39595,9 @@ ITriggerAreaCaptureAutoList::~ITriggerAreaCaptureAutoList()
 ITriggerHurtAutoList
 ITriggerHurtAutoList::m_ITriggerHurtAutoListAutoList
 ITriggerHurtAutoList::~ITriggerHurtAutoList()
+ITriggerPlayerRespawnOverride
+ITriggerPlayerRespawnOverride::m_ITriggerPlayerRespawnOverrideAutoList
+ITriggerPlayerRespawnOverride::~ITriggerPlayerRespawnOverride()
 IVPhysicsKeyHandler
 IVPhysicsWatcher
 IVehicle
@@ -39602,6 +39702,7 @@ IncrementTextureIndex
 IndexModelSequences(CStudioHdr*)
 InfoPanel
 InitBodyQue()
+InitPerClassRandomChanceStringArray(KeyValues*, CRandomChanceString (&) [11], CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 InitPerClassStringVectorArray(KeyValues*, CUtlVector<char const*, CUtlMemory<char const*, int> > (&) [11], CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 InitPose(CStudioHdr const*, Vector*, Quaternion*, int)
 InitWaveOutput
@@ -40407,6 +40508,7 @@ KeyValues::RecursiveMergeKeyValues(KeyValues*)
 KeyValues::RecursiveSaveToFile(CUtlBuffer&, int, bool, bool)
 KeyValues::RecursiveSaveToFile(IBaseFileSystem*, void*, CUtlBuffer*, int, bool, bool)
 KeyValues::RemoveEverything()
+KeyValues::RemoveSubKey(KeyValues*)
 KeyValues::SaveKeyToFile(KeyValues*, IBaseFileSystem*, void*, CUtlBuffer*, int, bool, bool)
 KeyValues::SaveKeyToFile(KeyValues*, IBaseFileSystem*, void*, CUtlBuffer*, int, bool, bool)::buf
 KeyValues::SaveToFile(IBaseFileSystem*, char const*, char const*, bool, bool, bool)
@@ -40423,7 +40525,6 @@ KeyValues::operator delete(void*)
 KeyValues::operator new(unsigned long)
 KeyValues::s_pfGetStringForSymbol
 KeyValues::s_pfGetSymbolForString
-Kffffff.
 KickBots
 Kicked
 KillCount
@@ -40682,6 +40783,8 @@ MapVersion
 MarkAttribute
 MarkVPhysicsDebug(CBaseEntity*)
 MatSystemSurface008
+MatchMaking.RoundEnd
+MatchMaking.RoundStart
 MatchType
 Material
 MaterialSystemHardwareConfig012
@@ -41577,6 +41680,7 @@ OptimizeMode
 Option
 Option1
 Option2
+OrnamentCollisionThink
 OutColor
 OutValue
 OuterMaxDist
@@ -42104,6 +42208,7 @@ PostSpawnDirectionVariance
 PostSpawnInheritAngles
 PostSpawnSpeed
 PostUpdateQueryCache()
+PotentiallyFireDamageMitigatedEvent(CTFPlayer const*, CTFPlayer const*, CEconEntity const*, float, float)
 Pottery.Huge
 Pottery.Large
 Pottery.Medium
@@ -43870,6 +43975,7 @@ TF_COND_INVULNERABLE_HIDE_UNLESS_DAMAGED
 TF_COND_INVULNERABLE_USER_BUFF
 TF_COND_INVULNERABLE_WEARINGOFF
 TF_COND_KING_BUFFED
+TF_COND_KNOCKED_INTO_AIR
 TF_COND_MAD_MILK
 TF_COND_MARKEDFORDEATH
 TF_COND_MARKEDFORDEATH_SILENT
@@ -43924,6 +44030,7 @@ TF_COND_STUNNED
 TF_COND_SWIMMING_CURSE
 TF_COND_SWIMMING_NO_EFFECTS
 TF_COND_TAUNTING
+TF_COND_TEAM_GLOWS
 TF_COND_TELEPORTED
 TF_COND_TMPDAMAGEBONUS
 TF_COND_URINE
@@ -44085,6 +44192,7 @@ TF_WEAPON_BOTTLE
 TF_WEAPON_BUFF_ITEM
 TF_WEAPON_BUILDER
 TF_WEAPON_CANNON
+TF_WEAPON_CHARGED_SMG
 TF_WEAPON_CLEAVER
 TF_WEAPON_CLUB
 TF_WEAPON_COMPOUND_BOW
@@ -44956,6 +45064,7 @@ VaccinatorBlast
 VaccinatorBullets
 VaccinatorFire
 ValidateCapturesPerRound(IConVar*, char const*, float)
+ValidateKeysAreSubset(KeyValues*, CUtlVector<char const*, CUtlMemory<char const*, int> > const&, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 ValidateMOTDFilename(IConVar*, char const*, float)
 Value
 ValueNames
@@ -44981,6 +45090,7 @@ VerticalGlowSize
 Vfffff.
 Vffffff.
 VguiScreen
+Viaduct
 VictimClass
 VictimHealth
 VictimKillstreak
@@ -45076,6 +45186,8 @@ Weapon_Arrow.ImpactFlesh
 Weapon_Arrow.ImpactMetal
 Weapon_Arrow.ImpactWood
 Weapon_Arrow.Nearmiss
+Weapon_BattalionsBackup.HornBlue
+Weapon_BattalionsBackup.HornRed
 Weapon_BuffBanner.Flag
 Weapon_BuffBanner.HornBlue
 Weapon_BuffBanner.HornRed
@@ -45159,7 +45271,7 @@ ZoomOutIn
 Zrange
 \fff.
 _.memset_pattern
-_.memset_pattern126
+_.memset_pattern128
 _.memset_pattern24
 _AIN_NO_DEST
 _BannerModels
@@ -45345,10 +45457,10 @@ ___cxx_global_array_dtor
 ___cxx_global_array_dtor102
 ___cxx_global_array_dtor105
 ___cxx_global_array_dtor106
-___cxx_global_array_dtor1151
+___cxx_global_array_dtor1156
 ___cxx_global_array_dtor116
-___cxx_global_array_dtor117
 ___cxx_global_array_dtor119
+___cxx_global_array_dtor120
 ___cxx_global_array_dtor121
 ___cxx_global_array_dtor13
 ___cxx_global_array_dtor14
@@ -45370,7 +45482,7 @@ ___cxx_global_array_dtor19
 ___cxx_global_array_dtor191
 ___cxx_global_array_dtor192
 ___cxx_global_array_dtor195
-___cxx_global_array_dtor197
+___cxx_global_array_dtor198
 ___cxx_global_array_dtor20
 ___cxx_global_array_dtor200
 ___cxx_global_array_dtor21
@@ -45402,7 +45514,7 @@ ___cxx_global_array_dtor34
 ___cxx_global_array_dtor351
 ___cxx_global_array_dtor36
 ___cxx_global_array_dtor38
-___cxx_global_array_dtor383
+___cxx_global_array_dtor386
 ___cxx_global_array_dtor39
 ___cxx_global_array_dtor397
 ___cxx_global_array_dtor40
@@ -46195,9 +46307,11 @@ _k_pszQuestConditionRequiredFieldStrings
 _k_sANDRegisteredEntry
 _k_sNOTRegisteredEntry
 _k_sORRegisteredEntry
+_k_sbonuseffectRegisteredEntry
 _k_sconditionRegisteredEntry
 _k_scrit_killRegisteredEntry
 _k_scustom_damageRegisteredEntry
+_k_sdeflected_projectileRegisteredEntry
 _k_sflag_event_typeRegisteredEntry
 _k_sgame_typeRegisteredEntry
 _k_shalloween_boss_typeRegisteredEntry
@@ -46209,13 +46323,15 @@ _k_splayer_aliveRegisteredEntry
 _k_splayer_classRegisteredEntry
 _k_splayer_conditionRegisteredEntry
 _k_splayer_disguiseRegisteredEntry
+_k_splayer_distanceRegisteredEntry
 _k_splayer_is_ownerRegisteredEntry
 _k_splayer_jumpingRegisteredEntry
 _k_sscorerRegisteredEntry
 _k_steam_restrictionRegisteredEntry
-_k_sweaponRegisteredEntry
+_k_sweapon_classRegisteredEntry
 _k_sweapon_def_indexRegisteredEntry
 _k_sweapon_nameRegisteredEntry
+_k_sweapon_typeRegisteredEntry
 _key_field
 _lagcompensation
 _level_sounds.txt
@@ -47147,6 +47263,7 @@ _tf_populator_health_multiplier
 _tf_powerup_max_charge_time
 _tf_powerup_mode
 _tf_powerup_mode_imbalance_delta
+_tf_preround_push_from_damage_enable
 _tf_raid_engineer_infinte_metal
 _tf_rd_max_points_override
 _tf_rd_min_points_to_steal
@@ -47211,6 +47328,7 @@ _tf_soccer_ball_up_max
 _tf_soccer_front_hit_range
 _tf_soldier_buff_pulses
 _tf_solidobjects
+_tf_spawn_glows_duration
 _tf_spec_xray
 _tf_spells_enabled
 _tf_spy_cloak_consume_rate
@@ -47395,6 +47513,7 @@ add_onhit_addhealth
 add_onhit_ubercharge
 add_onkill_critboost_time
 add_onkill_minicritboost_time
+add_or_remove
 add_player_capturevalue
 add_points_context
 add_set_to_output
@@ -47592,7 +47711,7 @@ altpath
 always
 ambient
 ambient_generic
-ammo_becomes_health
+ammo_gives_charge
 ammo_max
 ammomod
 ammopack_large
@@ -47691,6 +47810,7 @@ attach_to_hands_vm_only
 attach_to_rootbone
 attachedEntity
 attached_models
+attached_models_festive
 attached_particlesystems
 attachment
 attachment_name
@@ -47707,6 +47827,7 @@ attribute
 attribute_class
 attribute_controlled_attached_particles
 attribute_index
+attribute_name
 attribute_type
 attributes
 attributes_matching_type
@@ -47766,6 +47887,7 @@ badge_granted
 badge_item_def
 badge_level
 badge_leveled
+badge_points
 badge_progress_bits
 badge_progress_updated
 ball_spawn_countdown
@@ -47864,6 +47986,7 @@ bonePositionX
 bonePositionY
 bonePositionZ
 bone_followers
+bonus_lootlist
 bonus_points
 bonuseffect
 boogie
@@ -48101,6 +48224,7 @@ bytes
 bytes_read
 bytes_written
 cBuffFlags
+cProceduralBarrelRotationAnimationPoints
 c_breadmonster_sapper.mdl
 c_p2rec.mdl
 c_sapper.mdl
@@ -48202,6 +48326,7 @@ channels
 chaptertitle
 char* std::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_construct<char*>(char*, char*, std::allocator<char> const&, std::forward_iterator_tag)
 charge_impact_damage
+charge_meter_on_hit
 charge_recharge_rate
 charge_turn_control
 charged
@@ -48290,6 +48415,7 @@ coldworld
 collecting_player
 collection_item_id
 collection_reference
+collection_restrictions
 collector
 collectors
 collision_shake_amp
@@ -48520,6 +48646,7 @@ critical_rocket_blue
 critical_rocket_red
 crits_on_damage
 cross_spectral_bridge
+crossbow_heal
 crosshair_enemy
 crosshair_on
 crouch_aim_
@@ -48610,6 +48737,7 @@ damage.txt
 damage_all_connected
 damage_causes_airblast
 damage_force_reduction
+damage_mitigated
 damage_percent_per_second
 damage_prevented
 damage_resisted
@@ -48617,6 +48745,7 @@ damage_table
 damageamount
 damagebits
 damagecap
+damaged
 damagefilter
 damagemodel
 damagescale
@@ -49692,6 +49821,8 @@ datamap_t* DataMapInit<CTFBotProxy>(CTFBotProxy*)::dataDesc
 datamap_t* DataMapInit<CTFBotProxy>(CTFBotProxy*)::nameHolder
 datamap_t* DataMapInit<CTFBotRoster>(CTFBotRoster*)::dataDesc
 datamap_t* DataMapInit<CTFBotRoster>(CTFBotRoster*)::nameHolder
+datamap_t* DataMapInit<CTFChargedSMG>(CTFChargedSMG*)::dataDesc
+datamap_t* DataMapInit<CTFChargedSMG>(CTFChargedSMG*)::nameHolder
 datamap_t* DataMapInit<CTFCompoundBow>(CTFCompoundBow*)::dataDesc
 datamap_t* DataMapInit<CTFCompoundBow>(CTFCompoundBow*)::nameHolder
 datamap_t* DataMapInit<CTFCrossbow>(CTFCrossbow*)::dataDesc
@@ -49903,6 +50034,8 @@ datamap_t* DataMapInit<CTrainingAnnotation>(CTrainingAnnotation*)::nameHolder
 datamap_t* DataMapInit<CTrainingModeLogic>(CTrainingModeLogic*)
 datamap_t* DataMapInit<CTrainingModeLogic>(CTrainingModeLogic*)::dataDesc
 datamap_t* DataMapInit<CTrainingModeLogic>(CTrainingModeLogic*)::nameHolder
+datamap_t* DataMapInit<CTriggerAddOrRemoveTFPlayerAttributes>(CTriggerAddOrRemoveTFPlayerAttributes*)::dataDesc
+datamap_t* DataMapInit<CTriggerAddOrRemoveTFPlayerAttributes>(CTriggerAddOrRemoveTFPlayerAttributes*)::nameHolder
 datamap_t* DataMapInit<CTriggerAddTFPlayerCondition>(CTriggerAddTFPlayerCondition*)::dataDesc
 datamap_t* DataMapInit<CTriggerAddTFPlayerCondition>(CTriggerAddTFPlayerCondition*)::nameHolder
 datamap_t* DataMapInit<CTriggerApplyImpulse>(CTriggerApplyImpulse*)::dataDesc
@@ -50120,6 +50253,7 @@ dbghist_dump
 deadflag
 deadlock_retries
 deadmodel
+deadringer_cheat_death
 death
 death_flags
 debris
@@ -50140,6 +50274,7 @@ default_clip
 default_clip2
 default_drop_quantity
 default_item_sort
+default_skin
 default_value
 defaultdelay
 defaultresponsesytem
@@ -50159,6 +50294,7 @@ deflect_huntsman_flyingburn
 deflect_promode
 deflect_rocket
 deflect_sticky
+deflected_projectile
 deflection_size_multiplier
 delay
 delete_hits
@@ -50249,6 +50385,8 @@ disposition
 dissolvetype
 distance
 distance_check_subtitle
+distance_check_type
+distance_to_check
 distancetoenemy
 distancetoplayer
 dll.cpp
@@ -50769,6 +50907,7 @@ fireballsprite
 firedamage
 fireinterval
 fireradius
+fires_milk_bolt
 firesize
 firetarget
 firetrigger
@@ -50855,6 +50994,7 @@ float const& CNetworkVarBase<float, CBaseCombatWeapon::NetworkVar_m_flNextSecond
 float const& CNetworkVarBase<float, CBaseCombatWeapon::NetworkVar_m_flTimeWeaponIdle>::operator=<double>(double const&)
 float const& CNetworkVarBase<float, CBaseFire::NetworkVar_m_flScale>::operator=<float>(float const&)
 float const& CNetworkVarBase<float, CBaseFire::NetworkVar_m_flScaleTime>::operator=<float>(float const&)
+float const& CNetworkVarBase<float, CCaptureFlag::NetworkVar_m_flTimeToSetPoisonous>::operator=<float>(float const&)
 float const& CNetworkVarBase<float, CObjectTeleporter::NetworkVar_m_flCurrentRechargeDuration>::operator=<float>(float const&)
 float const& CNetworkVarBase<float, CTFPipebombLauncher::NetworkVar_m_flChargeBeginTime>::operator=<int>(int const&)
 float const& CNetworkVarBase<float, CTFSniperRifle::NetworkVar_m_flChargedDamage>::operator=<float>(float const&)
@@ -50944,6 +51084,7 @@ friendlyfire
 full_reset
 full_round
 fullmoon
+fully_complete_quest
 funCBaseFlex
 func_
 func_achievement
@@ -51227,6 +51368,7 @@ g_CTFBotHintEngineerNest_ClassReg
 g_CTFBottle_ClassReg
 g_CTFBuffItem_ClassReg
 g_CTFCannon_ClassReg
+g_CTFChargedSMG_ClassReg
 g_CTFCleaver_ClassReg
 g_CTFClub_ClassReg
 g_CTFCompoundBow_ClassReg
@@ -51717,7 +51859,6 @@ grenade1
 grenade2
 grenade_damage_reduction_on_world_contact
 grenade_detonation_damage_penalty
-grenade_launcher_mortar_mode
 grenade_no_bounce
 grenade_no_spin
 grenade_smoke_cycle
@@ -51764,6 +51905,7 @@ guard variable for CEconItemView::GetModifiedRGBValue(bool)::pAttr_PaintOverride
 guard variable for CEconLootListDefinition::BInitFromKV(KeyValues*, KeyValues*, CEconItemSchema&, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)::pAttribDef_EndDropDate
 guard variable for CEconLootListDefinition::BInitFromKV(KeyValues*, KeyValues*, CEconItemSchema&, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)::pAttribDef_StartDropDate
 guard variable for CEconTool_DuckToken::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttrDef_DuckBadgeLevel
+guard variable for CEconTool_Festivizer::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttribDef_Festivizer
 guard variable for CEconTool_KillStreakifier::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttribDef_KillStreakEffect
 guard variable for CEconTool_StrangePart::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttrDef_StrangePartCounterID
 guard variable for CEconTool_Xifier::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttribDef_ToolTargetItem
@@ -51843,6 +51985,7 @@ guard variable for CTFPlayer::UpdateSkillRatingData()::vecAttackers
 guard variable for CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)::pItemDef_Halloween2015Pass
 guard variable for CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)::pItemDef_InvasionPass
 guard variable for CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)::pItemDef_Summer2015Operation
+guard variable for CTFPlayerInventory::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)::pItemDef_Winter2016Pass
 guard variable for CTFPlayerShared::OnRemoveHalloweenTiny()::vTest
 guard variable for CTFPowerupBottle::SetNumCharges(unsigned char)::pAttrDef_PowerupCharges
 guard variable for CTFProjectile_SpellSpawnBoss::InitialExplodeEffects(CTFPlayer*, CGameTrace const*)::vTest
@@ -51971,6 +52114,7 @@ guard variable for CryptoPP::Singleton<CryptoPP::PKCS1v15_SignatureMessageEncodi
 guard variable for CryptoPP::TheBitBucket()::bitBucket
 guard variable for DmxElementUnpackStructure_t* DmxElementUnpackInit<CParticleSystemDefinition>(CParticleSystemDefinition*)::unpack
 guard variable for DmxElementUnpackStructure_t* DmxElementUnpackInit<ParticleChildrenInfo_t>(ParticleChildrenInfo_t*)::unpack
+guard variable for EconEntity_NonEquippedItemKillTracking(CTFPlayer*, CTFPlayer*, unsigned short, kill_eater_event_t, int)::pAttrDef_DeactiveDate
 guard variable for EconEntity_NonEquippedItemKillTracking_NoPartnerBatched(CTFPlayer*, unsigned short, kill_eater_event_t, int)::pAttrDef_DeactiveDate
 guard variable for EntityFactoryDictionary()::s_EntityFactory
 guard variable for GCSDK::GMapJobTypesByMsg()::s_MapJobTypes
@@ -51997,7 +52141,6 @@ guard variable for IEconItemInterface::IsMarketable() const::pItemDef_GlitchedCi
 guard variable for IEconItemInterface::IsPermanentlyUntradable() const::pAttrib_AlwaysTradable
 guard variable for IEconItemInterface::IsPermanentlyUntradable() const::pAttrib_CannotTrade
 guard variable for IEconItemInterface::IsPermanentlyUntradable() const::pAttrib_NonEconomy
-guard variable for IEconItemInterface::IsTemporaryItem() const::pAttrib_ExpirationDate
 guard variable for IEconItemInterface::IsUsableInCrafting() const::pAttrib_AlwaysUsableInCraft
 guard variable for IEconItemInterface::IsUsableInCrafting() const::pAttrib_NeverCraftable
 guard variable for IEconTool::ShouldDisplayQuantity(IEconItemInterface const*) const::pAttrDef_UnlimitedQuantity
@@ -52686,6 +52829,7 @@ guard variable for datamap_t* DataMapInit<CTFBotHintTeleporterExit>(CTFBotHintTe
 guard variable for datamap_t* DataMapInit<CTFBotProxy>(CTFBotProxy*)::dataDesc
 guard variable for datamap_t* DataMapInit<CTFBotProxy>(CTFBotProxy*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTFBotRoster>(CTFBotRoster*)::nameHolder
+guard variable for datamap_t* DataMapInit<CTFChargedSMG>(CTFChargedSMG*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTFCompoundBow>(CTFCompoundBow*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTFCrossbow>(CTFCrossbow*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTFFlameThrower>(CTFFlameThrower*)::nameHolder
@@ -52808,6 +52952,7 @@ guard variable for datamap_t* DataMapInit<CTimerEntity>(CTimerEntity*)::nameHold
 guard variable for datamap_t* DataMapInit<CTrainingAnnotation>(CTrainingAnnotation*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTrainingModeLogic>(CTrainingModeLogic*)::dataDesc
 guard variable for datamap_t* DataMapInit<CTrainingModeLogic>(CTrainingModeLogic*)::nameHolder
+guard variable for datamap_t* DataMapInit<CTriggerAddOrRemoveTFPlayerAttributes>(CTriggerAddOrRemoveTFPlayerAttributes*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTriggerAddTFPlayerCondition>(CTriggerAddTFPlayerCondition*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTriggerApplyImpulse>(CTriggerApplyImpulse*)::nameHolder
 guard variable for datamap_t* DataMapInit<CTriggerAreaCapture>(CTriggerAreaCapture*)::dataDesc
@@ -53289,6 +53434,7 @@ guard variable for int ServerClassInit<DT_VoteController::ignored>(DT_VoteContro
 guard variable for int ServerClassInit<DT_WORLD::ignored>(DT_WORLD::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_WaterBullet::ignored>(DT_WaterBullet::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_WaterLODControl::ignored>(DT_WaterLODControl::ignored*)::g_SendProps
+guard variable for int ServerClassInit<DT_WeaponChargedSMG::ignored>(DT_WeaponChargedSMG::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_WeaponCompoundBow::ignored>(DT_WeaponCompoundBow::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_WeaponDRGPomson::ignored>(DT_WeaponDRGPomson::ignored*)::g_SendProps
 guard variable for int ServerClassInit<DT_WeaponFlameThrower::ignored>(DT_WeaponFlameThrower::ignored*)::g_SendProps
@@ -54722,6 +54868,9 @@ int ServerClassInit<DT_WaterBullet::ignored>(DT_WaterBullet::ignored*)::g_pSendT
 int ServerClassInit<DT_WaterLODControl::ignored>(DT_WaterLODControl::ignored*)
 int ServerClassInit<DT_WaterLODControl::ignored>(DT_WaterLODControl::ignored*)::g_SendProps
 int ServerClassInit<DT_WaterLODControl::ignored>(DT_WaterLODControl::ignored*)::g_pSendTableName
+int ServerClassInit<DT_WeaponChargedSMG::ignored>(DT_WeaponChargedSMG::ignored*)
+int ServerClassInit<DT_WeaponChargedSMG::ignored>(DT_WeaponChargedSMG::ignored*)::g_SendProps
+int ServerClassInit<DT_WeaponChargedSMG::ignored>(DT_WeaponChargedSMG::ignored*)::g_pSendTableName
 int ServerClassInit<DT_WeaponCompoundBow::ignored>(DT_WeaponCompoundBow::ignored*)
 int ServerClassInit<DT_WeaponCompoundBow::ignored>(DT_WeaponCompoundBow::ignored*)::g_SendProps
 int ServerClassInit<DT_WeaponCompoundBow::ignored>(DT_WeaponCompoundBow::ignored*)::g_pSendTableName
@@ -54853,14 +55002,17 @@ invert_exclusion
 invulnerable
 isBossForceSpawning
 isCrit
+is_a_sword
 is_account_locked_down
 is_australium_item
 is_banned_future
 is_banned_now
+is_campaign
 is_community_banned
 is_console
 is_cyber_cafe
 is_extension
+is_festive
 is_free_trial_account
 is_giger_counter
 is_hidden_set
@@ -54998,6 +55150,7 @@ item_whitelist
 item_whitelist.txt
 itemdef
 itemdef_restrictions
+itemdefindex
 iteminfo
 itempack__ack_immediately
 items
@@ -55198,9 +55351,12 @@ k_EMsgGCPlayerFailedToConnect
 k_EMsgGCPresets_SetItemPosition
 k_EMsgGCQuestComplete_Request
 k_EMsgGCQuestCompleted
+k_EMsgGCQuestDiscard_Request
 k_EMsgGCQuestObjective_Progress
 k_EMsgGCReadyUp
 k_EMsgGCRemoveCustomTexture
+k_EMsgGCRemoveGiftedBy
+k_EMsgGCRemoveGiftedByResponse
 k_EMsgGCRemoveItemName
 k_EMsgGCRemoveItemPaint
 k_EMsgGCRemoveKillStreak
@@ -55345,6 +55501,7 @@ killvector_command
 killvector_helper(CCommand const&, bool)
 koth_king
 koth_lakeside_event
+koth_viaduct
 koth_viaduct_event
 lPPPPPPP
 label
@@ -55536,7 +55693,6 @@ loot_list_collection
 loot_list_footer_desc
 loot_list_header_desc
 loot_list_name
-loot_list_rarity
 loot_response
 lootlist_name
 lose_demo_charge_on_damage_when_charging
@@ -56593,6 +56749,7 @@ m_bReciprocal
 m_bReloadHudHintDisplayed
 m_bReloadedThroughAnimEvent
 m_bReloadsSingly
+m_bRemove
 m_bRemoveable
 m_bRequireAllTags
 m_bResetParity
@@ -56914,6 +57071,7 @@ m_flAssaultPointTolerance
 m_flAssaultTimeout
 m_flAttackTime
 m_flAttenuation
+m_flAttributeValue
 m_flAutoCapTime
 m_flAutoReturnDelay
 m_flAutomationDelay
@@ -57137,6 +57295,7 @@ m_flLastStateChangeTime
 m_flLastSuccessfulSimplifyTime
 m_flLastTime
 m_flLastTimeAcceptedSpeak
+m_flLastUsedTimestamp
 m_flLastWashStartTime
 m_flLayerAnimtime
 m_flLayerFadeOuttime
@@ -57191,6 +57350,7 @@ m_flMinPropScreenSpaceWidth
 m_flMinRandAnimTime
 m_flMinRestInterval
 m_flMinTimeout
+m_flMinicritCharge
 m_flMinimumSpeedToEnterExit
 m_flModelScale
 m_flMoveDistance
@@ -57288,6 +57448,7 @@ m_flRedFinaleEndTime
 m_flRedTeamRespawnScale
 m_flRefireDelay
 m_flRefireTime
+m_flRegenerateDuration
 m_flReloadPriorNextFire
 m_flRenderArmLength
 m_flRenderAspectRatio
@@ -57407,6 +57568,7 @@ m_flTimeStartFadeIn
 m_flTimeStartFadeOut
 m_flTimeToEnableCapPoint
 m_flTimeToSafety
+m_flTimeToSetPoisonous
 m_flTimeToTrigger
 m_flTimeUnderRotor
 m_flTimeUnderRotorVariance
@@ -57777,6 +57939,7 @@ m_iCurrentFade
 m_iCurrentGameMaterial
 m_iCurrentMaxRagdollCount
 m_iCurrentSection
+m_iCurrentTube
 m_iCurrentWaveIdx
 m_iCustomDamageType
 m_iCustomParticleIndex
@@ -57841,6 +58004,7 @@ m_iGibModelIndex
 m_iGibs
 m_iGlobalname
 m_iGoalSequence
+m_iGoalTube
 m_iGravity
 m_iGustDirChange
 m_iHammerID
@@ -58081,6 +58245,7 @@ m_iszAssociateTeamEntityName
 m_iszAssociatedModel
 m_iszAttachmentName
 m_iszAttractPlayerConceptModifier
+m_iszAttributeName
 m_iszBasePropData
 m_iszBlueTeleport
 m_iszBotName
@@ -59212,6 +59377,7 @@ magnetted_objects_t::m_DataMap
 magnetted_objects_t_DataDescInit::g_DataMapHolder
 magnitude
 mamamamamama
+mannup_points
 mannup_tour_name
 mantreads
 map_file_override
@@ -59222,6 +59388,7 @@ mapcycle.txt
 mapcyclefile
 mapname
 mapobj_cart_dispenser
+maps\embed.nav
 maptoken
 mark_for_death
 mark_for_death_on_building_pickup
@@ -59262,6 +59429,7 @@ maxShots
 maxState
 maxTimeShots
 max_bonus_points
+max_drop_count
 max_health
 max_ilevel
 max_length
@@ -59396,10 +59564,11 @@ mingust
 mingustdelay
 minhealthdmg
 mini_crit_airborne
-mini_crit_airborne_deploy
 mini_rockets
 mini_sentry_light
 minicrit
+minicrit_boost_charge_rate
+minicrit_boost_when_charged
 minicrits_become_crits
 minigame_type
 minigame_win
@@ -59430,6 +59599,7 @@ mission_show_command
 mission_sniper
 mission_spy
 missions
+mitigator
 mmamammmmammamamaaamammma
 mmmaaaabcdefgmmmmaaaammmaamm
 mmmaaammmaaammmabcdefaaaammmmabcdefmmmaaaa
@@ -60045,7 +60215,6 @@ nexttoken(char*, char const*, char)
 nfff.
 nfffff.
 nmonqnmomnmomomno
-no_charge_impact_range
 no_crit_boost
 no_death_from_headshots
 no_entity
@@ -60953,6 +61122,7 @@ non-virtual thunk to CTeamplayRoundBasedRules::~CTeamplayRoundBasedRules()
 non-virtual thunk to CToolFrameworkServer::PreSetupVisibility()
 non-virtual thunk to CTriggerAreaCapture::~CTriggerAreaCapture()
 non-virtual thunk to CTriggerHurt::~CTriggerHurt()
+non-virtual thunk to CTriggerPlayerRespawnOverride::~CTriggerPlayerRespawnOverride()
 non-virtual thunk to CTriggerTimerDoor::~CTriggerTimerDoor()
 non-virtual thunk to CTriggerVPhysicsMotion::Simulate(IPhysicsMotionController*, IPhysicsObject*, float, Vector&, Vector&)
 non-virtual thunk to CUpgrades::FireGameEvent(IGameEvent*)
@@ -61248,11 +61418,13 @@ paintable
 paintable_team_colors
 paintcan_index
 paintkitWeapon
+paintkit_weapon_festivizer
 paintsplat
 panel_style
 panelname
 panic_attack_negative
 parachute_attribute
+parachute_disabled
 param_a
 param_d
 param_m
@@ -61299,6 +61471,7 @@ path_track_passed
 patient
 pattern
 payload
+payload_pushed
 payload_race
 pd_dispenser
 pda_click
@@ -61447,6 +61620,7 @@ player_destroyed_pipebomb
 player_directhit_stun
 player_disconnect
 player_disguise
+player_distance
 player_dropobject
 player_entindex
 player_escort_score
@@ -61697,6 +61871,7 @@ precache_weapon_tf_weapon_bottle
 precache_weapon_tf_weapon_buff_item
 precache_weapon_tf_weapon_builder
 precache_weapon_tf_weapon_cannon
+precache_weapon_tf_weapon_charged_smg
 precache_weapon_tf_weapon_cleaver
 precache_weapon_tf_weapon_club
 precache_weapon_tf_weapon_compound_bow
@@ -61855,6 +62030,7 @@ prophunt_time2
 props_break_max_pieces
 props_break_max_pieces_perframe
 provide_on_active
+provider_must_be_owner
 pszConvar
 pszCurrentValue
 pszOrgValue
@@ -61872,6 +62048,7 @@ purchase_result_detail
 purchase_type
 purgatory_escaped
 pushdir
+pusher
 pve_win_panel
 pvsplayer
 py_generic_services
@@ -62184,7 +62361,6 @@ sPhases
 sTFBotManager
 sUnlockedSentence
 sUnlockedSound
-s_BoneMutex
 s_BotManager
 s_BraceCharacters
 s_BreakSet
@@ -63263,7 +63439,6 @@ t4fff.
 t5JtP
 t5NtP
 t5fffff.
-t7_VF2
 t8ffffff.
 t9JtT
 t9ffff.
@@ -64010,6 +64185,7 @@ tf_powerup_bottle
 tf_powerup_max_charge_time
 tf_powerup_mode
 tf_powerup_mode_imbalance_delta
+tf_preround_push_from_damage_enable
 tf_projectile
 tf_projectile_arrow
 tf_projectile_ball_ornament
@@ -64123,6 +64299,7 @@ tf_soccer_ball_up_max
 tf_soccer_front_hit_range
 tf_soldier_buff_pulses
 tf_solidobjects
+tf_spawn_glows_duration
 tf_spawner
 tf_spec_xray
 tf_spell_meteorshowerspawner
@@ -64189,6 +64366,7 @@ tf_weapon_buff_item
 tf_weapon_builder
 tf_weapon_building_carried_destroyed
 tf_weapon_cannon
+tf_weapon_charged_smg
 tf_weapon_cleaver
 tf_weapon_club
 tf_weapon_compound_bow
@@ -64426,6 +64604,7 @@ training_prop_dynamic
 transid
 trial_account
 trigger
+trigger_add_or_remove_tf_player_attributes
 trigger_add_tf_player_condition
 trigger_apply_impulse
 trigger_autosave
@@ -64799,7 +64978,6 @@ typeinfo for CEconItemDefinition
 typeinfo for CEconItemHandle
 typeinfo for CEconItemPreviewDataBlock
 typeinfo for CEconItemSchema
-typeinfo for CEconItemSchema::BInitLootLists(KeyValues*, KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)::CCollectionLootListIterator
 typeinfo for CEconItemSpecificAttributeIterator
 typeinfo for CEconItemSystem
 typeinfo for CEconItemView
@@ -64819,6 +64997,7 @@ typeinfo for CEconTool_Default
 typeinfo for CEconTool_DescTag
 typeinfo for CEconTool_DuckToken
 typeinfo for CEconTool_DuelingMinigame
+typeinfo for CEconTool_Festivizer
 typeinfo for CEconTool_Gift
 typeinfo for CEconTool_GiftWrap
 typeinfo for CEconTool_GrantOperationPass
@@ -65271,6 +65450,7 @@ typeinfo for CEntityFactory<CTFBotRoster>
 typeinfo for CEntityFactory<CTFBottle>
 typeinfo for CEntityFactory<CTFBuffItem>
 typeinfo for CEntityFactory<CTFCannon>
+typeinfo for CEntityFactory<CTFChargedSMG>
 typeinfo for CEntityFactory<CTFCleaver>
 typeinfo for CEntityFactory<CTFClub>
 typeinfo for CEntityFactory<CTFCompoundBow>
@@ -65441,6 +65621,7 @@ typeinfo for CEntityFactory<CTextureToggle>
 typeinfo for CEntityFactory<CTimerEntity>
 typeinfo for CEntityFactory<CTrainingAnnotation>
 typeinfo for CEntityFactory<CTrainingModeLogic>
+typeinfo for CEntityFactory<CTriggerAddOrRemoveTFPlayerAttributes>
 typeinfo for CEntityFactory<CTriggerAddTFPlayerCondition>
 typeinfo for CEntityFactory<CTriggerApplyImpulse>
 typeinfo for CEntityFactory<CTriggerAreaCapture>
@@ -65823,6 +66004,7 @@ typeinfo for CMannVsMachineWaveStats
 typeinfo for CMapInfoContainer
 typeinfo for CMapLoadEntityFilter
 typeinfo for CMaterialModifyControl
+typeinfo for CMaterialOverrideContainer<IEconItemInterface>
 typeinfo for CMathColorBlend
 typeinfo for CMathCounter
 typeinfo for CMathRemap
@@ -65949,6 +66131,7 @@ typeinfo for CMsgGCMultiplexMessage
 typeinfo for CMsgGCNameItemNotification
 typeinfo for CMsgGCQuestComplete_Request
 typeinfo for CMsgGCQuestCompleted
+typeinfo for CMsgGCQuestDiscard_Request
 typeinfo for CMsgGCQuestObjective_PointsChange
 typeinfo for CMsgGCQuestObjective_PointsChangeResponse
 typeinfo for CMsgGCQuestObjective_Progress
@@ -66569,6 +66752,7 @@ typeinfo for CTFBotWaitForOutOfPositionSquadMember
 typeinfo for CTFBottle
 typeinfo for CTFBuffItem
 typeinfo for CTFCannon
+typeinfo for CTFChargedSMG
 typeinfo for CTFCleaver
 typeinfo for CTFClub
 typeinfo for CTFCompoundBow
@@ -66605,6 +66789,7 @@ typeinfo for CTFGameStats
 typeinfo for CTFGenericBomb
 typeinfo for CTFGenericBombShim
 typeinfo for CTFGenericStringRestriction
+typeinfo for CTFGenericSubStringRestriction
 typeinfo for CTFGotoActionPoint
 typeinfo for CTFGrapplingHook
 typeinfo for CTFGrenadeLauncher
@@ -66726,6 +66911,7 @@ typeinfo for CTFQuestPlayerAliveRestriction
 typeinfo for CTFQuestPlayerClassRestriction
 typeinfo for CTFQuestPlayerConditionRestriction
 typeinfo for CTFQuestPlayerDisguiseRestriction
+typeinfo for CTFQuestPlayerDistanceRestriction
 typeinfo for CTFQuestPlayerIsOwnerRestriction
 typeinfo for CTFQuestPlayerJumpingRestriction
 typeinfo for CTFQuestPlayerObjectRestriction
@@ -66791,6 +66977,7 @@ typeinfo for CTFWeaponBaseGun
 typeinfo for CTFWeaponBaseMelee
 typeinfo for CTFWeaponBaseMerasmusGrenade
 typeinfo for CTFWeaponBuilder
+typeinfo for CTFWeaponClassRestriction
 typeinfo for CTFWeaponInfo
 typeinfo for CTFWeaponInvis
 typeinfo for CTFWeaponPDA
@@ -66883,6 +67070,7 @@ typeinfo for CTraceListData
 typeinfo for CTracePassFilter
 typeinfo for CTrainingAnnotation
 typeinfo for CTrainingModeLogic
+typeinfo for CTriggerAddOrRemoveTFPlayerAttributes
 typeinfo for CTriggerAddTFPlayerCondition
 typeinfo for CTriggerApplyImpulse
 typeinfo for CTriggerAreaCapture
@@ -67215,7 +67403,6 @@ typeinfo for IEconItemAttributeIterator
 typeinfo for IEconItemInterface
 typeinfo for IEconItemUntypedAttributeIterator
 typeinfo for IEconLootList
-typeinfo for IEconLootList::IEconLootListIterator
 typeinfo for IEconTool
 typeinfo for IEffects
 typeinfo for IEntityDataInstantiator
@@ -67352,6 +67539,7 @@ typeinfo for IToolFrameworkServer
 typeinfo for ITraceFilter
 typeinfo for ITriggerAreaCaptureAutoList
 typeinfo for ITriggerHurtAutoList
+typeinfo for ITriggerPlayerRespawnOverride
 typeinfo for IVPhysicsKeyHandler
 typeinfo for IVPhysicsWatcher
 typeinfo for IVehicle
@@ -67702,7 +67890,6 @@ typeinfo name for CEconItemDefinition
 typeinfo name for CEconItemHandle
 typeinfo name for CEconItemPreviewDataBlock
 typeinfo name for CEconItemSchema
-typeinfo name for CEconItemSchema::BInitLootLists(KeyValues*, KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)::CCollectionLootListIterator
 typeinfo name for CEconItemSpecificAttributeIterator
 typeinfo name for CEconItemSystem
 typeinfo name for CEconItemView
@@ -67722,6 +67909,7 @@ typeinfo name for CEconTool_Default
 typeinfo name for CEconTool_DescTag
 typeinfo name for CEconTool_DuckToken
 typeinfo name for CEconTool_DuelingMinigame
+typeinfo name for CEconTool_Festivizer
 typeinfo name for CEconTool_Gift
 typeinfo name for CEconTool_GiftWrap
 typeinfo name for CEconTool_GrantOperationPass
@@ -68174,6 +68362,7 @@ typeinfo name for CEntityFactory<CTFBotRoster>
 typeinfo name for CEntityFactory<CTFBottle>
 typeinfo name for CEntityFactory<CTFBuffItem>
 typeinfo name for CEntityFactory<CTFCannon>
+typeinfo name for CEntityFactory<CTFChargedSMG>
 typeinfo name for CEntityFactory<CTFCleaver>
 typeinfo name for CEntityFactory<CTFClub>
 typeinfo name for CEntityFactory<CTFCompoundBow>
@@ -68344,6 +68533,7 @@ typeinfo name for CEntityFactory<CTextureToggle>
 typeinfo name for CEntityFactory<CTimerEntity>
 typeinfo name for CEntityFactory<CTrainingAnnotation>
 typeinfo name for CEntityFactory<CTrainingModeLogic>
+typeinfo name for CEntityFactory<CTriggerAddOrRemoveTFPlayerAttributes>
 typeinfo name for CEntityFactory<CTriggerAddTFPlayerCondition>
 typeinfo name for CEntityFactory<CTriggerApplyImpulse>
 typeinfo name for CEntityFactory<CTriggerAreaCapture>
@@ -68726,6 +68916,7 @@ typeinfo name for CMannVsMachineWaveStats
 typeinfo name for CMapInfoContainer
 typeinfo name for CMapLoadEntityFilter
 typeinfo name for CMaterialModifyControl
+typeinfo name for CMaterialOverrideContainer<IEconItemInterface>
 typeinfo name for CMathColorBlend
 typeinfo name for CMathCounter
 typeinfo name for CMathRemap
@@ -68852,6 +69043,7 @@ typeinfo name for CMsgGCMultiplexMessage
 typeinfo name for CMsgGCNameItemNotification
 typeinfo name for CMsgGCQuestComplete_Request
 typeinfo name for CMsgGCQuestCompleted
+typeinfo name for CMsgGCQuestDiscard_Request
 typeinfo name for CMsgGCQuestObjective_PointsChange
 typeinfo name for CMsgGCQuestObjective_PointsChangeResponse
 typeinfo name for CMsgGCQuestObjective_Progress
@@ -69472,6 +69664,7 @@ typeinfo name for CTFBotWaitForOutOfPositionSquadMember
 typeinfo name for CTFBottle
 typeinfo name for CTFBuffItem
 typeinfo name for CTFCannon
+typeinfo name for CTFChargedSMG
 typeinfo name for CTFCleaver
 typeinfo name for CTFClub
 typeinfo name for CTFCompoundBow
@@ -69508,6 +69701,7 @@ typeinfo name for CTFGameStats
 typeinfo name for CTFGenericBomb
 typeinfo name for CTFGenericBombShim
 typeinfo name for CTFGenericStringRestriction
+typeinfo name for CTFGenericSubStringRestriction
 typeinfo name for CTFGotoActionPoint
 typeinfo name for CTFGrapplingHook
 typeinfo name for CTFGrenadeLauncher
@@ -69629,6 +69823,7 @@ typeinfo name for CTFQuestPlayerAliveRestriction
 typeinfo name for CTFQuestPlayerClassRestriction
 typeinfo name for CTFQuestPlayerConditionRestriction
 typeinfo name for CTFQuestPlayerDisguiseRestriction
+typeinfo name for CTFQuestPlayerDistanceRestriction
 typeinfo name for CTFQuestPlayerIsOwnerRestriction
 typeinfo name for CTFQuestPlayerJumpingRestriction
 typeinfo name for CTFQuestPlayerObjectRestriction
@@ -69694,6 +69889,7 @@ typeinfo name for CTFWeaponBaseGun
 typeinfo name for CTFWeaponBaseMelee
 typeinfo name for CTFWeaponBaseMerasmusGrenade
 typeinfo name for CTFWeaponBuilder
+typeinfo name for CTFWeaponClassRestriction
 typeinfo name for CTFWeaponInfo
 typeinfo name for CTFWeaponInvis
 typeinfo name for CTFWeaponPDA
@@ -69785,6 +69981,7 @@ typeinfo name for CTraceListData
 typeinfo name for CTracePassFilter
 typeinfo name for CTrainingAnnotation
 typeinfo name for CTrainingModeLogic
+typeinfo name for CTriggerAddOrRemoveTFPlayerAttributes
 typeinfo name for CTriggerAddTFPlayerCondition
 typeinfo name for CTriggerApplyImpulse
 typeinfo name for CTriggerAreaCapture
@@ -70117,7 +70314,6 @@ typeinfo name for IEconItemAttributeIterator
 typeinfo name for IEconItemInterface
 typeinfo name for IEconItemUntypedAttributeIterator
 typeinfo name for IEconLootList
-typeinfo name for IEconLootList::IEconLootListIterator
 typeinfo name for IEconTool
 typeinfo name for IEffects
 typeinfo name for IEntityDataInstantiator
@@ -70254,6 +70450,7 @@ typeinfo name for IToolFrameworkServer
 typeinfo name for ITraceFilter
 typeinfo name for ITriggerAreaCaptureAutoList
 typeinfo name for ITriggerHurtAutoList
+typeinfo name for ITriggerPlayerRespawnOverride
 typeinfo name for IVPhysicsKeyHandler
 typeinfo name for IVPhysicsWatcher
 typeinfo name for IVehicle
@@ -70887,7 +71084,6 @@ vtable for CEconItemDefinition
 vtable for CEconItemHandle
 vtable for CEconItemPreviewDataBlock
 vtable for CEconItemSchema
-vtable for CEconItemSchema::BInitLootLists(KeyValues*, KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)::CCollectionLootListIterator
 vtable for CEconItemSystem
 vtable for CEconItemView
 vtable for CEconItemView::InitNetworkedDynamicAttributesForDemos()::CEconDynamicAttributesForDemosIterator
@@ -70906,6 +71102,7 @@ vtable for CEconTool_Default
 vtable for CEconTool_DescTag
 vtable for CEconTool_DuckToken
 vtable for CEconTool_DuelingMinigame
+vtable for CEconTool_Festivizer
 vtable for CEconTool_Gift
 vtable for CEconTool_GiftWrap
 vtable for CEconTool_GrantOperationPass
@@ -71358,6 +71555,7 @@ vtable for CEntityFactory<CTFBotRoster>
 vtable for CEntityFactory<CTFBottle>
 vtable for CEntityFactory<CTFBuffItem>
 vtable for CEntityFactory<CTFCannon>
+vtable for CEntityFactory<CTFChargedSMG>
 vtable for CEntityFactory<CTFCleaver>
 vtable for CEntityFactory<CTFClub>
 vtable for CEntityFactory<CTFCompoundBow>
@@ -71528,6 +71726,7 @@ vtable for CEntityFactory<CTextureToggle>
 vtable for CEntityFactory<CTimerEntity>
 vtable for CEntityFactory<CTrainingAnnotation>
 vtable for CEntityFactory<CTrainingModeLogic>
+vtable for CEntityFactory<CTriggerAddOrRemoveTFPlayerAttributes>
 vtable for CEntityFactory<CTriggerAddTFPlayerCondition>
 vtable for CEntityFactory<CTriggerApplyImpulse>
 vtable for CEntityFactory<CTriggerAreaCapture>
@@ -72031,6 +72230,7 @@ vtable for CMsgGCMultiplexMessage
 vtable for CMsgGCNameItemNotification
 vtable for CMsgGCQuestComplete_Request
 vtable for CMsgGCQuestCompleted
+vtable for CMsgGCQuestDiscard_Request
 vtable for CMsgGCQuestObjective_PointsChange
 vtable for CMsgGCQuestObjective_PointsChangeResponse
 vtable for CMsgGCQuestObjective_Progress
@@ -72634,6 +72834,7 @@ vtable for CTFBotWaitForOutOfPositionSquadMember
 vtable for CTFBottle
 vtable for CTFBuffItem
 vtable for CTFCannon
+vtable for CTFChargedSMG
 vtable for CTFCleaver
 vtable for CTFClub
 vtable for CTFCompoundBow
@@ -72669,6 +72870,7 @@ vtable for CTFGameStats
 vtable for CTFGenericBomb
 vtable for CTFGenericBombShim
 vtable for CTFGenericStringRestriction
+vtable for CTFGenericSubStringRestriction
 vtable for CTFGotoActionPoint
 vtable for CTFGrapplingHook
 vtable for CTFGrenadeLauncher
@@ -72788,6 +72990,7 @@ vtable for CTFQuestPlayerAliveRestriction
 vtable for CTFQuestPlayerClassRestriction
 vtable for CTFQuestPlayerConditionRestriction
 vtable for CTFQuestPlayerDisguiseRestriction
+vtable for CTFQuestPlayerDistanceRestriction
 vtable for CTFQuestPlayerIsOwnerRestriction
 vtable for CTFQuestPlayerJumpingRestriction
 vtable for CTFQuestPlayerObjectRestriction
@@ -72851,6 +73054,7 @@ vtable for CTFWeaponBaseGun
 vtable for CTFWeaponBaseMelee
 vtable for CTFWeaponBaseMerasmusGrenade
 vtable for CTFWeaponBuilder
+vtable for CTFWeaponClassRestriction
 vtable for CTFWeaponInfo
 vtable for CTFWeaponInvis
 vtable for CTFWeaponPDAExpansion_Dispenser
@@ -72936,6 +73140,7 @@ vtable for CTraceListData
 vtable for CTracePassFilter
 vtable for CTrainingAnnotation
 vtable for CTrainingModeLogic
+vtable for CTriggerAddOrRemoveTFPlayerAttributes
 vtable for CTriggerAddTFPlayerCondition
 vtable for CTriggerApplyImpulse
 vtable for CTriggerAreaCapture
@@ -73235,6 +73440,7 @@ vtable for ITFTeamTrainWatcher
 vtable for ITFTeleportLocationAutoList
 vtable for ITriggerAreaCaptureAutoList
 vtable for ITriggerHurtAutoList
+vtable for ITriggerPlayerRespawnOverride
 vtable for IVision
 vtable for IZombieAutoList
 vtable for MovieExplosion
@@ -73312,6 +73518,7 @@ weapon_ar2
 weapon_blocks_healing
 weapon_bone
 weapon_bugbait
+weapon_class
 weapon_crossbow
 weapon_crowbar
 weapon_cubemap
@@ -73338,6 +73545,7 @@ weapon_smg1
 weapon_stunstick
 weapon_taunt
 weapon_theirs
+weapon_type
 weapon_unusual_effects
 weapondelay
 weaponid

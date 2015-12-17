@@ -9,6 +9,6 @@
 	
 	"NumberLabel"
 	{	
-		"labelText"		"Y"
+		"actionName"		"menu_right"
 	}
 }													

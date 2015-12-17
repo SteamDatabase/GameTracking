@@ -51,6 +51,7 @@
 		"paint_icon_hide" "1"
 		"model_hide"	"1"
 		"text_forcesize"	"4"
+		"name_only"	"1"
 
 		"itemmodelpanel"
 		{

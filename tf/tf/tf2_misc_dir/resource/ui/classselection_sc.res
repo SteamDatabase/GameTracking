@@ -32,7 +32,7 @@
 
 	"PrevOptionHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"PrevOptionHintIcon"
 		"xpos"			"60"
 		"ypos"			"40"
@@ -45,12 +45,13 @@
 		"textAlignment"	"west"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmall"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_left"
 	}
 
 	"NextOptionHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"NextOptionHintIcon"
 		"xpos"			"r100"
 		"ypos"			"40"
@@ -63,7 +64,8 @@
 		"textAlignment"	"east"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmall"
-		"labelText"		"B"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_right"
 	}
 
 	"random"
@@ -131,7 +133,7 @@
 
 	"RandomHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"RandomHintIcon"
 		"xpos"			"c250"
 		"xpos_hidef"	"c238"
@@ -146,7 +148,8 @@
 		"textAlignment"	"south-west"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmallest"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 		
 	"Offense"
@@ -241,7 +244,7 @@
 	}
 	"ScoutHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"ScoutHintIcon"
 		"xpos"			"c-300"
 		"xpos_hidef"	"c290"
@@ -256,7 +259,8 @@
 		"textAlignment"	"south-west"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmallest"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 
 	"soldier"
@@ -325,7 +329,7 @@
 	}
 	"SoldierHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"SoldierHintIcon"
 		"xpos"			"c-250"
 		"xpos_hidef"	"c-244"
@@ -340,7 +344,8 @@
 		"textAlignment"	"south-west"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmallest"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 	"pyro"
 	{
@@ -407,7 +412,7 @@
 	}
 	"PyroHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"PyroHintIcon"
 		"xpos"			"c-200"
 		"xpos_hidef"	"c-194"
@@ -422,7 +427,8 @@
 		"textAlignment"	"south-west"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmallest"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 
 	"Defense"
@@ -515,7 +521,7 @@
 	}
 	"DemomanHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"DemomanHintIcon"
 		"xpos"			"c-110"
 		"ypos"			"-5"
@@ -529,7 +535,8 @@
 		"textAlignment"	"south-west"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmallest"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 		
 	"heavyweapons"
@@ -596,7 +603,7 @@
 	}
 	"HeavyHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"HeavyHintIcon"
 		"xpos"			"c-60"
 		"ypos"			"-5"
@@ -610,7 +617,8 @@
 		"textAlignment"	"south-west"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmallest"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 
 	"engineer"
@@ -676,7 +684,7 @@
 	}
 	"EngineerHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"EngineerHintIcon"
 		"xpos"			"c-10"
 		"ypos"			"-5"
@@ -690,7 +698,8 @@
 		"textAlignment"	"south-west"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmallest"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 	
 	"Support"
@@ -784,7 +793,7 @@
 	}
 	"MedicHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"MedicHintIcon"
 		"xpos"			"c78"
 		"xpos_hidef"	"c70"
@@ -799,7 +808,8 @@
 		"textAlignment"	"south-west"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmallest"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 
 	"sniper"
@@ -867,7 +877,7 @@
 	}
 	"SniperHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"SniperHintIcon"
 		"xpos"			"c128"
 		"xpos_hidef"	"c120"
@@ -882,7 +892,8 @@
 		"textAlignment"	"south-west"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmallest"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 
 	"spy"
@@ -950,7 +961,7 @@
 	}
 	"SpyHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"SpyHintIcon"
 		"xpos"			"c178"
 		"xpos_hidef"	"c170"
@@ -965,7 +976,8 @@
 		"textAlignment"	"south-west"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmallest"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 
 	"CancelButton" [$WIN32] 
@@ -991,7 +1003,7 @@
 
 	"CancelHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"CancelHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"c-290"
@@ -1003,10 +1015,11 @@
 		"pinCorner"		"2"
 		"visible"		"1"
 		"enabled"		"1"
-		"labelText"		"B"
 		"textAlignment"	"Left"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_cancel"
 	}
 	
 	"EditLoadoutButton" [$WIN32] 
@@ -1031,7 +1044,7 @@
 
 	"EditLoadoutHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"EditLoadoutHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"r175"
@@ -1043,10 +1056,11 @@
 		"pinCorner"		"2"
 		"visible"		"1"
 		"enabled"		"1"
-		"labelText"		"Y"
 		"textAlignment"	"Left"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_toggle_function"
 	}
 
 	"ResetButton" [$WIN32] 

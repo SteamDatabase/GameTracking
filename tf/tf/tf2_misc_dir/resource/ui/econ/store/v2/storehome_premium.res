@@ -35,6 +35,7 @@
 			if_christmas
 			{
 				"visible"		"1"
+				"ypos"			"15"
 				"image"		"store/store_australian_christmas_callout_sale"
 			}
 		}

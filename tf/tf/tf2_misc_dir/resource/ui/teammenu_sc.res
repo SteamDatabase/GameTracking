@@ -65,7 +65,7 @@
 
 	"PrevOptionHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"PrevOptionHintIcon"
 		"xpos"			"65"
 		"ypos"			"290"
@@ -78,12 +78,13 @@
 		"textAlignment"	"south-west"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmall"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_left"
 	}
 
 	"NextOptionHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"NextOptionHintIcon"
 		"xpos"			"r105"
 		"ypos"			"290"
@@ -96,7 +97,8 @@
 		"textAlignment"	"south-east"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmall"
-		"labelText"		"B"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_right"
 	}
 	
 	"teambutton0"
@@ -129,7 +131,7 @@
 
 	"JoinBluHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"JoinBluHintIcon"
 		"xpos"			"c-29"
 		"ypos"			"290"
@@ -142,7 +144,8 @@
 		"textAlignment"	"south"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmall"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 
 	"teambutton1"
@@ -174,7 +177,7 @@
 
 	"JoinRedHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"JoinRedHintIcon"
 		"xpos"			"c159"
 		"ypos"			"290"
@@ -187,7 +190,8 @@
 		"textAlignment"	"south"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmall"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 
 	"teambutton2"
@@ -217,7 +221,7 @@
 
 	"JoinAutoHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"JoinAutoHintIcon"
 		"xpos"			"c-290"
 		"ypos"			"290"
@@ -230,7 +234,8 @@
 		"textAlignment"	"south"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmall"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 	
 	"teambutton3"
@@ -260,7 +265,7 @@
 
 	"JoinSpectatorsHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"JoinSpectatorsHintIcon"
 		"xpos"			"c-140"
 		"ypos"			"290"
@@ -273,7 +278,8 @@
 		"textAlignment"	"south"
 		"pinCorner"		"0"
 		"font"			"GameUIButtonsSteamControllerSmall"
-		"labelText"		"A"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 	
 	"CancelButton" 
@@ -303,7 +309,7 @@
 
 	"CancelHintIcon"
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"CancelHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"r185"
@@ -315,10 +321,11 @@
 		"pinCorner"		"2"
 		"visible"		"0"
 		"enabled"		"1"
-		"labelText"		"B"
 		"textAlignment"	"Left"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_cancel"
 	}
 	
 	"TeamMenuSelect"

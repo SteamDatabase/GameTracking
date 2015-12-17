@@ -137,7 +137,7 @@
 
 	"MapInfoContinueHintIcon" [$WIN32]
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"MapInfoContinueHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"r185"
@@ -149,10 +149,11 @@
 		"pinCorner"		"2"
 		"visible"		"1"
 		"enabled"		"1"
-		"labelText"		"A"
 		"textAlignment"	"Left"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_select"
 	}
 	
 	"MapInfoWatchIntro" [$WIN32]
@@ -182,7 +183,7 @@
 
 	"MapInfoIntroHintIcon" [$WIN32]
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"MapInfoIntroHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"c-45"
@@ -198,6 +199,8 @@
 		"textAlignment"	"Left"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_toggle_function"
 	}
 	
 	"MapInfoBack" [$WIN32]
@@ -227,7 +230,7 @@
 
 	"MapInfoBackHintIcon" [$WIN32]
 	{
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"MapInfoBackHintIcon"
 		"font"			"GameUIButtonsSteamControllerSmallest"
 		"xpos"			"45"
@@ -239,10 +242,11 @@
 		"pinCorner"		"2"
 		"visible"		"1"
 		"enabled"		"1"
-		"labelText"		"B"
 		"textAlignment"	"Left"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
+		"actionName"	"menu_cancel"
 	}
 	
 	"MenuBG"

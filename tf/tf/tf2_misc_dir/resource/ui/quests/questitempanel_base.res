@@ -162,26 +162,6 @@
 					"proportionaltoparent"	"1"
 				}
 
-				"RequestLoanerItemsButton"
-				{
-					"ControlName"	"CExButton"
-					"fieldName"		"RequestLoanerItemsButton"
-					"xpos"		"20"
-					"ypos"		"50"
-					"zpos"		"1000"
-					"wide"		"100"
-					"tall"		"20"
-					"visible"		"0"
-					"enabled"		"1"
-					"textAlignment"	"east"
-					"labelText"			"#TF_Quest_RequestLoanerItems"
-
-					"proportionaltoparent"	"1"
-					"paintbackground"	"1"
-					"command"	"request_loaner_items"
-					"actionsignallevel" "3"
-				}
-
 				"TitleButton"
 				{
 					"ControlName"	"CExButton"
@@ -212,130 +192,6 @@
 
 					"defaultFgColor_override"	"0 0 0 255"
 					"armedFgColor_override"		"Orange"
-				}
-
-				"DiscardButton"
-				{
-					"ControlName"	"EditablePanel"
-					"fieldname"		"DiscardButton"
-					"xpos"			"30"
-					"ypos"			"200"
-					"zpos"			"101"
-					"wide"			"100"
-					"tall"			"25"
-					"visible"		"1"
-					"PaintBackgroundType"	"0"
-					"proportionaltoparent"	"1"
-
-					"SubButton"
-					{
-						"ControlName"	"CExImageButton"
-						"fieldName"		"SubButton"
-						"xpos"			"0"
-						"ypos"			"0"
-						"wide"			"f0"
-						"tall"			"f0"
-						"autoResize"	"0"
-						"pinCorner"		"3"
-						"visible"		"1"
-						"enabled"		"1"
-						"tabPosition"	"0"
-						"proportionaltoparent"	"1"
-						"textinsetx"	"25"
-						"labelText"		"#QuestDetails_Discard"
-						"use_proportional_insets" "1"
-						"font"			"QuestLargeText"
-						"allcaps"	"1"
-						"textAlignment"	"west"
-						"dulltext"		"0"
-						"brighttext"	"0"
-						"default"		"1"
-						"actionsignallevel" "4"
-
-						"sound_depressed"	"UI/buttonclick.wav"
-						"sound_released"	"UI/buttonclickrelease.wav"
-
-						"paintbackground"	"0"
-			
-						"defaultFgColor_override" "46 43 42 255"
-						"armedFgColor_override" "235 226 202 255"
-						"depressedFgColor_override" "46 43 42 255"
-			
-						"image_drawcolor"	"117 107 94 255"
-						"image_armedcolor"	"235 226 202 255"
-
-						"command"	"discard_quest"
-				
-						"SubImage"
-						{
-							"ControlName"	"ImagePanel"
-							"fieldName"		"SubImage"
-							"xpos"			"6"
-							"ypos"			"3"
-							"zpos"			"1"
-							"wide"			"14"
-							"tall"			"14"
-							"visible"		"1"
-							"enabled"		"1"
-							"scaleImage"	"1"
-							"image"			"glyph_workshop_delete"
-
-							"mouseinputenabled"	"0"
-							"keyboardinputenabled" "0"
-						}
-					}
-				}
-
-				"QuickplayButton"
-				{
-					"ControlName"	"EditablePanel"
-					"fieldname"		"QuickplayButton"
-					"xpos"			"30"
-					"ypos"			"35"
-					"zpos"			"101"
-					"wide"			"100"
-					"tall"			"15"
-					"visible"		"1"
-					"PaintBackgroundType"	"0"
-					"proportionaltoparent"	"1"
-
-					"SubButton"
-					{
-						"ControlName"	"CExImageButton"
-						"fieldName"		"SubButton"
-						"xpos"			"0"
-						"ypos"			"0"
-						"wide"			"f0"
-						"tall"			"f0"
-						"autoResize"	"0"
-						"pinCorner"		"3"
-						"visible"		"1"
-						"enabled"		"1"
-						"tabPosition"	"0"
-						"proportionaltoparent"	"1"
-						"labelText"		"#TF_Quest_PlayThisMap"
-						"use_proportional_insets" "1"
-						"font"			"QuestFlavorText"
-						"allcaps"	"1"
-						"textAlignment"	"center"
-						"dulltext"		"0"
-						"brighttext"	"0"
-						"default"		"1"
-						"actionsignallevel" "4"
-
-						"sound_depressed"	"UI/buttonclick.wav"
-						"sound_released"	"UI/buttonclickrelease.wav"
-
-						"auto_wide_tocontents"	"0"
-						"paintbackground"	"0"
-						"paintborder"		"1"
-						"RoundedCorners"	"0"
-						"border_default"			"ReplayDefaultBorder"
-						"defaultFgColor_override"	"TanLight"
-						"armedFgColor_override"		"Orange"
-
-						"command"	"quickplay"
-					}
 				}
 
 				"PaperClips"
@@ -685,15 +541,254 @@
 					"proportionaltoparent"	"1"	
 				}
 
+				"FindServerButton"
+				{
+					"ControlName"	"CExButton"
+					"fieldName"		"FindServerButton"
+					"xpos"			"p0.5"
+					"ypos"			"37"
+					"zpos"			"101"
+					"wide"			"p.42"
+					"tall"			"15"
+					"visible"		"1"
+					"autoResize"	"0"
+					"pinCorner"		"3"
+					"visible"		"1"
+					"enabled"		"1"
+					"tabPosition"	"0"
+					"proportionaltoparent"	"1"
+					"labelText"		"#TF_Quest_FindServer"
+					"use_proportional_insets" "0"
+					"font"			"QuestFlavorText"
+					"allcaps"	"1"
+					"textAlignment"	"center"
+					"dulltext"		"0"
+					"brighttext"	"0"
+					"default"		"1"
+					"actionsignallevel" "3"
+
+					"sound_depressed"	"UI/buttonclick.wav"
+					"sound_released"	"UI/buttonclickrelease.wav"
+
+					"auto_wide_tocontents"	"0"
+					"paintbackground"	"0"
+					"paintborder"		"1"
+					"RoundedCorners"	"0"
+					"border_default"			"ReplayDefaultBorder"
+					"defaultFgColor_override"	"TanLight"
+					"armedFgColor_override"		"Orange"
+
+					"command"	"quickplay"
+				}
+
+				"LoanerContainerPanel"
+				{
+					"ControlName"	"EditablePanel"
+					"fieldName"		"LoanerContainerPanel"
+					"xpos"			"-p0.01"
+					"ypos"			"p0.52"
+					"zpos"			"101"
+					"wide"			"p0.53"
+					"tall"			"o1"
+					"visible"		"1"
+					"enabled"		"1"
+					"proportionaltoparent"	"1"
+
+					"RequiredContractItemsLabel"
+					{
+						"ControlName"			"Label"
+						"fieldName"				"RequiredContractItemsLabel"
+						"font"					"QuestFlavorText"
+						"labelText"				"#TF_Quest_RequiredItems"
+						"textAlignment"			"north-west"
+						"xpos"					"p.1"
+						"ypos"					"p.19"
+						"zpos"					"1"
+						"wide"					"f0"
+						"tall"					"15"
+						"autoResize"			"0"
+						"pinCorner"				"0"
+						"visible"				"1"
+						"enabled"				"1"
+						"wrap"					"1"
+						"proportionaltoparent"	"1"
+
+						"fgcolor"				"170 25 25 255"
+						"fgcolor_override"		"170 25 25 255"
+					}
+
+					"LoanersBGImage"
+					{
+						"ControlName"	"ImagePanel"
+						"fieldName"		"LoanersBGImage"
+						"xpos"			"0"
+						"ypos"			"0"
+						"zpos"			"0"
+						"wide"			"f0"
+						"tall"			"f0"
+						"visible"		"1"
+						"enabled"		"1"
+						"image"			"contracts/contracts_papers1_vacation_items"
+						"scaleImage"	"1"	
+						"proportionaltoparent"	"1"
+					}
+
+					"RequestLoanerItemsButton"
+					{
+						"ControlName"	"CExButton"
+						"fieldName"		"RequestLoanerItemsButton"
+						"xpos"			"p.1"
+						"ypos"			"p.62"
+						"zpos"			"1"
+						"wide"			"p.77"
+						"tall"			"15"
+						"visible"		"1"
+						"autoResize"	"0"
+						"pinCorner"		"3"
+						"visible"		"1"
+						"enabled"		"1"
+						"tabPosition"	"0"
+						"proportionaltoparent"	"1"
+						"labelText"		"#TF_Quest_RequestLoanerItems"
+						"use_proportional_insets" "0"
+						"font"			"QuestFlavorText"
+						"allcaps"	"1"
+						"textAlignment"	"center"
+						"dulltext"		"0"
+						"brighttext"	"0"
+						"default"		"1"
+						"actionsignallevel" "4"
+
+						"sound_depressed"	"UI/buttonclick.wav"
+						"sound_released"	"UI/buttonclickrelease.wav"
+
+						"auto_wide_tocontents"	"0"
+						"paintbackground"	"0"
+						"paintborder"		"1"
+						"RoundedCorners"	"0"
+						"border_default"			"ReplayDefaultBorder"
+						"defaultFgColor_override"	"TanLight"
+						"armedFgColor_override"		"Orange"
+
+						"command"	"request_loaner_items"
+					}
+
+					"EquipLoanerItemsButton"
+					{
+						"ControlName"	"CExButton"
+						"fieldName"		"EquipLoanerItemsButton"
+						"xpos"			"p.1"
+						"ypos"			"p.62"
+						"zpos"			"1"
+						"wide"			"p.77"
+						"tall"			"15"
+						"visible"		"1"
+						"autoResize"	"0"
+						"pinCorner"		"3"
+						"visible"		"1"
+						"enabled"		"1"
+						"tabPosition"	"0"
+						"proportionaltoparent"	"1"
+						"labelText"		"#TF_Quest_EquipLoanerItems"
+						"use_proportional_insets" "0"
+						"font"			"QuestFlavorText"
+						"allcaps"	"1"
+						"textAlignment"	"center"
+						"dulltext"		"0"
+						"brighttext"	"0"
+						"default"		"1"
+						"actionsignallevel" "4"
+
+						"sound_depressed"	"UI/buttonclick.wav"
+						"sound_released"	"UI/buttonclickrelease.wav"
+
+						"auto_wide_tocontents"	"0"
+						"paintbackground"	"0"
+						"paintborder"		"1"
+						"RoundedCorners"	"0"
+						"border_default"			"ReplayDefaultBorder"
+						"defaultFgColor_override"	"TanLight"
+						"armedFgColor_override"		"Orange"
+
+						"command"	"equip_loaner_items"
+					}
+
+					"Loaner1ItemModelPanel"
+					{		
+						"ControlName"	"CItemModelPanel"
+						"fieldName"		"Loaner1ItemModelPanel"
+						"xpos"			"p.1"
+						"ypos"			"p.245"
+						"zpos"			"2"
+						"wide"			"55"
+						"tall"			"55"
+						"visible"		"0"
+						"PaintBackgroundType"	"0"
+						"paintborder"	"1"
+						"proportionaltoparent"	"1"
+		
+						"model_xpos"	"4"
+						"model_ypos"	"11"
+						"model_wide"	"45"
+						"model_tall"	"32"
+						"name_only"		"0"
+						"attrib_only"	"0"
+						"model_only"	"1"
+						"paint_icon_hide"	"0"
+		
+						"text_ypos"		"10"
+		
+						"itemmodelpanel"
+						{
+							"inventory_image_type"	"1"
+							"allow_rot"				"0"
+							"force_square_image"	"1"
+						}
+					}
+
+					"Loaner2ItemModelPanel"
+					{		
+						"ControlName"	"CItemModelPanel"
+						"fieldName"		"Loaner2ItemModelPanel"
+						"xpos"			"p.51"
+						"ypos"			"p.245"
+						"zpos"			"2"
+						"wide"			"55"
+						"tall"			"55"
+						"visible"		"0"
+						"PaintBackgroundType"	"0"
+						"paintborder"	"1"
+						"proportionaltoparent"	"1"
+		
+						"model_xpos"	"4"
+						"model_ypos"	"11"
+						"model_wide"	"45"
+						"model_tall"	"32"
+						"name_only"		"0"
+						"attrib_only"	"0"
+						"model_only"	"1"
+						"paint_icon_hide"	"0"
+		
+						"text_ypos"		"10"
+		
+						"itemmodelpanel"
+						{
+							"inventory_image_type"	"1"
+							"allow_rot"				"0"
+							"force_square_image"	"1"
+						}
+					}
+				}
+
 				"ScrollableBottomContainer"
 				{
 					"ControlName"	"CExScrollingEditablePanel"
 					"fieldName"		"ScrollableBottomContainer"
 					"xpos"					"p0.5"
-					"ypos"					"35"
+					"ypos"					"55"
 					"zpos"					"10"
 					"wide"					"p0.42"
-					"tall"					"240"
+					"tall"					"220"
 					"proportionaltoparent"	"1"
 					"autoResize"			"0"
 					"skip_autoresize"		"1"

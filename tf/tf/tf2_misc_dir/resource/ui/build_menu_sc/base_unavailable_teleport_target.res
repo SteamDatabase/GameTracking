@@ -78,7 +78,7 @@
 	
 	"NumberLabel"
 	{	
-		"ControlName"	"CExLabel"
+		"ControlName"	"CSCHintIcon"
 		"fieldName"		"NumberLabel"
 		"font"			"GameUIButtonsSteamControllerSmall"
 		"xpos"			"0"
@@ -94,5 +94,6 @@
 		"textAlignment"	"Center"
 		"dulltext"		"0"
 		"brighttext"	"0"
+		"actionSet"		"InGameHUDControls"
 	}
 }

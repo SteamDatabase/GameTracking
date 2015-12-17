@@ -1714,5 +1714,32 @@
 	"recalculate_truce"
 	{
 	}
+
+	"deadringer_cheat_death"
+	{
+		"spy"		"byte"		// userid of the Spy that cheat the death
+		"attacker"	"byte"		// userid of the player that caused the cheat death to happen
+	}
+
+	"crossbow_heal"
+	{
+		"healer"	"byte"		// userid of the Healer
+		"target"	"byte"		// userid of the player that got hit
+		"amount"	"short"		// amount that was healed
+	}
+
+	"damage_mitigated"
+	{
+		"mitigator"		"byte"	// userid of the player who provided the mitigation 
+		"damaged"		"byte"	// userid of the player who took the damage
+		"amount"		"short"	// amount that was mitigated
+		"itemdefindex"	"short"	// defindex of the item that provided the mitigation
+	}
+
+	"payload_pushed"
+	{
+		"pusher"	"byte"	// userid of the player who pushed
+		"distance"	"short"	// how far they pushed
+	}
 }
 
