@@ -263,6 +263,7 @@
 
 	"dota_portrait_unit_modifiers_changed"
 	{
+		"modifier_affects_abilities"	"bool"
 	}
 
 	"dota_force_portrait_update"
