@@ -206,7 +206,7 @@
 		"tall"			"20"
 		"autoResize"		"0"
 		"pinCorner"		"0"
-		"visible"		"0"
+		"visible"		"1"
 		"enabled"		"1"
 		
 		if_mvm
@@ -294,7 +294,7 @@
 		"tall"			"20"
 		"autoResize"		"0"
 		"pinCorner"		"0"
-		"visible"		"0"
+		"visible"		"1"
 		"enabled"		"1"
 		
 		if_mvm
@@ -833,10 +833,10 @@
 		"font"			"ScoreboardVerySmall"
 		"labelText"		"%server%"
 		"textAlignment"		"east"
-		"xpos"			"415"
+		"xpos"			"315"
 		"ypos"			"375"
 		"zpos"			"3"
-		"wide"			"165"
+		"wide"			"265"
 		"tall"			"12"
 		"autoResize"	"0"
 		"pinCorner"		"0"
@@ -855,10 +855,10 @@
 		"font"			"ScoreboardVerySmall"
 		"labelText"		"%mapname%"
 		"textAlignment"	"east"
- 		"xpos"			"415"
+ 		"xpos"			"315"
 		"ypos"			"385"
 		"zpos"			"3"
-		"wide"			"165"
+		"wide"			"265"
 		"tall"			"12"
 		"autoResize"	"0"
 		"pinCorner"		"0"

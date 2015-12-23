@@ -27,37 +27,64 @@
 		"enabled"			"1"
 	}
 
-	"TextBox"
+	"EventTitleLabel"
 	{
-		"ControlName"		"EditablePanel"
-		"fieldName"			"TextBox"
-		"xpos"				"c-100"
-		"ypos"				"c100"
-		"zpos"				"1"
-		"wide"				"200"
-		"tall"				"40"
-		"visible"			"0"
-		"enabled"			"1"
-		//bgcolor_override	"97 94 85 180"
-		border TFFatLineBorder
-		RoundedCorners 255
-		
-		"TextLabel"
-		{
-			"ControlName"	"CExLabel"
-			"fieldName"		"TextLabel"
-			"font"			"HudFontMediumSmallBold"
-			"xpos"			0
-			"ypos"			15
-			"zpos"			"3"
-			"wide"			"200"
-			"tall"			"16"
-			"visible"		"1"
-			"enabled"		"1"
-			"textAlignment"	"center"
-			"labelText"		"A TEAM STOLE THE BALL"
-			fgcolor_override	"224 217 197 180"
-		}
+		"ControlName"	"CExLabel"
+		"fieldName"		"EventTitleLabel"
+		"dropshadow"	"1"
+		"font"			"HudFontBiggerBold"
+		"xpos"			0
+		"ypos"			c100
+		"zpos"			"3"
+		"wide"			"f"
+		"tall"			"25"
+		"visible"		"1"
+		"enabled"		"1"
+		"textAlignment"	"center"
+		"labelText"		"A TEAM STOLE THE BALL"
+		fgcolor_override	"224 217 197 255"
+	}
+
+	"EventBonusLabel"
+	{
+		"ControlName"	"CExLabel"
+		"fieldName"		"EventBonusLabel"
+		"font"			"HudFontMediumSmallBold"
+		"dropshadow"	"1"
+		"xpos"			0
+		"ypos"			0
+		"zpos"			"3"
+		"wide"			"f"
+		"tall"			"20"
+		"visible"		"1"
+		"enabled"		"1"
+		"textAlignment"	"center"
+		"labelText"		""
+		fgcolor_override	"255 235 35 200"
+		pin_to_sibling			EventTitleLabel
+		pin_corner_to_sibling	6
+		pin_to_sibling_corner	4
+	}
+
+	"EventDetailLabel"
+	{
+		"ControlName"	"CExLabel"
+		"fieldName"		"EventDetailLabel"
+		"font"			"HudFontMediumSmallBold"
+		"dropshadow"	"1"
+		"xpos"			0
+		"ypos"			0
+		"zpos"			"3"
+		"wide"			"f"
+		"tall"			"24"
+		"visible"		"1"
+		"enabled"		"1"
+		"textAlignment"	"center"
+		"labelText"		"A TEAM STOLE THE BALL"
+		fgcolor_override	"224 217 197 255"
+		pin_to_sibling			EventTitleLabel
+		pin_corner_to_sibling	4
+		pin_to_sibling_corner	6
 	}
 
 	"ProgressLevelBar"
@@ -113,7 +140,7 @@
 		"enabled"		"1"
 		"tabPosition"	"0"
 		"labelText"		""
-		"image"			"../hud/cart_home_blue"
+		"image"			"../passtime/hud/passtime_goal_blue_icon"
 		"scaleImage"	"1"	
 	}
 
@@ -132,7 +159,7 @@
 		"enabled"		"1"
 		"tabPosition"	"0"
 		"labelText"		""
-		"image"			"../hud/cart_home_blue"
+		"image"			"../passtime/hud/passtime_goal_blue_icon"
 		"scaleImage"	"1"	
 	}
 
@@ -151,7 +178,7 @@
 		"enabled"		"1"
 		"tabPosition"	"0"
 		"labelText"		""
-		"image"			"../hud/cart_home_blue"
+		"image"			"../passtime/hud/passtime_goal_blue_icon"
 		"scaleImage"	"1"	
 	}
 
@@ -171,7 +198,7 @@
 		"enabled"		"1"
 		"tabPosition"	"0"
 		"labelText"		""
-		"image"			"../hud/cart_home_red"
+		"image"			"../passtime/hud/passtime_goal_red_icon"
 		"scaleImage"	"1"	
 	}
 
@@ -190,7 +217,7 @@
 		"enabled"		"1"
 		"tabPosition"	"0"
 		"labelText"		""
-		"image"			"../hud/cart_home_red"
+		"image"			"../passtime/hud/passtime_goal_red_icon"
 		"scaleImage"	"1"	
 	}
 
@@ -210,7 +237,7 @@
 		"enabled"		"1"
 		"tabPosition"	"0"
 		"labelText"		""
-		"image"			"../hud/cart_home_red"
+		"image"			"../passtime/hud/passtime_goal_red_icon"
 		"scaleImage"	"1"	
 	}
 

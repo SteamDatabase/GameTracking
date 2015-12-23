@@ -628,6 +628,7 @@
 	{
 		"amount"		"short"
 		"entindex"		"byte"
+		"weapon_def_index"	"long"		// item def index of the healing weapon
 	}
 	
 	"player_stealsandvich"
@@ -1592,7 +1593,8 @@
 
 	"pass_score"
 	{
-		"player" "short"
+		"scorer" "short"
+		"assister" "short"
 		"points" "byte"
 	}
 
