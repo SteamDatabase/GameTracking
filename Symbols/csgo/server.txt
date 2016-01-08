@@ -1398,6 +1398,7 @@
  b CCSGameStats::s_StatLists
  b CCSMatch::EnableFullAlltalk(bool)::sv_full_alltalk
  b CCSPlayer::ClientCommand(CCommand const&)::sv_mmqueue_reservation
+ b CCSPlayer::GetActiveCSWeapon() const::s_flNextCheck
  b CCSPlayer::HandleCommand_JoinTeam(int, bool, int)::sv_mmqueue_reservation
  b CCSPlayer::ImpactTrace(CGameTrace*, int, char*)::violence_hblood
  b CCSPlayer::PostThink()::pAttr_MusicID
@@ -1671,6 +1672,7 @@
  b CEconItemView::GetPedestalDisplayModel()::pAttr_MusicID
  b CEconItemView::GetQualityParticleType()::pSparkleSystem
  b CEconItemView::IsStyleUnlocked(int) const::pAttr_UnlockedStyles
+ b CEconItemView::s_mapLookupByID
  b CEconItemView_DataDescInit::g_DataMapHolder
  b CEconQuestDefinition::ZeroOutQuestExpressionVariables(CExpressionCalculator&)::s_vecWeaponItemDefs
  b CEconSharedToolSupport::CanCollect(IEconItemInterface const*, IEconItemInterface const*, unsigned int*)::pAttrDef_CollectionBits
@@ -3111,6 +3113,8 @@
  b GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_Server2GCClientValidate>::s_pMemoryPool
  b GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerNotificationForUserPenalty>::s_bRegisteredWithMemoryPoolMgr
  b GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerNotificationForUserPenalty>::s_pMemoryPool
+ b GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerVarValueNotificationInfo>::s_bRegisteredWithMemoryPoolMgr
+ b GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerVarValueNotificationInfo>::s_pMemoryPool
  b GCSDK::CProtoBufMsg<CMsgGCGiftedItems>::s_bRegisteredWithMemoryPoolMgr
  b GCSDK::CProtoBufMsg<CMsgGCGiftedItems>::s_pMemoryPool
  b GCSDK::CProtoBufMsg<CMsgGCServerVersionUpdated>::s_bRegisteredWithMemoryPoolMgr
@@ -5545,6 +5549,7 @@
  b guard variable for CCSGameStats::UploadRoundStats()::s_pchTournamentServer
  b guard variable for CCSMatch::EnableFullAlltalk(bool)::sv_full_alltalk
  b guard variable for CCSPlayer::ClientCommand(CCommand const&)::sv_mmqueue_reservation
+ b guard variable for CCSPlayer::GetActiveCSWeapon() const::s_flNextCheck
  b guard variable for CCSPlayer::HandleCommand_JoinTeam(int, bool, int)::sv_mmqueue_reservation
  b guard variable for CCSPlayer::ImpactTrace(CGameTrace*, int, char*)::violence_hblood
  b guard variable for CCSPlayer::PostThink()::pAttr_MusicID
@@ -11208,6 +11213,7 @@
  r CMsgGCCStrike15_v2_MatchmakingServerMatchEnd::kRematchFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingServerMatchEnd::kReplayClusterIdFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingServerMatchEnd::kReplayTokenFieldNumber
+ r CMsgGCCStrike15_v2_MatchmakingServerMatchEnd::kServerVersionFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingServerMatchEnd::kStatsFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingServerReservationResponse::kGcReservationSentFieldNumber
  r CMsgGCCStrike15_v2_MatchmakingServerReservationResponse::kIdlePlayerAccountsFieldNumber
@@ -14952,6 +14958,7 @@
  r typeinfo for GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_MatchmakingServerReservationResponse>
  r typeinfo for GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_Server2GCClientValidate>
  r typeinfo for GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerNotificationForUserPenalty>
+ r typeinfo for GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerVarValueNotificationInfo>
  r typeinfo for GCSDK::CProtoBufMsg<CMsgGCGiftedItems>
  r typeinfo for GCSDK::CProtoBufMsg<CMsgGCServerVersionUpdated>
  r typeinfo for GCSDK::CProtoBufMsg<CMsgIncrementKillCountAttribute>
@@ -14977,6 +14984,7 @@
  r typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_MatchmakingServerReservationResponse>
  r typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_Server2GCClientValidate>
  r typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_ServerNotificationForUserPenalty>
+ r typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_ServerVarValueNotificationInfo>
  r typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGCGiftedItems>
  r typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGCServerVersionUpdated>
  r typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgIncrementKillCountAttribute>
@@ -17466,6 +17474,7 @@
  r typeinfo name for GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_MatchmakingServerReservationResponse>
  r typeinfo name for GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_Server2GCClientValidate>
  r typeinfo name for GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerNotificationForUserPenalty>
+ r typeinfo name for GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerVarValueNotificationInfo>
  r typeinfo name for GCSDK::CProtoBufMsg<CMsgGCGiftedItems>
  r typeinfo name for GCSDK::CProtoBufMsg<CMsgGCServerVersionUpdated>
  r typeinfo name for GCSDK::CProtoBufMsg<CMsgIncrementKillCountAttribute>
@@ -17491,6 +17500,7 @@
  r typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_MatchmakingServerReservationResponse>
  r typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_Server2GCClientValidate>
  r typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_ServerNotificationForUserPenalty>
+ r typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_ServerVarValueNotificationInfo>
  r typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGCGiftedItems>
  r typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGCServerVersionUpdated>
  r typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgIncrementKillCountAttribute>
@@ -19967,6 +19977,7 @@
  r vtable for GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_MatchmakingServerReservationResponse>
  r vtable for GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_Server2GCClientValidate>
  r vtable for GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerNotificationForUserPenalty>
+ r vtable for GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerVarValueNotificationInfo>
  r vtable for GCSDK::CProtoBufMsg<CMsgGCGiftedItems>
  r vtable for GCSDK::CProtoBufMsg<CMsgGCServerVersionUpdated>
  r vtable for GCSDK::CProtoBufMsg<CMsgIncrementKillCountAttribute>
@@ -19991,6 +20002,7 @@
  r vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_MatchmakingServerReservationResponse>
  r vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_Server2GCClientValidate>
  r vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_ServerNotificationForUserPenalty>
+ r vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_ServerVarValueNotificationInfo>
  r vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGCGiftedItems>
  r vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGCServerVersionUpdated>
  r vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgIncrementKillCountAttribute>
@@ -25468,8 +25480,8 @@
  t CBaseMultiplayerPlayer::GetMultiplayerExpresser()
  t CBaseMultiplayerPlayer::GetPerLifeCounterKV(char const*)
  t CBaseMultiplayerPlayer::GetScriptDesc()
- t CBaseMultiplayerPlayer::GetSteamID(CSteamID*)
- t CBaseMultiplayerPlayer::GetSteamIDAsUInt64()
+ t CBaseMultiplayerPlayer::GetSteamID(CSteamID*) const
+ t CBaseMultiplayerPlayer::GetSteamIDAsUInt64() const
  t CBaseMultiplayerPlayer::ModifyOrAppendCriteria(ResponseRules::CriteriaSet&)
  t CBaseMultiplayerPlayer::NoteSpokeVoiceCommand(char const*)
  t CBaseMultiplayerPlayer::OnAchievementEarned(int)
@@ -28437,7 +28449,7 @@
  t CCSPlayerInventory::FindInventoryItemsWithAttribute(char const*, CUtlVector<CEconItemView*, CUtlMemory<CEconItemView*, int> >&, bool, unsigned int)
  t CCSPlayerInventory::GetActiveQuestID()
  t CCSPlayerInventory::GetActiveSeasonItemId(bool)
- t CCSPlayerInventory::GetItemInLoadout(int, int)
+ t CCSPlayerInventory::GetItemInLoadout(int, int) const
  t CCSPlayerInventory::GetMaxItemCount() const
  t CCSPlayerInventory::GetPreviewItemDef() const
  t CCSPlayerInventory::IsMissionRefuseAllowed() const
@@ -43020,14 +43032,14 @@
  t CPlayerInventory::DumpInventoryToConsole(bool)
  t CPlayerInventory::ExtractInventorySortPosition(unsigned int)
  t CPlayerInventory::FilloutItemFromEconItem(CEconItemView*, CEconItem*)
- t CPlayerInventory::FindDefaultEquippedDefinitionItemBySlot(int, int)
+ t CPlayerInventory::FindDefaultEquippedDefinitionItemBySlot(int, int) const
  t CPlayerInventory::FindItemsByType(EItemType, CUtlVector<CEconItemView*, CUtlMemory<CEconItemView*, int> >&)
  t CPlayerInventory::GetDefaultEquippedDefinitionItemSlotByDefinitionIndex(unsigned short, int, int&)
  t CPlayerInventory::GetIndexForItem(CEconItemView*)
- t CPlayerInventory::GetInventoryItemByItemID(unsigned long long)
+ t CPlayerInventory::GetInventoryItemByItemID(unsigned long long) const
  t CPlayerInventory::GetItemByPosition(int, int*)
  t CPlayerInventory::GetItemCount(unsigned int)
- t CPlayerInventory::GetItemInLoadout(int, int)
+ t CPlayerInventory::GetItemInLoadout(int, int) const
  t CPlayerInventory::GetMarketCraftCompletionLink(CUtlVector<unsigned long long, CUtlMemory<unsigned long long, int> > const&, char*, int) const
  t CPlayerInventory::GetMaxCraftIngredientsNeeded(CUtlVector<unsigned long long, CUtlMemory<unsigned long long, int> > const&) const
  t CPlayerInventory::GetMaxItemCount() const
@@ -47917,6 +47929,7 @@
  t CUtlMap<unsigned long long, PublishedFileInfo_t, unsigned short, bool (*)(unsigned long long const&, unsigned long long const&)>::~CUtlMap()
  t CUtlMap<unsigned long long, unsigned int, int, CDefLess<unsigned long long> >::~CUtlMap()
  t CUtlMap<unsigned long long, unsigned int, unsigned short, bool (*)(unsigned long long const&, unsigned long long const&)>::~CUtlMap()
+ t CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::~CUtlMap()
  t CUtlMap<unsigned short, WeaponRecoilData::RecoilData*, unsigned short, bool (*)(unsigned short const&, unsigned short const&)>::~CUtlMap()
  t CUtlMap<unsigned short, unsigned long long, unsigned short, CDefLess<unsigned short> >::~CUtlMap()
  t CUtlMap<unsigned short, unsigned short, short, CDefLess<unsigned short> >::~CUtlMap()
@@ -48031,7 +48044,7 @@
  t CUtlMemory<CEconItemSetDefinition::itemset_attrib_t, int>::Grow(int)
  t CUtlMemory<CEconItemSetDefinition::itemset_attrib_t, int>::~CUtlMemory()
  t CUtlMemory<CEconItemView*, int>::Grow(int)
- t CUtlMemory<CEconItemView*, int>::Grow(int) [clone .part.373]
+ t CUtlMemory<CEconItemView*, int>::Grow(int) [clone .part.376]
  t CUtlMemory<CEconItemView*, int>::Purge()
  t CUtlMemory<CEconLootListDefinition const*, int>::Grow(int)
  t CUtlMemory<CEconLootListDefinition::loot_list_additional_drop_t, int>::Grow(int)
@@ -48444,6 +48457,7 @@
  t CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, UGCFileRequest_t const*, unsigned short, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
  t CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, unsigned int, int, CDefLess<unsigned long long> >::Node_t, int>, int>::Grow(int)
  t CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, unsigned int, unsigned short, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
+ t CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::Node_t, int>, int>::Grow(int)
  t CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned short, CEconItemDefinition const*, unsigned short, bool (*)(unsigned short const&, unsigned short const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
  t CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned short, WeaponRecoilData::RecoilData*, unsigned short, bool (*)(unsigned short const&, unsigned short const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
  t CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned short, unsigned long long, unsigned short, CDefLess<unsigned short> >::Node_t, unsigned short>, unsigned short>::Grow(int)
@@ -49411,6 +49425,12 @@
  t CUtlRBTree<CUtlMap<unsigned long long, unsigned int, unsigned short, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, unsigned short, CUtlMap<unsigned long long, unsigned int, unsigned short, bool (*)(unsigned long long const&, unsigned long long const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, unsigned int, unsigned short, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
  t CUtlRBTree<CUtlMap<unsigned long long, unsigned int, unsigned short, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, unsigned short, CUtlMap<unsigned long long, unsigned int, unsigned short, bool (*)(unsigned long long const&, unsigned long long const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, unsigned int, unsigned short, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
  t CUtlRBTree<CUtlMap<unsigned long long, unsigned int, unsigned short, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, unsigned short, CUtlMap<unsigned long long, unsigned int, unsigned short, bool (*)(unsigned long long const&, unsigned long long const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, unsigned int, unsigned short, bool (*)(unsigned long long const&, unsigned long long const&)>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
+ t CUtlRBTree<CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::Node_t, int, CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::Node_t, int>, int> >::Insert(CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::Node_t const&)
+ t CUtlRBTree<CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::Node_t, int, CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::Node_t, int>, int> >::InsertRebalance(int)
+ t CUtlRBTree<CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::Node_t, int, CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::Node_t, int>, int> >::NewNode()
+ t CUtlRBTree<CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::Node_t, int, CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::Node_t, int>, int> >::RemoveAll()
+ t CUtlRBTree<CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::Node_t, int, CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::Node_t, int>, int> >::RotateLeft(int)
+ t CUtlRBTree<CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::Node_t, int, CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, unsigned long long, int, CDefLess<unsigned long long> >::Node_t, int>, int> >::RotateRight(int)
  t CUtlRBTree<CUtlMap<unsigned short, CEconItemDefinition const*, unsigned short, bool (*)(unsigned short const&, unsigned short const&)>::Node_t, unsigned short, CUtlMap<unsigned short, CEconItemDefinition const*, unsigned short, bool (*)(unsigned short const&, unsigned short const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned short, CEconItemDefinition const*, unsigned short, bool (*)(unsigned short const&, unsigned short const&)>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<unsigned short, CEconItemDefinition const*, unsigned short, bool (*)(unsigned short const&, unsigned short const&)>::Node_t const&) const
  t CUtlRBTree<CUtlMap<unsigned short, CEconItemDefinition const*, unsigned short, bool (*)(unsigned short const&, unsigned short const&)>::Node_t, unsigned short, CUtlMap<unsigned short, CEconItemDefinition const*, unsigned short, bool (*)(unsigned short const&, unsigned short const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned short, CEconItemDefinition const*, unsigned short, bool (*)(unsigned short const&, unsigned short const&)>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<unsigned short, CEconItemDefinition const*, unsigned short, bool (*)(unsigned short const&, unsigned short const&)>::Node_t const&)
  t CUtlRBTree<CUtlMap<unsigned short, CEconItemDefinition const*, unsigned short, bool (*)(unsigned short const&, unsigned short const&)>::Node_t, unsigned short, CUtlMap<unsigned short, CEconItemDefinition const*, unsigned short, bool (*)(unsigned short const&, unsigned short const&)>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned short, CEconItemDefinition const*, unsigned short, bool (*)(unsigned short const&, unsigned short const&)>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
@@ -52454,6 +52474,8 @@
  t GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_Server2GCClientValidate>::~CProtoBufMsg()
  t GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerNotificationForUserPenalty>::GetGenericBody() const
  t GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerNotificationForUserPenalty>::~CProtoBufMsg()
+ t GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerVarValueNotificationInfo>::GetGenericBody() const
+ t GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerVarValueNotificationInfo>::~CProtoBufMsg()
  t GCSDK::CProtoBufMsg<CMsgGCGiftedItems>::GetGenericBody() const
  t GCSDK::CProtoBufMsg<CMsgGCGiftedItems>::~CProtoBufMsg()
  t GCSDK::CProtoBufMsg<CMsgGCServerVersionUpdated>::GetGenericBody() const
@@ -52521,6 +52543,9 @@
  t GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_ServerNotificationForUserPenalty>::GetName()
  t GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_ServerNotificationForUserPenalty>::InternalAlloc()
  t GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_ServerNotificationForUserPenalty>::~CProtoBufMsgMemoryPool()
+ t GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_ServerVarValueNotificationInfo>::GetName()
+ t GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_ServerVarValueNotificationInfo>::InternalAlloc()
+ t GCSDK::CProtoBufMsgMemoryPool<CMsgGCCStrike15_v2_ServerVarValueNotificationInfo>::~CProtoBufMsgMemoryPool()
  t GCSDK::CProtoBufMsgMemoryPool<CMsgGCGiftedItems>::GetName()
  t GCSDK::CProtoBufMsgMemoryPool<CMsgGCGiftedItems>::InternalAlloc()
  t GCSDK::CProtoBufMsgMemoryPool<CMsgGCGiftedItems>::~CProtoBufMsgMemoryPool()
