@@ -157,6 +157,19 @@
 			"match_this_entry" "true"
 		}
 	}
+	
+	"CS_limit_foley_start" //replaces null.wav
+	{
+		"limit_entry"
+		{
+			"operator" "sys_stop_entries"
+			"input_max_entries" "1.000000" //A sound will not stop itself from playing.
+			"match_entity" "true"	
+			"match_substring" "false"
+			"match_this_entry" "true"
+		}
+	}
+	
 	"CS_limit_bullet_impact" //replaces null.wav
 	{
 		"limit_entry"
@@ -1334,7 +1347,7 @@
 		"mixer"
 		{
 			"operator" "get_soundmixer"
-			"mixgroup" "Weapons"
+			"mixgroup" "AllWeapons"
 		}
 
 		// NOTE: uses player data, ie: SS, return least occluded value
@@ -1545,7 +1558,7 @@
 		"mixer"
 		{
 			"operator" "get_soundmixer"
-			"mixgroup" "Weapons"
+			"mixgroup" "BulletImpacts"
 		}
 
 		// NOTE: uses player data, ie: SS, return least occluded value
@@ -1582,9 +1595,12 @@
 		// NOTE: distance has precalculated minimum distance of the ss players			
 		"volume_falloff"
 		{
-			"operator" "calc_falloff"
+			"operator" "calc_falloff_curve"
 			"input_distance"  "@source_distance.output"
-			"input_level"	  "@level_apply_mixer.output"
+			"input_min" "120.0"	
+			"input_max" "600.0"
+			"input_atten" "1.0"
+			"input_curve_amount" "0.1"
 		}
 
 		"distance_shutdown"
@@ -1592,7 +1608,7 @@
 			"operator" "math_float"
 			"apply" "less_than"	
 			"input1" "@source_distance.output"
-			"input2" "600"
+			"input2" "600.0"
 		}
 
 
@@ -2145,6 +2161,220 @@
 			"input_float" "@stoptime_elapsed_trigger.output"	
 		}
 	}
+	
+	//////////
+	///// WEAPON FOLEY
+	/////////
+"CS_update_foley"
+	{
+		"elapsed_time"
+		{
+			"operator" "get_entry_time"
+		}
+
+		//////////////////////
+		// POSITION
+		"source_info"
+		{
+			"operator" "get_source_info"
+			"source"   "entity"
+		}
+
+        // NOTE: uses player data, ie: SS, returns minimum distance
+		"source_distance"
+		{
+			"operator" "calc_source_distance"
+			"input_position"   "@source_info.output_position"
+		}
+
+		////////////////////
+		// calc
+		"mixer"
+		{
+			"operator" "get_soundmixer"
+//			"mixgroup" "All"
+		}
+
+		// NOTE: uses player data, ie: SS, return least occluded value
+		"occlusion"
+		{
+			"operator" "calc_occlusion"
+			"input_position" "@source_info.output_position"
+			"input_scalar" "1.0"
+		}
+
+		"snd_gain_convar"
+		{
+			"operator" "get_convar"
+			"convar" "snd_gain"
+		}
+		"snd_op_test_convar"
+		{
+			"operator" "get_convar"
+			"convar" "snd_op_test_convar"
+		}
+
+		//////////////////////
+		// LEVEL
+		"level_apply_mixer"
+		{
+			"operator" "math_float"
+			"apply" "mult"	
+			"input1" "@mixer.output_level"
+			"input2" "@source_info.output_level"
+		}
+
+		/////////////////////
+		// VOLUME
+		"volume_falloff"
+		{
+			"operator" "calc_falloff_curve"
+			"input_distance" "@source_distance.output"
+			"input_min" "400.0"	
+			"input_max" "1100.0"
+			"input_atten" "0.96"
+			"input_curve_amount" "0.7"
+		}
+		"volume_fade_out"
+		{
+			"operator" "math_remap_float"
+			"input" "@elapsed_time.output_stop_elapsed"
+			"input_min" "0.0"
+			"input_max" "0.0"
+			"input_map_min" "1.0"
+			"input_map_max" "0.0"
+			"default_to_max" "true"	
+		}
+
+        // multiply all volume adjustments together
+		"volume_accumulate"
+		{
+			"operator" "math_float_accumulate12"
+			"apply"	"mult"
+			"input1" "1.0"
+			"input2" "@volume_falloff.output"
+			"input3" "@mixer.output_volume"
+			"input4" "@snd_gain_convar.output"
+			"input5" "@occlusion.output"
+			"input6" "@volume_fade_out.output"
+			"input7" "1.0"
+			"input8" "1.0"
+			"input9" "1.0"
+			"input10" "1.0"
+			"input11" "1.0"
+			"input12" "1.0"
+		}
+
+		// output mix layer trigger
+		"output_mixlayer_trigger"
+		{
+			"execute_once" "1"
+			"operator" "sys_output"
+			"input_float" "1"
+			"output" "mixlayer_trigger"
+		}
+		///////////////////
+		// PITCH
+		"pitch_output"
+		{
+			"operator" "sys_output"
+			"output"   "pitch"
+			"input_float" "@source_info.output_pitch"	
+		}
+
+		///////////////////
+		// DSP
+		"dsp_emitter"
+		{
+			"operator" "math_float"
+			"apply"	      "set"
+			"input1" "1.0"	
+		}
+		"dsp_apply_mixer"
+		{
+			"operator" "math_float"
+			"apply" "mult"	
+			"input1" "@mixer.output_dsp"
+			"input2" "@dsp_emitter.output"	
+		}
+		"dsp_distantDSP"
+		{
+			"operator" "calc_distant_dsp"
+			"input_distance"  "@source_distance.output"
+			"input_level"	  "@level_apply_mixer.output"
+		}
+		"dsp_apply_distant"
+		{
+			"operator" "math_float"
+			"apply"	      "mult"
+			"input1" "@dsp_distantDSP.output"
+			"input2" "@dsp_apply_mixer.output"			
+		}
+		"dsp_output"
+		{
+			"operator" "sys_output"
+			"input_float" "@dsp_apply_distant.output"
+			"output" "dsp"
+		}
+
+		/////////////////////
+		// SPEAKERS
+
+		// NOTE: uses player data, ie: SS, calculates all players and merges them
+		"speakers_spatialize"
+		{
+			"operator" "calc_spatialize_speakers"
+			"input_radius_min"  "23"
+			"input_radius_max"  "24"
+			"input_distance"  "@source_distance.output"
+			"input_position"  "@source_info.output_position"
+			"input_rear_stereo_scale" "1.0"
+		}
+	
+		"speakers_apply_volume"
+		{
+			"operator"     "math_speakers"
+			"apply"	       "mult"
+			"input1"       "@speakers_spatialize.output"
+			"input2[*]"	   "@volume_accumulate.output"
+		}
+
+		"speakers_limit"
+		{
+			"operator"      "math_speakers"
+			"apply"	       "mult"
+
+			"left_front"   "1.0"	
+			"right_front"  "1.0"	
+			"center"       "1.0"	
+			"lfe"          "1.0"	
+			"left_rear"    "1.0"
+			"right_rear"   "1.0"	
+			
+			"input2"	   "@speakers_apply_volume.output"
+		}
+
+		"speakers_output"
+		{
+			"operator" "sys_output"
+			"input_speakers" "@speakers_limit.output"
+			"output" "speakers"
+		}
+		"stoptime_elapsed_trigger"
+		{
+			"operator" "math_float"
+			"apply" "greater_than"	
+			"input1" "@volume_fade_out.output"
+			"input2" "0.0" 
+		}
+		"stop_hold_output"
+		{
+			"operator" "sys_output"
+			"output"   "stop_hold"
+			"input_float" "@stoptime_elapsed_trigger.output"	
+		}
+	}
+	
 
 	"CS_update_linear_falloff"
 	{
