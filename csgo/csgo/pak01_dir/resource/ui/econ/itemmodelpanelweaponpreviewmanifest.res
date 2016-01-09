@@ -129,7 +129,8 @@
 			"light_directional_add" 		"rgb[18 18 20] dir[0 0 1]"
 			"root_mdl"					"models/weapons/pedestal_sticker.mdl"
 			"root_anim"					"ACT_IDLE_INSPECT_START"		
-			"root_anim_loop"				"ACT_IDLE_INSPECT_LOOP"			
+			"root_anim_loop"				"ACT_IDLE_INSPECT_LOOP"
+			"mergemdl_add"			"models/weapons/ct_arms_fbi.mdl"
 		}
 	}
 	
