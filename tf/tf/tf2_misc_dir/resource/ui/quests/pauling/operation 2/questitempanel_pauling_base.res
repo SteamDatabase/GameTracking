@@ -40,6 +40,26 @@
 				"front"	"store\postcard_outletmall"
 				"back"	"store\postcard_outletmall"
 			}
+			"5"
+			{
+				"front"	"store\postcard_library"
+				"back"	"store\postcard_library"
+			}
+			"6"
+			{
+				"front"	"store\postcard_raccoon"
+				"back"	"store\postcard_raccoon"
+			}
+			"7"
+			{
+				"front"	"store\postcard_tomjones"
+				"back"	"store\postcard_tomjones"
+			}
+			"8"
+			{
+				"front"	"store\postcard_bombshop"
+				"back"	"store\postcard_bombshop"
+			}
 		}
 
 		"MainContainer"
