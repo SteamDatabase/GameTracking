@@ -1743,5 +1743,9 @@
 		"pusher"	"byte"	// userid of the player who pushed
 		"distance"	"short"	// how far they pushed
 	}
+
+	"player_abandoned_match"
+	{
+	}
 }
 

@@ -1622,14 +1622,24 @@ Scheme
 				"additive"	"0"
 			}
 		}
-		"ScoreboardTeamNameNew"
+		"ScoreboardTeamCountNew"
 		{
 			"1"
 			{
 				"name"		"TF2 Secondary"
 				"tall"		"14"
-				"tall_hidef"	"24"
-				"tall_lodef"	"24"
+				"weight"	"500"
+				"range"		"0x0000 0x007F"	//	Basic Latin
+				"antialias" "1"
+				"additive"	"0"
+			}
+		}
+		"ScoreboardTeamNameNew"
+		{
+			"1"
+			{
+				"name"		"TF2 Secondary"
+				"tall"		"24"
 				"weight"	"500"
 				"range"		"0x0000 0x007F"	//	Basic Latin
 				"antialias" "1"
