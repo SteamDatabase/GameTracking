@@ -41,7 +41,7 @@ function breathe_fire:OnSpellStart()
 
 	ProjectileManager:CreateLinearProjectile( info )
 	
-	EmitSoundOn( "Hero_DragonKnight.BreathFire", self:GetCaster() )
+	EmitSoundOn( "Conquest.FireTrap.Generic", self:GetCaster() )
 end
 
 --------------------------------------------------------------------------------

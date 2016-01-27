@@ -67,7 +67,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "undying_run",
+		name = "undying_run_anim",
 		sequences = {
 			{ "@undying_run" }
 		},
@@ -85,7 +85,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "undying_run_haste",
+		name = "undying_run_haste_anim",
 		sequences = {
 			{ "@undying_run_haste" }
 		},
@@ -104,7 +104,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "undying_run_injured",
+		name = "undying_run_injured_anim",
 		sequences = {
 			{ "@undying_run_injured" }
 		},

@@ -34,31 +34,81 @@
 		<Panel id="TodayPages">
 
 			<Panel id="LeftColumn" class="TopBottomFlow">
-				<DOTAProfileCard id="ProfileCard" class="FixedSize" onactivate="DOTAShowProfilePage( 0 )" />
-				
-					<Panel id="HomeFriendMenuContainer">
-						<Panel id="HomeFriendsHeader" class="TodayPageHeader" onactivate="ToggleFeedExpanded();">
-							<Panel class="LeftRightFlow">
-								<Label text="#DOTA_Friends_WindowTitle" />
-							</Panel>
-						</Panel>			
-						<Panel id="CurrentFriendsGames">
-							<Panel id="OpenPartyHeader">
-								<Panel id="OpenPartyTitleContainer">
-									<Panel id="OpenPartyIcon"/>
-									<Label id="ReadyToPlayTitle" text="#DOTA_Friends_Ready_To_Play" />
-								</Panel>
-							</Panel>  						
-							<DOTAActiveFriends id="ActiveFriends" />
+
+				<Panel id="HomeProfileContainer" onactivate="DOTAShowProfilePage( 0 )">
+					<Panel id="HomeProfileHeader" class="TodayPageHeader">
+						<Panel id="PopoutArrow" class="DemoArrow" />
+						<Panel class="LeftRightFlow">
+							<Label id="ProfileHeaderTitle" text="#DOTA_Profile_WindowTitle" />
 						</Panel>
-						<Panel class="HomeFriendsListContainer">
-							<DOTAFriendMenu id="HomeFriendsList" showLobbies="false" showBroadcastingParties="true" showBroadcastingPartiesAsRegularParties="true" >
-							</DOTAFriendMenu>
-						</Panel>				
 					</Panel>
+					<DOTAProfileCard id="ProfileCard" class="FixedSize"/>
+				</Panel>
 
+				<Panel id="HomeBattlePassContainer" onactivate="DOTAFrontPageBattlePassClick()">
+					<Panel id="HomeBattlePassHeader" class="TodayPageHeader">
+						<Panel id="PopoutArrow" class="DemoArrow" />
+						<Panel class="LeftRightFlow">
+							<Label id="BattlePassHeaderTitle" text="#DOTA_BattlePass_WindowTitle" />
+						</Panel>
+					</Panel>
+					<Panel id="CompendiumPanel">
+						<Panel id="TopSection" class="TopBottomFlow">
+							<Panel id="CompendiumDetails" class="LeftRightFlow">
+								<Panel id="BattleLevelWell">
+									<Panel class="LeftRightFlow">
+										<Label id="BattleLevelLabel" text="#DOTA_Event_Level" />
+										<Panel id="BattleLevelCircle">
+											<Label id="BattleLevelNumber" text="{d:event_level}" />
+										</Panel>
+									</Panel>
+								</Panel>
+								<Panel id="WageringCoinsWell" class="TopBottomFlow">
+									<Panel class="LeftRightFlow">
+										<Image id="WageringCoinsIcon" src="s2r://panorama/images/compendium/totaltokens_psd.vtex" />
+										<Label id="WageringCoinsValue" text="{d:coins_balance}" />
+									</Panel>
+									<Panel class="LeftRightFlow">
+										<Panel id="WageringTimerIcon" />
+										<Label id="WageringTimer" text="#DOTA_Home_BattlePass_ResetTime" />
+									</Panel>
+								</Panel>
+							</Panel>
+							<Label id="CompendiumNotOwned" text="#DOTA_Home_BattlePass_NotOwned"/>
+							<Label id="CompendiumNeedsActivate" text="#DOTA_Home_BattlePass_NeedsActivate"/>
+						</Panel>
+						<Panel id="BottomSection">
+							<Button id="CompendiumBuyButton" class="ButtonBevel">
+								<Label text="#DOTA_Home_BattlePass_NotOwned_Button" />
+							</Button>
+							<Button id="CompendiumActivateButton" class="ButtonBevel">
+								<Label text="#DOTA_Home_BattlePass_NeedsActivate_Button"/>
+							</Button>
+						</Panel>
+					</Panel>
+				</Panel>
 
-			</Panel>			
+				<Panel id="HomeFriendMenuContainer">
+					<Panel id="HomeFriendsHeader" class="TodayPageHeader" onactivate="ToggleFeedExpanded();">
+						<Panel class="LeftRightFlow">
+							<Label text="#DOTA_Friends_WindowTitle" />
+						</Panel>
+					</Panel>			
+					<Panel id="CurrentFriendsGames">
+						<Panel id="OpenPartyHeader">
+							<Panel id="OpenPartyTitleContainer">
+								<Panel id="OpenPartyIcon"/>
+								<Label id="ReadyToPlayTitle" text="#DOTA_Friends_Ready_To_Play" />
+							</Panel>
+						</Panel>  						
+						<DOTAActiveFriends id="ActiveFriends" />
+					</Panel>
+					<Panel class="HomeFriendsListContainer">
+						<DOTAFriendMenu id="HomeFriendsList" showLobbies="false" showBroadcastingParties="true" showBroadcastingPartiesAsRegularParties="true" />
+					</Panel>
+				</Panel>
+			</Panel>
+			
 			<Panel id="RightColumn">
 				<Panel id="FrontpageContent">
 					<!-- Default state only, when the web data arrives this will be removed -->

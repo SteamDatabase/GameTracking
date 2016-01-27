@@ -1,13 +1,3 @@
---============ Copyright (c) Valve Corporation, All rights reserved. ==========
---
--- source1import auto-generated animation script
--- local changes will be overwritten if source1import if run again on this asset
---
--- mdl: models\heroes\shadowshaman\shadowshaman.mdl
---
---=============================================================================
-
-
 -- AsLookLayer
 model:CreateSequence(
 	{
@@ -53,11 +43,28 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "turn layer",
+		name = "turn_layer",
 		delta = true,
 		poseParamX = model:CreatePoseParameter( "turn", -1, 1, 0, false ),
 		sequences = {
 			{ "@turn layer_lookFrame_0", "@turn layer_lookFrame_1", "@turn layer_lookFrame_2" }
+		}
+	}
+)
+
+-- AsTurningRun
+
+model:CreateSequence(
+	{
+		name = "run_anim",
+		sequences = {
+			{ "@run" }
+		},
+		addlayer = {
+			"turn_layer"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 }
 		}
 	}
 )

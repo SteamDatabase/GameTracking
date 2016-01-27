@@ -67,7 +67,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run",
+		name = "run_anim",
 		sequences = {
 			{ "@run" }
 		},
@@ -76,6 +76,88 @@ model:CreateSequence(
 		},
 		activities = {
 			{ name = "ACT_DOTA_RUN", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "run_haste_anim",
+		sequences = {
+			{ "@run_haste" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "haste", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "run_injured_anim",
+		sequences = {
+			{ "@run_injured" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "injured", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "dc_run_anim",
+		sequences = {
+			{ "@dc_run" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "darkclaw", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "dc_run_haste_anim",
+		sequences = {
+			{ "@dc_run_haste" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "haste", weight = 1 },
+			{ name = "darkclaw", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "dc_run_injured_anim",
+		sequences = {
+			{ "@dc_run_injured" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "injured", weight = 1 },
+			{ name = "darkclaw", weight = 1 }
 		}
 	}
 )

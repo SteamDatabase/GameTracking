@@ -3,6 +3,8 @@
 		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
 		<include src="s2r://panorama/styles/dashboard.vcss_c" />
 		<include src="s2r://panorama/styles/dashboard_search_results.vcss_c" />
+		<include src="s2r://panorama/styles/compendiums/compendium_styles.vcss_c" />
+		<include src="s2r://panorama/styles/dashboard_page_season_pass.vcss_c" />		
 	</styles>
 
 	<DOTADashboard class="InitialDisplay NotOnTodayPage" hittest="false">
@@ -18,11 +20,58 @@
 				</Panel>
 			</Panel>
 
-      <Panel id="DashboardBackgroundStatus">
+    		<Panel id="DashboardBackgroundCompendium">
+				<Panel id="CompendiumBG" class="FullScreenBackground"/>
+				<DOTAScenePanel id="CompendiumBackgroundScene" hittest="false" camera="camera_1" map="scenes/campaign_winter2016_header"/>
+				<Panel class="Frost"/>
+				<DOTAScenePanel id="TierMax" hittest="false" camera="camera_1" map="scenes/ui_tier_max"/>
+				<Panel id="TierGlow"/>
+				<Panel id="SlantGraphic">
+					<Panel id="WhiteBox1" class="WhiteBox">
+						<Panel class="Reflection"/>
+					</Panel>
+					<Panel id="WhiteBox2" class="WhiteBox">
+						<Panel class="Reflection"/>
+					</Panel>
+					<Panel id="WhiteBox3" class="WhiteBox">
+						<Panel class="Reflection"/>
+					</Panel>
+				</Panel>
+
+				<Panel class="CompendiumHeader">
+					<Button class="CompendiumHeaderTitle">
+						<Label id="CompendiumID" text="#DOTA_DB_SeasonPass_Winter_2016"/>
+						<Button id="CompendiumVersion" class="BattlePassTitle" onmouseover="ToggleStyle( BackToBattleHome, Hovered )" onmouseout="ToggleStyle( BackToBattleHome, Hovered )" onactivate="DOTAShowSeasonPass()"/>
+						<Button id="BackToBattleHome" class="Arrow Left" onmouseover="ToggleStyle( CompendiumVersion, Hovered )" onmouseout="ToggleStyle( CompendiumVersion, Hovered )" onactivate="DOTAShowSeasonPass()"/>
+						<Panel id="DefaultVersion" class="BattlePassTitle"/>
+						<Label id="CompendiumTitleText" text="Compendium" hittest="false"/>
+					</Button>
+					<Panel class="CompendiumHeaderTitleNotOwned LeftRightFlow">
+						<Panel class="TopBottomFlow">
+							<Label id="WinterCompendium" text="#DOTA_WinterBattlePass"/>
+							<Label id="PreviewMode" text="#DOTA_WinterBattlePassPreview"/>t
+						</Panel>
+						<Panel id="PurchaseCompendium">
+							<Button id="PurchaseCompendiumButton" onactivate="DOTAPurchaseItem( 16808, takeover )" >
+								<Label text="#DOTA_WinterBattlePassPurchase" />
+							</Button>
+							<Button id="ActivateCompendiumButton" >
+								<Label text="#DOTA_WinterBattlePassActivate" onactivate="DOTAConsumeEconItemByDef( 16808 )" />
+							</Button>
+						</Panel>
+					</Panel>
+				</Panel>
+				
+			
+			<Panel class="CompendiumDashboardBody"/>
+			<Panel id="BottomFrost" class="Frost"/>			
+			</Panel>
+
+    		<Panel id="DashboardBackgroundStatus">
 				<DOTAScenePanel id="BackgroundMapStatus" camera="shot_cameraA" map="scenes/find_match_status"/>
 			</Panel>
       
-			<Panel id="DashboardForeground">
+			<Panel id="DashboardForeground" hittest="false">
 				<Panel id="DashboardPages" hittest="false">
 					<!-- Filled in dynamically -->
 				</Panel>
@@ -233,7 +282,7 @@
 							<Panel id="TopBarMainNav" class="LeftRightFlow" hittest="false">
 								<RadioButton id="TopBarHome" backgroundcamera="shot_cameraA" backgroundcameralerptime="1.2" group="DashboardMainTabs" selected="true" onactivate="DOTAShowHomePage()"
 											 onselect="DOTAGlobalSceneFireEntityInput( HomeButtonMap, ui_home_embers, start, 1 )" ondeselect="DOTAGlobalSceneFireEntityInput( HomeButtonMap, ui_home_embers, stopplayendcap, 1 )">
-									<DOTAScenePanel id="HomeButtonMap" camera="shot_camera" map="scenes/home_button" onload="DOTASceneFireEntityInput( ui_home_embers, start, 1 )" />
+									<DOTAScenePanel id="HomeButtonMap" camera="shot_camera" map="scenes/home_button" onload="DOTASceneFireEntityInput( ui_home_embers, start, 1 )" hittest="false"/>
 								</RadioButton>
 								<RadioButton id="TopBarHeroes" backgroundcamera="shot_cameraB" backgroundcameralerptime="1.2" group="DashboardMainTabs" class="TopBarMenuItem"  onactivate="DOTAShowPrimaryTabPage( TopBarHeroes );">
 									<Label class="TitleFont" text="#DOTA_MainMenu_Heroes" />

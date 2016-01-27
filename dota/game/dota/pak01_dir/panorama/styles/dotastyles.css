@@ -1812,7 +1812,7 @@ ProgressBar
 	width: 28px;
 	height: 28px;
 
-	background-image: url("s2r://panorama/images/status_icons/loadingthrobber_round_png.vtex");
+	background-image: url("s2r://panorama/images/status_icons/loadingthrobber_round_psd.vtex");
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	background-size: contain;
@@ -1917,6 +1917,22 @@ ProgressBar
 	pre-transform-scale2d: .1;
 }
 
+.ExpandDownArrow
+{
+	height: 16px;
+	width: 16px;
+	background-image: url("s2r://panorama/images/control_icons/arrow_dropdown_png.vtex");
+	background-size: contain;
+	wash-color: #888888;
+	margin-left: 4px;
+	margin-right: 4px;
+	margin-top: -1px;
+
+	transition-property: wash-color, transform, opacity;
+	transition-duration: 0.24s;
+	transition-timing-function: ease-in-out;
+}
+
 //
 //   RARITY COLORS
 //
@@ -1929,6 +1945,7 @@ ProgressBar
 @define rarity_color_ancient: #eb4b4b;
 @define rarity_color_immortal: #e4ae39;
 @define rarity_color_arcana: #ade55c;
+@define rarity_color_seasonal: #fff34f;
 
 
 .ItemRarity_common .ItemRarityBackgroundColor, .ItemRarity_common.ItemRarityBackgroundColor
@@ -1971,6 +1988,11 @@ ProgressBar
 	background-color: rarity_color_arcana;
 }
 
+.ItemRarity_seasonal .ItemRarityBackgroundColor, .ItemRarity_seasonal.ItemRarityBackgroundColor
+{
+	background-color: rarity_color_seasonal;
+}
+
 .ItemRarity_common .ItemRarityColor, .ItemRarity_common.ItemRarityColor, a.ItemRarity_common.ItemRarityColor
 {
 	color: rarity_color_common;
@@ -2011,6 +2033,11 @@ ProgressBar
 	color: rarity_color_arcana;
 }
 
+.ItemRarity_seasonal .ItemRarityColor, .ItemRarity_seasonal.ItemRarityColor, a.ItemRarity_seasonal.ItemRarityColor
+{
+	color: rarity_color_seasonal;
+}
+
 .ItemRarity_common:hover .ItemRarityColor, .ItemRarity_common.ItemRarityColor:hover, a.ItemRarity_common.ItemRarityColor:hover
 {
 	text-decoration: none;
@@ -2047,6 +2074,11 @@ ProgressBar
 }
 
 .ItemRarity_arcana:hover .ItemRarityColor, .ItemRarity_arcana.ItemRarityColor:hover, a.ItemRarity_arcana.ItemRarityColor:hover
+{
+	text-decoration: none;
+}
+
+.ItemRarity_seasonal:hover .ItemRarityColor, .ItemRarity_seasonal.ItemRarityColor:hover, a.ItemRarity_seasonal.ItemRarityColor:hover
 {
 	text-decoration: none;
 }
@@ -2533,11 +2565,63 @@ EdgeScrollBar.Vertical #MaxButton
 }
 
 /* AvatarImage */
-DOTAAvatarImage Image
+DOTAAvatarImage .AvatarImage
 {
 	width: 100%;
 	height: 100%;
+	z-index: 2;
 }
+
+DOTAAvatarImage .AvatarBorderImage
+{
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+}
+
+DOTAAvatarImage.EventPointTierBronze .AvatarImage,
+DOTAAvatarImage.EventPointTierSilver .AvatarImage,
+DOTAAvatarImage.EventPointTierGold .AvatarImage,
+DOTAAvatarImage.EventPointTierPlatinum .AvatarImage
+{
+	border: 8% solid #00000000;
+}
+
+DOTAAvatarImage.EventPointTierBronze .AvatarBorderImage,
+DOTAAvatarImage.EventPointTierSilver .AvatarBorderImage,
+DOTAAvatarImage.EventPointTierGold .AvatarBorderImage,
+DOTAAvatarImage.EventPointTierPlatinum .AvatarBorderImage
+{
+	background-image: url("s2r://panorama/images/compendium/avatarborder_gold_psd.vtex");
+	background-size: contain;
+	opacity: 1;
+}
+
+DOTAAvatarImage.EventPointTierBronze .AvatarBorderImage
+{
+	background-image: url("s2r://panorama/images/compendium/avatarborder_default_winter2016_psd.vtex");
+	saturation: 1;
+}
+
+DOTAAvatarImage.EventPointTierSilver .AvatarBorderImage
+{
+	background-image: url("s2r://panorama/images/compendium/avatarborder_silver_psd.vtex");
+	saturation: 1;
+}
+
+DOTAAvatarImage.EventPointTierGold .AvatarBorderImage
+{
+	background-image: url("s2r://panorama/images/compendium/avatarborder_gold_psd.vtex");
+	saturation: 1;	
+}
+
+DOTAAvatarImage.EventPointTierPlatinum .AvatarBorderImage
+{
+	background-image: url("s2r://panorama/images/compendium/avatarborder_max_winter2016_psd.vtex");
+	saturation: 1;
+}
+
+
 
 /* Styles for the DragZoom Panel */
 DragZoom
@@ -2712,4 +2796,271 @@ DOTAEconItemImage #Overlay
 	height: 100%;
 	background-image: url("s2r://panorama/images/backgrounds/dashboard_vignette_png.vtex"); 
 	background-size: cover;
+
+	transition-property: opacity;
+	transition-duration: 0.23s;
+	transition-timing-function: ease-in-out;	
 }
+
+
+.PanelSlideThumb
+{
+	width: 32px;
+	height: 96px;
+	transform: translateX( 0px );
+	background-color: #181818cc;
+	border-top-right-radius: 12px;
+	border-bottom-right-radius: 12px;
+	box-shadow: #000000aa -4px -4px 8px 8px;
+	vertical-align: middle;
+	horizontal-align: right;
+}
+
+.PanelSlideThumbArrow
+{
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	horizontal-align: right;
+	background-image: url("s2r://panorama/images/control_icons/double_arrow_left_png.vtex");
+    background-position: 0% 50%;
+	background-size: contain;
+	background-repeat: no-repeat;
+	wash-color: #91aba6;
+
+	transform: translateX( -9px );
+	
+	transition-property: transform, wash-color;
+	transition-delay: 0.0s;
+	transition-duration: 0.25s;
+	transition-timing-function: ease-in-out;
+}
+
+.PanelSlideThumb:hover
+{
+	background-color: #383838cc;
+}
+
+.PanelSlideThumb:hover .PanelSlideThumbArrow
+{
+	transform: translateX( -12px );
+	wash-color: white;
+}
+
+.DrawerClosed .PanelSlideThumbArrow
+{
+	transform: rotateZ(180deg) translateX( -6px );
+}
+
+.DrawerClosed .PanelSlideThumb:hover .PanelSlideThumbArrow
+{
+	transform: translateX( 3px ) rotateZ(180deg);
+	wash-color: white;
+}
+
+.DrawerClosed
+{
+    transform: translateX( -10px );
+}
+
+.RightAlign
+{
+	horizontal-align: right;
+}
+
+.LeftAlign
+{
+	horizontal-align: left;
+}
+
+.CenterAlign
+{
+	horizontal-align: center;
+}
+
+
+.TopAlign
+{
+	vertical-align: top;
+}
+
+
+.BottomAlign
+{
+	vertical-align: bottom;
+}
+
+
+/* ------------------------------------------------------------------------- */
+
+DOTAXPBar
+{
+	flow-children: right;
+	width: 400px;
+	height: 30px;
+
+	border: 1px solid #999;
+}
+
+.XPSegment
+{
+	height: 100%;
+
+	tooltip-position: bottom;
+	tooltip-body-position: 50% 50%;
+
+	transition-property: width;
+	transition-duration: 1.0s;
+
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #a5d6ff ), to( #346797 ) );
+
+    border-right: 1px solid #3b72a5;
+
+}
+
+.XPSegment > .XPSegmentInner
+{
+	width: 100%;
+	height: 100%;
+    margin: 1px 0px 1px 1px;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #78c6e5 ), to( #2194c3 ) );
+}
+
+DOTAXPBar.DisableAnimation > .XPSegment
+{
+	transition-duration: 0.0s;
+}
+
+.XPSegment.DefaultXP > .XPSegmentInner {
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #78c6e5 ), to( #10759f ) );
+}
+
+.XPSegment.DefaultXP {
+    border-right: 1px solid #618fb8;
+}
+
+.XPSegment.QuestXP > .XPSegmentInner
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #18afe3 ), to( #0a57a8 ) );
+}
+.XPSegment.WagerXP > .XPSegmentInner
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #18afe3 ), to( #0a57a8 ) );
+}
+
+.XPSegment.AchievementXP > .XPSegmentInner
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #18afe3 ), to( #0a57a8 ) );
+}
+
+.XPSegment.ReceivedTipXP > .XPSegmentInner
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #18afe3 ), to( #0a57a8 ) );
+}
+
+.XPSegment.SendingTipXP
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #bf4d4d66), to( #a5252866 ) );
+    border-top: 1px solid #e8747466;
+    border-bottom: 1px solid #8c1f21;
+    //border-left: 1px solid #e8747466;
+    border-right: 1px solid #8c1f2166;
+}
+
+.XPSegment.SendingTipXP > .XPSegmentInner
+{
+    background-color: #00000000;
+}
+
+/* Ability Modifiers */
+.ModifierIcon
+{
+	width: 24px;
+	height: 24px;
+	background-image: url("s2r://panorama/images/status_icons/modifier_animation_psd.vtex");
+	background-repeat: no-repeat;
+	background-position: center 50% 50%;
+	background-size: 24px 24px;
+}
+
+.ModifierIcon.Empty 
+{
+    visibility: collapse;
+}
+
+.ModifierIcon.icon_replacement
+{
+	background-image: url("s2r://panorama/images/status_icons/modifier_icons_psd.vtex");
+}
+
+.ModifierIcon.particle
+{
+	background-image: url("s2r://panorama/images/status_icons/modifier_spelleffects_psd.vtex");
+}
+
+.ModifierIcon.particle_create
+{
+	background-image: url("s2r://panorama/images/status_icons/modifier_ambienteffects_psd.vtex");
+}
+
+.ModifierIcon.speech
+{
+	background-image: url("s2r://panorama/images/status_icons/modifier_voice_psd.vtex");
+}
+
+.ModifierIcon.activity
+{
+	background-image: url("s2r://panorama/images/status_icons/modifier_animation_psd.vtex");
+}
+
+.ModifierIcon.loading_screen
+{
+    background-image: url("s2r://panorama/images/status_icons/modifier_loading_screen_psd.vtex");
+}
+
+.ModifierIcon.cursor_pack
+{
+    background-image: url("s2r://panorama/images/status_icons/modifier_cursor_pack_psd.vtex");
+}
+
+.ModifierIcon.portrait_game
+{
+    background-image: url("s2r://panorama/images/status_icons/modifier_portrait_game_psd.vtex");
+}
+
+.ModifierIcon.model
+{
+    background-image: url("s2r://panorama/images/status_icons/modifier_model_psd.vtex");
+}
+
+.ModifierIcon.custom_kill_effect
+{
+    background-image: url("s2r://panorama/images/status_icons/modifier_kill_effect_psd.vtex");
+}
+
+/*these are temp*/
+
+.ModifierIcon.soundscape
+{
+    background-image: url("s2r://panorama/images/status_icons/modifier_voice_psd.vtex");
+}
+
+.ModifierIcon.sound
+{
+    background-image: url("s2r://panorama/images/status_icons/modifier_voice_psd.vtex");
+}
+
+.ModifierIcon.announcer
+{
+    background-image: url("s2r://panorama/images/status_icons/modifier_voice_psd.vtex");
+}
+
+.ModifierIcon.pet
+{
+    background-image: url("s2r://panorama/images/status_icons/modifier_model_psd.vtex");
+}
+
+
+
+
+

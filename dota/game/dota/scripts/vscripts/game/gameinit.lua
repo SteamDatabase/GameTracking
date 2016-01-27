@@ -127,6 +127,9 @@ if CDOTA_PlayerResource ~= nil then
 		return CDOTA_PlayerResource.IncrementDeaths_Engine( self, nPlayerID, nKillerID )
 	end
 
+	CDOTA_PlayerResource.GetEventPremiumPointsGranted = CDOTA_PlayerResource.GetEventPremiumPoints
+ 	CDOTA_PlayerResource.GetEventRankGranted = CDOTA_PlayerResource.GetEventRanks
+
 	CDOTA_PlayerResource.IncrementTotalEarnedXP_Engine = CDOTA_PlayerResource.IncrementTotalEarnedXP
 	CDOTA_PlayerResource.IncrementTotalEarnedXP = function( self, nPlayerID, nXP, nReason )
 		if nReason == nil then

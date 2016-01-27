@@ -108,6 +108,8 @@ Scheme
 		"DOTA.EconItemLegendaryColor" "255 0 128 255"
 		"DOTA.EconItemAncientColor" "255 64 64 255"
 		"DOTA.EconItemImmortalColor" "225 188 22 255"
+ 		"DOTA.EconItemArcanaColor" "173 229 92 255"
+		"DOTA.EconItemSeasonalColor" "255 243 79 255"
 
 		"DOTA.ItemColor"	"162 255 100 255"
 		"DOTA.RecipeColor"	"87 64 255 255"

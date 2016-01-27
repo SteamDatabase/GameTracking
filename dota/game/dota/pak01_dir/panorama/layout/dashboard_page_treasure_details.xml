@@ -21,7 +21,27 @@
 		<Panel id="ItemPreviewTempContainer" />
 		
 		<Panel id="TreasureControls">
-			<Panel class="TreasureControlsRow">
+			<Panel hittest="false">
+				<Panel id="ModifiersList" class="ModifierContainer" hittest="false">
+					<Panel id="activity" class="ModifierIcon activity" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_animation )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="announcer" class="ModifierIcon announcer" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_announcer )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="hud_skin" class="ModifierIcon hud_skin" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_HUD )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="ability_name" class="ModifierIcon ability_name" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_ability_name )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="loading_screen" class="ModifierIcon loading_screen" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_loading_screen )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="cursor_pack" class="ModifierIcon cursor_pack" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_cursor_pack )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="portrait_game" class="ModifierIcon portrait_game" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_portrait )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="custom_kill_effect" class="ModifierIcon custom_kill_effect" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_kill_effects )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="strange_control_point" class="ModifierIcon strange_control_point" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_strange_control_point )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="particle_create" class="ModifierIcon particle_create" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_ambient_effects )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="particle" class="ModifierIcon particle" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_spell_effects )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="model" class="ModifierIcon model" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_model )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="pet" class="ModifierIcon pet" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_pet )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="weather" class="ModifierIcon weather" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_weather )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="sound" class="ModifierIcon sound" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_sound )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="soundscape" class="ModifierIcon soundscape" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_soundscape )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="speech" class="ModifierIcon speech" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_voice )" onmouseout="DOTAHideTextTooltip()" />
+					<Panel id="icon_replacement" class="ModifierIcon icon_replacement" onmouseover="DOTAShowTextTooltip( #DOTA_tooltip_econ_item_modifier_icon )" onmouseout="DOTAHideTextTooltip()" />
+				</Panel>
 				<Panel id="ReceivedItem">
 					<Label text="#DOTA_Treasure_Received" />
 					<Panel id="ReceivedItemIcon">
@@ -31,14 +51,28 @@
 			</Panel>
 			<Panel class="TreasureControlsRow">
 				<Panel id="TreasureControlsLeft">
+					<Panel id="TreasureControlsLeftBackground">
+						<Panel id="TreasureControlsLeftBackgroundGradient" />
+						<DOTAScenePanel id="PreviewRaysSmallLeft" map="scenes/loadout_preview_rays" camera="camera_1" hittest="false"/>
+					</Panel>
 					<Panel id="TreasureControlsEquip">
-						<Panel id="EquipBackgroundGradient" />
-						<DOTAScenePanel id="PreviewRaysSmallEquip" map="scenes/loadout_preview_rays" camera="camera_1" hittest="false"/>
-						<Button id="TreasureControlsEquipButton" class="ColoredButton" onactivate="DOTAEquipSelectedTreasureItem()">
-							<Label text="{s:equip_action}" />
-						</Button>
-
+						<Panel id="TreasureControlsEquipButtons">
+							<Button id="TreasureControlsEquipButton" class="ColoredButton" onactivate="DOTAEquipSelectedTreasureItem( false )">
+								<Label text="#DOTA_EquippedItem_Equip" />
+							</Button>
+							<Button id="TreasureControlsEquipInfusedButton" class="ColoredButton" onactivate="DOTAEquipSelectedTreasureItem( true )"
+									onmouseover="AddStyle( TreasureControlsEquipButton, Hover ); DOTAShowTextTooltip( #DOTA_Treasure_InfuserCount );"
+									onmouseout="RemoveStyle( TreasureControlsEquipButton, Hover ); DOTAHideTextTooltip();">
+								<Label text="#DOTA_Treasure_Infused" />
+							</Button>
+						</Panel>
 						<Label id="TreasureControlsItemEquipped" text="#DOTA_EquippedItem_Label" />
+					</Panel>
+					<Panel id="TreasureControlsPreviewInfused">
+						<ToggleButton id="TreasureControlsPreviewInfusedButton" class="ColoredButton" onactivate="DOTAToggleSelectedTreasureItemPreviewInfused()">
+							<Label id="ShowInfusedLabel" text="#DOTA_Treasure_ShowInfused" />
+							<Label id="HideInfusedLabel" text="#DOTA_Treasure_HideInfused" />
+						</ToggleButton>
 					</Panel>
 				</Panel>
 
@@ -74,9 +108,9 @@
 		<Panel id="TreasureOpening">
 		  <Panel id="TreasureOpeningTop">
 			<Label id="TreasureOpeningTitle" text="#DOTA_Treasure_OpenTreasure" />
-			<Label id="TreasureOpeningMessage" text="{s:treasure_opening_message}" />
+			  <Label id="TreasureOpeningMessage" />
 
-			<Panel id="OpeningInProgressDisplay">
+			  <Panel id="OpeningInProgressDisplay">
 				<Panel class="Spinner" />
 			</Panel>
 
@@ -154,7 +188,8 @@
 					<Button id="TreasurePurchaseButton" class="PurchaseButton ColoredButton" onactivate="DOTAPurchaseSelectedTreasure()" 
 							onmouseover="DOTAShowSelectedOpenTreasureTooltip();" onmouseout="DOTAHideOpenTreasureTooltip();">
 						<Panel id="PurchaseButtonContents">
-							<Label text="#DOTA_Treasure_Purchase" />
+							<Label id="PurchaseLabel" text="#DOTA_Treasure_Purchase" />
+							<Label id="PurchaseLabelPW" text="#DOTA_Treasure_PurchasePW" />
 							<Label id="TreasurePriceLabel" text="{s:treasure_price}" />
 							<Panel id="TreasureCurrencyIcon" />
 						</Panel>
@@ -219,7 +254,8 @@
 				</Panel>
 				<Panel id="OwnedTreasuresButtons">
 					<Button id="OpenTreasureButton" class="ColoredButton" onactivate="DOTAOpenSelectedTreasure()" onmouseover="DOTAShowSelectedOpenTreasureTooltip()" onmouseout="DOTAHideOpenTreasureTooltip()">
-						<Label text="#DOTA_Treasure_Open" />
+						<Label id="OpenTreasureLabel" text="#DOTA_Treasure_Open" />
+						<Label id="OpenTreasureLabelPW" text="#DOTA_Treasure_OpenPW" />
 					</Button>
 					<Button id="GiftTreasureButton" class="ColoredButton" onactivate="DOTAGiftSelectedTreasure()">
 						<Label text="#DOTA_Treasure_Gift" />
@@ -233,11 +269,14 @@
 						<Label text="i" />
 					</Panel>
 					<Label id="TreasureHelpHeader" text="#DOTA_Treasure_HelpHeader" />
+					<Label id="TreasureHelpHeaderPW" text="#DOTA_Treasure_HelpHeaderPW" />
+					<Label id="TreasureHelpHeaderPWNotPurchasable" text="#DOTA_Treasure_HelpHeaderPWNotPurchasable" />
 				</Panel>
 			
 				<Panel id="TreasureHelpDetails">
 					<Label id="TreasureHelpNormalItems" />
 					<Label id="TreasureHelpRareItems" text="#DOTA_Treasure_HelpRares" />
+					<!--Label id="TreasureHelpRareItemsPW" text="#DOTA_Treasure_HelpRaresPW" /-->
 				</Panel>
 			
 			</Panel>

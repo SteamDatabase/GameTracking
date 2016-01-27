@@ -173,7 +173,7 @@ DOTADashboard.GCStatusScary #TopBarStatusBar.ShowSpinner #TopBarStatusSpinner
 #TopBarBackground
 {
 	width: 100%;
-	height: 214px;
+	height: 114px;
 	background-repeat: no-repeat;
 	background-size: 1920px 164px;
 
@@ -204,11 +204,11 @@ DOTADashboard.GCStatusScary #TopBarStatusBar.ShowSpinner #TopBarStatusSpinner
 #TopBarArmoryBackground
 {
 	width: 365px;
-	height: 214px;
+	height: 64px;
 	
 	horizontal-align: right;
 	background-image: url("s2r://panorama/images/topbar/armory_backer_off_png.vtex");
-	background-size: 100% 100%;
+	background-size: cover;
 
 	transition-property: background-image;
 	transition-duration: 0.2s;
@@ -780,18 +780,34 @@ DOTADashboard.PlayTabVisible #DashboardBackground
 }
 
 
-#DashboardPages, #DashboardBackground
+#DashboardBackgroundCompendium, #DashboardPages, #DashboardBackground
 {
 	width: 100%;
 	height: 100%;
 	wash-color: white;
 
 	transform: none;
-	transition-property: transform, blur, saturation, wash-color;
+	transition-property: transform, blur, saturation, wash-color, opacity;
 	transition-duration: 0.45s;
 	transition-delay: 0.0s;
 	transition-timing-function: ease-in;
 }
+
+#DashboardBackgroundCompendium
+{
+	opacity: 0;
+}
+
+DOTADashboard.CompendiumOpen #DashboardBackgroundCompendium
+{
+	opacity: 1;
+}
+
+DOTADashboard.CompendiumOpen #DashboardBackground
+{
+	opacity: 0;
+}
+
 
 #DashboardBackgroundStatus
 {
@@ -826,19 +842,19 @@ DOTADashboard.InitialDisplay #DashboardBackgroundInitContainer
 	transition-delay: 0.65s;
 }
 
-DOTADashboard.PlayTabVisible #DashboardPages, DOTADashboard.PlayTabVisible #TopBarSecondaryContainer, DOTADashboard.PopupBackgroundBlur #DashboardForeground, DOTADashboard.PopupBackgroundBlur #Chat
+DOTADashboard.PlayTabVisible #DashboardPages, DOTADashboard.PlayTabVisible #TopBarSecondaryContainer, DOTADashboard.PopupBackgroundBlur #DashboardForeground, DOTADashboard.PopupBackgroundBlur #Chat, DOTADashboard.PlayTabVisible #DashboardBackgroundCompendium, DOTADashboard.PopupBackgroundBlur #DashboardBackgroundCompendium
 {
 	blur: gaussian( 5, 2, 2 );
 	wash-color: #657b7baa;
 	saturation: 0.25;
 }
 
-DOTADashboard.PlayTabVisible #DashboardPages, DOTADashboard.PlayTabVisible #Chat
+DOTADashboard.PlayTabVisible #DashboardPages, DOTADashboard.PlayTabVisible #Chat, DOTADashboard.PlayTabVisible #DashboardBackgroundCompendium, DOTADashboard.PlayTabVisible #TopBarSecondaryContainer.ProfileVisible
 {
 	transform: translatex( -120px );   
 }
 
-DOTADashboard.AspectRatio16x10.PlayTabVisible #DashboardPages, DOTADashboard.AspectRatio16x10.PlayTabVisible #Chat
+DOTADashboard.AspectRatio16x10.PlayTabVisible #DashboardPages, DOTADashboard.AspectRatio16x10.PlayTabVisible #Chat, DOTADashboard.AspectRatio16x10.PlayTabVisible #DashboardBackgroundCompendium, DOTADashboard.AspectRatio16x10.PlayTabVisible #TopBarSecondaryContainer.ProfileVisible
 {
 	transform: translatex( -208px );    
 }
@@ -908,10 +924,87 @@ DOTADashboard.PlayTabVisible #DashboardPagesBlocker:hover
 {
 	width: 100%;
 	padding-bottom: 12px;
+	
+	animation-duration: 1s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: 1;   	
+	
+}
 
-	transition-property: blur, transform;
-	transition-duration: 0.30s;
-	transition-timing-function: ease-in-out;
+
+.ViewingCompendium.CompendiumOpen #TopBarSecondaryContainer
+{
+	transform: translateX(360px);
+}
+
+DOTADashboard.GCStatusVisible.ViewingCompendium.CompendiumOpen #TopBarSecondaryContainer
+{
+	transform: translateX(360px);
+}
+
+
+.CompendiumOpen #TopBarSecondaryContainer
+{
+	transform: translateX(0px);
+}
+
+.DoCompendiumSwipeLeft #TopBarSecondaryContainer
+{
+	animation-name: CompendiumNavSwipeLeft;
+}
+
+.DoCompendiumSwipeRight #TopBarSecondaryContainer
+{
+	animation-name: CompendiumNavSwipeRight;
+}
+
+
+@keyframes 'CompendiumNavSwipeLeft'
+{
+	0%
+	{
+		transform: translateX(0px);
+		opacity: 1;
+	}
+	50%
+	{
+		transform: translateX(-300px);
+		opacity: 0;
+	}
+	51%
+	{
+		transform: translateX(800px);
+		opacity: 0;
+	}
+	100%
+	{
+		transform: translateX(360px);
+		opacity: 1;
+	}
+}
+
+@keyframes 'CompendiumNavSwipeRight'
+{
+	0%
+	{
+		transform: translateX(360px);
+		opacity: 1;
+	}
+	50%
+	{
+		transform: translateX(800px);
+		opacity: 0;
+	}
+	51%
+	{
+		transform: translateX(-300px);
+		opacity: 0;
+	}
+	100%
+	{
+		transform: translateX(0px);
+		opacity: 1;
+	}
 }
 
 #TopBarSecondaryContainer.ProfileVisible
@@ -988,7 +1081,17 @@ DOTADashboard.GCStatusVisible #TopBarSecondaryContainer.ProfileVisible
 	transition-property: transform, opacity;
 	transition-duration: 0.3s;
 	transition-timing-function: ease-in-out;
+	
+
+	
 }
+
+
+.CompendiumOpen #TopBarSecondaryTabs
+{
+	width: 100%;
+}
+
 
 #TopBarSecondaryTabs.Hidden
 {
@@ -1016,6 +1119,8 @@ DOTADashboard.GCStatusVisible #TopBarSecondaryContainer.ProfileVisible
 	transition-property: wash-color;
 	transition-duration: 0.6s;
 	transition-timing-function: ease-in-out;
+
+	flow-children: right;
 }
 
 .SecondaryTabButton Label
@@ -1028,10 +1133,17 @@ DOTADashboard.GCStatusVisible #TopBarSecondaryContainer.ProfileVisible
 	letter-spacing: 3px;
 }
 
-.SecondaryTabButton:disabled Label
+.SecondaryTabButton:hover Label
+{
+	color: white;
+}
+
+.SecondaryTabButton:disabled Label,
+.SecondaryTabButton:disabled:hover Label
 {
 	color: #768e8d33;
 }
+
 
 .Language_schinese .SecondaryTabButton Label
 {
@@ -1090,6 +1202,32 @@ DOTADashboard.GCStatusVisible #TopBarSecondaryContainer.ProfileVisible
 {
 	visibility: collapse;
 }
+
+.SecondaryTabButton .SecondaryTabPrefixImage,
+.SecondaryTabButton .SecondaryTabPostfixImage
+{
+	width: height-percentage( 100% );
+	height: 85%;
+
+	wash-color: #768e8d;
+}
+
+.SecondaryTabButton:hover .SecondaryTabPrefixImage,
+.SecondaryTabButton:hover .SecondaryTabPostfixImage
+{
+	wash-color: white;
+}
+
+.SecondaryTabButton .SecondaryTabPrefixImage
+{
+	margin-right: -5px;
+}
+
+.SecondaryTabButton .SecondaryTabPostfixImage
+{
+	margin-left: -5px;
+}
+
 
 .SecondaryTabSeparator
 {
@@ -1271,7 +1409,7 @@ DOTADashboard.GCStatusVisible #TopBarSecondaryContainer.ProfileVisible
 
 #TopBarDescendingContent
 {
-	margin-top: -52px;
+	margin-top: 0px;
 	margin-right: 52px;
 	width: 100%;
 }
@@ -1306,18 +1444,27 @@ DOTADashboard.GCStatusVisible #TopBarSecondaryContainer.ProfileVisible
 
 #Chat
 {
-	width: 744px;
+	width: 716px;
 	vertical-align: bottom;
 	horizontal-align: center;
-	padding-right: 28px;
 	margin-bottom: 130px;
-	margin-right: 14px;
+	margin-right: 28px;
 	transform: translateX( 0px ) translateY( 0px );
 	opacity: 1.0;
 
 	transition-property: opacity, transform;
 	transition-duration: 0.45s; 
 	transition-timing-function: ease-in;
+}
+
+.AspectRatio16x10 #Chat 
+{
+	margin-right: 30px;	
+}
+
+.AspectRatio5x4 #Chat
+{
+	margin-right: 22px;	
 }
 
 .AspectRatio4x3.NotOnTodayPage #Chat
@@ -2580,6 +2727,44 @@ DOTADashboard.GCStatusVisible #NotificationsContainer.Hidden
 #DebugForegroundOverlay.Active
 {
 	visibility: visible;
+}
+
+#CompendiumBackgroundScene
+{
+	width: 50%;
+	height: 64px;
+	horizontal-align: center;
+	pre-transform-scale2d: 2;
+	margin-top: 86px;
+	blur: gaussian (1, 1, 1);
+	transition-property: transform, opacity;
+	transition-duration: 1.8s;
+	transition-timing-function: ease-in-out;	
+}
+
+.ViewingCompendium #CompendiumBackgroundScene
+{
+	transform: translateX(-600px);
+	opacity: 0;
+}
+
+.Frost
+{
+	background-image: url("s2r://panorama/images/compendium/frost_texture_psd.vtex");
+	background-size: 100% 100%;	
+	width: 40%;
+	height: 128px;
+	horizontal-align: right;
+	margin-top: 56px;
+	margin-right: 186px;
+}
+
+#BottomFrost
+{
+	vertical-align: bottom;
+	transform: scaleY( -1 );
+	margin-right: 0px;
+	opacity: 0.85;
 }
 
 /* Chat should be behind popups, except when the find match dialog is visible */

@@ -10,7 +10,6 @@
 		InTreasure - means we can purchase this set as part of a treasure. IsRareTeasure may also be set.
 		InRareTreasure - means we can purchase this set as a rare part of a treasure.		
 		ItemRarity_XXX - Set to be appropriate for the rarity of the item being previewed
-		OnSale - indicates the item is on sale
 		OnMarket - indicates the item is on market
 		MultipleStyles - indicates the item has multiple styles
         HasTeamSpecificViews - indicates we should show the team selector icons since we have team specific views
@@ -458,70 +457,16 @@ RadioButton#ItemFilterName .RadioBox
 
 /* These are where the purchase buttons start */
 /* They are off by default, but we activate them if they can be purchased */
-.Purchase
+#LoadoutItemPurchase
 {
 	visibility: collapse;
-	vertical-align: center;
-	flow-children: right;
-
-
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #60862d ), to( #3d5f1c ));
-	border-top: 1px solid #ffffff22;
-	border-left: 1px solid #ffffff11;
-	border-right: 1px solid #00000044;
-	border-bottom: 1px solid #00000088;
 	margin-right: 10px;
     margin-top: 3px;
-	margin-bottom: 0px;
-	padding: 5px 14px 3px 14px;
-	min-width: 188px;
-	height: 39px;
-	
-	transition-property: background-color;
-	transition-duration: .1s;
 }
 
-#EquippedItemSetGroup .Purchase:hover
-{
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #80b33c ), to( #649c2e ));
-}
-
-#EquippedItemSetGroup.CanPurchase .Purchase
+#EquippedItemSetGroup.CanPurchase #LoadoutItemPurchase
 {
 	visibility: visible;
-}
-
-#EquippedItemSetGroup.OnMarket .Purchase
-{
-	min-width: 170px;
-    background-color: gradient( linear, 0% 0%, 0% 100%, from( #307663 ), to( #245a4b ));
-	border-top: 1px solid #ffffff22;
-	border-left: 1px solid #ffffff11;
-	border-right: 1px solid #00000044;
-	border-bottom: 1px solid #00000088;
-	margin-right: 10px;
-    margin-top: 3px;
-	margin-bottom: 0px;
-	padding: 5px 14px 3px 14px;
-	height: 39px;
-	
-	
-	transition-property: background-color;
-	transition-duration: .1s;
-}
-
-#EquippedItemSetGroup.OnMarket .Purchase:hover
-{
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #0a9163 ), to( #096449 ));
-}
-
-.Purchase Label 
-{
-	//margin-right: 10px;
-	horizontal-align: right;
-	vertical-align: center;
-	font-size: 22px;
-    text-transform: uppercase;
 }
 
 .MarketButtonLabel
@@ -549,34 +494,6 @@ RadioButton#ItemFilterName .RadioBox
 {
 	visibility: collapse;
 }
-
-#EquippedItemSetGroup.OnSale .PurchaseOnSale 
-{
-	visibility: visible;
-}
-
-.PurchaseOnSale
-{
-	margin-right: 10px;
-	visibility: collapse;
-	color: #FFFFFFFF;
-}
-
-.RegularPriceLabel 
-{
-	text-decoration: line-through;
-}
-
-.RegularPriceLabel 
-{
-	color: #B0B0B0FF;
-}
-
-.PurchasePrice
-{
-	color: #FFFFFFFF;
-}
-
 
 .BrowseTreasure
 {
@@ -641,22 +558,57 @@ RadioButton#ItemFilterName .RadioBox
 	visibility: visible;
 }
 
+.DOTAEconItemPage.GlobalItem #EquippedItemSetGroup.Owned.HideSingleItemShuffleButton #SingleItemShuffleButton
+{
+	visibility: collapse;
+}
+
+.DOTAEconItemPage.GlobalItem #EquippedItemSetGroup.Owned.TestItem #SingleItemShuffleButton
+{
+	visibility: collapse;
+}
+
+.DOTAEconItemPage.GlobalItem #EquippedItemSetGroup.Owned.DeveloperOnly #SingleItemShuffleButton
+{
+	visibility: collapse;
+}
+
 .DOTAEconItemPage.GlobalItem #EquippedItemSetGroup.Owned #SingleItemShuffleButton:hover
 {
 	visibility: visible;
+}
+
+.DOTAEconItemPage.GlobalItem #EquippedItemSetGroup.Owned.HideSingleItemShuffleButton #SingleItemShuffleButton:hover
+{
+	visibility: collapse;
+}
+
+.DOTAEconItemPage.GlobalItem #EquippedItemSetGroup.Owned.TestItem #SingleItemShuffleButton:hover
+{
+	visibility: collapse;
+}
+
+.DOTAEconItemPage.GlobalItem #EquippedItemSetGroup.Owned.DeveloperOnly #SingleItemShuffleButton:hover
+{
+	visibility: collapse;
 }
 
 .DOTAEconItemPage.GlobalItem #EquippedItemSetGroup.Owned.InPurgatory #SingleItemShuffleButton
 {
 	visibility: collapse;
 }
-
+                                              
 #EquippedItemSetGroup.Owned #CustomizeButton
 {
 	visibility: visible;
 }
 
-#EquippedItemSetGroup.ShuffleContainsOnlyDefaultItem #CustomizeButton
+#EquippedItemSetGroup.TestItem #CustomizeButton
+{
+	visibility: collapse;
+}
+
+#EquippedItemSetGroup.DeveloperOnly #CustomizeButton
 {
 	visibility: collapse;
 }
@@ -701,6 +653,11 @@ RadioButton#ItemFilterName .RadioBox
 	animation-timing-function: linear;
 	animation-iteration-count: infinite;
 	box-shadow: fill #002a66 -4px -4px 8px 9px;
+}
+
+#EquippedItemSetGroup.Owned.ShuffleContainsOnlyOneItem #CustomizeButton:hover
+{
+	visibility: collapse;
 }
 
 #CustomizeButton:hover 
@@ -765,4 +722,14 @@ RadioButton#ItemFilterName .RadioBox
 #EquippedItemSetGroup.Owned #DetailsButton
 {
 	visibility: collapse;
+}
+
+#EquippedItemSetGroup.Owned.Bundle #DetailsButton
+{
+	visibility: visible;
+}
+
+#EquippedItemSetGroup.Owned.Item #DetailsButton
+{
+	visibility: visible;
 }

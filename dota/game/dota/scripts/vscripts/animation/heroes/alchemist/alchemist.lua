@@ -147,7 +147,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "injured_run",
+		name = "injured_run_anim",
 		sequences = {
 			{ "@injured_run" }
 		},
@@ -181,7 +181,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "ability_4_run",
+		name = "ability_4_run_anim",
 		sequences = {
 			{ "@ability_4_run" }
 		},
@@ -198,7 +198,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "ability4_high_run",
+		name = "ability4_high_run_anim",
 		sequences = {
 			{ "@ability4_high_run" }
 		},

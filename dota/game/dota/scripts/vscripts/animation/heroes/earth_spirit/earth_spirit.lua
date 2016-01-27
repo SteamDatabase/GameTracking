@@ -85,7 +85,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run",
+		name = "run_anim",
 		sequences = {
 			{ "@run" }
 		},
@@ -101,7 +101,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "ability_01_staff_smash",
+		name = "ability_01_staff_smash_anim",
 		sequences = {
 			{ "@ability_01_staff_smash" }
 		},
@@ -115,7 +115,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "ability_02_roll_end",
+		name = "ability_02_roll_end_anim",
 		sequences = {
 			{ "@ability_02_roll_end" }
 		},
@@ -157,13 +157,13 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "ability_04_stone_caller",
+		name = "ability_04_stone_caller_anim",
 		sequences = {
 			{ "@ability_04_stone_caller" }
 		},
 		weightlist = "full_body",
 		activities = {
-			{ name = "ACT_DOTA_CAST_ABILITY_4", weight = 1 }
+			{ name = "ACT_DOTA_ES_STONE_CALLER", weight = 1 }
 		}
 	}
 )
@@ -228,7 +228,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run_aggro",
+		name = "run_aggro_anim",
 		sequences = {
 			{ "@run_aggro" }
 		},
@@ -302,7 +302,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run_injured",
+		name = "run_injured_anim",
 		sequences = {
 			{ "@run_injured" }
 		},
@@ -379,13 +379,13 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "ability_05_magnetize_ult_vibrate",
+		name = "ability_05_magnetize_ult_vibrate_anim",
 		sequences = {
 			{ "@ability_05_magnetize_ult_vibrate" }
 		},
 		weightlist = "full_body",
 		activities = {
-			{ name = "ACT_DOTA_CAST_ABILITY_5", weight = 1 }
+			{ name = "ACT_DOTA_CAST_ABILITY_6", weight = 1 }
 		}
 	}
 )

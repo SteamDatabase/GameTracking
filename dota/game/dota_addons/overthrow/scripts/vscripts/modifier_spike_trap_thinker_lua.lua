@@ -54,7 +54,7 @@ function modifier_spike_trap_thinker_lua:OnIntervalThink()
 		--ParticleManager:SetParticleControl( nFXIndex, 1, Vector( self.light_strike_array_aoe, 1, 1 ) )
 		--ParticleManager:ReleaseParticleIndex( nFXIndex )
 
-		EmitSoundOnLocationWithCaster( self:GetParent():GetOrigin(), "Conquest.SpikeTrap.Activate", self:GetCaster() )
+		EmitSoundOnLocationWithCaster( self:GetParent():GetOrigin(), "Conquest.SpikeTrap.Activate.Generic", self:GetCaster() )
 
 		UTIL_Remove( self:GetParent() )
 	end

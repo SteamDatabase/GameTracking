@@ -40,8 +40,7 @@ function breathe_poison:OnSpellStart()
 
 	ProjectileManager:CreateLinearProjectile( info )
 	
-	EmitSoundOn( "Conquest.PoisonTrap", self:GetCaster() )
-	--EmitSoundOn( "Conquest.hallow_scream", self:GetCaster() )
+	EmitSoundOn( "Conquest.PoisonTrap.Generic", self:GetCaster() )
 end
 
 --------------------------------------------------------------------------------

@@ -9,32 +9,40 @@ PopupAcceptMatch
 {
 	horizontal-align: center;
 	vertical-align: center;
-    width: 70%;
-    height: 70%;
-	margin-bottom: 100px;
+	width: 100%;
+	height: 100%;
+	//margin-bottom: 100px;
 	perspective: 2000px;
 	perspective-origin: 50% 50%;
+	transform: translateY( -50px );
 }
 
 .Hidden #ModelUIAccept
 {
-    opacity: 0.0;
-    pre-transform-scale2d: 1.1;
+	opacity: 0.0;
+	pre-transform-scale2d: 1.1;
 	//transform: translateY( -10px );
 }
 
 #ModelUIAccept
-{ 
+{
 	opacity: 1;
-    width: 100%;
-    height: 100%;
-    opacity-mask: url("s2r://panorama/images/masks/softedge_box_png.vtex");
+	width: 70%;
+	height: 70%;
+	opacity-mask: url("s2r://panorama/images/masks/softedge_box_png.vtex");
 	transform: translateZ( -300px );
+	horizontal-align: center;
+	vertical-align: center;
 	
 	transition-property: pre-transform-scale2d, opacity;
 	transition-duration: 0.5s;
 	transition-timing-function: ease-in;
 	transition-delay: 0.0s;
+}
+
+#ModelUIAccept.Minimized
+{
+	opacity: 0;
 }
 
 // this mostly invisible panel is positioned over the decline button and is only active for the first N seconds of the panel's life
@@ -62,40 +70,64 @@ PopupAcceptMatch
 {
 	horizontal-align: center;
 	vertical-align: middle;
-    border: 0px solid transparent;
-    border-radius: 0px;
-    background-color: black;
-    padding: 0px;
+	border: 0px solid transparent;
+	border-radius: 0px;
+	background-color: black;
+	padding: 0px;
 	
 	background-image: url("s2r://panorama/images/textures/popup_rock_bg_psd.vtex");
-	background-size: contain;
-	background-position: 50% 50%;
+	background-size: auto 100%;
+	background-position: 50% 0%;
 	background-repeat: no-repeat;
-    
-    box-shadow: #83d79500 0px 0px 0px 0px;
+	
+	box-shadow: #83d79500 0px 0px 0px 0px;
 	
 	pre-transform-scale2d: 1;
 
-    width: 768px;
-    height: 256px;
+	width: 768px;
+	height: fit-children;
+	min-height: 256px;
 	opacity: 1;
 	
-    transition-property: transform, pre-transform-scale2d, opacity;
+	transition-property: transform, pre-transform-scale2d, opacity;
 	transition-duration: 0.2s;
 	transition-timing-function: ease-in-out;
 	transition-delay: 0.0s;
-
-    flow-children: down;
 }
 
 
 .Hidden .PopupAcceptMatchPanel
 {
-    opacity: 0.0;
-    pre-transform-scale2d: 0.75;
+	opacity: 0.0;
+	pre-transform-scale2d: 0.75;
 	//transform: translateY( -10px );
 }
 
+.PopupAcceptMatchPanel.Minimized
+{
+	opacity: 0.5;
+
+	width: 400px;
+	height: fit-children;
+	min-height: 120px;
+
+	horizontal-align: right;
+	vertical-align: bottom;
+
+	margin-left: 30px;
+	margin-top: 50px;
+	margin-right: 30px;
+	margin-bottom: 10px;
+
+	background-image: none;
+	background-color: black;
+}
+
+.AppearingInHud .PopupAcceptMatchPanel.Minimized
+{
+	horizontal-align: left;
+	vertical-align: top;
+}
 
 #PopupAcceptDeclineMatchPanel
 {
@@ -107,7 +139,12 @@ PopupAcceptMatch
 	box-shadow: #83d79544 -5px -5px 12px 10px;
 }
 
-#PopupAcceptDeclineMatchPanel.Accepted
+#PopupAcceptDeclineMatchPanel.Minimized
+{
+	visibility: collapse;
+}
+
+.ReadyUpPlayersVisible #PopupAcceptDeclineMatchPanel
 {
 	animation-name: accept-match-accepted; 
 	animation-duration: 0.3s;
@@ -164,61 +201,65 @@ PopupAcceptMatch
 		transform: rotateX( 74.5deg ) translateY( -115px ) translateZ( -110px );
 		wash-color: black;
 	}
+	99%
+	{
+		opacity: 1;
+	}
 	to
 	{
 		transform: rotateX( 90deg ) translateY( -132px ) translateZ( -140px );
 		wash-color: black;
 		box-shadow: #83d79500 0px 0px 0px 0px;
+		opacity: 0;
 	}
 }
 
 .HeaderBar
 {
-    width: 100%;
-    background-color: gradient( linear, 0% 0%, 0% 100%, from( #000000 ), to( #31404e ) );
+	width: 100%;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #000000 ), to( #31404e ) );
 	background-color: #00000088;
 }
 
 #TitleLabel
 {
-    font-size: 24px;
-    color: #aaaaaa;
-    margin-top: 15px;
-    horizontal-align: center;
-    text-transform: uppercase;
+	font-size: 24px;
+	color: #aaaaaa;
+	margin-top: 15px;
+	horizontal-align: center;
+	text-transform: uppercase;
 }
 
 #MessageLabel
 {
-    font-size: 32px;
-    font-weight: bold;
-    color: #FFFFFF;
-    horizontal-align: center;
-    text-transform: uppercase;
+	font-size: 32px;
+	font-weight: bold;
+	color: #FFFFFF;
+	horizontal-align: center;
+	text-transform: uppercase;
 	letter-spacing: 3px;
 	margin-bottom: 5px;
 }
 
 #ButtonContainer
 {
-    flow-children: right;
-    horizontal-align: center;
-    margin-top: 45px;
-	opacity:1;
+	//flow-children: right;
+	horizontal-align: center;
+	margin-top: 90px;
+	width: 100%;
+	height: 150px;
 }
 
-
-
-#ButtonContainer Button
+.LargeButton
 {
-    margin-left: 20px;
-    margin-right: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
 
-    width: 320px;
-    height: 64px;
+	width: 320px;
+	height: 64px;
 
 	padding-top: 2px;
-        
+		
 	overflow: noclip noclip;
 	opacity: 1.0;
 	
@@ -230,13 +271,13 @@ PopupAcceptMatch
 	box-shadow: fill #111111aa -4px -4px 8px 9px;
 }
 
-#ButtonContainer Button Label
+.LargeButton Label
 {
-    font-size: 35;
+	font-size: 35;
 	font-weight: bold;
-    padding: 6px 10px 5px 10px;
-    horizontal-align: center;
-    text-transform: uppercase;
+	padding: 6px 10px 5px 10px;
+	horizontal-align: center;
+	text-transform: uppercase;
 	letter-spacing: 2px;
 	text-shadow: 0px 0px 2px 1.0 #ffc0a000;
 	
@@ -255,12 +296,15 @@ PopupAcceptMatch
 	border-right: 2px solid #00000088;
 	border-left: 2px solid #48d07d11;
 	border-bottom: 2px solid #00000088;
+
+	horizontal-align: center;
+	vertical-align: center;
 }
 
 #Button0:hover
 {
 	background-color: gradient( radial, 50% 30%, 0% 10%, 65% 75%, from( #48d07d ), to( #1a423e55 ) );
-    box-shadow: fill #48d07d11 -4px -4px 8px 9px;
+	box-shadow: fill #48d07d11 -4px -4px 8px 9px;
 	transition-duration: 0.3s;
 }
 
@@ -277,61 +321,78 @@ PopupAcceptMatch
 
 #Button0:active
 {
-    border: 2px solid #66ffaaaa;
+	border: 2px solid #66ffaaaa;
 	box-shadow: fill #66ffaa11 -4px -4px 8px 9px;
 	sound: "ui_match_accept_click";
 }
 
+.DeclineContainer
+{
+	flow-children: right;
+	horizontal-align: right;
+	vertical-align: bottom;
+	margin-right: 20px;
+}
+
+.InfoIcon
+{
+	height: 16px;
+	width: 16px;
+	border-bottom: 1px solid #ffffff04;
+	horizontal-align: right;
+	margin: 0px;
+	wash-color: #869797;
+	margin-right: 8px;
+}
+
+.InfoIcon:hover
+{
+	wash-color: #b3c6cc;
+
+}
 
 #Button1
 {
-	background-color: gradient( radial, 50% 30%, 0% 10%, 65% 75%, from( #6a3735 ), to( #40161855 ) );
-	box-shadow: fill #6a373500 -4px -4px 8px 9px;
-	
-	border-top: 2px solid #c7412f33;
-	border-right: 2px solid #00000088;
-	border-left: 2px solid #c7412f11;
-	border-bottom: 2px solid #00000088;
+	margin-top: 3px;
+	horizontal-align: right;
+	vertical-align: bottom;
 }
 
 #Button1:hover
 {
-	background-color: gradient( radial, 50% 30%, 0% 10%, 65% 75%, from( #c7412f ), to( #40261855 ) );
-    box-shadow: fill #c7312f11 -4px -4px 8px 9px;
-	transition-duration: 0.3s;
 }
 
 #Button1 Label
 {
-	color: white;
+	color: grey;
 }
 
 #Button1:hover Label
 {
-	text-shadow: 0px 0px 20px 2.0 #ff7720;
+	text-decoration: underline;
 }
 
 #Button1:active
 {
-    border: 2px solid #ffaa55aa;
-	box-shadow: fill #ffaa5511 -4px -4px 8px 9px;
+	//border: 2px solid #ffaa55aa;
+	//box-shadow: fill #ffaa5511 -4px -4px 8px 9px;
+
 	sound: "ui_match_decline_click";
 }
 
-.ReadyUpPlayersVisible #ButtonContainer
+#Button1:active Label
 {
-    //visibility: collapse;
+	wash-color: #ffffff;
 }
 
 #ReadyUpPlayers
 {
-    //visibility: collapse;
-    margin-top: 14px;
+	margin-top: 120px;
 }
 
 .ReadyUpPlayersVisible #ReadyUpPlayers
 {
-    visibility: visible;
+	visibility: visible;
 }
 
 #PopupReadyUpPlayersPanel
@@ -346,7 +407,7 @@ PopupAcceptMatch
 	opacity: 0;
 }
 
-#PopupReadyUpPlayersPanel.Accepted
+.ReadyUpPlayersVisible #PopupReadyUpPlayersPanel
 {
 	transform: rotateX( 0deg ) translateY( 0px ) translateZ( 0px );
 	wash-color: #00000000;
@@ -358,6 +419,10 @@ PopupAcceptMatch
 	animation-timing-function: linear;
 	animation-iteration-count: 1;
 	animation-direction: normal;
+}
+
+#PopupReadyUpPlayersPanel.Minimized
+{
 }
 
 @keyframes 'ready-up-start-end'
@@ -405,12 +470,30 @@ PopupAcceptMatch
 	}
 }
 
-
-
-.TempButton
+#CollapseExpandButton
 {
-	/* REMOVE THIS BEFORE SHIPPING ====== AND FROM THE XML =====================================*/
-	width: 2px;
-	height: 31px;
-	//border: 1px solid red;
+	horizontal-align: right;
+	vertical-align: top;
+	margin: 5px;
+}
+
+.CollapseExpandIcon
+{
+	width: 35px;
+	height: 35px;
+	background-image: url("s2r://panorama/images/icon_swap_png.vtex");
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	transform: rotateZ( 90deg );
+	wash-color: #aaaaaa;
+}
+
+#CollapseExpandButton:hover .CollapseExpandIcon
+{
+	wash-color: none;
+}
+
+.Minimized .HeaderBar
+{
+	visibility: collapse;
 }

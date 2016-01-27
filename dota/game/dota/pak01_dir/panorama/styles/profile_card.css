@@ -16,35 +16,13 @@ DOTAProfileCard
 
 #ContentsMain:hover
 {
-	box-shadow: fill #00000099 -4px -4px 8px 8px;
+	//box-shadow: fill #00000099 -4px -4px 8px 8px;
 	brightness: 1.4;
 }
 
-#CompendiumPanel:hover 
-{
-	//box-shadow: fill #00000099 -4px -4px 8px 8px;
-	brightness: 1.6;
+#HomeProfileContainer:hover #ContentsMain {
+    brightness: 1.4;
 }
-
-
-#CompendiumPanel:hover #CompendiumBook
-{
-	pre-transform-scale2d: .90;
-}
-
-.SelfEventUpsell #CompendiumPanel:hover #CompendiumBook,
-.SelfEventNeedsActivate #CompendiumPanel:hover #CompendiumBook,
-{
-	pre-transform-scale2d: .83;
-}
-
-.SelfEventUpsell #CompendiumBook,
-.SelfEventNeedsActivate #CompendiumBook
-{
-	saturation: 0;
-	wash-color: #3A4D59aa;
-}
-
 
 #MiniProfileContainer
 {
@@ -85,8 +63,8 @@ DOTAProfileCard
 
 #LeftColumn #ContentsMain
 {
-	margin-left: 30px;
 	margin-top: 30px;
+    margin-left: 30px;
 }
 
 .FixedSize #ContentsMain
@@ -124,7 +102,12 @@ DOTAProfileCard #AvatarImage
 
 DOTAProfileCard #AvatarImage Image
 {
-	box-shadow: inset #000000aa 1.5px 1.5px 3px 3px;
+	//box-shadow: inset #000000aa 1.5px 1.5px 3px 3px;
+}
+
+DOTAProfileCard #AvatarImage.HasCompendium Image
+{
+	box-shadow: inset #00000000 1.5px 1.5px 3px 3px;
 }
 
 
@@ -569,11 +552,6 @@ DOTAProfileCard #CompendiumWell
 	horizontal-align: right;
 }
 
-DOTAProfileCard.SelfEventActive #CompendiumWell
-{
-	background-image: url("s2r://panorama/images/textures/miniprofile_compendium_well_active_psd.vtex");
-}
-
 DOTAProfileCard.Loading #ProfileBadge, DOTAProfileCard.Loading #ProfileBadgeBackground
 {
 	visibility: collapse;
@@ -606,36 +584,14 @@ DOTAProfileCard.Loading #ProfileBadge, DOTAProfileCard.Loading #ProfileBadgeBack
 	transition-property: box-shadow, brightness;
 	transition-duration: 0.15s;
 	transition-timing-function: ease-in-out;
+
+	visibility: collapse;
 }
 
 .HalloweenActive #CompendiumPanel
 {
 	wash-color: #61FFAA33;
 }
-
-
-#CompendiumNotOwned,
-#CompendiumComingSoon,
-#CompendiumNeedsActivate
-{
-	text-shadow: 0px 0px 3px 2.0 #000000;
-	color: #414447;
-	margin-left: 16px;
-	letter-spacing: 1px;
-	font-size: 16px;
-	font-weight: thin;
-	text-transform: uppercase;
-	horizontal-align: center;
-	vertical-align: center;
-	visibility: collapse;
-}
-
-#CompendiumNeedsActivate
-{
-	color: #B5D6C8;
-	text-shadow: 0px 0px 4px 1.0 #63C36566;
-}
-
 .TooltipContainer #CompendiumPanel, .PlayerMenuContents #CompendiumPanel
 {
 	height: 48px;
@@ -643,11 +599,13 @@ DOTAProfileCard.Loading #ProfileBadge, DOTAProfileCard.Loading #ProfileBadgeBack
 	background-size: cover;
 	padding: 0px;
 	flow-children: right;
+	visibility: visible;
 }
 
 .TooltipContainer #TopSection
 {
 	flow-children: right;
+	width: 100%;
 }
 
 
@@ -702,6 +660,7 @@ DOTAProfileCard.Loading #ProfileBadge, DOTAProfileCard.Loading #ProfileBadgeBack
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	background-size: contain;
+	hue-rotation: 120deg;
 	
 	visibility: collapse;
 	
@@ -782,16 +741,12 @@ DOTAProfileCard.Loading #ProfileBadge, DOTAProfileCard.Loading #ProfileBadgeBack
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	background-size: contain;
+	visibility: collapse;
 }
 
 #CompendiumDetails
 {
 	visibility: collapse;
-}
-
-#BottomSection
-{
-	width: 100%;
 }
 
 .ButtonBevel
@@ -813,23 +768,6 @@ DOTAProfileCard.Loading #ProfileBadge, DOTAProfileCard.Loading #ProfileBadgeBack
 	margin: 0px;
 	margin-top: -2px;
 	padding: 0px;
-}
-
-.SelfEventUpsell .ButtonBevel,
-.SelfEventNeedsActivate .ButtonBevel
-{
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #60862d ), to( #3d5f1c ));
-	border-top: 1px solid #ffffff22;
-	border-left: 1px solid #ffffff11;
-	border-right: 1px solid #00000044;
-	border-bottom: 1px solid #00000088;
-}
-
-
-.SelfEventUpsell .ButtonBevel:hover,
-.SelfEventNeedsActivate .ButtonBevel:hover
-{
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #80b33c ), to( #649c2e ));
 }
 
 #BuyLevels
@@ -863,46 +801,20 @@ DOTAProfileCard.Loading #ProfileBadge, DOTAProfileCard.Loading #ProfileBadgeBack
 	margin-top: 0px;
 }
 
-
-.SelfEventNotActive #CompendiumComingSoon
-{
-	visibility: visible;
-}
-
-.SelfEventUpsell #CompendiumBook,
-.SelfEventUpsell #CompendiumNotOwned
-{
-	visibility: visible;
-}
-
-.SelfEventNeedsActivate #CompendiumBook,
-.SelfEventNeedsActivate #CompendiumNeedsActivate,
-.SelfEventNeedsActivate #ActivateCompendium
-{
-	visibility: visible;
-}
-
-.SelfEventActive #CompendiumBook,
-.SelfEventActive #CompendiumDetails,
-.SelfEventActive #SpendCoins
-{
-	visibility: visible;
-}
-
-.OtherEventNotActive #CompendiumPanel
+.ProfileCardEventNotActive #CompendiumPanel
 {
 	visibility: collapse;
 }
 
-.OtherEventActive #CompendiumBook,
-.OtherEventActive #CompendiumDetails
+.ProfileCardEventActive #CompendiumBook,
+.ProfileCardEventActive #CompendiumDetails
 {
 	visibility: visible;
 }
 
 .TooltipContainer #EventCrestImage,
 .PlayerMenuContents #EventCrestImage,
-.OtherEventActive #EventCrestImage
+.ProfileCardEventActive #EventCrestImage
 {
 	horizontal-align: left;
 	width: 26px;
@@ -913,34 +825,98 @@ DOTAProfileCard.Loading #ProfileBadge, DOTAProfileCard.Loading #ProfileBadgeBack
 
 .TooltipContainer .FillerLine,
 .PlayerMenuContents .FillerLine,
-.OtherEventActive .FillerLine
+.ProfileCardEventActive .FillerLine
 {
 	visibility: collapse;
 }
 
 .TooltipContainer #CompendiumLevel,
 .PlayerMenuContents #CompendiumLevel,
-.OtherEventActive #CompendiumLevel
+.ProfileCardEventActive #CompendiumLevel
 {
 	margin-left: 16px;
-	font-size: 16px;
-	margin-top: 6px;
+	font-size: 20px;
+	margin-top: 4px;
 	margin-right: 6px;
 }
 
 .TooltipContainer .DetailValue,
 .PlayerMenuContents .DetailValue,
-.OtherEventActive .DetailValue
+.ProfileCardEventActive .DetailValue
 {
 	font-size: 24px;
 	margin-left: 6px;	
 }
 
-.TooltipContainer #BottomSection,
-.PlayerMenuContents #BottomSection
+#BattleLevelCircle
 {
-	visibility: collapse;
+	width: 38px;
+	height: 38px;
+	vertical-align: center;
+	wash-color: #61bef0;
+	margin-top: 4px;
+
+	background-image: url("s2r://panorama/images/compendium/shield_icon_shadowed_psd.vtex");
+	background-size: cover;
 }
 
 
+#CompendiumLevel,
+#BattleLevelCircle Label
+{
+	color: white;
+	vertical-align: center;
+	horizontal-align: center;
+	margin-top: 0px;
+	margin-right: 5px;
 
+	font-size: 21px;
+
+	text-shadow: 0px 1px 2px 2.0 #000000;	
+
+}
+
+#CompendiumLevel
+{
+	color: #61bef0;
+}
+
+
+.ProfileCardTierBronze #CompendiumPanel
+{
+    border: 0 solid transparent;
+    background-color: #00000099;
+    background-size: 100% 100%;
+	/*background-image: url("s2r://panorama/images/compendium/winter2016/home_block_backgrounds/bronze_png.vtex");*/
+}
+
+.ProfileCardTierSilver #CompendiumPanel
+{
+    border-left: 1px solid #4c434677;
+    background-size: 100% 100%;
+    background-image: url("s2r://panorama/images/compendium/winter2016/home_block_backgrounds/profiletooltip_silver_png.vtex");
+}
+
+.ProfileCardTierGold #CompendiumPanel
+{
+    border-left: 1px solid #4c434677;
+    background-image: url("s2r://panorama/images/compendium/winter2016/home_block_backgrounds/profiletooltip_gold_png.vtex");
+    background-size: 100% 100%;
+}
+
+.ProfileCardTierGold #CompendiumLevel
+{
+	color: #9ED7F6;
+}
+
+.ProfileCardTierGold #BattleLevelCircle
+{
+	wash-color: #9ED7F6;
+}
+
+.ProfileCardTierPlatinum #CompendiumPanel
+{
+    border-left: 1px solid #4c434677;
+    background-image: url("s2r://panorama/images/compendium/winter2016/home_block_backgrounds/profiletooltip_max_png.vtex");
+    background-size: 100% 100%;
+}

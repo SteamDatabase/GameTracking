@@ -155,7 +155,7 @@ function COverthrowGameMode:InitGameMode()
 		self.m_GoldRadiusMin = 300
 		self.m_GoldRadiusMax = 1400
 		self.m_GoldDropPercent = 8
-	elseif GetMapName() == "temple_quintet" then
+	elseif GetMapName() == "temple_quartet" then
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, 4 )
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 4 )
 		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_CUSTOM_1, 4 )
@@ -178,12 +178,13 @@ function COverthrowGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetTopBarTeamValuesVisible( false )
 	GameRules:SetHideKillMessageHeaders( true )
 	GameRules:SetUseUniversalShopMode( true )
-	GameRules:GetGameModeEntity():SetRuneEnabled( 0, true ) --Double Damage
-	GameRules:GetGameModeEntity():SetRuneEnabled( 1, true ) --Haste
-	GameRules:GetGameModeEntity():SetRuneEnabled( 2, false ) --Illusion
-	GameRules:GetGameModeEntity():SetRuneEnabled( 3, true ) --Invis
-	GameRules:GetGameModeEntity():SetRuneEnabled( 4, false ) --Regen
-	GameRules:GetGameModeEntity():SetRuneEnabled( 5, false ) --Bounty
+	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_DOUBLEDAMAGE , true ) --Double Damage
+	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_HASTE, true ) --Haste
+	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_ILLUSION, true ) --Illusion
+	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_INVISIBILITY, true ) --Invis
+	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_REGENERATION, false ) --Regen
+	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_ARCANE, true ) --Arcane
+	GameRules:GetGameModeEntity():SetRuneEnabled( DOTA_RUNE_BOUNTY, false ) --Bounty
 	GameRules:GetGameModeEntity():SetLoseGoldOnDeath( false )
 	GameRules:GetGameModeEntity():SetFountainPercentageHealthRegen( 0 )
 	GameRules:GetGameModeEntity():SetFountainPercentageManaRegen( 0 )

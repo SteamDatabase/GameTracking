@@ -107,16 +107,116 @@ DOTAMatchDetails.Loaded #ContainerLoaded
 	flow-children: right;
 }
 
-#ContainerDetails
+#ContainerHeader
 {
-	flow-children: down;
+	height: 100px;
+	margin-bottom: 100px;
+	background-color: #000000B7;
+}
+
+#DetailsHeaderTop
+{
+	background-color: #000000B7;
 	padding-top: 15px;
 	padding-left: 20px;
 	padding-right: 20px;
 	padding-bottom: 15px;
-	background-color: #000000B7;
+}
+
+/* Details Selector (tabs) */
+
+#DetailsSelectorRow
+{
+	margin-top: 13px;
+	margin-bottom: 3px;
+	width: 500px;
+	flow-children: right;
+	margin-left: 6px;
+}
+
+.DetailsSelector
+{
+	vertical-align: bottom;
+}
+
+.DetailsSelector .RadioBox
+{
+	visibility: collapse;
+}
+
+.DetailsSelector Label
+{
+	font-size: 19px;
+	letter-spacing: 1px;
+	color: #8e9795;
+	text-transform: uppercase;
+	margin-left: 0px;
+	font-weight: thinner;
+	
+}
+
+.DetailsSelector:hover Label
+{
+	color: white;
+}
+
+.DetailsSelector:selected Label
+{
+	color: white;
+}
+
+.DetailsSelector:disabled Label
+{
+	color: #aaaaaa11;
+}
+
+.DetailsSelector:disabled:hover Label
+{
+	color: #aaaaaa11;
+}
+
+.DetailsSelectorSeparator
+{
+	margin: 0px 19px;
+	font-size: 19px;
+	color: #8e9795;
+	vertical-align: bottom;
+}
+
+.ShowOnlyIfMatchMetadata
+{
+	visibility: collapse;
+}
+
+.MetadataExistenceFound .ShowOnlyIfMatchMetadata
+{
+	visibility: visible;
+}
+
+/* Overview */
+
+#ContainerDetails
+{
+	flow-children: down;
 	width: 1040px;
 	height: 100%;
+}
+
+#DetailsOverview
+{
+	flow-children: down;
+	background-color: #000000B7;
+	width: 100%;
+	height: 100%;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom: 15px;
+	visibility: collapse;
+}
+
+#DetailsOverview.TabSelected
+{
+	visibility: visible;
 }
 
 #NormalMatchPlayers
@@ -135,7 +235,7 @@ DOTAMatchDetails.CustomGame #NormalMatchPlayers
 	flow-children: down;
 	width: 100%;
 	visibility: collapse;
-	padding-top: 20px;
+	padding-top: 10px;
 }
 
 DOTAMatchDetails.CustomGame #CustomGameMatchPlayers
@@ -291,22 +391,22 @@ Panel.TeamIdentificationRow Label
 	visibility: collapse;
 }
 
-#RadiantTeamLogo
+.RadiantTeamLogo
 {
 	visibility: collapse;
 }
 
-.RadiantHasCustomLogo #RadiantTeamLogo
+.RadiantHasCustomLogo .RadiantTeamLogo
 {
 	visibility: visible;
 }
 
-#DireTeamLogo
+.DireTeamLogo
 {
 	visibility: collapse;
 }
 
-.DireHasCustomLogo #DireTeamLogo
+.DireHasCustomLogo .DireTeamLogo
 {
 	visibility: visible;
 }
@@ -346,7 +446,7 @@ Panel.TeamIdentificationRow Label
 Panel.TeamIdentificationRow
 {
 	margin-bottom: 10px;
-	margin-top: 30px;
+	margin-top: 20px;
 }
 
 
@@ -453,6 +553,7 @@ Panel.PlayerRows
 {
 	flow-children: down;
 	width: 100%;
+	margin-bottom: 10px;
 }
 
 Panel.PlayerRow
@@ -464,12 +565,22 @@ Panel.PlayerRow
 	padding-bottom: 2px;
 }
 
-Panel.PlayerRow Label, Panel.PlayerRow Image, Panel.PlayerRow DOTAHeroImage
+Panel.PlayerRow.LocalPlayer
+{
+	background-color: #000000da;
+}
+
+Panel.PlayerRow Label, Panel.PlayerRow DOTAHeroImage
 {
 	margin-top: 3px;
 	margin-bottom: 3px;
 	vertical-align: middle;
 	font-size: 18px;
+}
+
+Panel.PlayerRow.LocalPlayer Label
+{
+	color: #d5ddd2ff;
 }
 
 Panel.PlayerRow Panel#Player
@@ -480,9 +591,11 @@ Panel.PlayerRow Panel#Player
 
 Panel.PlayerRow Panel#Player #AvatarImage
 {
-	margin-left: 2px;
-	height: 30px;
-	width: height-percentage( 100% );
+	margin-top: 2px;
+	margin-left: 4px;
+	margin-right: 4px;
+	height: 24px;
+	width: 24px;
 }
 
 Panel.PlayerRow Panel#Player Label.PlayerName
@@ -490,6 +603,11 @@ Panel.PlayerRow Panel#Player Label.PlayerName
 	white-space: nowrap;
 	width: 155px;
 	color: #a6bebdff;
+}
+
+Panel.PlayerRow.LocalPlayer Panel#Player Label.PlayerName
+{
+	color: #d6eeedff;
 }
 
 Panel.PlayerRow Panel#Player:hover Label.PlayerName
@@ -516,6 +634,11 @@ Panel.PlayerRow Panel#Hero Label.HeroName
 	white-space: nowrap;
 	width: 157px;
 	color: #a6bebdff;
+}
+
+Panel.PlayerRow.LocalPlayer Panel#Hero Label.HeroName
+{
+	color: #d6eeedff;
 }
 
 Panel.PlayerRow Panel#Hero:hover Label.HeroName
@@ -550,6 +673,11 @@ Panel.PlayerRow Label.Gold
 	margin-right: 15px;
 	width: 55px;
 	color: #E7BA01FF;
+}
+
+Panel.PlayerRow.LocalPlayer Label.Gold
+{
+	color: #FFDA11FF;
 }
 
 Panel.PlayerRow Label.LastHits
@@ -699,7 +827,7 @@ Panel.CustomGamePlayerRow
 	padding-bottom: 2px;
 }
 
-Panel.CustomGamePlayerRow Label, Panel.CustomGamePlayerRow Image, Panel.CustomGamePlayerRow DOTAHeroImage
+Panel.CustomGamePlayerRow Label, Panel.CustomGamePlayerRow DOTAHeroImage
 {
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -796,6 +924,27 @@ Panel.CustomGamePlayerRow Label.Assists
 	margin-top: 0px;
 }
 
+.BattlePassMatch #DownloadReplayButton
+{
+	margin-left: 40px;
+	margin-right: 10px;
+}
+
+.ReplayBattlePassMarker
+{
+	background-image: url( 'file://{images}/control_icons/battlepass_logo.png' );
+	background-size: cover;
+	height: 34px;
+	width: 30px;
+	margin-right: 30px;
+	visibility: collapse;
+}
+
+.BattlePassMatch .ReplayBattlePassMarker
+{
+	visibility: visible;
+}
+
 #WatchReplayHighlightsButton
 {
 	visibility: collapse;
@@ -856,6 +1005,310 @@ DOTAMatchDetails.ReplayExistenceWrongEngine #ReplayExistenceWrongEngine
 .MatchDetailsProgress
 {
 	width: 200px;
+}
+
+/* Stats Tab */
+
+#DetailsStats
+{
+	flow-children: down;
+	background-color: #000000B7;
+	width: 100%;
+	height: 100%;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom: 15px;
+	padding-top: 0px;
+	visibility: collapse;
+}
+
+#DetailsStats.TabSelected
+{
+	visibility: visible;
+}
+
+#DetailStatsLoading
+{
+	visibility: visible;
+	margin-top: 50px;
+	horizontal-align: center;
+}
+
+#DetailStatsError
+{
+	visibility: collapse;
+}
+
+#DetailStatsLoaded
+{
+	visibility: collapse;
+	flow-children: down;
+	width: 100%;
+}
+
+.MetadataLoaded #DetailStatsLoading,
+.MetadataError #DetailStatsLoading
+{
+	visibility: collapse;
+}
+
+.MetadataError #DetailStatsError
+{
+	visibility: visible;
+}
+
+.MetadataLoaded #DetailStatsLoaded
+{
+	visibility: visible;
+}
+
+.AbilityUpgradesRowLegend
+{
+	flow-children: right;
+	background-color: #0D1214;
+	padding-top: 4px;
+	padding-bottom: 2px;
+	width: 100%;
+}
+
+.AbilityUpgradesRowLegend Label
+{
+	text-transform: uppercase;
+	font-size: 16px;
+	color: #768E8D;
+}
+
+.AbilityUpgradesRowLegend Label.LegendPlayer
+{
+	padding-left: 35px;
+	width: 180px;
+}
+
+.AbilityUpgradesRowLegend Label.LegendHero
+{
+	width: 46px;
+	margin-left: 4px;
+	margin-right: 12px;
+}
+
+.AbilityUpgradesRowLegend .LegendLevelNumber
+{
+	text-align: center;
+	width: 24px;
+	margin-right: 6px;
+}
+
+.AbilityUpgradesRow
+{
+	background-color: #0000009a;
+	width: 100%;
+	flow-children: right;
+	height: 34px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.AbilityUpgradesRow .Player
+{
+	width: 180px;
+	flow-children: right;
+	margin-right: 4px;
+}
+
+.AbilityUpgradesRow DOTAAvatarImage
+{
+	margin-top: 2px;
+	margin-left: 4px;
+	margin-right: 4px;
+	height: 24px;
+	width: 24px;
+}
+
+.AbilityUpgradesRow DOTAHeroImage
+{
+	height: 20px;
+	width: height-percentage( 177.78% );
+	margin-top: 5px;
+	margin-right: 17px;
+}
+
+.AbilityUpgradesRow DOTAAbilityImage
+{
+	width: 24px;
+	height: 24px;
+	vertical-align: middle;
+	margin-left: 6px;
+}
+
+.AbilitiesPlayerRows
+{
+	flow-children: down;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+Panel.AbilityUpgradesRow .Player Label.PlayerName
+{
+	white-space: nowrap;
+	width: 155px;
+	color: #a6bebdff;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	vertical-align: middle;
+	font-size: 18px;
+}
+
+Panel.AbilityUpgradesRow .Player:hover Label.PlayerName
+{
+	color: white;
+}
+
+
+/* Basic Graphs Tab */
+
+#DetailsBasicGraphs
+{
+	flow-children: down;
+	background-color: #000000B7;
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+	visibility: collapse;
+}
+
+#DetailsBasicGraphs.TabSelected
+{
+	visibility: visible;
+}
+
+#DetailsBasicGraphsLoading
+{
+	visibility: visible;
+	margin-top: 50px;
+	horizontal-align: center;
+}
+
+#DetailsBasicGraphsError
+{
+	visibility: collapse;
+}
+
+#DetailsBasicGraphsLoaded
+{
+	visibility: collapse;
+	width: 100%;
+	height: 100%;
+}
+
+.MetadataLoaded #DetailsBasicGraphsLoading,
+.MetadataError #DetailsBasicGraphsLoading
+{
+	visibility: collapse;
+}
+
+.MetadataError #DetailsBasicGraphsError
+{
+	visibility: visible;
+}
+
+.MetadataLoaded #DetailsBasicGraphsLoaded
+{
+	visibility: visible;
+}
+
+#DetailsBasicGraphsCanvas
+{
+	width: 100%;
+	height: 595px;
+}
+
+#DetailsBasicGraphsKey
+{
+	margin-top: 608px;
+	flow-children: right;
+	horizontal-align: right;
+}
+
+.KeyColorBox
+{
+	margin-top: 7px;
+	margin-left: 30px;
+	margin-right: 5px;
+	width: 11px;
+	height: 11px;
+}
+
+#ExperienceKeyColorBox
+{
+	background-color: #ACC9EDFF;
+}
+
+#NetWorthKeyColorBox
+{
+	background-color: #FFD455FF;
+}
+
+#DetailsBasicGraphsKey Label
+{
+	color: #9f9f9f;
+	margin-top: 2px;
+	font-size: 18px;
+	letter-spacing: 1px;
+	text-align: right;
+}
+
+.GraphYAxisLabel
+{
+	width: 100%;
+	color: #505050;
+	text-align: right;
+	visibility: collapse;
+	padding-top: 1px;
+	padding-bottom: -2px;
+}
+
+.DetailsBasicGraphsLines1 #DetailsBasicGraphsTopY1,
+.DetailsBasicGraphsLines2 #DetailsBasicGraphsTopY1,
+.DetailsBasicGraphsLines3 #DetailsBasicGraphsTopY1,
+.DetailsBasicGraphsLines1 #DetailsBasicGraphsBottomY1,
+.DetailsBasicGraphsLines2 #DetailsBasicGraphsBottomY1,
+.DetailsBasicGraphsLines3 #DetailsBasicGraphsBottomY1
+{
+	visibility: visible;
+}
+
+.DetailsBasicGraphsLines2 #DetailsBasicGraphsTopY2,
+.DetailsBasicGraphsLines3 #DetailsBasicGraphsTopY2,
+.DetailsBasicGraphsLines2 #DetailsBasicGraphsBottomY2,
+.DetailsBasicGraphsLines3 #DetailsBasicGraphsBottomY2
+{
+	visibility: visible;
+}
+
+.DetailsBasicGraphsLines3 #DetailsBasicGraphsTopY3,
+.DetailsBasicGraphsLines3 #DetailsBasicGraphsBottomY3
+{
+	visibility: visible;
+}
+
+#DetailsBasicGraphsTopTeam, #DetailsBasicGraphsBottomTeam
+{
+	font-size: 20px;
+	margin-left: 7px;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+#DetailsBasicGraphsTopTeam
+{
+	color: #9BE40CFF;
+	margin-top: 7px;
+}
+
+#DetailsBasicGraphsBottomTeam
+{
+	color: #E74D08FF;
+	margin-top: 566px;
 }
 
 /* Voting */
@@ -1079,3 +1532,4 @@ Label.CommentText
 	font-size: 16px;
 	width: 320px;
 }
+

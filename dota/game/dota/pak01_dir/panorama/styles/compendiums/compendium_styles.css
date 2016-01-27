@@ -1,3 +1,16 @@
+/* Don't change the name - referenced from code */
+@define MinScrollbarPosition: 250.0f;
+@define ScrollbarWidth: 950.0f;
+@define ScrollerWidth: 500.0f;
+@define SelectorWidth: 480.0f;
+@define ScrollbarLength: 1392.0f;
+@define RewardItemsOffset16x9: 245.0f;
+@define RewardItemsOffset4x3: -5.0f;
+@define RewardItemsOffset16x10: 150.0f;
+@define RewardItemsOffset5x4: 10.0f;
+@define RewardsLength: 3030.0f;
+@define ScrollbarScale: 0.3;
+
 DOTAReferencePage
 {
 	width: 100%;
@@ -17,24 +30,6 @@ DOTAReferencePage
 {
 }
 
-#SlantGraphic
-{
-	width: 512px;
-	horizontal-align: right;
-	flow-children: right;
-	height: 180px;
-}
-
-.WhiteBox
-{
-	width: 132px;
-	height: 290px;
-	background-color: #34486244;
-	margin-left: 32px;
-	transform: rotateZ( 20deg ) translateY( 32px );
-	border-radius: 1px;
-}
-
 .CompendiumContainer
 {
 	width: 100%;
@@ -42,6 +37,7 @@ DOTAReferencePage
 	border: 1px solid red;
 	margin-top: 170px;
 }
+
 
 .CompendiumHeader
 {
@@ -66,27 +62,11 @@ DOTAReferencePage
 
 .CompendiumHeaderTitle Label
 {
-	text-align: right;
+	//text-align: right;
 	vertical-align: middle;
 	text-transform: uppercase;
 	margin: 0px;
 	letter-spacing: 3px;
-}
-
-#CompendiumID
-{
-	font-size: 20px;
-	color: #768e8d;
-	horizontal-align: right;
-}
-
-#CompendiumTitleText
-{
-	color: white;
-	font-size: 40px;
-	horizontal-align: right;
-	font-weight: thin;
-	letter-spacing: 5px;
 }
 
 .CompendiumBody
@@ -146,6 +126,8 @@ DOTAReferencePage
 	transition-duration: .45s;	
 }
 
+
+.Mystery
 .QuestLine:hover .QuestPath,
 .QuestLine:hover .QuestNode
 {
@@ -501,6 +483,7 @@ DOTAReferencePage
 	background-color: #00000099;
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #000000dd ), to( #00000099 ) );
 	visibility: collapse;
+	flow-children: right;
 }
 
 #RewardScheduleContainer
@@ -510,23 +493,38 @@ DOTAReferencePage
 	perspective: 1200px;
 	perspective-origin: 41% 50%;	
 	opacity-mask: url("file://{images}/masks/armory_opacity_mask_png.vtex");
+	visibility: collapse;
+}
+
+#RewardItems.Dragging,
+.Dragging
+{
+    transition-property: transform;
+    transition-duration: 0s;
+}
+
+#RewardItems.NotDragging,
+.NotDragging
+{
+	transition-property: transform;
+    transition-duration: 0.6s;
 }
 
 #RewardPath
 {
 	overflow: noclip;
-	transform:  translateY( 486px ) translateX( 450px) rotateX( 55deg);
-	transition-property: transform;
-	transition-duration: 1s;
+    transform:  translateY( 0px ) translateX( 0px) rotateX( 50deg);
+
+
 	z-index: -1;
 }
 
 #RewardItems
 {
 	overflow: noclip;
-	transform:  translateY( 190px ) translateX( 450px) translateZ( 405px);
+	transform:  translateY( -100px ) translateX( 0px) translateZ( 0px);
 	transition-property: transform;
-	transition-duration: 1s;
+    transition-duration: 0.6s;
 	z-index: 2;
 	//visibility: collapse;
 }
@@ -548,12 +546,14 @@ DOTAReferencePage
 	width: 48px;
 	//flow-children: down;
 	margin: 8px;
+	overflow: noclip;
+	height: 350px;
 }
 
 
 .RewardNode.RewardMilestone
 {
-	width: 72px;
+	width: 64px;
 }
 
 
@@ -573,30 +573,148 @@ DOTAReferencePage
 
 .RewardPathBackground
 {
-	width: 100%;
+	width: 52px;
 	height: 350px;
-	background-color: #0000aaaa;
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #2A4F7500 ), color-stop( .5, #4A4E5322 ), color-stop( .8, #4A4E5322 ), to( #2A4F7500 ) );
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #2A4F7500 ), color-stop( .5, #4A4E5333 ), color-stop( .55, #4A4E5388 ), color-stop( .74, #4A4E5388 ), color-stop( .8, #4A4E5333 ), to( #2A4F7500 ) );
+
+	animation-duration: 1.8s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;   	
 }
 
 
 .RewardAchieved .RewardPathBackground
 {
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #2A4F7500 ), color-stop( .5, #2A4F7566 ), color-stop( .8, #2A4F7566 ), to( #2A4F7500 ) );
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #2A4F7500 ), color-stop( .5, #2A4F7544 ), color-stop( .55, #2A4F7588 ), color-stop( .74, #2A4F7588 ), color-stop( .8, #2A4F7544 ), to( #2A4F7500 ) );	
 }
 
 .RewardPathCore
 {
-	width: 100%;
+	width: 48px;
 	height: 72px;
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #293039 ), to( #3D434A ) );
-	border: 1px solid #00000044;
+//	background-color: gradient( linear, 0% 0%, 0% 100%, from( #293039 ), to( #3D434A ) );
+	//border: 1px solid #00000044;
 	//border-radius: 3px;
 	vertical-align: bottom;
 	margin: 2px;
 	margin-bottom: 90px;
-	transition-property: transform;
+	transition-property: transform, saturation;
 	transition-duration: .15s;
+}
+
+.RewardPathTier
+{
+	width: 32px;
+	height: 32px;
+	vertical-align: bottom;
+	horizontal-align: center;
+	margin-bottom: 42px;
+	margin-left: 2px;
+	background-size: cover;
+	background-position: 50% 60%;
+	background-repeat: no-repeat;	
+
+	visibility: collapse;		
+}
+
+#RewardPath .Bronze .RewardPathTier
+{
+	background-image: url("s2r://panorama/images/badges/winter_2016_battle_pass_badge_1_png.vtex");
+	visibility: visible;		
+}
+
+#RewardPath .Silver .RewardPathTier
+{
+	background-image: url("s2r://panorama/images/badges/winter_2016_battle_pass_badge_2_png.vtex");
+	visibility: visible;		
+}
+
+#RewardPath .Gold .RewardPathTier
+{
+	background-image: url("s2r://panorama/images/badges/winter_2016_battle_pass_badge_3_png.vtex");
+	visibility: visible;		
+}
+
+#RewardPath .Max .RewardPathTier
+{
+	background-image: url("s2r://panorama/images/badges/winter_2016_battle_pass_badge_4_png.vtex");
+	visibility: visible;		
+}
+
+
+#RewardPath .Mystery .RewardPathCore
+{
+	background-image: url("s2r://panorama/images/compendium/spinwheel_icon_psd.vtex");
+	background-size: contain;
+	background-position: 50% 60%;
+	background-repeat: no-repeat;	
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	margin-bottom: 94px;
+	saturation: 0;
+	brightness: .2;
+
+	animation-duration: 1.8s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;    
+}
+
+#RewardPath .RewardAchieved.Mystery .RewardPathCore
+{
+	saturation: 1;
+	brightness: 1;
+}
+
+#RewardPath .RewardAchieved.MysteryPending .RewardPathCore
+{
+	brightness: 2.5;
+}
+
+
+#RewardPath .RewardAchieved.MysteryPending .RewardPathBackground
+{
+	//animation-name: Pulse;
+}
+
+
+#RewardItems .RewardAchieved.MysteryPending .RewardPathBackground
+{
+	animation-name: Pulse;
+}
+
+@keyframes 'Pulse'
+{
+	0%
+	{
+		brightness: 1;
+	}
+	50%
+	{
+		brightness: 4;
+	}
+
+	100%
+	{
+		brightness: 1;
+	}	
+}
+
+
+#RewardPath .Mystery .RewardPathCore Label
+{
+	font-size: 30px;
+}
+
+.RewardMilestone .RewardPathBackground
+{
+    width: 64px;
+}
+
+.RewardMilestone .RewardPathCore
+{
+    width: 60px;
 }
 
 .RewardPathCore:hover
@@ -615,6 +733,28 @@ DOTAReferencePage
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #375879 ), to( #9AC9EC ) );
 }
 
+#RewardC2 .RewardAchieved.RewardMilestone .RewardPathCore
+{
+	background-color: none;
+	border: 0px solid transparent;
+}
+
+#RewardC2 .RewardAchieved.RewardMilestone DOTAEconItem.RewardPathCore
+{
+	border: 2px solid #3B79B2;
+	border-top-color: #8EC0EA;
+	border-left-color: #527593;
+	border-right-color: #527593;
+	border-bottom-color: #344F6A;
+	tooltip-position: right;
+}
+
+#RewardC2 .RewardPathCore
+{
+	tooltip-position: bottom;
+	tooltip-body-position: 50% 35%;
+}
+
 .RewardPathBottom
 {
 	width: 100%;
@@ -626,18 +766,20 @@ DOTAReferencePage
 .RewardCurrentLevel .RewardPathCore
 {
 	border: 1px solid #9AC9EC;
+	brightness: 2;
 }
 
 .RewardCurrentLevel .RewardPathCore Label
 {
 	color: white;
+	font-weight: bold;
+	text-shadow: 0px 1px 8px 1 #97C5FF;
 }
 
 .RewardCurrentLevel:hover .RewardPathCore Label
 {
 	color: white;
 }
-
 
 .RewardCurrentLevel .RewardPathBackground
 {
@@ -650,13 +792,13 @@ DOTAReferencePage
 
 .RewardMilestone .RewardPathCore
 {
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #454C54 ), to( #58616C ) );
+//	background-color: gradient( linear, 0% 0%, 0% 100%, from( #454C54 ), to( #58616C ) );
 }
 
 .RewardPathCore Label
 {
 		font-size: 22px;
-		color: #00000000;
+		color: #000000aa;
 		horizontal-align: center;
 		vertical-align: middle;
 		margin-top: 6px;
@@ -673,9 +815,14 @@ DOTAReferencePage
 		margin-top: 6px;
 }
 
+.RewardCurrentLevel.RewardMilestone .RewardPathCore Label
+{
+	color: white;
+}
+
 .RewardNode:hover Label
 {
-	color: #000000ff;
+//	color: #000000ff;
 }
 
 #RewardItems .RewardPathBackground,
@@ -689,11 +836,23 @@ DOTAReferencePage
 	opacity: 1;
 	opacity-mask: url("s2r://panorama/images/masks/softedge_box_png.vtex");
 	opacity-mask: url("s2r://panorama/images/masks/softedge_circle_png.vtex");
-	width: 80px;
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #3179BD00 ), color-stop( .75, #3179BD66 ), color-stop( .80, #3179BD00 ), to( #3179BD00 ) );
+	width: 92px;
+	background-color: gradient( linear, 0% 30%, 0% 90%, from( #3179BD00 ), color-stop( .5, #3179BD44 ), color-stop( .60, #3179BD33 ), color-stop( .75, #3179BD00 ), to( #3179BD00 ) );
 	overflow: noclip;
 	margin-left: -14px;
+	margin-top: 28px;
 	z-index: -2;
+}
+
+#RewardItems .RewardAchieved.RewardMilestone .RewardPathBackground
+{
+	background-color: gradient( linear, 0% 15%, 0% 97%, from( #3179BD00 ), color-stop( .65, #3179BD66 ), color-stop( .70, #3179BD00 ), to( #3179BD00 ) );	
+
+}
+
+#RewardItems .RewardAchieved.NoReward .RewardPathBackground
+{
+	background-color: none;
 }
 
 #RewardItems .RewardAchieved.RewardMilestone .RewardPathBackground
@@ -709,48 +868,141 @@ DOTAReferencePage
 
 #RewardItems .RewardPathCore
 {
-	height: width-percentage( 100% );
+	height: 65px;
+    width: 65px;
 }
 
 
 #RewardItems .SmallReward
 {
-	background-image: url("s2r://panorama/images/econ/tools/nexon_teleport_pcbang_compendium_2015_png.vtex");
+
+	background-image: none;
 	background-position: 50% 50%;
 	background-size: cover;	
+	background-color: none;
 	saturation: .3;
-	contrast: 0.9;
+	contrast: 1;
 	brightness: .5;
+    width: 48px;
+    height: 48px;	
+    border-color: transparent;
 }
 
+#RewardItems .SmallReward:hover,
 #RewardItems .RewardAchieved .SmallReward
 {
 	saturation: 1;
 	contrast: 1;
 	brightness: 1;
+
 }
+
+
+
 
 
 
 #RewardItems .RewardMilestone .RewardPathCore
 {
-	height: width-percentage( 100% );
+	height: 60px;
+    width: 60px;
 
 }
 
-.SecondReward
+#RewardItems .Mystery .RewardPathCore,
+#RewardItems .MysteryPending .RewardPathCore
+{
+	height: 68px;
+    width: 68px;
+    margin-left: -4px;
+	width: 68px;
+	height: 68px;
+	pre-transform-scale2d: 0.8;
+	brightness: .8;
+	transform-origin: 50% 70%;
+
+	transition-property: pre-transform-scale2d, brightness;
+	transition-duration: 0.2s;
+	transition-timing-function: ease-in-out;
+	animation-duration: 1.8s;
+	animation-delay: 1.15s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;    
+}
+
+#RewardItems .MysteryPending .RewardPathCore
+{
+	animation-name: HeadShake;
+}
+
+#RewardItems .MysteryPending .RewardPathCore:hover
+{
+    border:1px solid transparent;
+    brightness: 1.1;
+    pre-transform-scale2d: 1;
+}
+
+@keyframes 'HeadShake'
+{
+	0%
+	{
+		transform: rotateZ( 0deg );
+	}
+	10%
+	{
+		transform: rotateZ( 10deg );
+	}
+	20%
+	{
+		transform: rotateZ( -10deg );
+	}
+	30%
+	{
+		transform: rotateZ( 5deg );
+	}
+	40%
+	{
+		transform: rotateZ( -5deg );
+	}
+				
+	50%
+	{
+		transform: rotateZ( 0deg );
+	}
+	100%
+	{
+		transform: rotateZ( 0deg );
+	}	
+}
+
+
+
+
+
+.Reward2
 {
 	margin-bottom: 140px;
 }
 
-.RewardMilestone .SecondReward
+#RewardItems .RewardMilestone .Reward2
 {
-	margin-bottom: 164px;
+	margin-bottom: 150px;
+	height: 32px;
+}
+
+#RewardItems .RewardMilestone .Reward3
+{
+	margin-bottom: 191px;
+	height: 32px;	
+}
+
+.RewardMilestone .Reward3
+{
+	margin-bottom: 199px;
 }
 
 .RewardIcon
 {
-	background-image: url("s2r://panorama/images/econ/tools/fall_major_2015_immortal_treasure_2_png.vtex");
 	background-position: 50% 50%;
 	background-size: cover;
 	saturation: .3;
@@ -758,6 +1010,18 @@ DOTAReferencePage
 	brightness: .5;
 	transition-property: saturation, contrast, brightness;
 	transition-duration: 0.15s;	
+}
+
+.RewardPathCore.SmallReward,
+.RewardPathCore.RewardIcon
+{
+	margin-bottom: 80px;
+}
+
+.RewardAchieved .RewardPathCore.SmallReward,
+.RewardAchieved .RewardPathCore.RewardIcon
+{
+	margin-bottom: 80px;
 }
 
 .RewardIcon:hover
@@ -769,7 +1033,7 @@ DOTAReferencePage
 
 .RewardAchieved .RewardIcon
 {
-	background-image: url("s2r://panorama/images/econ/loading_screens/twilights_rest_loading_screen_png.vtex");
+//	background-image: url("s2r://panorama/images/econ/loading_screens/twilights_rest_loading_screen_png.vtex");
 	saturation: 1;
 	contrast: 1;
 	brightness: 1;	
@@ -777,12 +1041,12 @@ DOTAReferencePage
 
 #Icon2
 {
-	background-image: url("s2r://panorama/images/econ/loading_screens/drowning_trench_loadingscreen_png.vtex");
+	
 }
 
 #Icon3
 {
-	background-image: url("s2r://panorama/images/econ/loading_screens/skadi_rising_loading_screen_png.vtex");
+	
 }
 
 
@@ -790,16 +1054,13 @@ DOTAReferencePage
 
 .SecondReward.RewardIcon
 {
-	background-image: url("s2r://panorama/images/econ/tools/fall_major_2015_immortal_treasure_1_png.vtex");
+	//background-image: url("s2r://panorama/images/econ/tools/fall_major_2015_immortal_treasure_1_png.vtex");
 }
 
-.RewardTimeline
+.RewardTimelineContainer
 {
-	width: 1280px;
+	width: 100%;
 	height: 32px;
-	background-image: url("s2r://panorama/images/temp/temp_rewardtimeline_psd.vtex");
-	background-position: 50% 50%;
-	background-size: cover;
 	horizontal-align: center;
 	vertical-align: bottom;
 	margin-bottom: 32px;
@@ -811,13 +1072,16 @@ DOTAReferencePage
 	width: 480px;
 	height: 48px;
 	border: 2px solid #4488ff44;
-	horizontal-align: center;
 	vertical-align: bottom;
 	margin-bottom: 26px;
-	transform: translateX( -400px );
+	
 	transition-property: transform;
 	transition-duration: 1s;
 	z-index: 3;
+}
+.RewardTimelineSelector.Dragging
+{
+    transition-duration: 0s;
 }
 
 
@@ -970,8 +1234,14 @@ DOTAReferencePage
 
 #RewardC1, #RewardC2
 {
-	width: 100%;
+    width: 100%;
 	height: 100%;
+}
+
+.AspectRatio4x3 #RewardC1, .AspectRatio4x3 #RewardC2
+{
+    padding-left:12px;
+    padding-right:12px;
 }
 
 #CardPopup
@@ -1186,4 +1456,80 @@ DOTAReferencePage
 	opacity: 1;
 	transition-duration: 0.15s;
 	transition-delay: 0s;
+}
+
+#AchievementsBody
+{
+	width: 1392px;
+	height: 100%;
+//	background-color: gradient( linear, 0% 0%, 0% 100%, from( #000000dd ), to( #00000099 ) );
+	horizontal-align: center;
+}
+
+ #AchievementsContainer
+{
+	height: 100%;
+	width: 100%;	
+    flow-children:right-wrap;
+    //overflow: clip scroll;
+    padding-top: 114px;
+}
+
+#AchievementsHeader
+{
+	vertical-align: top;
+	horizontal-align: center;
+	height: 56px;
+	width: 1392px;
+	//border: 2px solid red;
+	z-index: 0;
+	overflow: noclip;
+}
+
+#EarnedBlock
+{
+	horizontal-align: right;
+	margin-right: 16px;
+	margin-top: 16px;
+	z-index: -2;
+
+}
+
+.EarnedNumber
+{
+	font-size: 32px;
+	vertical-align: bottom;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	color: #54A1F1;	
+	text-shadow: 0px 1px 3px 3 #000000;
+}
+
+
+.EarnedNumberSmall
+{
+	font-size: 16px;
+	vertical-align: middle;
+	margin-top: 6px;
+	margin-right: 16px;
+}
+
+.EarnedLabel 
+{
+	color: #375270;
+	margin-right: 16px;
+}
+
+
+.VerticalDivider
+{
+	wash-color: #54A1F1;
+	margin-left: 16px;
+	margin-right: 16px;
+}
+
+.LabelSpacer
+{
+	margin-left: 10px; 
+	margin-right: 4px; 
 }

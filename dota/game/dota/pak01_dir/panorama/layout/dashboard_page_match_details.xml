@@ -11,6 +11,19 @@
 			$( '#ContainerLoading' ).RemoveClass( "FadeIn" );
 			$( '#ContainerLoading' ).AddClass( "FadeIn" );
 		};
+		
+		var SwitchTab = function( strTabID )
+		{
+			var tabContents = $( '#ContainerDetails' );
+			for ( var i = 0; i < tabContents.GetChildCount(); ++i )
+			{
+				var child = tabContents.GetChild( i );
+				if ( !child.BHasClass( 'DetailsPanel' ) )
+					continue;
+
+				child.SetHasClass( 'TabSelected', child.id == strTabID );
+			}
+		}
 	</script>
 	
 	<DOTAMatchDetails onpagesetupsuccess="FadeInLoading();">
@@ -21,7 +34,7 @@
 		</Panel>
 
 		<Panel id="ContainerLoaded">
-
+			
 			<Panel id="ContainerDetails">
 				<Panel id="DetailsHeaderTop">
 					<Label id="DetailsHeaderLabelLeftNormalMatch" text="#dota_page_match_details_victory" />
@@ -56,66 +69,138 @@
 					</Panel>
 				</Panel>
 
-				<Panel id="NormalMatchPlayers">
-					<Panel class="TeamIdentificationRow">
-						<Panel id="RadiantTeamLogoDefault" class="LobbyTeamIconDefault" />
-						<DOTAUGCImage id="RadiantTeamLogo" class="LobbyTeamIcon" />
-						<Label id="RadiantTeamName" text="{s:radiant_name}" />
+				<Panel id="DetailsSelectorRow">
+					<RadioButton id="DetailsSelectorOverview" class="DetailsSelector" group="DetailsSelector" selected="true" text="Overview" onactivate="SwitchTab( 'DetailsOverview' )" />
+					<Label class="DetailsSelectorSeparator ShowOnlyIfMatchMetadata" text="/" />
+					<RadioButton class="DetailsSelector ShowOnlyIfMatchMetadata" group="DetailsSelector" text="Graph" onactivate="SwitchTab( 'DetailsBasicGraphs' ); $.DispatchEvent( 'DOTAMatchDetailsLoadMetadata' );" />
+					<Label class="DetailsSelectorSeparator ShowOnlyIfMatchMetadata" text="/" />
+					<RadioButton class="DetailsSelector ShowOnlyIfMatchMetadata" group="DetailsSelector" text="Abilities" onactivate="SwitchTab( 'DetailsStats' ); $.DispatchEvent( 'DOTAMatchDetailsLoadMetadata' );" />
+				</Panel>
+				
+				<Panel id="DetailsOverview" class="DetailsPanel TabSelected">
+					<Panel id="NormalMatchPlayers">
+						<Panel class="TeamIdentificationRow">
+							<Panel id="RadiantTeamLogoDefault" class="LobbyTeamIconDefault" />
+							<DOTAUGCImage class="RadiantTeamLogo LobbyTeamIcon" />
+							<Label id="RadiantTeamName" text="{s:radiant_name}" />
+						</Panel>
+
+						<!-- Loaded via popup_match_details_row_legend.xml -->
+						<Panel class="PlayerRowLegend" id="RadiantPlayerRowLegend" />
+
+						<!-- Full of popup_match_details_row.xml blocks -->
+						<Panel class="PlayerRows" id="RadiantPlayerRows" />
+
+						<Panel class="TeamIdentificationRow">
+							<Panel id="DireTeamLogoDefault" class="LobbyTeamIconDefault" />
+							<DOTAUGCImage class="DireTeamLogo LobbyTeamIcon" />
+							<Label id="DireTeamName" text="{s:dire_name}" />
+						</Panel>
+
+						<!-- Loaded via popup_match_details_row_legend.xml -->
+						<Panel class="PlayerRowLegend" id="DirePlayerRowLegend" />
+
+						<!-- Full of popup_match_details_row.xml blocks -->
+						<Panel class="PlayerRows" id="DirePlayerRows" />
 					</Panel>
 
-					<!-- Loaded via popup_match_details_row_legend.xml -->
-					<Panel class="PlayerRowLegend" id="RadiantPlayerRowLegend" />
+					<Panel id="CustomGameMatchPlayers" />
 
-					<!-- Full of popup_match_details_row.xml blocks -->
-					<Panel class="PlayerRows" id="RadiantPlayerRows" />
-
-					<Panel class="TeamIdentificationRow">
-						<Panel id="DireTeamLogoDefault" class="LobbyTeamIconDefault" />
-						<DOTAUGCImage id="DireTeamLogo" class="LobbyTeamIcon" />
-						<Label id="DireTeamName" text="{s:dire_name}" />
+					<Panel class="ReplayExistence" id="ReplayExistenceUnknown">
+						<Label text="#dota_page_match_details_replay_existence_unknown" />
 					</Panel>
+					<Panel class="ReplayExistence" id="ReplayExistenceCDNFound">
+						<Button id="DownloadReplayButton" class="BlueButton" onactivate="DOTADownloadReplay()">
+							<Label text="#dota_page_match_details_replay_existence_cdn_found" />
+						</Button>
+						<Panel class="ReplayBattlePassMarker" onmouseover="DOTAShowTextTooltip( '#dota_page_match_details_battle_pass_replay' )" onmouseout="DOTAHideTextTooltip()" />
+					</Panel>
+					<Panel class="ReplayExistence" id="ReplayExistenceCDNNotFound">
+						<Label text="#dota_page_match_details_replay_existence_not_found" />
+					</Panel>
+					<Panel class="ReplayExistence" id="ReplayExistenceDownloading">
+						<Label text="#dota_page_match_details_replay_existence_downloading" />
+						<ProgressBar id="DownloadProgressBar" class="MatchDetailsProgress"/>
+					</Panel>
+					<Panel class="ReplayExistence" id="ReplayExistenceDecompressing">
+						<Label text="#dota_page_match_details_replay_existence_decompressing" />
+						<ProgressBar id="DecompressProgressBar" class="MatchDetailsProgress"/>
+					</Panel>
+					<Panel class="ReplayExistence" id="ReplayExistenceError">
+						<Label text="{s:replay_existence_error}" />
+					</Panel>
+					<Panel class="ReplayExistence" id="ReplayExistenceDiskFound">
+						<Button id="WatchReplayButton" class="BlueButton" onactivate="DOTAWatchReplay( false )">
+							<Label text="#dota_page_match_details_replay_existence_disk_found_replay" />
+						</Button>
+						<Button id="WatchReplayHighlightsButton" class="BlueButton" onactivate="DOTAWatchReplay( true )">
+							<Label text="#dota_page_match_details_replay_existence_disk_found_highlights" />
+						</Button>
+					</Panel>
+					<Panel class="ReplayExistence" id="ReplayExistenceWrongEngine">
+						<Label text="#dota_page_match_details_replay_existence_wrong_engine" />
+					</Panel>
+				</Panel>
+				
+				<Panel id="DetailsStats" class="DetailsPanel">
+					<Panel id="DetailStatsLoading">
+						<Panel class="Spinner" />
+					</Panel>
+					<Panel id="DetailStatsError">
+						<Label text="Error loading stats." />
+					</Panel>
+					<Panel id="DetailStatsLoaded">
+						<Panel class="TeamIdentificationRow">
+							<Panel id="RadiantTeamLogoDefault" class="LobbyTeamIconDefault" />
+							<DOTAUGCImage class="RadiantTeamLogo LobbyTeamIcon" />
+							<Label id="RadiantTeamName" text="{s:radiant_name}" />
+						</Panel>
 
-					<!-- Loaded via popup_match_details_row_legend.xml -->
-					<Panel class="PlayerRowLegend" id="DirePlayerRowLegend" />
+						<!-- Loaded via dashboard_page_match_details_abilities_row_legend.xml -->
+						<Panel class="AbilityUpgradesRowLegend" id="AbilitiesRadiantPlayerRowLegend" />
 
-					<!-- Full of popup_match_details_row.xml blocks -->
-					<Panel class="PlayerRows" id="DirePlayerRows" />
-				</Panel>
+						<!-- Full of dashboard_page_match_details_abilities_row.xml blocks -->
+						<Panel class="AbilitiesPlayerRows" id="AbilitiesRadiantPlayerRows" />
 
-				<Panel id="CustomGameMatchPlayers" />
+						<Panel class="TeamIdentificationRow">
+							<Panel id="DireTeamLogoDefault" class="LobbyTeamIconDefault" />
+							<DOTAUGCImage class="DireTeamLogo LobbyTeamIcon" />
+							<Label id="DireTeamName" text="{s:dire_name}" />
+						</Panel>
 
-				<Panel class="ReplayExistence" id="ReplayExistenceUnknown">
-					<Label text="#dota_page_match_details_replay_existence_unknown" />
+						<!-- Loaded via dashboard_page_match_details_abilities_row_legend.xml -->
+						<Panel class="AbilityUpgradesRowLegend" id="AbilitiesDirePlayerRowLegend" />
+
+						<!-- Full of dashboard_page_match_details_abilities_row.xml blocks -->
+						<Panel class="AbilitiesPlayerRows" id="AbilitiesDirePlayerRows" />
+
+					</Panel>
 				</Panel>
-				<Panel class="ReplayExistence" id="ReplayExistenceCDNFound">
-					<Button id="DownloadReplayButton" class="BlueButton" onactivate="DOTADownloadReplay()">
-						<Label text="#dota_page_match_details_replay_existence_cdn_found" />
-					</Button>
-				</Panel>
-				<Panel class="ReplayExistence" id="ReplayExistenceCDNNotFound">
-					<Label text="#dota_page_match_details_replay_existence_not_found" />
-				</Panel>
-				<Panel class="ReplayExistence" id="ReplayExistenceDownloading">
-					<Label text="#dota_page_match_details_replay_existence_downloading" />
-					<ProgressBar id="DownloadProgressBar" class="MatchDetailsProgress"/>
-				</Panel>
-				<Panel class="ReplayExistence" id="ReplayExistenceDecompressing">
-					<Label text="#dota_page_match_details_replay_existence_decompressing" />
-					<ProgressBar id="DecompressProgressBar" class="MatchDetailsProgress"/>
-				</Panel>
-				<Panel class="ReplayExistence" id="ReplayExistenceError">
-					<Label text="{s:replay_existence_error}" />
-				</Panel>
-				<Panel class="ReplayExistence" id="ReplayExistenceDiskFound">
-					<Button id="WatchReplayButton" class="BlueButton" onactivate="DOTAWatchReplay( false )">
-						<Label text="#dota_page_match_details_replay_existence_disk_found_replay" />
-					</Button>
-					<Button id="WatchReplayHighlightsButton" class="BlueButton" onactivate="DOTAWatchReplay( true )">
-						<Label text="#dota_page_match_details_replay_existence_disk_found_highlights" />
-					</Button>
-				</Panel>
-				<Panel class="ReplayExistence" id="ReplayExistenceWrongEngine">
-					<Label text="#dota_page_match_details_replay_existence_wrong_engine" />
+				
+				<Panel id="DetailsBasicGraphs" class="DetailsPanel">
+					<Panel id="DetailsBasicGraphsLoading">
+						<Panel class="Spinner" />
+					</Panel>
+					<Panel id="DetailsBasicGraphsError">
+						<Label text="Error loading stats." />
+					</Panel>
+					<Panel id="DetailsBasicGraphsLoaded">
+						<Label id="DetailsBasicGraphsTopTeam" text="{s:radiant_name}" />
+						<Label id="DetailsBasicGraphsBottomTeam" text="{s:dire_name}" />
+						<Label id="DetailsBasicGraphsTopY1" class="MonoNumbersFont GraphYAxisLabel" text="{u:graph_y_1}" />
+						<Label id="DetailsBasicGraphsTopY2" class="MonoNumbersFont GraphYAxisLabel" text="{u:graph_y_2}" />
+						<Label id="DetailsBasicGraphsTopY3" class="MonoNumbersFont GraphYAxisLabel" text="{u:graph_y_3}" />
+						<Label id="DetailsBasicGraphsBottomY1" class="MonoNumbersFont GraphYAxisLabel" text="{u:graph_y_1}" />
+						<Label id="DetailsBasicGraphsBottomY2" class="MonoNumbersFont GraphYAxisLabel" text="{u:graph_y_2}" />
+						<Label id="DetailsBasicGraphsBottomY3" class="MonoNumbersFont GraphYAxisLabel" text="{u:graph_y_3}" />
+						<DOTACanvas id="DetailsBasicGraphsCanvas" />
+						<Panel id="DetailsBasicGraphsKey">
+							<Panel id="NetWorthKeyColorBox" class="KeyColorBox" />
+							<Label text="Net Worth" />
+							<Panel id="ExperienceKeyColorBox" class="KeyColorBox" />
+							<Label text="Experience" />
+						</Panel>
+					</Panel>
 				</Panel>
 			</Panel>
 

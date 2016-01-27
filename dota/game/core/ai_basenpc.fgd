@@ -360,12 +360,9 @@
 	output LeaveTarget(void) : "Fires when NPC leaves this target"
 ]
 
-
-@PointClass base(Targetname) iconsprite("editor/ai_relationship.vmat") sphere() = ai_relationship : 
+@BaseClass base(Targetname) iconsprite("editor/ai_relationship.vmat") sphere() = base_ai_relationship : 
 	"AI Relationship - Sets relationships between groups of NPCs in the AI."
 [
-	subject(target_name_or_class) : "Subject(s)" : "" : "This is the NPC(s) whose disposition will change. May be a targetname or a classname."
-	target(target_name_or_class) : "Target(s)" : "" : "This is the NPC(s) about whom the Subject(s) will change their disposition. May be a tarGetname or a classname."
 	disposition(choices) : "Disposition" : 3 : "Choose the way the Subject(s) should feel about the Target(s)" =
 	[
 		// These MUST match the enum in the code! (basecombatcharacter.h)
@@ -396,6 +393,20 @@
 	input RevertToDefaultRelationship(void) : "Revert relationship changes to the default relationship, which may have changed since this ai_relationship was applied. This returns control of the entity relationship to the code."
 ]
 
+
+@PointClass base(base_ai_relationship) iconsprite("editor/ai_relationship.vmat") sphere() = ai_relationship : 
+	"AI Relationship - Sets relationships between groups of NPCs in the AI."
+[
+	subject(target_name_or_class) : "Subject(s)" : "" : "This is the NPC(s) whose disposition will change. May be a targetname or a classname."
+	target(target_name_or_class) : "Target(s)" : "" : "This is the NPC(s) about whom the Subject(s) will change their disposition. May be a tarGetname or a classname."
+]
+
+@PointClass base(base_ai_relationship) iconsprite("editor/ai_relationship.vmat") sphere() = ai_faction_relationship : 
+	"AI Faction Relationship - Sets relationships between factions."
+[
+	subject_faction(string) : "Subject Faction(s)" : "" : "This is the Subject faction name."
+	target_faction(string) : "Target Faction(s)" : "" : "This is the Target faction about which the Subject(s) faction will change its disposition."
+]
 
 @BaseClass base(Targetname) = LeadGoalBase
 [

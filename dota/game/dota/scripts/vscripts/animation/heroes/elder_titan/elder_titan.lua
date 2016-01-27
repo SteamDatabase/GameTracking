@@ -67,7 +67,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "walk",
+		name = "walk_anim",
 		sequences = {
 			{ "@walk" }
 		},
@@ -85,7 +85,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run_haste",
+		name = "run_haste_anim",
 		sequences = {
 			{ "@run_haste" }
 		},
@@ -104,7 +104,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "walk_injured",
+		name = "walk_injured_anim",
 		sequences = {
 			{ "@walk_injured" }
 		},
