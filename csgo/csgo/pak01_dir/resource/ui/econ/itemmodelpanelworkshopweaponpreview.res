@@ -121,65 +121,17 @@
 		}
 	}
 	
-	"uid_knife"
-	{
-		"rule"
-		{
-			"type" "knife"
-			"workshop_arms" "1"
-			"nametag" "1"
-		}
-		"config"
-		{
-			"weaponmergemdls_clearall"		"1"
-			"weaponmergemdl_add"		"models/weapons/uid_weaponpreview.mdl"
-		}
-	}
-	
 	"xsmall_uid_knife"
 	{
 		"rule"
 		{
 			"type" "knife"
-			"workshop_arms" "0"
 			"nametag" "1"
 		}
 		"config"
 		{
 			"weaponmergemdls_clearall"		"1"
 			"weaponmergemdl_add"		"models/weapons/uid_xsmall_weaponpreview.mdl"
-		}
-	}
-	
-	"small_uid_falchion"
-	{
-		"rule"
-		{
-			"type" "knife"
-			"model" "v_knife_falchion_advanced"
-			"nametag" "1"
-			"workshop_arms" "0"
-		}
-		"config"
-		{
-			"weaponmergemdls_clearall"		"1"
-			"weaponmergemdl_add"		"models/weapons/uid_small_weaponpreview.mdl"
-		}
-	}
-	
-	"small_uid_butterfly"
-	{
-		"rule"
-		{
-			"type" "knife"
-			"model" "v_knife_butterfly"
-			"nametag" "1"
-			"workshop_arms" "0"
-		}
-		"config"
-		{
-			"weaponmergemdls_clearall"		"1"
-			"weaponmergemdl_add"		"models/weapons/uid_small_weaponpreview.mdl"
 		}
 	}
 	
@@ -299,19 +251,6 @@
 		}
 	}
 	
-	"tac21"
-	{
-		"rule"
-		{
-			"model" "v_snip_tac21"
-		}
-		"config"
-		{
-			"root_anim"			"ACT_IDLE_INSPECT_TAC21_START"
-			"root_anim_loop"		"ACT_IDLE_INSPECT_TAC21_LOOP"
-		}
-	}
-	
 	"Knives"
 	{
 		"rule"
@@ -325,143 +264,140 @@
 		}
 	}
 	
-		
-	"StatTrak_knives"
+	"StatTrak"
 	{
 		"rule"
-		{                                          
+		{
 			"stattrak" "1"
-			"type" "Knife"
-			"workshop_arms" "1"
 		}
 		"config"
 		{
-			"mergemdls_clearall"			"1"
-			"weaponmergemdl_add"			"models/weapons/stattrack_cut.mdl"
+			"mergemdl_add"			"models/weapons/stattrack_advert.mdl"			// Merge the advert to the pedestal
+			"weaponmergemdl_add"		"models/weapons/stattrack_weaponpreview.mdl"		// Merge the actual indicator to the gun
 		}
 	}
 	
-	"StatTrak_knives_inspect"
-	{
-		"rule"
-		{                                          
-			"stattrak" "1"
-			"type" "Knife"
-			"workshop_arms" "0"
-		}
-		"config"
-		{
-			"mergemdls_clearall"			"1"
-			"weaponmergemdl_add"			"models/weapons/stattrack_cut_workbench_xsmall.mdl"
-		}
-	}
-	
-	"StatTrak_butterfly"
-	{
-		"rule"
-		{
-			"stattrak" "1"
-			"model" "v_knife_butterfly"
-		}
-		"config"
-		{
-			"weaponmergemdls_clear" "models/weapons/stattrack_cut_workbench_xsmall.mdl"
-			"weaponmergemdls_add" "models/weapons/stattrack_cut_workbench_small.mdl"
-		}
-	}
-	
-	"StatTrak_falchion"
-	{
-		"rule"
-		{
-			"stattrak" "1"
-			"model" "v_knife_falchion_advanced"
-		}
-		"config"
-		{
-			"weaponmergemdls_clear" "models/weapons/stattrack_cut_workbench_xsmall.mdl"
-			"weaponmergemdls_add" "models/weapons/stattrack_cut_workbench_small.mdl"
-		}
-	}
-
-	"StatTrak_smgs"
-	{
-		"rule"
-		{                                          
-			"stattrak" "1"
-			"type" "SubMachinegun"
-		}
-		"config"
-		{
-			"mergemdls_clearall"			"1"
-			"weaponmergemdl_add"			"models/weapons/stattrack.mdl"
-		}
-	}
 	"StatTrak_pistols"
 	{
 		"rule"
-		{                     
+		{
 			"stattrak" "1"
-			"type"	"Pistol"
+			"type" "Pistol"
 		}
 		"config"
 		{
 			"mergemdls_clearall"			"1"
-			"weaponmergemdl_add"			"models/weapons/stattrack.mdl"
+			"mergemdl_add"			"models/weapons/stattrack_advert_small.mdl"			// Merge the advert to the pedestal
 		}
 	}
-	"StatTrak_shotguns"
+	
+	"StatTrak_knives"
 	{
 		"rule"
-		{                                          
+		{
 			"stattrak" "1"
-			"type" "Shotgun"
+			"type" "Knife"
 		}
 		"config"
 		{
 			"mergemdls_clearall"			"1"
-			"weaponmergemdl_add"			"models/weapons/stattrack.mdl"
+			"weaponmergemdls_clearall"		"1"
+			"mergemdl_add"			"models/weapons/stattrack_advert_small.mdl"			// Merge the advert to the pedestal
 		}
 	}
-	"StatTrak_machineguns"
+	
+	"StatTrak_knives_UidNameTag"
 	{
 		"rule"
-		{                                          
-			"stattrak" "1"
-			"type" "Machinegun"
+		{
+			"nametag" "1"
+			"type" "Knife"
 		}
 		"config"
 		{
-			"mergemdls_clearall"			"1"
-			"weaponmergemdl_add"			"models/weapons/stattrack.mdl"
+			"weaponmergemdl_add"		"models/weapons/uid_xsmall_weaponpreview.mdl"
 		}
 	}
-	"StatTrak_rifles"
+	
+	"LowAdvertfamas"
 	{
 		"rule"
-		{                                          
-			"stattrak" "1"
-			"type" "Rifle"
-		}
+			{
+				"stattrak" "1"
+				"model" "v_rif_famas"
+			}
 		"config"
-		{
-			"mergemdls_clearall"			"1"
-			"weaponmergemdl_add"			"models/weapons/stattrack.mdl"
-		}
+			{
+				"mergemdls_clearall"		"1"
+				"mergemdl_add"			"models/weapons/stattrack_advert_small_lower.mdl"
+			}
 	}
-	"StatTrak_snipers"
+	"LowAdvertg3sg1"
 	{
 		"rule"
-		{                                          
-			"stattrak" "1"
-			"type" "SniperRifle"
-		}
+			{
+				"stattrak" "1"
+				"model" "v_snip_g3sg1"
+			}
 		"config"
-		{
-			"mergemdls_clearall"			"1"
-			"weaponmergemdl_add"			"models/weapons/stattrack.mdl"
-		}
-	}	
+			{
+				"mergemdls_clearall"		"1"
+				"mergemdl_add"			"models/weapons/stattrack_advert_small_lower.mdl"
+			}
+	}
+	"LowAdvertgalilar"
+	{
+		"rule"
+			{
+				"stattrak" "1"
+				"model" "v_rif_galilar"
+			}
+		"config"
+			{
+				"mergemdls_clearall"		"1"
+				"mergemdl_add"			"models/weapons/stattrack_advert_small_lower.mdl"
+			}
+	}
+	"LowAdvertscar20"
+	{
+		"rule"
+			{
+				"stattrak" "1"
+				"model" "v_snip_scar20"
+			}
+		"config"
+			{
+				"mergemdls_clearall"		"1"
+				"mergemdl_add"			"models/weapons/stattrack_advert_small_lower.mdl"
+			}
+	}
+	"LowAdvertnova"
+	{
+		"rule"
+			{
+				"stattrak" "1"
+				"model" "v_shot_nova"
+			}
+		"config"
+			{
+				"mergemdls_clearall"		"1"
+				"mergemdl_add"			"models/weapons/stattrack_advert_small_lower.mdl"
+			}
+	}
+	"LowAdvertssg08"
+	{
+		"rule"
+			{
+				"stattrak" "1"
+				"model" "v_snip_ssg08"
+			}
+		"config"
+			{
+				"mergemdls_clearall"		"1"
+				"mergemdl_add"			"models/weapons/stattrack_advert_small_lower.mdl"
+			}
+	}
+	
 	
 	"coin"
 	{
@@ -512,7 +448,9 @@
 		{
 			"light_directional_clearall" 	"1"
 			"light_directional_add" 		"rgb[40 40 40] dir[0 0 -0.5]"
-			"light_directional_add" 		"rgb[40 40 40] dir[0 -1 -1]"
+			"light_directional_add" 		"rgb[25 25 25] dir[-0.2 1 1]"
+			"light_directional_add" 		"rgb[20 20 20] dir[1 -0.2 -1]"
+			"light_directional_add" 		"rgb[80 80 80] dir[0 0 1]"
 			"root_mdl"						"models/weapons/pedestal_workshop_greenscreen.mdl"
 			"mergemdls_clearall"			"1"
 		}
@@ -529,24 +467,6 @@
 		{
 			"shadow_light"	"cam_inspect_light_near"
 		}
-	}
-
-	"workshop_greenscreen_knives"
-	{
-		"rule"
-		{
-			"workshop_greenscreen"	"1"
-			"type"		"Knife"
-		}
-		"config"
-		{
-			"shadow_light"	"cam_inspect_light_knife"
-			"shadow_light_brightness" "2.0"
-			"shadow_light_brightness" "0.0"
-			"light_directional_clearall" 	"1"
-			"light_directional_add" 		"rgb[255 255 255] dir[0 -.2 -0.5]"
-			"light_directional_add" 		"rgb[255 255 255] dir[.5 .2 0.75]"
-		}	
 	}
 
 	"workshop_greenscreen_smgs"
