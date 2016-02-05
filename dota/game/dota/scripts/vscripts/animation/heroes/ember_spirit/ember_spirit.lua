@@ -153,7 +153,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "idle",
+		name = "idle_anim",
 		sequences = {
 			{ "@idle" }
 		},
@@ -256,6 +256,22 @@ model:CreateSequence(
 		activities = {
 			{ name = "ACT_DOTA_RUN", weight = 1 },
 			{ name = "aggressive", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "haste_run_anim",
+		sequences = {
+			{ "@haste_run_anim" }
+		},
+		addlayer = {
+			"turns",
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "haste", weight = 1 }
 		}
 	}
 )

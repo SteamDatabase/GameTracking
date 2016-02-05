@@ -186,6 +186,8 @@
 					"event"			"damage"
 					"attacker"		"!hero"
 					"target_must_be_hero" "1"
+					"attacker_team"		"!team"
+					"target_team"		"!enemyteam"
 					"storage"
 					{
 						"1"
@@ -220,10 +222,10 @@
 		}
 	}
 
-	"kill_streak"
+	"killing_spree"
 	{
 		"challengetype"		"6"
-		"desc"				"#DOTA_ChallengeDesc_KillStreak"
+		"desc"				"#DOTA_ChallengeDesc_KillingSpree"
 		"image"				"images/challenges/icon_challenges_streak.png"
 
 		"events"
@@ -231,18 +233,22 @@
 			"matching_type"		"linear_series"
 			"query"
 			{
-				"find_streak"
+				"find_killing_spree"
 				{			
 					"event"			"killstreak"
 					"playerid"		"!playerid"
+					"spree_type"	"killing_spree"
 					"storage"
 					{
-						"1"			"value"
+						"1"
+						{
+							"aggregator"	"increment"
+						}
 					}
 				}
 			}
 
-			"clear_storage_per_query"	"1"
+			"clear_storage_per_query"	"0"
 			"progress_stored_in"		"1"
 			"post_tests"
 			{
@@ -250,25 +256,25 @@
 				{
 					"storage"		"1"
 					"compare"		">="
-					"amount"		"<killstreak>"
+					"amount"		"<killing_sprees>"
 				}
 			}
 		}
 
 		"variables"
 		{
-			"<killstreak>"
+			"<killing_sprees>"
 			{
-				"format"	"killstreak"
+				"format"	"int"
 				"index"		"0"
 			}
 		}
 	}
 
-	"multi_kill"
+	"double_kill"
 	{
 		"challengetype"		"7"
-		"desc"				"#DOTA_ChallengeDesc_MultiKill"
+		"desc"				"#DOTA_ChallengeDesc_DoubleKill"
 		"image"				"images/challenges/icon_challenges_multikill.png"
 
 		"events"
@@ -276,18 +282,22 @@
 			"matching_type"		"linear_series"
 			"query"
 			{
-				"find_multi_kill"
+				"find_double_kill"
 				{			
 					"event"			"multikill"
 					"playerid"		"!playerid"
+					"multi_kill"	"double_kill"
 					"storage"
 					{
-						"1"			"value"
+						"1"
+						{
+							"aggregator"	"increment"
+						}
 					}
 				}
 			}
 
-			"clear_storage_per_query"	"1"
+			"clear_storage_per_query"	"0"
 			"progress_stored_in"		"1"
 			"post_tests"
 			{
@@ -295,16 +305,16 @@
 				{
 					"storage"		"1"
 					"compare"		">="
-					"amount"		"<multi_kill>"
+					"amount"		"<double_kills>"
 				}
 			}
 		}
 
 		"variables"
 		{
-			"<multi_kill>"
+			"<double_kills>"
 			{
-				"format"	"multikill"
+				"format"	"int"
 				"index"		"0"
 			}
 		}
@@ -3465,9 +3475,8 @@
 			{
 				"take_aegis"
 				{
-					"event"			"purchase"
-					"target"		"!hero"
-					"itemid"		"117"
+					"event"			"aegis_taken"
+					"playerid"		"!playerid"
 					"storage"
 					{
 						"1"
@@ -3514,9 +3523,8 @@
 			{
 				"take_aegis"
 				{
-					"event"			"purchase"
-					"target"		"!hero"
-					"itemid"		"117"
+					"event"			"aegis_taken"
+					"playerid"		"!playerid"
 					"storage"
 					{
 						"1"
@@ -3571,6 +3579,8 @@
 					"damage_type"	"physical"
 					"attacker"		"!hero"
 					"target_must_be_hero" "1"
+					"attacker_team"		"!team"
+					"target_team"		"!enemyteam"
 					"storage"
 					{
 						"1"
@@ -3621,6 +3631,8 @@
 					"damage_type"	"magical"
 					"attacker"		"!hero"
 					"target_must_be_hero" "1"
+					"attacker_team"		"!team"
+					"target_team"		"!enemyteam"
 					"storage"
 					{
 						"1"
@@ -4900,6 +4912,585 @@
 				"index"		"1"
 			}
 		} 
+	}
+
+	"allied_gold_multi_match"
+	{
+		"challengetype"		"92"
+		"desc"				"#DOTA_ChallengeDesc_AlliedGoldMultiMatch"
+		"multi_match"		"1"
+		"events"
+		{
+			"matching_type"	"linear_series"
+			"query"
+			{
+				"allied_gold_event"
+				{
+					"event"		"allied_gold"
+					"playerid"	"!playerid"
+					"storage"
+					{
+						"1"
+						{
+							"key"			"value"
+							"aggregator"	"sum"	
+						}
+					}
+				}
+			}
+
+			"clear_storage_per_query"	"0"
+			"progress_stored_in"		"1"
+			"post_tests"
+			{
+				"test_allied_gold"
+				{
+					"storage"		"1"
+					"compare"		">="
+					"amount"		"<allied_gold>"
+				}
+			}
+		}
+
+		"variables"
+		{
+			"<allied_gold>"
+			{
+				"format"	"int"
+				"index"		"0"
+			}
+			"[complete_limit]"
+			{
+				"format"	"int"
+				"index"		"1"
+			}
+		} 
+	}
+
+	"win_games_before_time_multimatch"
+	{
+		"challengetype"	"93"
+		"desc"			"#DOTA_ChallengeDesc_WinBeforeTimeMultiMatch"
+		"image"			""
+		"multi_match"	"1"
+
+		"events"
+		{
+			"matching_type"		"linear_series"
+			"fail_gametime"		"<game_time>"
+			"query"
+			{
+				"find_tower_kill"
+				{
+					"event"			"team_building_kill"
+					"enemyteam"		"!enemyteam"
+					"building_type"		"fort"
+					"storage"
+					{
+						"1"
+						{
+							"aggregator"	"increment"
+						}
+					}	
+				}
+			}
+			"progress_stored_in"		"1"
+			"clear_storage_per_query"	"0"
+			"post_tests"
+			{
+				"fort_kill"
+				{
+					"storage"		"1"
+					"compare"		">="
+					"amount"		"[complete_limit]"
+				}
+			}
+		}
+
+		"variables"
+		{
+			"<game_time>"
+			{
+				"format"	"gametime"
+				"index"		"0"
+			}
+			"[complete_limit]"
+			{
+				"format"	"int"
+				"index"		"1"
+			}
+		}
+	}
+
+	"tower_damage_multi_match"
+	{    
+		"challengetype"			"94"
+		"desc"				"#DOTA_ChallengeDesc_TowerDamageMultiMatch"
+		"image"				"images/challenges/icon_challenges_xbuilding_damage.png"
+		"multi_match"		"1"
+
+		"events"
+		{
+			"matching_type"		"linear_series"
+			"query"
+			{
+				"damage_event"
+				{
+					"event"				"damage"
+					"damage_source"		"!hero"
+					"attacker_team"		"!team"
+					"target_team"		"!enemyteam"
+					"target_must_be_building" 	"1"
+					"building_type"		"tower"
+
+					"storage"
+					{
+						"1"
+						{
+							"key"			"value"
+							"aggregator"		"sum"	
+						}
+					}
+				}          
+			}
+
+			"progress_stored_in"		"1"
+			"post_tests"
+			{
+				"test_total_damage"
+				{
+					"storage"		"1"
+					"compare"		">="
+					"amount"		"<total_damage>"
+				}
+			}
+		}
+
+		"variables"
+		{
+			"<total_damage>"
+			{
+				"format"	"int"
+				"index"		"0"
+			}
+			"[complete_limit]"
+			{
+				"format"	"int"
+				"index"		"1"
+			}
+		}
+	}
+
+	"debuff_duration_multi_match"
+	{
+		"challengetype"		"95"
+		"desc" 				"#DOTA_ChallengeDesc_DebuffDurationMultiMatch"
+		"multi_match"		"1"
+		"events"
+		{
+			"matching_type"	"linear_series"
+			"query"
+			{
+				"stun_added"
+				{
+					"event"									"modifier_remove"
+					"caster"								"!hero"
+					"target_must_be_hero"					"1"
+					"is_debuff"								"1"
+					"storage"
+					{
+						"1"
+						{
+							"key"			"elapsed_duration"
+							"aggregator"		"sum"	
+						}
+					}
+				}
+			}
+		
+			"progress_stored_in"		"1"
+			"post_tests"
+			{
+				"test_total_duration"
+				{
+					"storage"		"1"
+					"compare"		">="
+					"amount"		"<total_debuff>"
+				}
+			}
+		}
+
+		"variables"
+		{
+			"<total_debuff>"
+			{
+				"format"	"int"
+				"index"		"0"
+			}
+			"[complete_limit]"
+			{
+				"format"	"int"
+				"index"		"1"
+			}
+		}
+	}
+
+	"snatch_aegis"
+	{
+		"challengetype" "96"
+		"desc"			"#DOTA_ChallengeDesc_SnatchAegis"
+		"events"
+		{
+			"matching_type"		"linear_series"
+			"query"
+			{
+				"take_aegis"
+				{
+					"event"			"aegis_taken"
+					"playerid"		"!playerid"
+					"snatched"		"1"
+					"storage"
+					{
+						"1"
+						{
+							"aggregator"	"increment"
+						}
+					}
+				}	
+			}
+
+			"clear_storage_per_query"	"0"
+			"progress_stored_in"		"1"
+			"post_tests"
+			{
+				"test_aegises"
+				{
+					"storage"		"1"
+					"compare"		">="
+					"amount"		"<aegises_taken>"
+				}
+			}
+		}
+
+		"variables"
+		{
+			"<aegises_taken>"
+			{
+				"format"	"int"
+				"index"		"0"
+			}	
+		}
+	}
+
+	"multi_kill_multi_match"
+	{
+		"challengetype"		"97"
+		"desc"				"#DOTA_ChallengeDesc_MultiKillMultiMatch"
+		"image"				"images/challenges/icon_challenges_multikill.png"
+
+		"events"
+		{
+			"matching_type"		"linear_series"
+			"query"
+			{
+				"find_multi_kill"
+				{			
+					"event"			"multikill"
+					"playerid"		"!playerid"
+					"storage"
+					{
+						"1"			"value"
+					}
+				}
+			}
+
+			"clear_storage_per_query"	"1"
+			"progress_stored_in"		"1"
+			"post_tests"
+			{
+				"test_value"
+				{
+					"storage"		"1"
+					"compare"		">="
+					"amount"		"<multi_kill>"
+				}
+			}
+		}
+
+		"variables"
+		{
+			"<multi_kill>"
+			{
+				"format"	"multikill"
+				"index"		"0"
+			}
+		}
+	}
+
+	"total_healing_multi_match"
+	{    
+		"challengetype"	"98"
+		"desc"			"#DOTA_ChallengeDesc_TotalHealing"
+		"image"			"images/challenges/icon_challenges_xheals.png"
+		"multi_match"	"1"
+		"events"
+		{
+			"matching_type"		"linear_series"
+			"query"
+			{
+				"heal_event"
+				{
+					"event"			"heal"
+					"healer"		"!hero"
+					"target_must_be_hero" "1"
+					"storage"
+					{
+						"1"
+						{
+							"key"			"value"
+							"aggregator"	"sum"	
+						}
+					}
+				}          
+			}
+
+			"progress_stored_in"		"1"
+			"post_tests"
+			{
+				"test_total_healing"
+				{
+					"storage"		"1"
+					"compare"		">="
+					"amount"		"<total_healing>"
+				}
+			}
+		}
+
+		"variables"
+		{
+			"<total_healing>"
+			{
+				"format"	"int"
+				"index"		"0"
+			}
+			"[complete_limit]"
+			{
+				"format"	"int"
+				"index"		"1"
+			}
+		}
+	}
+
+	"rampage"
+	{
+		"challengetype"		"99"
+		"desc"				"#DOTA_ChallengeDesc_Rampage"
+		"image"				"images/challenges/icon_challenges_multikill.png"
+
+		"events"
+		{
+			"matching_type"		"linear_series"
+			"query"
+			{
+				"find_rampage"
+				{			
+					"event"			"multikill"
+					"playerid"		"!playerid"
+					"multi_kill"	"rampage"
+					"storage"
+					{
+						"1"
+						{
+							"aggregator"	"increment"
+						}
+					}
+				}
+			}
+
+			"clear_storage_per_query"	"0"
+			"progress_stored_in"		"1"
+			"post_tests"
+			{
+				"test_value"
+				{
+					"storage"		"1"
+					"compare"		">="
+					"amount"		"<rampages>"
+				}
+			}
+		}
+
+		"variables"
+		{
+			"<rampages>"
+			{
+				"format"	"int"
+				"index"		"0"
+			}
+		}
+	}
+
+	"double_kill_multi_match"
+	{
+		"challengetype"		"100"
+		"desc"				"#DOTA_ChallengeDesc_DoubleKill"
+		"image"				"images/challenges/icon_challenges_multikill.png"
+		"multi_match"		"1"
+
+		"events"
+		{
+			"matching_type"		"linear_series"
+			"query"
+			{
+				"find_double_kill"
+				{			
+					"event"			"multikill"
+					"playerid"		"!playerid"
+					"multi_kill"	"double_kill"
+					"storage"
+					{
+						"1"
+						{
+							"aggregator"	"increment"
+						}
+					}
+				}
+			}
+
+			"clear_storage_per_query"	"0"
+			"progress_stored_in"		"1"
+			"post_tests"
+			{
+				"test_value"
+				{
+					"storage"		"1"
+					"compare"		">="
+					"amount"		"<double_kills>"
+				}
+			}
+		}
+
+		"variables"
+		{
+			"<double_kills>"
+			{
+				"format"	"int"
+				"index"		"0"
+			}
+			"[complete_limit]"
+			{
+				"format"	"int"
+				"index"		"1"
+			}
+		}
+	}
+
+	"ember_searing_chains_multi_match"
+	{
+		"challengetype"		"101"
+		"desc"				"#DOTA_ChallengeDesc_EmberChainsMultiMatch"
+		"multi_match"		"1"
+		"requiredhero"		"106"
+
+		"events"
+		{
+			"matching_type"		"linear_series"
+			"query"
+			{
+				"find_searing_chains"
+				{
+					"event"			"modifier_add"
+					"caster"		"!hero"
+					"target_must_be_hero" "1"
+					"modifier"		"modifier_ember_spirit_searing_chains"
+					"storage"
+					{
+						"1"
+						{
+							"aggregator"	"increment"
+						}
+					}
+				}
+			}
+			"clear_storage_per_query"	"0"
+			"progress_stored_in"		"1"
+			"post_tests"
+			{
+				"test_value"
+				{
+					"storage"		"1"
+					"compare"		">="
+					"amount"		"<searing_chains>"
+				}
+			}
+		}
+
+		"variables"
+		{
+			"<searing_chains>"
+			{
+				"format"	"int"
+				"index"		"0"
+			}
+			"[complete_limit]"
+			{
+				"format"	"int"
+				"index"		"1"
+			}
+		}
+	}
+
+	"pickup_bounty_runes_multi_match"
+	{
+
+		"challengetype"	"102"
+		"desc"			"#DOTA_ChallengeDesc_PickupBountyRunes"
+		"image"			"images/challenges/icon_challenges_xrune_pickups.png"
+		"multi_match"	"1"
+		"events"
+		{
+			"matching_type"		"linear_series"
+			"query"
+			{
+				"bounty_rune"
+				{
+					"event"			"pickup_rune"
+					"rune_type"		"bounty"
+					"playerid"		"!playerid"
+				}
+			}
+			"progress_stored_in"		"1"
+			"postmatch_increments"
+			{
+				"1"
+				{
+					"aggregator"	"increment"
+				}
+			}
+			"post_tests"
+			{
+				"runes_picked_up"
+				{
+					"storage"		"1"
+					"compare"		">="
+					"amount"		"<rune_count>"
+				}
+			}
+		}
+
+		"variables"
+		{
+			"<rune_count>"
+			{
+				"format"	"int"
+				"index"		"0"
+			}
+			"[complete_limit]"
+			{
+				"format"	"int"
+				"index"		"1"
+			}
+		}
 	}
 }
 
