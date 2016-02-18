@@ -69,10 +69,10 @@
 								<RadioButton class="CarouselDot" group="Carousel" id="Carousel4" />
 								<RadioButton class="CarouselDot" group="Carousel" id="Carousel5" />
 							</Panel>
-						
+
 							<TextButton text="TooltipTest 1" onmouseover="DOTAShowCustomLayoutTooltip( TestTooltip, file://{resources}/layout/tooltips/tooltip_custom_test.xml )" onmouseout="DOTAHideCustomLayoutTooltip( TestTooltip )" />
 							<TextButton text="TooltipTest 2" onmouseover="DOTAShowCustomLayoutParametersTooltip( TestTooltip2, file://{resources}/layout/tooltips/tooltip_custom_test.xml, test=blah )" onmouseout="DOTAHideCustomLayoutTooltip( TestTooltip2 )" />
-						
+
 						</Panel>
 
 						<EdgeScroller class="ZooGroup" id="TestCheckboxes">
@@ -91,7 +91,7 @@
 							<ToggleButton text="Checkbox 12" />
 						</EdgeScroller>
 						<Panel class="ZooGroup OtherButtons">
-							
+
 							<Button class="CloseButton" />
 							<Button class="ControlIconButton SettingsButton"/>
 							<Button class="ControlIconButton SettingsButton" id="ZooSmallSettingsButton"
@@ -119,7 +119,9 @@
 							<Label text="Background Image Test" />
 							<Panel id="BackgroundImageTest" onactivate="ToggleStyle( ChangeBackgroundImage )" />
 							<Label text="Radial Clip Test" />
-							<Panel id="RadialClipTest" />
+							<Panel id="RadialClipTest" >
+								<Panel id="LeadingEdge"/>
+							</Panel>
 						</Panel>
 
 						<Panel class="ZooGroup">
@@ -278,7 +280,7 @@
 					</Panel>
 				</Panel>
 			</Panel>
-			
+
 			<!--		
 			<Panel id="ZooMovies" class="ZooTab">
 
@@ -290,7 +292,7 @@
 				
 			</Panel>
 			-->
-			
+
 			<Panel id="ZooOtherControls" class="ZooTab">
 
 
@@ -354,37 +356,52 @@
 						<DOTAEmoticon alias="headshot" animating="false" />
 					</Panel>
 
-					<Panel id="ListSegmentView" class="ZooGroup">
-						<Label text="ListSegmentView!" />
-						<Panel class="LeftRightFlow">
-							<Button class="Arrow Left" onactivate="ListSegmentViewRetreat( LSV )" />
-							<ListSegmentView id="LSV" items-displayed="4" step-size="4" class="LSVExample">
-								<Image class="LSVElement" src="s2r://panorama/images/items/aegis_png.vtex"/>
-								<Image class="LSVElement" src="s2r://panorama/images/items/arcane_boots_png.vtex"/>
-								<Image class="LSVElement" src="s2r://panorama/images/items/armlet_png.vtex"/>
-								<Image class="LSVElement" src="s2r://panorama/images/items/assault_png.vtex"/>
-								<Image class="LSVElement" src="s2r://panorama/images/items/basher_png.vtex"/>
-								<Image class="LSVElement" src="s2r://panorama/images/items/bfury_png.vtex"/>
-								<Image class="LSVElement" src="s2r://panorama/images/items/black_king_bar_png.vtex"/>
-								<Image class="LSVElement" src="s2r://panorama/images/items/blade_mail_png.vtex"/>
-								<Image class="LSVElement" src="s2r://panorama/images/items/boots_png.vtex"/>
-								<Image class="LSVElement" src="s2r://panorama/images/items/bottle_png.vtex"/>
-								<Image class="LSVElement" src="s2r://panorama/images/items/bracer_png.vtex"/>
-								<Image class="LSVElement" src="s2r://panorama/images/items/branches_png.vtex"/>
-							</ListSegmentView>
-							<Button class="Arrow Right" onactivate="ListSegmentViewAdvance( LSV )" />
-						</Panel>
-					</Panel>
 					<Panel id="ZooHTMLGroup" class="ZooGroup">
 						<Label text="HTML!" />
 						<HTML id="ZooHTML" url="http://www.dota2.com/reborn" />
-						<Button class="ButtonBevel"><Label text=">> Full web browser" onactivate="DOTADisplayURL( 'http://www.dota2.com' );"/></Button>
+						<Button class="ButtonBevel">
+							<Label text=">> Full web browser" onactivate="DOTADisplayURL( 'http://www.dota2.com' );"/>
+						</Button>
 					</Panel>
 
 				</Panel>
 			</Panel>
 
-			<Panel id="ZooDebug" class="ZooTab">
+			<Panel id="ZooModelTest" class="ZooTab">
+				<DOTAScenePanel id="ModelTest1" map="backgrounds/test" camera="test_camera"/>
+				<DOTAScenePanel id="ModelTest2" unit="npc_dota_hero_pudge"/>
+				<Panel id="BlendPanel" >
+					<Panel id="ScreenPanel" >
+						<Label text="Blend: Screen"/>
+					</Panel>
+					<Panel id="MultiplyPanel" >
+						<Label text="Blend: Multiply"/>
+					</Panel>
+				</Panel>
+				<Panel id="ZooDrop">
+					<DOTAScenePanel id="ModelTest3" map="scenes/singleobject_default" camera="camera_1"/>
+					<Label id="DropLabelTop" class="DropLabel" text="You have earned"/>
+					<Label id="DropLabelBottom" class="DropLabel" text="a Trophy!"/>
+				</Panel>
+			</Panel>
+
+			<Panel id="ZooEffectsTest" class="ZooTab">
+				<DOTAScenePanel class="TopBottomFlow" id="ModelTestUI" map="scenes/treasure_opened_generic" camera="shot_cam">
+					<Button id="Button0EffectsTest" class="ButtonBevel" onactivate="DOTAGlobalSceneFireEntityInput( ModelTestUI, treasure_opened_generic_part, start, 1)">
+						<Label text="start"/>
+					</Button>
+					<Button id="Button1EffectsTest" class="ButtonBevel" onactivate="DOTAGlobalSceneFireEntityInput( ModelTestUI, treasure_opened_generic_part, stopplayendcap, 1)">
+						<Label text="reset"/>
+					</Button>
+				</DOTAScenePanel>
+				<DOTAScenePanel id="ModelTestUIAccept" map="backgrounds/accept_popup_test" camera="shot_camera">
+					<Panel class="PopupPanelEffectsTest">
+
+					</Panel>
+				</DOTAScenePanel>
+			</Panel>
+
+			<Panel id="ZooDebug1" class="ZooTab">
 				<Panel class="ZooGroup">
 					<Label text="Inline HTML + Dialog Variable test cases" />
 
@@ -427,12 +444,14 @@
 						</Button>
 					</Panel>
 				</FrontpageCarousel>
-				
+
+				<!--
 				<FrontpageCarousel>
 					<Panel id="CarouselCells">
 						<FrontpageVideoStream class="DOTATodayCell DOTATodayCellLarge" account-id="85501006" league-id="3671"/>
 					</Panel>
 				</FrontpageCarousel>				
+				-->
 
 				<!--FrontpageTopLiveButton class="DOTATodayCell DOTATodayCellMargins">
 				</FrontpageTopLiveButton-->
@@ -446,6 +465,7 @@
 				<!--FrontpageProPlayingButton class="DOTATodayCell DOTATodayCellMargins">
 				</FrontpageProPlayingButton-->
 
+				<!--
 				<Panel class="ZooGroup">
 					<Label text="Tooltip Tests" />
 					<Panel class="TooltipTestCases">
@@ -504,6 +524,7 @@
 											style="context-menu-body-position: 100%; context-menu-position: top;"/>
 					</Panel>
 				</Panel>
+				-->
 
 				<Panel class="ZooGroup" style="flow-children: right;">
 					<Image src="s2r://panorama/images/icon_steamlogo_small_psd.vtex" style="width: 18px; height: 18px; margin-right: 4.5px;" />
@@ -534,6 +555,12 @@
 				</Panel>
 
 				<Panel class="ZooGroup">
+					<Label text="DelayLoadList" />
+					<DelayLoadList id="TestDelayLoadList" itemwidth="102px" itemheight="22px" />
+				</Panel>
+
+				<!--
+				<Panel class="ZooGroup">
 					<Label text="box-shadow tests" />
 
 					<Panel class="BoxShadowTests">
@@ -549,125 +576,36 @@
 					</Panel>
 
 				</Panel>
+				-->
 
 			</Panel>
 
-			<Panel id="ZooModelTest" class="ZooTab">
-				<DOTAScenePanel id="ModelTest1" map="backgrounds/test" camera="test_camera"/>
-				<DOTAScenePanel id="ModelTest2" unit="npc_dota_hero_pudge"/>
-				<Panel id="BlendPanel" >
-					<Panel id="ScreenPanel" >
-						<Label text="Blend: Screen"/>
+			<Panel id="ZooDebug2" class="ZooTab">
+				<Panel id="ShrinkTests" class="ZooGroup">
+					<Label text="text-overflow: shrink" />
+					<Panel id="ShrinkTests1" class="ShrinkTests">
+						<Label id="KOTL" text="Keeper of the Light" acceptsfocus="true" allowtextselection="true" />
+						<Label id="Blood" text="Bloodseeker" acceptsfocus="true" allowtextselection="true" />
+						<Label id="AA" text="Ancient Apparition" acceptsfocus="true" allowtextselection="true" />
+						<Label id="Axe" text="Axe" acceptsfocus="true" allowtextselection="true" />
 					</Panel>
-					<Panel id="MultiplyPanel" >
-						<Label text="Blend: Multiply"/>
-					</Panel>
-				</Panel>
-				<Panel id="ZooDrop">
-					<DOTAScenePanel id="ModelTest3" map="scenes/singleobject_default" camera="camera_1"/>
-					<Label id="DropLabelTop" class="DropLabel" text="You have earned"/>
-					<Label id="DropLabelBottom" class="DropLabel" text="a Trophy!"/>
-				</Panel>
-			</Panel>
-
-      <Panel id="ZooEffectsTest" class="ZooTab">
-        <DOTAScenePanel class="TopBottomFlow" id="ModelTestUI" map="scenes/treasure_opened_generic" camera="shot_cam">
-          <Button id="Button0EffectsTest" class="ButtonBevel" onactivate="DOTAGlobalSceneFireEntityInput( ModelTestUI, treasure_opened_generic_part, start, 1)">
-            <Label text="start"/>
-          </Button>
-          <Button id="Button1EffectsTest" class="ButtonBevel" onactivate="DOTAGlobalSceneFireEntityInput( ModelTestUI, treasure_opened_generic_part, stopplayendcap, 1)">
-            <Label text="reset"/>
-          </Button>
-        </DOTAScenePanel>
-				<DOTAScenePanel id="ModelTestUIAccept" map="backgrounds/accept_popup_test" camera="shot_camera">
-					<Panel class="PopupPanelEffectsTest">
-            
-					</Panel>
-				</DOTAScenePanel>
-			</Panel>
-
-			<Panel id="ZooHUD" class="ZooTab">
-				<Panel id="hudcontainer">
-					<Panel class="hudpanel">
-						<Panel class="hud" id="minimapborder"/>
-						<Panel class="hud" id="minimapimage"/>
-						<Panel class="hud" id="spacer_16_9"/>
-						<Panel class="hud" id="portrait_wide">
-							<Panel class="TextBox">
-								<Label id="HeroName" text="Zuus" />
-							</Panel>
-							<Panel class="LevelTextBox">
-								<Label id="LevelNumber" text="25" />
-							</Panel>
-							<ProgressBar id="LevelBar"/>
-						</Panel>
-						<DOTAScenePanel class="hud" id="Portrait" unit="npc_dota_hero_zuus"/>
-						<Panel class="hud" id="center_left_wide">
-							<Panel class="BlackBox" id="LeftStatsBox"/>
-							<Panel class="BlackBox" id="RightStatsBox"/>
-						</Panel>
-						<Panel class="hud" id="center_right">
-							<Panel id="AbilitiesContainer">
-								<Panel class="Ability">
-									<Panel class="AbilityFrame">
-										<Panel class="abilitycooldowncontainer">
-											<Panel class="cooldownswipe"/>
-										</Panel>
-										<Panel class="LeveledPipContainer">
-											<Panel class="LeveledPip"/>
-											<Panel class="LeveledPip"/>
-											<Panel class="LeveledPip"/>
-											<Panel class="LeveledPip"/>
-										</Panel>
-									</Panel>
-								</Panel>
-								<Panel class="Ability">
-									<Panel class="AbilityFrame">
-										<Panel class="abilitycooldowncontainer">
-											<Panel class="cooldownswipe"/>
-										</Panel>
-										<Panel class="LeveledPipContainer">
-											<Panel class="LeveledPip"/>
-											<Panel class="LeveledPip"/>
-											<Panel class="LeveledPip"/>
-											<Panel class="LeveledPip"/>
-										</Panel>
-									</Panel>
-								</Panel>
-								<Panel class="Ability">
-									<Panel class="AbilityFrame">
-										<Panel class="abilitycooldowncontainer">
-											<Panel class="cooldownswipe"/>
-										</Panel>
-										<Panel class="LeveledPipContainer">
-											<Panel class="LeveledPip"/>
-											<Panel class="LeveledPip"/>
-											<Panel class="LeveledPip"/>
-											<Panel class="LeveledPip"/>
-										</Panel>
-									</Panel>
-								</Panel>
-								<Panel class="Ability">
-									<Panel class="AbilityFrame">
-										<Panel class="abilitycooldowncontainer">
-											<Panel class="cooldownswipe"/>
-										</Panel>
-										<Panel class="LeveledPipContainer">
-											<Panel class="LeveledPip"/>
-											<Panel class="LeveledPip"/>
-											<Panel class="LeveledPip"/>
-										</Panel>
-									</Panel>
-								</Panel>
-
-							</Panel>
-
-						</Panel>
-
+					<Panel id="ShrinkTests2" class="ShrinkTests">
+						<Label id="KOTL" text="Keeper of the Light" acceptsfocus="true" allowtextselection="true" />
+						<Label id="Blood" text="Bloodseeker" acceptsfocus="true" allowtextselection="true" />
+						<Label id="AA" text="Ancient Apparition" acceptsfocus="true" allowtextselection="true" />
+						<Label id="Axe" text="Axe" acceptsfocus="true" allowtextselection="true" />
 					</Panel>
 				</Panel>
 			</Panel>
 
+			<Panel id="ZooDebug3" class="ZooTab">
+			</Panel>
+
+			<Panel id="ZooDebug4" class="ZooTab">
+			</Panel>
+			
+			<Panel id="ZooDebug5" class="ZooTab">
+			</Panel>
 		</Panel>
 
 	</DOTAControlsLibrary>

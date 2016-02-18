@@ -7,6 +7,7 @@
 
 	<PopupAcceptMatch class="PopupPanelEffects Hidden" popupbackground="dim" defaultfocus="Button0" hittest="false">
 		<DOTAScenePanel id="ModelUIAccept" map="backgrounds/accept_popup_test" camera="shot_camera" hittest="false"/>
+		<Panel id="MinimizeClickCatcher" onactivate="ToggleMinimized()" />
 		<Panel id="PopupAcceptDeclineMatchPanel" class="PopupAcceptMatchPanel">
 			<Panel class="HeaderBar TopBottomFlow">
 				<Label id="TitleLabel" text="#dota_accept_match_title" />
@@ -25,13 +26,13 @@
 				</Panel>
 			</Panel>
 		</Panel>
-		<Panel id="PopupReadyUpPlayersPanel" class="PopupAcceptMatchPanel">
+		<Panel id="PopupReadyUpPlayersPanel" class="PopupAcceptMatchPanel" hittest="true" onactivate="">  // empty onactivate to block the MinimizeClickCatcher from firing
 			<Panel class="HeaderBar TopBottomFlow">
 				<Label id="TitleLabel" text="#dota_accept_match_readyup_title" />
 				<Label id="MessageLabel" text="#dota_accept_match_subtitle" />
 			</Panel>
 			
-			<Button id="CollapseExpandButton" onactivate="ToggleStyle( PopupReadyUpPlayersPanel, Minimized ) ToggleStyle( PopupAcceptDeclineMatchPanel, Minimized ) ToggleStyle( ModelUIAccept, Minimized ) ToggleDimBackground()">   <!-- DOTAAcceptMatchMinimize() -->
+			<Button id="CollapseExpandButton" onactivate="ToggleMinimized()">
 				<Panel class="CollapseExpandIcon" />
 			</Button>
 
