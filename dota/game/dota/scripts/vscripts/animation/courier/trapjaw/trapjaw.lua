@@ -61,3 +61,19 @@ model:CreateSequence(
 		}
 	}
 )
+
+
+model:CreateSequence(
+	{
+		name = "trapjaw_run",
+		sequences = {
+			{ "@trapjaw_run" }
+		},
+		addlayer = {
+			"trapjaw_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 9 }
+		}
+	}
+)

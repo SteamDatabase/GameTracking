@@ -76,3 +76,18 @@ model:CreateSequence(
 		}
 	}
 )
+
+model:CreateSequence(
+	{
+		name = "courier_run_haste",
+		looping = true,
+		sequences = {
+			{ "@courier_run_haste" }
+		},
+		addlayer = { "courier_turns" },
+		activities = {
+				{ name = "ACT_DOTA_RUN", weight = 1 },
+                { name = "haste", weight = 1 }
+		}
+	}
+)

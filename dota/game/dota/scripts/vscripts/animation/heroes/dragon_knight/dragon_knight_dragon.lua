@@ -25,6 +25,23 @@ model:CreateWeightlist(
 )
 
 model:CreateWeightlist(
+	"wings_only",
+	{
+		{ "neck1", 0 },
+		{ "spine2", 0 },
+		{ "bicep_A_L", 1 },
+		{ "bicep_A_R", 1 },
+		{ "clavicle_R", 0 },
+		{ "clavicle_L", 0 },
+		{ "spine1", 0 },
+		{ "root", 0 },
+		{ "tail0_0", 0 },
+		{ "thigh_L", 0 },
+		{ "thigh_R", 0 }
+	}
+)
+
+model:CreateWeightlist(
 	"turns",
 	{
 		{ "root", 1 },
@@ -110,7 +127,7 @@ model:CreateSequence(
 		sequences = {
 			{ "@dragon_bash" }
 		},
-		weightlist = "turns",
+		weightlist = "spine",
 		activities = {
 			{ name = "ACT_DOTA_CAST_ABILITY_2", weight = 1 }
 		}
@@ -124,7 +141,7 @@ model:CreateSequence(
 		sequences = {
 			{ "@dragon_breath" }
 		},
-		weightlist = "turns",
+		weightlist = "spine",
 		activities = {
 			{ name = "ACT_DOTA_CAST_ABILITY_1", weight = 1 }
 		}
@@ -143,6 +160,19 @@ model:CreateSequence(
 		},
 		activities = {
 			{ name = "ACT_DOTA_RUN", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "wings_loop",
+		sequences = {
+			{ "@dragon_idle" }
+		},
+		weightlist = "wings_only",
+		activities = {
+			{ name = "ACT_DOTA_CONSTANT_LAYER", weight = 1 }
 		}
 	}
 )

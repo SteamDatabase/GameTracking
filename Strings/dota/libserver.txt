@@ -65,8 +65,10 @@
 .ATv8H
 .CCompendiumTimestampedData
 .CDOTALobbyMember
+.CDOTAMatchMetadata
 .CDOTAMatchMetadata.Team
 .CDOTAMatchMetadata.Team.Player
+.CDOTAMatchPrivateMetadata.Kill
 .CDOTAResponseQuerySerialized
 .CDOTASaveGame
 .CDOTASaveGame.Player
@@ -161,6 +163,7 @@
 .DOTA_PARTICLE_MESSAGE
 .DOTA_POSITION_CATEGORY
 .DOTA_TournamentEvents
+.EClientUIEvent
 .ECustomGameInstallStatus
 .EDOTAChatWheelMessage
 .EDOTAStatPopupTypes
@@ -213,6 +216,7 @@
 .k_EHeroStatType_CounterHelixOtherUnitsHitCount
 .k_EIntentionalFeedingType_ExcessiveTowerDamage
 .k_EIntentionalFeedingType_SoldTooMuchItemValue
+.k_EMsgClientToGCDOTACreateStaticRecipeResponse
 .k_EMsgClientToGCFriendsPlayedCustomGameRequest
 .k_EMsgGCFantasyTeamInfoRequestByOwnerAccountID
 .k_EMsgGCItemPurgatory_FinalizePurchaseResponse
@@ -233,10 +237,12 @@
 00000
 000000
 00010203040506070809101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899
+00P00
 00PPPPPPPPPPPPPPPPp
 0123456789abcdef
 0E22IToolsResourceListener
 0IcTy
+0Pp000
 0fffff.
 0ffffff.
 0k_EAbilityAbuseType_Outworld_Astral_Imprisonment
@@ -255,6 +261,7 @@
 16384
 180.0
 18446744073709551615
+1970-01-01
 1CMsgRequestItemPurgatory_FinalizePurchaseResponse
 1McfXD
 1_bot
@@ -297,12 +304,14 @@
 22.CUserMsg_ParticleManager.DestroyParticleInvolving
 22.CUserMsg_ParticleManager.UpdateParticleShouldDraw
 225.f
+23.CMsgClientToGCCreateStaticRecipeResponse.EResponse
 23.CMsgClientToGCUnlockItemStyleResponse.EUnlockStyle
 23.CMsgDOTARequestBatchPlayerResourcesResponse.Result
 23.CMsgGameMatchSignOut.CTeam.CPlayer.CCustomGameData
 23.CMsgGameMatchSignoutResponse.CAdditionalSignoutMsg
 23.CUserMessageCameraTransition.Transition_DataDriven
 24.CDOTAUserMsg_ParticleManager.UpdateParticleFallback
+24.CMsgClientToGCCreateStaticRecipeResponse.OutputItem
 24.CMsgSignOutCommunicationSummary.PlayerCommunication
 240.0
 25.CDOTAUserMsg_ParticleManager.UpdateParticleSetFrozen
@@ -353,7 +362,6 @@
 4ffffff.
 4k_EGCMsgInitiateTradeResponse_Target_Already_Trading
 4k_EGCMsgInitiateTradeResponse_Trade_Banned_Initiator
-4vfff.
 500.0
 500.f
 599.0
@@ -377,7 +385,6 @@
 8L93u2I
 8VBKVuRK
 8fff.
-8ffffff.
 8k_ItemPurgatoryResponse_Refund_Failed_ItemNotInPurgatory
 8y6Hc
 8y6Ic
@@ -1748,6 +1755,7 @@ ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBWAp
 ARBRBRBSAp
 ARBRBRBTBRBVBRBXBRBTBRDVBRBTAp
 ARBRBRBVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBZAp
+ARBRBRBXBRBTBRBTBRDVBRBVBRBVBRBVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBTBp
 ARBRBRB\BRBRB\HXBRBRBTBRBTBRDVBRBVBRBSA
 ARBRBRCp
 ARBRBREp
@@ -1773,6 +1781,7 @@ ARBTBp
 ARBUAp
 ARBXBR0
 ARBYAR0
+ARBYARBYARBYARBYARBYARDYARBYARBYARBYARBYARDYARBYARBYARA
 ARDMDisabled
 ARDSAp
 ARDVBR0
@@ -1799,8 +1808,8 @@ AUAR0
 AVAUAp
 AVBRBVCp
 AVOID
-AVSE1
 AVSHc
+AVSLc5
 AWAVATS
 AWAVATS1
 AWAVATSA
@@ -1883,6 +1892,7 @@ Ability.Ravage
 Ability.SandKing_BurrowStrike
 Ability.SandKing_CausticFinale
 Ability.SandKing_Epicenter.spell
+Ability.SandKing_SandStorm.loop
 Ability.SandKing_SandStorm.start
 Ability.Starfall
 Ability.StarfallImpact
@@ -2122,7 +2132,6 @@ B-Spline
 B0H9F0t
 B0Lcb
 B9D28tPJ
-B9\8P
 BADFUNCTIONPOINTER
 BEAM_ENTPOINT
 BEAM_ENTS
@@ -2150,7 +2159,7 @@ BRBRAp
 BRBRB
 BRBRBRAp
 BRBRBRBRBRBRBRBRAp
-BRBRBRBRBRBRBRBRBZBRAp
+BRBRBRBRBRBRBRBZBRAp
 BRBRBRBSAp
 BRBRBRBp
 BRBRBSAp
@@ -2161,8 +2170,8 @@ BRB\0
 BRFSARBR0
 BRFTBp
 BSESCRAp
+BTBRATAp
 BTDTAp
-BUARBp
 BUCKSHOT
 BUF_DEFAULT
 BUF_RELIABLE
@@ -2839,6 +2848,7 @@ CClientMessageDelegateHook<CDOTAClientMsg_HeroStatueLike_t>
 CClientMessageDelegateHook<CDOTAClientMsg_ItemAlert_t>
 CClientMessageDelegateHook<CDOTAClientMsg_MapLine_t>
 CClientMessageDelegateHook<CDOTAClientMsg_MapPing_t>
+CClientMessageDelegateHook<CDOTAClientMsg_MatchMetadata_t>
 CClientMessageDelegateHook<CDOTAClientMsg_ModifierAlert_t>
 CClientMessageDelegateHook<CDOTAClientMsg_Pause_t>
 CClientMessageDelegateHook<CDOTAClientMsg_PlayTeamShowcase_t>
@@ -2855,7 +2865,6 @@ CClientMessageDelegateHook<CDOTAClientMsg_SwapRequest_t>
 CClientMessageDelegateHook<CDOTAClientMsg_TeamShowcaseClientData_t>
 CClientMessageDelegateHook<CDOTAClientMsg_TeamShowcaseEditor_t>
 CClientMessageDelegateHook<CDOTAClientMsg_TeleportRequiresHalt_t>
-CClientMessageDelegateHook<CDOTAClientMsg_TestItems_t>
 CClientMessageDelegateHook<CDOTAClientMsg_UnitsAutoAttackAfterSpell_t>
 CClientMessageDelegateHook<CDOTAClientMsg_UnitsAutoAttack_t>
 CClientMessageDelegateHook<CDOTAClientMsg_UpdateCoachListen_t>
@@ -2863,6 +2872,7 @@ CClientMessageDelegateHook<CDOTAClientMsg_UpdateQuickBuy_t>
 CClientMessageDelegateHook<CDOTAClientMsg_WillPurchaseAlert_t>
 CClientMessageDelegateHook<CDOTAClientMsg_WorldLine_t>
 CClientMessageDelegateHook<CDOTAClientMsg_XPAlert_t>
+CClientMsg_ClientUIEvent
 CClientMsg_CustomGameEvent
 CClientMsg_CustomGameEvent_t
 CClientMsg_TrackedControllerInput
@@ -3009,6 +3019,8 @@ CDOTAClientMsg_MapLine
 CDOTAClientMsg_MapLine_t
 CDOTAClientMsg_MapPing
 CDOTAClientMsg_MapPing_t
+CDOTAClientMsg_MatchMetadata
+CDOTAClientMsg_MatchMetadata_t
 CDOTAClientMsg_ModifierAlert
 CDOTAClientMsg_ModifierAlert_t
 CDOTAClientMsg_Pause
@@ -3041,8 +3053,6 @@ CDOTAClientMsg_TeamShowcaseEditor
 CDOTAClientMsg_TeamShowcaseEditor_t
 CDOTAClientMsg_TeleportRequiresHalt
 CDOTAClientMsg_TeleportRequiresHalt_t
-CDOTAClientMsg_TestItems
-CDOTAClientMsg_TestItems_t
 CDOTAClientMsg_UnitsAutoAttack
 CDOTAClientMsg_UnitsAutoAttackAfterSpell
 CDOTAClientMsg_UnitsAutoAttackAfterSpell_t
@@ -3059,7 +3069,6 @@ CDOTAClientMsg_WorldLine_t
 CDOTAClientMsg_XPAlert
 CDOTAClientMsg_XPAlert_t
 CDOTAConsumableEconItem
-CDOTACraftingRecipeDefinition
 CDOTACustomGameCache
 CDOTACustomGameEvents
 CDOTACustomGameEvents::CEntityInstanceEntityClass
@@ -3101,6 +3110,8 @@ CDOTAMatchMetadata
 CDOTAMatchMetadataFile
 CDOTAMatchMetadata_Team
 CDOTAMatchMetadata_Team_Player
+CDOTAMatchPrivateMetadata
+CDOTAMatchPrivateMetadata_Kill
 CDOTAMinimapBoundary
 CDOTAMinimapBoundary::CEntityInstanceEntityClass
 CDOTAModifierBuffTableEntry
@@ -3135,6 +3146,8 @@ CDOTASpectatorGraphManager
 CDOTASpectatorGraphManagerProxy
 CDOTASpectatorGraphManagerProxy::CEntityInstanceEntityClass
 CDOTASpeechMatchOnClient
+CDOTAStaticRecipeComponentEvent
+CDOTAStaticRecipeComponentLeagueOwnership
 CDOTASteamWorksGameStatsServer
 CDOTASubChallengeInfo
 CDOTATeam
@@ -3220,6 +3233,7 @@ CDOTAUserMsg_LocationPing
 CDOTAUserMsg_LocationPing_t
 CDOTAUserMsg_MapLine
 CDOTAUserMsg_MapLine_t
+CDOTAUserMsg_MatchMetadata_t
 CDOTAUserMsg_MiniKillCamInfo
 CDOTAUserMsg_MiniKillCamInfo_Attacker
 CDOTAUserMsg_MiniKillCamInfo_Attacker_Ability
@@ -7432,7 +7446,6 @@ CDynamicPropAlias_dynamic_prop
 CDynamicPropAlias_dynamic_prop::CEntityInstanceEntityClass
 CDynamicPropAlias_prop_dynamic_override
 CDynamicPropAlias_prop_dynamic_override::CEntityInstanceEntityClass
-CEconCraftingRecipeDefinition
 CEconEntity
 CEconEntity::CEntityInstanceEntityClass
 CEconEntity::NetworkVar_m_AttributeManager
@@ -7458,12 +7471,10 @@ CEconStyleInfo
 CEconTool_Autograph
 CEconTool_AwardEventPoints
 CEconTool_BackpackExpander
-CEconTool_ClaimCode
 CEconTool_Compendium
 CEconTool_CompendiumSetSelection
 CEconTool_CrateKey
 CEconTool_CustomGameTicket
-CEconTool_CustomizeTexture
 CEconTool_Default
 CEconTool_DescTag
 CEconTool_DropRateBooster
@@ -7488,8 +7499,6 @@ CEconTool_ItemDynamicRecipe::CDynamicRecipeComponentLootList
 CEconTool_ItemDynamicRecipe::CDynamicRecipeComponentSpecificItem
 CEconTool_ItemDynamicRecipe::CDynamicRecipeComponentSpecificItemFromLootList
 CEconTool_ItemDynamicRecipe::CStaticRecipeComponent
-CEconTool_ItemDynamicRecipe::CStaticRecipeComponentEvent
-CEconTool_ItemDynamicRecipe::CStaticRecipeComponentLeagueOwnership
 CEconTool_ItemPack
 CEconTool_ItemRedemption
 CEconTool_LeagueViewPass
@@ -7503,6 +7512,7 @@ CEconTool_SocketChisel
 CEconTool_SocketHammer
 CEconTool_StrangePart
 CEconTool_StyleUnlock
+CEconTool_SupplyCrate
 CEconTool_TeamShowcaseForge
 CEconTool_TournamentPassport
 CEconTool_UnusualPaint
@@ -7599,6 +7609,7 @@ CEntitySaveRestoreBlockHandler
 CEntityScaleModifier
 CEntityScriptFramework
 CEntitySpawner<CBaseEntity>
+CEntitySpawner<CBaseModelEntity>
 CEntitySpawner<CBeam>
 CEntitySpawner<CDOTABaseAbility>
 CEntitySpawner<CDOTATeam>
@@ -7648,6 +7659,7 @@ CEntitySpawnerAsyncBase<CPhysicsProp>
 CEntitySpawnerAsyncBase<CPropHMDAvatar>
 CEntitySpawnerAsyncBase<CPropVRHand>
 CEntitySpawnerBase<CBaseEntity>
+CEntitySpawnerBase<CBaseModelEntity>
 CEntitySpawnerBase<CBeam>
 CEntitySpawnerBase<CDOTABaseAbility>
 CEntitySpawnerBase<CDOTATeam>
@@ -8329,11 +8341,6 @@ CItemGeneric
 CItemGeneric::CEntityInstanceEntityClass
 CItemGenericTriggerHelper
 CItemGenericTriggerHelper::CEntityInstanceEntityClass
-CItemSelectionCriteria::CCondition
-CItemSelectionCriteria::CFloatCondition
-CItemSelectionCriteria::COrCondition
-CItemSelectionCriteria::CSetCondition
-CItemSelectionCriteria::CStringCondition
 CItemSocket_AssetModifier
 CItemSocket_Autograph
 CItemSocket_Color
@@ -8436,6 +8443,7 @@ CLoopModeFactory<CLoopModeGame>
 CLoopModeGame
 CMEnabled
 CMTournamentIgnore
+CM_ClientUIEvent
 CM_CustomGameEvent
 CM_MAX_BASE
 CM_TrackedControllerInput
@@ -9736,6 +9744,10 @@ CMsgClearEntityDecalsEvent
 CMsgClearWorldDecalsEvent
 CMsgClientHello
 CMsgClientPingData
+CMsgClientToGCCreateStaticRecipe
+CMsgClientToGCCreateStaticRecipeResponse
+CMsgClientToGCCreateStaticRecipeResponse_OutputItem
+CMsgClientToGCCreateStaticRecipe_Item
 CMsgClientToGCEquipItems
 CMsgClientToGCEquipItemsResponse
 CMsgClientToGCLookupAccountName
@@ -9835,6 +9847,9 @@ CMsgDOTARewardDiretidePrizes
 CMsgDOTASDOHeroStatsHistory
 CMsgDOTASeasonAchievements
 CMsgDOTASeasonAchievements_Achievement
+CMsgDOTASeasonPredictions
+CMsgDOTASeasonPredictions_Choice
+CMsgDOTASeasonPredictions_Prediction
 CMsgDOTASeasonRewards
 CMsgDOTASeasonRewards_Reward
 CMsgDOTAUpdateTI4HeroQuest
@@ -9885,6 +9900,7 @@ CMsgGCGetPersonaNames_Response_PersonaName
 CMsgGCHAccountVacStatusChange
 CMsgGCHUpdateSession
 CMsgGCHUpdateSession_ExtraField
+CMsgGCHVacVerificationChange
 CMsgGCIncrementKillCountResponse
 CMsgGCItemPreviewItemBoughtNotification
 CMsgGCMsgMasterSetClientMsgRouting
@@ -9933,6 +9949,7 @@ CMsgGCToGCBroadcastConsoleCommand
 CMsgGCToGCCanUseDropRateBonus
 CMsgGCToGCCheckAccountTradeStatus
 CMsgGCToGCCheckAccountTradeStatusResponse
+CMsgGCToGCDevRevokeUserItems
 CMsgGCToGCDirtyMultipleSDOCache
 CMsgGCToGCDirtySDOCache
 CMsgGCToGCFantasySetMatchLeague
@@ -10392,6 +10409,7 @@ CNetMessagePB<553, CDOTAUserMsg_ProjectionEvent, (SignonGroup_t)13, (NetChannelB
 CNetMessagePB<554, CMsgDOTACombatLogEntry, (SignonGroup_t)13, (NetChannelBufType_t)1, true>
 CNetMessagePB<555, CDOTAUserMsg_XPAlert, (SignonGroup_t)13, (NetChannelBufType_t)1, true>
 CNetMessagePB<556, CDOTAUserMsg_UpdateQuestProgress, (SignonGroup_t)13, (NetChannelBufType_t)1, true>
+CNetMessagePB<557, CDOTAMatchMetadataFile, (SignonGroup_t)13, (NetChannelBufType_t)1, true>
 CNetMessagePB<62, CSVCMsg_HLTVStatus, (SignonGroup_t)0, (NetChannelBufType_t)1, true>
 CNetworkFieldScratchData
 CNetworkOriginCellCoordQuantizedVector
@@ -15230,7 +15248,8 @@ CThreadRWLock::UnlockWrite()
 CThreadRWLock::WaitForRead()
 CThreadRWLock_FastRead::CThreadRWLock_FastRead()
 CThreadRWLock_FastRead::HandleFirstWriteLockTransition()
-CThreadRWLock_FastRead::WaitForReadLockTransition(int)
+CThreadRWLock_FastRead::UnlockReadAccounting(unsigned int)
+CThreadRWLock_FastRead::WaitForReadLockTransition(unsigned int)
 CThreadSemaphore::Release(int, int*)
 CThreadSemaphore::~CThreadSemaphore()
 CThreadSpinRWLock::LockForRead()
@@ -15495,6 +15514,7 @@ CUserMessagePB<553, CDOTAUserMsg_ProjectionEvent, (NetChannelBufType_t)1>
 CUserMessagePB<554, CMsgDOTACombatLogEntry, (NetChannelBufType_t)1>
 CUserMessagePB<555, CDOTAUserMsg_XPAlert, (NetChannelBufType_t)1>
 CUserMessagePB<556, CDOTAUserMsg_UpdateQuestProgress, (NetChannelBufType_t)1>
+CUserMessagePB<557, CDOTAMatchMetadataFile, (NetChannelBufType_t)1>
 CUserMessageRequestState
 CUserMessageRequestState_t
 CUserMessageResetHUD
@@ -15710,6 +15730,7 @@ CheckPoint
 CheckSpaH
 CheckState
 CheckpointDoor.Pound
+Choice
 Circle
 CircleScreenOriented
 ClampHealth
@@ -15756,6 +15777,7 @@ CmdLinkAH
 CollectedEntities.txt
 Collide
 CollisionAttributeChanged
+CollisonGroupOverride
 Color
 ColorBlueValue
 ColorCorrectionName
@@ -15893,13 +15915,10 @@ CutDownRegrowAfter
 CyAIc
 CycleFrequency
 D.0E1
-D.TfC
-D4PfC
-D5TfC
 D91tS
 D92tBH
 D93tGH
-D9DPpt
+D947u
 D9p8ur
 D9r0L
 D9s4uYE
@@ -15992,6 +16011,7 @@ DOTAChannelType_Guild
 DOTAChannelType_Invalid
 DOTAChannelType_Lobby
 DOTAChannelType_Party
+DOTAChannelType_PostGame
 DOTAChannelType_Private
 DOTAChannelType_Regional
 DOTAChannelType_Tab
@@ -16003,6 +16023,7 @@ DOTACompendiumData
 DOTAConnectionState_t
 DOTADamageFlag_t
 DOTAFogOfWarSystem
+DOTAGameManager
 DOTAGameVersion
 DOTAHLTVDirector
 DOTAHUDVisibility_t
@@ -16161,6 +16182,7 @@ DOTA_CM_HeroStatueLike
 DOTA_CM_ItemAlert
 DOTA_CM_MapLine
 DOTA_CM_MapPing
+DOTA_CM_MatchMetadata
 DOTA_CM_ModifierAlert
 DOTA_CM_PICK
 DOTA_CM_Pause
@@ -16179,7 +16201,6 @@ DOTA_CM_SwapRequest
 DOTA_CM_TeamShowcaseClientData
 DOTA_CM_TeamShowcaseEditor
 DOTA_CM_TeleportRequiresHalt
-DOTA_CM_TestItems
 DOTA_CM_UnitsAutoAttack
 DOTA_CM_UpdateCoachListen
 DOTA_CM_UpdateQuickBuy
@@ -16808,6 +16829,7 @@ DOTA_UM_ItemFound
 DOTA_UM_ItemPurchased
 DOTA_UM_LocationPing
 DOTA_UM_MapLine
+DOTA_UM_MatchMetadata
 DOTA_UM_MiniKillCamInfo
 DOTA_UM_MiniTaunt
 DOTA_UM_MinimapDebugPoint
@@ -17170,6 +17192,10 @@ ECNYBeastAbility_Invalid
 ECNYBeastAbility_Path_Combat
 ECNYBeastAbility_Path_Speed
 ECNYBeastAbility_Path_Support
+EClientUIEvent
+EClientUIEvent_DialogFinished
+EClientUIEvent_FireOutput
+EClientUIEvent_Invalid
 ECustomGameInstallStatus
 EDIT.ToggleAttribute
 EDIT_BEGIN_AREA.Creating
@@ -17777,6 +17803,12 @@ GCHost
 GCInfo
 GCSDK::CGCClient
 GCSDK::CGCClientJob
+GCSDK::CGCClientProtoJob<CMsgGCClientPing>
+GCSDK::CGCClientProtoJob<CMsgSOCacheSubscribed>
+GCSDK::CGCClientProtoJob<CMsgSOCacheSubscribedUpToDate>
+GCSDK::CGCClientProtoJob<CMsgSOCacheUnsubscribed>
+GCSDK::CGCClientProtoJob<CMsgSOMultipleObjects>
+GCSDK::CGCClientProtoJob<CMsgSOSingleObject>
 GCSDK::CGCClientSharedObjectCache
 GCSDK::CGCClientSharedObjectTypeCache
 GCSDK::CGCPingJob
@@ -18124,7 +18156,11 @@ GetHero
 GetHeroCount
 GetHeroDamageTaken
 GetHeroEffectName
+GetHeroIDByName
 GetHeroLevelRequiredToUpgrade
+GetHeroNameByID
+GetHeroNameForUnitName
+GetHeroUnitNameByID
 GetHorn
 GetHullRadius
 GetIdealSpeed
@@ -18435,6 +18471,7 @@ GetUnitShareMaskForPlayer
 GetUnreliableGold
 GetUpVector
 GetUseCustomHeroLevels
+GetUserID
 GetVRHand
 GetValue
 GetVelocity
@@ -18580,7 +18617,9 @@ HasUpgradeableAbilities
 HaticsType_Default
 HaticsType_None
 HaveAllPlayersJoined
-Hc5UWu
+Hc54M
+Hc5Dd
+Hc5Sf
 HcALH
 HcAPH
 HcCXH
@@ -18872,7 +18911,6 @@ Hero_EmberSpirit.FireRemnant.Create
 Hero_EmberSpirit.FireRemnant.Explode
 Hero_EmberSpirit.FireRemnant.Stop
 Hero_EmberSpirit.FlameGuard.Cast
-Hero_EmberSpirit.FlameGuard.Loop
 Hero_EmberSpirit.SearingChains.Burn
 Hero_EmberSpirit.SearingChains.Cast
 Hero_EmberSpirit.SearingChains.Target
@@ -19334,6 +19372,7 @@ Hero_Tinker.Heat-Seeking_Missile.Impact
 Hero_Tinker.Heat-Seeking_Missile_Dud
 Hero_Tinker.Laser
 Hero_Tinker.LaserImpact
+Hero_Tinker.March_of_the_Machines
 Hero_Tinker.March_of_the_Machines.Cast
 Hero_Tinker.Rearm
 Hero_Tiny.CraggyExterior
@@ -19413,8 +19452,9 @@ Hero_Warlock.ShadowWordCastBad
 Hero_Warlock.ShadowWordCastGood
 Hero_Warlock.Upheaval
 Hero_Weaver.Shukuchi
+Hero_Weaver.Swarm.Cast
+Hero_Weaver.Swarm.Projectile
 Hero_Weaver.SwarmAttach
-Hero_Weaver.SwarmCast
 Hero_Weaver.TimeLapse
 Hero_Windrunner.PowershotDamage
 Hero_Windrunner.ShackleshotBind
@@ -19727,7 +19767,6 @@ IcwLA
 IdleExpression
 Ifff.
 Iffff.
-Ifffff.
 Iffffff.
 Ignite
 IgniteHitboxFireScale
@@ -20529,7 +20568,9 @@ L00A9
 L90tOH
 L91t5H
 L92tTH
-L95eV
+L95EY
+L95El
+L95zH
 L98t.H
 L9w0u
 LABEL_OPTIONAL
@@ -21440,6 +21481,7 @@ OnChannelInterrupted
 OnChannelSucceeded
 OnChannelThink
 OnCinematicModeChanged
+OnClientMsg_MatchMetadata
 OnClientPlayerChallengeProgressChanged
 OnClose
 OnCommandApproach
@@ -21744,6 +21786,7 @@ Other
 OutColor
 OutValue
 OuterMaxDist
+OutputItem
 OutputType_AnimationCycle
 OutputType_RotationX
 OutputType_RotationY
@@ -21815,8 +21858,7 @@ PPPP0
 PPPPP
 PPPPPP
 PPPPPPPPPPPPPP
-PPPPPPPPPPPPPPPPPPPPPP
-PPppPP
+PPPPPPPPPPPPPPPPPPPP
 PRACTICE
 PRECIPITATION_TYPE_ASH
 PRECIPITATION_TYPE_PARTICLEASH
@@ -21890,7 +21932,6 @@ PetCoopStates_t
 PetLevelup_Rule_t
 Pfff.
 Pffff.
-Pffffff.
 PhysBlockHeader_t
 PhysFeModelDesc_t
 PhysFrictionEffectPrecache_server
@@ -22119,7 +22160,6 @@ RBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB
 RBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRC
 RBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRG
 RBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRC
-RBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRC
 RBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRGp8p
 RBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRC
 RBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRCp
@@ -22231,9 +22271,9 @@ RBVBRBTBp
 RBXBRBSARBRBSARAp
 RBXBRBSARBRBTBRBTAp
 RBXBRBTBRBTBRDVBRBVBRBTBRFXBRBTBRBTBRDVBRBVBR0
-RBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBXBRBTBRDVBRBTBRDVBRBTBRBTBRBTBp
 RBXBRFUARBZBRBRCp
 RBXCp
+RBYARBRBTBRDVBRBYARBRBTBRDVBRBYARBRBTBRDVBRBYARBRBTBRDVBRBYARBRBTBRDVBRBYARBRBTBRDVBRBYARBYARBTBRDVBRBTBRDVBRBTBRBTBRBTBp
 RBYASAVBp
 RBZAp
 RB\Bp
@@ -22724,6 +22764,7 @@ ScriptGetRootMoveParent
 ScriptGetSceneByIndex
 ScriptGetSpawnedEntities
 ScriptGetUp
+ScriptGetUserID
 ScriptGetVRHand
 ScriptHasAttribute
 ScriptInputKill
@@ -23655,6 +23696,7 @@ Source1LegacyGameEvent_t
 Source1LegacyListenEvents_t
 Source2Client001
 Source2ClientPrediction001
+Source2ClientUI001
 Source2EngineToClient001
 Source2EngineToClientStringTable001
 Source2EngineToServer001
@@ -23869,14 +23911,14 @@ SwapItems
 SweptBox
 SwitchOverlay
 System
+T5Ct5
 TARGET
-TASAp
 TASCp
 TAUNT
 TBRAp
 TBRBRAp
 TBRBRBRBTBRBp
-TBRB\BXBRBTBRBTBRDVBRBVBRBXBRBTBRBTBRBTBRDVBRBVBRBVBRBXBRBTBRBTBRDVBRBVBRBVBRBVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBTBp
+TBRBp
 TCRBp
 TCSAp
 TCTBp
@@ -24121,8 +24163,6 @@ TeleportToTarget
 TeleportToWaypoint
 TempViewerInfo_t
 TestActivator
-TestItemKVs
-TestItems
 TestScriptManager
 TestScriptMgr001
 Test_CreateEntity
@@ -24279,7 +24319,6 @@ TurnOn
 TurnOnDisplay
 Tutorial
 TutorialBoss
-TyRIc
 Types
 UASCp8p8p
 UBRBRBRBRCp
@@ -24582,12 +24621,10 @@ VolumeName
 VoteSystem
 VpropBreakablePartData_t
 Vulkan
-W-hPE
 W0I94
 W0ffff.
 W0ffffff.
 WALKABLESEED
-WARBWARBWARBWARAp
 WARNING
 WDtfD
 WEAPON_IS_ACTIVE
@@ -24648,18 +24685,18 @@ WoodenDoor.Lock
 WoodenDoor.Pound
 WorkshopItemPaymentRule
 WorkshopSetup001
-WorkshopTestItem
 WorldDropSound
 WorldRendererBuilderMgr001
 WorldRendererMgr001
 WorldSpaceCenter
 WorldToGridPosX
 WorldToGridPosY
+X5Cs-
+X5pt-
 XAxis
 XBRBSAp
 XBRBTBRDVBRBTBRDVBRBRAp
-XBRBXBRBXBRBXBRBXBRBXBRAp
-XBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBUAp
+XBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBp
 XBRCp
 XBRJp
 XBowBolt
@@ -24668,7 +24705,8 @@ XPEarned
 XPGain
 XboxSystemInterface001
 Xffff.
-XyVIc
+Xffffff.
+YARBYARBYARBYARBYARBYARAp
 YAYAYAYAYAYAYAYAYAYAp
 YAxis
 YYYY-MM-DD
@@ -25122,7 +25160,6 @@ actormodel
 add_bad_bot
 add_bot_with_settings
 add_categories
-add_class_usage_to_output
 add_companion_bot
 add_dynamic_level_requirement
 add_empty_socket
@@ -25130,8 +25167,6 @@ add_gesture
 add_good_bot
 add_item_shop_whitelist
 add_random_gems
-add_set_to_output
-add_slot_usage_to_output
 add_teleportation_target
 addangaccel
 addgravity
@@ -25219,8 +25254,6 @@ all_chat_messages
 all_draft_select
 all_pick_force_test
 all_pick_only
-all_same_class
-all_same_slot
 allangles
 allchat
 alldraft
@@ -25259,7 +25292,7 @@ alternative_cooldown
 altpath
 alueD
 alwaysTransmitToClient
-always_known
+always_send_to_servers
 am_blink
 amateur
 ambient
@@ -25380,6 +25413,7 @@ asset
 asset_modifier
 asset_modifiers
 assigned_server_tv_port
+assist_hero_ids
 assist_player0
 assist_player1
 assist_player2
@@ -25814,6 +25848,7 @@ base_level
 base_move_slow
 base_move_speed
 base_movespeed
+base_prize_pool
 base_projectiles
 base_speed
 base_strength
@@ -26215,6 +26250,7 @@ can_have_duplicates
 can_have_signatures
 can_have_sockets
 can_increment
+can_vote_for_mvp_data
 cancel
 cancelattack
 cancelselect
@@ -26241,7 +26277,6 @@ caster_team
 castshadows
 casual_1v1_games_played
 casual_games_played
-category
 catmullrom
 catmullrom_normalize
 catmullrom_normalize_x
@@ -26386,7 +26421,6 @@ cl_predictweapons
 cl_soundscape_flush
 cl_team
 cl_updaterate
-claim_type
 claimcode
 claimed_denies
 claimed_farm
@@ -26437,6 +26471,7 @@ clientSideAnimationChanged
 clientSideChildModel
 client_addr
 client_crc
+client_ehandle
 client_language
 client_launcher
 client_msg_ranges
@@ -26559,7 +26594,6 @@ commentary_semaphore
 commentaryfile
 common
 common_guilds
-commonitem
 community_market_item_remaps
 companion
 compare
@@ -26601,10 +26635,11 @@ consumable
 consumable_item_ids
 consumed_bonus
 consumption_components
-contains
 contents
 contents_tradable_after
 context
+context_menu_confirm
+context_menu_confirm_title
 context_menu_prompt
 context_player_id
 context_speaker
@@ -26681,7 +26716,6 @@ cpu_cycles_per_second
 crack_distance
 crack_time
 crack_width
-crafting
 cramp
 crashSounds
 crashsound
@@ -26927,11 +26961,14 @@ dark_troll_warlord_raise_dead
 darkness
 dash_length
 dash_width
+data1
+data2
 data_compressed
 data_table_name
 dataoffset
 dateThinH
 date_end
+date_of_birth
 date_start
 dawdle
 day_night
@@ -27010,6 +27047,7 @@ delay_msec
 delay_value
 delayed
 delete
+delete_audit_history
 delete_hits
 delete_misses
 deleted_item_id
@@ -27037,6 +27075,7 @@ desc_attrib_negative
 desc_attrib_neutral
 desc_attrib_positive
 desc_bundle
+desc_color
 desc_common
 desc_flags
 desc_immortal
@@ -27121,6 +27160,7 @@ direction_z
 directionentityname
 directory
 directorysize
+disable_delete
 disable_dynamic_prop_loading
 disable_merging
 disable_style_selector
@@ -27309,7 +27349,6 @@ dota_cm_captain_pick_time
 dota_cny_2015
 dota_combatlog
 dota_combatlog_fight_idle_time
-dota_combatlog_file
 dota_combatlog_location_interval
 dota_combatlog_size_server
 dota_combatlog_summary
@@ -27657,10 +27696,10 @@ dota_server_side_animation_heroesonly
 dota_server_wait_for_lobby
 dota_set_time
 dota_sf_game_end_delay
-dota_short_path_cull_radius
-dota_short_path_disable
+dota_short_path_backtracking_limit
 dota_short_path_iteration_limit
 dota_short_path_reversal_penalty
+dota_short_path_sidetracking_limit
 dota_show_heightmap
 dota_show_nav_obstructions
 dota_show_object_obstructions
@@ -27770,8 +27809,6 @@ dota_unit_lean_rate
 dota_unit_moveto_repath_on_target_move
 dota_unit_no_damage
 dota_unit_setvalue
-dota_unit_short_path_max_search_score
-dota_unit_short_path_max_search_updates
 dota_unit_short_path_search_debug
 dota_unit_show_bounding_radius
 dota_unit_show_collision_radius
@@ -27804,7 +27841,6 @@ dota_wearables_clientside
 dota_win
 dota_winter_ambientfx
 dota_workshoptest
-dota_workshoptest_modelhero
 dota_workshoptest_modelnew0
 dota_workshoptest_modelnew1
 dota_workshoptest_modelnew2
@@ -27906,10 +27942,10 @@ dyld_stub_binder
 dynamic
 dynamicAttachOffset
 dynamicResetCount
-dynamic_I
 dynamic_attributes
 dynamic_prop
 dynamic_recipe
+dynamic_recipe_component
 dynpitchvol_t
 eEconItemOrigin
 eFlag_InstantRerollUncompleted
@@ -27918,8 +27954,14 @@ eKeypoints
 eMoveDonH
 eOutThinH
 ePE_FirstBlood
+ePredictionType
 ePropTouH
 eQueryCvarValueStatus_NotACvar
+eResponse_InternalError
+eResponse_InvalidItems
+eResponse_MissingLeague
+eResponse_OfferingDisabled
+eResponse_Success
 eResult_CantReroll
 eResult_Dropped
 eResult_NotFound
@@ -27951,6 +27993,8 @@ echo_slam_echo_range
 echo_slam_echo_search_range
 echoslam_count
 econ_gcmessages.proto
+econ_items
+econ_memory_optimization
 econ_owner
 edge_damage
 edictindex
@@ -28024,6 +28068,7 @@ encode_flags
 encoding
 encryptedPayloadKey
 endLerpTo
+end_date
 end_distance
 end_drag_sound
 end_event
@@ -28082,6 +28127,7 @@ ent_dota_radiant_candybucket
 ent_dota_shop
 ent_dota_tree
 ent_dump
+ent_ehandle
 ent_find
 ent_find_index
 ent_fire
@@ -28270,6 +28316,7 @@ equip_region
 equip_regions
 equip_regions_list
 equip_sound
+equipped_econ_items
 equipped_state
 equips
 erHelperH
@@ -28372,7 +28419,6 @@ extra_spell_damage_percent
 extradata
 eyes_follow
 eyes_radius
-f0D9c0
 f0fff.
 fDamage
 fDistance
@@ -28571,6 +28617,8 @@ first_blood_given
 first_blood_happened
 first_blood_time
 first_leaver_accountid
+first_purchase_promo
+first_sale_date
 first_valid_class
 first_valid_item_slot
 first_wave_delay
@@ -28696,7 +28744,6 @@ flexweight_t
 flinch
 flip_horizontal
 flip_viewmodel
-floaA
 float
 float32
 float64
@@ -28816,6 +28863,7 @@ frame
 frame_data
 framerate
 framestart
+free_cafe_equip
 free_to_spectate
 free_trial_expiration
 freeze_cooldown
@@ -28921,6 +28969,8 @@ fx_time
 fxindex
 fxtime
 gGetResourceManifest
+gHfff.
+gPfffff.
 gThiD
 g_Language
 g_SoundPatchCount
@@ -29240,6 +29290,7 @@ hapticsType
 hardware
 harpy_storm_chain_lightning
 harvested_creep_gold
+has_bracket_data
 has_buyback
 has_item
 has_new_notifications
@@ -29317,6 +29368,9 @@ hegrenade_detonate
 height
 heightfile
 helper_enabled
+hero_1
+hero_2
+hero_3
 hero_Crystal.crystalNova
 hero_Crystal.freezingField.explosion
 hero_Crystal.freezingField.wind
@@ -29358,7 +29412,6 @@ hero_losses
 hero_maxlevel
 hero_model_change
 hero_multiplier
-hero_name
 hero_pan_right
 hero_path_duration
 hero_pick
@@ -29367,7 +29420,7 @@ hero_refresh
 hero_respawn
 hero_saved
 hero_selection
-hero_staI
+hero_statue
 hero_statue_forge
 hero_statue_reforge
 hero_statue_reforgeitem
@@ -29532,6 +29585,7 @@ ht_bordeI
 htarget
 hud_ping
 hud_skin
+hud_skin_item_def
 hud_timer_show_tutorial_timer
 hudtextparms_t
 hunit
@@ -29619,7 +29673,6 @@ ignite_cast_range
 ignitionpoint
 ignore
 ignorePhonemes
-ignore_enabled
 ignore_enabled_flag
 ignore_in_collection_view
 ignore_invis
@@ -29766,7 +29819,6 @@ input
 inputOffset
 inputType
 input_item_dupe_counts
-input_items
 input_items_criteria
 input_list
 input_name
@@ -29816,7 +29868,6 @@ intro_select
 invalid
 invalid_bone
 invalid_hitbox
-inventoryPos
 inventory_slot
 inventory_token
 invert_exclusion
@@ -29918,6 +29969,7 @@ is_trade_banned
 is_two_factor_auth_enabled
 is_ultimate_ability
 is_vac_banned
+is_verified
 is_visible_dire
 is_visible_radiant
 is_wallet_cash_trusted
@@ -30082,7 +30134,6 @@ item_level_min
 item_level_set
 item_levels
 item_lifesteal
-item_logname
 item_lotus_orb
 item_lua
 item_maelstrom
@@ -30227,7 +30278,6 @@ item_recipe_yasha
 item_redemption
 item_refresher
 item_relic
-item_replace
 item_ring_of_aquila
 item_ring_of_basilius
 item_ring_of_basilius_active
@@ -30243,7 +30293,6 @@ item_satanic
 item_schema_crc
 item_schema_version
 item_sell_listings
-item_set
 item_sets
 item_shadow_amulet
 item_sheepstick
@@ -30267,7 +30316,6 @@ item_suit
 item_talisman_of_evasion
 item_tango
 item_tango_single
-item_testitem
 item_to_unlock
 item_tombstone
 item_tpscroll
@@ -30309,6 +30357,7 @@ items_fulfilled
 items_game
 items_game_url
 items_game_use_gc_copy
+items_per_treasure
 items_t
 itemshoppinglist
 iygMc
@@ -30618,6 +30667,7 @@ k_EGCMsgSystemBase
 k_EGCMsgSystemBase2
 k_EGCMsgSystemStatsSchema
 k_EGCMsgUpdateSession
+k_EGCMsgVacVerificationChange
 k_EGCMsgValidateSession
 k_EGCMsgValidateSessionResponse
 k_EGCMsgWGRequest
@@ -30653,6 +30703,7 @@ k_EMsgClientToGCSetPartyOpen
 k_EMsgClientToGCUnlockCrate
 k_EMsgClientToGCUnlockItemStyle
 k_EMsgClientToGCUnpackBundle
+k_EMsgClientToGCVoteForMVP
 k_EMsgClientToGCWageringRequest
 k_EMsgClientsRejoinChatChannels
 k_EMsgDOTAAwardEventPoints
@@ -30691,7 +30742,6 @@ k_EMsgGCBroadcastNotification
 k_EMsgGCCancelWatchGame
 k_EMsgGCChatMessage
 k_EMsgGCClearPracticeLobbyTeam
-k_EMsgGCClearTournamentGame
 k_EMsgGCClientConnectToServer
 k_EMsgGCClientConnectionStatus
 k_EMsgGCClientHello
@@ -30929,12 +30979,14 @@ k_EMsgGCToGCCanInviteUser
 k_EMsgGCToGCCanUseDropRateBonus
 k_EMsgGCToGCChatNewUserSession
 k_EMsgGCToGCCustomGamePlayed
+k_EMsgGCToGCDevRevokeUserItems
 k_EMsgGCToGCDirtySDOCache
 k_EMsgGCToGCEmoticonUnlock
 k_EMsgGCToGCGetAccountFlags
 k_EMsgGCToGCGetAccountLevel
 k_EMsgGCToGCGetAccountPartner
 k_EMsgGCToGCGetAccountProfile
+k_EMsgGCToGCGetEventOwnership
 k_EMsgGCToGCGetLeagueAdmin
 k_EMsgGCToGCGetServerForClient
 k_EMsgGCToGCGetTeamRank
@@ -30973,8 +31025,6 @@ k_EMsgGCToServerConsoleCommand
 k_EMsgGCToServerPingRequest
 k_EMsgGCToServerPingResponse
 k_EMsgGCTopCustomGamesList
-k_EMsgGCTournamentRequest
-k_EMsgGCTournamentResponse
 k_EMsgGCTradingBase
 k_EMsgGCTrading_SessionClosed
 k_EMsgGCTrading_StartSession
@@ -31102,7 +31152,6 @@ key_item_id
 key_name
 key_t
 key_uint64
-key_values
 keyframe_rope
 keyframe_track
 keymappingindex
@@ -32395,6 +32444,7 @@ m_bForceUpdate
 m_bForceVisible
 m_bForcedObserverMode
 m_bForward
+m_bFreeCourierMode
 m_bFrozenCooldown
 m_bFullyJoinedServer
 m_bGameIsForcedSafeToLeave
@@ -32532,7 +32582,6 @@ m_bIsIllusion
 m_bIsInCinematicMode
 m_bIsInClientSideCinematicMode
 m_bIsInGroup
-m_bIsInItemTestingMode
 m_bIsInSimulation
 m_bIsItem
 m_bIsJiggleBonesEnabled
@@ -32860,6 +32909,7 @@ m_bUseScreenAspectRatio
 m_bUseUniversalShopMode
 m_bUseUnseenFOW
 m_bUseWind
+m_bUseable
 m_bUsedStone
 m_bUsesConstantGesture
 m_bUsesGestureBasedAttackAnimation
@@ -33703,7 +33753,6 @@ m_flScaledAssists
 m_flScaledDeaths
 m_flScaledKills
 m_flScriptRespawnTime
-m_flScriptVolume
 m_flScrollSpeed
 m_flSearchDist
 m_flSensitivity
@@ -33955,6 +34004,7 @@ m_hConstrainedPlayers
 m_hConstraintEntity
 m_hContainer
 m_hControlPointEnts
+m_hCourier
 m_hCourierStateEntity
 m_hCouriers
 m_hCtrl
@@ -33989,6 +34039,7 @@ m_hEntityIgnore
 m_hEntsHit
 m_hExistingUnits
 m_hExitBlocker
+m_hExtraModel
 m_hFilter
 m_hFirstTarget
 m_hFlame
@@ -34001,7 +34052,6 @@ m_hForceAttackTarget
 m_hFrostbittenEntities
 m_hGameEvents
 m_hGameModeEntity
-m_hGameSound
 m_hGlobalPetList
 m_hGoalSequence
 m_hGripTarget
@@ -35067,6 +35117,7 @@ m_nCollisionAttributeIndex
 m_nCollisionFunctionMask
 m_nCollisionGroup
 m_nCollisionGroupHash
+m_nCollisionGroupOverride
 m_nColor
 m_nCompressionType
 m_nConstraintType
@@ -35540,7 +35591,6 @@ m_ownerChannelIndex
 m_ownerSpawnGroupType
 m_pAchievementKV
 m_pActivator
-m_pAddonPortraitsKeyValues
 m_pAllowPickupScriptFunction
 m_pAmbientSoundEffect
 m_pAnimationStatues
@@ -35653,7 +35703,6 @@ m_pPickupScriptFunction
 m_pPickupSoundEffect
 m_pPingOverrideText
 m_pPlayer
-m_pPortraitsKeyValues
 m_pPortraitsLightPreselects
 m_pPortraitsLightPreselectsKeyValues
 m_pPostKeyFrame
@@ -35908,7 +35957,6 @@ m_soundState
 m_soundStateStartTime
 m_soundStop
 m_soundTreads
-m_soundlevel
 m_sounds
 m_soundscapeEntityListId
 m_soundscapeIndex
@@ -36223,6 +36271,7 @@ m_vPriorPos
 m_vProjectileLoc
 m_vProjectileLocation
 m_vProjectileVelocity
+m_vProtoTPBeaconPos
 m_vPullLocation
 m_vRemnantData
 m_vRespawnPosition
@@ -36526,9 +36575,11 @@ match_id
 match_only_end_event
 match_options
 match_outcome
+match_player_flags
 match_start_target
 match_start_time
 match_type
+matches_have_mvp_data
 matchgroup
 matchgroups
 matchgroups_version
@@ -36670,6 +36721,7 @@ meta_level
 meta_xp
 meta_xp_awarded
 metadata
+metadata_private_key
 metal
 metamorphosis
 meteor_projectile_extra
@@ -38706,6 +38758,7 @@ nightmare_dot_interval
 nightmare_invuln_time
 nmonqnmomnmomomno
 no_attack_cooldown
+no_dupe_loot_list_override
 no_equip_to_use
 no_import
 no_key_required
@@ -39161,7 +39214,6 @@ omniknight_guardian_angel
 omniknight_purification
 omniknight_repel
 omnislash
-omponentI
 on_death_removal
 on_unit_died_nearby
 onbreak
@@ -39184,7 +39236,6 @@ opened
 operation
 operations_submitted
 operations_timed_out_in_queue
-operator
 operator delete(void*)
 operator delete[](void*)
 operator new(unsigned long)
@@ -39207,6 +39258,7 @@ order_keys
 order_lock_duration
 order_type
 orders
+organization
 orientationtype
 orig_query
 origin
@@ -39280,7 +39332,6 @@ owner_team_player_index
 ownername
 p0VAp
 p0p0p
-p8RAVAp
 p8RAp
 p8RBp
 p8RBp0p
@@ -39316,6 +39367,7 @@ pHpHp
 pItemName
 pLabel
 pLightGroup
+pMessage
 pModelName
 pName
 pObject
@@ -39471,6 +39523,7 @@ persona
 persona_name
 persona_name_tokens
 persuasion_target
+pfff.
 pfffff.
 phantom_assassin_blur
 phantom_assassin_coup_de_grace
@@ -39483,6 +39536,7 @@ phantom_lancer_juxtapose
 phantom_lancer_phantom_edge
 phantom_lancer_spirit_lance
 phase_duration
+phase_id
 phase_movement_speed
 phase_movement_speed_range
 phoenix_fire_spirits
@@ -39762,7 +39816,6 @@ portrait_background_map
 portrait_background_model
 portrait_background_particle
 portrait_game
-portraits
 pos_x
 pos_y
 pos_z
@@ -39841,6 +39894,7 @@ prevent_voice_chat
 prevent_voice_until_date
 prevhopcount
 preview_item_def
+preview_override_def_index
 previous_match_override
 previous_series_matches
 price
@@ -39856,8 +39910,11 @@ primaryattribute
 printname
 priority
 prison_duration
+private
+private_metadata
 prize_def_index
 prize_list
+prize_pool
 proc_chance
 proc_chance_pct
 process_id
@@ -39976,6 +40033,9 @@ purchase
 purchase_def
 purchase_levels_event
 purchase_points_event
+purchase_requirement_prompt_ok_event
+purchase_requirement_prompt_ok_text
+purchase_requirement_prompt_text
 purchase_requires_owning_league_id
 purchase_result_detail
 purchase_through_event
@@ -40028,6 +40088,7 @@ questIndex
 quest_finish
 quest_hud_types_t
 quest_text_replace_values_t
+question
 question_id
 questions
 queue
@@ -40038,7 +40099,6 @@ quill_base_damage
 quill_release_threshold
 quill_stack_damage
 quill_stack_duration
-r.ff.
 r0ff.
 r0fff.
 r1ff.
@@ -40050,7 +40110,8 @@ r6ff.
 r6ffff.
 r6mFL
 r8ffff.
-rAffffff.
+rAfff.
+rAfffff.
 rBff.
 rBfff.
 rCffffff.
@@ -40133,7 +40194,6 @@ rank_calibrated
 rank_change
 rank_name
 rank_types
-rareitem
 rarities
 rarity
 ratchetType
@@ -40170,8 +40230,7 @@ reate
 reateInterface
 receivingclients
 recent_only
-recipe_cI
-recipes
+recipe_def_index
 recipientList
 recipient_account_id
 recipient_player_id
@@ -40379,6 +40438,7 @@ revenue_usd
 reverse
 reversecm
 reversed
+reward
 reward_action_id
 reward_after_wins
 reward_damage
@@ -40691,10 +40751,12 @@ selected_choice
 selected_graph
 selected_hero
 selection_additive
+selection_id
 selection_index
 selection_value
 self_damage
 self_slow
+send_match_metadata
 send_node_sym
 send_reason
 send_table_crc
@@ -41068,12 +41130,12 @@ socaches
 socaches_loading
 socaches_to_unload
 social_feed_events
-sockA
 socket
 socket_chisel
 socket_hammer
 socket_hammer_safe
 socket_index
+sockets
 solid
 solidCount
 solidbsp
@@ -41181,7 +41243,6 @@ speakers
 spec_freeze_time
 spec_freeze_traveltime
 specgui
-special
 special1
 special2
 special3
@@ -41272,6 +41333,7 @@ springdampingcompression
 sprint
 sprite
 sprout
+square_logo
 srcid
 stabilizerconstant
 stack_count
@@ -41487,7 +41549,6 @@ streak
 strength
 strength_damage
 strength_pct
-striA
 strike
 strike_damage
 strike_interval
@@ -41776,7 +41837,6 @@ t2B9L
 t2ff.
 t2fff.
 t2ffff.
-t2fffff.
 t39D1
 t39D9
 t39L2
@@ -41794,7 +41854,6 @@ t59D1
 t59D9
 t5B9D
 t5B9L
-t5B9T
 t5B9t
 t5D9L3
 t5D9T
@@ -41861,7 +41920,6 @@ tL9L0
 tM9D1
 tMff.
 tMfff.
-tMffff.
 tN9D1
 tN9T9
 tNMcfxM
@@ -42035,7 +42093,6 @@ team_loc_stats
 team_manager
 team_name
 team_number
-team_shoI
 team_showcase
 team_showcase_forge
 team_tag
@@ -42094,6 +42151,7 @@ test_dispatcheffect
 test_effect
 test_entity_blocker
 test_existing_item
+test_string
 test_traceline
 tether_heal_amp
 tether_projectile
@@ -42208,6 +42266,7 @@ tkB9T
 tl9D1
 tl9L0
 tlMcF
+tlfff.
 tm9D1
 tm9L0
 tmF9T
@@ -42229,6 +42288,7 @@ tombstoney
 tool_item_id
 toolevents.proto
 toolid
+tooltip_banner
 tooltip_image
 top_custom_games
 top_lane
@@ -42272,6 +42332,8 @@ tournament_drops
 tournament_drops_rare
 tournament_game_id
 tournament_id
+tournament_loading_screen
+tournament_location
 tournament_passport
 tournament_url
 tower
@@ -42290,6 +42352,7 @@ tower_status
 tower_test
 tower_vulnerable_in_lane
 tp9D1
+tpIcE8A
 tpMcu
 tps_used
 tq9D1
@@ -42338,8 +42401,10 @@ treant_leech_seed
 treant_living_armor
 treant_natures_guise
 treant_overgrowth
+treasure_chest
 treasure_class_override
 treasure_display_override
+treasure_extra_layout_file
 treasure_rarity_override
 treasure_settings
 tree_cut
@@ -42507,7 +42572,6 @@ uCzAH
 uEzCf
 uGzEH
 uGzEI
-uHfff.
 uHzFI
 uIfffff.
 uIzGffff.
@@ -42538,11 +42602,10 @@ uZzXf
 u\zZH
 uaM9f
 uaz_I
-ucLc-
+ucLc-8u
 uezcA
 uffff.
 ufffff.
-uffffff.
 ufzdE
 ugzeA
 ugzeH
@@ -42554,7 +42617,6 @@ uint16
 uint32
 uint64
 uint8
-uintA
 uizgH
 ukziH
 ulItemID
@@ -42607,6 +42669,7 @@ unpauses
 unpressEvent
 unreliable_gold
 unreliablegold
+unset
 unsigned
 unsigned short-9D1
 unsigned short-9D9
@@ -42680,6 +42743,7 @@ use_new_damage_system
 use_string
 use_sub_string
 use_time
+useable
 used_by_heroes
 uselocaltime
 user_currency
@@ -42699,6 +42763,7 @@ uteThinkH
 utlstringtoken
 utzrA
 uuzsf
+uvztH
 v0fff.
 vAcceleration
 vDefault
@@ -42926,10 +42991,24 @@ vprof_scope_entity_thinks
 vprof_think_limit
 vr_anchor_allow_non_up_floor
 vr_anchor_use_player_start
+vr_beacon_trace_height
 vr_hand_extra_reach_distance0
 vr_hand_extra_reach_distance1
+vr_hide_viewmodel
 vr_hmd_positions_debug
 vr_hmd_tracking_passthrough
+vr_proto_overlay
+vr_proto_tp_delay
+vr_proto_tp_delay_by_distance_speed
+vr_proto_tp_fadein
+vr_proto_tp_fadeout
+vr_shoot_angle_offset_x
+vr_shoot_angle_offset_y
+vr_shoot_angle_offset_z
+vr_shoot_model_offset_x
+vr_shoot_model_offset_y
+vr_shoot_model_offset_z
+vr_tracked_objects_solid
 vr_use_absolute_tracking
 vrchaperone
 vrmovement
@@ -43002,7 +43081,6 @@ wave_duration
 wave_interval
 wave_speed
 wave_width
-wcasA
 weak_dependency
 weapon
 weapon2
@@ -43155,11 +43233,9 @@ xp_per_minute
 xp_reason
 xp_reward_details
 xyA9_
-y2Ic
 y4ffff.
 yBfff.
 yHfff.
-yIfff.
 yLfff.
 y_normal
 yawVel
@@ -43170,6 +43246,7 @@ ynormal
 you_hear_them
 youtube_account_name
 youtube_url
+ytff.
 yxxxxxxxH
 yxxxxxxxI
 zNear

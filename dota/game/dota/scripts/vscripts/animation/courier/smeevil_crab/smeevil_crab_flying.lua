@@ -79,3 +79,19 @@ model:CreateSequence(
 		}
 	}
 )
+
+model:CreateSequence(
+	{
+		name = "smeevil_crab_flying_run_haste",
+		sequences = {
+			{ "@smeevil_crab_flying_run_haste" }
+		},
+		addlayer = {
+			"smeevil_crab_flying_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "haste", weight = 1 }
+		}
+	}
+)

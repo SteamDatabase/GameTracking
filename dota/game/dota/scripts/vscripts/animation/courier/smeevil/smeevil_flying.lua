@@ -61,3 +61,33 @@ model:CreateSequence(
 		}
 	}
 )
+
+model:CreateSequence(
+	{
+		name = "flying_run",
+		sequences = {
+			{ "@flying_run" }
+		},
+		addlayer = {
+			"flying_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 3 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "flying_run_glide",
+		sequences = {
+			{ "@flying_run_glide" }
+		},
+		addlayer = {
+			"flying_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 }
+		}
+	}
+)

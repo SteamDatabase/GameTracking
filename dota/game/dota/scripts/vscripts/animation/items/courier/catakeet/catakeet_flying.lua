@@ -79,3 +79,19 @@ model:CreateSequence(
 		}
 	}
 )
+
+model:CreateSequence(
+	{
+		name = "fly_run_haste",
+		sequences = {
+			{ "@fly_run_haste" }
+		},
+		addlayer = {
+			"fly_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "haste", weight = 1 }
+		}
+	}
+)
