@@ -467,6 +467,8 @@
  b CCLCMsg_SplitPlayerConnect::default_instance_
  b CCLCMsg_VoiceData::default_instance_
  b CChangeFrameList::s_Allocator
+ b CColorMeshData::CreateResource(colormeshparams_t const&)::r_staticlight_streams
+ b CColorMeshData::EstimatedSize(colormeshparams_t const&)::r_staticlight_streams
  b CDataManagerBase::GetForFreeByIndex(unsigned short)::__executeCount
  b CDbgPrint::s_nIndent
  b CDemoFile::ReadConsoleCommand()::cmdstring
@@ -495,9 +497,13 @@
  b CL_ShouldRedownloadFile(char const*)::gamedir
  b CLog::Print(char const*)::string
  b CLog::Printf(char const*, ...)::string
+ b CModelInfo::UsesStaticLighting(model_t const*) const::r_staticlight_mode
+ b CModelInfo::UsesStaticLighting(model_t const*) const::r_staticlight_streams
  b CModelLoader::Map_IsValid(char const*, bool)::s_szBaseMapName
  b CModelLoader::UpdateDynamicModelLoadQueue()::s_LastDynamicLoadTime
  b CModelRender::ModelInstanceLightingState_t::s_Allocator
+ b CModelRender::StaticPropColorMeshCallback(void*, void const*, int, FSAsyncStatus_t)::r_staticlight_streams
+ b CModelRender::ValidateStaticPropColorData(unsigned short)::r_staticlight_streams
  b CMsgQAngle::default_instance_
  b CMsgRGBA::default_instance_
  b CMsgSteamDatagramClientPingSampleReply::default_instance_
@@ -1197,6 +1203,7 @@
  b g_bAbortServerSet
  b g_bAllowThreadedSound
  b g_bBakedPropLightingNoSeparateHDR
+ b g_bBakedPropLightingStreams3
  b g_bClearingClientState
  b g_bDTIEnabled
  b g_bDedicatedServerBenchmarkMode
@@ -1205,6 +1212,7 @@
  b g_bFlushMemoryOnNextServer
  b g_bHasIssuedMatSuppressOrDebug
  b g_bHasLightmapAlphaData
+ b g_bHasLightmapAlphaData3
  b g_bHunkAllocLightmaps
  b g_bInErrorExit
  b g_bInSpew
@@ -1378,6 +1386,8 @@
  b guard variable for CBaseServer::UpdateGameType()::var
  b guard variable for CBaseServer::UpdateMasterServer()::bUpdateMasterServers
  b guard variable for CBlackBoxRecord::operator char const*() const::buf
+ b guard variable for CColorMeshData::CreateResource(colormeshparams_t const&)::r_staticlight_streams
+ b guard variable for CColorMeshData::EstimatedSize(colormeshparams_t const&)::r_staticlight_streams
  b guard variable for CDemoFile::ReadCustomData(int*, unsigned char**)::s_TempMemoryBuffer
  b guard variable for CDispInfo::SetupDecalNodeIntersect(CVertIndex const&, int, CDispDecalBase*, ShadowInfo_t const*)::cache
  b guard variable for CEngine::Frame()::cl_embedded_stream_video_playing
@@ -1386,6 +1396,10 @@
  b guard variable for CHLTVServer::AddNewFrame(CClientFrame*)::tv_delay
  b guard variable for CHLTVServer::GetHltvRelayPassword() const::tv_relaypassword
  b guard variable for CKeyValuesDumpContextAsDevMsg::KvBeginKey(KeyValues*, int)::r_developer
+ b guard variable for CModelInfo::UsesStaticLighting(model_t const*) const::r_staticlight_mode
+ b guard variable for CModelInfo::UsesStaticLighting(model_t const*) const::r_staticlight_streams
+ b guard variable for CModelRender::StaticPropColorMeshCallback(void*, void const*, int, FSAsyncStatus_t)::r_staticlight_streams
+ b guard variable for CModelRender::ValidateStaticPropColorData(unsigned short)::r_staticlight_streams
  b guard variable for CNetChan::GetChannelEncryptionKey() const::ubDefaultEncryptionKey
  b guard variable for CNetChan::GetChannelEncryptionKey() const::unHostVersion
  b guard variable for CNetMessagePB<0, CNETMsg_NOP, 0, true>::s_typeName
@@ -1648,6 +1662,7 @@
  b mat_norendering
  b mat_normals
  b mat_powersavingsmode
+ b mat_resolveFullFrameDepth
  b mat_savechanges_command
  b mat_shadowstate
  b mat_softwareskin
@@ -1888,7 +1903,6 @@
  b r_skybox_draw_last
  b r_slowpathwireframe
  b r_spray_lifetime
- b r_staticlight_streams
  b r_staticprop_lod
  b r_staticpropinfo
  b r_surfacevisframe
@@ -2146,6 +2160,7 @@
  b sv_dump_entity_pack_stats_command
  b sv_dump_serialized_entities_mem_command
  b sv_dumpstringtables
+ b sv_duplicate_playernames_ok
  b sv_enable_delta_packing
  b sv_enableoldqueries
  b sv_extra_client_connect_time
@@ -4208,7 +4223,7 @@
  r CSWTCH.23
  r CSWTCH.258
  r CSWTCH.413
- r CSWTCH.592
+ r CSWTCH.594
  r CSWTCH.619
  r CSWTCH.622
  r CSWTCH.842
@@ -7225,7 +7240,7 @@
  t BuildPropOffsetToIndexMap(CSendTablePrecalc*)
  t BuildPropOffsetToIndexMap(CSendTablePrecalc*, CStandardSendProxies const*)
  t BuildRecipientList(CUtlVector<edict_t*, CUtlMemory<edict_t*, int> >&, IRecipientFilter const&)
- t BuildSpriteLoadName(char const*, char*, int, bool&, bool&) [clone .constprop.244]
+ t BuildSpriteLoadName(char const*, char*, int, bool&, bool&) [clone .constprop.245]
  t BuildTagData(CCoreDispInfo*, CDispInfo*)
  t BuildTokenList(char const*, char, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&) [clone .constprop.228]
  t BuildTransformedBox(Vector*, Vector const&, Vector const&, matrix3x4_t const&)
@@ -9375,7 +9390,7 @@
  t CMapLoadHelper::GetMapPathName()
  t CMapLoadHelper::GetRefCount()
  t CMapLoadHelper::Init(model_t*, char const*)
- t CMapLoadHelper::Init(model_t*, char const*) [clone .part.34]
+ t CMapLoadHelper::Init(model_t*, char const*) [clone .part.35]
  t CMapLoadHelper::InitFromMemory(model_t*, void const*, int)
  t CMapLoadHelper::LoadLumpData(int, int, void*)
  t CMapLoadHelper::LoadLumpElement(int, int, void*)
@@ -9588,7 +9603,7 @@
  t CModelLoader::LoadModel(model_t*, IModelLoader::REFERENCETYPE*)
  t CModelLoader::Map_GetRenderInfoAllocated()
  t CModelLoader::Map_IsValid(char const*, bool)
- t CModelLoader::Map_IsValid(char const*, bool) [clone .part.33]
+ t CModelLoader::Map_IsValid(char const*, bool) [clone .part.34]
  t CModelLoader::Map_LoadDisplacements(model_t*, bool)
  t CModelLoader::Map_LoadModel(model_t*)
  t CModelLoader::Map_LoadModelGuts(model_t*)
@@ -12666,6 +12681,7 @@
  t CStaticPropMgr::CStaticPropMgr()
  t CStaticPropMgr::ConfigureSystemLevel(int, int)
  t CStaticPropMgr::CreateVPhysicsRepresentations(IPhysicsEnvironment*, IVPhysicsKeyHandler*, void*)
+ t CStaticPropMgr::DisableCSMRenderingForStaticProp(int)
  t CStaticPropMgr::DrawStaticProps(IClientRenderable**, RenderableInstance_t const*, int, bool, bool)
  t CStaticPropMgr::DrawStaticProps_Fast(IClientRenderable**, RenderableInstance_t const*, int, bool)
  t CStaticPropMgr::DrawStaticProps_FastPipeline(IClientRenderable**, RenderableInstance_t const*, int, bool)
@@ -17502,7 +17518,7 @@
  t DispInfo_DeleteArray(void*)
  t DispInfo_DrawDecals(IMatRenderContext*, CDispInfo**, int)
  t DispInfo_DrawDecalsGroup(IMatRenderContext*, int, int)
- t DispInfo_DrawPrimLists(IMatRenderContext*, bool)
+ t DispInfo_DrawPrimLists(IMatRenderContext*, ERenderDepthMode_t)
  t DispInfo_GetVisibleDispsAndAddOverlayFragmentsToRenderList(int, msurface2_t**, int, CDispInfo**, int&)
  t DispInfo_IndexArray(void*, int)
  t DispInfo_LinkToParentFaces(model_t*, ddispinfo_t const*, int)
@@ -17510,7 +17526,7 @@
  t DispInfo_ReleaseMaterialSystemObjects(model_t*)
  t DispInfo_RenderListDebug(IMatRenderContext*, msurface2_t**, int)
  t DispInfo_RenderListDecalsAndOverlays(IMatRenderContext*, int, msurface2_t**, int, bool, unsigned long)
- t DispInfo_RenderListWorld(IMatRenderContext*, int, msurface2_t**, int, bool, unsigned long, bool)
+ t DispInfo_RenderListWorld(IMatRenderContext*, int, msurface2_t**, int, bool, unsigned long, int)
  t DoesFileExistIn(char const*, char const*)
  t DoesPathExistAlready(char const*, char const*)
  t DoesPointHaveAnyNeighbors(CDispUtilsHelper*, CVertIndex const&)
@@ -19703,9 +19719,9 @@
  t _GLOBAL__sub_I_qhAllocHook
  t _GLOBAL__sub_I_quakedef.cpp
  t _GLOBAL__sub_I_r_decal_overlap_count
+ t _GLOBAL__sub_I_r_drawmodelstatsoverlay
  t _GLOBAL__sub_I_r_framecount
  t _GLOBAL__sub_I_r_hidepaintedsurfaces
- t _GLOBAL__sub_I_r_staticlight_streams
  t _GLOBAL__sub_I_r_staticpropinfo
  t _GLOBAL__sub_I_r_visocclusion
  t _GLOBAL__sub_I_randomstream.cpp
@@ -20473,6 +20489,7 @@
  t mat_hdr_level_Callback(IConVar*, char const*, float)
  t mat_info(CCommand const&)
  t mat_powersavingsmode_callback(IConVar*, char const*, float)
+ t mat_resolveFullFrameDepth_changed(IConVar*, char const*, float)
  t mat_savechanges(CCommand const&)
  t mat_suppress(CCommand const&)
  t maxplayers(CCommand const&)
@@ -23897,10 +23914,10 @@
  t unsigned int CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t>::DoInsert<CSteamID const&>(CSteamID const&, unsigned int)
  t unsigned int CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t>::DoLookup<CSteamID const&>(CSteamID const&, unsigned int, unsigned int*) const [clone .part.55]
  t unsigned int CUtlHashtable<CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::IndirectIndex, empty_t, CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::HashProxy, CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::EqualProxy, void*>::DoLookup<void*>(void*, unsigned int, unsigned int*) const
- t unsigned int CUtlHashtable<IModelLoadCallback*, int, DefaultHashFunctor<IModelLoadCallback*>, DefaultEqualFunctor<IModelLoadCallback*>, undefined_t>::DoLookup<IModelLoadCallback*>(IModelLoadCallback*, unsigned int, unsigned int*) const [clone .part.225]
+ t unsigned int CUtlHashtable<IModelLoadCallback*, int, DefaultHashFunctor<IModelLoadCallback*>, DefaultEqualFunctor<IModelLoadCallback*>, undefined_t>::DoLookup<IModelLoadCallback*>(IModelLoadCallback*, unsigned int, unsigned int*) const [clone .part.226]
  t unsigned int CUtlHashtable<int, CAsyncOcclusionQuery*, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoLookup<int>(int, unsigned int, unsigned int*) const [clone .part.109]
  t unsigned int CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoInsert<model_t*>(model_t*, unsigned int)
- t unsigned int CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoLookup<model_t*>(model_t*, unsigned int, unsigned int*) const [clone .part.149]
+ t unsigned int CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoLookup<model_t*>(model_t*, unsigned int, unsigned int*) const [clone .part.150]
  t unsigned int CUtlHashtable<qhFace*, int, DefaultHashFunctor<qhFace*>, DefaultEqualFunctor<qhFace*>, undefined_t>::DoLookup<qhFace*>(qhFace*, unsigned int, unsigned int*) const [clone .part.42] [clone .constprop.55]
  t unsigned int CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::DoLookup<unsigned int>(unsigned int, unsigned int, unsigned int*) const [clone .part.198] [clone .constprop.289]
  t unsigned int CryptoPP::AESNI_AdvancedProcessBlocks<void (*)(long long __vector&, long long __vector const*, unsigned int), void (*)(long long __vector&, long long __vector&, long long __vector&, long long __vector&, long long __vector const*, unsigned int)>(void (*)(long long __vector&, long long __vector const*, unsigned int), void (*)(long long __vector&, long long __vector&, long long __vector&, long long __vector&, long long __vector const*, unsigned int), long long __vector const*, unsigned int, unsigned char const*, unsigned char const*, unsigned char*, unsigned int, unsigned int)
