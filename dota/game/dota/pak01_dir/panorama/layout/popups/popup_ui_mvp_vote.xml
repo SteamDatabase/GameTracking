@@ -1,33 +1,56 @@
 <root>
   <styles>
     <include src="s2r://panorama/styles/dotastyles.vcss_c" />
-    <include src="s2r://panorama/styles/popups/popups_shared.vcss_c" />
     <include src="s2r://panorama/styles/popups/popup_ui_mvp_vote.vcss_c" />
   </styles>
 
   <DOTAPopupMVPVote class="PopupPanel Hidden" popupbackground="dim" >
 
     <Panel class="MVPSubPanelContainer" >
-
-      <Panel class="Waiting" >
-        <Panel class="VoteButtons">
-          <Button id="CloseButton" class="BlueButton" onactivate="DOTAPopupButtonClicked()">
-            <Label text="#DOTA_Close" />
-          </Button>
-        </Panel>
-      </Panel>
+      <Panel class="Waiting" />
 
       <Panel class="MVPSubPanel Vote">
-
-        <Panel class="TitleSection">
-          <Label class="TitleLabel" text="#DOTAMVPVote_Title" />
+        <Panel id="Title">
+          <Panel id="TitleBackground">
+            <Panel class="BattlePassLogo" />
+            <Panel class="TitleSection">
+              <Label class="TitleLabel" text="#DOTAMVPVote_Title" />
+            </Panel>
+            <Button id="CancelButton" class="CloseButton" onactivate="UIPopupButtonClicked()">
+            </Button>
+          </Panel>
         </Panel>
 
-        <Panel class="TeamIdentificationRow Dire">
-          <Label id="DireTeamName" text="{s:dire_name}" />
-          <Panel class="DireTeamLogoDefault LobbyTeamIconDefault" />
-          <DOTAUGCImage class="DireTeamLogo LobbyTeamIcon" />
+        <Panel class="TeamIdentificationRow">
+          <Panel id="RadiantTeam">
+            <Panel class="RadiantLogoStackDefault">
+              <Panel class="RadiantTeamLogoDefault LobbyTeamIconDefault" />
+              <Panel id="RadiantColorBarDefault" />
+            </Panel>
+            <Panel class="RadiantLogoStackCustom">
+              <DOTAUGCImage class="RadiantTeamLogo LobbyTeamIcon" />
+              <Panel id="RadiantColorBarCustom" />
+            </Panel>
+            <Panel>
+              <Label id="RadiantTeamName" text="{s:radiant_name}" />
+            </Panel>
+          </Panel>
+          <Panel id="DireTeam">
+            <Panel class="DireLogoStackDefault">
+              <Panel class="DireTeamLogoDefault LobbyTeamIconDefault" />
+              <Panel id="DireColorBarDefault" />
+            </Panel>
+            <Panel class="DireLogoStackCustom">
+              <DOTAUGCImage class="DireTeamLogo LobbyTeamIcon" />
+              <Panel id="DireColorBarCustom" />
+            </Panel>
+            <Panel>
+              <Label id="DireTeamName" text="{s:dire_name}" />
+            </Panel>
+          </Panel>
         </Panel>
+
+
 
         <Panel class="TeamList">
           <!-- Full of popup_ui_mvp_vote_player.xml blocks -->
@@ -37,45 +60,45 @@
           <Panel class="PlayerRows" id="DirePlayerRows" />
         </Panel>
 
-        <Panel class="TeamIdentificationRow">
-          <Panel class="RadiantTeamLogoDefault LobbyTeamIconDefault" />
-          <DOTAUGCImage class="RadiantTeamLogo LobbyTeamIcon" />
-          <Label id="RadiantTeamName" text="{s:radiant_name}" />
-        </Panel>
+
 
         <Panel class="VoteButtons">
-          <Button id="VoteButton" class="BlueButton" onactivate="DOTAMVPSubmitVote()">
+          <Button id="VoteButton" class="PopupButton" onactivate="DOTAMVPSubmitVote()">
             <Label text="#DOTAMVPVote_VoteButtonLabel" />
           </Button>
-          <Panel class="VoteSpacer" />
-          <Button id="CancelButton" class="BlueButton" onactivate="DOTAPopupButtonClicked()">
-            <Label text="#UI_Cancel" />
-          </Button>
         </Panel>
-
+        <Label id="ExclusiveText" text="Voting is available exclusively to BattlePass owners." />
       </Panel>
 
       <Panel class="MVPSubPanel Results" >
-
-        <Panel class="TitleSection">
-          <Label class="TitleLabel" text="#DOTAMVPVote_ResultsTitle" />
+        <Panel id="Title">
+          <Panel id="TitleBackground">
+            <Panel class="BattlePassLogo" />
+            <Panel class="TitleSection">
+              <Label class="TitleLabel" text="#DOTAMVPVote_ResultsTitle" />
+            </Panel>
+            <Button id="CancelButton" class="CloseButton" onactivate="UIPopupButtonClicked()" />
+          </Panel>
         </Panel>
+
 
         <Panel class="ResultsContainer">
           <Panel id="ResultsPlayerRows">
             <!-- Full of popup_ui_mvp_vote_player_results.xml blocks -->
-            <Panel id="ResultsPlayerRow0" class="IsMVP" />
+            <Panel id="ResultsPlayerRow0Container">
+              <Panel id="ResultsPlayerRow0ContainerBackground">
+                <DOTAScenePanel id="PreviewRaySmall" class="SceneLoaded" tabindex="auto" hittest="false" map="scenes/loadout_preview_rays" camera="camera_1" />
+              </Panel>
+              <Panel id="ResultsPlayerRow0ContainerForeground">
+                <Panel id="ResultsPlayerRow0" class="IsMVP" />
+              </Panel>
+            </Panel>
             <Panel id="ResultsPlayerRow1" />
             <Panel id="ResultsPlayerRow2" />
             <Panel id="ResultsPlayerVoted" />
           </Panel>
         </Panel>
 
-        <Panel class="VoteButtons">
-          <Button id="CloseButton" class="BlueButton" onactivate="DOTAPopupButtonClicked()">
-            <Label text="#DOTA_Close" />
-          </Button>
-        </Panel>
 
       </Panel>
     </Panel>
