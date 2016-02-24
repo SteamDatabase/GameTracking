@@ -445,6 +445,15 @@
 		"z"        "float"
 	}
 
+	"tagrenade_detonate"
+	{
+		"userid"	"short"
+		"entityid"	"short"
+		"x"        "float"
+		"y"        "float"
+		"z"        "float"
+	}
+
 	"inferno_startburn"
 	{
 		"entityid"	"short"
