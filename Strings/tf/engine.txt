@@ -187,8 +187,8 @@
 .sw.vtx
 .xbox.vtx
 0.0002
-00000
 000000
+0000000
 000000000
 0000000000
 0000P
@@ -771,6 +771,7 @@ CAudioSourceCachedInfo::s_pSfx
 CAudioSourceCachedInfo::~CAudioSourceCachedInfo()
 CAudioSourceCachedInfoHandle_t::Get(int, bool, CSfxTable*, int*)
 CAudioSourceCachedInfoHandle_t::s_nCurrentFlushCount
+CAudioSourceMP3::CAudioSourceMP3(CSfxTable*)
 CAudioSourceMP3::CAudioSourceMP3(CSfxTable*, CAudioSourceCachedInfo*)
 CAudioSourceMP3::CacheLoad()
 CAudioSourceMP3::CacheUnload()
@@ -1147,6 +1148,7 @@ CBaseClientState::ProcessSendTable(SVC_SendTable*)
 CBaseClientState::ProcessServerInfo(SVC_ServerInfo*)
 CBaseClientState::ProcessSetConVar(NET_SetConVar*)
 CBaseClientState::ProcessSetPause(SVC_SetPause*)
+CBaseClientState::ProcessSetPauseTimed(SVC_SetPauseTimed*)
 CBaseClientState::ProcessSetView(SVC_SetView*)
 CBaseClientState::ProcessSignonState(NET_SignonState*)
 CBaseClientState::ProcessStringCmd(NET_StringCmd*)
@@ -1283,6 +1285,7 @@ CBaseServer::SendPendingServerInfo()
 CBaseServer::SetMaxClients(int)
 CBaseServer::SetPassword(char const*)
 CBaseServer::SetPaused(bool)
+CBaseServer::SetPausedForced(bool, float)
 CBaseServer::ShouldUpdateMasterServer()
 CBaseServer::Shutdown()
 CBaseServer::UncompressPackedEntity(PackedEntity*, int&)
@@ -1624,6 +1627,7 @@ CClientState::ProcessPacketEntities(SVC_PacketEntities*)
 CClientState::ProcessPrefetch(SVC_Prefetch*)
 CClientState::ProcessServerInfo(SVC_ServerInfo*)
 CClientState::ProcessSetPause(SVC_SetPause*)
+CClientState::ProcessSetPauseTimed(SVC_SetPauseTimed*)
 CClientState::ProcessSounds(SVC_Sounds*)
 CClientState::ProcessSoundsWithProtoVersion(SVC_Sounds*, CUtlVector<SoundInfo_t, CUtlMemory<SoundInfo_t, int> >&, int)
 CClientState::ProcessStringCmd(NET_StringCmd*)
@@ -1930,7 +1934,7 @@ CConPanel::CConPanel(vgui::Panel*)
 CConPanel::ClearNotify()
 CConPanel::DrawDebugAreas()
 CConPanel::DrawNotify()
-CConPanel::DrawText(unsigned long, int, int, wchar_t*, ...)
+CConPanel::DrawText(unsigned long, int, int, wchar_t*)
 CConPanel::Paint()
 CConPanel::PaintBackground()
 CConPanel::ProcessNotifyLines(int&, int&, int&, int&, bool)
@@ -2750,6 +2754,7 @@ CEngineClient::GetMaxClients()
 CEngineClient::GetMostRecentSaveGame()
 CEngineClient::GetMouseDelta(int&, int&, bool)
 CEngineClient::GetNetChannelInfo()
+CEngineClient::GetPausedExpireTime()
 CEngineClient::GetPlayerForUserID(int)
 CEngineClient::GetPlayerInfo(int, player_info_s*)
 CEngineClient::GetProductVersionString()
@@ -3204,6 +3209,7 @@ CFastPointLeafNum::GetLeaf(Vector const&)
 CFixEdgeButton
 CFixEdgeButton::CFixEdgeButton(vgui::Panel*, char const*, char const*)
 CFixEdgeButton::~CFixEdgeButton()
+CFixedBitVecBase<2048>::FindNextSetBit(int) const
 CFloatProperty
 CFloatProperty::GetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
 CFloatProperty::InitFromDefault(vgui::Panel*, PanelAnimationMapEntry*)
@@ -5089,17 +5095,27 @@ CProportionalFloatProperty
 CProportionalFloatProperty::GetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
 CProportionalFloatProperty::InitFromDefault(vgui::Panel*, PanelAnimationMapEntry*)
 CProportionalFloatProperty::SetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
+CProportionalHeightProperty
+CProportionalHeightProperty::Compute(vgui::Panel*, unsigned int&, char const*, int, int, bool)
 CProportionalIntProperty
 CProportionalIntProperty::GetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
 CProportionalIntProperty::InitFromDefault(vgui::Panel*, PanelAnimationMapEntry*)
 CProportionalIntProperty::SetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
 CProportionalIntWithScreenspacePropertyX
 CProportionalIntWithScreenspacePropertyX::GetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
-CProportionalIntWithScreenspacePropertyX::GetScreenSize()
+CProportionalIntWithScreenspacePropertyX::GetPanelDimension(vgui::Panel*) const
+CProportionalIntWithScreenspacePropertyX::GetScreenSize(vgui::Panel*) const
 CProportionalIntWithScreenspacePropertyX::InitFromDefault(vgui::Panel*, PanelAnimationMapEntry*)
 CProportionalIntWithScreenspacePropertyX::SetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
 CProportionalIntWithScreenspacePropertyY
-CProportionalIntWithScreenspacePropertyY::GetScreenSize()
+CProportionalIntWithScreenspacePropertyY::GetPanelDimension(vgui::Panel*) const
+CProportionalIntWithScreenspacePropertyY::GetScreenSize(vgui::Panel*) const
+CProportionalWidthProperty
+CProportionalWidthProperty::Compute(vgui::Panel*, unsigned int&, char const*, int, int, bool)
+CProportionalWidthProperty::ExtractValue(vgui::Panel*, char const*)
+CProportionalWidthProperty::GetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
+CProportionalWidthProperty::InitFromDefault(vgui::Panel*, PanelAnimationMapEntry*)
+CProportionalWidthProperty::SetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
 CPureFileTracker::DoesFileMatch(char const*, char const*, int, FileHash_t*, USERID_s)
 CPureFileTracker::~CPureFileTracker()
 CPureServerWhitelist
@@ -7734,6 +7750,7 @@ CVEngineServer::SetAreaPortalStates(int const*, int const*, int)
 CVEngineServer::SetDedicatedServerBenchmarkMode(bool)
 CVEngineServer::SetFakeClientConVarValue(edict_t*, char const*, char const*)
 CVEngineServer::SetGamestatsData(CGamestatsData*)
+CVEngineServer::SetPausedForced(bool, float)
 CVEngineServer::SetView(edict_t const*, edict_t const*)
 CVEngineServer::SolidMoved(edict_t*, ICollideable*, Vector const*, bool)
 CVEngineServer::StartQueryCvarValue(edict_t*, char const*)
@@ -10509,6 +10526,7 @@ ProcessSendTable
 ProcessServerInfo
 ProcessSetConVar
 ProcessSetPause
+ProcessSetPauseTimed
 ProcessSetView
 ProcessSignonState
 ProcessStringCmd
@@ -11012,6 +11030,14 @@ SVC_SetPause::ReadFromBuffer(bf_read&)
 SVC_SetPause::ToString() const
 SVC_SetPause::WriteToBuffer(bf_write&)
 SVC_SetPause::~SVC_SetPause()
+SVC_SetPauseTimed
+SVC_SetPauseTimed::GetName() const
+SVC_SetPauseTimed::GetType() const
+SVC_SetPauseTimed::Process()
+SVC_SetPauseTimed::ReadFromBuffer(bf_read&)
+SVC_SetPauseTimed::ToString() const
+SVC_SetPauseTimed::WriteToBuffer(bf_write&)
+SVC_SetPauseTimed::~SVC_SetPauseTimed()
 SVC_SetView
 SVC_SetView::GetName() const
 SVC_SetView::GetType() const
@@ -11346,6 +11372,7 @@ SetFont
 SetIdentityMatrix(matrix3x4_t&)
 SetMasterServerKeyValue(ISteamGameServer*, IConVar*)
 SetNameToSteamIDName(IConVar*)
+SetPrevProgress
 SetProgress
 SetProxiesForURL(void*, char const*)
 SetRecursiveProxyIndices_R(SendTable*, CSendNode*, int&)
@@ -16592,6 +16619,7 @@ non-virtual thunk to CBaseClientState::ProcessSendTable(SVC_SendTable*)
 non-virtual thunk to CBaseClientState::ProcessServerInfo(SVC_ServerInfo*)
 non-virtual thunk to CBaseClientState::ProcessSetConVar(NET_SetConVar*)
 non-virtual thunk to CBaseClientState::ProcessSetPause(SVC_SetPause*)
+non-virtual thunk to CBaseClientState::ProcessSetPauseTimed(SVC_SetPauseTimed*)
 non-virtual thunk to CBaseClientState::ProcessSetView(SVC_SetView*)
 non-virtual thunk to CBaseClientState::ProcessSignonState(NET_SignonState*)
 non-virtual thunk to CBaseClientState::ProcessStringCmd(NET_StringCmd*)
@@ -16609,6 +16637,7 @@ non-virtual thunk to CClientState::ProcessPacketEntities(SVC_PacketEntities*)
 non-virtual thunk to CClientState::ProcessPrefetch(SVC_Prefetch*)
 non-virtual thunk to CClientState::ProcessServerInfo(SVC_ServerInfo*)
 non-virtual thunk to CClientState::ProcessSetPause(SVC_SetPause*)
+non-virtual thunk to CClientState::ProcessSetPauseTimed(SVC_SetPauseTimed*)
 non-virtual thunk to CClientState::ProcessSounds(SVC_Sounds*)
 non-virtual thunk to CClientState::ProcessStringCmd(NET_StringCmd*)
 non-virtual thunk to CClientState::ProcessTempEntities(SVC_TempEntities*)
@@ -17065,6 +17094,7 @@ playerperf
 playflush
 playgamesound
 playrecapvid
+playsound
 playvol
 plugin_load
 plugin_load(CCommand const&)
@@ -17098,6 +17128,7 @@ preloadDataSize
 prepare_for_pass(jpeg_compress_struct*)
 prepend
 preserveAspectRatio
+prevProgress
 prevkey
 prevtarget
 primindices
@@ -17116,7 +17147,11 @@ propertypage
 propertysheet
 proportionalToParent
 proportional_float
+proportional_height
+proportional_height_converter
 proportional_int
+proportional_width
+proportional_width_converter
 proportional_xpos
 proportional_ypos
 proxies
@@ -18062,6 +18097,7 @@ svc_Print
 svc_SendTable
 svc_ServerInfo
 svc_SetPause
+svc_SetPauseTimed
 svc_SetView
 svc_Sounds
 svc_TempEntities
@@ -18518,9 +18554,11 @@ typeinfo for CPropCullStack
 typeinfo for CPropFadeUIPanel
 typeinfo for CPropMapStack
 typeinfo for CProportionalFloatProperty
+typeinfo for CProportionalHeightProperty
 typeinfo for CProportionalIntProperty
 typeinfo for CProportionalIntWithScreenspacePropertyX
 typeinfo for CProportionalIntWithScreenspacePropertyY
+typeinfo for CProportionalWidthProperty
 typeinfo for CPureServerWhitelist
 typeinfo for CQueuedPacketSender
 typeinfo for CRConClient
@@ -18778,6 +18816,7 @@ typeinfo for SVC_Print
 typeinfo for SVC_SendTable
 typeinfo for SVC_ServerInfo
 typeinfo for SVC_SetPause
+typeinfo for SVC_SetPauseTimed
 typeinfo for SVC_SetView
 typeinfo for SVC_Sounds
 typeinfo for SVC_TempEntities
@@ -19165,9 +19204,11 @@ typeinfo name for CPropCullStack
 typeinfo name for CPropFadeUIPanel
 typeinfo name for CPropMapStack
 typeinfo name for CProportionalFloatProperty
+typeinfo name for CProportionalHeightProperty
 typeinfo name for CProportionalIntProperty
 typeinfo name for CProportionalIntWithScreenspacePropertyX
 typeinfo name for CProportionalIntWithScreenspacePropertyY
+typeinfo name for CProportionalWidthProperty
 typeinfo name for CPureServerWhitelist
 typeinfo name for CQueuedPacketSender
 typeinfo name for CRConClient
@@ -19424,6 +19465,7 @@ typeinfo name for SVC_Print
 typeinfo name for SVC_SendTable
 typeinfo name for SVC_ServerInfo
 typeinfo name for SVC_SetPause
+typeinfo name for SVC_SetPauseTimed
 typeinfo name for SVC_SetView
 typeinfo name for SVC_Sounds
 typeinfo name for SVC_TempEntities
@@ -19633,7 +19675,7 @@ vgui::AnimationController
 vgui::AnimationController::AnimationController(vgui::Panel*)
 vgui::AnimationController::ChainToAnimationMap()::chained
 vgui::AnimationController::ChainToMap()::chained
-vgui::AnimationController::ExecAnimationCommand(unsigned short, vgui::AnimationController::AnimCommand_t&, vgui::Panel*)
+vgui::AnimationController::ExecAnimationCommand(unsigned short, vgui::AnimationController::AnimCommand_t&, vgui::Panel*, bool)
 vgui::AnimationController::GetAnimMap()
 vgui::AnimationController::GetInterpolatedValue(int, float, float, float, float, vgui::AnimationController::Value_t&, vgui::AnimationController::Value_t&)
 vgui::AnimationController::GetKBMap()
@@ -19658,10 +19700,10 @@ vgui::AnimationController::RunCmd_StopPanelAnimations(vgui::AnimationController:
 vgui::AnimationController::SetScriptFile(unsigned int, char const*, bool)
 vgui::AnimationController::SetValue(vgui::AnimationController::ActiveAnimation_t&, vgui::Panel*, unsigned short, vgui::AnimationController::Value_t&)
 vgui::AnimationController::SetupPosition(vgui::AnimationController::AnimCmdAnimate_t&, float*, char const*, int)
-vgui::AnimationController::StartAnimationSequence(char const*)
-vgui::AnimationController::StartAnimationSequence(vgui::Panel*, char const*)
-vgui::AnimationController::StartCmd_Animate(unsigned short, vgui::AnimationController::AnimCmdAnimate_t&, vgui::Panel*)
-vgui::AnimationController::StartCmd_Animate(vgui::Panel*, unsigned short, vgui::AnimationController::AnimCmdAnimate_t&)
+vgui::AnimationController::StartAnimationSequence(char const*, bool)
+vgui::AnimationController::StartAnimationSequence(vgui::Panel*, char const*, bool)
+vgui::AnimationController::StartCmd_Animate(unsigned short, vgui::AnimationController::AnimCmdAnimate_t&, vgui::Panel*, bool)
+vgui::AnimationController::StartCmd_Animate(vgui::Panel*, unsigned short, vgui::AnimationController::AnimCmdAnimate_t&, bool)
 vgui::AnimationController::UpdateActiveAnimations(bool)
 vgui::AnimationController::UpdateAnimations(float)
 vgui::AnimationController::UpdatePostedMessages(bool)
@@ -20049,6 +20091,9 @@ vgui::ComboBoxButton::GetBorder(bool, bool, bool, bool)
 vgui::ComboBoxButton::GetButtonBgColor()
 vgui::ComboBoxButton::OnCursorExited()
 vgui::ComboBoxButton::~ComboBoxButton()
+vgui::ComputePos(vgui::Panel*, char const*, int&, int const&, int const&, bool const&, vgui::EOperator)
+vgui::ComputeTall(vgui::Panel*, unsigned int&, KeyValues*, int, int, bool)
+vgui::ComputeWide(vgui::Panel*, unsigned int&, KeyValues*, int, int, bool)
 vgui::ContextLabel
 vgui::ContextLabel::ApplySchemeSettings(vgui::IScheme*)
 vgui::ContextLabel::ChainToAnimationMap()::chained
@@ -20076,6 +20121,8 @@ vgui::ContinuousProgressBar::GetMessageMap()::s_pMap
 vgui::ContinuousProgressBar::GetPanelClassName()
 vgui::ContinuousProgressBar::KB_ChainToMap()::chained
 vgui::ContinuousProgressBar::Paint()
+vgui::ContinuousProgressBar::PanelMessageFunc_SetPrevProgress::InitVar()::bAdded
+vgui::ContinuousProgressBar::SetPrevProgress(float)
 vgui::ContinuousProgressBar::~ContinuousProgressBar()
 vgui::CvarToggleCheckButton<ConVarRef>
 vgui::CvarToggleCheckButton<ConVarRef>::AddToMap(char const*, void (vgui::Panel::*)(), int, int, char const*, int, char const*)
@@ -21083,9 +21130,6 @@ vgui::Panel::CallParentFunction(KeyValues*)
 vgui::Panel::CanStartDragging(int, int, int, int)
 vgui::Panel::ChainToAnimationMap()::chained
 vgui::Panel::ChainToMap()::chained
-vgui::Panel::ComputePos(char const*, int&, int const&, int const&, bool const&)
-vgui::Panel::ComputeTall(KeyValues*, int, int, bool)
-vgui::Panel::ComputeWide(KeyValues*, int, int, bool)
 vgui::Panel::CreateDragData()
 vgui::Panel::DeletePanel()
 vgui::Panel::DragDropStartDragging()
@@ -21437,7 +21481,6 @@ vgui::PanelListPanel::RemoveAll()
 vgui::PanelListPanel::RemoveItem(int)
 vgui::PanelListPanel::~PanelListPanel()
 vgui::ProgressBar
-vgui::ProgressBar::AddToMap(char const*, void (vgui::Panel::*)(), int, int, char const*, int, char const*)
 vgui::ProgressBar::ApplySchemeSettings(vgui::IScheme*)
 vgui::ProgressBar::ApplySettings(KeyValues*)
 vgui::ProgressBar::ChainToAnimationMap()::chained
@@ -22796,9 +22839,11 @@ vtable for CPropCullStack
 vtable for CPropFadeUIPanel
 vtable for CPropMapStack
 vtable for CProportionalFloatProperty
+vtable for CProportionalHeightProperty
 vtable for CProportionalIntProperty
 vtable for CProportionalIntWithScreenspacePropertyX
 vtable for CProportionalIntWithScreenspacePropertyY
+vtable for CProportionalWidthProperty
 vtable for CPureServerWhitelist
 vtable for CQueuedPacketSender
 vtable for CRConClient
@@ -22910,6 +22955,7 @@ vtable for SVC_Print
 vtable for SVC_SendTable
 vtable for SVC_ServerInfo
 vtable for SVC_SetPause
+vtable for SVC_SetPauseTimed
 vtable for SVC_SetView
 vtable for SVC_Sounds
 vtable for SVC_TempEntities

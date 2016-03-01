@@ -28,6 +28,22 @@
 		"enabled"		"1"
 		"border"		"MainMenuBGBorder"
 
+		"ModeBackgroundImage"
+		{
+			"ControlName"	"ImagePanel"
+			"fieldName"		"ModeBackgroundImage"
+			"xpos"			"0"
+			"ypos"			"0"
+			"zpos"			"-1"
+			"wide"			"f0"
+			"tall"			"p0.7"
+			"visible"		"1"
+			"enabled"		"1"
+			"mouseinputenabled" "0"
+			"image"			"competitive/comp_background_wood01"
+			"scaleImage"	"1"
+		}
+
 		"UpperLine"
 		{
 			"ControlName"	"EditablePanel"

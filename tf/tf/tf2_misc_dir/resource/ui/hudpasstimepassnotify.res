@@ -19,7 +19,7 @@ Resource/UI/HudPasstimePassNotify.res
 		ControlName 				EditablePanel
 		fieldName 					HudPasstimePassNotify
 		xpos 						0
-		ypos 						0
+		ypos 						16
 		zpos 						0
 		wide 						f0
 		tall 						480

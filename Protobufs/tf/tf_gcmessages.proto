@@ -122,6 +122,9 @@ enum ETFGCMsg {
 	k_EMsgGCVoteKickPlayerRequest = 6513;
 	k_EMsgGCVoteKickPlayerRequestResponse = 6514;
 	k_EMsgGC_Ladder_RankUp = 6515;
+	k_EMsgGC_DailyCompetitiveStatsRollup = 6516;
+	k_EMsgGC_DailyCompetitiveStatsRollup_Response = 6517;
+	k_EMsgGC_WorldStatusBroadcast = 6518;
 	k_EMsgGCDev_GrantWarKill = 10001;
 }
 
@@ -208,6 +211,10 @@ message CMsgGCTFSpecificItemBroadcast {
 	optional uint32 item_def_index = 1;
 	optional bool was_destruction = 2;
 	optional string user_name = 3;
+}
+
+message CMsgTFWorldStatus {
+	optional bool beta_stress_test_event_active = 1 [default = false];
 }
 
 message CSOTFDuelSummary {
@@ -515,9 +522,7 @@ message CSOTFPartyMember {
 	optional uint32 badge_level = 4;
 	optional bool squad_surplus = 5;
 	optional bool is_banned = 8 [default = false];
-	optional bool owns_ladder_pass = 9;
-	optional bool phone_verified = 10 [default = false];
-	optional bool two_factor_enabled = 11 [default = false];
+	optional bool competitive_beta_access = 9;
 	optional uint32 ladder_rank = 12;
 }
 
@@ -1083,6 +1088,12 @@ message CMsgGC_Match_Result {
 		optional uint32 damage = 10;
 		optional uint32 healing = 11;
 		optional uint32 support = 12;
+		optional uint32 score_medal = 13;
+		optional uint32 kills_medal = 14;
+		optional uint32 damage_medal = 15;
+		optional uint32 healing_medal = 16;
+		optional uint32 support_medal = 17;
+		optional uint32 rank = 18;
 	}
 
 	enum Status {
@@ -1091,6 +1102,8 @@ message CMsgGC_Match_Result {
 		MATCH_FAILED_TRUSTED = 2;
 		MATCH_FAILED_LEAVER = 3;
 		MATCH_FAILED_RATING = 4;
+		MATCH_FAILED_UNKNOWN = 5;
+		MATCH_FAILED_TIMEOUT = 6;
 	}
 
 	optional uint64 match_id = 1 [(key_field) = true];
@@ -1126,15 +1139,43 @@ message CMsgGC_Client2GCEconPreviewDataBlockResponse {
 message CSOTFLadderPlayerStats {
 	optional uint32 account_id = 1 [(key_field) = true];
 	optional .TF_SkillRatingMatchType match_type = 2 [default = TF_SkillRatingMatchType_INVALID, (key_field) = true];
-	optional uint32 games = 3;
-	optional uint32 kills = 4;
-	optional uint32 damage = 5;
-	optional uint32 healing = 6;
-	optional uint32 support = 7;
+	optional uint32 season_id = 3 [(key_field) = true];
+	optional uint32 rank = 4;
+	optional uint32 highest_rank = 5;
+	optional uint32 experience = 6;
+	optional uint32 games = 7;
 	optional uint32 score = 8;
-	optional uint32 experience = 9;
-	optional uint32 highest_rank = 10;
-	optional uint32 rank = 11;
+	optional uint32 kills = 9;
+	optional uint32 damage = 10;
+	optional uint32 healing = 11;
+	optional uint32 support = 12;
+	optional uint32 last_score = 13;
+	optional uint32 last_kills = 14;
+	optional uint32 last_damage = 15;
+	optional uint32 last_healing = 16;
+	optional uint32 last_support = 17;
+	optional uint32 score_bronze = 18;
+	optional uint32 score_silver = 19;
+	optional uint32 score_gold = 20;
+	optional uint32 kills_bronze = 21;
+	optional uint32 kills_silver = 22;
+	optional uint32 kills_gold = 23;
+	optional uint32 damage_bronze = 24;
+	optional uint32 damage_silver = 25;
+	optional uint32 damage_gold = 26;
+	optional uint32 healing_bronze = 27;
+	optional uint32 healing_silver = 28;
+	optional uint32 healing_gold = 29;
+	optional uint32 support_bronze = 30;
+	optional uint32 support_silver = 31;
+	optional uint32 support_gold = 32;
+	optional uint32 last_score_medal = 33;
+	optional uint32 last_kills_medal = 34;
+	optional uint32 last_damage_medal = 35;
+	optional uint32 last_healing_medal = 36;
+	optional uint32 last_support_medal = 37;
+	optional uint32 rating = 38;
+	optional int32 last_rating_change = 39;
 }
 
 message CMsgGC_TFVoteKickPlayerRequest {
@@ -1148,5 +1189,27 @@ message CMsgGC_VoteKickPlayerRequestResponse {
 message CMsgGC_Ladder_RankUp {
 	optional uint32 rank = 1;
 	optional .TF_SkillRatingMatchType match_type = 2 [default = TF_SkillRatingMatchType_INVALID];
+}
+
+message CMsgGC_DailyCompetitiveStatsRollup {
+}
+
+message CMsgGC_DailyCompetitiveStatsRollup_Response {
+	message RankBucketEntry {
+		optional uint32 rank = 1;
+		optional uint32 records = 2;
+		optional uint32 avg_score = 3;
+		optional uint32 stdev_score = 4;
+		optional uint32 avg_kills = 5;
+		optional uint32 stdev_kills = 6;
+		optional uint32 avg_damage = 7;
+		optional uint32 stdev_damage = 8;
+		optional uint32 avg_healing = 9;
+		optional uint32 stdev_healing = 10;
+		optional uint32 avg_support = 11;
+		optional uint32 stdev_support = 12;
+	}
+
+	repeated .CMsgGC_DailyCompetitiveStatsRollup_Response.RankBucketEntry rankdata = 1;
 }
 

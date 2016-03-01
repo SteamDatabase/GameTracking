@@ -1504,11 +1504,16 @@
 	{
 	}
 
-	"competitive_skillrating_update"
+	"competitive_stats_update"
 	{
 		"index"		"short"		// entindex of the player
 		"rating"	"short"		// skillrating
 		"delta"		"short"		// skillrating adjustment
+		"kills_rank"	"byte"	// num std deviations above
+		"score_rank"	"byte"	//
+		"damage_rank"	"byte"	//
+		"healing_rank"	"byte"	//
+		"support_rank"	"byte"	//
 	}
 
 	"minigame_win"
@@ -1746,6 +1751,15 @@
 
 	"player_abandoned_match"
 	{
+	}
+
+	"cl_drawline"
+	{
+		"player"	"byte"		// index of the player
+		"panel"		"byte"		// type of panel
+		"line"		"byte"		// type of line
+		"x"			"float"		
+		"y"			"float"		
 	}
 }
 

@@ -1376,4 +1376,120 @@ event QuestItem_Highlight_Off_Halloween
 	Animate GlowImage Alpha 0 Bias 0.8 0 0.2
 }
 
+//--------------------------------------------------------------------------
+event CompetitiveGame_LowerChatWindow
+{
+	Animate HudChat ypos r140 Accel 0 0
+}
+
+event CompetitiveGame_RestoreChatWindow
+{
+	Animate HudChat ypos 275 Accel 0 0
+}
+
+event HudTournament_MoveChatWindow
+{
+	RunEvent CompetitiveGame_LowerChatWindow 0
+	RunEvent CompetitiveGame_RestoreChatWindow 8
+}
+
+//--------------------------------------------------------------------------
+event HudTournament_AnimateTeams_In
+{
+	Animate RedTeamPanel xpos c150 Accel 0 0.25
+	Animate BlueTeamPanel xpos c-300 Accel 0 0.25
+}
+
+event HudTournament_AnimateTeams_Out
+{
+	Animate RedTeamPanel xpos r-5 Accel 0 0.68
+	Animate BlueTeamPanel xpos -155 Accel 0 0.68
+}
+
+event HudTournament_DoorsClose
+{
+	StopEvent HudTournament_ResetTimer 0
+
+	SetVisible CountdownBG  0 5
+	SetVisible CountdownLabel 1 0
+	SetVisible CountdownLabelShadow 1 0
+
+	Animate CountdownLabel ypos c-5 Gain 0.75 0 0.4
+	Animate CountdownLabelShadow ypos c-2 Gain 0.75 0 0.4
+
+	SetVisible	MatchStartingBG	1	0
+	SetVisible	BlueTeamPanel	1	0
+	SetVisible	RedTeamPanel	1	0
+
+	SetVisible	HudTournamentBG 0	2
+	SetVisible	TournamentConditionLabel 0 2
+	RunEventChild MatchStartingBG PlayDoorCloseAnim 0
+	RunEventChild FrontParticlePanel PlayDoorSlamParticles 0.45
+	RunEventChild MatchStartingBG PlayDoorOpenAnim 7
+
+	RunEvent HudTournament_AnimateTeams_In 0.25
+	RunEvent HudTournament_AnimateTeams_Out 7.70
+
+	SetVisible CountdownLabel 0 9.9
+	SetVisible CountdownLabelShadow 0 9.9
+
+	SetVisible	MatchStartingBG	0	10
+	SetVisible	BlueTeamPanel	0	10
+	SetVisible	RedTeamPanel	0	10
+	
+	SetVisible CountdownBG 1 11
+}
+
+event PlayDoorSlamParticles
+{
+	FireCommand 0 "start0"
+}
+
+event PlayDoorCloseAnim
+{
+	FireCommand 0 "animation close"
+}
+
+event PlayDoorOpenAnim
+{
+	FireCommand 0 "animation open"
+}
+
+event HudTournament_ShowTimerCompetitive
+{
+	Animate CountdownLabel ypos 150 Linear 0 0
+	Animate CountdownLabelShadow ypos 150 Linear 0 0
+
+	SetVisible CountdownBG  1 0
+	SetVisible CountdownLabel 1 0
+	SetVisible CountdownLabelShadow 1 0
+}
+
+event HudTournament_ShowTimerDefault
+{
+	Animate CountdownLabel ypos 425 Linear 0 0
+	Animate CountdownLabelShadow ypos 425 Linear 0 0
+
+	SetVisible CountdownBG  1 0
+	SetVisible CountdownLabel 1 0
+	SetVisible CountdownLabelShadow 1 0
+}
+
+event HudTournament_HideTimer
+{
+	SetVisible CountdownBG  0 0
+	SetVisible CountdownLabel 0 0
+	SetVisible CountdownLabelShadow 0 0
+}
+
+event Hud_StatsAndMedals_Show
+{
+	SetVisible	DrawingPanel	0	0
+	SetVisible	WinPanelLogo	0	0
+	SetVisible	StatsBgPanel	1	0
+	SetVisible	StatsLabelPanel	1	0
+	Animate StatsLabelPanel ypos 75 Accel 0 0.1
+	Animate BlueMedals ypos 75 Accel 0 0.1
+	Animate RedMedals ypos 75 Accel 0 0.1
+}
 //

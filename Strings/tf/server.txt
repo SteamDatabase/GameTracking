@@ -156,6 +156,8 @@
 (anonymous namespace)::CMsgConsumableExhausted_reflection_
 (anonymous namespace)::CMsgCraftCollectionUpgrade_descriptor_
 (anonymous namespace)::CMsgCraftCollectionUpgrade_reflection_
+(anonymous namespace)::CMsgCraftCommonStatClock_descriptor_
+(anonymous namespace)::CMsgCraftCommonStatClock_reflection_
 (anonymous namespace)::CMsgCraftHalloweenOffering_descriptor_
 (anonymous namespace)::CMsgCraftHalloweenOffering_reflection_
 (anonymous namespace)::CMsgCraftingResponse_descriptor_
@@ -180,6 +182,10 @@
 (anonymous namespace)::CMsgFulfillDynamicRecipeComponent_reflection_
 (anonymous namespace)::CMsgGCBannedWordListRequest_descriptor_
 (anonymous namespace)::CMsgGCBannedWordListRequest_reflection_
+(anonymous namespace)::CMsgGCCheckClanMembership_Response_descriptor_
+(anonymous namespace)::CMsgGCCheckClanMembership_Response_reflection_
+(anonymous namespace)::CMsgGCCheckClanMembership_descriptor_
+(anonymous namespace)::CMsgGCCheckClanMembership_reflection_
 (anonymous namespace)::CMsgGCCheckFriendship_Response_descriptor_
 (anonymous namespace)::CMsgGCCheckFriendship_Response_reflection_
 (anonymous namespace)::CMsgGCCheckFriendship_descriptor_
@@ -356,6 +362,12 @@
 (anonymous namespace)::CMsgGC_Client_UseServerModificationItem_Response_reflection_
 (anonymous namespace)::CMsgGC_Client_UseServerModificationItem_descriptor_
 (anonymous namespace)::CMsgGC_Client_UseServerModificationItem_reflection_
+(anonymous namespace)::CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry_descriptor_
+(anonymous namespace)::CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry_reflection_
+(anonymous namespace)::CMsgGC_DailyCompetitiveStatsRollup_Response_descriptor_
+(anonymous namespace)::CMsgGC_DailyCompetitiveStatsRollup_Response_reflection_
+(anonymous namespace)::CMsgGC_DailyCompetitiveStatsRollup_descriptor_
+(anonymous namespace)::CMsgGC_DailyCompetitiveStatsRollup_reflection_
 (anonymous namespace)::CMsgGC_GameServer_AckPolicyResponse_descriptor_
 (anonymous namespace)::CMsgGC_GameServer_AckPolicyResponse_reflection_
 (anonymous namespace)::CMsgGC_GameServer_AckPolicy_descriptor_
@@ -655,6 +667,8 @@
 (anonymous namespace)::CMsgTFVoteKickBanPlayerResult_reflection_
 (anonymous namespace)::CMsgTFVoteKickBanPlayer_descriptor_
 (anonymous namespace)::CMsgTFVoteKickBanPlayer_reflection_
+(anonymous namespace)::CMsgTFWorldStatus_descriptor_
+(anonymous namespace)::CMsgTFWorldStatus_reflection_
 (anonymous namespace)::CMsgTrackUniquePlayerPairEvent_descriptor_
 (anonymous namespace)::CMsgTrackUniquePlayerPairEvent_reflection_
 (anonymous namespace)::CMsgUpdateHalloweenMerasmusLootLevel_Player_descriptor_
@@ -785,6 +799,7 @@
 -ServerMatchmakingState_ACTIVE_SLOTS_AVAILABLE
 -allowdebug
 -bugbait
+-burn
 -class
 -count
 -damage
@@ -801,6 +816,7 @@
 -k_EMsgGCFulfillDynamicRecipeComponentResponse
 -k_EMsgGCRequestStoreSalesDataUpToDateResponse
 -k_EMsgGC_Client2GCEconPreviewDataBlockRequest
+-k_EMsgGC_DailyCompetitiveStatsRollup_Response
 -k_EMsgGC_GameServer_UseServerModificationItem
 -k_EMsgGC_IncrementKillCountAttribute_Multiple
 -k_ItemPurgatoryResponse_Finalize_BackpackFull
@@ -1034,7 +1050,6 @@
 9k_ItemPurgatoryResponse_Finalize_Failed_CouldNotFindItems
 9pdt1
 9pdtN
-9wxtR
 A13CTEBeamPoints
 A13CTFWeaponBase
 A16CTFBotController
@@ -1053,7 +1068,9 @@ ACT_BACKSTAB_VM_UP
 ACT_BALL_VM_CATCH
 ACT_BALL_VM_IDLE
 ACT_BALL_VM_PICKUP
-ACT_BALL_VM_THROW
+ACT_BALL_VM_THROW_END
+ACT_BALL_VM_THROW_LOOP
+ACT_BALL_VM_THROW_START
 ACT_BARNACLE_CHEW
 ACT_BARNACLE_CHOMP
 ACT_BARNACLE_HIT
@@ -2022,6 +2039,7 @@ ACT_MP_ATTACK_SWIM_PRIMARY_SUPER
 ACT_MP_ATTACK_SWIM_SECONDARY
 ACT_MP_ATTACK_SWIM_SECONDARY2
 ACT_MP_ATTACK_SWIM_SECONDARYFIRE
+ACT_MP_COMPETITIVE_LOSERSTATE
 ACT_MP_CROUCHWALK
 ACT_MP_CROUCHWALK_BUILDING
 ACT_MP_CROUCHWALK_BUILDING_DEPLOYED
@@ -4168,6 +4186,13 @@ Announcer.AM_RoundStartRandom
 Announcer.AM_TeamScrambleRandom
 Announcer.Cart.FinalWarning
 Announcer.Cart.Warning
+Announcer.CompFinalGameBeginsFight
+Announcer.CompGameBeginsFight
+Announcer.CompMatchWinBlu
+Announcer.CompMatchWinRed
+Announcer.CompRoundStalemate
+Announcer.CompRoundWinBlu
+Announcer.CompRoundWinRed
 Announcer.ControlPointContested
 Announcer.ControlPointContested_Neutral
 Announcer.EnemyTeamCloseToWinning
@@ -4251,6 +4276,7 @@ Announcer.SD_TheirTeamDroppedFlag
 Announcer.SD_TheirTeamHasFlag
 Announcer.SecurityAlert
 Announcer.Success
+Announcer.SummaryScreenWinners
 Announcer.TimeAdded
 Announcer.TimeAddedForEnemy
 Announcer.TimeAwardedForTeam
@@ -4355,6 +4381,7 @@ BallFracHistSampleCount
 BallFracHistStdev
 BallHistSampleThink
 BallNeutralSec
+BallPowerThink
 Barbed
 Barnblitz
 Barricade_Achievement_Check
@@ -9807,7 +9834,6 @@ CChangeLevelIssue::GetDetailsString()
 CChangeLevelIssue::GetDisplayString()
 CChangeLevelIssue::GetVotePassedString()
 CChangeLevelIssue::IsEnabled()
-CChangeLevelIssue::IsTeamRestrictedVote()
 CChangeLevelIssue::IsYesNoVote()
 CChangeLevelIssue::ListIssueDetails(CBasePlayer*)
 CChangeLevelIssue::~CChangeLevelIssue()
@@ -9967,7 +9993,6 @@ CClassLimitsIssue::GetDisplayString()
 CClassLimitsIssue::GetTypeStringLocalized()
 CClassLimitsIssue::GetVotePassedString()
 CClassLimitsIssue::IsEnabled()
-CClassLimitsIssue::IsTeamRestrictedVote()
 CClassLimitsIssue::ListIssueDetails(CBasePlayer*)
 CClassLimitsIssue::~CClassLimitsIssue()
 CClassMemoryPool<GCSDK::CNetPacket>::~CClassMemoryPool()
@@ -10157,7 +10182,17 @@ CCommentary_SaveRestoreBlockHandler::Save(ISave*)
 CCommentary_SaveRestoreBlockHandler::WriteSaveHeaders(ISave*)
 CCompareFriendFoeInfluence
 CCompareFriendFoeInfluence::Inspect(CKnownEntity const&)
+CCompetitiveLogic
+CCompetitiveLogic::GetDataDescMap()
+CCompetitiveLogic::m_DataMap
+CCompetitiveLogic::~CCompetitiveLogic()
+CCompetitiveLogic_DataDescInit::g_DataMapHolder
 CCompetitiveMatchInfo::CCompetitiveMatchInfo(unsigned long long, int)
+CCompetitiveMatchInfo::CalculatePlayerMatchRankData()
+CCompetitiveMatchInfo::GetMatchRankDataForPlayer(CSteamID)
+CCompetitiveMatchInfo::GetRankForStat(CCompetitiveMatchInfo::RankStatType_t, int, unsigned int)
+CCompetitiveMatchInfo::RequestGCRankData()
+CCompetitiveMatchInfo::SetDailyRankData(CCompetitiveMatchInfo::DailyStatsRankBucket_t)
 CConceptHistoriesDataOps
 CConceptHistoriesDataOps::IsEmpty(SaveRestoreFieldInfo_t const&)
 CConceptHistoriesDataOps::MakeEmpty(SaveRestoreFieldInfo_t const&)
@@ -10886,6 +10921,8 @@ CEconTool_GiftWrap
 CEconTool_GiftWrap::BFinishInitialization()
 CEconTool_GiftWrap::CEconTool_GiftWrap(char const*, char const*, item_capabilities_t, KeyValues*)
 CEconTool_GiftWrap::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const
+CEconTool_GiftWrap::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttrDef_CannotGiftwrap
+CEconTool_GiftWrap::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttrDef_ToolNeedsGiftwrap
 CEconTool_GiftWrap::RequiresToolEscrowPeriod() const
 CEconTool_GiftWrap::~CEconTool_GiftWrap()
 CEconTool_GrantOperationPass
@@ -10961,6 +10998,7 @@ CEconTool_WrappedGift::~CEconTool_WrappedGift()
 CEconTool_Xifier
 CEconTool_Xifier::CEconTool_Xifier(char const*, char const*, item_capabilities_t, KeyValues*)
 CEconTool_Xifier::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const
+CEconTool_Xifier::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttribDef_StatModule
 CEconTool_Xifier::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttribDef_ToolTargetItem
 CEconTool_Xifier::~CEconTool_Xifier()
 CEconWearable
@@ -11385,6 +11423,10 @@ CEntityFactory<CCommentaryViewPosition>
 CEntityFactory<CCommentaryViewPosition>::Create(char const*)
 CEntityFactory<CCommentaryViewPosition>::Destroy(IServerNetworkable*)
 CEntityFactory<CCommentaryViewPosition>::GetEntitySize()
+CEntityFactory<CCompetitiveLogic>
+CEntityFactory<CCompetitiveLogic>::Create(char const*)
+CEntityFactory<CCompetitiveLogic>::Destroy(IServerNetworkable*)
+CEntityFactory<CCompetitiveLogic>::GetEntitySize()
 CEntityFactory<CConstraintAnchor>
 CEntityFactory<CConstraintAnchor>::Create(char const*)
 CEntityFactory<CConstraintAnchor>::Destroy(IServerNetworkable*)
@@ -14272,7 +14314,6 @@ CExtendLevelIssue::GetDisplayString()
 CExtendLevelIssue::GetQuorumRatio()
 CExtendLevelIssue::GetVotePassedString()
 CExtendLevelIssue::IsEnabled()
-CExtendLevelIssue::IsTeamRestrictedVote()
 CExtendLevelIssue::ListIssueDetails(CBasePlayer*)
 CExtendLevelIssue::~CExtendLevelIssue()
 CExtraMapEntity
@@ -15343,6 +15384,9 @@ CGCCoaching_CoachJoining::~CGCCoaching_CoachJoining()
 CGCCoaching_RemoveCurrentCoach
 CGCCoaching_RemoveCurrentCoach::BYieldingRunGCJob(GCSDK::IMsgNetPacket*)
 CGCCoaching_RemoveCurrentCoach::~CGCCoaching_RemoveCurrentCoach()
+CGCCompetitiveDailyStatsRollupJob
+CGCCompetitiveDailyStatsRollupJob::BYieldingRunGCJob(GCSDK::IMsgNetPacket*)
+CGCCompetitiveDailyStatsRollupJob::~CGCCompetitiveDailyStatsRollupJob()
 CGCDev_NewItemRequestResponse
 CGCDev_NewItemRequestResponse::BYieldingRunGCJob(GCSDK::IMsgNetPacket*)
 CGCDev_NewItemRequestResponse::~CGCDev_NewItemRequestResponse()
@@ -17038,7 +17082,6 @@ CMannVsMachineChangeChallengeIssue::GetDisplayString()
 CMannVsMachineChangeChallengeIssue::GetNumberVoteOptions()
 CMannVsMachineChangeChallengeIssue::GetVotePassedString()
 CMannVsMachineChangeChallengeIssue::IsEnabled()
-CMannVsMachineChangeChallengeIssue::IsTeamRestrictedVote()
 CMannVsMachineChangeChallengeIssue::IsYesNoVote()
 CMannVsMachineChangeChallengeIssue::ListIssueDetails(CBasePlayer*)
 CMannVsMachineChangeChallengeIssue::~CMannVsMachineChangeChallengeIssue()
@@ -17886,6 +17929,18 @@ CMsgCraftCollectionUpgrade::SerializeWithCachedSizesToArray(unsigned char*) cons
 CMsgCraftCollectionUpgrade::SetCachedSize(int) const
 CMsgCraftCollectionUpgrade::default_instance_
 CMsgCraftCollectionUpgrade::~CMsgCraftCollectionUpgrade()
+CMsgCraftCommonStatClock
+CMsgCraftCommonStatClock::ByteSize() const
+CMsgCraftCommonStatClock::Clear()
+CMsgCraftCommonStatClock::GetCachedSize() const
+CMsgCraftCommonStatClock::GetMetadata() const
+CMsgCraftCommonStatClock::IsInitialized() const
+CMsgCraftCommonStatClock::MergeFrom(CMsgCraftCommonStatClock const&)
+CMsgCraftCommonStatClock::New() const
+CMsgCraftCommonStatClock::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgCraftCommonStatClock::SetCachedSize(int) const
+CMsgCraftCommonStatClock::default_instance_
+CMsgCraftCommonStatClock::~CMsgCraftCommonStatClock()
 CMsgCraftHalloweenOffering
 CMsgCraftHalloweenOffering::ByteSize() const
 CMsgCraftHalloweenOffering::Clear()
@@ -18033,6 +18088,30 @@ CMsgGCBannedWordListRequest::SerializeWithCachedSizesToArray(unsigned char*) con
 CMsgGCBannedWordListRequest::SetCachedSize(int) const
 CMsgGCBannedWordListRequest::default_instance_
 CMsgGCBannedWordListRequest::~CMsgGCBannedWordListRequest()
+CMsgGCCheckClanMembership
+CMsgGCCheckClanMembership::ByteSize() const
+CMsgGCCheckClanMembership::Clear()
+CMsgGCCheckClanMembership::GetCachedSize() const
+CMsgGCCheckClanMembership::GetMetadata() const
+CMsgGCCheckClanMembership::IsInitialized() const
+CMsgGCCheckClanMembership::MergeFrom(CMsgGCCheckClanMembership const&)
+CMsgGCCheckClanMembership::New() const
+CMsgGCCheckClanMembership::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGCCheckClanMembership::SetCachedSize(int) const
+CMsgGCCheckClanMembership::default_instance_
+CMsgGCCheckClanMembership::~CMsgGCCheckClanMembership()
+CMsgGCCheckClanMembership_Response
+CMsgGCCheckClanMembership_Response::ByteSize() const
+CMsgGCCheckClanMembership_Response::Clear()
+CMsgGCCheckClanMembership_Response::GetCachedSize() const
+CMsgGCCheckClanMembership_Response::GetMetadata() const
+CMsgGCCheckClanMembership_Response::IsInitialized() const
+CMsgGCCheckClanMembership_Response::MergeFrom(CMsgGCCheckClanMembership_Response const&)
+CMsgGCCheckClanMembership_Response::New() const
+CMsgGCCheckClanMembership_Response::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGCCheckClanMembership_Response::SetCachedSize(int) const
+CMsgGCCheckClanMembership_Response::default_instance_
+CMsgGCCheckClanMembership_Response::~CMsgGCCheckClanMembership_Response()
 CMsgGCCheckFriendship
 CMsgGCCheckFriendship::ByteSize() const
 CMsgGCCheckFriendship::Clear()
@@ -19097,6 +19176,48 @@ CMsgGC_Client_UseServerModificationItem_Response::SerializeWithCachedSizesToArra
 CMsgGC_Client_UseServerModificationItem_Response::SetCachedSize(int) const
 CMsgGC_Client_UseServerModificationItem_Response::default_instance_
 CMsgGC_Client_UseServerModificationItem_Response::~CMsgGC_Client_UseServerModificationItem_Response()
+CMsgGC_DailyCompetitiveStatsRollup
+CMsgGC_DailyCompetitiveStatsRollup::ByteSize() const
+CMsgGC_DailyCompetitiveStatsRollup::CMsgGC_DailyCompetitiveStatsRollup()
+CMsgGC_DailyCompetitiveStatsRollup::Clear()
+CMsgGC_DailyCompetitiveStatsRollup::GetCachedSize() const
+CMsgGC_DailyCompetitiveStatsRollup::GetMetadata() const
+CMsgGC_DailyCompetitiveStatsRollup::IsInitialized() const
+CMsgGC_DailyCompetitiveStatsRollup::MergeFrom(CMsgGC_DailyCompetitiveStatsRollup const&)
+CMsgGC_DailyCompetitiveStatsRollup::New() const
+CMsgGC_DailyCompetitiveStatsRollup::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGC_DailyCompetitiveStatsRollup::SetCachedSize(int) const
+CMsgGC_DailyCompetitiveStatsRollup::default_instance()
+CMsgGC_DailyCompetitiveStatsRollup::default_instance_
+CMsgGC_DailyCompetitiveStatsRollup::descriptor()
+CMsgGC_DailyCompetitiveStatsRollup::~CMsgGC_DailyCompetitiveStatsRollup()
+CMsgGC_DailyCompetitiveStatsRollup_Response
+CMsgGC_DailyCompetitiveStatsRollup_Response::ByteSize() const
+CMsgGC_DailyCompetitiveStatsRollup_Response::CMsgGC_DailyCompetitiveStatsRollup_Response()
+CMsgGC_DailyCompetitiveStatsRollup_Response::Clear()
+CMsgGC_DailyCompetitiveStatsRollup_Response::GetCachedSize() const
+CMsgGC_DailyCompetitiveStatsRollup_Response::GetMetadata() const
+CMsgGC_DailyCompetitiveStatsRollup_Response::IsInitialized() const
+CMsgGC_DailyCompetitiveStatsRollup_Response::MergeFrom(CMsgGC_DailyCompetitiveStatsRollup_Response const&)
+CMsgGC_DailyCompetitiveStatsRollup_Response::New() const
+CMsgGC_DailyCompetitiveStatsRollup_Response::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGC_DailyCompetitiveStatsRollup_Response::SetCachedSize(int) const
+CMsgGC_DailyCompetitiveStatsRollup_Response::default_instance()
+CMsgGC_DailyCompetitiveStatsRollup_Response::default_instance_
+CMsgGC_DailyCompetitiveStatsRollup_Response::descriptor()
+CMsgGC_DailyCompetitiveStatsRollup_Response::~CMsgGC_DailyCompetitiveStatsRollup_Response()
+CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry
+CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry::ByteSize() const
+CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry::Clear()
+CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry::GetCachedSize() const
+CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry::GetMetadata() const
+CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry::IsInitialized() const
+CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry::MergeFrom(CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry const&)
+CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry::New() const
+CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry::SetCachedSize(int) const
+CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry::default_instance_
+CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry::~CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry()
 CMsgGC_GameServer_AckPolicy
 CMsgGC_GameServer_AckPolicy::ByteSize() const
 CMsgGC_GameServer_AckPolicy::Clear()
@@ -21027,6 +21148,18 @@ CMsgTFVoteKickBanPlayerResult::default_instance()
 CMsgTFVoteKickBanPlayerResult::default_instance_
 CMsgTFVoteKickBanPlayerResult::descriptor()
 CMsgTFVoteKickBanPlayerResult::~CMsgTFVoteKickBanPlayerResult()
+CMsgTFWorldStatus
+CMsgTFWorldStatus::ByteSize() const
+CMsgTFWorldStatus::Clear()
+CMsgTFWorldStatus::GetCachedSize() const
+CMsgTFWorldStatus::GetMetadata() const
+CMsgTFWorldStatus::IsInitialized() const
+CMsgTFWorldStatus::MergeFrom(CMsgTFWorldStatus const&)
+CMsgTFWorldStatus::New() const
+CMsgTFWorldStatus::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgTFWorldStatus::SetCachedSize(int) const
+CMsgTFWorldStatus::default_instance_
+CMsgTFWorldStatus::~CMsgTFWorldStatus()
 CMsgTrackUniquePlayerPairEvent
 CMsgTrackUniquePlayerPairEvent::ByteSize() const
 CMsgTrackUniquePlayerPairEvent::CMsgTrackUniquePlayerPairEvent()
@@ -21794,7 +21927,6 @@ CNextLevelIssue::GetQuorumRatio()
 CNextLevelIssue::GetVoteOptions(CUtlVector<char const*, CUtlMemory<char const*, int> >&)
 CNextLevelIssue::GetVotePassedString()
 CNextLevelIssue::IsEnabled()
-CNextLevelIssue::IsTeamRestrictedVote()
 CNextLevelIssue::IsYesNoVote()
 CNextLevelIssue::ListIssueDetails(CBasePlayer*)
 CNextLevelIssue::~CNextLevelIssue()
@@ -22328,7 +22460,7 @@ CPasstimeBallControllerHoming::OnBallPickedUp(CPasstimeBall*, CTFPlayer*)
 CPasstimeBallControllerHoming::OnBallSpawned(CPasstimeBall*)
 CPasstimeBallControllerHoming::OnDisabled()
 CPasstimeBallControllerHoming::SetTargetSpeed(float)
-CPasstimeBallControllerHoming::StartHoming(CPasstimeBall*, CTFPlayer*)
+CPasstimeBallControllerHoming::StartHoming(CPasstimeBall*, CTFPlayer*, bool)
 CPasstimeBallControllerHoming::~CPasstimeBallControllerHoming()
 CPasstimeBallControllerPlayerSeek
 CPasstimeBallControllerPlayerSeek::Apply(CPasstimeBall*)
@@ -22360,6 +22492,7 @@ CPasstimeGun::EThrowState const& CNetworkVarBase<CPasstimeGun::EThrowState, CPas
 CPasstimeGun::Equip(CBaseCombatCharacter*)
 CPasstimeGun::GetChargeBeginTime()
 CPasstimeGun::GetChargeMaxTime()
+CPasstimeGun::GetCurrentCharge()
 CPasstimeGun::GetDrawActivity()
 CPasstimeGun::GetServerClass()
 CPasstimeGun::GetWeaponID() const
@@ -22437,6 +22570,15 @@ CPathTrack_DataDescInit::g_DataMapHolder
 CPathfindNearestNodeFilter
 CPathfindNearestNodeFilter::IsValid(CAI_Node*)
 CPathfindNearestNodeFilter::ShouldContinue()
+CPauseGameIssue
+CPauseGameIssue::CanCallVote(int, char const*, vote_create_failed_t&, int&)
+CPauseGameIssue::ExecuteCommand()
+CPauseGameIssue::GetDetailsString()
+CPauseGameIssue::GetDisplayString()
+CPauseGameIssue::GetVotePassedString()
+CPauseGameIssue::IsEnabled()
+CPauseGameIssue::ListIssueDetails(CBasePlayer*)
+CPauseGameIssue::~CPauseGameIssue()
 CPeriodicSpawnPopulator
 CPeriodicSpawnPopulator::CPeriodicSpawnPopulator(CPopulationManager*)
 CPeriodicSpawnPopulator::Parse(KeyValues*)
@@ -23844,7 +23986,6 @@ CRestartGameIssue::ExecuteCommand()
 CRestartGameIssue::GetDisplayString()
 CRestartGameIssue::GetVotePassedString()
 CRestartGameIssue::IsEnabled()
-CRestartGameIssue::IsTeamRestrictedVote()
 CRestartGameIssue::ListIssueDetails(CBasePlayer*)
 CRestartGameIssue::~CRestartGameIssue()
 CRestore
@@ -24654,7 +24795,6 @@ CScrambleTeams::ExecuteCommand()
 CScrambleTeams::GetDisplayString()
 CScrambleTeams::GetVotePassedString()
 CScrambleTeams::IsEnabled()
-CScrambleTeams::IsTeamRestrictedVote()
 CScrambleTeams::ListIssueDetails(CBasePlayer*)
 CScrambleTeams::~CScrambleTeams()
 CScriptedTarget
@@ -27111,9 +27251,11 @@ CTFGameRules::BetweenRounds_End()
 CTFGameRules::BetweenRounds_Start()
 CTFGameRules::BetweenRounds_Think()
 CTFGameRules::BonusStateThink()
+CTFGameRules::BroadcastDrawLine(CTFPlayer*, KeyValues*)
 CTFGameRules::CTFGameRules()
 CTFGameRules::CalcDominationAndRevenge(CTFPlayer*, CBaseEntity*, CTFPlayer*, bool, int*)
 CTFGameRules::CalcPlayerScore(RoundStats_t*, CTFPlayer*)
+CTFGameRules::CalcPlayerSupportScore(RoundStats_t*, int)
 CTFGameRules::CalculateCurrencyAmount_ByType(CurrencyRewards_t)
 CTFGameRules::CalculateCurrencyAmount_CustomPack(int)
 CTFGameRules::CanBotChangeClass(CBasePlayer*)
@@ -27142,6 +27284,8 @@ CTFGameRules::ClientSettingsChanged(CBasePlayer*)
 CTFGameRules::ClientSpawned(edict_t*)
 CTFGameRules::CollectCapturePoints(CBasePlayer*, CUtlVector<CTeamControlPoint*, CUtlMemory<CTeamControlPoint*, int> >*) const
 CTFGameRules::CollectDefendPoints(CBasePlayer*, CUtlVector<CTeamControlPoint*, CUtlMemory<CTeamControlPoint*, int> >*) const
+CTFGameRules::CompetitiveMatchSummaryEnd()
+CTFGameRules::CompetitiveMatchSummaryStart()
 CTFGameRules::ComputeHealthAndAmmoVectors()
 CTFGameRules::CountActivePlayers()
 CTFGameRules::CreateStandardEntities()
@@ -27197,6 +27341,7 @@ CTFGameRules::GetStalemateSong(int)
 CTFGameRules::GetStatsMinimumPlayedTime()
 CTFGameRules::GetStatsMinimumPlayers()
 CTFGameRules::GetTaggedConVarList(KeyValues*)
+CTFGameRules::GetTeamAssignmentOverride(CTFPlayer*, int)
 CTFGameRules::GetUpgradeTier(int)
 CTFGameRules::GetViewVectors() const
 CTFGameRules::GoToIntermission()
@@ -27236,6 +27381,7 @@ CTFGameRules::LoadMapCycleFile()
 CTFGameRules::LoadMapCycleFileIntoVector(char const*, CUtlVector<char*, CUtlMemory<char*, int> >&)
 CTFGameRules::LoadNextTrainingMap()
 CTFGameRules::LoseSongName(int)
+CTFGameRules::ManageCompetitiveMode()
 CTFGameRules::ManageServerSideVoteCreation()
 CTFGameRules::ManageStopwatchTimer(bool)
 CTFGameRules::OnCoachJoining(unsigned int, unsigned int)
@@ -27251,6 +27397,7 @@ CTFGameRules::PlayHelltowerAnnouncerVO(int, int)::flBlueAnnouncerTalkingUntil
 CTFGameRules::PlayHelltowerAnnouncerVO(int, int)::flRedAnnouncerTalkingUntil
 CTFGameRules::PlaySpecialCapSounds(int, CTeamControlPoint*)
 CTFGameRules::PlayTrainCaptureAlert(CTeamControlPoint*, bool)
+CTFGameRules::PlayWinSong(int)
 CTFGameRules::PlayerArenaRoundScoreSortFunc(PlayerArenaRoundScore_t const*, PlayerArenaRoundScore_t const*)
 CTFGameRules::PlayerHistory_AddPlayer(CTFPlayer*)
 CTFGameRules::PlayerHistory_GetPlayerInfo(CTFPlayer*)
@@ -27261,6 +27408,7 @@ CTFGameRules::PlayerMayBlockPoint(CBasePlayer*, int, char*, int)
 CTFGameRules::PlayerMayCapturePoint(CBasePlayer*, int, char*, int)
 CTFGameRules::PlayerReadyStatus_HaveMinPlayersToEnable()
 CTFGameRules::PlayerReadyStatus_ResetState()
+CTFGameRules::PlayerReadyStatus_ShouldStartCountdown()
 CTFGameRules::PlayerReadyStatus_UpdatePlayerState(CTFPlayer*, bool)
 CTFGameRules::PlayerRoundScoreSortFunc(PlayerRoundScore_t const*, PlayerRoundScore_t const*)
 CTFGameRules::PointsMayAlwaysBeBlocked()
@@ -27268,6 +27416,7 @@ CTFGameRules::PointsMayBeCaptured()
 CTFGameRules::PowerupModeFlagStandoffActive()
 CTFGameRules::PowerupTeamImbalance(int)
 CTFGameRules::PreRound_End()
+CTFGameRules::PreRound_Start()
 CTFGameRules::Precache()
 CTFGameRules::PreviousRoundEnd()
 CTFGameRules::ProcessVerboseLogOutput()
@@ -27281,6 +27430,7 @@ CTFGameRules::RemoveAllProjectiles()
 CTFGameRules::RemoveAllProjectilesAndBuildings(bool)
 CTFGameRules::RemoveAllSentriesAmmo()
 CTFGameRules::RemovePlayerFromQueue(CTFPlayer*)
+CTFGameRules::RespawnPlayers(bool, bool, int)
 CTFGameRules::RespawnTeam(int)
 CTFGameRules::RestartTournament()
 CTFGameRules::RestoreActiveTimer()
@@ -27327,7 +27477,9 @@ CTFGameRules::SkillRating_AddOrUpdateRecord(CTFPlayer*, int)
 CTFGameRules::SkillRating_CalculateAdjustment(CTFPlayer*, CTFPlayer*, float)
 CTFGameRules::SkillRating_CalculateAdjustmentForTeams(int)
 CTFGameRules::SkillRating_CalculateTeamMultipliers(float&, float&)
+CTFGameRules::SkillRating_GetMatchType()
 CTFGameRules::SkillRating_GetNameForMatchType(TF_SkillRatingMatchType)
+CTFGameRules::SkillRating_GetRecord(CSteamID)
 CTFGameRules::SkillRating_GetRecord(CTFPlayer*)
 CTFGameRules::SkillRating_IsEnabled()
 CTFGameRules::SkillRating_ResetRecords()
@@ -27347,6 +27499,7 @@ CTFGameRules::TeamMayCapturePoint(int, int)
 CTFGameRules::TeamPlayerCountChanged(CTFTeam*)
 CTFGameRules::TeleportPlayersToTargetEntities(int, char const*, CUtlVector<CTFPlayer*, CUtlMemory<CTFPlayer*, int> >*)
 CTFGameRules::Think()
+CTFGameRules::Think()::nLastTimeSent
 CTFGameRules::TimerMayExpire()
 CTFGameRules::TournamentModeCanEndWithTimelimit()
 CTFGameRules::TrackWorkshopMapsInMapCycle()
@@ -27381,6 +27534,7 @@ CTFGameRulesProxy::InputSetRedTeamGoalString(inputdata_t&)
 CTFGameRulesProxy::InputSetRedTeamRespawnWaveTime(inputdata_t&)
 CTFGameRulesProxy::InputSetRedTeamRole(inputdata_t&)
 CTFGameRulesProxy::InputSetRequiredObserverTarget(inputdata_t&)
+CTFGameRulesProxy::InputSetRoundRespawnFreezeEnabled(inputdata_t&)
 CTFGameRulesProxy::TeamPlayerCountChanged(CTFTeam*)
 CTFGameRulesProxy::YouForgotToImplementOrDeclareServerClass()
 CTFGameRulesProxy::m_DataMap
@@ -27703,6 +27857,7 @@ CTFInventoryManager::GenerateBaseItems()
 CTFInventoryManager::GetActiveSets(CUtlVector<CEconItemSetDefinition const*, CUtlMemory<CEconItemSetDefinition const*, int> >*, CSteamID, int)
 CTFInventoryManager::GetBaseItemForClass(int, int)
 CTFInventoryManager::GetBaseItemForClass(int, int)::pItemDef_GrapplingHook
+CTFInventoryManager::GetBaseItemForClass(int, int)::pItemDef_MvMCanteen
 CTFInventoryManager::GetBaseItemForClass(int, int)::pItemDef_SpellBook
 CTFInventoryManager::GetInventoryForPlayer(CSteamID const&)
 CTFInventoryManager::GetItemInLoadoutForClass(int, int, CSteamID*)
@@ -28171,8 +28326,10 @@ CTFParticleCannon::m_DataMap
 CTFParticleCannon::~CTFParticleCannon()
 CTFParticleCannon_DataDescInit::g_DataMapHolder
 CTFPasstimeLogic
+CTFPasstimeLogic::AddBallPower(int)
 CTFPasstimeLogic::BCanPlayerPickUpBall(CTFPlayer*, HudNotification_t*) const
 CTFPasstimeLogic::BallHistSampleThink()
+CTFPasstimeLogic::BallPowerThink()
 CTFPasstimeLogic::CTFPasstimeLogic()
 CTFPasstimeLogic::CalcProgressFrac()
 CTFPasstimeLogic::EjectBall(CTFPlayer*, CTFPlayer*)
@@ -28415,7 +28572,6 @@ CTFPlayer::GetHeadScaleSpeed() const
 CTFPlayer::GetItem() const
 CTFPlayer::GetKartSpeedBoost()
 CTFPlayer::GetLoadoutItem(int, int, bool)
-CTFPlayer::GetMannVsMachineTeam(int)
 CTFPlayer::GetMaxAmmo(int, int)
 CTFPlayer::GetMaxHealth() const
 CTFPlayer::GetMaxHealthForBuffing() const
@@ -28513,6 +28669,8 @@ CTFPlayer::ItemTesting_UpdateBots(KeyValues*)
 CTFPlayer::ItemsMatch(TFPlayerClassData_t*, CEconItemView*, CEconItemView*, CTFWeaponBase*)
 CTFPlayer::ManageBuilderWeapons(TFPlayerClassData_t*)
 CTFPlayer::ManageRegularWeapons(TFPlayerClassData_t*)
+CTFPlayer::MatchMakingMatchPreRoundThink()
+CTFPlayer::MatchMakingMatchStartThink()
 CTFPlayer::MaybeDrawRailgunBeam(IRecipientFilter*, CTFWeaponBase*, Vector const&, Vector const&)
 CTFPlayer::MedicGetChargeLevel(CTFWeaponBase**)
 CTFPlayer::MedicGetHealTarget()
@@ -28613,6 +28771,7 @@ CTFPlayer::RemoveTeleportEffect()
 CTFPlayer::ResetKartDamage()
 CTFPlayer::ResetPerRoundStats()
 CTFPlayer::ResetScores()
+CTFPlayer::RuneRegenThink()
 CTFPlayer::SOCacheUnsubscribed(CSteamID const&)
 CTFPlayer::SaveLastWeaponSlot()
 CTFPlayer::SaveMe()
@@ -28758,7 +28917,7 @@ CTFPlayerDestructionLogic::FireGameEvent(IGameEvent*)
 CTFPlayerDestructionLogic::GetCountdownImage()
 CTFPlayerDestructionLogic::GetDataDescMap()
 CTFPlayerDestructionLogic::GetHealDistance()
-CTFPlayerDestructionLogic::GetPlayerDestrictionLogic()
+CTFPlayerDestructionLogic::GetPlayerDestructionLogic()
 CTFPlayerDestructionLogic::GetPropModelName() const
 CTFPlayerDestructionLogic::GetServerClass()
 CTFPlayerDestructionLogic::GetTeamLeader(int) const
@@ -28770,6 +28929,7 @@ CTFPlayerDestructionLogic::InputScoreRedPoints(inputdata_t&)
 CTFPlayerDestructionLogic::InputSetCountdownImage(inputdata_t&)
 CTFPlayerDestructionLogic::InputSetCountdownTimer(inputdata_t&)
 CTFPlayerDestructionLogic::InputSetFlagResetDelay(inputdata_t&)
+CTFPlayerDestructionLogic::InputSetPointsOnPlayerDeath(inputdata_t&)
 CTFPlayerDestructionLogic::IsUsingCustomCountdownImage()
 CTFPlayerDestructionLogic::OnBlueScoreChanged()
 CTFPlayerDestructionLogic::OnRedScoreChanged()
@@ -31099,7 +31259,6 @@ CTeamAutoBalanceIssue::GetQuorumRatio()
 CTeamAutoBalanceIssue::GetTypeStringLocalized()
 CTeamAutoBalanceIssue::GetVotePassedString()
 CTeamAutoBalanceIssue::IsEnabled()
-CTeamAutoBalanceIssue::IsTeamRestrictedVote()
 CTeamAutoBalanceIssue::ListIssueDetails(CBasePlayer*)
 CTeamAutoBalanceIssue::~CTeamAutoBalanceIssue()
 CTeamControlPoint
@@ -31309,6 +31468,8 @@ CTeamplayRoundBasedRules::CanChangelevelBecauseOfTimeLimit()
 CTeamplayRoundBasedRules::CanGoToStalemate()
 CTeamplayRoundBasedRules::CheckChatForReadySignal(CBasePlayer*, char const*)
 CTeamplayRoundBasedRules::CheckChatText(CBasePlayer*, char*)
+CTeamplayRoundBasedRules::CheckMaxRounds(bool)
+CTeamplayRoundBasedRules::CheckNextLevelCvar(bool)
 CTeamplayRoundBasedRules::CheckReadyRestart()
 CTeamplayRoundBasedRules::CheckRespawnWaves()
 CTeamplayRoundBasedRules::CheckRestartRound()
@@ -31330,6 +31491,7 @@ CTeamplayRoundBasedRules::GetLastMajorEventTime()
 CTeamplayRoundBasedRules::GetLastPlayedRound()
 CTeamplayRoundBasedRules::GetMinTimeWhenPlayerMaySpawn(CBasePlayer*)
 CTeamplayRoundBasedRules::GetNextRespawnWave(int, CBasePlayer*)
+CTeamplayRoundBasedRules::GetPostMatchPeriod()
 CTeamplayRoundBasedRules::GetPotentialPlayersLobbyPlayerInfo(CUtlVector<LobbyPlayerInfo_t, CUtlMemory<LobbyPlayerInfo_t, int> >&, bool)
 CTeamplayRoundBasedRules::GetRespawnTimeScalar(int)
 CTeamplayRoundBasedRules::GetRespawnWaveMaxLength(int, bool)
@@ -31365,6 +31527,7 @@ CTeamplayRoundBasedRules::PlayTrainCaptureAlert(CTeamControlPoint*, bool)
 CTeamplayRoundBasedRules::PlayWinSong(int)
 CTeamplayRoundBasedRules::PointsMayBeCaptured()
 CTeamplayRoundBasedRules::PreRound_End()
+CTeamplayRoundBasedRules::PreRound_Start()
 CTeamplayRoundBasedRules::PreviousRoundEnd()
 CTeamplayRoundBasedRules::RecalculateControlPointState()
 CTeamplayRoundBasedRules::ResetMapTime()
@@ -34051,6 +34214,8 @@ CUtlVector<CChoreoEvent*, CUtlMemory<CChoreoEvent*, int> >::AddToTail(CChoreoEve
 CUtlVector<CChoreoEvent*, CUtlMemory<CChoreoEvent*, int> >::~CUtlVector()
 CUtlVector<CChoreoScene*, CUtlMemory<CChoreoScene*, int> >::~CUtlVector()
 CUtlVector<CCommandContext, CUtlMemory<CCommandContext, int> >::~CUtlVector()
+CUtlVector<CCompetitiveMatchInfo::DailyStatsRankBucket_t, CUtlMemory<CCompetitiveMatchInfo::DailyStatsRankBucket_t, int> >::~CUtlVector()
+CUtlVector<CCompetitiveMatchInfo::PlayerMatchRankData_t, CUtlMemory<CCompetitiveMatchInfo::PlayerMatchRankData_t, int> >::~CUtlVector()
 CUtlVector<CConstraintFloodEntry, CUtlMemory<CConstraintFloodEntry, int> >::~CUtlVector()
 CUtlVector<CCoroutineMgr*, CUtlMemory<CCoroutineMgr*, int> >::~CUtlVector()
 CUtlVector<CDecalEmitterSystem::DecalListEntry, CUtlMemory<CDecalEmitterSystem::DecalListEntry, int> >::~CUtlVector()
@@ -35624,6 +35789,7 @@ CompareRangeToPoint(CTFNavArea* const*, CTFNavArea* const*)
 CompareSpawnOrder(HierarchicalSpawn_t*, HierarchicalSpawn_t*)
 CompareValue
 CompareValues
+CompetitiveSummary
 Complete
 ComputePushStartMatrix(matrix3x4_t&, CBaseEntity*, pushblock_t const&)
 ComputeRotSpeedToAlignAxes(Vector const&, Vector const&, Vector const&, float, float, float)
@@ -35740,6 +35906,7 @@ CreateJob_CGCClientJobServerGoodbye(GCSDK::CGCClient*, void*)
 CreateJob_CGCClientJobServerWelcome(GCSDK::CGCClient*, void*)
 CreateJob_CGCCoaching_CoachJoining(GCSDK::CGCClient*, void*)
 CreateJob_CGCCoaching_RemoveCurrentCoach(GCSDK::CGCClient*, void*)
+CreateJob_CGCCompetitiveDailyStatsRollupJob(GCSDK::CGCClient*, void*)
 CreateJob_CGCDev_NewItemRequestResponse(GCSDK::CGCClient*, void*)
 CreateJob_CGCReplicateConVars(GCSDK::CGCClient*, void*)
 CreateJob_CGCTFItemAcknowledged(GCSDK::CGCClient*, void*)
@@ -38496,7 +38663,7 @@ GCSDK::CJob::BYieldingRunJobFromMsg(GCSDK::IMsgNetPacket*)
 GCSDK::CJob::BYieldingWaitForMsg(GCSDK::IMsgNetPacket**)
 GCSDK::CJob::BYieldingWaitOneFrame()
 GCSDK::CJob::CHeartbeatsBeforeTimeout()
-GCSDK::CJob::CJob(GCSDK::CJobMgr&)
+GCSDK::CJob::CJob(GCSDK::CJobMgr&, char const*)
 GCSDK::CJob::Continue()
 GCSDK::CJob::EndPause(GCSDK::EJobPauseReason)
 GCSDK::CJob::GetName() const
@@ -40407,6 +40574,7 @@ InputSetPattern
 InputSetPhysicsSpeed
 InputSetPlaybackRate
 InputSetPlayerSpeed
+InputSetPointsOnPlayerDeath
 InputSetPoseParameterName
 InputSetPoseValue
 InputSetPosition
@@ -40422,6 +40590,7 @@ InputSetRespawnName
 InputSetRespawnTime
 InputSetReturnTime
 InputSetRotationDistance
+InputSetRoundRespawnFreezeEnabled
 InputSetScrollSpeed
 InputSetSection
 InputSetSequence
@@ -40651,6 +40820,7 @@ IsBoxIntersectingRay(Vector const&, Vector const&, Vector const&, Vector const&,
 IsBoxIntersectingSphere(Vector const&, Vector const&, Vector const&, float)
 IsCheats
 IsCompetitive
+IsCompetitiveMode
 IsCrit
 IsDedicated
 IsDemowolf
@@ -40915,7 +41085,9 @@ MATCH
 MATCH_FAILED_GC
 MATCH_FAILED_LEAVER
 MATCH_FAILED_RATING
+MATCH_FAILED_TIMEOUT
 MATCH_FAILED_TRUSTED
+MATCH_FAILED_UNKNOWN
 MATCH_SUCCEEDED
 MAX_LOCAL_NAV_DIST_FLY
 MAX_LOCAL_NAV_DIST_GROUND
@@ -41057,8 +41229,15 @@ MapVersion
 MarkAttribute
 MarkVPhysicsDebug(CBaseEntity*)
 MatSystemSurface008
+MatchMaking.MatchEndBlueWinMusic
+MatchMaking.MatchEndRedWinMusic
 MatchMaking.RoundEnd
+MatchMaking.RoundEndBlueWinMusic
+MatchMaking.RoundEndRedWinMusic
+MatchMaking.RoundEndStalemateMusic
 MatchMaking.RoundStart
+MatchMakingMatchPreRoundThink
+MatchMakingMatchStartThink
 MatchType
 Material
 MaterialSystemHardwareConfig012
@@ -41567,6 +41746,8 @@ OnBallFree
 OnBallGetAny
 OnBallGetBlu
 OnBallGetRed
+OnBallPowerDown
+OnBallPowerUp
 OnBallRemoved
 OnBaseCombatWeaponCreated(CBaseCombatWeapon*)
 OnBaseCombatWeaponDestroyed(CBaseCombatWeapon*)
@@ -41880,6 +42061,8 @@ OnSpark
 OnSpawn
 OnSpawnBall
 OnSpawnNPC
+OnSpawnRoomDoorsShouldLock
+OnSpawnRoomDoorsShouldUnlock
 OnSpawned
 OnSpokeConcept
 OnStart
@@ -41890,6 +42073,10 @@ OnStartTeam2
 OnStartTouch
 OnStartTouchAll
 OnStartTouchFlag
+OnStateEnterBetweenRounds
+OnStateEnterPreRound
+OnStateEnterRoundRunning
+OnStateExitPreRound
 OnStuck
 OnStunPlayer
 OnSuccess
@@ -42178,6 +42365,7 @@ Patrol
 Pause
 PauseBotSpawning
 PauseDuration
+PauseGame
 PayloadBlock
 PayloadGuard
 PayloadPush
@@ -42466,6 +42654,7 @@ PointInNoBuild(Vector const&, CBaseObject const*)
 PointInRespawnFlagZone(Vector const&)
 PointInRespawnRoom(CBaseEntity*, Vector const&)
 PointOnLineNearestPoint(Vector const&, Vector const&, Vector const&)
+PointValue
 Points
 PointsCrossRespawnRoomVisualizer(Vector const&, Vector const&, int)
 PointsScored
@@ -42675,6 +42864,7 @@ RandomSpawn
 RandomizeFMod
 Range
 RangeCompressor(float, float, float, float)
+RankBucketEntry
 Rating32
 ReadAndAllocStringValue(KeyValues*, char const*, char const*)
 ReadDMXHeader(CUtlBuffer&, char*, int, int&, char*, int, int&)
@@ -42878,6 +43068,7 @@ Rumble
 RunForThisManyWaves
 RunMimicCommand(CUserCmd&)
 RuneDuration
+RuneRegenThink
 SAVED_POSITION
 SCHED_AISCRIPT
 SCHED_ALERT_FACE
@@ -43455,6 +43646,7 @@ SetPhysicsSpeed
 SetPickupTouch
 SetPlaybackRate
 SetPlayerSpeed
+SetPointsOnPlayerDeath
 SetPoseParameterName
 SetPoseValue
 SetPosition
@@ -43481,6 +43673,7 @@ SetRespawnTime
 SetReturnTime
 SetRotationDistance
 SetRotationSpeed
+SetRoundRespawnFreezeEnabled
 SetScale
 SetScrollSpeed
 SetSection
@@ -44204,6 +44397,8 @@ TF_COND_BLEEDING
 TF_COND_BULLET_IMMUNE
 TF_COND_BURNING
 TF_COND_CANNOT_SWITCH_FROM_MELEE
+TF_COND_COMPETITIVE_LOSER
+TF_COND_COMPETITIVE_WINNER
 TF_COND_CRITBOOSTED
 TF_COND_CRITBOOSTED_BONUS_TIME
 TF_COND_CRITBOOSTED_CARD_EFFECT
@@ -44267,6 +44462,7 @@ TF_COND_MELEE_ONLY
 TF_COND_MINICRITBOOSTED_ON_KILL
 TF_COND_MVM_BOT_STUN_RADIOWAVE
 TF_COND_NOHEALINGDAMAGEBUFF
+TF_COND_NO_TAUNTING
 TF_COND_OBSCURED_SMOKE
 TF_COND_OFFENSEBUFF
 TF_COND_PARACHUTE_DEPLOYED
@@ -44792,6 +44988,7 @@ TLK_REQUEST_DUEL
 TLK_RESURRECTED
 TLK_ROCKET_DESTOYED
 TLK_ROUND_START
+TLK_ROUND_START_COMP
 TLK_SEE_COMBINE
 TLK_SELECTED
 TLK_SHOT
@@ -45461,6 +45658,7 @@ Weapon_Airstrike.AltFire
 Weapon_Airstrike.Fail
 Weapon_Arrow.ImpactConcrete
 Weapon_Arrow.ImpactFlesh
+Weapon_Arrow.ImpactFleshCrossbowHeal
 Weapon_Arrow.ImpactMetal
 Weapon_Arrow.ImpactWood
 Weapon_Arrow.Nearmiss
@@ -45735,10 +45933,10 @@ ___cxx_global_array_dtor
 ___cxx_global_array_dtor102
 ___cxx_global_array_dtor105
 ___cxx_global_array_dtor106
-___cxx_global_array_dtor1157
 ___cxx_global_array_dtor116
 ___cxx_global_array_dtor119
 ___cxx_global_array_dtor121
+___cxx_global_array_dtor1216
 ___cxx_global_array_dtor122
 ___cxx_global_array_dtor13
 ___cxx_global_array_dtor14
@@ -45748,7 +45946,8 @@ ___cxx_global_array_dtor150
 ___cxx_global_array_dtor158
 ___cxx_global_array_dtor16
 ___cxx_global_array_dtor166
-___cxx_global_array_dtor170
+___cxx_global_array_dtor167
+___cxx_global_array_dtor172
 ___cxx_global_array_dtor173
 ___cxx_global_array_dtor175
 ___cxx_global_array_dtor18
@@ -45760,7 +45959,7 @@ ___cxx_global_array_dtor19
 ___cxx_global_array_dtor191
 ___cxx_global_array_dtor192
 ___cxx_global_array_dtor195
-___cxx_global_array_dtor198
+___cxx_global_array_dtor199
 ___cxx_global_array_dtor20
 ___cxx_global_array_dtor200
 ___cxx_global_array_dtor21
@@ -45772,8 +45971,8 @@ ___cxx_global_array_dtor228
 ___cxx_global_array_dtor23
 ___cxx_global_array_dtor231
 ___cxx_global_array_dtor236
+___cxx_global_array_dtor240
 ___cxx_global_array_dtor241
-___cxx_global_array_dtor243
 ___cxx_global_array_dtor25
 ___cxx_global_array_dtor251
 ___cxx_global_array_dtor257
@@ -45792,8 +45991,8 @@ ___cxx_global_array_dtor34
 ___cxx_global_array_dtor351
 ___cxx_global_array_dtor36
 ___cxx_global_array_dtor38
-___cxx_global_array_dtor386
 ___cxx_global_array_dtor39
+___cxx_global_array_dtor396
 ___cxx_global_array_dtor397
 ___cxx_global_array_dtor40
 ___cxx_global_array_dtor408
@@ -45811,8 +46010,8 @@ ___cxx_global_array_dtor52
 ___cxx_global_array_dtor53
 ___cxx_global_array_dtor54
 ___cxx_global_array_dtor58
-___cxx_global_array_dtor59
 ___cxx_global_array_dtor60
+___cxx_global_array_dtor61
 ___cxx_global_array_dtor63
 ___cxx_global_array_dtor64
 ___cxx_global_array_dtor67
@@ -46645,7 +46844,6 @@ _mp_allowspectators
 _mp_autoteambalance
 _mp_blockstyle
 _mp_bonusroundtime
-_mp_bonusroundtime_final
 _mp_capdeteriorate_time
 _mp_capstyle
 _mp_chattime
@@ -46690,6 +46888,7 @@ _mp_time_between_capscoring
 _mp_timelimit
 _mp_tournament
 _mp_tournament_blueteamname
+_mp_tournament_post_match_period
 _mp_tournament_readymode
 _mp_tournament_readymode_countdown
 _mp_tournament_readymode_min
@@ -47053,6 +47252,10 @@ _sv_vote_issue_nextlevel_allowed
 _sv_vote_issue_nextlevel_allowextend
 _sv_vote_issue_nextlevel_choicesmode
 _sv_vote_issue_nextlevel_prevent_change
+_sv_vote_issue_pause_game_allowed
+_sv_vote_issue_pause_game_allowed_comp
+_sv_vote_issue_pause_game_cooldown
+_sv_vote_issue_pause_game_timer
 _sv_vote_issue_restart_game_allowed
 _sv_vote_issue_restart_game_allowed_mvm
 _sv_vote_issue_restart_game_cooldown
@@ -47220,6 +47423,8 @@ _tf_clamp_airducks
 _tf_clamp_back_speed
 _tf_clamp_back_speed_min
 _tf_classlimit
+_tf_competitive_mode
+_tf_competitive_preround_duration
 _tf_construction_build_rate_multiplier
 _tf_ctf_bonus_time
 _tf_damage_disablespread
@@ -47421,7 +47626,7 @@ _tf_merasmus_speed
 _tf_merasmus_speed_recovery_rate
 _tf_merasmus_stun_duration
 _tf_minigame_suddendeath_time
-_tf_mm_ladder_gc_timeout
+_tf_mm_ladder_match_info_retry_timer
 _tf_mm_player_reservation_timeout_seconds
 _tf_mm_servermode
 _tf_mm_skillrating_server_force_average
@@ -47496,6 +47701,20 @@ _tf_passtime_ball_sphere_collision
 _tf_passtime_ball_sphere_radius
 _tf_passtime_ball_takedamage
 _tf_passtime_ball_takedamage_force
+_tf_passtime_experiment_autopass
+_tf_passtime_experiment_instapass
+_tf_passtime_experiment_instapass_charge
+_tf_passtime_experiment_powerball
+_tf_passtime_experiment_powerball_airtimebonus
+_tf_passtime_experiment_powerball_decayamount
+_tf_passtime_experiment_powerball_decaysec
+_tf_passtime_experiment_powerball_decaysec_neutral
+_tf_passtime_experiment_powerball_maxairtimebonus
+_tf_passtime_experiment_powerball_passpoints
+_tf_passtime_experiment_powerball_threshold
+_tf_passtime_experiment_powerball_tugscore
+_tf_passtime_experiment_powerball_windiff
+_tf_passtime_experiment_telepass
 _tf_passtime_flinch_boost
 _tf_passtime_mode_homing_lock_sec
 _tf_passtime_mode_homing_speed
@@ -48132,6 +48351,9 @@ autoswitchto
 autoteam
 avatar
 avelocity
+avg_damage
+avg_healing
+avg_support
 avg_wait_time_join_late
 avg_wait_time_new
 axe_blade
@@ -48189,6 +48411,7 @@ beamcount_min
 beampredictable_id
 become_fireproof_on_hit_by_fire
 beinghealed
+beta_stress_test_event_active
 beveragetype
 bf_read::ReadBits(void*, int)
 bf_read::ReadFloat()
@@ -48576,6 +48799,7 @@ cc_bot_selectweapon
 cc_bot_selectweapon(CCommand const&)
 cc_bot_selectweapon_command
 cc_bot_sendcommand(CCommand const&)
+cc_competitive_mode(IConVar*, char const*, float)
 cc_generic_services
 cc_powerup_mode(IConVar*, char const*, float)
 cc_spawn_merasmus_at_level
@@ -48622,6 +48846,7 @@ cl_autoreload
 cl_autorezoom
 cl_backspeed
 cl_cmdrate
+cl_drawline
 cl_flag_return_height
 cl_flipviewmodels
 cl_forwardspeed
@@ -48638,6 +48863,7 @@ cl_updaterate
 cl_upspeed
 claim_type
 claimcode
+clanid
 class
 classType
 class_blue
@@ -48730,7 +48956,9 @@ commonitem
 community
 community_market_item_remaps
 community_update
-competitive_skillrating_update
+competitive_beta_access
+competitive_stats_update
+competitive_summary
 competitive_victory
 complete_quest
 completed
@@ -49008,12 +49236,17 @@ d3_citadel_05
 damage
 damage.txt
 damage_all_connected
+damage_bronze
 damage_causes_airblast
 damage_force_reduction
+damage_gold
+damage_medal
 damage_mitigated
 damage_percent_per_second
 damage_prevented
+damage_rank
 damage_resisted
+damage_silver
 damage_table
 damageamount
 damagebits
@@ -49341,6 +49574,9 @@ datamap_t* DataMapInit<CCommentaryAuto>(CCommentaryAuto*)::nameHolder
 datamap_t* DataMapInit<CCommentarySystem>(CCommentarySystem*)
 datamap_t* DataMapInit<CCommentarySystem>(CCommentarySystem*)::dataDesc
 datamap_t* DataMapInit<CCommentarySystem>(CCommentarySystem*)::nameHolder
+datamap_t* DataMapInit<CCompetitiveLogic>(CCompetitiveLogic*)
+datamap_t* DataMapInit<CCompetitiveLogic>(CCompetitiveLogic*)::dataDesc
+datamap_t* DataMapInit<CCompetitiveLogic>(CCompetitiveLogic*)::nameHolder
 datamap_t* DataMapInit<CConstantForceController>(CConstantForceController*)::dataDesc
 datamap_t* DataMapInit<CConstantForceController>(CConstantForceController*)::nameHolder
 datamap_t* DataMapInit<CConstraintAnchor>(CConstraintAnchor*)::dataDesc
@@ -51846,6 +52082,7 @@ g_JobType_CGCClientJobServerGoodbye
 g_JobType_CGCClientJobServerWelcome
 g_JobType_CGCCoaching_CoachJoining
 g_JobType_CGCCoaching_RemoveCurrentCoach
+g_JobType_CGCCompetitiveDailyStatsRollupJob
 g_JobType_CGCDev_NewItemRequestResponse
 g_JobType_CGCReplicateConVars
 g_JobType_CGCTFItemAcknowledged
@@ -51862,6 +52099,7 @@ g_JobType_CGC_GameServer_Duel_Response
 g_JobType_CGC_RespawnPostLoadoutChange
 g_KartSpellList
 g_KeyValues2ErrorStack
+g_LadderRankLevels
 g_LagCompensationManager
 g_Language
 g_LogFileHandle
@@ -52182,8 +52420,11 @@ guard variable for CEconLootListDefinition::BInitFromKV(KeyValues*, KeyValues*, 
 guard variable for CEconLootListDefinition::BInitFromKV(KeyValues*, KeyValues*, CEconItemSchema&, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)::pAttribDef_StartDropDate
 guard variable for CEconTool_DuckToken::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttrDef_DuckBadgeLevel
 guard variable for CEconTool_Festivizer::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttribDef_Festivizer
+guard variable for CEconTool_GiftWrap::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttrDef_CannotGiftwrap
+guard variable for CEconTool_GiftWrap::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttrDef_ToolNeedsGiftwrap
 guard variable for CEconTool_KillStreakifier::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttribDef_KillStreakEffect
 guard variable for CEconTool_StrangePart::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttrDef_StrangePartCounterID
+guard variable for CEconTool_Xifier::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttribDef_StatModule
 guard variable for CEconTool_Xifier::CanApplyTo(IEconItemInterface const*, IEconItemInterface const*) const::pAttribDef_ToolTargetItem
 guard variable for CEyeballBoss::PickNewSpawnSpot() const::spot
 guard variable for CEyeballBossLocomotion::GetFeet() const::feet
@@ -52226,6 +52467,7 @@ guard variable for CTFGCServerSystem::UpdateConnectedPlayersAndServerInfo(CMsgGa
 guard variable for CTFGameRules::DropBonusDuck(Vector const&, CTFPlayer*, CTFPlayer*, CTFPlayer*, bool, bool) const::pAttr_DuckLevelBadge
 guard variable for CTFGameRules::HandleScrambleTeams()::playerVector
 guard variable for CTFInventoryManager::GetBaseItemForClass(int, int)::pItemDef_GrapplingHook
+guard variable for CTFInventoryManager::GetBaseItemForClass(int, int)::pItemDef_MvMCanteen
 guard variable for CTFInventoryManager::GetBaseItemForClass(int, int)::pItemDef_SpellBook
 guard variable for CTFItemSchema::BCanStrangeFilterApplyToStrangeSlotInItem(unsigned int, unsigned int, IEconItemInterface const*, int, unsigned int*) const::pAttrDef_CannotRestore
 guard variable for CTFItemSchema::BCanStrangeFilterApplyToStrangeSlotInItem(unsigned int, unsigned int, IEconItemInterface const*, int, unsigned int*) const::pAttrDef_IsOperationPass
@@ -52659,6 +52901,8 @@ guard variable for datamap_t* DataMapInit<CCommentaryAuto>(CCommentaryAuto*)::da
 guard variable for datamap_t* DataMapInit<CCommentaryAuto>(CCommentaryAuto*)::nameHolder
 guard variable for datamap_t* DataMapInit<CCommentarySystem>(CCommentarySystem*)::dataDesc
 guard variable for datamap_t* DataMapInit<CCommentarySystem>(CCommentarySystem*)::nameHolder
+guard variable for datamap_t* DataMapInit<CCompetitiveLogic>(CCompetitiveLogic*)::dataDesc
+guard variable for datamap_t* DataMapInit<CCompetitiveLogic>(CCompetitiveLogic*)::nameHolder
 guard variable for datamap_t* DataMapInit<CConstantForceController>(CConstantForceController*)::nameHolder
 guard variable for datamap_t* DataMapInit<CConstraintAnchor>(CConstraintAnchor*)::nameHolder
 guard variable for datamap_t* DataMapInit<CCopyRecipientFilter>(CCopyRecipientFilter*)::dataDesc
@@ -53831,7 +54075,12 @@ healhuff_blu
 healhuff_red
 healing
 healing_array_element
+healing_bronze
+healing_gold
 healing_mastery
+healing_medal
+healing_rank
+healing_silver
 healshot_trail_blue
 healshot_trail_red
 health
@@ -55320,6 +55569,7 @@ is_vac_banned
 is_valve_server
 is_wallet_cash_trusted
 isbuilder
+ismember
 isstrange
 isunusual
 iszActivityName
@@ -55427,6 +55677,7 @@ itemdef_restrictions
 itemdefindex
 iteminfo
 itempack__ack_immediately
+itemrarity_restrictions
 items
 items_fulfilled
 items_game
@@ -55463,20 +55714,27 @@ kValidPositions_Hightower
 kValidPositions_Lakeside
 kValidPositions_MannManor
 kValidPositions_Viaduct
+k_EGCMsgAccountLockStatusChange
+k_EGCMsgAccountTwoFactorChange
 k_EGCMsgAchievementAwarded
 k_EGCMsgAddFreeLicense
 k_EGCMsgAddFreeLicenseResponse
 k_EGCMsgAppInfoUpdated
+k_EGCMsgCheckClanMembership
 k_EGCMsgCheckFriendship
 k_EGCMsgCheckFriendshipResponse
 k_EGCMsgConCommand
+k_EGCMsgDPPartnerMicroTxns
 k_EGCMsgFailedToCreate
 k_EGCMsgFindAccounts
 k_EGCMsgGenericReply
 k_EGCMsgGetAccountDetails
+k_EGCMsgGetAppFriendsList
 k_EGCMsgGetCommands
 k_EGCMsgGetCommandsResponse
 k_EGCMsgGetEmailTemplate
+k_EGCMsgGetIPASN
+k_EGCMsgGetIPASNResponse
 k_EGCMsgGetIPLocation
 k_EGCMsgGetIPLocationResponse
 k_EGCMsgGetLicenses
@@ -55532,6 +55790,7 @@ k_EGCMsgSystemBase
 k_EGCMsgSystemBase2
 k_EGCMsgSystemStatsSchema
 k_EGCMsgUpdateSession
+k_EGCMsgVacVerificationChange
 k_EGCMsgValidateSession
 k_EGCMsgValidateSessionResponse
 k_EGCMsgWGRequest
@@ -55572,6 +55831,7 @@ k_EMsgGCCollectItem
 k_EMsgGCConVarUpdated
 k_EMsgGCCraft
 k_EMsgGCCraftCollectionUpgrade
+k_EMsgGCCraftCommonStatClock
 k_EMsgGCCraftHalloweenOffering
 k_EMsgGCCraftResponse
 k_EMsgGCCreateOrUpdateParty
@@ -55712,6 +55972,7 @@ k_EMsgGC_ReportAbuse
 k_EMsgGC_ReportAbuseResponse
 k_EMsgGC_SpyVsEngyWar_JoinWar
 k_EMsgGC_UpdatePeriodicEvent
+k_EMsgGC_WorldStatusBroadcast
 k_EProtoObjectLobbyInvite
 k_EProtoObjectPartyInvite
 k_ESOMsg_CacheSubscribed
@@ -55762,8 +56023,13 @@ killer
 killer_account_id
 killer_steam_id
 kills
+kills_bronze
 kills_for_engy
 kills_for_spy
+kills_gold
+kills_medal
+kills_rank
+kills_silver
 killsthislife
 killstreak_player_1
 killstreak_player_1_count
@@ -55791,10 +56057,21 @@ landmarkModelSpace
 language
 lastMsgTime
 last_connect_time
+last_damage
+last_damage_medal
 last_duel_account_id
 last_duel_status
 last_duel_timestamp
+last_healing
+last_healing_medal
+last_kills
+last_kills_medal
+last_rating_change
+last_score
+last_score_medal
 last_shot_crits
+last_support
+last_support_medal
 last_valid_class
 last_valid_item_slot
 late_join_ok
@@ -56398,11 +56675,17 @@ m_OnSleep
 m_OnSpark
 m_OnSpawn
 m_OnSpawnNPC
+m_OnSpawnRoomDoorsShouldLock
+m_OnSpawnRoomDoorsShouldUnlock
 m_OnStart
 m_OnStartTeam1
 m_OnStartTeam2
 m_OnStartTouch
 m_OnStartTouchAll
+m_OnStateEnterBetweenRounds
+m_OnStateEnterPreRound
+m_OnStateEnterRoundRunning
+m_OnStateExitPreRound
 m_OnStunPlayer
 m_OnSuccess
 m_OnSuddenDeathStart
@@ -56744,6 +57027,7 @@ m_bColdWorld
 m_bCollide
 m_bCommentaryEnabledMidGame
 m_bCompetitiveMode
+m_bCompetitiveSummary
 m_bCompletedEarly
 m_bConditionsGathered
 m_bConnected
@@ -57049,6 +57333,7 @@ m_bShieldEquipped
 m_bShouldAlarm
 m_bShouldBlock
 m_bShouldDetach
+m_bShowCompetitiveMatchSummary
 m_bShowInHUD
 m_bShowTimeRemaining
 m_bSimulatedEveryTick
@@ -58171,6 +58456,7 @@ m_iBackgroundBModelName
 m_iBackgroundModelIndex
 m_iBackgroundTeam
 m_iBackstabs
+m_iBallPower
 m_iBallSpawnCountdownSec
 m_iBaseControlPoints
 m_iBonusChallenge
@@ -58776,6 +59062,7 @@ m_nCapturePoint
 m_nChargeResistType
 m_nClass
 m_nColor
+m_nCompetitiveSummaryType
 m_nCondition
 m_nCount
 m_nCurrency
@@ -59060,6 +59347,8 @@ m_onBallFree
 m_onBallGetAny
 m_onBallGetBlu
 m_onBallGetRed
+m_onBallPowerDown
+m_onBallPowerUp
 m_onBallRemoved
 m_onBotKilled
 m_onCountdown10SecRemain
@@ -59955,7 +60244,6 @@ mp_autocrosshair
 mp_autoteambalance
 mp_blockstyle
 mp_bonusroundtime
-mp_bonusroundtime_final
 mp_capdeteriorate_time
 mp_capstyle
 mp_chattime
@@ -60022,6 +60310,7 @@ mp_timelimit
 mp_tournament
 mp_tournament_allow_non_admin_restart
 mp_tournament_blueteamname
+mp_tournament_post_match_period
 mp_tournament_readymode
 mp_tournament_readymode_countdown
 mp_tournament_readymode_min
@@ -60975,6 +61264,7 @@ non-virtual thunk to CPasstimeBallSpawn::~CPasstimeBallSpawn()
 non-virtual thunk to CPasstimeGun::CanCharge()
 non-virtual thunk to CPasstimeGun::GetChargeBeginTime()
 non-virtual thunk to CPasstimeGun::GetChargeMaxTime()
+non-virtual thunk to CPasstimeGun::GetCurrentCharge()
 non-virtual thunk to CPhysBox::HasPreferredCarryAnglesForPlayer(CBasePlayer*)
 non-virtual thunk to CPhysBox::OnPhysGunDrop(CBasePlayer*, PhysGunDrop_t)
 non-virtual thunk to CPhysBox::OnPhysGunPickup(CBasePlayer*, PhysGunPickup_t)
@@ -61679,7 +61969,6 @@ owner_id
 owner_soid
 owner_steamid
 ownerid
-owns_ladder_pass
 owns_ticket
 p0000
 p0000000000000
@@ -61696,6 +61985,7 @@ paintcan_index
 paintkitWeapon
 paintkit_weapon_festivizer
 paintsplat
+panel
 panel_style
 panelname
 panic_attack_negative
@@ -61726,7 +62016,6 @@ particle_test_stop
 particles
 partner_accounts
 party_id
-pass_
 pass_ball_blocked
 pass_ball_stolen
 pass_free
@@ -61776,7 +62065,6 @@ perteamvisuals_t::~perteamvisuals_t()
 pffff.
 pffffff.
 phone_verification_time
-phone_verified
 phoneme
 phonemes
 phonemes_strong
@@ -62406,6 +62694,7 @@ randomnum
 randpool.cpp
 range
 rank_name
+rankdata
 rareitem
 rarities
 rarities_lootlist_weights
@@ -62446,6 +62735,7 @@ recipient_account_id
 recipient_account_ids
 reciprocal
 recorder
+records
 red_capture
 red_score
 red_score_prev
@@ -62692,6 +62982,7 @@ s_WastedSpeculativeUpdates
 s_aEnumGameTypeName
 s_aGameTypeNames
 s_acttableBuildingDeployed
+s_acttableCompetitiveLoserState
 s_acttableKartState
 s_acttableLoserState
 s_acttablePasstime
@@ -62812,11 +63103,16 @@ scorchshot_trail_crit_blue
 scorchshot_trail_crit_red
 scorchshot_trail_red
 score
+score_bronze
 score_check
+score_gold
 score_id
 score_interval
 score_key_name
 score_keys
+score_medal
+score_rank
+score_silver
 score_style
 score_type
 scoreboard_minigame
@@ -63449,6 +63745,11 @@ std::vector<void*, std::allocator<void*> >::_M_fill_insert(__gnu_cxx::__normal_i
 std::vector<void*, std::allocator<void*> >::_M_insert_aux(__gnu_cxx::__normal_iterator<void**, std::vector<void*, std::allocator<void*> > >, void* const&)
 std::vector<void*, std::allocator<void*> >::push_back(void* const&)
 std::vector<void*, std::allocator<void*> >::resize(unsigned long, void*)
+stdev_damage
+stdev_healing
+stdev_kills
+stdev_score
+stdev_support
 steam_id
 steam_level
 steam_lobby_id
@@ -63538,6 +63839,11 @@ success
 suitvolume
 superrare_beams1
 support
+support_bronze
+support_gold
+support_medal
+support_rank
+support_silver
 suppressFire
 surfaceprop
 surfaceprop(CCommand const&)
@@ -63682,6 +63988,10 @@ sv_vote_issue_nextlevel_allowed
 sv_vote_issue_nextlevel_allowextend
 sv_vote_issue_nextlevel_choicesmode
 sv_vote_issue_nextlevel_prevent_change
+sv_vote_issue_pause_game_allowed
+sv_vote_issue_pause_game_allowed_comp
+sv_vote_issue_pause_game_cooldown
+sv_vote_issue_pause_game_timer
 sv_vote_issue_restart_game_allowed
 sv_vote_issue_restart_game_allowed_mvm
 sv_vote_issue_restart_game_cooldown
@@ -64060,6 +64370,8 @@ tf_clamp_back_speed_min
 tf_classdata
 tf_classlimit
 tf_clear_attribute
+tf_competitive_mode
+tf_competitive_preround_duration
 tf_construction_build_rate_multiplier
 tf_ctf_bonus_time
 tf_damage_disablespread
@@ -64258,6 +64570,7 @@ tf_invuln_time
 tf_item_based_forced_holiday
 tf_logic_arena
 tf_logic_bonusround
+tf_logic_competitive
 tf_logic_cp_timer
 tf_logic_holiday
 tf_logic_hybrid_ctf_cp
@@ -64305,7 +64618,7 @@ tf_merasmus_speed_recovery_rate
 tf_merasmus_stun_duration
 tf_merasmus_trick_or_treat_prop
 tf_minigame_suddendeath_time
-tf_mm_ladder_gc_timeout
+tf_mm_ladder_match_info_retry_timer
 tf_mm_player_reservation_timeout_seconds
 tf_mm_servermode
 tf_mm_skillrating_server_force_average
@@ -64405,6 +64718,20 @@ tf_passtime_ball_sphere_collision
 tf_passtime_ball_sphere_radius
 tf_passtime_ball_takedamage
 tf_passtime_ball_takedamage_force
+tf_passtime_experiment_autopass
+tf_passtime_experiment_instapass
+tf_passtime_experiment_instapass_charge
+tf_passtime_experiment_powerball
+tf_passtime_experiment_powerball_airtimebonus
+tf_passtime_experiment_powerball_decayamount
+tf_passtime_experiment_powerball_decaysec
+tf_passtime_experiment_powerball_decaysec_neutral
+tf_passtime_experiment_powerball_maxairtimebonus
+tf_passtime_experiment_powerball_passpoints
+tf_passtime_experiment_powerball_threshold
+tf_passtime_experiment_powerball_tugscore
+tf_passtime_experiment_powerball_windiff
+tf_passtime_experiment_telepass
 tf_passtime_flinch_boost
 tf_passtime_mode_homing_lock_sec
 tf_passtime_mode_homing_speed
@@ -64919,6 +65246,7 @@ trigger_transition
 trigger_vphysics_motion
 trigger_wind
 trusted
+ttffff.
 ttg_watch_spy
 tufffff.
 tv_allow_camera_man
@@ -64946,7 +65274,6 @@ tw_soldierbot_helmet
 tw_spybot_armor
 tw_spybot_hood
 twfffff.
-two_factor_enabled
 two_factor_enabled_time
 txn_id
 type_id
@@ -65202,6 +65529,7 @@ typeinfo for CCommentarySystem
 typeinfo for CCommentaryViewPosition
 typeinfo for CCommentary_SaveRestoreBlockHandler
 typeinfo for CCompareFriendFoeInfluence
+typeinfo for CCompetitiveLogic
 typeinfo for CConceptHistoriesDataOps
 typeinfo for CConditionFortuneTellerEffect
 typeinfo for CConstantForceController
@@ -65382,6 +65710,7 @@ typeinfo for CEntityFactory<CColorCorrection>
 typeinfo for CEntityFactory<CColorCorrectionVolume>
 typeinfo for CEntityFactory<CCommentaryAuto>
 typeinfo for CEntityFactory<CCommentaryViewPosition>
+typeinfo for CEntityFactory<CCompetitiveLogic>
 typeinfo for CEntityFactory<CConstraintAnchor>
 typeinfo for CEntityFactory<CCredits>
 typeinfo for CEntityFactory<CCurrencyPack>
@@ -66120,6 +66449,7 @@ typeinfo for CGCClientJobServerWelcome
 typeinfo for CGCClientSystem
 typeinfo for CGCCoaching_CoachJoining
 typeinfo for CGCCoaching_RemoveCurrentCoach
+typeinfo for CGCCompetitiveDailyStatsRollupJob
 typeinfo for CGCDev_NewItemRequestResponse
 typeinfo for CGCMsgGC_PlayerDuckLeaderboard_IndividualUpdate
 typeinfo for CGCMsgGC_SpyVsEngyWar_GlobalStatsResponse
@@ -66355,6 +66685,7 @@ typeinfo for CMsgConVarValue
 typeinfo for CMsgConnectionStatus
 typeinfo for CMsgConsumableExhausted
 typeinfo for CMsgCraftCollectionUpgrade
+typeinfo for CMsgCraftCommonStatClock
 typeinfo for CMsgCraftHalloweenOffering
 typeinfo for CMsgCraftingResponse
 typeinfo for CMsgCreateOrUpdateParty
@@ -66367,6 +66698,8 @@ typeinfo for CMsgEconPlayerStrangeCountAdjustment_CStrangeCountAdjustment
 typeinfo for CMsgExitMatchmaking
 typeinfo for CMsgFulfillDynamicRecipeComponent
 typeinfo for CMsgGCBannedWordListRequest
+typeinfo for CMsgGCCheckClanMembership
+typeinfo for CMsgGCCheckClanMembership_Response
 typeinfo for CMsgGCCheckFriendship
 typeinfo for CMsgGCCheckFriendship_Response
 typeinfo for CMsgGCClientDisplayNotification
@@ -66453,6 +66786,9 @@ typeinfo for CMsgGC_Client2GCEconPreviewDataBlockRequest
 typeinfo for CMsgGC_Client2GCEconPreviewDataBlockResponse
 typeinfo for CMsgGC_Client_UseServerModificationItem
 typeinfo for CMsgGC_Client_UseServerModificationItem_Response
+typeinfo for CMsgGC_DailyCompetitiveStatsRollup
+typeinfo for CMsgGC_DailyCompetitiveStatsRollup_Response
+typeinfo for CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry
 typeinfo for CMsgGC_GameServer_AckPolicy
 typeinfo for CMsgGC_GameServer_AckPolicyResponse
 typeinfo for CMsgGC_GameServer_AuthChallenge
@@ -66599,6 +66935,7 @@ typeinfo for CMsgTFThankedBySomeone
 typeinfo for CMsgTFThankedSomeone
 typeinfo for CMsgTFVoteKickBanPlayer
 typeinfo for CMsgTFVoteKickBanPlayerResult
+typeinfo for CMsgTFWorldStatus
 typeinfo for CMsgTrackUniquePlayerPairEvent
 typeinfo for CMsgUpdateHalloweenMerasmusLootLevel
 typeinfo for CMsgUpdateHalloweenMerasmusLootLevel_Player
@@ -66654,6 +66991,7 @@ typeinfo for CPathCornerCrash
 typeinfo for CPathKeyFrame
 typeinfo for CPathTrack
 typeinfo for CPathfindNearestNodeFilter
+typeinfo for CPauseGameIssue
 typeinfo for CPeriodicSpawnPopulator
 typeinfo for CPhysBallSocket
 typeinfo for CPhysBox
@@ -68115,6 +68453,7 @@ typeinfo name for CCommentarySystem
 typeinfo name for CCommentaryViewPosition
 typeinfo name for CCommentary_SaveRestoreBlockHandler
 typeinfo name for CCompareFriendFoeInfluence
+typeinfo name for CCompetitiveLogic
 typeinfo name for CConceptHistoriesDataOps
 typeinfo name for CConditionFortuneTellerEffect
 typeinfo name for CConstantForceController
@@ -68295,6 +68634,7 @@ typeinfo name for CEntityFactory<CColorCorrection>
 typeinfo name for CEntityFactory<CColorCorrectionVolume>
 typeinfo name for CEntityFactory<CCommentaryAuto>
 typeinfo name for CEntityFactory<CCommentaryViewPosition>
+typeinfo name for CEntityFactory<CCompetitiveLogic>
 typeinfo name for CEntityFactory<CConstraintAnchor>
 typeinfo name for CEntityFactory<CCredits>
 typeinfo name for CEntityFactory<CCurrencyPack>
@@ -69033,6 +69373,7 @@ typeinfo name for CGCClientJobServerWelcome
 typeinfo name for CGCClientSystem
 typeinfo name for CGCCoaching_CoachJoining
 typeinfo name for CGCCoaching_RemoveCurrentCoach
+typeinfo name for CGCCompetitiveDailyStatsRollupJob
 typeinfo name for CGCDev_NewItemRequestResponse
 typeinfo name for CGCMsgGC_PlayerDuckLeaderboard_IndividualUpdate
 typeinfo name for CGCMsgGC_SpyVsEngyWar_GlobalStatsResponse
@@ -69268,6 +69609,7 @@ typeinfo name for CMsgConVarValue
 typeinfo name for CMsgConnectionStatus
 typeinfo name for CMsgConsumableExhausted
 typeinfo name for CMsgCraftCollectionUpgrade
+typeinfo name for CMsgCraftCommonStatClock
 typeinfo name for CMsgCraftHalloweenOffering
 typeinfo name for CMsgCraftingResponse
 typeinfo name for CMsgCreateOrUpdateParty
@@ -69280,6 +69622,8 @@ typeinfo name for CMsgEconPlayerStrangeCountAdjustment_CStrangeCountAdjustment
 typeinfo name for CMsgExitMatchmaking
 typeinfo name for CMsgFulfillDynamicRecipeComponent
 typeinfo name for CMsgGCBannedWordListRequest
+typeinfo name for CMsgGCCheckClanMembership
+typeinfo name for CMsgGCCheckClanMembership_Response
 typeinfo name for CMsgGCCheckFriendship
 typeinfo name for CMsgGCCheckFriendship_Response
 typeinfo name for CMsgGCClientDisplayNotification
@@ -69366,6 +69710,9 @@ typeinfo name for CMsgGC_Client2GCEconPreviewDataBlockRequest
 typeinfo name for CMsgGC_Client2GCEconPreviewDataBlockResponse
 typeinfo name for CMsgGC_Client_UseServerModificationItem
 typeinfo name for CMsgGC_Client_UseServerModificationItem_Response
+typeinfo name for CMsgGC_DailyCompetitiveStatsRollup
+typeinfo name for CMsgGC_DailyCompetitiveStatsRollup_Response
+typeinfo name for CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry
 typeinfo name for CMsgGC_GameServer_AckPolicy
 typeinfo name for CMsgGC_GameServer_AckPolicyResponse
 typeinfo name for CMsgGC_GameServer_AuthChallenge
@@ -69512,6 +69859,7 @@ typeinfo name for CMsgTFThankedBySomeone
 typeinfo name for CMsgTFThankedSomeone
 typeinfo name for CMsgTFVoteKickBanPlayer
 typeinfo name for CMsgTFVoteKickBanPlayerResult
+typeinfo name for CMsgTFWorldStatus
 typeinfo name for CMsgTrackUniquePlayerPairEvent
 typeinfo name for CMsgUpdateHalloweenMerasmusLootLevel
 typeinfo name for CMsgUpdateHalloweenMerasmusLootLevel_Player
@@ -69567,6 +69915,7 @@ typeinfo name for CPathCornerCrash
 typeinfo name for CPathKeyFrame
 typeinfo name for CPathTrack
 typeinfo name for CPathfindNearestNodeFilter
+typeinfo name for CPauseGameIssue
 typeinfo name for CPeriodicSpawnPopulator
 typeinfo name for CPhysBallSocket
 typeinfo name for CPhysBox
@@ -71315,6 +71664,7 @@ vtable for CCommentarySystem
 vtable for CCommentaryViewPosition
 vtable for CCommentary_SaveRestoreBlockHandler
 vtable for CCompareFriendFoeInfluence
+vtable for CCompetitiveLogic
 vtable for CConceptHistoriesDataOps
 vtable for CConditionFortuneTellerEffect
 vtable for CConstantForceController
@@ -71491,6 +71841,7 @@ vtable for CEntityFactory<CColorCorrection>
 vtable for CEntityFactory<CColorCorrectionVolume>
 vtable for CEntityFactory<CCommentaryAuto>
 vtable for CEntityFactory<CCommentaryViewPosition>
+vtable for CEntityFactory<CCompetitiveLogic>
 vtable for CEntityFactory<CConstraintAnchor>
 vtable for CEntityFactory<CCredits>
 vtable for CEntityFactory<CCurrencyPack>
@@ -72226,6 +72577,7 @@ vtable for CGCClientJobServerWelcome
 vtable for CGCClientSystem
 vtable for CGCCoaching_CoachJoining
 vtable for CGCCoaching_RemoveCurrentCoach
+vtable for CGCCompetitiveDailyStatsRollupJob
 vtable for CGCDev_NewItemRequestResponse
 vtable for CGCMsgGC_PlayerDuckLeaderboard_IndividualUpdate
 vtable for CGCMsgGC_SpyVsEngyWar_GlobalStatsResponse
@@ -72458,6 +72810,7 @@ vtable for CMsgConVarValue
 vtable for CMsgConnectionStatus
 vtable for CMsgConsumableExhausted
 vtable for CMsgCraftCollectionUpgrade
+vtable for CMsgCraftCommonStatClock
 vtable for CMsgCraftHalloweenOffering
 vtable for CMsgCraftingResponse
 vtable for CMsgCreateOrUpdateParty
@@ -72470,6 +72823,8 @@ vtable for CMsgEconPlayerStrangeCountAdjustment_CStrangeCountAdjustment
 vtable for CMsgExitMatchmaking
 vtable for CMsgFulfillDynamicRecipeComponent
 vtable for CMsgGCBannedWordListRequest
+vtable for CMsgGCCheckClanMembership
+vtable for CMsgGCCheckClanMembership_Response
 vtable for CMsgGCCheckFriendship
 vtable for CMsgGCCheckFriendship_Response
 vtable for CMsgGCClientDisplayNotification
@@ -72556,6 +72911,9 @@ vtable for CMsgGC_Client2GCEconPreviewDataBlockRequest
 vtable for CMsgGC_Client2GCEconPreviewDataBlockResponse
 vtable for CMsgGC_Client_UseServerModificationItem
 vtable for CMsgGC_Client_UseServerModificationItem_Response
+vtable for CMsgGC_DailyCompetitiveStatsRollup
+vtable for CMsgGC_DailyCompetitiveStatsRollup_Response
+vtable for CMsgGC_DailyCompetitiveStatsRollup_Response_RankBucketEntry
 vtable for CMsgGC_GameServer_AckPolicy
 vtable for CMsgGC_GameServer_AckPolicyResponse
 vtable for CMsgGC_GameServer_AuthChallenge
@@ -72702,6 +73060,7 @@ vtable for CMsgTFThankedBySomeone
 vtable for CMsgTFThankedSomeone
 vtable for CMsgTFVoteKickBanPlayer
 vtable for CMsgTFVoteKickBanPlayerResult
+vtable for CMsgTFWorldStatus
 vtable for CMsgTrackUniquePlayerPairEvent
 vtable for CMsgUpdateHalloweenMerasmusLootLevel
 vtable for CMsgUpdateHalloweenMerasmusLootLevel_Player
@@ -72756,6 +73115,7 @@ vtable for CPathCornerCrash
 vtable for CPathKeyFrame
 vtable for CPathTrack
 vtable for CPathfindNearestNodeFilter
+vtable for CPauseGameIssue
 vtable for CPeriodicSpawnPopulator
 vtable for CPhysBallSocket
 vtable for CPhysBox
@@ -73828,6 +74188,7 @@ weapon_taunt
 weapon_theirs
 weapon_type
 weapon_unusual_effects
+weapon_uses_stattrak_module
 weapondelay
 weaponid
 weaponmode

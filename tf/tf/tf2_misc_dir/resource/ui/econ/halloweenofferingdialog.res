@@ -83,8 +83,7 @@
 
 	"DrawingPanel"
 	{
-		"linecentercolor"		"QualityColorHaunted"
-		"lineoutercolor"		"QualityColorHaunted"
+		"linecolor"		"QualityColorHaunted"
 	}
 
 	"LetterFront"

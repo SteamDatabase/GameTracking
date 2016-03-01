@@ -169,7 +169,7 @@
 				"font"			"TradeUp_Quote"
 				"textAlignment"	"north-west"
 				"xpos"			"p0.66"
-				"ypos"			"p0.26"
+				"ypos"			"p0.20"
 				"zpos"			"1"
 				"wide"			"200"
 				"tall"			"300"

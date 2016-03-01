@@ -103,7 +103,7 @@
 			"fieldName"		"Issue"
 			"xpos"			"10"
 			"ypos"			"22"
-			"wide"			"130"
+			"wide"			"120"
 			"tall"			"40"
 			"visible"		"1"
 			"enabled"		"1"
@@ -115,6 +115,21 @@
 			"fgcolor_override"	"255 255 255 255"
 			"wrap"			"1"
 			"noshortcutsyntax" "1"
+		}
+
+		"TargetAvatarImage"
+		{
+			"ControlName"	"CAvatarImagePanel"
+			"fieldName"		"TargetAvatarImage"
+			"xpos"			"10"
+			"ypos"			"23"
+			"wide"			"16"
+			"tall"			"16"
+			"visible"		"0"
+			"enabled"		"1"
+			"image"			""
+			"scaleImage"	"1"	
+			"color_outline"	"52 48 45 255"
 		}
 		
 		// divider
