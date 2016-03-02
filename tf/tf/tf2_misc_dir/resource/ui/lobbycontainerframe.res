@@ -111,6 +111,7 @@
 			"paintbackground"	"0"
 			"activeborder_override"	"OutlinedGreyBox"
 			"normalborder_override" "OutlinedDullGreyBox"
+			"mouseinputenabled"	"0"
 		}
 	}
 
