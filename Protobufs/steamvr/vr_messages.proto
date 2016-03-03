@@ -6,10 +6,12 @@ message CVRMsg_Connect {
 	optional uint32 pid = 2;
 	optional string binary_path = 3;
 	optional uint32 application_type = 4;
+	optional bool reconnect = 5;
 }
 
 message CVRMsg_ConnectResponse {
 	optional int32 result = 1;
+	optional bool debug_pipe = 2;
 }
 
 message CVRMsg_ComputeDistortion {
@@ -316,6 +318,14 @@ message CVRMsg_CompositorFadeGrid {
 	optional bool fadein = 2;
 }
 
+message CVRMsg_CompositorPrepareInternalProcessTransition {
+	optional uint32 old_pid = 1;
+	optional uint32 new_pid = 2;
+}
+
+message CVRMsg_CompositorPrepareInternalProcessTransitionResponse {
+}
+
 message CVRMsg_TriggerHapticPulse {
 	optional uint32 device_index = 1;
 	optional uint32 axis_index = 2;
@@ -462,6 +472,17 @@ message CVRMsg_CancelApplicationLaunch {
 
 message CVRMsg_CancelApplicationLaunchResponse {
 	optional bool success = 1;
+}
+
+message CVRMsg_LaunchInternalProcess {
+	optional string binary_path = 1;
+	optional string arguments = 2;
+	optional string working_directory = 3;
+}
+
+message CVRMsg_LaunchInternalProcessResponse {
+	optional uint32 result = 1;
+	optional uint32 new_pid = 2;
 }
 
 message CVRMsg_SetNotificationImage {
