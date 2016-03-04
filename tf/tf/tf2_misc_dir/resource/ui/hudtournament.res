@@ -363,10 +363,11 @@
 				
 				if_competitive
 				{
-					"xpos"			"31"
-					"ypos"			"15"
-					"wide"			"p0.41"
+					"xpos"			"6"
+					"ypos"			"7.5"
+					"wide"			"p0.5"
 					"tall"			"p0.28"
+					"autoResize"	"1"
 					"proportionaltoparent" "1"
 				}
 			}

@@ -82,6 +82,33 @@
 		"tall"			"f0"
 		"visible"		"1"
 	}
+	"DisconnectButton"
+	{
+		"ControlName"	"CExButton"
+		"fieldName"		"DisconnectButton"
+		"xpos"			"cs-0.5"
+		"ypos"			"437"
+		"zpos"			"100"
+		"wide"			"180"
+		"tall"			"25"
+		"autoResize"	"0"
+		"pinCorner"		"3"
+		"visible"		"1"
+		"enabled"		"1"
+		"tabPosition"	"0"
+		"font"			"HudFontSmallBold"
+		"textAlignment"	"center"
+		"dulltext"		"0"
+		"brighttext"	"0"
+		"Command"		"disconnect"
+		"proportionaltoparent"	"1"
+		"labeltext"		"#GameUI_GameMenu_Disconnect"
+		"mouseinputenabled"	"1"
+
+
+		"sound_depressed"	"UI/buttonclick.wav"
+		"sound_released"	"UI/buttonclickrelease.wav"
+	}
 
 	"StatsLabelPanel"
 	{

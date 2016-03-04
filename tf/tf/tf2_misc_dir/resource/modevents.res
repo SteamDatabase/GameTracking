@@ -1751,6 +1751,7 @@
 
 	"player_abandoned_match"
 	{
+		"game_over"	"bool"
 	}
 
 	"cl_drawline"
