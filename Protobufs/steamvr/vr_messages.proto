@@ -215,6 +215,15 @@ message CVRMsg_TrackedCamera_GetVideoStreamFrameSharedTextureResponse {
 	optional uint64 texture_handle = 2;
 }
 
+message CVRMsg_TrackedCamera_SetCompatibilityMode {
+	optional uint32 device_index = 1;
+	optional int32 compatibility_mode = 2;
+}
+
+message CVRMsg_TrackedCamera_SetCompatibilityModeResponse {
+	optional bool result = 1;
+}
+
 message CVRMsg_GetProperty {
 	enum PropertyDataType {
 		PropType_String = 1;
@@ -408,6 +417,8 @@ message CVRMsg_ApplicationInfo_Manifest {
 	optional bool is_dashboard_overlay = 11;
 	optional string manifest_path = 12;
 	optional string source = 13;
+	optional bool is_template = 14 [default = false];
+	optional bool is_instance = 15 [default = false];
 }
 
 message CVRMsg_ApplicationInfo_Options {
@@ -437,6 +448,21 @@ message CVRMsg_LaunchApplication {
 }
 
 message CVRMsg_LaunchApplicationResponse {
+	optional uint32 result = 1;
+}
+
+message CVRMsg_LaunchTemplateApplication {
+	message AppOverrideKey {
+		optional string key = 1;
+		optional string value = 2;
+	}
+
+	optional string template_app_key = 1;
+	optional string requested_app_key = 2;
+	repeated .CVRMsg_LaunchTemplateApplication.AppOverrideKey override_keys = 3;
+}
+
+message CVRMsg_LaunchTemplateApplicationResponse {
 	optional uint32 result = 1;
 }
 
