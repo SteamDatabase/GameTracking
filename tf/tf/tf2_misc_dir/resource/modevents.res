@@ -1762,5 +1762,10 @@
 		"x"			"float"		
 		"y"			"float"		
 	}
+
+	"restart_timer_time"
+	{
+		"time"		"byte"		// How much time is left
+	}
 }
 

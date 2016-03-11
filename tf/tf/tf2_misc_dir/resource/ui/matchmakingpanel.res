@@ -40,7 +40,7 @@
 			"visible"		"1"
 			"enabled"		"1"
 			"mouseinputenabled" "0"
-			"image"			"competitive/comp_background_wood01"
+			"image"			"competitive/comp_background_tier001a"
 			"scaleImage"	"1"
 		}
 

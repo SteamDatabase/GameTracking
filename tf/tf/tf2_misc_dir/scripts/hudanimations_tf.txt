@@ -1390,7 +1390,7 @@ event CompetitiveGame_RestoreChatWindow
 event HudTournament_MoveChatWindow
 {
 	RunEvent CompetitiveGame_LowerChatWindow 0
-	RunEvent CompetitiveGame_RestoreChatWindow 8
+	RunEvent CompetitiveGame_RestoreChatWindow 10
 }
 
 //--------------------------------------------------------------------------
@@ -1430,14 +1430,26 @@ event HudTournament_DoorsClose
 	RunEvent HudTournament_AnimateTeams_In 0.25
 	RunEvent HudTournament_AnimateTeams_Out 7.70
 
+	SetVisible MatchStartingBG	0 9
 	SetVisible CountdownLabel 0 9.9
 	SetVisible CountdownLabelShadow 0 9.9
 
-	SetVisible	MatchStartingBG	0	10
-	SetVisible	BlueTeamPanel	0	10
-	SetVisible	RedTeamPanel	0	10
+	RunEvent HudTournament_DoorsCleanup 10
 	
 	SetVisible CountdownBG 1 11
+}
+
+event HudTournament_DoorsCleanup
+{
+	SetVisible CountdownLabel 0 0
+	SetVisible CountdownLabelShadow 0 0
+
+	SetVisible	MatchStartingBG	0	0
+	SetVisible	BlueTeamPanel	0	0
+	SetVisible	RedTeamPanel	0	0
+
+	Animate RedTeamPanel xpos r-5 Accel 0 0
+	Animate BlueTeamPanel xpos -155 Accel 0 0
 }
 
 event PlayDoorSlamParticles
@@ -1485,12 +1497,13 @@ event HudTournament_HideTimer
 event Hud_StatsAndMedals_Show
 {
 	SetVisible	DrawingPanel	0	0
-	SetVisible	WinPanelLogo	0	0
 	SetVisible	StatsBgPanel	1	0
 	SetVisible	StatsLabelPanel	1	0
 	Animate StatsLabelPanel ypos 75 Accel 0 0.1
 	Animate BlueMedals ypos 75 Accel 0 0.1
 	Animate RedMedals ypos 75 Accel 0 0.1
+	Animate BlueTeamLabel ypos 107 Accel 0 0.1
+	Animate RedTeamLabel ypos 107 Accel 0 0.1
 }
 
 event CompetitiveGame_HideDisconnectButton
@@ -1501,5 +1514,17 @@ event CompetitiveGame_HideDisconnectButton
 event CompetitiveGame_ShowDisconnectButton
 {
 	Animate DisconnectButton ypos r50 Accel 0 0.4
+}
+
+event CompetitiveGame_ShowWinnersSign
+{
+	FireCommand 0.5 "animation intro"
+	FireCommand 12.3 "animation outro"
+}
+
+event HudTournament_ShowRoundSign
+{
+	FireCommand 0 "animation intro"
+	FireCommand 5 "animation outro"
 }
 //

@@ -28,6 +28,63 @@
 		"AnimRedPlayerListBGWide"			"p.47"
 		"AnimRedPlayerListBGXPos"			"r9-p.47"
 	}
+
+	"WinnerSign"
+	{
+		"ControlName"	"CModelPanel"
+		"fieldName"		"WinnerSign"
+		"xpos"			"0"
+		"ypos"			"0"
+		"zpos"			"2"		
+		"wide"			"f0"
+		"tall"			"f0"
+		"autoResize"	"0"
+		"pinCorner"		"0"
+		"visible"		"1"
+		"enabled"		"1"
+		"fov"			"70"
+		"proportionaltoparent"	"1"
+		
+		"model"
+		{
+			"modelname"	"models/props_ui/comp_win_banner.mdl"
+			"skin"		"0"
+			"angles_x"	"30"
+			"angles_y"	"180"
+			"angles_z"	"0"
+			"origin_x"	"150"
+			"origin_y"	"0"
+			"origin_z"	"62"
+			"spotlight"	"1"
+			
+
+			"animation"
+			{
+				"name"			"ref"
+				"sequence"		"ref"
+				"default"		"1"
+			}
+
+			"animation"
+			{
+				"name"			"intro"
+				"sequence"		"intro"
+			}
+			
+			"animation"
+			{
+				"name"			"idle"
+				"sequence"		"idle"
+			}
+
+			"animation"
+			{
+				"name"			"outro"
+				"sequence"		"outro"
+			}
+		}
+	}	
+
 	"StatsBgPanel"
 	{
 		"ControlName"	"EditablePanel"
@@ -57,20 +114,7 @@
 		"linecolor"			"RedSolid"
 		"team_colors"		"1"
 	}
-	"WinPanelLogo"
-	{
-		"ControlName"	"CTFImagePanel"
-		"fieldName"		"WinPanelLogo"
-		"xpos"			"c-75"
-		"ypos"			"0"
-		"zpos"			"1"
-		"wide"			"150"
-		"tall"			"75"
-		"visible"		"1"
-		"enabled"		"1"
-		"image"			"competitive/comp_winners_logo01"	
-		"scaleImage"	"1"	
-	}
+
 	"ParticlePanel"
 	{
 		"ControlName"	"CTFParticlePanel"
@@ -236,6 +280,51 @@
 			"enabled"		"1"
 			"image"			"../hud/team_blue"
 			"scaleImage"		"1"
+		}
+		"BlueTeamLabel"
+		{
+			"ControlName"		"CExLabel"
+			"fieldName"		"BlueTeamLabel"
+			"font"			"CompMatchStartTeamNames"
+			"labelText"		"%blueteamname%"
+			"textAlignment"		"west"
+			"xpos"			"60"
+			"ypos"			"-25"
+			"zpos"			"20"
+			"wide"			"195"
+			"tall"			"20"
+			"autoResize"		"0"
+			"pinCorner"		"0"
+			"visible"		"1"
+			"enabled"		"1"
+		}
+		"BlueLeaderAvatar"
+		{
+			"ControlName"		"CAvatarImagePanel"
+			"fieldName"		"BlueLeaderAvatar"
+			"xpos"			"18"
+			"ypos"			"100"
+			"zpos"			"5"
+			"wide"			"34"
+			"tall"			"34"
+			"visible"		"0"
+			"enabled"		"1"
+			"image"			""
+			"scaleImage"	"1"	
+			"color_outline"	"52 48 45 255"
+		}
+		"BlueLeaderAvatarBG"
+		{
+			"ControlName"	"EditablePanel"
+			"fieldName"		"BlueLeaderAvatarBG"
+			"xpos"			"16"
+			"ypos"			"98"
+			"zpos"			"4"
+			"wide"			"38"
+			"tall"			"38"
+			"visible"		"1"
+			"PaintBackgroundType"	"2"
+			"bgcolor_override"	"117 107 94 255"
 		}
 		"BlueMedals"
 		{
@@ -451,7 +540,6 @@
 		{
 			"ControlName"		"ImagePanel"
 			"fieldName"		"RedTeamImage"
-			"fieldName"		"BlueTeamImage"
 			"xpos"			"r68"
 			"ypos"			"80"
 			"zpos"			"5"
@@ -461,6 +549,51 @@
 			"enabled"		"1"
 			"image"			"../hud/team_red"
 			"scaleImage"		"1"
+		}
+		"RedTeamLabel"
+		{
+			"ControlName"		"CExLabel"
+			"fieldName"		"RedTeamLabel"
+			"font"			"CompMatchStartTeamNames"
+			"labelText"		"%redteamname%"
+			"textAlignment"		"east"
+			"xpos"			"r255"
+			"ypos"			"-25"
+			"zpos"			"20"
+			"wide"			"195"
+			"tall"			"20"
+			"autoResize"		"0"
+			"pinCorner"		"0"
+			"visible"		"1"
+			"enabled"		"1"
+		}
+		"RedLeaderAvatar"
+		{
+			"ControlName"		"CAvatarImagePanel"
+			"fieldName"		"RedLeaderAvatar"
+			"xpos"			"r52"
+			"ypos"			"100"
+			"zpos"			"5"
+			"wide"			"34"
+			"tall"			"34"
+			"visible"		"0"
+			"enabled"		"1"
+			"image"			""
+			"scaleImage"	"1"	
+			"color_outline"	"52 48 45 255"
+		}
+		"RedLeaderAvatarBG"
+		{
+			"ControlName"	"EditablePanel"
+			"fieldName"		"RedLeaderAvatarBG"
+			"xpos"			"r54"
+			"ypos"			"98"
+			"zpos"			"4"
+			"wide"			"38"
+			"tall"			"38"
+			"visible"		"1"
+			"PaintBackgroundType"	"2"
+			"bgcolor_override"	"117 107 94 255"
 		}
 		"RedMedals"
 		{

@@ -16,26 +16,6 @@
 		"proportionaltoparent" "1"
 	}
 
-	"PageTitle"
-	{
-		"ControlName"	"CExLabel"
-		"fieldName"		"PageTitle"
-		"font"			"HudFontSmallBold"
-		"labelText"		"#TF_Competitive_Friends"
-		"textAlignment"	"center"
-		"xpos"			"5"
-		"ypos"			"0"
-		"zpos"			"10"
-		"wide"			"f0"
-		"tall"			"20"
-		"autoResize"	"1"
-		"pinCorner"		"0"
-		"visible"		"1"
-		"enabled"		"1"
-		"fgcolor_override"	"89 81 71 255"
-		"proportionaltoparent" "1"
-	}
-
 	"Line"
 	{
 		"ControlName"		"EditablePanel"
@@ -50,14 +30,14 @@
 		"bgcolor_override"	"89 81 71 255"
 	}
 
-	"ScoresContainer"
+	"ScoreListScroller"
 	{
-		"ControlName"		"EditablePanel"
-		"fieldName"			"ScoresContainer"
-		"xpos"				"p0.1"
-		"ypos"				"p0.15"
+		"ControlName"		"ScrollableEditablePanel"
+		"fieldName"			"ScoreListScroller"
+		"xpos"				"p0.05"
+		"ypos"				"p0.1"
 		"wide"				"p0.95"
-		"tall"				"p0.95"
+		"tall"				"p0.9"
 		"visible"			"1"
 		"proportionaltoparent" "1"
 		"asynchandling"		"hide"
