@@ -643,6 +643,7 @@
  B CMsgGC_Match_Result_Player::default_instance_
  B CMsgGC_PickupItemEligibility_Query::default_instance_
  B CMsgGC_PickupItemEligibility_QueryResponse::default_instance_
+ B CMsgGC_ReportPlayer::default_instance_
  B CMsgGC_TFVoteKickPlayerRequest::default_instance_
  B CMsgGC_VoteKickPlayerRequestResponse::default_instance_
  B CMsgGameMatchSignOut::default_instance_
@@ -9946,6 +9947,7 @@
  D typeinfo for CMsgGC_Match_Result_Player
  D typeinfo for CMsgGC_PickupItemEligibility_Query
  D typeinfo for CMsgGC_PickupItemEligibility_QueryResponse
+ D typeinfo for CMsgGC_ReportPlayer
  D typeinfo for CMsgGC_TFVoteKickPlayerRequest
  D typeinfo for CMsgGC_VoteKickPlayerRequestResponse
  D typeinfo for CMsgGameMatchSignOut
@@ -12958,6 +12960,7 @@
  D vtable for CMsgGC_Match_Result_Player
  D vtable for CMsgGC_PickupItemEligibility_Query
  D vtable for CMsgGC_PickupItemEligibility_QueryResponse
+ D vtable for CMsgGC_ReportPlayer
  D vtable for CMsgGC_TFVoteKickPlayerRequest
  D vtable for CMsgGC_VoteKickPlayerRequestResponse
  D vtable for CMsgGameMatchSignOut
@@ -15813,6 +15816,7 @@
  R typeinfo name for CMsgGC_Match_Result_Player
  R typeinfo name for CMsgGC_PickupItemEligibility_Query
  R typeinfo name for CMsgGC_PickupItemEligibility_QueryResponse
+ R typeinfo name for CMsgGC_ReportPlayer
  R typeinfo name for CMsgGC_TFVoteKickPlayerRequest
  R typeinfo name for CMsgGC_VoteKickPlayerRequestResponse
  R typeinfo name for CMsgGameMatchSignOut
@@ -30775,6 +30779,16 @@
  T CMsgGC_PickupItemEligibility_QueryResponse::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgGC_PickupItemEligibility_QueryResponse::SetCachedSize(int) const
  T CMsgGC_PickupItemEligibility_QueryResponse::~CMsgGC_PickupItemEligibility_QueryResponse()
+ T CMsgGC_ReportPlayer::ByteSize() const
+ T CMsgGC_ReportPlayer::Clear()
+ T CMsgGC_ReportPlayer::GetCachedSize() const
+ T CMsgGC_ReportPlayer::GetMetadata() const
+ T CMsgGC_ReportPlayer::IsInitialized() const
+ T CMsgGC_ReportPlayer::MergeFrom(CMsgGC_ReportPlayer const&)
+ T CMsgGC_ReportPlayer::New() const
+ T CMsgGC_ReportPlayer::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgGC_ReportPlayer::SetCachedSize(int) const
+ T CMsgGC_ReportPlayer::~CMsgGC_ReportPlayer()
  T CMsgGC_TFVoteKickPlayerRequest::ByteSize() const
  T CMsgGC_TFVoteKickPlayerRequest::CMsgGC_TFVoteKickPlayerRequest()
  T CMsgGC_TFVoteKickPlayerRequest::Clear()
@@ -38710,8 +38724,10 @@
  T CTFPlayerMove::~CTFPlayerMove()
  T CTFPlayerResource::CTFPlayerResource()
  T CTFPlayerResource::FireGameEvent(IGameEvent*)
+ T CTFPlayerResource::GetPartyLeaderIndex(int)
  T CTFPlayerResource::GetServerClass()
  T CTFPlayerResource::GetTotalScore(int)
+ T CTFPlayerResource::SetPartyLeaderIndex(int, int)
  T CTFPlayerResource::Spawn()
  T CTFPlayerResource::UpdatePlayerData()
  T CTFPlayerResource::YouForgotToImplementOrDeclareServerClass()
@@ -50476,6 +50492,8 @@
  b (anonymous namespace)::CMsgGC_PickupItemEligibility_QueryResponse_reflection_
  b (anonymous namespace)::CMsgGC_PickupItemEligibility_Query_descriptor_
  b (anonymous namespace)::CMsgGC_PickupItemEligibility_Query_reflection_
+ b (anonymous namespace)::CMsgGC_ReportPlayer_descriptor_
+ b (anonymous namespace)::CMsgGC_ReportPlayer_reflection_
  b (anonymous namespace)::CMsgGC_TFVoteKickPlayerRequest_descriptor_
  b (anonymous namespace)::CMsgGC_TFVoteKickPlayerRequest_reflection_
  b (anonymous namespace)::CMsgGC_VoteKickPlayerRequestResponse_descriptor_
@@ -53111,6 +53129,7 @@
  d CTFBot::GetNextSpawnClassname() const::defenseRoster
  d CTFBot::GetNextSpawnClassname() const::offenseRoster
  d CTFGCServerSystem::PreClientUpdate()::iSavedVisibleMaxPlayers
+ d CTFGameRules::Think()::flRebroadcastTime
  d CTFGameRules::Think()::nLastTimeSent
  d CTFHLTVDirector::GetModEvents()::s_modevents
  d CTFMinigameLogic::InputTeleportToRandomMinigame(inputdata_t&)::nLastChosenIndex
@@ -53680,6 +53699,7 @@
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Match_Result_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_PickupItemEligibility_QueryResponse_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_PickupItemEligibility_Query_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_ReportPlayer_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_TFVoteKickPlayerRequest_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_VoteKickPlayerRequestResponse_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGameMatchSignOut_offsets_
@@ -54027,8 +54047,8 @@
  t __cxx_global_array_dtor116
  t __cxx_global_array_dtor119
  t __cxx_global_array_dtor121
+ t __cxx_global_array_dtor1218
  t __cxx_global_array_dtor122
- t __cxx_global_array_dtor1220
  t __cxx_global_array_dtor13
  t __cxx_global_array_dtor14
  t __cxx_global_array_dtor140
@@ -54077,7 +54097,6 @@
  t __cxx_global_array_dtor30
  t __cxx_global_array_dtor306
  t __cxx_global_array_dtor31
- t __cxx_global_array_dtor33
  t __cxx_global_array_dtor34
  t __cxx_global_array_dtor351
  t __cxx_global_array_dtor36

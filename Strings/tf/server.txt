@@ -433,6 +433,8 @@
 (anonymous namespace)::CMsgGC_PickupItemEligibility_QueryResponse_reflection_
 (anonymous namespace)::CMsgGC_PickupItemEligibility_Query_descriptor_
 (anonymous namespace)::CMsgGC_PickupItemEligibility_Query_reflection_
+(anonymous namespace)::CMsgGC_ReportPlayer_descriptor_
+(anonymous namespace)::CMsgGC_ReportPlayer_reflection_
 (anonymous namespace)::CMsgGC_TFVoteKickPlayerRequest_descriptor_
 (anonymous namespace)::CMsgGC_TFVoteKickPlayerRequest_reflection_
 (anonymous namespace)::CMsgGC_VoteKickPlayerRequestResponse_descriptor_
@@ -19637,6 +19639,18 @@ CMsgGC_PickupItemEligibility_QueryResponse::SerializeWithCachedSizesToArray(unsi
 CMsgGC_PickupItemEligibility_QueryResponse::SetCachedSize(int) const
 CMsgGC_PickupItemEligibility_QueryResponse::default_instance_
 CMsgGC_PickupItemEligibility_QueryResponse::~CMsgGC_PickupItemEligibility_QueryResponse()
+CMsgGC_ReportPlayer
+CMsgGC_ReportPlayer::ByteSize() const
+CMsgGC_ReportPlayer::Clear()
+CMsgGC_ReportPlayer::GetCachedSize() const
+CMsgGC_ReportPlayer::GetMetadata() const
+CMsgGC_ReportPlayer::IsInitialized() const
+CMsgGC_ReportPlayer::MergeFrom(CMsgGC_ReportPlayer const&)
+CMsgGC_ReportPlayer::New() const
+CMsgGC_ReportPlayer::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGC_ReportPlayer::SetCachedSize(int) const
+CMsgGC_ReportPlayer::default_instance_
+CMsgGC_ReportPlayer::~CMsgGC_ReportPlayer()
 CMsgGC_TFVoteKickPlayerRequest
 CMsgGC_TFVoteKickPlayerRequest::ByteSize() const
 CMsgGC_TFVoteKickPlayerRequest::CMsgGC_TFVoteKickPlayerRequest()
@@ -27570,6 +27584,7 @@ CTFGameRules::TeamMayCapturePoint(int, int)
 CTFGameRules::TeamPlayerCountChanged(CTFTeam*)
 CTFGameRules::TeleportPlayersToTargetEntities(int, char const*, CUtlVector<CTFPlayer*, CUtlMemory<CTFPlayer*, int> >*)
 CTFGameRules::Think()
+CTFGameRules::Think()::flRebroadcastTime
 CTFGameRules::Think()::nLastTimeSent
 CTFGameRules::TimerMayExpire()
 CTFGameRules::TournamentModeCanEndWithTimelimit()
@@ -29045,8 +29060,10 @@ CTFPlayerMove::~CTFPlayerMove()
 CTFPlayerResource
 CTFPlayerResource::CTFPlayerResource()
 CTFPlayerResource::FireGameEvent(IGameEvent*)
+CTFPlayerResource::GetPartyLeaderIndex(int)
 CTFPlayerResource::GetServerClass()
 CTFPlayerResource::GetTotalScore(int)
+CTFPlayerResource::SetPartyLeaderIndex(int, int)
 CTFPlayerResource::Spawn()
 CTFPlayerResource::UpdatePlayerData()
 CTFPlayerResource::YouForgotToImplementOrDeclareServerClass()
@@ -46007,8 +46024,8 @@ ___cxx_global_array_dtor106
 ___cxx_global_array_dtor116
 ___cxx_global_array_dtor119
 ___cxx_global_array_dtor121
+___cxx_global_array_dtor1218
 ___cxx_global_array_dtor122
-___cxx_global_array_dtor1220
 ___cxx_global_array_dtor13
 ___cxx_global_array_dtor14
 ___cxx_global_array_dtor140
@@ -46057,7 +46074,6 @@ ___cxx_global_array_dtor29
 ___cxx_global_array_dtor30
 ___cxx_global_array_dtor306
 ___cxx_global_array_dtor31
-___cxx_global_array_dtor33
 ___cxx_global_array_dtor34
 ___cxx_global_array_dtor351
 ___cxx_global_array_dtor36
@@ -48029,6 +48045,7 @@ account_id_friend_as_coach
 account_id_initiator
 account_id_student
 account_id_subject
+account_id_target
 account_ids
 account_last_valid_item_slot
 account_name
@@ -56045,6 +56062,7 @@ k_EMsgGC_QP_PlayerJoining
 k_EMsgGC_QP_ScoreServers
 k_EMsgGC_ReportAbuse
 k_EMsgGC_ReportAbuseResponse
+k_EMsgGC_ReportPlayer
 k_EMsgGC_SpyVsEngyWar_JoinWar
 k_EMsgGC_UpdatePeriodicEvent
 k_EMsgGC_WorldStatusBroadcast
@@ -58727,6 +58745,8 @@ m_iParameter
 m_iParent
 m_iParentAttachment
 m_iParticleSystemIndex
+m_iPartyLeaderBlueTeamIndex
+m_iPartyLeaderRedTeamIndex
 m_iPhysicsMode
 m_iPing
 m_iPipebombCount
@@ -59323,6 +59343,7 @@ m_nRespecsAwardedInWave
 m_nReturnTime
 m_nReversed
 m_nRevives
+m_nRoundsPlayed
 m_nSavedMaxShots
 m_nSavedMinShots
 m_nScannerDisabledVehicle
@@ -62582,6 +62603,7 @@ predictable_id
 prefab
 prefabs
 preferredcarryangles
+premade_leader
 premium_only
 prepared_statements_executed
 preserve_ubercharge
@@ -65232,7 +65254,6 @@ touchStamp
 touch_trigger
 tour_name
 tour_name_mannup
-tournament_enablecountdown
 tournament_player_readystate
 tournament_readystate
 tournament_stateupdate
@@ -66899,6 +66920,7 @@ typeinfo for CMsgGC_Match_Result
 typeinfo for CMsgGC_Match_Result_Player
 typeinfo for CMsgGC_PickupItemEligibility_Query
 typeinfo for CMsgGC_PickupItemEligibility_QueryResponse
+typeinfo for CMsgGC_ReportPlayer
 typeinfo for CMsgGC_TFVoteKickPlayerRequest
 typeinfo for CMsgGC_VoteKickPlayerRequestResponse
 typeinfo for CMsgGameMatchSignOut
@@ -69828,6 +69850,7 @@ typeinfo name for CMsgGC_Match_Result
 typeinfo name for CMsgGC_Match_Result_Player
 typeinfo name for CMsgGC_PickupItemEligibility_Query
 typeinfo name for CMsgGC_PickupItemEligibility_QueryResponse
+typeinfo name for CMsgGC_ReportPlayer
 typeinfo name for CMsgGC_TFVoteKickPlayerRequest
 typeinfo name for CMsgGC_VoteKickPlayerRequestResponse
 typeinfo name for CMsgGameMatchSignOut
@@ -73034,6 +73057,7 @@ vtable for CMsgGC_Match_Result
 vtable for CMsgGC_Match_Result_Player
 vtable for CMsgGC_PickupItemEligibility_Query
 vtable for CMsgGC_PickupItemEligibility_QueryResponse
+vtable for CMsgGC_ReportPlayer
 vtable for CMsgGC_TFVoteKickPlayerRequest
 vtable for CMsgGC_VoteKickPlayerRequestResponse
 vtable for CMsgGameMatchSignOut
