@@ -91,6 +91,7 @@
  Plat_ExitProcess
  Plat_FloatTime
  Plat_GetLocalTime
+ Plat_GetTime
  Plat_GetTimeString
  Plat_IsInDebugSession
  Plat_MSTime
@@ -309,6 +310,8 @@
  b (anonymous namespace)::CNETMsg_Tick_reflection_
  b (anonymous namespace)::CSVCMsg_BSPDecal_descriptor_
  b (anonymous namespace)::CSVCMsg_BSPDecal_reflection_
+ b (anonymous namespace)::CSVCMsg_Broadcast_Command_descriptor_
+ b (anonymous namespace)::CSVCMsg_Broadcast_Command_reflection_
  b (anonymous namespace)::CSVCMsg_ClassInfo_class_t_descriptor_
  b (anonymous namespace)::CSVCMsg_ClassInfo_class_t_reflection_
  b (anonymous namespace)::CSVCMsg_ClassInfo_descriptor_
@@ -584,6 +587,7 @@
  b CNetMessagePB<34, CSVCMsg_CmdKeyValues, 0, true>::s_typeName
  b CNetMessagePB<35, CSVCMsg_EncryptedData, 15, true>::s_typeName
  b CNetMessagePB<36, CSVCMsg_HltvReplay, 3, true>::s_typeName
+ b CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>::s_typeName
  b CNetMessagePB<4, CNETMsg_Tick, 0, true>::s_typeName
  b CNetMessagePB<5, CNETMsg_StringCmd, 12, true>::s_typeName
  b CNetMessagePB<6, CNETMsg_SetConVar, 12, true>::s_typeName
@@ -606,6 +610,7 @@
  b COcclusionSystem::IsOccluded(int, Vector const&, Vector const&)::mutex
  b CRC_MapFile(unsigned long*, char const*)::gamedir
  b CSVCMsg_BSPDecal::default_instance_
+ b CSVCMsg_Broadcast_Command::default_instance_
  b CSVCMsg_ClassInfo::default_instance_
  b CSVCMsg_ClassInfo_class_t::default_instance_
  b CSVCMsg_CmdKeyValues::default_instance_
@@ -960,6 +965,7 @@
  b debug_map_crc
  b debug_paint_alpha
  b dedicated
+ b demo_debug
  b demo_strict_validation
  b dependents_buffer
  b dependents_used
@@ -1442,6 +1448,7 @@
  b guard variable for CNetMessagePB<34, CSVCMsg_CmdKeyValues, 0, true>::s_typeName
  b guard variable for CNetMessagePB<35, CSVCMsg_EncryptedData, 15, true>::s_typeName
  b guard variable for CNetMessagePB<36, CSVCMsg_HltvReplay, 3, true>::s_typeName
+ b guard variable for CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>::s_typeName
  b guard variable for CNetMessagePB<4, CNETMsg_Tick, 0, true>::s_typeName
  b guard variable for CNetMessagePB<5, CNETMsg_StringCmd, 12, true>::s_typeName
  b guard variable for CNetMessagePB<6, CNETMsg_SetConVar, 12, true>::s_typeName
@@ -2282,6 +2289,16 @@
  b tv_advertise_watchable
  b tv_autorecord
  b tv_autoretry
+ b tv_broadcast
+ b tv_broadcast1
+ b tv_broadcast_drop_fragments
+ b tv_broadcast_keyframe_interval
+ b tv_broadcast_max_requests
+ b tv_broadcast_resend_command
+ b tv_broadcast_startup_resend_interval
+ b tv_broadcast_status_command
+ b tv_broadcast_terminate
+ b tv_broadcast_url
  b tv_chatgroupsize
  b tv_chattimelimit
  b tv_clients_command
@@ -4074,6 +4091,7 @@
  r CSVCMsg_BSPDecal::kLowPriorityFieldNumber
  r CSVCMsg_BSPDecal::kModelIndexFieldNumber
  r CSVCMsg_BSPDecal::kPosFieldNumber
+ r CSVCMsg_Broadcast_Command::kCmdFieldNumber
  r CSVCMsg_ClassInfo::kClassesFieldNumber
  r CSVCMsg_ClassInfo::kCreateOnClientFieldNumber
  r CSVCMsg_ClassInfo_class_t::kClassIdFieldNumber
@@ -4427,6 +4445,7 @@
  r protobuf_AssignDesc_netmessages_2eproto()::CNETMsg_StringCmd_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CNETMsg_Tick_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CSVCMsg_BSPDecal_offsets_
+ r protobuf_AssignDesc_netmessages_2eproto()::CSVCMsg_Broadcast_Command_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CSVCMsg_ClassInfo_class_t_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CSVCMsg_ClassInfo_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CSVCMsg_CmdKeyValues_offsets_
@@ -4494,6 +4513,7 @@
  r s_clcommands
  r s_hex
  r s_pDeltaIndices
+ r s_pFragmentTypeName
  r s_pSourceIndices
  r s_pszPasswordMessage
  r std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >::_Rep::_S_max_size
@@ -4627,6 +4647,12 @@
  r typeinfo for CDedicatedServerAPI
  r typeinfo for CDefaultAccessor
  r typeinfo for CDefaultDataCacheClient
+ r typeinfo for CDemoFile
+ r typeinfo for CDemoStreamHttp
+ r typeinfo for CDemoStreamHttp::CFragmentRequest
+ r typeinfo for CDemoStreamHttp::CPendingRequest
+ r typeinfo for CDemoStreamHttp::CStartRequest
+ r typeinfo for CDemoStreamHttp::CSyncRequest
  r typeinfo for CDiskDemoBuffer
  r typeinfo for CDispCollTree
  r typeinfo for CDispInfo
@@ -4665,6 +4691,8 @@
  r typeinfo for CGameEventManager
  r typeinfo for CGameEventManagerOld
  r typeinfo for CGameServer
+ r typeinfo for CHLTVBroadcast
+ r typeinfo for CHLTVBroadcast::CHttpCallback
  r typeinfo for CHLTVClient
  r typeinfo for CHLTVClientState
  r typeinfo for CHLTVDemoRecorder
@@ -4821,6 +4849,7 @@
  r typeinfo for CNetMessagePB<34, CSVCMsg_CmdKeyValues, 0, true>
  r typeinfo for CNetMessagePB<35, CSVCMsg_EncryptedData, 15, true>
  r typeinfo for CNetMessagePB<36, CSVCMsg_HltvReplay, 3, true>
+ r typeinfo for CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>
  r typeinfo for CNetMessagePB<4, CNETMsg_Tick, 0, true>
  r typeinfo for CNetMessagePB<5, CNETMsg_StringCmd, 12, true>
  r typeinfo for CNetMessagePB<6, CNETMsg_SetConVar, 12, true>
@@ -4855,6 +4884,7 @@
  r typeinfo for CRegistry
  r typeinfo for CSPSharedMemory
  r typeinfo for CSVCMsg_BSPDecal
+ r typeinfo for CSVCMsg_Broadcast_Command
  r typeinfo for CSVCMsg_ClassInfo
  r typeinfo for CSVCMsg_ClassInfo_class_t
  r typeinfo for CSVCMsg_CmdKeyValues
@@ -5022,6 +5052,7 @@
  r typeinfo for IDemoBuffer
  r typeinfo for IDemoPlayer
  r typeinfo for IDemoRecorder
+ r typeinfo for IDemoStream
  r typeinfo for IDispInfo
  r typeinfo for IEngine
  r typeinfo for IEngineSound
@@ -5260,6 +5291,12 @@
  r typeinfo name for CDedicatedServerAPI
  r typeinfo name for CDefaultAccessor
  r typeinfo name for CDefaultDataCacheClient
+ r typeinfo name for CDemoFile
+ r typeinfo name for CDemoStreamHttp
+ r typeinfo name for CDemoStreamHttp::CFragmentRequest
+ r typeinfo name for CDemoStreamHttp::CPendingRequest
+ r typeinfo name for CDemoStreamHttp::CStartRequest
+ r typeinfo name for CDemoStreamHttp::CSyncRequest
  r typeinfo name for CDiskDemoBuffer
  r typeinfo name for CDispCollTree
  r typeinfo name for CDispInfo
@@ -5298,6 +5335,8 @@
  r typeinfo name for CGameEventManager
  r typeinfo name for CGameEventManagerOld
  r typeinfo name for CGameServer
+ r typeinfo name for CHLTVBroadcast
+ r typeinfo name for CHLTVBroadcast::CHttpCallback
  r typeinfo name for CHLTVClient
  r typeinfo name for CHLTVClientState
  r typeinfo name for CHLTVDemoRecorder
@@ -5454,6 +5493,7 @@
  r typeinfo name for CNetMessagePB<34, CSVCMsg_CmdKeyValues, 0, true>
  r typeinfo name for CNetMessagePB<35, CSVCMsg_EncryptedData, 15, true>
  r typeinfo name for CNetMessagePB<36, CSVCMsg_HltvReplay, 3, true>
+ r typeinfo name for CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>
  r typeinfo name for CNetMessagePB<4, CNETMsg_Tick, 0, true>
  r typeinfo name for CNetMessagePB<5, CNETMsg_StringCmd, 12, true>
  r typeinfo name for CNetMessagePB<6, CNETMsg_SetConVar, 12, true>
@@ -5488,6 +5528,7 @@
  r typeinfo name for CRegistry
  r typeinfo name for CSPSharedMemory
  r typeinfo name for CSVCMsg_BSPDecal
+ r typeinfo name for CSVCMsg_Broadcast_Command
  r typeinfo name for CSVCMsg_ClassInfo
  r typeinfo name for CSVCMsg_ClassInfo_class_t
  r typeinfo name for CSVCMsg_CmdKeyValues
@@ -6102,6 +6143,7 @@
  r typeinfo name for IDemoBuffer
  r typeinfo name for IDemoPlayer
  r typeinfo name for IDemoRecorder
+ r typeinfo name for IDemoStream
  r typeinfo name for IDispInfo
  r typeinfo name for IEngine
  r typeinfo name for IEngineSound
@@ -6346,6 +6388,12 @@
  r vtable for CDedicatedServerAPI
  r vtable for CDefaultAccessor
  r vtable for CDefaultDataCacheClient
+ r vtable for CDemoFile
+ r vtable for CDemoStreamHttp
+ r vtable for CDemoStreamHttp::CFragmentRequest
+ r vtable for CDemoStreamHttp::CPendingRequest
+ r vtable for CDemoStreamHttp::CStartRequest
+ r vtable for CDemoStreamHttp::CSyncRequest
  r vtable for CDiskDemoBuffer
  r vtable for CDispCollTree
  r vtable for CDispInfo
@@ -6384,6 +6432,8 @@
  r vtable for CGameEventManager
  r vtable for CGameEventManagerOld
  r vtable for CGameServer
+ r vtable for CHLTVBroadcast
+ r vtable for CHLTVBroadcast::CHttpCallback
  r vtable for CHLTVClient
  r vtable for CHLTVClientState
  r vtable for CHLTVDemoRecorder
@@ -6540,6 +6590,7 @@
  r vtable for CNetMessagePB<34, CSVCMsg_CmdKeyValues, 0, true>
  r vtable for CNetMessagePB<35, CSVCMsg_EncryptedData, 15, true>
  r vtable for CNetMessagePB<36, CSVCMsg_HltvReplay, 3, true>
+ r vtable for CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>
  r vtable for CNetMessagePB<4, CNETMsg_Tick, 0, true>
  r vtable for CNetMessagePB<5, CNETMsg_StringCmd, 12, true>
  r vtable for CNetMessagePB<6, CNETMsg_SetConVar, 12, true>
@@ -6574,6 +6625,7 @@
  r vtable for CRegistry
  r vtable for CSPSharedMemory
  r vtable for CSVCMsg_BSPDecal
+ r vtable for CSVCMsg_Broadcast_Command
  r vtable for CSVCMsg_ClassInfo
  r vtable for CSVCMsg_ClassInfo_class_t
  r vtable for CSVCMsg_CmdKeyValues
@@ -6725,6 +6777,7 @@
  r vtable for IDemoBuffer
  r vtable for IDemoPlayer
  r vtable for IDemoRecorder
+ r vtable for IDemoStream
  r vtable for IDispInfo
  r vtable for IEngine
  r vtable for IEngineSound
@@ -8271,6 +8324,10 @@
  t CDemoFile::DumpBufferToFile(char const*, demoheader_t const&)
  t CDemoFile::GetCurPos(bool)
  t CDemoFile::GetSize()
+ t CDemoFile::GetTicksPerFrame()
+ t CDemoFile::GetTicksPerSecond()
+ t CDemoFile::GetTotalTicks()
+ t CDemoFile::GetUrl()
  t CDemoFile::IsOpen()
  t CDemoFile::NotifyBeginFrame()
  t CDemoFile::NotifyEndFrame()
@@ -8300,6 +8357,42 @@
  t CDemoFile::WriteStringTables(bf_write*, int)
  t CDemoFile::WriteUserCmd(int, char const*, unsigned char, int, int)
  t CDemoFile::~CDemoFile()
+ t CDemoStreamHttp::CDemoStreamHttp()
+ t CDemoStreamHttp::CFragmentRequest::OnFailure(HTTPRequestCompleted_t const*)
+ t CDemoStreamHttp::CFragmentRequest::OnSuccess(HTTPRequestCompleted_t const*)
+ t CDemoStreamHttp::CPendingRequest::CPendingRequest()
+ t CDemoStreamHttp::CPendingRequest::Cancel()
+ t CDemoStreamHttp::CPendingRequest::GetCallbackSizeBytes()
+ t CDemoStreamHttp::CPendingRequest::Init(CDemoStreamHttp*, unsigned int, unsigned long long)
+ t CDemoStreamHttp::CPendingRequest::OnFailure(HTTPRequestCompleted_t const*)
+ t CDemoStreamHttp::CPendingRequest::Run(void*)
+ t CDemoStreamHttp::CPendingRequest::Run(void*, bool, unsigned long long)
+ t CDemoStreamHttp::CPendingRequest::~CPendingRequest()
+ t CDemoStreamHttp::CStartRequest::OnSuccess(HTTPRequestCompleted_t const*)
+ t CDemoStreamHttp::CSyncRequest::OnFailure(HTTPRequestCompleted_t const*)
+ t CDemoStreamHttp::CSyncRequest::OnSuccess(HTTPRequestCompleted_t const*)
+ t CDemoStreamHttp::Close()
+ t CDemoStreamHttp::Fragment(int)
+ t CDemoStreamHttp::Fragment_t::ResetBuffers()
+ t CDemoStreamHttp::Fragment_t::SetField(CDemoStreamHttp::FragmentTypeEnum_t, CDemoStreamHttp::Buffer_t*)
+ t CDemoStreamHttp::GetFragmentBuffer(int, CDemoStreamHttp::FragmentTypeEnum_t)
+ t CDemoStreamHttp::GetTicksPerFrame()
+ t CDemoStreamHttp::GetTicksPerSecond()
+ t CDemoStreamHttp::GetTotalTicks()
+ t CDemoStreamHttp::GetUrl()
+ t CDemoStreamHttp::MakeBuffer(unsigned int)
+ t CDemoStreamHttp::OnFragmentRequestFailure(EHTTPStatusCode, int, CDemoStreamHttp::FragmentTypeEnum_t)
+ t CDemoStreamHttp::OnFragmentRequestSuccess(unsigned int, int, CDemoStreamHttp::FragmentTypeEnum_t)
+ t CDemoStreamHttp::OnStart(unsigned int, int, int, int)
+ t CDemoStreamHttp::OnSync(char const*, int, int)
+ t CDemoStreamHttp::ReleaseFragment(int)
+ t CDemoStreamHttp::RequestFragment(int, CDemoStreamHttp::FragmentTypeEnum_t)
+ t CDemoStreamHttp::Resync(char const*)
+ t CDemoStreamHttp::SendGet(char const*, CDemoStreamHttp::CPendingRequest*)
+ t CDemoStreamHttp::SendSync(char const*, int)
+ t CDemoStreamHttp::StartStreaming(char const*, char const*)
+ t CDemoStreamHttp::StopStreaming()
+ t CDemoStreamHttp::~CDemoStreamHttp()
  t CDevShotGenerator::BuildMapList()
  t CDevShotGenerator::CDevShotGenerator()
  t CDevShotGenerator::EnableDevShotGeneration(bool)
@@ -8946,6 +9039,42 @@
  t CGameServer::~CGameServer()
  t CGameTrace::GetEdict() const
  t CGameTrace::SetEdict(edict_t*)
+ t CHLTVBroadcast::CHLTVBroadcast(CHLTVServer*)
+ t CHLTVBroadcast::CHttpCallback::CHttpCallback(CHLTVBroadcast*, unsigned int, char const*)
+ t CHLTVBroadcast::CHttpCallback::GetCallbackSizeBytes()
+ t CHLTVBroadcast::CHttpCallback::Run(void*)
+ t CHLTVBroadcast::CHttpCallback::Run(void*, bool, unsigned long long)
+ t CHLTVBroadcast::CHttpCallback::~CHttpCallback()
+ t CHLTVBroadcast::CMemoryStream::CMemoryStream()
+ t CHLTVBroadcast::CMemoryStream::Commit(unsigned int)
+ t CHLTVBroadcast::CMemoryStream::Purge()
+ t CHLTVBroadcast::CMemoryStream::Reserve(unsigned int)
+ t CHLTVBroadcast::CMemoryStream::WriteCmdHeader(unsigned char, int, int)
+ t CHLTVBroadcast::DumpStats()
+ t CHLTVBroadcast::FlushCollectedStreams(char const*)
+ t CHLTVBroadcast::FlushCollectedStreams(char const*) [clone .part.95]
+ t CHLTVBroadcast::IsRecording()
+ t CHLTVBroadcast::LowLevelSend(CUtlString const&, void const*, unsigned int)
+ t CHLTVBroadcast::OnHttpRequestFailed()
+ t CHLTVBroadcast::OnHttpRequestResetContent()
+ t CHLTVBroadcast::OnHttpRequestSuccess()
+ t CHLTVBroadcast::OnMasterStarted()
+ t CHLTVBroadcast::RecordCommand(char const*)
+ t CHLTVBroadcast::RecordServerClasses(CHLTVBroadcast::CMemoryStream&, ServerClass*)
+ t CHLTVBroadcast::RecordSnapshot(CHLTVFrame*, bf_write*, bf_write&, int)
+ t CHLTVBroadcast::RecordStringTables(CHLTVBroadcast::CMemoryStream&)
+ t CHLTVBroadcast::Register(CHLTVBroadcast::CHttpCallback*)
+ t CHLTVBroadcast::ResendStartup()
+ t CHLTVBroadcast::Send(char const*, CHLTVBroadcast::CMemoryStream&)
+ t CHLTVBroadcast::Send(char const*, void const*, unsigned int)
+ t CHLTVBroadcast::SendSignonData()
+ t CHLTVBroadcast::StartRecording(char const*)
+ t CHLTVBroadcast::StopRecording()
+ t CHLTVBroadcast::Unregister(CHLTVBroadcast::CHttpCallback*)
+ t CHLTVBroadcast::WriteFrame(CHLTVFrame*, bf_write*)
+ t CHLTVBroadcast::WriteServerInfo(CHLTVBroadcast::CMemoryStream&)
+ t CHLTVBroadcast::WriteSignonData()
+ t CHLTVBroadcast::~CHLTVBroadcast()
  t CHLTVClient::CHLTVClient(int, CBaseServer*)
  t CHLTVClient::CLCMsg_ClientInfo(CCLCMsg_ClientInfo const&)
  t CHLTVClient::CLCMsg_FileCRCCheck(CCLCMsg_FileCRCCheck const&)
@@ -9092,6 +9221,7 @@
  t CHLTVServer::GetDeltaFrame(int)
  t CHLTVServer::GetDemoFile()
  t CHLTVServer::GetDemoPlaybackParameters()
+ t CHLTVServer::GetDemoStream()
  t CHLTVServer::GetDirector()
  t CHLTVServer::GetEventDebugID()
  t CHLTVServer::GetExternalStats(int&, int&)
@@ -9112,7 +9242,6 @@
  t CHLTVServer::GetRedirectAddressForConnectClient(ns_address const&, CUtlVector<CNetMessagePB<16, CCLCMsg_SplitPlayerConnect, 0, true>*, CUtlMemory<CNetMessagePB<16, CCLCMsg_SplitPlayerConnect, 0, true>*, int> >&, ns_address*)
  t CHLTVServer::GetRelayAddress()
  t CHLTVServer::GetRelayStats(int&, int&, int&)
- t CHLTVServer::GetTotalTicks()
  t CHLTVServer::Init(bool)
  t CHLTVServer::InitClientRecvTables()
  t CHLTVServer::InstallStringTables()
@@ -9159,6 +9288,7 @@
  t CHLTVServer::SkipToImportantTick(DemoImportantTick_t const*)
  t CHLTVServer::SkipToTick(int, bool, bool)
  t CHLTVServer::StartAutoRecording()
+ t CHLTVServer::StartBroadcast()
  t CHLTVServer::StartDemo(char const*)
  t CHLTVServer::StartMaster(CGameClient*)
  t CHLTVServer::StartPlayback(char const*, bool, CDemoPlaybackParameters_t const*, int)
@@ -11238,6 +11368,17 @@
  t CNetMessagePB<36, CSVCMsg_HltvReplay, 3, true>::ToString() const
  t CNetMessagePB<36, CSVCMsg_HltvReplay, 3, true>::WriteToBuffer(bf_write&)
  t CNetMessagePB<36, CSVCMsg_HltvReplay, 3, true>::~CNetMessagePB()
+ t CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>::Clone() const
+ t CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>::GetGroup() const
+ t CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>::GetName() const
+ t CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>::GetSize() const
+ t CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>::GetType() const
+ t CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>::IsReliable() const
+ t CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>::ReadFromBuffer(bf_read&)
+ t CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>::SetReliable(bool)
+ t CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>::ToString() const
+ t CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>::WriteToBuffer(bf_write&)
+ t CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>::~CNetMessagePB()
  t CNetMessagePB<4, CNETMsg_Tick, 0, true>::Clone() const
  t CNetMessagePB<4, CNETMsg_Tick, 0, true>::GetGroup() const
  t CNetMessagePB<4, CNETMsg_Tick, 0, true>::GetName() const
@@ -11745,6 +11886,25 @@
  t CSVCMsg_BSPDecal::default_instance()
  t CSVCMsg_BSPDecal::descriptor()
  t CSVCMsg_BSPDecal::~CSVCMsg_BSPDecal()
+ t CSVCMsg_Broadcast_Command::ByteSize() const
+ t CSVCMsg_Broadcast_Command::CSVCMsg_Broadcast_Command()
+ t CSVCMsg_Broadcast_Command::CSVCMsg_Broadcast_Command(CSVCMsg_Broadcast_Command const&)
+ t CSVCMsg_Broadcast_Command::Clear()
+ t CSVCMsg_Broadcast_Command::CopyFrom(CSVCMsg_Broadcast_Command const&)
+ t CSVCMsg_Broadcast_Command::GetCachedSize() const
+ t CSVCMsg_Broadcast_Command::GetMetadata() const
+ t CSVCMsg_Broadcast_Command::InitAsDefaultInstance()
+ t CSVCMsg_Broadcast_Command::IsInitialized() const
+ t CSVCMsg_Broadcast_Command::MergeFrom(CSVCMsg_Broadcast_Command const&)
+ t CSVCMsg_Broadcast_Command::New() const
+ t CSVCMsg_Broadcast_Command::SerializeWithCachedSizesToArray(unsigned char*) const
+ t CSVCMsg_Broadcast_Command::SetCachedSize(int) const
+ t CSVCMsg_Broadcast_Command::SharedCtor()
+ t CSVCMsg_Broadcast_Command::SharedDtor()
+ t CSVCMsg_Broadcast_Command::Swap(CSVCMsg_Broadcast_Command*)
+ t CSVCMsg_Broadcast_Command::default_instance()
+ t CSVCMsg_Broadcast_Command::descriptor()
+ t CSVCMsg_Broadcast_Command::~CSVCMsg_Broadcast_Command()
  t CSVCMsg_ClassInfo::ByteSize() const
  t CSVCMsg_ClassInfo::CSVCMsg_ClassInfo()
  t CSVCMsg_ClassInfo::CSVCMsg_ClassInfo(CSVCMsg_ClassInfo const&)
@@ -12522,6 +12682,7 @@
  t CSetupBrushQuery::BrushQueryReleaseFunc(CBrushQuery*)
  t CSimpleLoggingListener::Log(LoggingContext_t const*, char const*)
  t CSimpleWindowsLoggingListener::Log(LoggingContext_t const*, char const*)
+ t CSmartPtr<CDemoStreamHttp::Buffer_t, CDemoStreamHttp::Buffer_t>::~CSmartPtr()
  t CSocketCreator::CSocketCreator(ISocketCreatorListener*)
  t CSocketCreator::CloseAcceptedSocket(int)
  t CSocketCreator::CloseAllAcceptedSockets()
@@ -13049,6 +13210,10 @@
  t CUtlHashtable<int, CAsyncOcclusionQuery*, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
  t CUtlHashtable<int, CAsyncOcclusionQuery*, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoRealloc(int)
  t CUtlHashtable<int, CAsyncOcclusionQuery*, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::RemoveAll()
+ t CUtlHashtable<int, CDemoStreamHttp::Fragment_t, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::BumpEntry(unsigned int)
+ t CUtlHashtable<int, CDemoStreamHttp::Fragment_t, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
+ t CUtlHashtable<int, CDemoStreamHttp::Fragment_t, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoRealloc(int)
+ t CUtlHashtable<int, CDemoStreamHttp::Fragment_t, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::RemoveAll()
  t CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::BumpEntry(unsigned int)
  t CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
  t CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoRealloc(int)
@@ -13060,6 +13225,7 @@
  t CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::DoInsertUnconstructed(unsigned int, bool)
  t CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::DoRealloc(int)
  t CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::RemoveAll()
+ t CUtlIncrementalVector<CDemoStreamHttp::CPendingRequest, DefaultIncrementalVectorAccessor_t<CDemoStreamHttp::CPendingRequest>, CUtlMemory<CDemoStreamHttp::CPendingRequest*, int> >::~CUtlIncrementalVector()
  t CUtlInplaceBuffer::CUtlInplaceBuffer(int, int, int)
  t CUtlInplaceBuffer::InplaceGetLinePtr()
  t CUtlInplaceBuffer::InplaceGetLinePtr(char**, int*)
@@ -13226,6 +13392,7 @@
  t CUtlMemory<CCountedStringPoolBase<unsigned int>::hash_item_t, int>::Grow(int)
  t CUtlMemory<CCountedStringPoolBase<unsigned short>::hash_item_t, int>::Grow(int)
  t CUtlMemory<CDTIProp, int>::Grow(int)
+ t CUtlMemory<CDemoStreamHttp::CPendingRequest*, int>::Grow(int)
  t CUtlMemory<CDispBox, int>::Grow(int)
  t CUtlMemory<CDispCollTriCache, int>::Grow(int)
  t CUtlMemory<CDispCollTriCache, int>::~CUtlMemory()
@@ -13247,6 +13414,7 @@
  t CUtlMemory<CGameEventDescriptor, int>::Grow(int)
  t CUtlMemory<CGameEventDescriptor, int>::~CUtlMemory()
  t CUtlMemory<CGroupMesh*, int>::Grow(int)
+ t CUtlMemory<CHLTVBroadcast::CHttpCallback*, int>::Grow(int)
  t CUtlMemory<CHLTVServer*, int>::Grow(int)
  t CUtlMemory<CInitTracker::InitFunc*, int>::Grow(int)
  t CUtlMemory<CInitTracker::InitFunc*, int>::~CUtlMemory()
@@ -13292,6 +13460,7 @@
  t CUtlMemory<CUtlHashtableEntry<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client>, int>::~CUtlMemory()
  t CUtlMemory<CUtlHashtableEntry<IModelLoadCallback*, int>, int>::~CUtlMemory()
  t CUtlMemory<CUtlHashtableEntry<int, CAsyncOcclusionQuery*>, int>::~CUtlMemory()
+ t CUtlMemory<CUtlHashtableEntry<int, CDemoStreamHttp::Fragment_t>, int>::~CUtlMemory()
  t CUtlMemory<CUtlHashtableEntry<model_t*, CModelLoader::CDynamicModelInfo>, int>::~CUtlMemory()
  t CUtlMemory<CUtlHashtableEntry<qhFace*, int>, int>::~CUtlMemory()
  t CUtlMemory<CUtlHashtableEntry<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing>, int>::~CUtlMemory()
@@ -13870,6 +14039,7 @@
  t CUtlVector<CCountedStringPoolBase<unsigned short>::hash_item_t, CUtlMemory<CCountedStringPoolBase<unsigned short>::hash_item_t, int> >::ShiftElementsRight(int, int)
  t CUtlVector<CDTIProp, CUtlMemory<CDTIProp, int> >::RemoveAll()
  t CUtlVector<CDTIProp, CUtlMemory<CDTIProp, int> >::SetCount(int)
+ t CUtlVector<CDemoStreamHttp::CPendingRequest*, CUtlMemory<CDemoStreamHttp::CPendingRequest*, int> >::InsertBefore(int, CDemoStreamHttp::CPendingRequest* const&)
  t CUtlVector<CDispBox, CUtlMemory<CDispBox, int> >::SetCount(int)
  t CUtlVector<CDispCollLeaf, CHunkMemory<CDispCollLeaf> >::SetCount(int)
  t CUtlVector<CDispCollNode, CHunkMemory<CDispCollNode> >::SetCount(int)
@@ -13896,6 +14066,7 @@
  t CUtlVector<CGameEventDescriptor, CUtlMemory<CGameEventDescriptor, int> >::~CUtlVector()
  t CUtlVector<CGroupMesh*, CUtlMemory<CGroupMesh*, int> >::InsertBefore(int, CGroupMesh* const&)
  t CUtlVector<CGroupMesh*, CUtlMemory<CGroupMesh*, int> >::~CUtlVector()
+ t CUtlVector<CHLTVBroadcast::CHttpCallback*, CUtlMemory<CHLTVBroadcast::CHttpCallback*, int> >::InsertBefore(int, CHLTVBroadcast::CHttpCallback* const&)
  t CUtlVector<CHLTVServer*, CUtlMemory<CHLTVServer*, int> >::InsertBefore(int, CHLTVServer* const&)
  t CUtlVector<CInitTracker::InitFunc*, CUtlMemory<CInitTracker::InitFunc*, int> >::InsertBefore(int, CInitTracker::InitFunc* const&)
  t CUtlVector<CInitTracker::InitFunc*, CUtlMemory<CInitTracker::InitFunc*, int> >::~CUtlVector()
@@ -17993,6 +18164,14 @@
  t IDataCacheClient::~IDataCacheClient()
  t IDemoBuffer::~IDemoBuffer()
  t IDemoPlayer::~IDemoPlayer()
+ t IDemoStream::Close()
+ t IDemoStream::GetTicksPerFrame()
+ t IDemoStream::GetTicksPerSecond()
+ t IDemoStream::GetTotalTicks()
+ t IDemoStream::GetUrl()
+ t IDemoStream::IsDemoFile()
+ t IDemoStream::IsOpen()
+ t IDemoStream::~IDemoStream()
  t IDispInfo::~IDispInfo()
  t IEngine::~IEngine()
  t IGame::~IGame()
@@ -18558,6 +18737,8 @@
  t OnHibernateWhenEmptyChanged(IConVar*, char const*, float)
  t OnOcclusionTestAsyncChanged(IConVar*, char const*, float)
  t OnTVEnablehanged(IConVar*, char const*, float)
+ t OnTvBroadcast()
+ t OnTvBroadcast(IConVar*, char const*, float)
  t On_NET_ProcessSocket_End(int, int)
  t On_NET_ProcessSocket_Start(int, int)
  t OpenSocketInternal(int, int, int, char const*, int, bool) [clone .constprop.223]
@@ -19646,6 +19827,7 @@
  t _GLOBAL__sub_I_date
  t _GLOBAL__sub_I_dbg_demofile
  t _GLOBAL__sub_I_dedicated
+ t _GLOBAL__sub_I_demo_debug
  t _GLOBAL__sub_I_dt_test.cpp
  t _GLOBAL__sub_I_eh_alloc.cc
  t _GLOBAL__sub_I_enable_fast_math
@@ -19744,6 +19926,7 @@
  t _GLOBAL__sub_I_sv_hibernate_when_empty
  t _GLOBAL__sub_I_sv_master_share_game_socket
  t _GLOBAL__sub_I_sv_maxupdaterate
+ t _GLOBAL__sub_I_tv_broadcast_keyframe_interval
  t _GLOBAL__sub_I_tv_snapshotrate
  t _GLOBAL__sub_I_voiceserver_impl.cpp
  t _GLOBAL__sub_I_wlocale_inst.cc
@@ -20416,6 +20599,7 @@
  t int CUtlHashtable<CSteamID, SteamDatagramTransport::CSteamDatagramTransportGameserver::Client, SteamDatagramTransport::CSteamDatagramTransportGameserver::SteamIDHashFunctor, DefaultEqualFunctor<CSteamID>, undefined_t>::DoRemove<CSteamID const&>(CSteamID const&, unsigned int)
  t int CUtlHashtable<IModelLoadCallback*, int, DefaultHashFunctor<IModelLoadCallback*>, DefaultEqualFunctor<IModelLoadCallback*>, undefined_t>::DoRemove<IModelLoadCallback*>(IModelLoadCallback*, unsigned int)
  t int CUtlHashtable<int, CAsyncOcclusionQuery*, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoRemove<int>(int, unsigned int)
+ t int CUtlHashtable<int, CDemoStreamHttp::Fragment_t, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoRemove<int>(int, unsigned int)
  t int CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoRemove<model_t*>(model_t*, unsigned int)
  t int CUtlSortVector<FindFileIndex_t, CStupidLess, CUtlVector<FindFileIndex_t, CUtlMemory<FindFileIndex_t, int> > >::Find<FindFileIndex_t>(FindFileIndex_t const&) const
  t int CUtlSortVector<FindFileIndex_t, CStupidLess, CUtlVector<FindFileIndex_t, CUtlMemory<FindFileIndex_t, int> > >::FindLessOrEqual<FindFileIndex_t>(FindFileIndex_t const&, bool*) const
@@ -20660,8 +20844,8 @@
  t non-virtual thunk to CHLTVServer::GetBaseServer()
  t non-virtual thunk to CHLTVServer::GetChallengeType(ns_address const&)
  t non-virtual thunk to CHLTVServer::GetClassBaseline(ServerClass*, int*)
- t non-virtual thunk to CHLTVServer::GetDemoFile()
  t non-virtual thunk to CHLTVServer::GetDemoPlaybackParameters()
+ t non-virtual thunk to CHLTVServer::GetDemoStream()
  t non-virtual thunk to CHLTVServer::GetDirector()
  t non-virtual thunk to CHLTVServer::GetGlobalStats(int&, int&, int&)
  t non-virtual thunk to CHLTVServer::GetHLTVSlot()
@@ -20678,7 +20862,6 @@
  t non-virtual thunk to CHLTVServer::GetRecordingDemoFilename()
  t non-virtual thunk to CHLTVServer::GetRedirectAddressForConnectClient(ns_address const&, CUtlVector<CNetMessagePB<16, CCLCMsg_SplitPlayerConnect, 0, true>*, CUtlMemory<CNetMessagePB<16, CCLCMsg_SplitPlayerConnect, 0, true>*, int> >&, ns_address*)
  t non-virtual thunk to CHLTVServer::GetRelayAddress()
- t non-virtual thunk to CHLTVServer::GetTotalTicks()
  t non-virtual thunk to CHLTVServer::Init(bool)
  t non-virtual thunk to CHLTVServer::InterpolateViewpoint()
  t non-virtual thunk to CHLTVServer::IsDemoPlayback()
@@ -20708,7 +20891,6 @@
  t non-virtual thunk to CHLTVServer::SkipToImportantTick(DemoImportantTick_t const*)
  t non-virtual thunk to CHLTVServer::SkipToTick(int, bool, bool)
  t non-virtual thunk to CHLTVServer::StartAutoRecording()
- t non-virtual thunk to CHLTVServer::StartPlayback(char const*, bool, CDemoPlaybackParameters_t const*, int)
  t non-virtual thunk to CHLTVServer::StopPlayback()
  t non-virtual thunk to CHLTVServer::StopRecording(CGameInfo const*)
  t non-virtual thunk to CHLTVServer::UserInfoChanged(int)
@@ -20767,6 +20949,7 @@
  t non-virtual thunk to CNetMessagePB<34, CSVCMsg_CmdKeyValues, 0, true>::~CNetMessagePB()
  t non-virtual thunk to CNetMessagePB<35, CSVCMsg_EncryptedData, 15, true>::~CNetMessagePB()
  t non-virtual thunk to CNetMessagePB<36, CSVCMsg_HltvReplay, 3, true>::~CNetMessagePB()
+ t non-virtual thunk to CNetMessagePB<38, CSVCMsg_Broadcast_Command, 12, true>::~CNetMessagePB()
  t non-virtual thunk to CNetMessagePB<4, CNETMsg_Tick, 0, true>::~CNetMessagePB()
  t non-virtual thunk to CNetMessagePB<5, CNETMsg_StringCmd, 12, true>::~CNetMessagePB()
  t non-virtual thunk to CNetMessagePB<6, CNETMsg_SetConVar, 12, true>::~CNetMessagePB()
@@ -23888,6 +24071,8 @@
  t threadpool_run_tests(CCommand const&)
  t timet_to_timestamp(long)
  t toggle(CCommand const&)
+ t tv_broadcast_resend(CCommand const&)
+ t tv_broadcast_status(CCommand const&)
  t tv_clients(CCommand const&)
  t tv_mem(CCommand const&)
  t tv_msg(CCommand const&)
@@ -23917,6 +24102,7 @@
  t unsigned int CUtlHashtable<CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::IndirectIndex, empty_t, CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::HashProxy, CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::EqualProxy, void*>::DoLookup<void*>(void*, unsigned int, unsigned int*) const
  t unsigned int CUtlHashtable<IModelLoadCallback*, int, DefaultHashFunctor<IModelLoadCallback*>, DefaultEqualFunctor<IModelLoadCallback*>, undefined_t>::DoLookup<IModelLoadCallback*>(IModelLoadCallback*, unsigned int, unsigned int*) const [clone .part.226]
  t unsigned int CUtlHashtable<int, CAsyncOcclusionQuery*, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoLookup<int>(int, unsigned int, unsigned int*) const [clone .part.109]
+ t unsigned int CUtlHashtable<int, CDemoStreamHttp::Fragment_t, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoLookup<int>(int, unsigned int, unsigned int*) const [clone .part.53]
  t unsigned int CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoInsert<model_t*>(model_t*, unsigned int)
  t unsigned int CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoLookup<model_t*>(model_t*, unsigned int, unsigned int*) const [clone .part.150]
  t unsigned int CUtlHashtable<qhFace*, int, DefaultHashFunctor<qhFace*>, DefaultEqualFunctor<qhFace*>, undefined_t>::DoLookup<qhFace*>(qhFace*, unsigned int, unsigned int*) const [clone .part.42] [clone .constprop.55]
