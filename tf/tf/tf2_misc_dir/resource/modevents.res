@@ -1767,5 +1767,11 @@
 	{
 		"time"		"byte"		// How much time is left
 	}
+
+	"winlimit_changed"
+	{}
+
+	"winpanel_show_scores"
+	{}
 }
 

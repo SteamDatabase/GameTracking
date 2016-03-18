@@ -525,6 +525,45 @@ event ActiveTimerBGPulse
 	Animate	ActiveTimerBG 	Alpha		"255"		Linear 1.1 0.1
 }
 
+event ActiveTimerHighlight
+{
+	Animate TimePanelValue FgColor	TanLight		Linear 0.1 0.1
+	Animate TimePanelValue FgColor	"142 134 115 255"		Linear 0.3 0.1
+
+	Animate TimePanelValue FgColor	TanLight		Linear 0.5 0.1
+	Animate TimePanelValue FgColor	"142 134 115 255"		Linear 0.7 0.1
+
+	Animate TimePanelValue FgColor	TanLight		Linear 0.9 0.1
+	Animate TimePanelValue FgColor	"142 134 115 255"		Linear 1.1 0.1
+
+	Animate TimePanelValue FgColor	TanLight		Linear 1.3 0.3
+	
+}
+
+event ActiveTimerDim
+{
+	// Slow fade out
+	Animate TimePanelValue FgColor	"142 134 115 255"		Linear 0.0 0.4
+}
+
+//===========================================
+
+event OvertimeLabelPulseRed
+{
+	Animate	OvertimeLabel 	FgColor		TanLight	Linear 0.0 0.3
+	Animate	OvertimeLabel 	FgColor		RedSolid	Linear 0.3 0.3
+
+	RunEvent OvertimeLabelPulseRed 0.6
+}
+
+event SuddenDeathLabelPulseRed
+{
+	Animate	SuddenDeathLabel 	FgColor		TanLight	Linear 0.0 0.3
+	Animate	SuddenDeathLabel 	FgColor		RedSolid			Linear 0.3 0.3
+
+	RunEvent SuddenDeathLabelPulseRed 0.2
+}
+
 //===========================================
 
 event TeamsFullArrowAnimate
@@ -1522,7 +1561,15 @@ event CompetitiveGame_ShowWinnersSign
 	FireCommand 12.3 "animation outro"
 }
 
+
 event HudTournament_ShowRoundSign
+{
+	SetVisible RoundSignModel 1 0
+	RunEventChild RoundSignModel HudTournament_PlaySignAnim 0
+	SetVisible RoundSignModel 0 6
+}
+
+event HudTournament_PlaySignAnim
 {
 	FireCommand 0 "animation intro"
 	FireCommand 5 "animation outro"

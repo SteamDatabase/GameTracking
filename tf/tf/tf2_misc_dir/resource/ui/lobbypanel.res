@@ -1431,22 +1431,22 @@
 				"labelText"		"?"
 			}
 
-		"PartyHasLeaverGroupBox"
+		"PartyHasLowPriorityGroupBox"
 		{
 			"ControlName"	"EditablePanel"
-			"fieldName"		"PartyHasLeaverGroupBox"
+			"fieldName"		"PartyHasLowPriorityGroupBox"
 			"xpos"		"30"
 			"ypos"		"250"
 			"zpos"			"2"
 			"wide"		"340"
-			"tall"		"60"
+			"tall"		"100"
 			"visible"	"0"
 			"enabled"	"1"
 
-			"PartyHasLeaverImage"
+			"PartyLowPriorityImage"
 			{
 				"ControlName"	"ImagePanel"
-				"fieldName"		"PartyHasLeaverImage"
+				"fieldName"		"PartyLowPriorityImage"
 				"xpos"			"0"
 				"ypos"			"5"
 				"zpos"			"0"
@@ -1458,11 +1458,10 @@
 				"image"			"pve/mvm_timeout_active_large"
 				"scaleImage"	"1"
 			}
-
-			"PartyHasLeaverLabel"
+			"PartyHasLowPriorityLabel"
 			{
 				"ControlName"		"CExLabel"
-				"fieldName"		"PartyHasLeaverLabel"
+				"fieldName"		"PartyHasLowPriorityLabel"
 				"font"			"HudFontSmall"
 				"labelText"		"#TF_Matchmaking_PartyPenalty"
 				"xpos"		"60"
@@ -1476,7 +1475,22 @@
 				"wrap"		"1"
 				"fgcolor_override"	"250 114 45 255"
 			}
-
+			"PartyLowPriorityPenaltyTimer"
+			{
+				"ControlName"		"CExLabel"
+				"fieldName"		"PartyLowPriorityPenaltyTimer"
+				"font"			"HudFontSmall"
+				"labelText"		"%penaltytimer%"
+				"xpos"		"60"
+				"ypos"		"50"
+				"zpos"			"3"
+				"wide"		"175"
+				"tall"		"30"
+				"textAlignment"	"west"
+				"visible"	"1"
+				"enabled"	"1"
+				"wrap"		"1"
+			}
 		}
 	}
 
