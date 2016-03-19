@@ -6,9 +6,9 @@
 		"rootbounds_mainmenu"
 		{
 			"x_left"			"c-71"
-			"x_right"		"c257"
-			"y_top"			"c-133"
-			"y_bottom"		"c102"
+			"x_right"		"c256"
+			"y_top"			"c-132"
+			"y_bottom"		"c100"
 		}
 
 		// Position of the preview panel when inspecting own loadout from pause menu
