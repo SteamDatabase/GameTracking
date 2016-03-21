@@ -443,6 +443,7 @@
  b Bias(float, float)::lastExponent
  b BindToggle_command
  b CAppSystemGroup::sm_pSortDependencies
+ b CBaseClient::ApplyConVars(CMsg_CVars const&, bool)::s_dblLastWarned
  b CBaseClient::SetName(char const*)::s_pchTournamentServer
  b CBaseClientState::CAsyncOperation_ReserveServer::GetResult()::buf
  b CBaseClientState::ProcessConnectionlessPacket(netpacket_s*)::s_nGeneratedEncryptionKey
@@ -1874,6 +1875,7 @@
  b r_flushlod
  b r_hidepaintedsurfaces
  b r_hunkalloclightmaps
+ b r_ignoreStaticColorChecksum
  b r_itemblinkmax
  b r_itemblinkrate
  b r_keepstyledlightmapsonly
@@ -2320,6 +2322,7 @@
  b tv_name
  b tv_overridemaster
  b tv_password
+ b tv_playcast_origin_auth
  b tv_record_command
  b tv_relay_command
  b tv_relaypassword
@@ -7392,7 +7395,7 @@
  t CBaseAppSystem<INetSupport>::Shutdown()
  t CBaseAutoCompleteFileList::AutoCompletionFunc(char const*, char (*) [64])
  t CBaseClient::ActivatePlayer()
- t CBaseClient::ApplyConVars(CMsg_CVars const&)
+ t CBaseClient::ApplyConVars(CMsg_CVars const&, bool)
  t CBaseClient::CBaseClient()
  t CBaseClient::CLCMsg_BaselineAck(CCLCMsg_BaselineAck const&)
  t CBaseClient::CLCMsg_ClientInfo(CCLCMsg_ClientInfo const&)
@@ -8386,12 +8389,14 @@
  t CDemoStreamHttp::OnFragmentRequestSuccess(unsigned int, int, CDemoStreamHttp::FragmentTypeEnum_t)
  t CDemoStreamHttp::OnStart(unsigned int, int, int, int)
  t CDemoStreamHttp::OnSync(char const*, int, int)
+ t CDemoStreamHttp::PrepareForStreaming(char const*)
  t CDemoStreamHttp::ReleaseFragment(int)
  t CDemoStreamHttp::RequestFragment(int, CDemoStreamHttp::FragmentTypeEnum_t)
  t CDemoStreamHttp::Resync(char const*)
  t CDemoStreamHttp::SendGet(char const*, CDemoStreamHttp::CPendingRequest*)
  t CDemoStreamHttp::SendSync(char const*, int)
  t CDemoStreamHttp::StartStreaming(char const*, char const*)
+ t CDemoStreamHttp::StartStreamingCached(char const*, int)
  t CDemoStreamHttp::StopStreaming()
  t CDemoStreamHttp::~CDemoStreamHttp()
  t CDevShotGenerator::BuildMapList()
@@ -9613,6 +9618,7 @@
  t CMemoryStack::Term()
  t CMemoryStack::~CMemoryStack()
  t CMeshBuilder::~CMeshBuilder()
+ t CMicroProfilerGuard::~CMicroProfilerGuard()
  t CModAppSystemGroup::AddLegacySystems()
  t CModAppSystemGroup::Create()
  t CModAppSystemGroup::Destroy()
@@ -24103,7 +24109,7 @@
  t unsigned int CUtlHashtable<CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::IndirectIndex, empty_t, CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::HashProxy, CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::EqualProxy, void*>::DoLookup<void*>(void*, unsigned int, unsigned int*) const
  t unsigned int CUtlHashtable<IModelLoadCallback*, int, DefaultHashFunctor<IModelLoadCallback*>, DefaultEqualFunctor<IModelLoadCallback*>, undefined_t>::DoLookup<IModelLoadCallback*>(IModelLoadCallback*, unsigned int, unsigned int*) const [clone .part.226]
  t unsigned int CUtlHashtable<int, CAsyncOcclusionQuery*, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoLookup<int>(int, unsigned int, unsigned int*) const [clone .part.109]
- t unsigned int CUtlHashtable<int, CDemoStreamHttp::Fragment_t, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoLookup<int>(int, unsigned int, unsigned int*) const [clone .part.53]
+ t unsigned int CUtlHashtable<int, CDemoStreamHttp::Fragment_t, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoLookup<int>(int, unsigned int, unsigned int*) const [clone .part.54]
  t unsigned int CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoInsert<model_t*>(model_t*, unsigned int)
  t unsigned int CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoLookup<model_t*>(model_t*, unsigned int, unsigned int*) const [clone .part.150]
  t unsigned int CUtlHashtable<qhFace*, int, DefaultHashFunctor<qhFace*>, DefaultEqualFunctor<qhFace*>, undefined_t>::DoLookup<qhFace*>(qhFace*, unsigned int, unsigned int*) const [clone .part.42] [clone .constprop.55]
