@@ -401,11 +401,13 @@ message CMsgGCCheckFriendship_Response {
 
 message CMsgGCGetAppFriendsList {
 	optional fixed64 steamid = 1;
+	optional bool include_friendship_timestamps = 2;
 }
 
 message CMsgGCGetAppFriendsList_Response {
 	optional bool success = 1;
 	repeated fixed64 steamids = 2;
+	repeated fixed32 friendship_timestamps = 3;
 }
 
 message CMsgGCMsgMasterSetDirectory {
@@ -600,5 +602,11 @@ message CMsgDPPartnerMicroTxnsResponse {
 
 	optional uint32 eresult = 1 [default = 2];
 	optional .CMsgDPPartnerMicroTxnsResponse.EErrorCode eerrorcode = 2 [default = k_MsgValid];
+}
+
+message CMsgGCHVacVerificationChange {
+	optional fixed64 steamid = 1;
+	optional uint32 appid = 2;
+	optional bool is_verified = 3;
 }
 
