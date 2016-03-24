@@ -1000,6 +1000,14 @@
 		1 : "Teleport"
 		2 : "Teleport (w/non-up floor)"
 	]
+
+	input SetTimeOfDayToMidnight( void ) : "Sets the time of day to midnight"
+	input SetTimeOfDayToDawn( void ) : "Sets the time of day to dawn"
+	input SetTimeOfDayToMorning( void ) : "Sets the time of day to morning"
+	input SetTimeOfDayToAfternoon( void ) : "Sets the time of day to afternoon"
+	input SetTimeOfDayToDusk( void ) : "Sets the time of day to dusk"
+	input SetTimeOfDayToEvening( void ) : "Sets the time of day to evening"
+	input SetTimeOfDay( integer ) : "Sets the time of day"
 ]
 
 
@@ -1222,8 +1230,6 @@
 @PointClass global( tonemap ) tonemap() iconsprite("materials/editor/env_tonemap_controller.vmat") = env_tonemap_controller :
 	"An entity that controls the HDR tonemapping for the player. Think of it as a method of controlling the exposure of the player's eyes."
 [
-	name_component(CNameComponent)
-
 	MinExposure(float)   : "Minimum Auto Exposure"		: "0.25"
 	MaxExposure(float)   : "Maximum Auto Exposure"		: "4.0"
 	percent_bright_pixels(float) : "Target Bright Pixel Percentage" : "-1.0" : "Set a target for percentage of pixels above a certain brightness. (-1 for default engine behavior)"
@@ -1235,7 +1241,6 @@
 	input Disable(void) : "Enables this tonemap controller"
 	input SetMinExposure(float) : "Sets min exposure for this tonemap controller"
 	input SetMaxExposure(float) : "Sets max exposure for this tonemap controller"
-	input SetBloomScale(float) : "Sets bloom scale for this tonemap controller"
 	input SetPercentTarget(float) : "Sets percentage target for this tonemap controller"
 	input SetPercentBrightPixels(float) : "Sets percentage bright pixels for this tonemap controller"
 	input SetMinAverageLuminosity(float) : "Sets average luminosity for this tonemap controller"
@@ -1469,6 +1474,13 @@
 	"A brush entity that's considered solid to vphysics." 
 [
 	filtername(filterclass) : "Filter Name" : : "Filter to use to see if activator collides with me. See filter_activator_name for more explanation. Allow means 'Allow to Block' for this entity."
+]
+
+@SolidClass base(Targetname, EnableDisable) = func_clip_interaction_layer : 
+	"A brush entity that is conditionally solid based on the interaction layer specified." 
+[
+	InteractsAs(string) : "Interacts As" : "Default" : "Set the interacts as layer"
+	InteractsWith(string) : "Interacts With" : "Default" : "Set the interacts with layer"
 ]
 
 @SolidClass base(Targetname, Parentname, RenderFields, Global, Inputfilter, EnableDisable, Shadow) sphere(fademindist) sphere(fademaxdist) = func_brush : 
@@ -2471,6 +2483,8 @@
 	fogmaxdensity(float) : "Fog Max Density [0..1]" : "1"
 
 	HDRColorScale(float) : "HDR color scale." : "1.0" : "float value to multiply fog color by when running in HDR mode."
+
+	SkyboxSlot(string) : "SkyboxSlot" : "" : "Name of the skybox this camera belongs to."
 ]
 
 @BaseClass base(Targetname, ResponseContext) = BaseSpeaker
@@ -5414,50 +5428,7 @@
 // Physics constraints
 //
 //--------------------------------------------------------------------------------------------------
-@BaseClass = BasePhysConstraint : "Base Constraint class"
-[
-	name_component(CNameComponent)
-	phys_constraint_component(CPhysConstraintComponent)
-	body_component_base_animating(CBodyComponentBaseAnimating)
-
-	constraintReference(target_destination) : "Constraint Reference" : : "Reference entity to constraint the target to. World is the default."
-	constraintTarget(target_destination) : "Constraint Target" : : "Another entity to constraint to reference"
-	constraintType(choices) : "Constraint Type" : "PHYS_CONSTRAINT_BALL" : "Select constraint type" =
-	[
-		// Keep in sync with propdynamics.cpp
-		"PHYS_CONSTRAINT_BALL" : "Ball constraint"
-		"PHYS_CONSTRAINT_RAGDOLL" : "Ragdoll constraint"
-		"PHYS_CONSTRAINT_PRISM" : "Prism constraint"
-	]
-
-	spawnflags(flags) =
-	[
-		1: "No Collision until break" : 0
-		// 2 is defined independently by subclasses, do not reuse
-		4: "Start inactive" : 0
-		8: "Change mass to keep stable attachment to world" : 0
-		16: "Do not connect entities until turned on" : 0
-	]
-	attach1(target_destination) : "Entity 1" : ""
-	attach2(target_destination) : "Entity 2" : ""
-	constraintsystem(target_destination) : "Constraint System Manager" : "" : "The name of a phys_constraintsystem that this constraint should be a part of. All constraints on a set of entities should be placed in the same system, or they will fight each other during simulation."
-
-	forcelimit(float) : "Impulse Limit to Break (kg)" : "0" : "The amount of impulse an impact must apply to the constraint to break it. A way of calculating this is to set it to the mass of an object that would break this constraint if it were resting on the constrainted objects."
-	torquelimit(float) : "Angular Impulse Limit to Break (kg * distance)" : "0" : "The amount of angular impulse required to break the constraint. A way of calculating this is to multiply any reference mass by the resting distance (from the center of mass of the object) needed to break the constraint."
-	breaksound(sound) : "Play Sound on Break" : "" : "A sound played when the constraint is broken."
-	teleportfollowdistance(float) : "Follow teleport distance" : "0" : "If one object teleports more than this many units away it will cause the other constrained object to teleport to an appropriate relative position."
-	
-	// Inputs
-	input Break(void) : "Force the constraint to break."
-	input TurnOn(void) : "Enable the constraint.  Do this when the objects don't exist when the constraint spawns - or when you have deactivated the constraint.  Broken constraints can NOT be turned on.  They have been deleted."
-	input TurnOff(void) : "Disable this constraint." 
-
-	// Outputs
-	output OnBreak(void) : "Fired when the constraint breaks."
-]
-
-
-@PointClass halfgridsnap size(-8 -8 -8, 8 8 8) base(BasePhysConstraint) = phys_hinge : 
+@PointClass halfgridsnap size(-8 -8 -8, 8 8 8) base(TwoObjectPhysics) = phys_hinge : 
 	"A physically simulated hinge. Use the helper to define the axis of rotation."
 [
 	hingefriction(float) : "Friction" : "0" : "Resistance/friction in the hinge"
@@ -5492,7 +5463,7 @@
 ]
 
 
-@PointClass halfgridsnap size(-8 -8 -8, 8 8 8) base(BasePhysConstraint) = phys_hinge_local : 
+@PointClass halfgridsnap size(-8 -8 -8, 8 8 8) base(TwoObjectPhysics) = phys_hinge_local : 
 	"A physically simulated hinge. Use the helper to define the axis of rotation."
 [
 	hingefriction(float) : "Friction" : "0" : "Resistance/friction in the hinge"
@@ -5536,7 +5507,7 @@
 ]
 
 
-@PointClass base(BasePhysConstraint) editormodel("models/editor/axis_helper_thick") = phys_constraint :
+@PointClass base(TwoObjectPhysics) editormodel("models/editor/axis_helper_thick") = phys_constraint :
 	"Constrain an entity to the world or another entity at a fixed relative position."
 [
 ]
@@ -7296,6 +7267,7 @@
 	input Disable(void) : "Disable rendering."
 	input Toggle(void) : "Toggle rendering."
 	input SetMessage(string) : "Change the text."
+	input SetIntMessage(integer) : "Set the text to an integer value."
 ]
 
 
@@ -7456,9 +7428,8 @@
 	timezone(integer) : "Time Zone" : -8 : ""
 ]
 
-@PointClass base(Targetname) model() = point_clientui_dialog
-[
-	model(studio) : "World model"
+@BaseClass base(Targetname) = base_clientui_ent 
+[ 
 	dialog_layout_name(string) : "Layout XML"
 
 	output CustomOutput0(void) : ""
@@ -7472,3 +7443,20 @@
 	output CustomOutput8(void) : ""
 	output CustomOutput9(void) : ""
 ]
+
+@PointClass base(base_clientui_ent) model() = point_clientui_dialog
+[
+	model(studio) : "World model"
+	StartEnabled(boolean) : "Start Enabled" : "1" : "Start Enabled"
+
+	// Inputs
+	input Enable(void) : "Enable the point_viewcontrol_multiplayer, and start controlling the players' view."
+	input Disable(void) : "Disable the point_viewcontrol_multiplayer, and stop controlling the players' view."
+]
+
+@PointClass base(base_clientui_ent) = point_clientui_world_panel
+[
+	width(float) : "Width" : "32"
+	height(float) : "Height" : "32"
+]
+

@@ -20,6 +20,20 @@ model:CreateWeightlist(
 )
 
 model:CreateWeightlist(
+	"head50",
+	{
+		{ "Head_0", 0 },
+		{ "Root_0", 0 },
+		{ "thigh_A_R", 0 },
+		{ "Head_0", 0.5 },
+		{ "mandibleL3_0", 1 },
+		{ "mandibleR4_0", 1 },
+		{ "lant1_0", 0 },
+		{ "rant2_0", 0 }
+	}
+)
+
+model:CreateWeightlist(
 	"spine",
 	{
 		{ "ArbitraryChain0_0", 0 },
@@ -109,7 +123,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run",
+		name = "run_anim",
 		sequences = {
 			{ "@run" }
 		},
@@ -125,7 +139,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run_injured",
+		name = "run_injured_anim",
 		sequences = {
 			{ "@run_injured" }
 		},
@@ -142,7 +156,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run_invis",
+		name = "run_invis_anim",
 		sequences = {
 			{ "@run_invis" }
 		},

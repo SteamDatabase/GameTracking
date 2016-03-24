@@ -161,7 +161,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "shield_runN",
+		name = "shield_runN_anim",
 		sequences = {
 			{ "@shield_runN" }
 		},
@@ -176,11 +176,9 @@ model:CreateSequence(
 )
 
 
--- AsTurningRun
-
 model:CreateSequence(
 	{
-		name = "shield_runN_free_to_play",
+		name = "shield_runN_free_to_play_anim",
 		sequences = {
 			{ "@shield_runN_free_to_play" }
 		},
@@ -195,8 +193,6 @@ model:CreateSequence(
 	}
 )
 
-
--- AsTurningRun
 
 model:CreateSequence(
 	{
@@ -249,7 +245,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "runN",
+		name = "runN_anim",
 		sequences = {
 			{ "@runN" }
 		},

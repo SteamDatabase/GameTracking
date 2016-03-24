@@ -79,3 +79,18 @@ model:CreateSequence(
 		}
 	}
 )
+
+model:CreateSequence(
+	{
+		name = "smeevil_bird_run_look_back",
+		sequences = {
+			{ "@smeevil_bird_run_look_back" }
+		},
+		addlayer = {
+			"smeevil_bird_ground_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 }
+		}
+	}
+)

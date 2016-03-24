@@ -27,12 +27,6 @@ model:CreateWeightlist(
 		{ "Thumb_2_R", 1 },
 		{ "Index_0_R1", 1 },
 		{ "Cloth_R0C0", 1 },
-		{ "Cloth_R0C0", 1 },
-		{ "Cloth_R0C0", 1 },
-		{ "Cloth_R0C0", 1 },
-		{ "Cloth_R4C0", 0 },
-		{ "Cloth_R0C0", 1 },
-		{ "Cloth_R0C0", 1 },
 		{ "Cloth_R1C0", 0 },
 		{ "Cloth_R0C1", 0 },
 		{ "Cloth_R0C2", 0 },
@@ -40,8 +34,14 @@ model:CreateWeightlist(
 		{ "rein_Cloth_R0C1", 0 },
 		{ "rein_Cloth_R0C0", 0 },
 		{ "rein_Cloth_R0C3", 0 },
-		{ "rein_Cloth_R0C2", 0 },
-		{ "rein1_4", 0 }
+		{ "rein_Cloth_R0C2", 0 }
+		--{ "Cloth_R4C0", 0 },
+		--{ "Cloth_R0C0", 1 },
+		--{ "Cloth_R0C0", 1 },
+		--{ "Cloth_R0C0", 1 },
+		--{ "Cloth_R0C0", 1 },
+		--{ "Cloth_R0C0", 1 },
+		--{ "rein1_4", 0 }
 	}
 )
 

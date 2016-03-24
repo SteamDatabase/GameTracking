@@ -76,6 +76,7 @@
 		"Capable64Bit" "1"
 		"UsesScaleform" "1"
 		"UsesPanorama" "1"
+		"PanoramaUIClientFromClient" "1" // IPanoramaUIClient is implemented by client.dll
 		"HasGameUI" "1" // dota uses gameui
 		"GameUIFromClient" "1"  // AND that gameui comes from client.dll
 		"URLName" "dota2"
@@ -111,6 +112,9 @@
 	{
 		"NoSunLightManager" "1"
 		"TransformTextureRowCount" "256"
+		"CMTAtlasWidth" "512"
+		"CMTAtlasHeight" "512"
+		"CMTAtlasChunkSize" "128"
 	}
 
 	ToolsEnvironment
@@ -133,6 +137,7 @@
 		"EnableDotaTools"		"1"
 		"DefaultGridTileSet"	"/maps/tilesets/radiant_basic.vmap"
 		"DefaultGridTileSet2"	"/maps/tilesets/dire_basic.vmap"
+		"DotaMaxTrees"			"8000"
 		"AddonMapCommand"		"dota_launch_custom_game"
 		"PostMapLoadCommands"	"jointeam good" // Commands sent to the console by hammer after it finishes building a map and loads it
 		"RequiredGameEntities"	"info_player_start_goodguys|info_player_start_dota; info_player_start_badguys|info_player_start_dota; env_global_light; ent_dota_game_events"

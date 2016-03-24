@@ -88,6 +88,21 @@ model:CreateSequence(
 	}
 )
 
+model:CreateSequence(
+	{
+		name = "rubick_steal_arctic_burn",
+		sequences = {
+			{ "@rubick_steal_brfireflyb" }
+		},
+		addlayer = {
+			"rubick_steal_brfireflyb_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "flying", weight = 1 }
+		}
+	}
+)
 
 model:CreateSequence(
 	{

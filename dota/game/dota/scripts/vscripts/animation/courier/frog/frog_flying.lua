@@ -77,3 +77,18 @@ model:CreateSequence(
 		}
 	}
 )
+
+model:CreateSequence(
+	{
+		name = "flying_run_tongue",
+		sequences = {
+			{ "@flying_run_tongue" }
+		},
+		addlayer = {
+			"flying_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 }
+		}
+	}
+)

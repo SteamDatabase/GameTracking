@@ -74,7 +74,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "visage_run",
+		name = "visage_run_anim",
 		sequences = {
 			{ "@visage_run" }
 		},
@@ -147,7 +147,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "visage_run_haste",
+		name = "visage_run_haste_anim",
 		sequences = {
 			{ "@visage_run_haste" }
 		},
@@ -221,7 +221,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "visage_run_injured",
+		name = "visage_run_injured_anim",
 		sequences = {
 			{ "@visage_run_injured" }
 		},

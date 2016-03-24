@@ -67,7 +67,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "sd_run",
+		name = "sd_run_anim",
 		sequences = {
 			{ "@sd_run" }
 		},
@@ -86,7 +86,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "sd_run_aggressive",
+		name = "sd_run_aggressive_anim",
 		sequences = {
 			{ "@sd_run_aggressive" }
 		},
@@ -199,7 +199,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run",
+		name = "run_anim",
 		sequences = {
 			{ "@run" }
 		},
@@ -215,7 +215,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run_aggressive",
+		name = "run_aggressive_anim",
 		sequences = {
 			{ "@run_aggressive" }
 		},

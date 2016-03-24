@@ -79,3 +79,33 @@ model:CreateSequence(
 		}
 	}
 )
+
+model:CreateSequence(
+	{
+		name = "mechjaw_flying_run_B",
+		sequences = {
+			{ "@mechjaw_flying_run_B" }
+		},
+		addlayer = {
+			"mechjaw_flying_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 10 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "mechjaw_flying_run_C",
+		sequences = {
+			{ "@mechjaw_flying_run_C" }
+		},
+		addlayer = {
+			"mechjaw_flying_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 10 }
+		}
+	}
+)

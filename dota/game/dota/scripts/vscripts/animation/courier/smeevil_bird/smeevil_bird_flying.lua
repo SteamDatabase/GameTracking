@@ -77,3 +77,18 @@ model:CreateSequence(
 		}
 	}
 )
+
+model:CreateSequence(
+	{
+		name = "smeevil_bird_flying_glide",
+		sequences = {
+			{ "@smeevil_bird_flying_glide" }
+		},
+		addlayer = {
+			"smeevil_bird_flying_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 2 }
+		}
+	}
+)
