@@ -185,6 +185,8 @@ end
 
 -- This function lets a lua instance extend a c++ instance.
 function ExtendInstance( instance, luaClass )
+	-- Assume if BaseClass has already been set, we're in the script_reload case.
+	if instance.BaseClass ~= nil then return instance end
 	instance.BaseClass = getmetatable( instance ).__index
     setmetatable( luaClass, getmetatable( instance ) )
     setmetatable( instance, { __index = luaClass } )
