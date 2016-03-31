@@ -475,6 +475,7 @@
  D typeinfo for vr::IVRControlPanel
  D typeinfo for vr::IVRDashboardManager
  D typeinfo for vr::IVRExtendedDisplay
+ D typeinfo for vr::IVRExternalEventSource
  D typeinfo for vr::IVRNotifications
  D typeinfo for vr::IVROculusDirect
  D typeinfo for vr::IVROverlay
@@ -1082,6 +1083,7 @@
  R typeinfo name for vr::IVRControlPanel
  R typeinfo name for vr::IVRDashboardManager
  R typeinfo name for vr::IVRExtendedDisplay
+ R typeinfo name for vr::IVRExternalEventSource
  R typeinfo name for vr::IVRNotifications
  R typeinfo name for vr::IVROculusDirect
  R typeinfo name for vr::IVROverlay
@@ -1158,6 +1160,7 @@
  T CHmdSystemLatest::LoadFileInternal(char const*, char*, unsigned int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T CHmdSystemLatest::LoadHmdClientProvider()
  T CHmdSystemLatest::LoadSharedResource(char const*, char*, unsigned int)
+ T CHmdSystemLatest::PostOverlayEvent(unsigned long long, vr::VREvent_t const&)
  T CHmdSystemLatest::PowerOffTrackedDevice(unsigned int)
  T CHmdSystemLatest::PrepareInternalProcessTransition(unsigned int, unsigned int)
  T CHmdSystemLatest::QuitProcess(unsigned int)
@@ -1302,8 +1305,9 @@
  T CIPCToolMachClient::Init()
  T CIPCToolMachClient::~CIPCToolMachClient()
  T COculusDirectClient::Cleanup()
- T COculusDirectClient::CreateSwapTextureSet(unsigned int, unsigned int, unsigned int, void* (*) [2])
+ T COculusDirectClient::CreateSwapTextureSet(unsigned int, unsigned int, unsigned int, void* (*) [3])
  T COculusDirectClient::DestroySwapTextureSet(void*)
+ T COculusDirectClient::GetNextLayerIndex(unsigned int, unsigned int (*) [2])
  T COculusDirectClient::Init(CVRClient*)
  T COculusDirectClient::Present(void*)
  T COculusDirectClient::SubmitLayer(unsigned int, vr::EVREye, void*, vr::VRTextureBounds_t const*, vr::HmdMatrix34_t const*)
@@ -1647,7 +1651,7 @@
  T CVRCompositorSharedTextures::GetGLTextureFromSharedTexture(void*, unsigned int*, void**)
  T CVRCompositorSharedTextures::GetSharedTextureData(void*, void*, unsigned int)
  T CVRCompositorSharedTextures::GetSharedTextureDetails(void*, void**, void*, unsigned int*, unsigned int*, unsigned int*, vr::EGraphicsAPIConvention*, vr::EColorSpace*)
- T CVRCompositorSharedTextures::GetSharedTextureHandle(vr::Texture_t const*, vr::VRTextureBounds_t*, int, vr::EVRSubmitFlags, CVRCompositorSharedTextures::Error*, bool*)
+ T CVRCompositorSharedTextures::GetSharedTextureHandle(vr::Texture_t const*, vr::VRTextureBounds_t*, int, int, vr::EVRSubmitFlags, CVRCompositorSharedTextures::Error*, bool*)
  T CVRCompositorSharedTextures::GetSharedTextureSize(void*, unsigned int*, unsigned int*)
  T CVRCompositorSharedTextures::Init(int, vr::IVROculusDirect*)
  T CVRCompositorSharedTextures::LockGLSharedTextureForAccess(void*)
@@ -5048,6 +5052,7 @@
  T non-virtual thunk to CHmdSystemLatest::GetVRMonitorState()
  T non-virtual thunk to CHmdSystemLatest::IsTrackedDeviceConnected(unsigned int)
  T non-virtual thunk to CHmdSystemLatest::LoadSharedResource(char const*, char*, unsigned int)
+ T non-virtual thunk to CHmdSystemLatest::PostOverlayEvent(unsigned long long, vr::VREvent_t const&)
  T non-virtual thunk to CHmdSystemLatest::PowerOffTrackedDevice(unsigned int)
  T non-virtual thunk to CHmdSystemLatest::PrepareInternalProcessTransition(unsigned int, unsigned int)
  T non-virtual thunk to CHmdSystemLatest::QuitProcess(unsigned int)
@@ -5875,7 +5880,7 @@
  b BlockingWait(int*, unsigned int, int*)::_systemTickFrequency
  b BlockingWait(int*, unsigned int, int*)::nAttempts
  b CVRCompositorClient::Submit(vr::EVREye, vr::Texture_t const*, vr::VRTextureBounds_t const*, vr::EVRSubmitFlags)::s_bFirstTime
- b CVRCompositorSharedTextures::GetSharedTextureHandle(vr::Texture_t const*, vr::VRTextureBounds_t*, int, vr::EVRSubmitFlags, CVRCompositorSharedTextures::Error*, bool*)::s_nCounter
+ b CVRCompositorSharedTextures::GetSharedTextureHandle(vr::Texture_t const*, vr::VRTextureBounds_t*, int, int, vr::EVRSubmitFlags, CVRCompositorSharedTextures::Error*, bool*)::s_nCounter
  b CVRLog::InitLog(char const*, char const*, bool, unsigned long)::sb_combinedLogging
  b CVRSystemLatest::GetPropErrorNameFromEnum(vr::ETrackedPropertyError)::buf
  b CVRSystemLatest::PollNextEventWithPoseInternal(vr::ETrackingUniverseOrigin, vr::VREvent_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned long long)::bLogOnce
@@ -6912,21 +6917,21 @@
  t VR_IVRSystem_FnTable_ResetSeatedZeroPose()
  t VR_IVRSystem_FnTable_SetDisplayVisibility(bool)
  t VR_IVRSystem_FnTable_TriggerHapticPulse(unsigned int, unsigned int, unsigned short)
- t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.55142.ii
- t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.55216.ii
+ t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.57158.ii
+ t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.57250.ii
  t _GLOBAL__sub_I_descriptor.cc
  t _GLOBAL__sub_I_descriptor.pb.cc
  t _GLOBAL__sub_I_extension_set.cc
- t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.55144.ii
- t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.55232.ii
+ t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.57160.ii
+ t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.57264.ii
  t _GLOBAL__sub_I_ipcposix2.tmp.steamvr_rel_osx_builder.15826.ii
  t _GLOBAL__sub_I_ipcposix2.tmp.steamvr_rel_osx_builder.15987.ii
  t _GLOBAL__sub_I_threadtool.tmp.steamvr_rel_osx_builder.15891.ii
  t _GLOBAL__sub_I_threadtool.tmp.steamvr_rel_osx_builder.16021.ii
- t _GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.68467.ii
- t _GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.68555.ii
- t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.55149.ii
- t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.55262.ii
+ t _GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.56290.ii
+ t _GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.56391.ii
+ t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.57206.ii
+ t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.57302.ii
  t _GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.15925.ii
  t _GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.16053.ii
  t __ARCLite__load()

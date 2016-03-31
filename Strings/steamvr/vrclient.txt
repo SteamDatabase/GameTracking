@@ -292,6 +292,7 @@
 1CVRMsg_TrackedCamera_SetVideoStreamFormatResponse
 20.CVRMsg_LaunchTemplateApplication.AppOverrideKey
 2fffff.
+2ffffff.
 3333A
 3CVRMsg_TrackedCamera_GetFirmwareDescriptionResponse
 3HmdSystemFactory
@@ -330,8 +331,8 @@ AWAVSPE
 AWAVSPH
 AWAVSPI
 AWAVSPL
-AYASB
-AYASDp
+AYASARB
+AYASARDp
 A_class_addProperty
 A_objc_autoreleasePoolPush
 A_objc_readClassPair
@@ -430,6 +431,7 @@ CHmdSystemLatest::IsTrackedDeviceConnected(unsigned int)
 CHmdSystemLatest::LoadFileInternal(char const*, char*, unsigned int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
 CHmdSystemLatest::LoadHmdClientProvider()
 CHmdSystemLatest::LoadSharedResource(char const*, char*, unsigned int)
+CHmdSystemLatest::PostOverlayEvent(unsigned long long, vr::VREvent_t const&)
 CHmdSystemLatest::PowerOffTrackedDevice(unsigned int)
 CHmdSystemLatest::PrepareInternalProcessTransition(unsigned int, unsigned int)
 CHmdSystemLatest::QuitProcess(unsigned int)
@@ -583,8 +585,9 @@ CIPCToolMachClient::Init()
 CIPCToolMachClient::~CIPCToolMachClient()
 COculusDirectClient
 COculusDirectClient::Cleanup()
-COculusDirectClient::CreateSwapTextureSet(unsigned int, unsigned int, unsigned int, void* (*) [2])
+COculusDirectClient::CreateSwapTextureSet(unsigned int, unsigned int, unsigned int, void* (*) [3])
 COculusDirectClient::DestroySwapTextureSet(void*)
+COculusDirectClient::GetNextLayerIndex(unsigned int, unsigned int (*) [2])
 COculusDirectClient::Init(CVRClient*)
 COculusDirectClient::Present(void*)
 COculusDirectClient::SubmitLayer(unsigned int, vr::EVREye, void*, vr::VRTextureBounds_t const*, vr::HmdMatrix34_t const*)
@@ -955,8 +958,8 @@ CVRCompositorSharedTextures::Flush()
 CVRCompositorSharedTextures::GetGLTextureFromSharedTexture(void*, unsigned int*, void**)
 CVRCompositorSharedTextures::GetSharedTextureData(void*, void*, unsigned int)
 CVRCompositorSharedTextures::GetSharedTextureDetails(void*, void**, void*, unsigned int*, unsigned int*, unsigned int*, vr::EGraphicsAPIConvention*, vr::EColorSpace*)
-CVRCompositorSharedTextures::GetSharedTextureHandle(vr::Texture_t const*, vr::VRTextureBounds_t*, int, vr::EVRSubmitFlags, CVRCompositorSharedTextures::Error*, bool*)
-CVRCompositorSharedTextures::GetSharedTextureHandle(vr::Texture_t const*, vr::VRTextureBounds_t*, int, vr::EVRSubmitFlags, CVRCompositorSharedTextures::Error*, bool*)::s_nCounter
+CVRCompositorSharedTextures::GetSharedTextureHandle(vr::Texture_t const*, vr::VRTextureBounds_t*, int, int, vr::EVRSubmitFlags, CVRCompositorSharedTextures::Error*, bool*)
+CVRCompositorSharedTextures::GetSharedTextureHandle(vr::Texture_t const*, vr::VRTextureBounds_t*, int, int, vr::EVRSubmitFlags, CVRCompositorSharedTextures::Error*, bool*)::s_nCounter
 CVRCompositorSharedTextures::GetSharedTextureSize(void*, unsigned int*, unsigned int*)
 CVRCompositorSharedTextures::Init(int, vr::IVROculusDirect*)
 CVRCompositorSharedTextures::LockGLSharedTextureForAccess(void*)
@@ -4551,6 +4554,7 @@ IVRControlPanel_002
 IVRDashboardManager_001
 IVRExtendedDisplay_
 IVRExtendedDisplay_001
+IVRExternalEventSource_001
 IVRHmdDistortPresent_001
 IVRNotificationsInternal_001
 IVRNotifications_001
@@ -4870,7 +4874,6 @@ Json::valueToString(double, bool, unsigned int)
 Json::valueToString(long long)
 Json::valueToString(unsigned long long)
 Kffffff.
-L95ri
 LABEL_OPTIONAL
 LABEL_REPEATED
 LABEL_REQUIRED
@@ -4963,7 +4966,6 @@ OverlayInterfaceRegistration<CVROverlay_010>
 OverlayInterfaceRegistration<CVROverlay_010>::GetInterface()
 OverlayInterfaceRegistration<CVROverlay_010>::~OverlayInterfaceRegistration()
 PLACEHOLDER_VALUE
-PPPPPPPPP
 ParseStringListFromJson(std::__1::vector<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >*, Json::Value const&, char const*)
 Path_Compact(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char)
 Path_Exists(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
@@ -4997,9 +4999,9 @@ RBRAXARBRAVAp
 RBTBRBUARBRBp
 RBVAp
 RBVBp
-RCSBSMp
 RCSBWKp
 RCTBRBUARBRAp
+RESBSMp
 RUUUUX
 RegisterInterface(char const*, void*)
 ReleaseLast
@@ -5169,6 +5171,7 @@ VRApplicationError_IPCFailed
 VRApplicationError_InvalidApplication
 VRApplicationError_InvalidIndex
 VRApplicationError_InvalidManifest
+VRApplicationError_InvalidParameter
 VRApplicationError_LaunchFailed
 VRApplicationError_LaunchInProgress
 VRApplicationError_NoApplication
@@ -5205,8 +5208,11 @@ VREvent_ChaperoneTempDataHasChanged
 VREvent_ChaperoneUniverseHasChanged
 VREvent_DashboardActivated
 VREvent_DashboardDeactivated
+VREvent_DashboardGuideButtonDown
+VREvent_DashboardGuideButtonUp
 VREvent_DashboardRequested
 VREvent_DashboardThumbSelected
+VREvent_DriverRequestedQuit
 VREvent_EnterStandbyMode
 VREvent_FirmwareUpdateFinished
 VREvent_FirmwareUpdateStarted
@@ -5735,21 +5741,21 @@ __ARCLite__load()
 __Block_copy
 __DATA
 __DefaultRuneLocale
-__GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.55142.ii
-__GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.55216.ii
+__GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.57158.ii
+__GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.57250.ii
 __GLOBAL__sub_I_descriptor.cc
 __GLOBAL__sub_I_descriptor.pb.cc
 __GLOBAL__sub_I_extension_set.cc
-__GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.55144.ii
-__GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.55232.ii
+__GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.57160.ii
+__GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.57264.ii
 __GLOBAL__sub_I_ipcposix2.tmp.steamvr_rel_osx_builder.15826.ii
 __GLOBAL__sub_I_ipcposix2.tmp.steamvr_rel_osx_builder.15987.ii
 __GLOBAL__sub_I_threadtool.tmp.steamvr_rel_osx_builder.15891.ii
 __GLOBAL__sub_I_threadtool.tmp.steamvr_rel_osx_builder.16021.ii
-__GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.68467.ii
-__GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.68555.ii
-__GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.55149.ii
-__GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.55262.ii
+__GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.56290.ii
+__GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.56391.ii
+__GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.57206.ii
+__GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.57302.ii
 __GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.15925.ii
 __GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.16053.ii
 __LINKEDIT
@@ -6405,6 +6411,7 @@ non-virtual thunk to CHmdSystemLatest::GetUint64TrackedDeviceProperty(unsigned i
 non-virtual thunk to CHmdSystemLatest::GetVRMonitorState()
 non-virtual thunk to CHmdSystemLatest::IsTrackedDeviceConnected(unsigned int)
 non-virtual thunk to CHmdSystemLatest::LoadSharedResource(char const*, char*, unsigned int)
+non-virtual thunk to CHmdSystemLatest::PostOverlayEvent(unsigned long long, vr::VREvent_t const&)
 non-virtual thunk to CHmdSystemLatest::PowerOffTrackedDevice(unsigned int)
 non-virtual thunk to CHmdSystemLatest::PrepareInternalProcessTransition(unsigned int, unsigned int)
 non-virtual thunk to CHmdSystemLatest::QuitProcess(unsigned int)
@@ -7028,6 +7035,7 @@ text_format.cc
 texture
 texture0
 texture1
+texture2
 texture_handle
 tgffffff.
 thffff.
@@ -7375,6 +7383,7 @@ typeinfo for vr::IVRCompositorSystemInternal
 typeinfo for vr::IVRControlPanel
 typeinfo for vr::IVRDashboardManager
 typeinfo for vr::IVRExtendedDisplay
+typeinfo for vr::IVRExternalEventSource
 typeinfo for vr::IVRNotifications
 typeinfo for vr::IVROculusDirect
 typeinfo for vr::IVROverlay
@@ -7686,6 +7695,7 @@ typeinfo name for vr::IVRCompositorSystemInternal
 typeinfo name for vr::IVRControlPanel
 typeinfo name for vr::IVRDashboardManager
 typeinfo name for vr::IVRExtendedDisplay
+typeinfo name for vr::IVRExternalEventSource
 typeinfo name for vr::IVRNotifications
 typeinfo name for vr::IVROculusDirect
 typeinfo name for vr::IVROverlay
@@ -7928,6 +7938,7 @@ vr::IVRCompositorSystemInternal
 vr::IVRControlPanel
 vr::IVRDashboardManager
 vr::IVRExtendedDisplay
+vr::IVRExternalEventSource
 vr::IVRNotifications
 vr::IVROculusDirect
 vr::IVROverlay
