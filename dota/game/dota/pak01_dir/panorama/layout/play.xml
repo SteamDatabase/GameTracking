@@ -18,7 +18,7 @@
 		};
 	</script>
 
-	<DOTAPlay hittest="false" onfindmatchstart="OnStartFindingMatch()" onfindmatchend="OnEndFindingMatch()" >
+	<DOTAPlay hittest="false" onfindmatchstart="OnStartFindingMatch()" onfindmatchend="OnEndFindingMatch()">
 
 		<Panel id="FXSearching"  hittest="false">
 			<DOTAScenePanel id="FXSearchingParticles" hittest="false" camera="camera_1" map="scenes/play_searching"/>
@@ -28,9 +28,9 @@
 			<Button id="BackgroundClickCatcher" hittest="true" onactivate="DOTAClosePlayTab()" />
 			<Panel id="PlaySlideOutBackground">
 				<Panel class="PlayTabBackgroundImage"/>
+				<Panel id="LowPriGlow"/>
 			</Panel>
 
-			<Panel id="LowPriGlow"/>
 			<Panel id="LobbySelectorContent">
 
 				<DOTALobbyBrowser id="LobbyBrowser" />
@@ -43,11 +43,21 @@
 					</Panel>
 				</Panel>
 			</Panel>
-		
+
 			<DOTALobby id="Lobby" />
 
+			<DOTAWeekendTourneySetup id="WeekendTourneySetup"/>
+
 			<Panel id="PlaySlideOutContent" class="TopBottomFlow">
-				
+
+				<Button id="WeekendTourneyButton" class="LobbyButton" onactivate="DOTAWeekendTourneyStartSetup();">
+					<Panel>
+						<Panel class="PrivateLobbyButtonIcon"/>
+						<Label text="#WeekendTourneyStatus_Title"/>
+					</Panel>
+					<WeekendTourneyStatusPanel id="WeekendTourneyStatus" />
+				</Button>
+
 				<Button id="PrivateLobbyButton" class="LobbyButton" onactivate="DOTAOpenLobbySelector()">
 					<Panel class="PrivateLobbyButtonIcon"/>
 					<Label text="#dota_play_lobby_games"/>
@@ -68,8 +78,8 @@
 					<Panel id="PracticeBotsSectionContent" class="TopBottomFlow">
 						<Panel class="Divider" />
 						<Panel class="TopBottomFlow">
-							<RadioButton selected="true" id="PlayBotsSolo" class="CoopOrSolo GameModeCheckBox" group="CoopOrSolo" text="#DOTA_create_bot_practice_solo" onactivate="DOTAPlayBotsCoopOrSoloRadioChecked(true) RemoveStyle( Play, CoopBotSelected)" onmouseover="DOTAShowTextTooltipStyled( #DOTA_create_bot_practice_solo_desc, GameModeTooltip )" onmouseout="DOTAHideTextTooltip()" />
-							<RadioButton class="CoopOrSolo GameModeCheckBox" id="PlayBotsCoop" group="CoopOrSolo" text="#DOTA_create_bot_practice_coop" onactivate="DOTAPlayBotsCoopOrSoloRadioChecked(false) AddStyle( Play, CoopBotSelected) " onmouseover="DOTAShowTextTooltipStyled( #DOTA_create_bot_practice_coop_desc, GameModeTooltip )" onmouseout="DOTAHideTextTooltip()" />
+							<RadioButton selected="true" id="PlayBotsSolo" class="CoopOrSolo GameModeCheckBox" group="CoopOrSolo" text="#DOTA_create_bot_practice_solo" onactivate="DOTAPlayBotsCoopOrSoloRadioChecked(true) RemoveStyle( Play, CoopBotSelected)" onmouseover="UIShowTextTooltipStyled( #DOTA_create_bot_practice_solo_desc, GameModeTooltip )" onmouseout="UIHideTextTooltip()" />
+							<RadioButton class="CoopOrSolo GameModeCheckBox" id="PlayBotsCoop" group="CoopOrSolo" text="#DOTA_create_bot_practice_coop" onactivate="DOTAPlayBotsCoopOrSoloRadioChecked(false) AddStyle( Play, CoopBotSelected) " onmouseover="UIShowTextTooltipStyled( #DOTA_create_bot_practice_coop_desc, GameModeTooltip )" onmouseout="UIHideTextTooltip()" />
 						</Panel>
 
 						<Panel class="PlayDividerLine" />
@@ -153,9 +163,12 @@
 							</Panel>
 						</Panel>
 						<Panel id="RankedGameModes" class="TopBottomFlow">
-						<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_Ranked_AllDraft" text="#game_mode_1" selected="true" onmouseover="DOTAShowTextTooltipStyled( #game_mode_22_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( true )" onmouseout="DOTAHideTextTooltip()" />
-						<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_Ranked_CaptainsMode" text="#game_mode_2" onmouseover="DOTAShowTextTooltipStyled( #game_mode_2_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( true )" onmouseout="DOTAHideTextTooltip()" />
-						<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_Ranked_RandomDraft" text="#game_mode_3" onmouseover="DOTAShowTextTooltipStyled( #game_mode_3_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( true )" onmouseout="DOTAHideTextTooltip()" />
+							<!-- Temporarily disabling all draft from ranked to see what players think
+							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_Ranked_AllDraft" text="#game_mode_1" selected="true" onmouseover="UIShowTextTooltipStyled( #game_mode_22_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( true )" onmouseout="UIHideTextTooltip()" />
+							-->
+							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_Ranked_AllDraft" text="#game_mode_1" onmouseover="UIShowTextTooltipStyled( #ranked_all_draft_temporarily_removed, GameModeTooltip )" onactivate="" onmouseout="UIHideTextTooltip()" />
+							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_Ranked_CaptainsMode" text="#game_mode_2" onmouseover="UIShowTextTooltipStyled( #game_mode_2_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( true )" onmouseout="UIHideTextTooltip()" />
+							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_Ranked_RandomDraft" text="#game_mode_3" onmouseover="UIShowTextTooltipStyled( #game_mode_3_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( true )" onmouseout="UIHideTextTooltip()" />
 						</Panel>
 						<Label id="NoValidTeamIdentitiesLabel" text="#dota_play_no_team_identity_explanation" />
 					</Panel>
@@ -168,16 +181,16 @@
 					<Panel id="NormalSectionContent">
 						<Panel class="Divider" />
 						<Panel id="UnrankedGameModes" class="TopBottomFlow">
-							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_AllPick" text="#game_mode_1" onmouseover="DOTAShowTextTooltipStyled( #game_mode_1_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="DOTAHideTextTooltip()" />
-							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_SingleDraft" text="#game_mode_4" onmouseover="DOTAShowTextTooltipStyled( #game_mode_4_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="DOTAHideTextTooltip()" />
-							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_CaptainsMode" text="#game_mode_2" onmouseover="DOTAShowTextTooltipStyled( #game_mode_2_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="DOTAHideTextTooltip()" />
-							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_RandomDraft" text="#game_mode_3" onmouseover="DOTAShowTextTooltipStyled( #game_mode_3_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="DOTAHideTextTooltip()" />
-							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_AbilityDraft" text="#game_mode_18" onmouseover="DOTAShowTextTooltipStyled( #game_mode_18_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="DOTAHideTextTooltip()" />
-							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_LeastPlayed" text="#game_mode_12" onmouseover="DOTAShowTextTooltipStyled( #game_mode_12_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="DOTAHideTextTooltip()" />
-							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_AllRandom" text="#game_mode_5"  onmouseover="DOTAShowTextTooltipStyled( #game_mode_5_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="DOTAHideTextTooltip()"/>
-							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_LimitedHeroes" text="#game_mode_13" onmouseover="DOTAShowTextTooltipStyled( #game_mode_13_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="DOTAHideTextTooltip()" />
-							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_CaptainsDraft" text="#game_mode_16" onmouseover="DOTAShowTextTooltipStyled( #game_mode_16_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="DOTAHideTextTooltip()" />
-							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_AllRandomDeathMatch" text="#game_mode_20" onmouseover="DOTAShowTextTooltipStyled( #game_mode_20_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="DOTAHideTextTooltip()" />
+							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_AllPick" text="#game_mode_1" onmouseover="UIShowTextTooltipStyled( #game_mode_1_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="UIHideTextTooltip()" />
+							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_SingleDraft" text="#game_mode_4" onmouseover="UIShowTextTooltipStyled( #game_mode_4_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="UIHideTextTooltip()" />
+							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_CaptainsMode" text="#game_mode_2" onmouseover="UIShowTextTooltipStyled( #game_mode_2_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="UIHideTextTooltip()" />
+							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_RandomDraft" text="#game_mode_3" onmouseover="UIShowTextTooltipStyled( #game_mode_3_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="UIHideTextTooltip()" />
+							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_AbilityDraft" text="#game_mode_18" onmouseover="UIShowTextTooltipStyled( #game_mode_18_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="UIHideTextTooltip()" />
+							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_LeastPlayed" text="#game_mode_12" onmouseover="UIShowTextTooltipStyled( #game_mode_12_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="UIHideTextTooltip()" />
+							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_AllRandom" text="#game_mode_5"  onmouseover="UIShowTextTooltipStyled( #game_mode_5_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="UIHideTextTooltip()"/>
+							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_LimitedHeroes" text="#game_mode_13" onmouseover="UIShowTextTooltipStyled( #game_mode_13_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="UIHideTextTooltip()" />
+							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_CaptainsDraft" text="#game_mode_16" onmouseover="UIShowTextTooltipStyled( #game_mode_16_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="UIHideTextTooltip()" />
+							<ToggleButton class="CheckBox GameModeCheckBox" id="GameMode_AllRandomDeathMatch" text="#game_mode_20" onmouseover="UIShowTextTooltipStyled( #game_mode_20_desc, GameModeTooltip )" onactivate="DOTAGameModeToggled( false )" onmouseout="UIHideTextTooltip()" />
 						</Panel>
 					</Panel>
 				</Panel>
@@ -233,6 +246,7 @@
 			</Panel>
 		</Button>
 
+		<Label id="WeekendTourneyPlayStatus" text="#dota_play_button_tourney_status" />
 		<Button id="PlayButton" class="PlayButton" onactivate="DOTAPlayButtonClicked()">
 			<Label text="#dota_play_button_label" />
 			<Panel class="Spinner FindMatchSpinner" />
@@ -246,7 +260,7 @@
 			<Label class="Consequences" text="#dota_leaver_consequences" />
 		</Panel>
 
-		<Panel id="LeaverConsequences_Warning"  class="LeaverConsequences Warning" onmouseover="DOTAShowTextTooltipStyled( #dota_leaver_consequences_details, LeaverConsequencesTooltip )" onmouseout="DOTAHideTextTooltip()">
+		<Panel id="LeaverConsequences_Warning"  class="LeaverConsequences Warning" onmouseover="UIShowTextTooltipStyled( #dota_leaver_consequences_details, LeaverConsequencesTooltip )" onmouseout="UIHideTextTooltip()">
 			<Panel id="ConsequencesContainer">
 				<Label class="Consequences Warning" text="#dota_leaver_consequences" />
 				<Panel class="InfoIcon" />

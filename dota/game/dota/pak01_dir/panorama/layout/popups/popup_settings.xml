@@ -5,16 +5,45 @@
 		<include src="s2r://panorama/styles/popups/popup_settings.vcss_c" />
 	</styles>
 
-	<PopupSettings class="Hidden" defaultfocus="TestContainer" popupbackground="blur" oncancel="DOTASettings();" >
+	<script>
+		function updateMinimapPreview()
+		{
+			var minimapPanel = $( "#MinimapContainer" );		
+			
+			minimapPanel.SetHasClass( "SimpleColors", $("#dota_minimap_simple_colors").checked );
+			minimapPanel.SetHasClass( "UseHeroIcons", $("#dota_minimap_show_hero_icon").checked );
+			minimapPanel.SetHasClass( "SwapToggle", $("#dota_minimap_always_draw_hero_icons").checked );
+			minimapPanel.SetHasClass( "NoBackground", $("#dota_minimap_hide_background").checked );
+
+			var heroSizePanel = $( "#dota_minimap_hero_size" );
+			var iconValue = heroSizePanel.value;
+			var minScale = 0.22;
+			var maxScale = .92;
+			var iconScale = ( ( iconValue - heroSizePanel.min )  / ( heroSizePanel.max - heroSizePanel.min ) ) * ( maxScale - minScale ) + minScale;
+
+			var heroRegEx = /Hero\d+$/;
+
+			for ( var i = 0; i < minimapPanel.GetChildCount(); ++i )
+			{
+				var childPanel = minimapPanel.GetChild( i );
+				if ( !heroRegEx.test( childPanel.id ) )
+					continue;
+				
+				childPanel.style.preTransformScale2d = iconScale;
+			}
+		}
+	</script>
+
+	<PopupSettings class="Hidden" defaultfocus="TestContainer" popupbackground="blur" onload="updateMinimapPreview()" oncancel="DOTASettings();" >
 
 		<!-- Nav Bar -->
 		<Panel id="SettingsNavBar">
 			<Button id="DOTACloseSettingsButton" class="ControlIconButton" onactivate="DOTASettings();" />
-			<RadioButton id="HotkeysTabButton" class="SettingsNavBarButton" group="SettingsTopMenu" onactivate="DOTASetActiveTab(0);">
+			<RadioButton id="HotkeysTabButton" class="SettingsNavBarButton" group="SettingsTopMenu" onactivate="DOTASetActiveTab(0); RemoveStyle( InGameSubTab, ShowingAdvanced);  RemoveStyle( BottomNav, ShowingAdvanced);">
 				<Label text="#dota_settings_hotkeys" />
 			</RadioButton>
 			<Label class="SettingsTabSeparator" text="/" />
-			<RadioButton id="OptionsTabButton"	class="SettingsNavBarButton" group="SettingsTopMenu" onactivate="DOTASetActiveTab(1);">
+			<RadioButton id="OptionsTabButton"	class="SettingsNavBarButton" group="SettingsTopMenu" onactivate="DOTASetActiveTab(1); RemoveStyle( OptionsTabContent, ShowingAdvanced);  RemoveStyle( BottomNav, ShowingAdvanced);">
 				<Label text="#dota_settings_options"/>
 			</RadioButton>
 			<Label class="SettingsTabSeparator"	text="/" />
@@ -29,158 +58,128 @@
 			<RadioButton id="AboutTabButton"	class="SettingsNavBarButton" group="SettingsTopMenu" onactivate="DOTASetActiveTab(4);" >
 				<Label text="#dota_settings_about" />
 			</RadioButton>
+
 		</Panel>
 
 		<!-- Hotkeys -->
 		<Panel id="HotkeysTabContent" class="SettingsSecondaryPanel" >
-			<Panel class="HotKeyMainTab" id="InGameSubTab">
-				<Panel class="SettingsColumnContainer">
-					<Panel id="Column0" class="HotKeySettingsColumn">
+			<Panel id="InGameSubTab" class="HotKeyMainTab ">
+				<Panel id="BasicHotkeys" class="SettingsColumnContainer">
+					<Panel id="AbilitiesAndItems" class="LeftRightFlow">
 						<Panel id="Abilities" class="SettingsSection">
 							<Panel class="SectionHeaderContainer">
 								<Label text="#dota_settings_abilities" class="SectionHeader" />
-								<ToggleButton class="CheckBox" id="LegacyKeysCheckBox" text="#dota_settings_legacykeys"	onactivate="DOTASetLegacyKeys();" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_legacykeys, #DOTA_Hotkeys_Tooltip_Legacy)" onmouseout="DOTAHideTitleTextTooltip()" />
+                <ToggleButton class="CheckBox" id="PerUnitHotkeysCheckBox" text="#dota_settings_per_unit_hotkeys"	onactivate="DOTASetPerUnitHotKeys();" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_PerUnitHotkeys, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
 							</Panel>
-							<Panel class="SectionHeaderLineNoMargin"/>
-
+							
 							<Panel id="AbilitiesContents">
 								<Panel id="AbilitiesActive">
-									<Panel id="AbilityBindingTabBar">
-										<RadioButton id="HeroAbilityTabButton" group="AbilityBindingUnitType" class="AbilityNavBarButton" text="#dota_settings_abilities_hero" onactivate="DOTASetActiveAbilitySubTab(0);" />
-										<RadioButton id="NeutralAbilityTabButton" group="AbilityBindingUnitType" class="AbilityNavBarButton" text="#dota_settings_abilities_neutrals" onactivate="DOTASetActiveAbilitySubTab(1);" />
-										<RadioButton id="CourierAbilityTabButton" group="AbilityBindingUnitType" class="AbilityNavBarButton" text="#dota_settings_abilities_courier" onactivate="DOTASetActiveAbilitySubTab(2);" />
-									</Panel>
 									<Panel id="AbilityBindingContents">
-
-										<Panel id="AbilityBindings_Hero" >
+                    <Panel class="AbilityBindingTopRow" >
+                      <Button id="AbilityBindingsHeroSelector" onactivate="DOTAShowSettingsHeroPicker();" >
+                        <Label text="#DOTA_SettingsHeroSelectorButton" />
+                        <Panel class="AbilityBindingsHeroSelectorArrow" />
+                      </Button>
+                      <Button id="ClearHeroAbilityBindings" class="ButtonDark" onactivate="DOTAClearHeroAbilityBindings();" >
+                        <Label text="#DOTA_ClearHeroAbilityBindings" />
+                      </Button>
+                    </Panel>
+                    <Panel id="AbilityBindings_Hero" >
 										<!-- SPELL ICONS -->											
 											<Panel id="AbilityBoxesBG">
-	 	 										<Panel id="HotkeysAbilityIcon1" class="HeroAbilityIcon" >
+	 	 										<Panel id="HotkeysAbilityIcon1" class="HeroAbilityIcon">
 	 	 											<Label text="#dota_settings_abilities_primary1"/>
 	 	 										</Panel>
-	 	 										<Panel id="HotkeysAbilityIcon2" class="HeroAbilityIcon" >
+	 	 										<Panel id="HotkeysAbilityIcon2" class="HeroAbilityIcon">
 	 	 											<Label text="#dota_settings_abilities_primary2"/>
 	 	 										</Panel>
-	 	 										<Panel id="HotkeysAbilityIcon3" class="HeroAbilityIcon" >
+	 	 										<Panel id="HotkeysAbilityIcon3" class="HeroAbilityIcon">
 	 	 											<Label text="#dota_settings_abilities_primary3"/>
 	 	 										</Panel>
-	 	 										<Panel id="HotkeysAbilityIcon4" class="HeroAbilityIcon" >
+	 	 										<Panel id="HotkeysAbilityIcon4" class="HeroAbilityIcon">
 	 	 											<Label text="#dota_settings_abilities_secondary1"/>
 	 	 										</Panel>
-	 	 										<Panel id="HotkeysAbilityIcon5" class="HeroAbilityIcon" >
+	 	 										<Panel id="HotkeysAbilityIcon5" class="HeroAbilityIcon">
 	 	 											<Label text="#dota_settings_abilities_secondary2"/>
 	 	 										</Panel>
-	 	 										<Panel id="HotkeysAbilityIcon6" class="HeroAbilityIcon" >
+	 	 										<Panel id="HotkeysAbilityIcon6" class="HeroAbilityIcon">
 	 	 											<Label text="#dota_settings_abilities_ultimate"/>
 	 	 										</Panel>
 											</Panel>
 										<!-- CAST -->											
 											<Panel id="AbilityBoxesCast">
-												<DOTASettingsKeyBinder bind="AbilityPrimary1" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder bind="AbilityPrimary2" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder bind="AbilityPrimary3" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder bind="AbilitySecondary1" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder bind="AbilitySecondary2" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder bind="AbilityUltimate" class="HeroAbilityBindAbilityButton" />
+												<DOTASettingsKeyBinder id="AbilityBinder1" bind="AbilityPrimary1" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+												<DOTASettingsKeyBinder id="AbilityBinder2" bind="AbilityPrimary2" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+												<DOTASettingsKeyBinder id="AbilityBinder3" bind="AbilityPrimary3" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+												<DOTASettingsKeyBinder id="AbilityBinder4" bind="AbilitySecondary1" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+												<DOTASettingsKeyBinder id="AbilityBinder5" bind="AbilitySecondary2" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+												<DOTASettingsKeyBinder id="AbilityBinder6" bind="AbilityUltimate" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
 											</Panel>
-										<!-- AUTOCAST -->											
-											<Panel id="AbilityBoxesAutoCast" class="LeftRightFlow">
-												<Panel class="AutocastContainer">
-													<DOTASettingsKeyBinder bind="AbilityPrimary1AutoCast" class="HeroAbilityBindAbilityButton" />
+						          <Panel id="AbilityBoxesQuickCast">
+						            <DOTASettingsKeyBinder id="AbilityBinder1Quickcast" bind="AbilityPrimary1Quickcast" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+						            <DOTASettingsKeyBinder id="AbilityBinder2Quickcast" bind="AbilityPrimary2Quickcast" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+						            <DOTASettingsKeyBinder id="AbilityBinder3Quickcast" bind="AbilityPrimary3Quickcast" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+						            <DOTASettingsKeyBinder id="AbilityBinder4Quickcast" bind="AbilitySecondary1Quickcast" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+						            <DOTASettingsKeyBinder id="AbilityBinder5Quickcast" bind="AbilitySecondary2Quickcast" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+						            <DOTASettingsKeyBinder id="AbilityBinder6Quickcast" bind="AbilityUltimateQuickcast" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+						          </Panel>
+						          <Panel id="AbilityBoxesAutoCast">
+						            <DOTASettingsKeyBinder id="AbilityBinder1Autocast" bind="AbilityPrimary1AutocastAlternate" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+						            <DOTASettingsKeyBinder id="AbilityBinder2Autocast" bind="AbilityPrimary2AutocastAlternate" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+						            <DOTASettingsKeyBinder id="AbilityBinder3Autocast" bind="AbilityPrimary3AutocastAlternate" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+						            <DOTASettingsKeyBinder id="AbilityBinder4Autocast" bind="AbilitySecondary1AutocastAlternate" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+						            <DOTASettingsKeyBinder id="AbilityBinder5Autocast" bind="AbilitySecondary2AutocastAlternate" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+						            <DOTASettingsKeyBinder id="AbilityBinder6Autocast" bind="AbilityUltimateAutocastAlternate" class="HeroAbilityBindAbilityButton" onmouseout="UIHideTextTooltip()" />
+						          </Panel>                      
+                     	<Panel class="HeroSpecificAbilityQuickcastContainer" hittest="false">
+											  <Panel class="HeroAbilityQuickCastButtons" hittest="false">
+												<Panel class="QuickCastCheckBoxContainer" hittest="false">
+												  <ToggleButton class="QuickCastCheckBox CheckBox" id="QuickcastAbility1" onactivate="DOTAToggleQuickcastAbility( 0 );" />                          
 												</Panel>
-												<Panel class="AutocastContainer">
-													<DOTASettingsKeyBinder bind="AbilityPrimary2AutoCast" class="HeroAbilityBindAbilityButton" />
+												<Panel class="QuickCastCheckBoxContainer" hittest="false">
+												  <ToggleButton class="QuickCastCheckBox CheckBox" id="QuickcastAbility2" onactivate="DOTAToggleQuickcastAbility( 1 );" />
 												</Panel>
-												<Panel class="AutocastContainer">
-													<DOTASettingsKeyBinder bind="AbilityPrimary3AutoCast" class="HeroAbilityBindAbilityButton" />
+												<Panel class="QuickCastCheckBoxContainer" hittest="false">
+												  <ToggleButton class="QuickCastCheckBox CheckBox" id="QuickcastAbility3" onactivate="DOTAToggleQuickcastAbility( 2 );" />
 												</Panel>
-												<Panel class="AutocastContainer">
-													<DOTASettingsKeyBinder bind="AbilitySecondary1AutoCast" class="HeroAbilityBindAbilityButton" />
+												<Panel class="QuickCastCheckBoxContainer" hittest="false">
+												  <ToggleButton class="QuickCastCheckBox CheckBox" id="QuickcastAbility4" onactivate="DOTAToggleQuickcastAbility( 3 );" />
 												</Panel>
-												<Panel class="AutocastContainer">
-													<DOTASettingsKeyBinder bind="AbilitySecondary2AutoCast" class="HeroAbilityBindAbilityButton" />
+												<Panel class="QuickCastCheckBoxContainer" hittest="false">
+												  <ToggleButton class="QuickCastCheckBox CheckBox" id="QuickcastAbility5" onactivate="DOTAToggleQuickcastAbility( 4 );" />
 												</Panel>
-												<Panel class="AutocastContainer">
-													<DOTASettingsKeyBinder bind="AbilityUltimateAutoCast" class="HeroAbilityBindAbilityButton" />
+												<Panel class="QuickCastCheckBoxContainer" hittest="false">
+												  <ToggleButton class="QuickCastCheckBox CheckBox" id="QuickcastAbility6" onactivate="DOTAToggleQuickcastAbility( 5 );" />
 												</Panel>
-											</Panel>
-										<!-- QUICKCAST -->											
-											<Panel id="AbilityBoxesQuickcast" class="LeftRightFlow">
-												<DOTASettingsKeyBinder bind="AbilityPrimary1QuickCast" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder bind="AbilityPrimary2QuickCast" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder bind="AbilityPrimary3QuickCast" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder bind="AbilitySecondary1QuickCast" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder bind="AbilitySecondary2QuickCast" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder bind="AbilityUltimateQuickCast" class="HeroAbilityBindAbilityButton" />
-											</Panel>
-											<Panel id="HeroAbilityBindTypeButtons">
-												<RadioButton group="HeroCastType" id="HeroCastButton" class="HeroAbilityBindTypeButton" text="#dota_settings_cast" onactivate="DOTASetActiveAbilityHeroSubTab(0);" onmouseover="DOTAShowTextTooltip( #DOTA_Hotkeys_Tooltip_Cast)" onmouseout="DOTAHideTextTooltip()"	/>
-												<RadioButton group="HeroCastType" id="HeroAutoCastButton" class="HeroAbilityBindTypeButton" text="#dota_settings_autocast" onactivate="DOTASetActiveAbilityHeroSubTab(1);" onmouseover="DOTAShowTextTooltip( #DOTA_Hotkeys_Tooltip_Autocast)" onmouseout="DOTAHideTextTooltip()" />
-												<RadioButton group="HeroCastType" id="HeroQuickCastButton" class="HeroAbilityBindTypeButton" text="#dota_settings_quickcast" onactivate="DOTASetActiveAbilityHeroSubTab(2);"	onmouseover="DOTAShowTextTooltip( #DOTA_Hotkeys_Tooltip_Quickcast)" onmouseout="DOTAHideTextTooltip()" />
-											</Panel>
-										</Panel>
-
-										<!-- AUTOCAST -->
-										<Panel id="AbilityBindings_Neutrals" class="TopBottomFlow">
-											<Panel id="AbilityBoxes">
-												<DOTASettingsKeyBinder text="#dota_settings_abilities_neutral1" bind="NeutralAbility1" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder text="#dota_settings_abilities_neutral2" bind="NeutralAbility2" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder text="#dota_settings_abilities_neutral3" bind="NeutralAbility3" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder text="#dota_settings_abilities_neutral4" bind="NeutralAbility4" class="HeroAbilityBindAbilityButton" />
-											</Panel>
-											<Panel class="AbilityBindingOptions">
-												<ToggleButton id="NeutralMirrorButton" class="CheckBox MirrorHotkeysCheckBox" text="#dota_settings_mirror"	onactivate="DOTASetMirrorKeys();"/>
-											</Panel>
-										</Panel>
-
-										<!-- QUICKCAST -->
-										<Panel id="AbilityBindings_Courier" class="TopBottomFlow">
-											<Panel id="AbilityBoxes">
-												<DOTASettingsKeyBinder text="#dota_settings_abilities_courier1" bind="CourierAbility1" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder text="#dota_settings_abilities_courier2" bind="CourierAbility2" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder text="#dota_settings_abilities_courier3" bind="CourierAbility3" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder text="#dota_settings_abilities_courier4" bind="CourierAbility4" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder text="#dota_settings_abilities_courier5" bind="CourierAbility5" class="HeroAbilityBindAbilityButton" />
-												<DOTASettingsKeyBinder text="#dota_settings_abilities_courier6" bind="CourierAbility6" class="HeroAbilityBindAbilityButton" />
-											</Panel>
-											<Panel class="AbilityBindingOptions">
-												<ToggleButton id="CourierMirrorButton" class="CheckBox MirrorHotkeysCheckBox" text="#dota_settings_mirror"	onactivate="DOTASetMirrorKeys();"/>
-											</Panel>
-										</Panel>
-									</Panel>
-								</Panel>
-
-								<Panel id="AbilitiesDisabled">
-									<Label text="#DOTA_Settings_LegacyKeysActive" />
-								</Panel>
+											  </Panel>
+											</Panel>											
 							</Panel>
-							<DOTASettingsKeyBinder text="#dota_settings_abilitylearn" bind="LearnAbilities" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_LearnAbility, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_upgradestats" bind="LearnStats" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_LearnStats, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-						</Panel>
-
-						<Panel id="UnitActions" class="SettingsSection">
-							<Label text="#dota_settings_unitactions" class="SectionHeader"/>
-							<Panel class="SectionHeaderLineNoMargin"/>
-							<DOTASettingsKeyBinder text="#dota_settings_attack" bind="HeroAttack" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_HeroAttack, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_move" bind="HeroMove" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_HeroMove, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_patrol" bind="HeroPatrol" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_HeroPatrol, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_stop" bind="HeroStop" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_HeroStop, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_holdposition" bind="HeroHold" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_HeroHold, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_selecthero" bind="HeroSelect" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_HeroSelect, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_selectall" bind="SelectAll" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_SelectAll, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_selectallothers" bind="SelectAllOthers" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_SelectAllOthers, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_selectcourier" bind="CourierSelect" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CourierSelect, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_courierdeliver" bind="CourierDeliver" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CourierDeliver, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_courierhaste" bind="CourierHaste" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CourierHaste, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_useactionitem" bind="UseActionItem" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_UseActionItem, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_herotaunt" bind="HeroTaunt" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_HeroTaunt, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
+							<Panel id="HeroAbilityBindTypeButtons">
+							  <RadioButton class="HeroAbilityBindTypeButton" id="AbilityCastButton" group="SettingsAbilityBinds" text="#dota_settings_cast" onactivate="DOTASetActiveAbilitySubTab(0);" onmouseover="UIShowTextTooltip( #DOTA_Hotkeys_Tooltip_AbilityCast )" onmouseout="UIHideTextTooltip()" />
+								<RadioButton class="HeroAbilityBindTypeButton" id="AbilityQuickCastButton" group="SettingsAbilityBinds" text="#dota_settings_quickcast" onactivate="DOTASetActiveAbilitySubTab(1);" onmouseover="UIShowTextTooltip( #DOTA_Hotkeys_Tooltip_AbilityQuickcast )" onmouseout="UIHideTextTooltip()" />
+							  <RadioButton class="HeroAbilityBindTypeButton" id="AbilityAutoCastButton" group="SettingsAbilityBinds" text="#dota_settings_autocast" onactivate="DOTASetActiveAbilitySubTab(2);" onmouseover="UIShowTextTooltip( #DOTA_Hotkeys_Tooltip_Autocast )" onmouseout="UIHideTextTooltip()" />
+						</Panel>                    
+							<Panel class="DefaultAbilityQuickcastContainer" >
+								<ToggleButton class="CheckBox" id="DefaultAbilityQuickcastCheckBox" text="#dota_settings_enable_quickcast" onactivate="DOTASetDefaultAbilityQuickCast();" />
+								<Panel class="InfoIcon" onmouseover="UIShowTextTooltip( #DOTA_Hotkeys_Tooltip_Quickcast )" onmouseout="UIHideTextTooltip()"/>
+							</Panel>
 						</Panel>
 					</Panel>
+					<Panel id="AbilitiesDisabled" class="TopBottomFlow">
+						<Label text="#DOTA_Settings_LegacyKeysActive" />
+						<Panel class="DefaultAbilityQuickcastContainer" >
+							<DOTASettingsCheckbox class="LegacyQuickCast QuickCastCheckBox" convar="dota_ability_legacy_mode_quick_cast" text="#dota_settings_enable_quickcast" />
+							<Panel class="InfoIcon" onmouseover="UIShowTextTooltip( #DOTA_Hotkeys_Tooltip_Quickcast )" onmouseout="UIHideTextTooltip()"/>
+						</Panel>
+                </Panel>
+							</Panel>
 
-					<Panel id="Column1" class="HotKeySettingsColumn">
+						</Panel>
+						
+
 						<Panel id="Items" class="SettingsSection">
 							<Label text="#dota_settings_items" class="SectionHeader" />
-							<Panel class="SectionHeaderLineNoMargin"/>
+							
 
 							<Panel id="ItemBindingContents">
 
@@ -209,150 +208,206 @@
 									</Panel>
 								</Panel>
 								<Panel id="ItemBindTypeButtons">
-									<RadioButton class="ItemBindTypeButton" id="ItemCastButton" group="SettingsItemBinds" text="#dota_settings_cast" onactivate="DOTASetActiveItemSubTab(0);" onmouseover="DOTAShowTextTooltip( #DOTA_Hotkeys_Tooltip_ItemCast)" onmouseout="DOTAHideTextTooltip()" />
-									<RadioButton class="ItemBindTypeButton" id="ItemQuickCastButton" group="SettingsItemBinds" text="#dota_settings_quickcast" onactivate="DOTASetActiveItemSubTab(1);" onmouseover="DOTAShowTextTooltip( #DOTA_Hotkeys_Tooltip_ItemQuickcast)" onmouseout="DOTAHideTextTooltip()" />
+									<RadioButton class="ItemBindTypeButton" id="ItemCastButton" group="SettingsItemBinds" text="#dota_settings_cast" onactivate="DOTASetActiveItemSubTab(0);" onmouseover="UIShowTextTooltip( #DOTA_Hotkeys_Tooltip_ItemCast)" onmouseout="UIHideTextTooltip()" />
+									<RadioButton class="ItemBindTypeButton" id="ItemQuickCastButton" group="SettingsItemBinds" text="#dota_settings_quickcast" onactivate="DOTASetActiveItemSubTab(1);" onmouseover="UIShowTextTooltip( #DOTA_Hotkeys_Tooltip_ItemQuickcast)" onmouseout="UIHideTextTooltip()" />
+								</Panel>
+								<Panel class="ItemsQuickcastContainer LeftRightFlow" >
+									<ToggleButton class="CheckBox" id="DefaultItemQuickcastCheckBox" text="#dota_settings_enable_quickcast" onactivate="DOTASetDefaultItemQuickCast();" />
+									<Panel class="InfoIcon" onmouseover="UIShowTextTooltip( #DOTA_Hotkeys_Tooltip_Quickcast_Items )" onmouseout="UIHideTextTooltip()"/>
 								</Panel>
 							</Panel>
-							<DOTASettingsKeyBinder text="#dota_settings_openshop" bind="ShopToggle" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ShopToggle, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_purchasequickbuy" bind="PurchaseQuickbuy" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_PurchaseQuickbuy, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_purchasesticky" bind="PurchaseSticky" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_PurchaseSticky, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_grabstashitems" bind="GrabStashItems" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_GrabStashItems, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
+						</Panel>											
+					</Panel>
+					<Panel id="BasicHotkeysContainer" class="LeftRightFlow">
+						<Panel id="Column0" class="HotKeySettingsColumn">
+
+							<Panel id="UnitActions" class="SettingsSection">
+								<Label text="#dota_settings_unitactions" class="SectionHeader"/>
+								<Panel class="SectionHeaderLineNoMargin"/>
+								<DOTASettingsKeyBinder text="#dota_settings_selecthero" bind="HeroSelect" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_HeroSelect, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_selectall" bind="SelectAll" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_SelectAll, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_attack" bind="HeroAttack" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_HeroAttack, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_holdposition" bind="HeroHold" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_HeroHold, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+							</Panel>
+							<Panel id="ShopActions" class="SettingsSection">
+								<Label text="#dota_settings_shopactions" class="SectionHeader"/>
+								<Panel class="SectionHeaderLineNoMargin"/>
+								<DOTASettingsKeyBinder text="#dota_settings_selectcourier" bind="CourierSelect" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CourierSelect, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_courierdeliver" bind="CourierDeliver" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CourierDeliver, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />								
+								<DOTASettingsKeyBinder text="#dota_settings_purchasequickbuy" bind="PurchaseQuickbuy" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_PurchaseQuickbuy, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />															
+							</Panel>
 						</Panel>
-						<Panel id="CameraActions" class="SettingsSection">
-							<Label text="#dota_settings_cameraactions" class="SectionHeader" />
-							<Panel class="SectionHeaderLineNoMargin"/>
-							<DOTASettingsKeyBinder text="#dota_settings_cameraup" bind="CameraUp" />
-							<DOTASettingsKeyBinder text="#dota_settings_cameradown" bind="CameraDown" />
-							<DOTASettingsKeyBinder text="#dota_settings_cameraleft" bind="CameraLeft" />
-							<DOTASettingsKeyBinder text="#dota_settings_cameraright" bind="CameraRight"/>
-							<DOTASettingsKeyBinder text="#dota_settings_cameragrip" bind="CameraGrip" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CameraGrip, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_recentevent" bind="RecentEvent" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_RecentEvent, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_inspectheroinworld" bind="InspectHeroInWorld" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_InspectHeroInWorld, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
+
+						<Panel id="Column1" class="HotKeySettingsColumn">
+							<Panel id="Chat" class="SettingsSection">
+								<Label text="#dota_settings_chat" class="SectionHeader" />
+								<Panel class="SectionHeaderLineNoMargin"/>
+
+								<DOTASettingsKeyBinder id="ChatTeam" text="#dota_settings_chatteam" bind="ChatTeam" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ChatTeam, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_chatglobal" bind="ChatGlobal" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ChatGlobal, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_chatvoice_party" bind="ChatVoiceParty" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ChatVoiceParty, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_chatvoice_team" bind="ChatVoiceTeam" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ChatVoiceTeam, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								
+								<DOTASettingsKeyBinder text="#dota_settings_chatwheel_show" bind="ChatWheel" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ChatWheel, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<Panel id="ChatBindDialogsContents">
+									<Button id="PhrasesButton" class="ChatDialogButton" onactivate="DOTAShowPhrasesPage();" >
+										<Image src="s2r://panorama/images/settings_phrases_png.vtex" class="ChatDialogButtonImage" />
+										<Label text="#dota_settings_phrases"	class="ChatBindDialogButtonLabel" />
+									</Button>
+									<Button id="ChatWheelButton" class="ChatDialogButton" onactivate="DOTAShowChatWheelPage();" >
+										<Image src="s2r://panorama/images/settings_chatwheel_png.vtex" class="ChatDialogButtonImage" />
+										<Label text="#dota_settings_chatwheel_page" class="ChatBindDialogButtonLabel" />
+									</Button>
+								</Panel>								
+								
+							</Panel>
+				
+
+						</Panel>
+
+						<Panel id="Column2" class="HotKeySettingsColumn">
+							<Panel id="Interface" class="SettingsSection">
+								<Label text="#dota_settings_interface" class="SectionHeader" />
+								<Panel class="SectionHeaderLineNoMargin"/>
+
+								<DOTASettingsKeyBinder text="#dota_settings_cameragrip" bind="CameraGrip" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CameraGrip, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_scoreboardtoggle" bind="ScoreboardToggle" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ScoreboardToggle, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_pause" bind="Pause" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Pause, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />								
+							</Panel>
+							<Panel id="ControlGroups" class="SettingsSection">
+								<Label text="#dota_settings_controlgroups" class="SectionHeader" />
+								<Panel class="SectionHeaderLineNoMargin"/>
+								<Panel id="ControlGroupList">
+									<Panel class="ControlGroupRow">
+									<DOTASettingsKeyBinder text="#dota_settings_controlgroupcycle" bind="ControlGroupCycle" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ControlGroupCycle, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+									<DOTASettingsKeyBinder text="#dota_settings_controlgroupcycleprev" bind="ControlGroupCyclePrev" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ControlGroupCyclePrev, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+									</Panel>															
+									<Panel class="ControlGroupRow">
+										<DOTASettingsKeyBinder text="#dota_settings_group1" bind="ControlGroup1" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Group, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+										<DOTASettingsKeyBinder text="#dota_settings_group2" bind="ControlGroup2" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Group, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+									</Panel>
+									<Panel class="ControlGroupRow">
+										<DOTASettingsKeyBinder text="#dota_settings_group3" bind="ControlGroup3" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Group, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+										<DOTASettingsKeyBinder text="#dota_settings_group4" bind="ControlGroup4" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Group, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />										
+									</Panel>
+								</Panel>
+							</Panel>							
+							
 						</Panel>
 					</Panel>
 
-					<Panel id="Column2" class="HotKeySettingsColumn">
-						<Panel id="Chat" class="SettingsSection">
-							<Label text="#dota_settings_chat" class="SectionHeader" />
+				</Panel>
+
+				<Panel id="AdvancedHotKeys" class="SettingsColumnContainer" hittest="false">
+					<Label text="#dota_settings_advancedhotkeys" class="SectionHeader AdvancedHeader" />
+					<Panel class="LeftRightFlow">
+					<Panel id="AdvancedColumn0" class="HotKeySettingsColumn">
+						<Panel id="" class="SettingsSection">
+							<Label text="#dota_settings_unitactions" class="SectionHeader" />
 							<Panel class="SectionHeaderLineNoMargin"/>
-
-							<Panel id="ChatBindDialogsContents">
-
-								<Button id="PhrasesButton" class="ChatDialogButton" onactivate="DOTAShowPhrasesPage();" >
-									<Image src="s2r://panorama/images/settings_phrases_png.vtex" class="ChatDialogButtonImage" />
-									<Label text="#dota_settings_phrases"	class="ChatBindDialogButtonLabel" />
-								</Button>
-								<Button id="ChatWheelButton" class="ChatDialogButton" onactivate="DOTAShowChatWheelPage();" >
-									<Image src="s2r://panorama/images/settings_chatwheel_png.vtex" class="ChatDialogButtonImage" />
-									<Label text="#dota_settings_chatwheel_page" class="ChatBindDialogButtonLabel" />
-								</Button>
+								<DOTASettingsKeyBinder text="#dota_settings_abilitylearn" bind="LearnAbilities" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_LearnAbility, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_upgradestats" bind="LearnStats" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_LearnStats, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_move" bind="HeroMove" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_HeroMove, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_patrol" bind="HeroPatrol" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_HeroPatrol, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_stop" bind="HeroStop" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_HeroStop, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_selectallothers" bind="SelectAllOthers" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_SelectAllOthers, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_activateglyph" bind="ActivateGlyph" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ActivateGlyph, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />							
+								<DOTASettingsKeyBinder text="#dota_settings_herotaunt" bind="HeroTaunt" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_HeroTaunt, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_useactionitem" bind="UseActionItem" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_UseActionItem, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<Panel id="ShopActions" class="SettingsSection">
+									<Label text="#dota_settings_shopactions" class="SectionHeader"/>
+									<Panel class="SectionHeaderLineNoMargin"/>
+									<DOTASettingsKeyBinder text="#dota_settings_courierhaste" bind="CourierHaste" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CourierHaste, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+									<DOTASettingsKeyBinder text="#dota_settings_purchasesticky" bind="PurchaseSticky" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_PurchaseSticky, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+									<DOTASettingsKeyBinder text="#dota_settings_grabstashitems" bind="GrabStashItems" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_GrabStashItems, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+									<DOTASettingsKeyBinder text="#dota_settings_openshop" bind="ShopToggle" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ShopToggle, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								</Panel>							
+						</Panel>
+					</Panel>
+					<Panel id="AdvancedColumn1" class="HotKeySettingsColumn">
+						<Panel id="" class="SettingsSection">
+							<Label text="#dota_settings_cameraactions" class="SectionHeader" />
+							<Panel class="SectionHeaderLineNoMargin"/>						
+								<DOTASettingsKeyBinder text="#dota_settings_cameraup" bind="CameraUp" />
+								<DOTASettingsKeyBinder text="#dota_settings_cameradown" bind="CameraDown" />
+								<DOTASettingsKeyBinder text="#dota_settings_cameraleft" bind="CameraLeft" />
+								<DOTASettingsKeyBinder text="#dota_settings_cameraright" bind="CameraRight"/>							
+								<DOTASettingsKeyBinder class="ExtraTopSpace" text="#dota_settings_camera_zoom_in" bind="CameraZoomIn" />
+								<DOTASettingsKeyBinder text="#dota_settings_camera_zoom_out" bind="CameraZoomOut" />
+								<DOTASettingsKeyBinder class="ExtraTopSpace" text="#dota_settings_recentevent" bind="RecentEvent" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_RecentEvent, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_inspectheroinworld" bind="InspectHeroInWorld" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_InspectHeroInWorld, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
 
 							</Panel>
-
-							<DOTASettingsKeyBinder id="ChatTeam" text="#dota_settings_chatteam" bind="ChatTeam" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ChatTeam, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_chatglobal" bind="ChatGlobal" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ChatGlobal, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_chatwheel_show" bind="ChatWheel" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ChatWheel, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							
-							<DOTASettingsKeyBinder text="#dota_settings_chatvoice_party" bind="ChatVoiceParty" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ChatVoiceParty, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-
-							<DOTASettingsKeyBinder text="#dota_settings_chatvoice_team" bind="ChatVoiceTeam" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ChatVoiceTeam, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-				
-							
-							
+						<Panel id="" class="SettingsSection">							
+						<Label text="#dota_settings_camera_saved" class="SectionHeader" />
+						<Panel class="SectionHeaderLineNoMargin"/>
+							<Panel class="ControlGroupRow">
+								<DOTASettingsKeyBinder text="#dota_settings_camera_saved_position_1" bind="CameraSavedPosition1" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CameraSavedPosition, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_camera_saved_position_2" bind="CameraSavedPosition2" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CameraSavedPosition, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+							</Panel>									
+							<Panel class="ControlGroupRow">
+								<DOTASettingsKeyBinder text="#dota_settings_camera_saved_position_3" bind="CameraSavedPosition3" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CameraSavedPosition, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_camera_saved_position_4" bind="CameraSavedPosition4" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CameraSavedPosition, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+							</Panel>						
+							<Panel class="ControlGroupRow">
+								<DOTASettingsKeyBinder text="#dota_settings_camera_saved_position_5" bind="CameraSavedPosition5" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CameraSavedPosition, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_camera_saved_position_6" bind="CameraSavedPosition6" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CameraSavedPosition, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+							</Panel>						
+							<Panel class="ControlGroupRow">
+								<DOTASettingsKeyBinder text="#dota_settings_camera_saved_position_7" bind="CameraSavedPosition7" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CameraSavedPosition, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_camera_saved_position_8" bind="CameraSavedPosition8" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CameraSavedPosition, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+							</Panel>						
+							<Panel class="ControlGroupRow">
+								<DOTASettingsKeyBinder text="#dota_settings_camera_saved_position_9" bind="CameraSavedPosition9" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CameraSavedPosition, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />		
+								<DOTASettingsKeyBinder text="#dota_settings_camera_saved_position_10" bind="CameraSavedPosition10" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_CameraSavedPosition, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />																									
+							</Panel>
 						</Panel>
-
-						<Panel id="PlayerActions" class="SettingsSection">
-							<Label text="#dota_settings_playeractions" class="SectionHeader" />
+					</Panel>
+					<Panel id="AdvancedColumn2" class="HotKeySettingsColumn">
+						<Panel id="Interface" class="SettingsSection">
+							<Label text="#dota_settings_interface" class="SectionHeader" />
 							<Panel class="SectionHeaderLineNoMargin"/>
-							<DOTASettingsKeyBinder text="#dota_settings_activateglyph" bind="ActivateGlyph" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ActivateGlyph, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_scoreboardtoggle" bind="ScoreboardToggle" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ScoreboardToggle, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_pause" bind="Pause" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Pause, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_screenshot" bind="ScreenshotSettings" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ScreenshotSettings, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<DOTASettingsKeyBinder text="#dota_settings_console" bind="Console" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Console, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
+							<DOTASettingsKeyBinder text="#dota_settings_screenshot" bind="ScreenshotSettings" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ScreenshotSettings, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+							<DOTASettingsKeyBinder text="#dota_settings_console" bind="Console" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Console, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
 						</Panel>
-
+						
 						<Panel id="ControlGroups" class="SettingsSection">
 							<Label text="#dota_settings_controlgroups" class="SectionHeader" />
+							<Panel class="SectionHeaderLineNoMargin"/>								
+							<Panel class="ControlGroupRow">
+								<DOTASettingsKeyBinder text="#dota_settings_group5" bind="ControlGroup5" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Group, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_group6" bind="ControlGroup6" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Group, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />							  
+							</Panel>
+							<Panel class="ControlGroupRow">
+								<DOTASettingsKeyBinder text="#dota_settings_group7" bind="ControlGroup7" />
+								<DOTASettingsKeyBinder text="#dota_settings_group8" bind="ControlGroup8" />
+							</Panel>
+							<Panel class="ControlGroupRow">
+								<DOTASettingsKeyBinder text="#dota_settings_group9" bind="ControlGroup9" />
+								<DOTASettingsKeyBinder text="#dota_settings_group10" bind="ControlGroup10" />
+							</Panel>
+						</Panel>
+						
+						<Panel id="" class="SettingsSection">
+							<Label text="#dota_settings_hotkeysoptions" class="SectionHeader" />
 							<Panel class="SectionHeaderLineNoMargin"/>
-							<DOTASettingsKeyBinder text="#dota_settings_controlgroupcycle" bind="ControlGroupCycle" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ControlGroupCycle, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-							<Panel id="ControlGroupList">
-								<Panel class="ControlGroupRow">
-									<DOTASettingsKeyBinder text="#dota_settings_group1" bind="ControlGroup1" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Group, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-									<DOTASettingsKeyBinder text="#dota_settings_group2" bind="ControlGroup2" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Group, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-								</Panel>
-								<Panel class="ControlGroupRow">
-									<DOTASettingsKeyBinder text="#dota_settings_group3" bind="ControlGroup3" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Group, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-									<DOTASettingsKeyBinder text="#dota_settings_group4" bind="ControlGroup4" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Group, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-								</Panel>
-								<Panel class="ControlGroupRow">
-									<DOTASettingsKeyBinder text="#dota_settings_group5" bind="ControlGroup5" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Group, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-									<DOTASettingsKeyBinder text="#dota_settings_group6" bind="ControlGroup6" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Group, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
-								</Panel>
-							</Panel>
-						</Panel>
+							<DOTASettingsCheckbox convar="dota_quickcast_onkeydown" text="#dota_settings_quickcast_onkeydown" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_QuickcastOnKeyDown, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+							<DOTASettingsCheckbox convar="dota_ability_quick_cast" text="#dota_settings_doubletapself" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_DoubleTap, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+							<DOTASettingsCheckbox convar="dota_smart_doubletap" text="#dota_settings_smart_doubletap" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_Smart_Doubletap, OptionsTooltip)" onmouseout="UIHideTextTooltip()" /> 
+							<DOTASettingsCheckbox convar="dota_shop_force_hotkeys" text="#dota_settings_forceshophotkeys" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_ShopHotkeys, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+							<DOTASettingsCheckbox convar="dota_leftclick_cameragrip_new" text="#dota_settings_leftclick_cameragrip" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_LeftClickCameraGrip, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />								
+							<ToggleButton class="CheckBox" id="LegacyKeysCheckBox" text="#dota_settings_legacykeys"	onactivate="DOTASetLegacyKeys();" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_Legacy, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />						
+							<ToggleButton class="CheckBox" id="AllowGuiKeyToBindCheckbox" text="#dota_settings_allow_gui_key_to_bind" onactivate="DOTAUpdateAllowGuiKeyToBind();" />
+							<ToggleButton class="CheckBox" id="ButtonCodeIsScanCodeCheckbox" text="#dota_settings_button_code_is_scan_code" onactivate="DOTAUpdateButtonCodeIsScanCode();" onmouseover="UIShowTextTooltipStyled( #dota_settings_button_code_is_scan_code_tooltip, OptionsTooltip )" onmouseout="UIHideTextTooltip()" />
+							<ToggleButton class="CheckBox" id="ShowItemQuickcastTab" text="#dota_settings_enable_item_quickcast" onactivate="DOTAToggleShowItemQuickcastTab();" onmouseover="UIShowTextTooltipStyled( #dota_settings_enable_item_quickcast_tooltip, OptionsTooltip )" onmouseout="UIHideTextTooltip()" />
+
+						</Panel>						
+						
 					</Panel>
 				</Panel>
 
-				<Panel class="HotKeyEmbeddedTab TopBottomFlow" id="PhrasesSubTab" >
-					<Label text="#dota_settings_phrases" class="SectionHeader"/>
-					<Panel class="SectionHeaderLine"/>
-					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Care" bind="ChatWheelCare" />
-					<DOTASettingsKeyBinder text="#dota_chatwheel_label_GetBack" bind="ChatWheelGetBack" />
-					<DOTASettingsKeyBinder text="#dota_chatwheel_label_NeedWards" bind="ChatWheelNeedWards" />
-					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Stun" bind="ChatWheelStun" />
-					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Help" bind="ChatWheelHelp" />
-					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Push" bind="ChatWheelGetPush" />
-					<DOTASettingsKeyBinder text="#dota_chatwheel_label_GoodJob" bind="ChatWheelGoodJob" />
-					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Missing" bind="ChatWheelMissing" />
-					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Missing_Top" bind="ChatWheelMissingTop" />
-					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Missing_Mid" bind="ChatWheelMissingMiddle" />
-					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Missing_Bottom" bind="ChatWheelMissingBottom" />
 				</Panel>
 
-				<Panel class="HotKeyEmbeddedTab" id="ChatWheelSubTab" onactivate="DOTACancelChatWheelBind();" >
-					<Label text="#dota_settings_chatwheel_page" class="SectionHeader" />
-					<Panel class="SectionHeaderLine"/>
-					<Panel id="ChatWheelContents">
-						<Panel class="TopBottomFlow" id="ChatWheelWheelPanel">
-							<Panel id="TopChatWheelPanel">
-								<Button class="ChatWheelButton" id="ChatWheelButton6" onactivate="DOTABindChatWheelButton( 6 );" oncancel="DOTACancelChatWheelBind();">
-									<Label />
-								</Button>
-							</Panel>
-							<Panel id="MiddleChatWheelPanel">
-								<Panel id="LeftChatWheelContents">
-									<Button class="ChatWheelButton" id="ChatWheelButton5" onactivate="DOTABindChatWheelButton( 5 );" oncancel="DOTACancelChatWheelBind();">
-										<Label />
-									</Button>
-									<Button class="ChatWheelButton" id="ChatWheelButton4" onactivate="DOTABindChatWheelButton( 4 );" oncancel="DOTACancelChatWheelBind();">
-										<Label />
-									</Button>
-									<Button class="ChatWheelButton" id="ChatWheelButton3" onactivate="DOTABindChatWheelButton( 3 );" oncancel="DOTACancelChatWheelBind();">
-										<Label />
-									</Button>
-								</Panel>
-								<Panel id="ChatWheelIcon" class="ChatDialogButtonImage" />
-								<Panel id="RightChatWheelContents">
-									<Button class="ChatWheelButton" id="ChatWheelButton7" onactivate="DOTABindChatWheelButton( 7 );" oncancel="DOTACancelChatWheelBind();">
-										<Label />
-									</Button>
-									<Button class="ChatWheelButton" id="ChatWheelButton0" onactivate="DOTABindChatWheelButton( 0 );" oncancel="DOTACancelChatWheelBind();">
-										<Label />
-									</Button>
-									<Button class="ChatWheelButton" id="ChatWheelButton1" onactivate="DOTABindChatWheelButton( 1 );" oncancel="DOTACancelChatWheelBind();">
-										<Label />
-									</Button>
-								</Panel>
-							</Panel>
-							<Panel id="BottomChatWheelPanel">
-								<Button class="ChatWheelButton" id="ChatWheelButton2" onactivate="DOTABindChatWheelButton( 2 );" oncancel="DOTACancelChatWheelBind();">
-									<Label />
-								</Button>
-							</Panel>
-						</Panel>
-						<Panel id="ChatWheelPhraseList" />
-					</Panel>
-				</Panel>
 			</Panel>
 
 			<Panel class="HotKeyMainTab RightOfFocus" id="SpectatorSubTab" >
@@ -366,13 +421,14 @@
 							<DOTASettingsKeyBinder text="#dota_settings_spectatorcameradown" bind="SpectatorCameraDown" />
 							<DOTASettingsKeyBinder text="#dota_settings_spectatorcameraleft" bind="SpectatorCameraLeft" />
 							<DOTASettingsKeyBinder text="#dota_settings_spectatorcameraright" bind="SpectatorCameraRight" />
-							<DOTASettingsKeyBinder text="#dota_settings_spectatorcameragrip" bind="SpectatorCameraGrip" />
+							<DOTASettingsKeyBinder text="#dota_settings_spectatorcameragrip" bind="SpectatorCameraGrip"/>
 							<DOTASettingsKeyBinder text="#dota_settings_spectatorpause" bind="SpectatorPause" />
 							<DOTASettingsKeyBinder text="#dota_settings_spectatorchat" bind="SpectatorChat" />
 							<DOTASettingsKeyBinder text="#dota_settings_spectatorscoreboard" bind="SpectatorScoreboard" />
 							<DOTASettingsKeyBinder text="#dota_settings_spectatorbroadcastermenu" bind="SpectatorBroadcasterMenu" />
 							<DOTASettingsKeyBinder text="#dota_settings_spectatorincreasereplayspeed" bind="SpectatorIncreaseReplaySpeed" />
 							<DOTASettingsKeyBinder text="#dota_settings_spectatordecreasereplayspeed" bind="SpectatorDecreaseReplaySpeed" />
+							
 						</Panel>
 					</Panel>
 					<Panel class="HotKeySettingsColumn">
@@ -388,12 +444,31 @@
 							<DOTASettingsKeyBinder text="#dota_settings_spectatorfowradient" bind="SpectatorFOWRadient" />
 							<DOTASettingsKeyBinder text="#dota_settings_spectatorfowdire" bind="SpectatorFOWDire" />
 						</Panel>
-						<Panel class="SettingsSection">
-							<Label text="#dota_settings_binding_options" class="SectionHeader" />
-							<Panel class="SectionHeaderLine"/>
-							<ToggleButton class="CheckBox" id="AllowGuiKeyToBindCheckbox" text="#dota_settings_allow_gui_key_to_bind" onactivate="DOTAUpdateAllowGuiKeyToBind();" />
-						    <ToggleButton class="CheckBox" id="ButtonCodeIsScanCodeCheckbox" text="#dota_settings_button_code_is_scan_code" onactivate="DOTAUpdateButtonCodeIsScanCode();" onmouseover="DOTAShowTextTooltip( #dota_settings_button_code_is_scan_code_tooltip )" onmouseout="DOTAHideTextTooltip()" />
-						</Panel>
+
+							<Panel id="" class="SettingsSection">							
+							<Label text="#dota_settings_spectator_camera_saved" class="SectionHeader" />
+							<Panel class="SectionHeaderLineNoMargin"/>							
+								<Panel class="ControlGroupRow">
+								<DOTASettingsKeyBinder text="#dota_settings_spectator_camera_saved_position_1" bind="SpectatorCameraSavedPosition1" />
+								<DOTASettingsKeyBinder text="#dota_settings_spectator_camera_saved_position_2" bind="SpectatorCameraSavedPosition2" />
+								</Panel>
+								<Panel class="ControlGroupRow">
+								<DOTASettingsKeyBinder text="#dota_settings_spectator_camera_saved_position_3" bind="SpectatorCameraSavedPosition3" />
+								<DOTASettingsKeyBinder text="#dota_settings_spectator_camera_saved_position_4" bind="SpectatorCameraSavedPosition4" />
+								</Panel>
+								<Panel class="ControlGroupRow">
+								<DOTASettingsKeyBinder text="#dota_settings_spectator_camera_saved_position_5" bind="SpectatorCameraSavedPosition5" />
+								<DOTASettingsKeyBinder text="#dota_settings_spectator_camera_saved_position_6" bind="SpectatorCameraSavedPosition6" />
+								</Panel>
+								<Panel class="ControlGroupRow">
+								<DOTASettingsKeyBinder text="#dota_settings_spectator_camera_saved_position_7" bind="SpectatorCameraSavedPosition7" />
+								<DOTASettingsKeyBinder text="#dota_settings_spectator_camera_saved_position_8" bind="SpectatorCameraSavedPosition8" />
+								</Panel>
+								<Panel class="ControlGroupRow">
+								<DOTASettingsKeyBinder text="#dota_settings_spectator_camera_saved_position_9" bind="SpectatorCameraSavedPosition9" />
+								<DOTASettingsKeyBinder text="#dota_settings_spectator_camera_saved_position_10" bind="SpectatorCameraSavedPosition10" />
+								</Panel>
+							</Panel>						
 					</Panel>
 					<Panel class="HotKeySettingsColumn">
 						<Panel class="SettingsSection">
@@ -410,23 +485,11 @@
 							<DOTASettingsKeyBinder text="#dota_settings_spectatordropdown_gold_per_min" bind="SpectatorDropdown_Gold_Per_Min" />
 							<DOTASettingsKeyBinder text="#dota_settings_spectatordropdown_buyback" bind="SpectatorDropdown_Buyback" />
 							<DOTASettingsKeyBinder text="#dota_settings_spectatordropdown_fantasy" bind="SpectatorDropdown_Fantasy" />
-						</Panel>
+            </Panel>
 						<Panel class="SettingsSection">
 							<Label text="#dota_settings_coaching" class="SectionHeader" />
 							<Panel class="SectionHeaderLine"/>
 							<DOTASettingsKeyBinder text="#dota_settings_spectatorcoach_viewtoggle" bind="SpectatorCoach_ViewToggle" />
-						</Panel>
-						<Panel class="SettingsSection">
-							<Label text="#dota_settings_controlgroupsadditional" class="SectionHeader" />
-							<Panel class="SectionHeaderLine" />
-							<Panel class="ControlGroupRow">
-								<DOTASettingsKeyBinder text="#dota_settings_group7" bind="ControlGroup7" />
-								<DOTASettingsKeyBinder text="#dota_settings_group8" bind="ControlGroup8" />
-							</Panel>
-							<Panel class="ControlGroupRow">
-								<DOTASettingsKeyBinder text="#dota_settings_group9" bind="ControlGroup9" />
-								<DOTASettingsKeyBinder text="#dota_settings_group10" bind="ControlGroup10" />
-							</Panel>
 						</Panel>
 					</Panel>
 				</Panel>
@@ -598,9 +661,18 @@
 				<Button id="ResetHotkeysButton" class="HotkeysBottomButton" onactivate="AddStyle( SpectatorSubTab, LeftOfFocus ) ToggleStyle( BottomNav, ResetButtonPushed ) DOTAShowRebindKeysPage();" >
 					<Label text="#dota_settings_resetkeys" />
 				</Button>
-
+				<Button id="GotoAdvancedHotkeys" class="AdvancedButton HotkeysBottomButton LeftRightFlow" onactivate="ToggleStyle( InGameSubTab, ShowingAdvanced ) ToggleStyle( BottomNav, ShowingAdvanced )">
+					<Panel class="ExpandDownArrow"/>
+					<Label text="#dota_settings_advancedkeys"/>
+					<Panel class="ExpandDownArrow"/>					
+				</Button>					
+				<Button id="GotoBasicHotkeys" class="AdvancedButton HotkeysBottomButton LeftRightFlow" onactivate="ToggleStyle( InGameSubTab, ShowingAdvanced ) ToggleStyle( BottomNav, ShowingAdvanced )">
+					<Panel class="ExpandDownArrow"/>					
+					<Label text="#dota_settings_basickeys"/>
+					<Panel class="ExpandDownArrow"/>					
+				</Button>				
 				<Button id="ScrollRightButton" class="HotkeysBottomButton" onactivate="ToggleStyle( BottomNav, PageButtonPushed ) DOTAShowSpectatorPage();">
-					<Label id="ScrollRightButtonLabel" text="#dota_settings_advancedpanel_goto" />
+					<Label id="ScrollRightButtonLabel" text="#dota_settings_spectatorpanel_goto" />
 					<Panel id="ScrollRightButtonIcon" class="ScrollButtonIcon" />
 				</Button>"
 
@@ -609,167 +681,290 @@
 					<Label class="ScrollRightButtonLabel" text="#dota_settings_standardpanel_goto" />
 				</Button>
 			</Panel>
-
+				<Panel class="HotKeyEmbeddedTab" id="ChatWheelSubTab" onactivate="DOTACancelChatWheelBind();" >
+					<Label text="#dota_settings_chatwheel_page" class="SectionHeader" />
+					<Panel id="ChatWheelContents">
+						<Panel class="TopBottomFlow" id="ChatWheelWheelPanel">
+							<Panel id="TopChatWheelPanel">
+								<Button class="ChatWheelButton" id="ChatWheelButton6" onactivate="DOTABindChatWheelButton( 6 );" oncancel="DOTACancelChatWheelBind();">
+									<Label />
+								</Button>
+							</Panel>
+							<Panel id="MiddleChatWheelPanel">
+								<Panel id="ChatWheelLine1" class="ChatWheelLine"/>
+								<Panel id="ChatWheelLine2" class="ChatWheelLine"/>
+								<Panel id="ChatWheelLine3" class="ChatWheelLine"/>
+								<Panel id="ChatWheelLine4" class="ChatWheelLine"/>
+								<Panel id="LeftChatWheelContents">
+									<Button class="ChatWheelButton" id="ChatWheelButton5" onactivate="DOTABindChatWheelButton( 5 );" oncancel="DOTACancelChatWheelBind();">
+										<Label />
+									</Button>
+									<Button class="ChatWheelButton" id="ChatWheelButton4" onactivate="DOTABindChatWheelButton( 4 );" oncancel="DOTACancelChatWheelBind();">
+										<Label />
+									</Button>
+									<Button class="ChatWheelButton" id="ChatWheelButton3" onactivate="DOTABindChatWheelButton( 3 );" oncancel="DOTACancelChatWheelBind();">
+										<Label />
+									</Button>
+								</Panel>
+								<Panel id="ChatWheelIcon" class="ChatDialogButtonImage" />
+								<Panel id="RightChatWheelContents">
+									<Button class="ChatWheelButton" id="ChatWheelButton7" onactivate="DOTABindChatWheelButton( 7 );" oncancel="DOTACancelChatWheelBind();">
+										<Label />
+									</Button>
+									<Button class="ChatWheelButton" id="ChatWheelButton0" onactivate="DOTABindChatWheelButton( 0 );" oncancel="DOTACancelChatWheelBind();">
+										<Label />
+									</Button>
+									<Button class="ChatWheelButton" id="ChatWheelButton1" onactivate="DOTABindChatWheelButton( 1 );" oncancel="DOTACancelChatWheelBind();">
+										<Label />
+									</Button>
+								</Panel>
+							</Panel>
+							<Panel id="BottomChatWheelPanel">
+								<Button class="ChatWheelButton" id="ChatWheelButton2" onactivate="DOTABindChatWheelButton( 2 );" oncancel="DOTACancelChatWheelBind();">
+									<Label />
+								</Button>
+							</Panel>
+						</Panel>
+						<Panel id="ChatWheelPhraseListContainer">
+							<Panel id="ChatWheelPhraseList" />
+						</Panel>
+					</Panel>
+					<Button id="ChatWheelClose" class="ButtonDark"  onactivate="DOTAShowChatWheelPage();" >
+						<Label text="dota_settings_returntohotkeys"/>
+					</Button>
+				</Panel>
+				<Panel  id="PhrasesSubTab" class="HotKeyEmbeddedTab TopBottomFlow" acceptsinput="true">
+					<Label text="#dota_settings_phrases" class="SectionHeader"/>
+					<Panel class="SectionHeaderLine"/>
+					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Care" bind="ChatWheelCare" />
+					<DOTASettingsKeyBinder text="#dota_chatwheel_label_GetBack" bind="ChatWheelGetBack" />
+					<DOTASettingsKeyBinder text="#dota_chatwheel_label_NeedWards" bind="ChatWheelNeedWards" />
+					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Stun" bind="ChatWheelStun" />
+					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Help" bind="ChatWheelHelp" />
+					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Push" bind="ChatWheelGetPush" />
+					<DOTASettingsKeyBinder text="#dota_chatwheel_label_GoodJob" bind="ChatWheelGoodJob" />
+					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Missing" bind="ChatWheelMissing" />
+					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Missing_Top" bind="ChatWheelMissingTop" />
+					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Missing_Mid" bind="ChatWheelMissingMiddle" />
+					<DOTASettingsKeyBinder text="#dota_chatwheel_label_Missing_Bottom" bind="ChatWheelMissingBottom" />
+					<Button id="PhrasesClose" class="ButtonDark"  onactivate="DOTAShowPhrasesPage();" >
+						<Label text="dota_settings_returntohotkeys"/>
+					</Button>					
+				</Panel>				
 		</Panel>
 
 		<!-- Options -->
 		<Panel id="OptionsTabContent" class="SettingsSecondaryPanel HideSection" >
-			<Panel class="SettingsColumnContainer FullHeight">
+			<Panel id="BasicOptions" class="SettingsColumnContainer FullHeight">
 				<Panel id="Column0" class="SettingsColumn">
 					<Panel id="GameOptions" class="SettingsSection">
 						<Label text="#dota_settings_game" class="SectionHeader"/>
 						<Panel class="SectionHeaderLine"/>
-						<Panel class="TopBottomFlow">
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_player_units_auto_attack" text="#dota_settings_autoattack" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_autoattack, #DOTA_Settings_Tooltip_Autoattack)" onmouseout="DOTAHideTitleTextTooltip()" />
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_player_units_auto_attack_after_spell" text="#dota_settings_attackafterspell" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_attackafterspell, #DOTA_Settings_Tooltip_AutoattackAfterSpell)" onmouseout="DOTAHideTitleTextTooltip()" />
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_player_auto_purchase_items" text="#dota_settings_autopurchase" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_autopurchase, #DOTA_Settings_Tooltip_AutoPurchase)" onmouseout="DOTAHideTitleTextTooltip()" />
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_player_add_summoned_to_selection" text="#dota_settings_autoselect" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_autoselect, #DOTA_Settings_Tooltip_AutoSelectSummons)" onmouseout="DOTAHideTitleTextTooltip()" />
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_ability_quick_cast" text="#dota_settings_doubletapself" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_doubletapself, #DOTA_Settings_Tooltip_DoubleTap)" onmouseout="DOTAHideTitleTextTooltip()" />
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_player_multipler_orders" text="#dota_settings_unifiedorders" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_unifiedorders, #DOTA_Settings_Tooltip_UnifiedOrders)" onmouseout="DOTAHideTitleTextTooltip()" />
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_player_teleport_requires_halt" text="#dota_settings_teleportrequireshalt" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_teleportrequireshalt, #DOTA_Settings_Tooltip_TeleportStop)" onmouseout="DOTAHideTitleTextTooltip()" />
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_force_right_click_attack" text="#dota_settings_force_right_click_attack" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_force_right_click_attack, #DOTA_Settings_Tooltip_Force_Right_Click_Attack)" onmouseout="DOTAHideTitleTextTooltip()"/>
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_show_hero_finder" text="#dota_settings_herofinder" />
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_enable_range_finder" text="#dota_settings_rangefinder" />
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_always_show_player_names" text="#dota_settings_alwaysshownames" />
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_hud_healthbar_number" text="#dota_settings_showhitpoints" />
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_shop_force_hotkeys" text="#dota_settings_forceshophotkeys" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_forceshophotkeys, #DOTA_Settings_Tooltip_ShopHotkeys)" onmouseout="DOTAHideTitleTextTooltip()" />
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_spectator_use_broadcaster_stats_panel" text="#dota_settings_usebroadcastermenu" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_usebroadcastermenu, #DOTA_Settings_Tooltip_BroadcasterStats)" onmouseout="DOTAHideTitleTextTooltip()" />
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_hud_colorblind" text="#dota_settings_colorblind" />
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_settings_quick_target_attack" text="#dota_settings_quicktargetattack" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_quicktargetattack, #DOTA_Settings_Tooltip_QuickTargetAttack)" onmouseout="DOTAHideTitleTextTooltip()"/>
-							</Panel>
-							<Panel class="OptionsRow">
-								<DOTASettingsCheckbox convar="dota_settings_targeted_attack_move" text="dota_settings_targetedattackmove" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_targetedattackmove, #DOTA_Settings_Tooltip_TargetedAttackMove)" onmouseout="DOTAHideTitleTextTooltip()"/>
-							</Panel>
-						</Panel>
+
+							<DOTASettingsEnum id="AutoAttackOptions" convar="dota_player_units_auto_attack_mode" text="#dota_settings_autoattack">
+								<RadioButton text="#dota_settings_autoattack_never" value="0" class="EnumButton" group="unit_attack" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_AutoattackNever, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>
+								<RadioButton text="#dota_settings_autoattack_after_spellcast" value="1" class="EnumButton" group="unit_attack" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_AutoattackAfterSpell, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>
+								<RadioButton text="#dota_settings_autoattack_always" value="2" class="EnumButton" group="unit_attack" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_AutoattackAlways, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>
+							</DOTASettingsEnum>
+							<DOTASettingsCheckbox convar="dota_player_add_summoned_to_selection" text="#dota_settings_autoselect" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_AutoSelectSummons, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+							<DOTASettingsCheckbox convar="dota_ability_quick_cast" text="#dota_settings_doubletapself" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_DoubleTap, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+							<DOTASettingsCheckbox convar="dota_smart_doubletap" text="#dota_settings_smart_doubletap" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_Smart_Doubletap, OptionsTooltip)" onmouseout="UIHideTextTooltip()" /> 
+							<DOTASettingsCheckbox convar="dota_player_multipler_orders" text="#dota_settings_unifiedorders" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_UnifiedOrders, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+							<DOTASettingsCheckbox convar="dota_player_teleport_requires_halt" text="#dota_settings_teleportrequireshalt" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_TeleportStop, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+							<DOTASettingsCheckbox convar="dota_force_right_click_attack" text="#dota_settings_force_right_click_attack" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_Force_Right_Click_Attack, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>
+							<DOTASettingsCheckbox convar="dota_settings_quick_target_attack" text="#dota_settings_quicktargetattack" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_QuickTargetAttack, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>					
+							<Panel id="CameraOptions" class="SettingsSection">
+								<Label text="#dota_settings_camera" class="SectionHeader" />
+								<Panel class="SectionHeaderLine"/>
+								<DOTASettingsCheckbox convar="dota_camera_edgemove" text="#dota_settings_cameraedgepan" />
+								<DOTASettingsCheckbox convar="dota_camera_reverse" text="#dota_settings_camerareversegrip" />
+								<DOTASettingsCheckbox convar="dota_reset_camera_on_spawn" text="#dota_settings_cameraresetonspawn" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_CameraRespawn, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+								<DOTASettingsCheckbox convar="dota_camera_disable_zoom" text="#dota_settings_camera_disable_zoom" />
+								<DOTASettingsSlider id="CameraSpeedSlider" convar="dota_camera_speed" min="2000" max="8000" text="#dota_settings_cameraspeed" />
+								<Panel id="CameraSpeedTick" class="SliderTick"/>
+							</Panel>																
+
+
 					</Panel>
 				</Panel>
 
 				<Panel id="Column1" class="SettingsColumn">
 					<Panel id="MinimapOptions" class="SettingsSection">
 						<Label text="#dota_settings_minimap" class="SectionHeader"/>
-						<Panel class="SectionHeaderLine"/>
-						<Panel class="LeftRightFlow">
-							<Panel class="TopBottomFlow">
-								<Panel class="OptionsRow">
-									<DOTASettingsCheckbox convar="dota_minimap_simple_colors" text="#dota_settings_minimapsimplecolors" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_minimapsimplecolors, #DOTA_Settings_Tooltip_MinimapSimple)" onmouseout="DOTAHideTitleTextTooltip()" />
+						<Panel class="SectionHeaderLine LeftRightFlow"/>
+							<Panel id="MinimapPreview">
+								<Panel id="MinimapContainer">
+									<Panel id="MinimapImageBlank"/>
+									<Panel id="MinimapImage"/>
+
+									<Panel id="Hero2" class="MinimapTeam MinimapIcon"/>
+									<Panel id="Hero3" class="MinimapTeam MinimapIcon"/>
+									<Panel id="Hero4" class="MinimapTeam MinimapIcon"/>
+									<Panel id="Hero5" class="MinimapTeam MinimapIcon"/>
+									
+									<Panel id="Hero6" class="MinimapEnemy MinimapIcon"/>
+									<Panel id="Hero7" class="MinimapEnemy MinimapIcon"/>
+									<Panel id="Hero8" class="MinimapEnemy MinimapIcon"/>
+									<Panel id="Hero9" class="MinimapEnemy MinimapIcon"/>
+									<Panel id="Hero10" class="MinimapEnemy MinimapIcon"/>
+									
+									<Label id="Hero1Label" class="MinimapLabel" text="#npc_dota_hero_juggernaut"/>
+									<Label id="Hero2Label" class="MinimapLabel" text="#npc_dota_hero_invoker"/>
+									<Label id="Hero3Label" class="MinimapLabel" text="#npc_dota_hero_axe"/>
+									<Label id="Hero4Label" class="MinimapLabel" text="#npc_dota_hero_vengefulspirit"/>
+									<Label id="Hero5Label" class="MinimapLabel" text="#npc_dota_hero_zuus"/>
+									
+									<Label id="Hero6Label" class="MinimapLabel EnemyLabel" text="#npc_dota_hero_ember_spirit"/>
+									<Label id="Hero7Label" class="MinimapLabel EnemyLabel" text="#npc_dota_hero_enigma"/>
+									<Label id="Hero8Label" class="MinimapLabel EnemyLabel" text="#npc_dota_hero_kunkka"/>
+									<Label id="Hero9Label" class="MinimapLabel EnemyLabel" text="#npc_dota_hero_crystal_maiden"/>
+									<Label id="Hero10Label" class="MinimapLabel EnemyLabel" text="#npc_dota_hero_bounty_hunter"/>
+									
+									<Panel id="Hero1" class="MinimapIcon MinimapTeam"/>
+									
 								</Panel>
-								<Panel class="OptionsRow">
-									<DOTASettingsCheckbox convar="dota_minimap_hide_background" text="#dota_settings_minimaphidebackground" />
-								</Panel>
-								<Panel class="OptionsRow">
-									<DOTASettingsCheckbox convar="dota_minimap_show_hero_icon" text="#dota_settings_minimapshowheroicon" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_minimapshowheroicon, #DOTA_Settings_Tooltip_MinimapDrawHeroes)" onmouseout="DOTAHideTitleTextTooltip()" />
-								</Panel>
-							</Panel>
-							<Panel class="TopBottomFlow">
-								<Panel class="OptionsRow">
-									<DOTASettingsCheckbox convar="dota_minimap_always_draw_hero_icons" text="#dota_settings_minimapalwaysshowname" />
-								</Panel>
-								<Panel class="OptionsRow">
-									<DOTASettingsCheckbox convar="dota_hud_flip" text="#dota_settings_minimapflip" />
-								</Panel>
-							</Panel>
+								<Button id="AltKeycontainer" onmouseover="AddStyle( MinimapPreview, AltDown )" onmouseout="RemoveStyle( MinimapPreview, AltDown )">
+									<Panel id="AltKey">
+										<Label text="Alt"/>
+									</Panel>
+								</Button>								
+								<Label id= "AltKeyPressed" text="dota_settings_minimap_AltDown"/>								
+							</Panel>			
+							
+							<DOTASettingsCheckbox id="dota_minimap_simple_colors" convar="dota_minimap_simple_colors" text="#dota_settings_minimapsimplecolors" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_MinimapSimple, OptionsTooltip)" onmouseout="UIHideTextTooltip()" onactivate="updateMinimapPreview()" />
+							<DOTASettingsCheckbox id="dota_minimap_hide_background" convar="dota_minimap_hide_background" text="#dota_settings_minimaphidebackground" onactivate="updateMinimapPreview()" />
+							<DOTASettingsCheckbox id="dota_minimap_show_hero_icon" convar="dota_minimap_show_hero_icon" text="#dota_settings_minimapshowheroicon" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_MinimapDrawHeroes, OptionsTooltip)" onmouseout="UIHideTextTooltip()" onactivate="updateMinimapPreview()" />
+							<DOTASettingsCheckbox id="dota_minimap_always_draw_hero_icons" convar="dota_minimap_always_draw_hero_icons" text="#dota_settings_minimapalwaysshowname" onactivate="updateMinimapPreview()"  onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_InvertToggle, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+							<DOTASettingsCheckbox convar="dota_hud_flip" text="#dota_settings_minimapflip" />
+							
+							<DOTASettingsSlider id="dota_minimap_hero_size" convar="dota_minimap_hero_size" min="300" max="1200" percentage="true" value100percent="600" text="#dota_settings_minimap_hero_size" onvaluechanged="updateMinimapPreview()" />
+							<Panel class="SliderTick"/>
 						</Panel>
-					</Panel>
-					<Panel id="CameraOptions" class="SettingsSection">
-						<Label text="#dota_settings_camera" class="SectionHeader" />
-						<Panel class="SectionHeaderLine"/>
-						<Panel class="OptionsRow">
-							<DOTASettingsCheckbox convar="dota_camera_reverse" text="#dota_settings_camerareversegrip" />
-						</Panel>
-						<Panel class="OptionsRow">
-							<DOTASettingsCheckbox convar="dota_camera_edgemove" text="#dota_settings_cameraedgepan" />
-						</Panel>
-						<Panel class="OptionsRow">
-							<DOTASettingsCheckbox convar="dota_screen_shake" text="#dota_settings_camerascreenshake"	onmouseover="DOTAShowTitleTextTooltip( #dota_settings_camerascreenshake, #DOTA_Settings_Tooltip_Screenshake)" onmouseout="DOTAHideTitleTextTooltip()" />
-						</Panel>
-						<Panel class="OptionsRow">
-							<DOTASettingsCheckbox convar="dota_reset_camera_on_spawn" text="#dota_settings_cameraresetonspawn" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_cameraresetonspawn, #DOTA_Settings_Tooltip_CameraRespawn)" onmouseout="DOTAHideTitleTextTooltip()" />
-						</Panel>
-						<Panel class="OptionsRow">
-							<DOTASettingsCheckbox convar="dota_camera_deatheffect" text="#dota_settings_cameradeadcolorshift" />
-						</Panel>
-						<Panel class="OptionsRow">
-							<DOTASettingsCheckbox convar="dota_camera_dotatv_smooth_drag" text="#UI_CAMERA_SMOOTHDRAG" onmouseover="DOTAShowTitleTextTooltip( #UI_CAMERA_SMOOTHDRAG, #DOTA_Settings_Tooltip_SmoothDrag)" onmouseout="DOTAHideTitleTextTooltip()" />
-						</Panel>
-						<DOTASettingsSlider convar="dota_camera_speed" min="2000" max="8000" text="#dota_settings_cameraspeed" />
-						<DOTASettingsSlider convar="dota_camera_accelerate" min="5" max="50" text="#dota_settings_cameradecel" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_cameradecel, #DOTA_Settings_Tooltip_Deceleration)" onmouseout="DOTAHideTitleTextTooltip()" />						
-					</Panel>
 				</Panel>
 				<Panel id="Column2" class="SettingsColumn">
-					<Panel id="ProfileOptions" class="SettingsSection">
-						<Label text="#dota_settings_profile" class="SectionHeader" />
-						<Panel class="SectionHeaderLine"/>
-						<ToggleButton class="CheckBox" id="HideProfileButton" text="#dota_settings_hideprofile"	onactivate="DOTASetHideProfile();" />
-						<ToggleButton class="CheckBox" id="ExposePublicButton" text="#dota_settings_exposematchdata"	onactivate="DOTASetExposeMatchData();" />
-						<DOTASettingsCheckbox convar="dota_ignore_nonfriend_invites" text="#dota_settings_ignorenonfriendparties" />
-						<DOTASettingsCheckbox convar="dota_ignore_nonfriend_guild_invites" text="#dota_settings_ignorenonfriendguilds" />
-						<DOTASettingsCheckbox convar="dota_rp_hide_party_unless_open" text="#dota_settings_hide_party_unless_open" />
-						<DOTASettingsCheckbox convar="dota_open_party_manual_accept_invites" text="#dota_settings_open_party_manual_accept_invites" />
-						<DOTASettingsEnum convar="dota_trading_show_requests_from" text="#dota_settings_allowtradeinvitesheader">
-							<RadioButton text="#dota_settings_trade_guildandfriends" value="1" class="EnumButton"	group="tradepermissions" />
-							<RadioButton text="#dota_settings_trade_friends" value="0" class="EnumButton" group="tradepermissions" />
-							<RadioButton text="#dota_settings_trade_anyone" value="2" class="EnumButton" group="tradepermissions" />
-						</DOTASettingsEnum>
-					</Panel>
-					<Panel id="NetworkOptions" class="SettingsSection">
-						<Label text="#dota_settings_network" class="SectionHeader" />
-						<Panel class="SectionHeaderLine"/>
-						<Panel class="LeftRightFlow">
-							<Label text="#dota_settings_networkquality" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_networkquality, #DOTA_Settings_Tooltip_NetworkQuality)" onmouseout="DOTAHideTitleTextTooltip()"	/>
-							<RadioButton text="#dota_settings_networkquality_low" id="LowNetQuality" group="netquality" onactivate="DOTASetNetQuality(0);"/>
-							<RadioButton text="#dota_settings_networkquality_high" id="HighNetQuality" group="netquality" onactivate="DOTASetNetQuality(1);" />
-						</Panel>
-						<DOTASettingsCheckbox convar="dota_hud_netgraph" text="#dota_settings_networkhud" />
-					</Panel>
 					<Panel id="ChatOptions" class="SettingsSection">
 						<Label text="#dota_settings_chat" class="SectionHeader" />
 						<Panel class="SectionHeaderLine"/>
 						<DOTASettingsCheckbox convar="dota_chat_enable_whispers" text="#dota_settings_chat_whispers" />
-						<DOTASettingsCheckbox convar="dota_join_regional_chat_channel" text="#dota_settings_chat_join_regional" />
-						<DOTASettingsCheckbox convar="dota_chat_allow_global" text="#dota_settings_chat_allow_global" />
+						<DOTASettingsCheckbox convar="dota_chat_allow_global" text="#dota_settings_chat_allow_global" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_BroadcastChannelChat, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
 					</Panel>
 					<Panel id="ApplicationOptions" class="SettingsSection">
-						<Label text="#dota_settings_application" class="SectionHeader" />
+						<Label text="#dota_settings_interface" class="SectionHeader" />
 						<Panel class="SectionHeaderLine"/>
-						<DOTASettingsCheckbox convar="dota_activate_window_on_match_found" text="#dota_settings_activate_window_on_match_found" />
-						<ToggleButton class="CheckBox" id="EnableConsoleCheckbox" text="#dota_settings_enable_console" onactivate="DOTAUpdateEnableConsole();" onmouseover="DOTAShowTextTooltip( #dota_settings_enable_console_tooltip )" onmouseout="DOTAHideTextTooltip()" />
-						<DOTASettingsCheckbox convar="dota_armory_automatically_add_new_item_to_collection" text="dota_settings_armory_automatically_add_new_item_to_collection" />
-						<DOTASettingsCheckbox convar="dota_hide_tips_on_loading_screens" text="dota_settings_hide_tips_on_loading_screens" />
-						<DOTASettingsCheckbox convar="dota_default_spoilers_blocked" text="dota_settings_default_spoiler_block_on" />
+						<DOTASettingsCheckbox convar="dota_show_hero_finder" text="#dota_settings_herofinder"  onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_ALTHero, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>
+						<DOTASettingsCheckbox convar="dota_alt_shows_neutral_spawn_boxes" text="#dota_alt_shows_neutral_spawn_boxes" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_ALTNeutral, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+						<DOTASettingsCheckbox convar="dota_alt_shows_tower_attack_range" text="#dota_alt_shows_tower_attack_range" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_ALTTower, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+						<DOTASettingsCheckbox convar="dota_enable_range_finder" text="#dota_settings_rangefinder" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_RangeFinder, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+						<DOTASettingsCheckbox convar="dota_always_show_player_names" text="#dota_settings_alwaysshownames" />
+						<DOTASettingsCheckbox convar="dota_hud_healthbar_number" text="#dota_settings_showhitpoints" />						
+						<ToggleButton id="dota_hud_colorblind" text="#dota_settings_hud_color_colorblind" onactivate="DOTAUpdateColorblindSetting();"/>
+						<ToggleButton id="SelfFocus" text="#dota_settings_hud_color_selffocus" onactivate="DOTAUpdateColorblindSetting();" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_Differentiate, OptionsTooltip)" onmouseout="UIHideTextTooltip()">
+							<Panel id="SelfFocusInfo" class="InfoIcon"  onmouseover="UIShowTextTooltipStyled( This mode is incompatible with Colorblind Mode, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
+						</ToggleButton>
 					</Panel>
 				</Panel>
 			</Panel>
+
+				<Panel id="AdvancedOptions" class="SettingsColumnContainer" hittest="false">
+					<Label text="#dota_settings_advancedoptions_title" class="SectionHeader AdvancedHeader" />
+					<Panel class="LeftRightFlow">
+					<Panel id="AdvancedColumn0" class="HotKeySettingsColumn">
+						<Panel id="" class="SettingsSection">
+							<Label text="#dota_settings_game" class="SectionHeader" />
+							<Panel class="SectionHeaderLineNoMargin"/>
+							  <Panel class="SummonedUnitAutoattack">
+								<DOTASettingsEnum convar="dota_summoned_units_auto_attack_mode" text="#dota_settings_summoned_unit_autoattack">
+									<RadioButton text="#dota_settings_autoattack_match_standard_unit_settings" value="-1" class="EnumButton" group="summoned_attack" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_AutoattackSummon, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+									<RadioButton text="#dota_settings_autoattack_never" value="0" class="EnumButton" group="summoned_attack" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_AutoattackNever, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>
+									<RadioButton text="#dota_settings_autoattack_after_spellcast" value="1" class="EnumButton" group="summoned_attack"  onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_AutoattackAfterSpell, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>
+									<RadioButton text="#dota_settings_autoattack_always" value="2" class="EnumButton" group="summoned_attack"  onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_AutoattackAlways, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>
+								</DOTASettingsEnum>
+							  </Panel>
+							<DOTASettingsCheckbox convar="dota_quickcast_onkeydown" text="#dota_settings_quickcast_onkeydown" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_QuickcastOnKeyDown, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+							<DOTASettingsCheckbox convar="dota_shop_force_hotkeys" text="#dota_settings_forceshophotkeys" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_ShopHotkeys, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />							
+							<DOTASettingsCheckbox convar="dota_settings_targeted_attack_move" text="dota_settings_targetedattackmove" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_TargetedAttackMove, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>					
+							<DOTASettingsCheckbox convar="dota_player_auto_repeat_right_mouse" text="#dota_settings_player_auto_repeat_right_mouse" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_AutoRepeatRightMouse, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+
+							<DOTASettingsCheckbox convar="dota_spectator_use_broadcaster_stats_panel" text="#dota_settings_usebroadcastermenu" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_BroadcasterStats, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />							
+							<DOTASettingsCheckbox convar="dota_activate_window_on_match_found" text="#dota_settings_activate_window_on_match_found"  onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_Bringtofront, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>
+							<ToggleButton class="CheckBox" id="EnableConsoleCheckbox" text="#dota_settings_enable_console" onactivate="DOTAUpdateEnableConsole();" onmouseover="UIShowTextTooltipStyled( #dota_settings_enable_console_tooltip , OptionsTooltip)" onmouseout="UIHideTextTooltip()" />							
+						</Panel>
+						<Panel id="AdvancedCamera" class="SettingsSection">
+							<Label text="#dota_settings_camera" class="SectionHeader" />
+							<Panel class="SectionHeaderLineNoMargin"/>												
+							<DOTASettingsCheckbox convar="dota_leftclick_cameragrip_new" text="#dota_settings_leftclick_cameragrip" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_LeftClickCameraGrip, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />							
+							<DOTASettingsCheckbox convar="dota_screen_shake" text="#dota_settings_camerascreenshake" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_Screenshake, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />													
+							<DOTASettingsCheckbox convar="dota_camera_dotatv_smooth_drag" text="#UI_CAMERA_SMOOTHDRAG" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_SmoothDrag, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />														
+							<DOTASettingsSlider id="CameraDecel" class="ExtraTopSpace" convar="dota_camera_accelerate" min="5" max="50" text="#dota_settings_cameradecel" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_Deceleration, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />																											
+						</Panel>
+					</Panel>
+					<Panel id="AdvancedColumn1" class="HotKeySettingsColumn">
+					<Panel id="ProfileOptions" class="SettingsSection">
+						<Label text="#dota_settings_social" class="SectionHeader" />
+						<Panel class="SectionHeaderLine"/>
+						<ToggleButton class="CheckBox" id="ExposePublicButton" text="#dota_settings_exposematchdata" onactivate="DOTASetExposeMatchData();"  onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_Expose, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>
+						<DOTASettingsCheckbox convar="dota_ignore_nonfriend_invites" text="#dota_settings_ignorenonfriendparties" />
+						<DOTASettingsCheckbox convar="dota_rp_hide_party_unless_open" text="#dota_settings_hide_party_unless_open"  onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_HideParty, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>
+						<ToggleButton class="CheckBox" id="HideProfileButton" text="#dota_settings_hideprofile"	onactivate="DOTASetHideProfile();" />
+						<DOTASettingsCheckbox convar="dota_open_party_manual_accept_invites" text="#dota_settings_open_party_manual_accept_invites"  onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_AutoAccept, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>							
+						<DOTASettingsEnum convar="dota_trading_show_requests_from" text="#dota_settings_allowtradeinvitesheader">
+							<RadioButton text="#dota_settings_trade_guildandfriends" value="1" class="EnumButton"	group="tradepermissions" />
+							<RadioButton text="#dota_settings_trade_friends" value="0" class="EnumButton" group="tradepermissions" />
+							<RadioButton text="#dota_settings_trade_anyone" value="2" class="EnumButton" group="tradepermissions" />
+						</DOTASettingsEnum>	
+					</Panel>					
+						<Panel id="NetworkOptions" class="SettingsSection">
+							<Label text="#dota_settings_network" class="SectionHeader" />
+							<Panel class="SectionHeaderLine"/>
+								<Panel id="NetworkQuality" class="LeftRightFlow"  onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_NetworkQuality, OptionsTooltip)" onmouseout="UIHideTextTooltip()">
+									<Label  id="NetworkQualityLabel" text="#dota_settings_networkquality"/>
+									<Panel class="TopBottomFlow">
+										<RadioButton text="#dota_settings_networkquality_low" id="LowNetQuality" group="netquality" onactivate="DOTASetNetQuality(0);"/>
+										<RadioButton text="#dota_settings_networkquality_high" id="HighNetQuality" group="netquality" onactivate="DOTASetNetQuality(1);" />
+									</Panel>
+								</Panel>									
+						</Panel>
+					</Panel>
+					<Panel id="AdvancedColumn2" class="HotKeySettingsColumn">
+						<Panel class="SettingsSection">
+							<Label text="#dota_settings_miscoptions" class="SectionHeader" />
+							<Panel class="SectionHeaderLineNoMargin"/>					
+							<Panel id="MiscConvars">
+								<Panel id="MiscConvarsList">
+									<DOTASettingsSlider convar="dota_minimap_misclick_time" min="0.0" max="0.5" displayprecision="2" text="#dota_settings_minimap_misclick_time" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_MinimapMisclick, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+									<DOTASettingsSlider convar="dota_ability_self_cast_timeout" min="0.0" max="2.0" displayprecision="2" text="#dota_settings_ability_self_cast_timeout" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_SelfCastTimeout, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+									<DOTASettingsCheckbox convar="dota_minimap_hero_scalar" text="#dota_settings_minimap_hero_scalar" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_MinimapDynamicScale, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+									<DOTASettingsCheckbox convar="dota_continue_click_movement_after_cast_cancel" text="#dota_settings_continue_click_after_cast_cancel" onmouseover="UIShowTextTooltipStyled( #dota_settings_continue_click_after_cast_cancel_tooltip, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+									<DOTASettingsCheckbox convar="dota_camera_deatheffect" text="#dota_settings_cameradeadcolorshift" />
+									<DOTASettingsCheckbox convar="dota_hud_netgraph" text="#dota_settings_networkhud" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_NetworkInformation, OptionsTooltip)" onmouseout="UIHideTextTooltip()"/>
+									<DOTASettingsCheckbox convar="dota_hide_tips_on_loading_screens" text="dota_settings_hide_tips_on_loading_screens" />
+									<DOTASettingsCheckbox convar="dota_default_spoilers_blocked" text="dota_settings_default_spoiler_block_on" />
+									<DOTASettingsCheckbox convar="dota_armory_automatically_add_new_item_to_collection" text="dota_settings_armory_automatically_add_new_item_to_collection" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_AutoAddArmory, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
+									<DOTASettingsCheckbox convar="dota_join_regional_chat_channel" text="#dota_settings_chat_join_regional" />
+								</Panel>
+							</Panel>
+						</Panel>
+					</Panel>
+				</Panel>
+				</Panel>			
+			
+			
+				<Panel id="BottomNav" >
+				<Button id="GotoAdvancedHotkeys" class="AdvancedButton HotkeysBottomButton LeftRightFlow" onactivate="ToggleStyle( OptionsTabContent, ShowingAdvanced ) ToggleStyle( BottomNav, ShowingAdvanced )">
+					<Panel class="ExpandDownArrow"/>
+					<Label text="#dota_settings_advancedoptions"/>
+					<Panel class="ExpandDownArrow"/>					
+				</Button>					
+				<Button id="GotoBasicHotkeys" class="AdvancedButton HotkeysBottomButton LeftRightFlow" onactivate="ToggleStyle( OptionsTabContent, ShowingAdvanced ) ToggleStyle( BottomNav, ShowingAdvanced )">
+					<Panel class="ExpandDownArrow"/>					
+					<Label text="#dota_settings_basicoptions"/>
+					<Panel class="ExpandDownArrow"/>					
+				</Button>				
+			</Panel>
+			
+			
+			
+			
 		</Panel>
 
 		<!-- Video -->
@@ -928,6 +1123,7 @@
 						<DOTASettingsCheckbox convar="dsp_slow_cpu" invert="true" text="#dota_settings_highqualityaudio" />
 						<DOTASettingsCheckbox convar="closecaption" text="#dota_settings_captions" />
 						<DOTASettingsCheckbox convar="dota_force_default_respawn_stinger" text="#dota_settings_force_default_respawn_stinger" />
+						<DOTASettingsCheckbox convar="dota_force_default_death_stinger" text="#dota_settings_force_default_death_stinger" />
 						<DOTASettingsCheckbox id="AutodetectLatency" convar="snd_autodetect_latency" text="#dota_settings_lowlatency_audio" />
 
 						<Label id="VoiceHeader" text="#dota_settings_voice" class="SectionHeader"/>
@@ -940,11 +1136,11 @@
 								<Label id="OpenMicHeader" text="#dota_settings_chat_openmic" />
 							</Panel>
 							<Panel class="VoiceControlsRow">
-								<DOTASettingsKeyBinder text="#dota_settings_chatvoice_party" bind="ChatVoiceParty" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ChatVoiceParty, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_chatvoice_party" bind="ChatVoiceParty" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ChatVoiceParty, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
 								<DOTASettingsCheckbox id="PartyOpenMicCheckbox" onactivate="DOTAOpenMicSettingChanged()" />
 							</Panel>
 							<Panel class="VoiceControlsRow">
-								<DOTASettingsKeyBinder text="#dota_settings_chatvoice_team" bind="ChatVoiceTeam" onmouseover="DOTAShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ChatVoiceTeam, BindingsTooltip)" onmouseout="DOTAHideTextTooltip()" />
+								<DOTASettingsKeyBinder text="#dota_settings_chatvoice_team" bind="ChatVoiceTeam" onmouseover="UIShowTextTooltipStyled( #DOTA_Hotkeys_Tooltip_ChatVoiceTeam, BindingsTooltip)" onmouseout="UIHideTextTooltip()" />
 								<DOTASettingsCheckbox id="TeamOpenMicCheckbox" onactivate="DOTAOpenMicSettingChanged()" />
 							</Panel>
 						</Panel>
@@ -955,7 +1151,7 @@
 						<DOTASettingsSlider convar="voice_threshold" min="0.0" max="65535.0" percentage="true" text="#dota_settings_openmicthreshold" />
 
 
-						<DOTASettingsCheckbox id="VoiceAlwaysSampleMic" convar="voice_always_sample_mic" text="#dota_settings_voice_always_sample_mic" onmouseover="DOTAShowTitleTextTooltip( #dota_settings_voice_always_sample_mic, #dota_settings_voice_always_sample_mic_tooltip )" onmouseout="DOTAHideTitleTextTooltip()" />
+						<DOTASettingsCheckbox id="VoiceAlwaysSampleMic" convar="voice_always_sample_mic" text="#dota_settings_voice_always_sample_mic" onmouseover="UIShowTitleTextTooltip( #dota_settings_voice_always_sample_mic, #dota_settings_voice_always_sample_mic_tooltip )" onmouseout="UIHideTitleTextTooltip()" />
 
 					</Panel>
 				</Panel>

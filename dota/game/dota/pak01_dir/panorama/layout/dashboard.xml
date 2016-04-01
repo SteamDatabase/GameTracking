@@ -64,6 +64,7 @@
 				
 			
 			<Panel class="CompendiumDashboardBody"/>
+
 			<Panel id="BottomFrost" class="Frost"/>			
 			</Panel>
 
@@ -72,11 +73,13 @@
 			</Panel>
       
 			<Panel id="DashboardForeground" hittest="false">
-				<Panel id="DashboardPages" hittest="false">
-					<!-- Filled in dynamically -->
-				</Panel>
 
-		 		<DOTATutorial id="Tutorial" />
+				<PageManager id="DashboardPages" hittest="false" />
+				
+				<Panel id="ExpiredTag">
+					<Label text="#DOTA_BattlePass_Expired"/>
+				</Panel>
+				<DOTATutorial id="Tutorial" />
 
 				<Panel id="DashboardPagesGuides" hittest="false">
 					<Panel id="Guide4x3" hittest="false" />
@@ -140,8 +143,11 @@
 							<Panel id="PendingInvitesRadialSweep" class="RadialSweep" hittest="false"/>
 						</Panel>
 					</Panel>
-				</Panel>
-				
+
+        </Panel>
+        
+        <Button id="PartyOpenMic" onactivate="DOTAPartyOpenMicButtonClicked()" onmouseout="UIHideTextTooltip()" />
+        
 				<Panel id="NotificationsContainer" class="Hidden">
 					<Panel id="Notifications" class="TopBottomFlow">
 					<Label id="NotificationsHeader" text="Notifications"/>
@@ -287,7 +293,7 @@
 								<RadioButton id="TopBarHeroes" backgroundcamera="shot_cameraB" backgroundcameralerptime="1.2" group="DashboardMainTabs" class="TopBarMenuItem"  onactivate="DOTAShowPrimaryTabPage( TopBarHeroes );">
 									<Label class="TitleFont" text="#DOTA_MainMenu_Heroes" />
 								</RadioButton>
-								<RadioButton id="TopBarStore" backgroundcamera="shot_cameraB" backgroundcameralerptime="1.2" group="DashboardMainTabs" class="TopBarMenuItem"  onactivate="DOTAShowPrimaryTabPage( TopBarStore );" onmouseover="DOTAAcknowledgeViolator( store_tab_violator )">
+								<RadioButton id="TopBarStore" backgroundcamera="shot_cameraB" backgroundcameralerptime="1.2" group="DashboardMainTabs" class="TopBarMenuItem"  onactivate="DOTAShowPrimaryTabPage( TopBarStore );" onmouseover="DOTAAcknowledgeViolator( store_browse_violator )">
 									<Label class="TitleFont" text="#DOTA_MainMenu_Store" />
 								</RadioButton>
 								<RadioButton id="TopBarWatch" backgroundcamera="shot_cameraC" backgroundcameralerptime="1.2" group="DashboardMainTabs" class="TopBarMenuItem" onactivate="DOTAShowPrimaryTabPage( TopBarWatch );">
@@ -312,13 +318,13 @@
 									<Button id="ZooButton" class="BlueButton" onactivate="DOTAShowControlsLibraryPageTab( Default );">
 										<Label text="Control Zoo" />
 									</Button>
-									<Button id="BugButton" class="DebugButton" onactivate="DOTAReportBug();" onmouseout="DOTAHideTextTooltip();" onmouseover="DOTAShowTextTooltip( Report a bug! );" />
+									<Button id="BugButton" class="DebugButton" onactivate="DOTAReportBug();" onmouseout="UIHideTextTooltip();" onmouseover="UIShowTextTooltip( Report a bug! );" />
 									<Button id="ReloadPageButton" class="DebugButton" onactivate="DOTAReloadCurrentPage()" />
 									<Button id="GuidesButton" class="DebugButton" onactivate="ToggleStyle( DashboardPagesGuides, Visible )" />
 								</Panel>
 								<RadioButton id="TopBarArmory" group="DashboardMainTabs" class="TopBarSmallButton"
 											 onactivate="DOTAShowArmoryPage();"
-											 onmouseover="DOTASetRecentArmoryItemsMenuVisible( true ); AddStyle( TopBarArmoryHover, Hover ); DOTAHideTextTooltip(); DOTAAcknowledgeViolator( armory_button_violator )"
+											 onmouseover="DOTASetRecentArmoryItemsMenuVisible( true ); AddStyle( TopBarArmoryHover, Hover ); UIHideTextTooltip(); DOTAAcknowledgeViolator( armory_button_violator )"
 											 onmouseout="AsyncEvent( 0.0, DOTASetRecentArmoryItemsMenuVisible( false ) ); RemoveStyle( TopBarArmoryHover, Hover )" />
 								<Button id="DOTANotificationButton" class="TopBarSmallButton NoNotifications" onactivate="ToggleStyle( NotificationsContainer, Hidden )" >
 									<Panel id="NotificationButtonIcon"/>
@@ -332,7 +338,7 @@
 							</Panel>
 
 							<Panel id="TopBarViolators" hittest="false">
-								<DOTAViolator id="TopBarStoreViolator" name="store_tab_violator" class="TopBarViolator Acknowledged" hittest="false">
+								<DOTAViolator id="TopBarStoreViolator" name="store_browse_violator" class="TopBarViolator Acknowledged" hittest="false">
 									<Panel class="ViolatorContents" hittest="false">									
 										<Panel class="ViolatorLeftPoint" hittest="false" />
 										<Label text="#DOTA_New" hittest="false" />

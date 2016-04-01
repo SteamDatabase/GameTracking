@@ -3,17 +3,22 @@
    based on the state of the UI. They should be the size of an item plus its margins. */
 @define armoryItemWidth: 101px;
 @define armoryItemHeight: 108px;
-@define armoryScratchpadItemWidth: 88px;
-@define armoryScratchpadItemHeight: 94px;
+@define armoryScratchpadItemWidth: 84px;
+@define armoryScratchpadItemHeight: 90px;
 @define armoryCraftingItemWidth: 56px;
 @define armoryCraftingItemHeight: 60px;
 @define armoryScratchpadCraftingItemWidth: 53px;
 @define armoryScratchpadCraftingItemHeight: 56px;
+@define armoryRecentItemWidth: 330px;
+@define armoryRecentItemHeight: 101px;
+
+@define scratchpadPageColumns: 6;
+@define scratchpadSpacerWidth: 32px;
 
 DOTAArmoryPage
 {
 	margin-top: 130px;
-	padding-top: 30px;
+	padding-top: 20px;
     width: 100%;
 }
 
@@ -89,6 +94,7 @@ DOTAArmoryPage
 	visibility: visible;
 }
 
+.InventoryVisible #ArmoryGridContainer Label,
 .ScratchPadVisible #ArmoryGridContainer Label
 {
 	visibility: collapse;
@@ -103,7 +109,7 @@ DOTAArmoryPage
 {
 	flow-children: right;
 	margin-left: 2px;
-	height: 778px;
+	height: 800px;
 	width: 100%;
 	horizontal-align: right;
 	vertical-align: middle;
@@ -123,6 +129,7 @@ DOTAArmoryPage
 {
 	width: 240px;
 	height: 100%;
+	margin-right: 25px;
 }
 
 #LeftCategories
@@ -137,7 +144,7 @@ DOTAArmoryPage
 	width: fill-parent-flow( 1.0 );
 	height: 100%;
 	flow-children: none;
-	margin-left: 25px;
+	
 }
 
 #ArmoryContents
@@ -158,10 +165,23 @@ DOTAArmoryPage
 	margin-right: 124px;
 }
 
+.InventoryVisible #RightColumnTopBar,
 .ScratchPadVisible #RightColumnTopBar
+{
+	//visibility: collapse;
+	height: 40px;
+}
+
+.CategoryRecent #RightColumnTopBar
+{
+	visibility: collapse;		
+}
+
+.CategoryInventory #RightColumnTopBar
 {
 	visibility: collapse;
 }
+
 
 .AspectRatio4x3 #RightColumnTopBar,
 .AspectRatio5x4 #RightColumnTopBar
@@ -187,24 +207,36 @@ DOTAArmoryPage
 #ArmoryGridContainer
 {
 	flow-children: right;
-	height: 700px;
-	//height: fill-parent-flow( 1.0 );
-	//background-color: #22992211;
+	height: 734px;
     overflow: scroll squish;
-	padding-left: 32px;
+	padding-left: 0px;
 	padding-right: 32px;
 	opacity-mask: url("s2r://panorama/images/masks/armory_opacity_mask_png.vtex");
 }
 
+.CategoryRecent #ArmoryGridContainer
+{
+	height: 900px;
+	padding-top: 16px;
+}
+
+.InventoryVisible #ArmoryGridContainer,
 .ScratchPadVisible #ArmoryGridContainer
 {
-	height: 778px;
+	height: 900px;
 	padding-left: 0px;
 }
 
+.CraftingVisible.CategoryRecent #ArmoryGridContainer
+{
+	height: 516px;
+	padding-left: 0px;
+}
+
+.InventoryVisible.ScratchPadVisible #ArmoryGridContainer,
 .CraftingVisible.ScratchPadVisible #ArmoryGridContainer
 {
-	height: 484px;
+	height: 476px;
 	padding-left: 0px;
 }
 
@@ -234,6 +266,7 @@ DOTAArmoryPage
 	letter-spacing: 2px;
 	text-transform: uppercase;
 	color: #888888;
+	color: #647274;
 	//border: 1px solid green;
 
 	transition-property: opacity;
@@ -241,34 +274,93 @@ DOTAArmoryPage
 	transition-timing-function: ease-in-out;
 }
 
+.CategoryRecent #ArmoryGridContainer Label.ItemSubCategoryLabel
+{
+	color: #87C2FF;	
+}
+
 .ItemSubCategoryLabel.Active:hover
 {
 	brightness: 2.0;
 }
 
+.CategoriesTitle
+{
+	width: 100%;
+	margin-top: 20px;
+	overflow: squish scroll;
+}
 
+.CategoriesTitle
+{
+	width: 100%;
+}
+
+.CategoriesTitle Label
+{
+	//text-transform: uppercase;
+	//letter-spacing: 2px;
+	//font-weight: bold;
+	//font-size: 20px;
+	//color: #aaa;
+	//horizontal-align: right;
+}
+
+
+.MenuLabel,
 .ItemCategoryLabel
 {
 	horizontal-align: right;
-
 }
 
-.ItemCategoryLabel Label
+
+.MenuLabel Label
 {
-	color: #888888;
+	font-weight: bold;
+	color: #ADC6C8;
+	color: #718385;
+	
 	horizontal-align: right;
 	text-align: right;
-	font-size: 24px;
+	font-size: 32px;
 	text-transform: uppercase;
+	letter-spacing: 2px;
 	margin-bottom: 6px;
+	margin-top: 4px;
+	transition-duration: 0.2s;
+}
+
+.MenuLabel:selected Label
+{
+	text-shadow: 0px 0px 12px 1.0 #ffffff55;
+}
+.ItemCategoryLabel Label
+{
+	color: #829798;
+	horizontal-align: right;
+	font-weight: thin;
+	text-align: right;
+	font-size: 16px;
+	text-transform: uppercase;
+	margin-bottom: 2px;
 	margin-top: 4px;
 	transition-duration: 0.0s;
 }
 
+#CategoryInventory.ItemCategoryLabel Label
+{
+	//color: #4fbae1ff;
+}
+
+#CategoryRecent.ItemCategoryLabel Label
+{
+	//color: #4fbae1ff;
+}
+
 #CategoryEvent.ItemCategoryLabel Label
 {
-	color: #4fbae188;
-	text-shadow: 0px 0px 12px 1.0 #2bb0d633;
+	//color: #8899aa;
+	//text-shadow: 0px 0px 12px 1.0 #2bb0d633;
 }
 
 #CategoryEvent.ItemCategoryLabel:hover Label
@@ -285,22 +377,23 @@ DOTAArmoryPage
 
 #CategoryScratchPad
 {
-	width: 100%;
-	margin-left: 27px;
-	margin-top: 16px;
-	border: 2px solid #69787933;
-	padding:  8px 8px 8px 8px;
+	width: fit-children;
 	transition-duration: 0.0s;
 }
 
 #CategoryScratchPad Label
 {
-	font-size: 18px;
+	font-size: 30px;
 }
 
 #CategoryScratchPad > Panel
 {
 	horizontal-align: center;
+}
+
+#CategoryScratchPadLabel
+{
+	text-overflow: shrink;
 }
 
 #CategoryScratchPad .InfoIcon
@@ -317,24 +410,25 @@ DOTAArmoryPage
 {
 	wash-color: white;
 	transition-duration: 0.20s;
+	text-shadow: 0px 0px 12px 1.0 #2bb0d6ff;
 }
 
 #CategoryScratchPad:hover
 {
-	border: 2px solid #697879aa;
+//	border: 2px solid #697879aa;
 }
 
 .DragInProgress.ScratchPadVisible #CategoryScratchPad
 {
-	 border: 2px solid #69787933;
+	 //border: 2px solid #69787933;
 }
 
 #CategoryScratchPad:selected,
 .DragInProgress #CategoryScratchPad:hover,
 .DragInProgress #CategoryScratchPad
 {
-	 border: 2px solid white;
-	 background-color: #69787933;
+	 //border: 2px solid white;
+	 //background-color: #69787933;
 }
 
 .DragInProgress #CategoryScratchPad Label
@@ -344,21 +438,80 @@ DOTAArmoryPage
 
 #CategoryScratchPad:selected
 {
-	background-color: #56676788;
+	//background-color: #56676788;
 }
 
 #CategoryScratchPad Label
 {
 	horizontal-align: center;
 	text-align: center;
-	margin: 0px;
+	//margin: 0px;
 }
+
+#ScratchPadBox
+{
+	flow-children: down;
+	width: 100%;
+	margin: 12px;
+	border: 2px solid #ffffff00;
+	opacity: 1;
+	transition-property: opacity, border;
+	transition-duration: .32s;	
+	height: 0px;
+}
+
+.DragInProgress #ScratchPadBox #ScratchPadIcon
+{
+	pre-transform-scale2d: .7;
+}
+
+.DragInProgress #ScratchPadBox:hover #ScratchPadIcon
+{
+	pre-transform-scale2d: 1;
+	opacity: 1;
+}
+
+.DragInProgress.ScratchPadVisible #ScratchPadBox:hover #ScratchPadIcon
+{
+	pre-transform-scale2d: 1;
+	opacity: 1;
+}
+
+#ScratchPadIcon
+{
+	horizontal-align: center;
+	vertical-align: middle;
+	pre-transform-scale2d: .4;
+	opacity: .2;
+	flow-children: down;
+	
+	transition-property: opacity, pre-transform-scale2d;
+	transition-duration: .32s;		
+}
+
+.ScratchPadIconBox
+{
+	width: 36px;
+	height: width-percentage( 100% );
+	margin: 3.5px;
+	background-color: #888888;
+}
+
+.DragInProgress #ScratchPadBox
+{
+	opacity: 1;
+	border: 2px solid #ffffff22;
+	height: width-percentage( 100% );
+}
+
+
 
 .Language_schinese .ItemCategoryLabel Label
 {
 	font-size: 32px;
 }
 
+.MenuLabel .RadioBox,
 .ItemCategoryLabel .RadioBox
 {
 	visibility: collapse;
@@ -379,6 +532,12 @@ DOTAArmoryPage
 .PartnerNexon #CategoryPurgatory.ItemCategoryLabel
 {
 	visibility: visible;
+
+}
+
+#CategoryPurgatory Label
+{
+	font-size: 24px;
 }
 
 
@@ -392,6 +551,12 @@ DOTAArmoryPage
 	padding-left: 6px;
 }
 
+.CategoryRecent .SubCategoryItemContainer
+{
+	height: 740px;
+}
+
+.InventoryVisible  .SubCategoryItemContainer,
 .ScratchPadVisible .SubCategoryItemContainer
 {
 	height: 770px;
@@ -407,7 +572,7 @@ DOTAEconItem.EmptySlot
 {
 	border: 3px solid #9AA6A500;
 	box-shadow: none;
-	background-color: #00000021;
+	background-color: #00000033;
 }
 
 DOTAEconItem.EmptySlot:hover
@@ -424,18 +589,21 @@ DOTAEconItem.New
 	box-shadow:  #66ff0033 -4px -4px 8px 8px;	 
 }
 
+.CategoryInventory DOTAEconItem.DragHoverTarget,
 .ScratchPadVisible DOTAEconItem.DragHoverTarget
 {
 	border: 2px solid #9AA6A5ff;
 	background-color: #4A5B6077;
 }
 
+.CategoryInventory DOTAEconItem.DragHoverTarget.EmptySlot,
 .ScratchPadVisible DOTAEconItem.DragHoverTarget.EmptySlot
 {
 	border: 2px solid #9AA6A5ff;
 	background-color: #4A5B6077;
 }
 
+.CategoryInventory DOTAEconItem.DragHoverTarget.EmptySlot:hover,
 .ScratchPadVisible DOTAEconItem.DragHoverTarget.EmptySlot:hover
 {
 	border: 2px solid #9AA6A5ff;
@@ -473,6 +641,7 @@ DOTAEconItem.New
 	height: 370px;
 }
 
+.CategoryRecent.CraftingVisible .SubCategoryItemContainer,
 .CraftingVisible.ScratchPadVisible .SubCategoryItemContainer
 {
 	height: 462px;
@@ -573,6 +742,10 @@ DOTAEconItem.New
 	padding-right: 16px;
 	padding-top: 2px;
 	padding-bottom: 0px;
+	opacity: 1;
+	
+	transition-property: opacity;
+	transition-duration: 0.32s;
 }
 
 #CategoryView:hover Label
@@ -895,4 +1068,138 @@ DOTAEconItem.New
 	height: 60%;
 	vertical-align: top;
 	background-size: 100% 10%;
+}
+
+#Categories
+{
+	margin-top: -8px;
+	horizontal-align: right;
+	transition-property: opacity, transform, height;
+	transition-duration: 0.35s;
+	transition-timing-function: ease-in-out;
+	margin-bottom: 11px;
+}
+
+RadioButton > Label
+{
+	margin: 0px;
+}
+
+#CategoriesButton
+{
+	border-top: 1px solid grey;
+	margin-top: 12px;
+	padding-top: 16px;
+}
+
+#CategoriesButton Label
+{
+//	width:  100%;
+	text-align: right;
+}
+
+#CategoriesButton:selected
+{
+	color: white;
+}
+
+
+DOTAEconItemList DOTARecentArmoryItem
+{
+	width: 306px;
+	height: 93px;
+	border-left: 2px solid transparent;
+
+
+	background-color: #00000055;
+
+}
+
+DOTAEconItemList DOTARecentArmoryItem.New
+{
+		background-color: gradient( linear, 0% 0%, 100% 0%, from( #1862a1 ), to( #20273100 ) );
+}
+
+#ImportToCollection
+{
+	vertical-align: middle;
+	margin-top: 10px;
+}
+
+#ImportToCollection Label
+{
+	margin-top: 0px;
+	font-size: 16px;
+}
+
+.ScratchPadVisible #FilterByLabel, 
+.ScratchPadVisible #ArmoryFiltering,
+.ScratchPadVisible #EditFilter,
+.ScratchPadVisible #CategoryView,
+.ScratchPadVisible #SortByLabel,
+.ScratchPadVisible #ArmorySorting,
+#CollectionItemCountMax,
+.CollectionItemCountLabel,
+#CollectionItemCount,
+#AutoImport,
+#ImportToCollection
+{
+	visibility: collapse;
+}
+
+.ScratchPadVisible .CollectionItemCountLabel,
+.ScratchPadVisible #CollectionItemCountMax,
+.ScratchPadVisible #CollectionItemCount,
+.ScratchPadVisible #AutoImport,
+.ScratchPadVisible #ImportToCollection
+{
+	visibility: visible;
+}
+
+#CollectionItemCountMax,
+.CollectionItemCountLabel,
+#CollectionItemCount
+{
+	vertical-align: middle;
+	margin-top: 12px;
+	font-size: 22px;
+	color: #ADC6C8;
+	text-transform: uppercase;
+}
+
+.CollectionItemCountLabel
+{
+	color: #647274;
+}
+
+#InCollection
+{
+	margin-right: 12px;
+}
+
+#AutoImport
+{
+	vertical-align: middle;
+	padding-top: 10px;
+	padding-left: 0px;
+	margin-right: 42px;
+}
+
+#AutoImport:hover Label
+{
+	color: #90A5A6;
+}
+
+#AutoImport Label
+{
+	color: #697879;
+	font-size: 16px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+#AutoImport:selected Label
+{
+	color: #ADC6C8;
+
 }

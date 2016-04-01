@@ -1164,6 +1164,20 @@ Scheme
 	// specifies all the custom (non-system) font files that need to be loaded to service the above described fonts
 	CustomFontFiles
 	{
-		"1"		"vgui/resource/marlett.ttf" [$OSX||$LINUX]
+		"1"
+        {
+        	"font"		"vgui/fonts/marlett.ttf" [$OSX||$LINUX]
+        	"name"		"Marlett" [$OSX||$LINUX]
+        }
+		"2"
+        {
+        	"font"		"vgui/fonts/verdana.ttf" [$LINUX]
+        	"name"		"Verdana" [$LINUX]
+        }
+		"3"
+        {
+        	"font"		"vgui/fonts/arial.ttf" [$OSX||$LINUX]
+        	"name"		"Arial" [$OSX||$LINUX]
+        }
 	}
 }

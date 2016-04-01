@@ -9,150 +9,126 @@
 
 
 		<Panel id="MainContents">
-
+		  <Panel id="SearchAndCategoriesContianer">
 			<Panel id="SearchOptionsContainer">
 				<Panel class="SearchOptionsTitle">
-					<Label text="Search" />
+					<Label text="#DOTA_Search" />
 				</Panel>
 
-				<Panel id="SearchBox">
-					<TextEntry id="SearchTextEntry" placeholder="Enter keywords to search."/>
-				</Panel>
-				
-				<Panel class="SearchOptionsTitle">
-					<Label text="Categories" />
-				</Panel>
-				<Panel id="SearchCategories">
-					<!--<RadioButton class="SearchCategory" group="search_categories">
-						<Label class="SearchCategoryName" text="Winter Season" />
-					</RadioButton>-->
-
-					<RadioButton class="SearchCategory" group="search_categories">
-						<Label class="SearchCategoryName" text="Treasures" />
-
-						<Panel class="SearchSubCategories">
-							<ToggleButton text="Treasures" />
-							<ToggleButton text="Charms" />
-						</Panel>
-					</RadioButton>
-
-					<RadioButton class="SearchCategory" group="search_categories">
-						<Label class="SearchCategoryName" text="Hero Items" />
-
-						<Panel class="SearchSubCategories">
-							<DropDown id="HeroDropDown">
-								<Label text="ANY" />
-							</DropDown>
-						</Panel>
-					</RadioButton>
-
-					<RadioButton class="SearchCategory" group="search_categories">
-						<Label class="SearchCategoryName" text="Couriers &amp; Wards" />
-
-						<Panel class="SearchSubCategories">
-							<ToggleButton text="Couriers" />
-							<ToggleButton text="Wards" />
-						</Panel>
-
-					</RadioButton>
-				
-					<RadioButton class="SearchCategory" group="search_categories">
-						<Label class="SearchCategoryName" text="Audio" />
-
-						<Panel class="SearchSubCategories">
-							<ToggleButton text="Announcer Packs" />
-							<ToggleButton text="Mega-Kill Packs" />
-							<ToggleButton text="Music" />
-						</Panel>
-					</RadioButton>
-
-					<RadioButton class="SearchCategory" group="search_categories">
-						<Label class="SearchCategoryName" text="Tickets" />
-					</RadioButton>
-
-					<RadioButton class="SearchCategory" group="search_categories">
-						<Label class="SearchCategoryName" text="Misc" />
-
-						<Panel class="SearchSubCategories">
-							<ToggleButton text="HUDs" />
-							<ToggleButton text="Loading Screens" />
-							<ToggleButton text="Cursor Packs" />
-							<ToggleButton text="Effigies" />
-							<ToggleButton text="Terrain" />
-							<ToggleButton text="Weather" />
-							<ToggleButton text="Emoticons" />
-						</Panel>
-					</RadioButton>
-
-				</Panel>
-
-				<Panel class="SearchOptionsTitle">
-					<Label text="Options" />
-				</Panel>
-
-				<Panel id="SearchOptions">
-					<Panel class="RarityChooser">
-						<Label text="Rarity:" />
-						<Panel id="RarityOptions">
-							<TextButton id="AnyRarity" text="Any" />
-							<Button class="RarityButton ItemRarityBackgroundColor ItemRarity_common" onmouseover="DOTAShowTextTooltip( Common )" onmouseout="DOTAHideTextTooltip()" />
-							<Button class="RarityButton ItemRarityBackgroundColor ItemRarity_uncommon" onmouseover="DOTAShowTextTooltip( Uncommon )" onmouseout="DOTAHideTextTooltip()" />
-							<Button class="RarityButton ItemRarityBackgroundColor ItemRarity_rare" onmouseover="DOTAShowTextTooltip( Rare )" onmouseout="DOTAHideTextTooltip()" />
-							<Button class="RarityButton ItemRarityBackgroundColor ItemRarity_mythical" onmouseover="DOTAShowTextTooltip( Mythical )" onmouseout="DOTAHideTextTooltip()" />
-							<Button class="RarityButton ItemRarityBackgroundColor ItemRarity_legendary" onmouseover="DOTAShowTextTooltip( Legendary )" onmouseout="DOTAHideTextTooltip()" />
-							<Button class="RarityButton ItemRarityBackgroundColor ItemRarity_ancient" onmouseover="DOTAShowTextTooltip( Ancient )" onmouseout="DOTAHideTextTooltip()" />
-							<Button class="RarityButton ItemRarityBackgroundColor ItemRarity_immortal" onmouseover="DOTAShowTextTooltip( Immortal )" onmouseout="DOTAHideTextTooltip()" />
-							<Button class="RarityButton ItemRarityBackgroundColor ItemRarity_arcana" onmouseover="DOTAShowTextTooltip( Arcana )" onmouseout="DOTAHideTextTooltip()" />
-							<Button class="RarityButton ItemRarityBackgroundColor ItemRarity_seasonal" onmouseover="DOTAShowTextTooltip( Seasonal )" onmouseout="DOTAHideTextTooltip()" />
-						</Panel>
+				<Panel id="SearchContainer">
+					<Panel id="SearchBox">
+						<TextEntry id="SearchTextEntry" placeholder="#DOTA_StoreBrowse_Search_Placeholder"/>
+						<Button id="ClearSearchButton" class="CloseButton" onactivate="$( '#SearchTextEntry' ).text = '';" />
 					</Panel>
-
-					<Panel id="PurchaseOptions">
-						<Label text="Available:" />
-
-						<Panel id="TreasureOption" class="PurchaseOption">
-							<Label text="In a Treasure" />
-							<Panel class="FillWidth" />
-							<Panel class="PurchaseOptionValue">
-								<RadioButton text="Any" group="treasure_option" selected="true" />
-								<Label text="/" />
-								<RadioButton text="Yes" group="treasure_option" />
-								<Label text="/" />
-								<RadioButton text="No" group="treasure_option" />
-							</Panel>
-						</Panel>
-
-						<Panel id="BattlePassOption" class="PurchaseOption">
-							<Label text="Battle Pass Reward" />
-							<Panel class="FillWidth" />
-							<Panel class="PurchaseOptionValue">
-								<RadioButton text="Any" group="battle_pass_option" selected="true" />
-								<Label text="/" />
-								<RadioButton text="Yes" group="battle_pass_option" />
-								<Label text="/" />
-								<RadioButton text="No" group="battle_pass_option" />
-							</Panel>
-						</Panel>
-						
-					</Panel>
-
 				</Panel>
 			</Panel>
-			
+			<Panel id="CategoriesOptionsContainer">
+				<Panel class="SearchOptionsTitleCategories">
+					<Label text="#DOTA_Armory_Categories" />
+				</Panel>
+				<Panel id="SearchCategories">
+
+					<RadioButton class="SearchCategory" group="search_categories" selected="true" onactivate="DOTAStoreBrowseCategorySelected()">
+						<Label class="SearchCategoryName" text="#DOTA_Armory_Category_All" />
+					</RadioButton>
+
+					<RadioButton class="SearchCategory" group="search_categories" searchquery="event:EVENT_ID_WINTER_MAJOR_2016 NOT prefab:loading_screen" onactivate="DOTAStoreBrowseCategorySelected()">
+						<Label class="SearchCategoryName" text="#DOTA_Armory_Category_Event" />
+					</RadioButton>
+
+					<RadioButton class="SearchCategory" group="search_categories" onactivate="DOTAStoreBrowseCategorySelected()">
+						<Label class="SearchCategoryName" text="#DOTA_Armory_Category_TreasuresAndCharms" />
+
+						<Panel class="SearchSubCategories">
+							<RadioButton text="#DOTA_Armory_Category_Treasures" searchquery="prefab:treasure_chest" group="search_sub_categories" onactivate="DOTAStoreBrowseUpdateSearch()" />
+							<RadioButton text="#DOTA_Armory_Category_Charms" searchquery="tool:victory_prediction" group="search_sub_categories" onactivate="DOTAStoreBrowseUpdateSearch()" />
+						</Panel>
+					</RadioButton>
+
+					<RadioButton class="SearchCategory" group="search_categories" searchquery="heroid:any" onactivate="DOTAHeroPickerHeroSelected( 0, false )">
+						<Label class="SearchCategoryName" text="#DOTA_Armory_Category_Heroes" />
+
+						<Panel class="SearchSubCategories">
+
+							<Panel id="HeroPicker" onactivate="DOTAStoreBrowseShowHeroPicker()">
+								<DOTAHeroImage id="HeroPickerImage" heroimagestyle="portrait" scaling="stretch-to-cover-preserve-aspect" />
+								<Label id="HeroPickerName" />
+							</Panel>
+						</Panel>
+					</RadioButton>
+
+					<RadioButton class="SearchCategory" group="search_categories" onactivate="DOTAStoreBrowseCategorySelected()">
+						<Label class="SearchCategoryName" text="#DOTA_Armory_Category_CouriersAndWards" />
+
+						<Panel class="SearchSubCategories">
+							<RadioButton text="#Store_Couriers" searchquery="prefab:courier" group="search_sub_categories" onactivate="DOTAStoreBrowseUpdateSearch()" />
+							<RadioButton text="#Store_Wards" searchquery="prefab:ward" group="search_sub_categories" onactivate="DOTAStoreBrowseUpdateSearch()" />
+						</Panel>
+
+					</RadioButton>
+				
+					<RadioButton class="SearchCategory" group="search_categories" onactivate="DOTAStoreBrowseCategorySelected()">
+						<Label class="SearchCategoryName" text="#DOTA_Armory_Category_Audio" />
+
+						<Panel class="SearchSubCategories">
+							<RadioButton text="#Store_Announcers" searchquery="prefab:announcer" group="search_sub_categories" onactivate="DOTAStoreBrowseUpdateSearch()" />
+							<RadioButton text="#Store_Music" searchquery="prefab:music" group="search_sub_categories" onactivate="DOTAStoreBrowseUpdateSearch()" />
+						</Panel>
+					</RadioButton>
+
+					<RadioButton class="SearchCategory" group="search_categories" onactivate="DOTAStoreBrowseCategorySelected();">
+						<Label class="SearchCategoryName" text="#DOTA_Armory_Category_Interface" />
+
+						<Panel class="SearchSubCategories">
+							<RadioButton text="#Store_HUD_Skins" searchquery="prefab:hud" group="search_sub_categories" onactivate="DOTAStoreBrowseUpdateSearch()" />
+							<RadioButton text="#Store_Loading_Screens" searchquery="prefab:loading_screen" group="search_sub_categories" onactivate="DOTAStoreBrowseUpdateSearch()" />
+							<RadioButton text="#Store_Emoticons" searchquery="prefab:emoticon_tool OR tool:emoticon_unlock" group="search_sub_categories" onactivate="DOTAStoreBrowseUpdateSearch()" />
+							<RadioButton text="#Store_Cursor_Packs" searchquery="prefab:cursor_pack" group="search_sub_categories" onactivate="DOTAStoreBrowseUpdateSearch()" />
+						</Panel>
+					</RadioButton>
+
+					<RadioButton class="SearchCategory" group="search_categories" onactivate="DOTAStoreBrowseCategorySelected();">
+						<Label class="SearchCategoryName" text="#DOTA_Armory_Category_World" />
+
+						<Panel class="SearchSubCategories">
+							<RadioButton text="#Store_Terrain" searchquery="prefab:terrain" group="search_sub_categories" onactivate="DOTAStoreBrowseUpdateSearch()" />
+							<RadioButton text="#Store_Weather" searchquery="prefab:weather" group="search_sub_categories" onactivate="DOTAStoreBrowseUpdateSearch()" />
+							<RadioButton text="#Store_Effigies" searchquery="tool:hero_statue_forge OR tool:hero_statue_reforgeitem" group="search_sub_categories" onactivate="DOTAStoreBrowseUpdateSearch()" />
+						</Panel>
+					</RadioButton>
+
+					<RadioButton class="SearchCategory" group="search_categories" searchquery="prefab:league OR prefab:tournament_passport OR prefab:compendium" onactivate="DOTAStoreBrowseCategorySelected()">
+						<Label class="SearchCategoryName" text="#DOTA_Profile_LeaguePassesPage" />
+					</RadioButton>
+
+					<RadioButton class="SearchCategory" group="search_categories" searchquery="brand:any NOT prefab:loading_screen" onactivate="DOTAStoreBrowseCategorySelected()">
+						<Label class="SearchCategoryName" text="#DOTA_StoreBrowse_Category_ProGear" />
+					</RadioButton>
+					
+				</Panel>
+
+				<ToggleButton id="DeveloperMode" onactivate="DOTAStoreBrowseUpdateSearch()" text="Developer Mode" onmouseover="UIShowTextTooltip( 'Shows ALL items, not just ones available on the store.' )" onmouseout="UIHideTextTooltip()" />
+
+			</Panel>
+			</Panel>
 
 			<Panel id="SearchResultsContainer">
 				<Panel id="SearchResultsHeader">
-					<Label class="SearchResultsCount" text="Found {d:search_result_count} Results" />
+					<Panel id="SearchInProgressSpinner" class="Spinner" />
+					<Label class="SearchResultsCount" text="#DOTA_StoreBrowse_Search_Results" />
 					<Panel class="FillWidth" />
-					<Label class="SortByLabel" text="Sort By:" />
-					<DropDown id="SortByDropDown">
-						<Label text="Newest" />
-						<Label text="Price" />
-						<Label text="Alphabetical" />
+					<Label class="SortByLabel" text="#DOTA_Armory_SortBy" />
+					<DropDown id="SortByDropDown" initialselection="Relevance">
+						<Label id="Relevance" text="#DOTA_SortOption_Relevance" />
+						<Label id="Newest" text="#DOTA_SortOption_Newest" />
+						<Label id="Oldest" text="#DOTA_SortOption_Oldest" />
+						<Label id="PriceLowToHigh" text="#DOTA_SortOption_PriceLowToHigh" />
+						<Label id="PriceHighToLow" text="#DOTA_SortOption_PriceHighToLow" />
+						<Label id="Alphabetical" text="#DOTA_SortOption_Alphabetical" />
 					</DropDown>
 				</Panel>
 
-				<DelayLoadList id="SearchResults" itemwidth="214px" itemheight="244px">
+				<DelayLoadList id="SearchResults" itemwidth="214px" itemheight="248px">
 					<!-- Filled in dynamically -->
 				</DelayLoadList>
 

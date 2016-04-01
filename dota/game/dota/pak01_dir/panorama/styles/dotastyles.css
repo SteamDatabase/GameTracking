@@ -82,7 +82,6 @@ Label.MonoFont, TextEntry.MonoFont
 /* ------------------------------------------------------------------------- */
 DropDown, DOTASettingsEnumDropDown
 {
-	background-color: #292e2e;
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #292e2e ), to( #191e1e ) );
 
 	background-image: url("s2r://panorama/images/control_icons/arrow_dropdown_png.vtex");
@@ -99,7 +98,6 @@ DropDown, DOTASettingsEnumDropDown
 	height: 41px;
 	padding: 4px 8px;
 	z-index: 1;
-	vertical-align: center;
 	
 	transition-property: background-color, border;
 	transition-duration: 0.15s;
@@ -506,7 +504,7 @@ ToggleButton .TickBox, DOTASettingsCheckbox .TickBox
 	border: 2px solid #5e686966;
 	box-shadow: #00000055 -2px -2px 1px 4px;
 	
-	transition-property: background-color, box-shadow, color, border;
+	transition-property: background-color, box-shadow, color, border, background-image;
 	transition-duration: 0.20s;
 	transition-timing-function: ease-in-out;
 	
@@ -631,7 +629,7 @@ RadioButton
 	transition-timing-function: ease-in-out;
 }
 
-.RadioBox
+RadioButton > .RadioBox
 {
 	min-width: 20px;
 	min-height: 20px;
@@ -647,7 +645,7 @@ RadioButton
 	transition-timing-function: ease-in-out;
 }
 
-RadioButton:selected .RadioBox
+RadioButton:selected > .RadioBox
 {
 	background-color: gradient( radial, 50% 50%, 0% 0%, 50% 50%, from( #e7f6f5 ), to( #333399 ) );
 	border: 3px solid #000000;
@@ -659,17 +657,17 @@ RadioButton:selected .RadioBox
 	transition-timing-function: ease-in-out;
 }
 
-RadioButton:enabled:hover .RadioBox
+RadioButton:enabled:hover > .RadioBox
 {
 	border: 2px solid #697879;
 }
 
-RadioButton:enabled:selected:hover .RadioBox
+RadioButton:enabled:selected:hover > .RadioBox
 {
 	border: 3px solid #000000;
 }
 
-RadioButton Label
+RadioButton > Label
 {
 	color: baseText;
 	margin-left: 8px;
@@ -680,7 +678,23 @@ RadioButton Label
 	transition-timing-function: linear;
 }
 
-RadioButton:selected Label
+DOTASettingsEnum RadioButton > Label
+{
+	font-size: 18px;
+	color: #7d8688;
+}
+
+
+RadioButton:selected > Label
+{
+	color: white;
+
+	transition-property: color, text-shadow;
+	transition-duration: 0.2s;
+	transition-timing-function: linear;
+}
+
+RadioButton:enabled:hover > Label
 {
 	color: white;
 
@@ -689,28 +703,19 @@ RadioButton:selected Label
 	transition-timing-function: linear;
 }
 
-RadioButton:enabled:hover Label
-{
-	color: white;
-
-	transition-property: color;
-	transition-duration: 0.2s;
-	transition-timing-function: linear;
-}
-
-RadioButton:disabled .RadioBox
+RadioButton:disabled > .RadioBox
 {
 	color: transparent;
 	box-shadow: #33333377 -4px -4px 8px 8px;
 	background-color: #00000000;
 }
 
-RadioButton:disabled:selected .RadioBox
+RadioButton:disabled:selected > .RadioBox
 {
 	background-color: gradient( radial, 50% 50%, 0% 0%, 50% 50%, from( #e7f6f533 ), to( #33339933 ) );
 }
 
-RadioButton:disabled Label
+RadioButton:disabled > Label
 {
 	color: #333333;
 }
@@ -845,8 +850,11 @@ RadioButton:disabled Label
 	text-transform: uppercase;
 	color: #7f8b8d;
 	horizontal-align: center;
+	text-align: center;
 	vertical-align: middle;
 	text-shadow: 0px 0px 6px 1.0 #000000;
+	padding-left: 8px;
+	padding-right: 8px;
 	
 	
 	transition-property: color;
@@ -1472,6 +1480,15 @@ Slider.HorizontalSlider #SliderThumb:disabled, SlottedSlider.HorizontalSlider #S
 	background-color: #333333;
 }
 
+
+.SliderTick
+{
+	width: 4px;
+	height: 14px;
+	background-color: #3B4242;	
+}
+
+
 .CarouselContainer
 {
 	vertical-align: top;
@@ -1560,7 +1577,7 @@ SimpleContextMenu .ContextMenuBody
 	padding: 5px;
 
 	flow-children: down;
-	width: 200px;
+	width: 230px;
 
 	opacity: 1.0;
 
@@ -2503,6 +2520,16 @@ EdgeScrollBar.Vertical #MaxButton
 {
 }
 
+.PaginationArrow.Up
+{
+	transform: rotateZ( -90.0deg );
+}
+
+.PaginationArrow.Down
+{
+	transform: rotateZ( 90.0deg );
+}
+
 .PaginationButton
 {
 	//background-color: gradient( radial, 50% 50%, 0% 0%, 50% 50%, from( #7e8f93 ), to( #000000 ) );
@@ -2774,7 +2801,7 @@ DOTAPunchCard.StampCount7 #RewardPanel Label { text-shadow: 0px 0px 7px 5.0 #00f
 DOTAPunchCard.StampCount8 #RewardPanel Label { text-shadow: 0px 0px 8px 5.0 #00ffff; }
 DOTAPunchCard.StampCount9 #RewardPanel Label { text-shadow: 0px 0px 9px 5.0 #00ffff; }
 
-DOTAEconItemImage #Overlay
+EconItemImage #Overlay
 {
     width: 100%;
     height: 100%;
@@ -3066,6 +3093,353 @@ DOTAXPBar.DisableAnimation > .XPSegment
 }
 
 
+/* ToolTip Styles */
+
+#DOTAHud .TooltipContainer
+{
+	transition-duration: 0.0s;
+}
+
+DOTATooltipFriendsMenu #Contents 
+{
+    background-color: #333f3d;
+}
+
+DOTATooltipFriendsMenu #BottomArrow
+{
+	wash-color: #333f3d;
+}
+
+DOTATooltipCustomGame #Contents 
+{
+	padding: 0px;
+
+    border: 1px solid #9BCAF455;
+}
+
+DOTATooltipCustomGame #LeftArrow, DOTATooltipCustomGame #RightArrow, DOTATooltipCustomGame #TopArrow, DOTATooltipCustomGame #BottomArrow
+{
+}
+
+DOTATooltipCustomGame #BottomArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/tooltip_arrow_bottom_customgames_psd.vtex");
+    wash-color: white;
+}
+DOTATooltipCustomGame #LeftArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/tooltip_arrow_left_customgames_psd.vtex");
+    wash-color: white;
+}
+DOTATooltipCustomGame #RightArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/tooltip_arrow_right_customgames_psd.vtex");
+    wash-color: white;
+}
+DOTATooltipCustomGame #TopArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/tooltip_arrow_top_customgames_psd.vtex");
+    wash-color: white;
+}
+
+/* Custom styling for Profile Card tooltip */
+DOTATooltipProfileCard #Contents
+{
+    background-color: transparent;
+    padding: 0px;
+    border: 0px solid transparent;
+    box-shadow: none;
+	transition-delay: 0.2s;
+}
+
+DOTATooltipProfileCard.TooltipVisible
+{
+	transition-delay: 0.0s;
+}
+
+/* Use margins on the arrows to make sure that we don't try to show the arrow over top of the badge */
+DOTATooltipProfileCard #RightArrow
+{
+	background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_right_png.vtex");
+	wash-color: #495757;
+	width: 16px;
+	height: 32px;
+
+	margin-left: -1px;
+}
+
+DOTATooltipProfileCard #TopArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_top_png.vtex");
+	wash-color: #495757;
+
+	width: 32px;
+	height: 16px;
+
+	margin-bottom: -1px;
+}
+
+DOTATooltipProfileCard #LeftArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_left_png.vtex");
+	wash-color: #495757;
+	width: 16px;
+	height: 32px;
+
+	margin-right: -1px;
+}
+
+DOTATooltipProfileCard #BottomArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_bottom_png.vtex");
+	wash-color: #495757;
+
+	width: 32px;
+	height: 16px;
+
+	margin-top: -1px;
+}
+
+.BindingsTooltip #Contents
+{
+    min-width: 576px;
+    max-width: 576px;
+    background-color: #393E3F;
+    border: 2px solid black;
+}
+
+.BindingsTooltip .TooltipRow
+{
+    width: 450px;
+}
+
+.BindingsTooltip #LeftArrow,
+.BindingsTooltip #TopArrow
+{
+    opacity: 1;
+    height: 10px;
+    wash-color: #2B2F30;
+}
+
+.BindingsTooltip .TextContents
+{
+    width: 100%;
+    transform: translateX(5px);
+}
+
+.BindingsTooltip.TooltipContainer
+{
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.1s;
+    margin-top: -2px;
+    margin-left: 8px;
+}
+
+.BindingsTooltip.TooltipContainer.TooltipVisible
+{
+    opacity: 1;
+}
+
+.OptionsTooltip #Contents
+{
+    min-width: 576px;
+    max-width: 576px;
+    background-color: #393E3F;
+    border: 2px solid black;
+}
+
+.OptionsTooltip .TooltipRow
+{
+    width: 450px;
+}
+
+.OptionsTooltip #LeftArrow
+{
+    opacity: 1;
+    height: 10px;
+    wash-color: #2B2F30;
+	margin: 0px;
+	width: fit-children;
+}
+
+.RightArrowVisible.OptionsTooltip #RightArrow
+{
+	visibility: visible;
+}
+
+.OptionsTooltip .TextContents
+{
+    width: 100%;
+    transform: translateX(5px);
+}
+
+.OptionsTooltip.TooltipContainer
+{
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.1s;
+    margin-top: -2px;
+    margin-left: 8px;
+}
+
+.OptionsTooltip.TooltipContainer.TooltipVisible
+{
+    opacity: 1;
+}
+
+.LeaverConsequencesTooltip #Contents
+{
+	width: 330px;
+	background-color: #69312c;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #2d2d2d ), color-stop(.5, #2d2d2d), to( #69312c ) );
+}
+
+.LeaverConsequencesTooltip #TextLabel
+{
+	color: red;
+}
+
+.LeaverConsequencesTooltip #BottomArrow,
+{
+	wash-color: #69312c;
+}
+
+#SeasonPassRewardPreview.TooltipContainer
+{
+    pre-transform-scale2d: .3;
+
+    transition-property: opacity, pre-transform-scale2d;
+    transition-timing-function: ease-in-out;
+	//transition-delay: .3s;
 
 
+    animation-duration: 0.61s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;       
+}
 
+@keyframes 'BubbleUp'
+{
+    0%
+    {
+        pre-transform-scale2d: .2;
+        opacity: 0;
+    }
+    
+    50%
+    {
+        pre-transform-scale2d: 1.1;
+        opacity: 1;
+    }               
+                
+    100%
+    {
+        pre-transform-scale2d: 1;
+        opacity: 1;
+    }
+}
+
+#SeasonPassRewardPreview.TooltipContainer.TooltipVisible
+{
+    animation-name: BubbleUp;    
+    transition-delay: 0.0s;
+    pre-transform-scale2d: 1;
+    transition-duration: 0.175s, 0.12s;    
+    animation-delay: 0.0s;
+}
+
+/* Context menu properties moved from context_menu_base.css */
+
+DOTAContextMenuPlayer #RightArrow
+{
+    background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_right_png.vtex");
+	wash-color: #495757;
+
+	width: 16px;
+	height: 32px;
+
+	margin-left: -1px;
+}
+
+DOTAContextMenuPlayer #TopArrow
+{
+	background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_top_png.vtex");
+	wash-color: #495757;
+
+	width: 32px;
+	height: 16px;
+
+	margin-bottom: -1px;
+}
+
+DOTAContextMenuPlayer #LeftArrow
+{
+	background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_left_png.vtex");
+	wash-color: #495757;
+
+	width: 16px;
+	height: 32px;
+
+	margin-right: -1px;
+}
+
+DOTAContextMenuPlayer #BottomArrow
+{
+	background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_bottom_png.vtex");
+	wash-color: #495757;
+
+	width: 32px;
+	height: 16px;
+
+	margin-top: -1px;
+}
+
+/* Custom styling for customize profile card arrow */
+.ContextMenuGrayArrow #RightArrow, .ContextMenuGrayArrow #LeftArrow
+{
+	width: 16px;
+	height: 32px;
+}
+.ContextMenuGrayArrow #TopArrow, .ContextMenuGrayArrow #BottomArrow
+{
+	width: 32px;
+	height: 16px;
+}
+
+.ContextMenuGrayArrow #RightArrow, .ContextMenuGrayArrow #LeftArrow, .ContextMenuGrayArrow #TopArrow, .ContextMenuGrayArrow #BottomArrow
+{
+	wash-color: #495757;
+}
+
+.ContextMenuGrayArrow #RightArrow
+{
+	background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_right_png.vtex");
+	margin-left: 0px;
+}
+.ContextMenuGrayArrow #TopArrow
+{
+	background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_top_png.vtex");
+	margin-bottom: 0px;
+}
+.ContextMenuGrayArrow #LeftArrow
+{
+	background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_left_png.vtex");
+	margin-right: 0px;
+}
+.ContextMenuGrayArrow #BottomArrow
+{
+	background-image: url("s2r://panorama/images/tooltips/profilecard_tooltip_arrow_bottom_png.vtex");
+	margin-top: 0px;
+}
+
+
+/* TournamentMatchDetails custom styling */
+TournamentMatchDetails #Contents
+{
+	padding: 0px;
+	border: 0px;
+	border-top: 1px solid #384041;
+	border-bottom: 1px solid #1e2424;
+	background-color: #2a3334;
+}

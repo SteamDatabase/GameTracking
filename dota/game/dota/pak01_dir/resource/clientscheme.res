@@ -1104,7 +1104,13 @@ Scheme
 	// specifies all the custom (non-system) font files that need to be loaded to service the above described fonts
 	CustomFontFiles
 	{
-		"1"		"resource/DotaHypatiaSansProBold.vfont"
+		// NOTE: Each entry must give both a font file and a font name
+		// to be compatible with materialsystem2 custom fonts.
+		"1"
+		{
+			"font"		"resource/DotaHypatiaSansProBold.vfont"
+			"name"		"Dota Hypatia Bold"
+		}
 	}
 
 }

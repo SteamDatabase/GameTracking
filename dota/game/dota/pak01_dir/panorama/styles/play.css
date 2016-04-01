@@ -194,6 +194,32 @@ DOTAPlay.ReconnectInProgress .ReconnectSpinner
 	visibility: visible;
 }
 
+#WeekendTourneySetup
+{
+	visibility: collapse;
+}
+.WeekendTourneySetupVisible #WeekendTourneySetup
+{
+	visibility: visible;
+}
+
+#WeekendTourneyPlayStatus
+{
+	vertical-align: bottom;
+	horizontal-align: right;
+	text-align: center;
+
+	width: 330px;
+	margin-bottom: 70px;
+	margin-right: 58px;
+	visibility: collapse;
+}
+
+.WeekendTourneyPageVisible #WeekendTourneyPlayStatus
+{
+	visibility: visible;
+}
+
 .PlayButton
 {
 	width: 330px;
@@ -233,12 +259,12 @@ DOTAPlay.ReconnectInProgress .ReconnectSpinner
 	vertical-align: center;
 }
 
-.FindMsgInFlight .FindMatchSpinner
+.FindMsgInFlight .FindMatchSpinner, .WeekendTourneyParticipationMsgInFlight .FindMatchSpinner
 {
 	visibility: visible;
 }
 
-.FindMsgInFlight .PlayButton Label
+.FindMsgInFlight .PlayButton Label, .WeekendTourneyParticipationMsgInFlight .PlayButton Label
 {
 	visibility: collapse;
 }
@@ -293,7 +319,7 @@ DOTAPlay.ReconnectInProgress .ReconnectSpinner
 }
 
 
-DOTAPlay.SlideOutVisible #PlayButton:disabled Label
+#PlayButton:disabled Label
 {
 	wash-color: #aaaaaa;
 }
@@ -782,6 +808,12 @@ DOTAPlay.LobbySelectorVisible #PlaySlideOut
 	margin-left: 16px;
 }
 
+DOTAPlay.WeekendTourneySetupVisible #PlaySlideOut
+{
+	transform: translatex(44px);
+	margin-left: 16px;
+}
+
 DOTAPlay.SlideOutVisible.LobbyVisible #PlaySlideOut
 {
 	transform: translatex(44px);
@@ -889,6 +921,27 @@ DOTAPlay.LobbyVisible #LobbySelectorContent
 	opacity: 0.0;
 }
 
+#WeekendTourneySetup
+{
+	background-color: gradient( linear, 100% 0%, 100% 100%, from( #111111 ), color-stop( 0.01, #202327 ), color-stop( 0.2, #141619 ), to( #000000 ) );
+	box-shadow: black -4px -4px 8px 8px;
+	height: 100%;
+	width: 720px;
+	opacity: 0.0;
+	padding-top: 16px;
+	margin-right: 46px;
+	padding-right: 40px;
+	horizontal-align: right;
+	transition-property: opacity;
+	transition-duration: 0.4s;
+	transition-timing-function: ease-in-out;
+}
+
+DOTAPlay.WeekendTourneySetupVisible #WeekendTourneySetup
+{
+	opacity: 1.0;
+}
+
 #PlaySlideOutContent
 {
 	width: 330px;
@@ -922,7 +975,8 @@ DOTAPlay.LobbyVisible #LobbySelectorContent
 	margin-left: 240px;
 }
 
-DOTAPlay.LobbySelectorVisible #PlaySlideOutContent
+DOTAPlay.LobbySelectorVisible #PlaySlideOutContent,
+DOTAPlay.WeekendTourneySetupVisible #PlaySlideOutContent
 {
 	opacity: 0.0;
 	//transform: translateX(430px);
@@ -1491,6 +1545,11 @@ DOTAPlay.SectionVisible_Normal #NormalSectionContent
 	tooltip-body-position: 0% 50%;
 }
 
+ToggleButton.GameModeCheckBox:disabled Label
+{
+	color: black;
+}
+
 
 #RankedGameModes
 {
@@ -1563,7 +1622,7 @@ DOTAPlay.RankedMode #UnrankedGameModes
 {
 	width: 100%;
 	flow-children: none;
-	margin-bottom: 28px;
+	margin-bottom: 0px;
 }
 
 #RegionLanguageSection Label
@@ -1658,13 +1717,14 @@ DOTAPlay.RankedMode #UnrankedGameModes
 	transform: scaleX(-1) translateX( 0px )  translateY( 0px );
 }
 
-
 .LobbyButton
 {
 	margin-bottom: 4px;
 	width: 100%;
+	height: fit-children;
 
-	height: 50px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 	background-color: sectionbg_inactive;
 	
 	margin-bottom: 8px;
@@ -1675,6 +1735,35 @@ DOTAPlay.RankedMode #UnrankedGameModes
 	transition-timing-function: ease-in-out;
 }
 
+#WeekendTourneyButton
+{
+	flow-children: down;
+	visibility: collapse; /* Not finished yet */
+}
+.MainBranch #WeekendTourneyButton
+{
+	visibility: visible; /* Show work in progress in main branch */
+}
+
+#WeekendTourneyStatus
+{
+	width: 100%;
+
+	background-color: sectionbg_inactive;
+	
+	margin-bottom: 8px;
+	
+	transition-property: wash-color;
+	transition-delay: 0.0s;
+	transition-duration: 0.25s;
+	transition-timing-function: ease-in-out;
+	visibility: collapse;
+}
+
+#WeekendTourneyStatus.StateNowOpen, #WeekendTourneyStatus.StateInTourney, #WeekendTourneyStatus.StateStartingSoon
+{
+	visibility: visible;
+}
 
 #PrivateLobbyButton
 {
@@ -1823,17 +1912,13 @@ DOTAPlay.RankedMode #UnrankedGameModes
 	visibility: collapse;
 }
 
-DOTAPlay.MatchingRestriction #PlaySlideOut
-{
-	background-color: gradient( linear, 100% 0%, 100% 100%, from( #111111 ), color-stop( 0.01, #202327 ), color-stop( 0.2, #141619 ), to( #240000 ) );
-}
 
 #LowPriGlow
 {
 	vertical-align: bottom;
 	height: 50%;
-	width: 760px;
-	background-color: gradient( radial, 11% 80%, 0% 15%, 50% 50%, from( #88000055 ), to( #00000000 ) );    
+	width: 100%;
+	background-color: gradient( radial, 50% 90%, 0% 0%, 50% 50%, from( #88000055 ), to( #00000000 ) );    
 	opacity: 0;
 
 	transition-property: opacity;

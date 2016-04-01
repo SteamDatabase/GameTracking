@@ -1116,5 +1116,24 @@
 	"colorblind_mode_changed"
 	{
 	}
+
+	"dota_report_submitted"
+	{
+		"result"		"int"
+		"report_flags"	"int"
+		"message"		"string"
+	}
+
+	"client_reload_game_keyvalues"
+	{
+	}
+
+	"dota_hero_inventory_item_change"
+	{
+		"player_id"		"int"
+		"hero_entindex"	"int"
+		"item_entindex"	"int"
+		"removed"		"bool"
+	}
 }
 
