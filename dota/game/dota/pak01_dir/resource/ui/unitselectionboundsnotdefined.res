@@ -30,6 +30,6 @@
 		"scaleImage"		"1"
 		"visible"			"1"
 		"horizontal"		"1"
-		"image"				"materials/vgui\hud\hud_selection_box_not_defined.vmat"
+		"image"				"materials/vgui/hud/hud_selection_box_not_defined.vmat"
 	}
 }

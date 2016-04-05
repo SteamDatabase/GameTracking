@@ -29,7 +29,7 @@
 		"enabled"		"1"
 		"scaleImage"		"1"
 		"visible"		"1"
-		"image"			"materials/vgui\hud\hud_healthbar_tower_bg.vmat"
+		"image"			"materials/vgui/hud/hud_healthbar_tower_bg.vmat"
 		"horizontal"		"1"
 		"color"			"0 0 0 255"
 	}
@@ -46,8 +46,8 @@
 		"enabled"		"0"
 		"scaleImage"		"1"
 		"visible"		"0"
-		"image"			"materials/vgui\hud\hud_healthbar_towerempty_team.vmat"
-		"image_enemy"		"materials/vgui\hud\hud_healthbar_towerempty_enemy.vmat"
+		"image"			"materials/vgui/hud/hud_healthbar_towerempty_team.vmat"
+		"image_enemy"		"materials/vgui/hud/hud_healthbar_towerempty_enemy.vmat"
 	}
 
 
@@ -64,10 +64,10 @@
 		"scaleImage"		"1"
 		"visible"		"1"
 		"horizontal"		"1"
-		"image"				"materials/vgui\hud\hud_healthbar_towerfull_team.vmat"
-		"background_image"		"materials/vgui\hud\hud_healthbar_towerempty_team.vmat" 
-		"image_enemy"			"materials/vgui\hud\hud_healthbar_towerfull_enemy.vmat"
-		"background_image_enemy"	"materials/vgui\hud\hud_healthbar_towerempty_enemy.vmat" 
+		"image"				"materials/vgui/hud/hud_healthbar_towerfull_team.vmat"
+		"background_image"		"materials/vgui/hud/hud_healthbar_towerempty_team.vmat" 
+		"image_enemy"			"materials/vgui/hud/hud_healthbar_towerfull_enemy.vmat"
+		"background_image_enemy"	"materials/vgui/hud/hud_healthbar_towerempty_enemy.vmat" 
 		"progressbar_min"	"0.01"
 		"progressbar_max"	"0.99"
 	}

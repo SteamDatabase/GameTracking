@@ -50,7 +50,7 @@
 		"enabled"		"1"
 		"scaleImage"		"1"
 		"visible"		"1"
-		"image"			"materials/vgui\hud\hud_healthbar_creeps_bg.vmat"
+		"image"			"materials/vgui/hud/hud_healthbar_creeps_bg.vmat"
 		"horizontal"		"1"
 	}
 
@@ -66,8 +66,8 @@
 		"enabled"		"1"
 		"scaleImage"	"1"
 		"visible"		"1"
-		"image"				"materials/vgui\hud\hud_healthbar_creepempty_team.vmat"
-		"image_enemy"		"materials/vgui\hud\hud_healthbar_creepempty_enemy.vmat"
+		"image"				"materials/vgui/hud/hud_healthbar_creepempty_team.vmat"
+		"image_enemy"		"materials/vgui/hud/hud_healthbar_creepempty_enemy.vmat"
 	}
 
 
@@ -84,8 +84,8 @@
 		"scaleImage"	"1"
 		"visible"		"1"
 		"horizontal"	"1"
-		"image"						"materials/vgui\hud\hud_healthbar_creepfull_team.vmat"
-		"image_enemy"				"materials/vgui\hud\hud_healthbar_creepfull_enemy.vmat"
+		"image"						"materials/vgui/hud/hud_healthbar_creepfull_team.vmat"
+		"image_enemy"				"materials/vgui/hud/hud_healthbar_creepfull_enemy.vmat"
 		"progressbar_min"	"0.0703125"
 		"progressbar_max"	"0.96"
 	}
@@ -103,8 +103,8 @@
 		"scaleImage"		"1"
 		"visible"		"0"
 		"horizontal"		"1"
-		"image"			"materials/vgui\hud\hud_healthbar_manafull_team.vmat"
-		"image_enemy"		"materials/vgui\hud\hud_healthbar_manafull_enemy.vmat"
+		"image"			"materials/vgui/hud/hud_healthbar_manafull_team.vmat"
+		"image_enemy"		"materials/vgui/hud/hud_healthbar_manafull_enemy.vmat"
 		"progressbar_min"	"0.07"
 		"progressbar_max"	"0.9375"
 	}
@@ -122,8 +122,8 @@
 		"enabled"		"1"
 		"scaleImage"		"1"
 		"visible"		"1"
-		"image"				"materials/vgui\hud\hud_timer_empty.vmat"
-		"background_image"		"materials/vgui\hud\hud_timer_full.vmat" 
+		"image"				"materials/vgui/hud/hud_timer_empty.vmat"
+		"background_image"		"materials/vgui/hud/hud_timer_full.vmat" 
 		"progressbar_min"	".98"
 		"progressbar_max"	"0"
 	}

@@ -32,7 +32,7 @@
 		"enabled"		"1"
 		"scaleImage"		"1"
 		"visible"		"1"
-		"image"			"materials/vgui\hud\hud_healthbar_bg_self.vmat"
+		"image"			"materials/vgui/hud/hud_healthbar_bg_self.vmat"
 	}
 
 	"UnitHealthBarEmptyBackground"
@@ -47,7 +47,7 @@
 		"enabled"		"1"
 		"scaleImage"		"1"
 		"visible"		"1"
-		"image"			"materials/vgui\hud\hud_healthbar_empty_self.vmat"
+		"image"			"materials/vgui/hud/hud_healthbar_empty_self.vmat"
 	}
 
 	"UnitHealthBar"
@@ -63,7 +63,7 @@
 		"scaleImage"		"1"
 		"visible"		"1"
 		"horizontal"		"1"
-		"image"			"materials/vgui\hud\hud_healthbar_healthfull_self.vmat"
+		"image"			"materials/vgui/hud/hud_healthbar_healthfull_self.vmat"
 		"progressbar_min"	"0.024"
 		"progressbar_max"	"0.973"
 	}
@@ -81,7 +81,7 @@
 		"scaleImage"		"1"
 		"visible"		"1"
 		"horizontal"		"1"
-		"image"			"materials/vgui\hud\hud_healthbar_manafull_self.vmat"
+		"image"			"materials/vgui/hud/hud_healthbar_manafull_self.vmat"
 		"progressbar_min"	"0.024"
 		"progressbar_max"	"0.973"
 	}
@@ -98,8 +98,8 @@
 		"enabled"		"1"
 		"scaleImage"		"1"
 		"visible"		"1"
-		"image"				"materials/vgui\hud\hud_timer_empty.vmat"
-		"background_image"		"materials/vgui\hud\hud_timer_full.vmat" 
+		"image"				"materials/vgui/hud/hud_timer_empty.vmat"
+		"background_image"		"materials/vgui/hud/hud_timer_full.vmat" 
 		"progressbar_min"	".98"
 		"progressbar_max"	"0"
 	}

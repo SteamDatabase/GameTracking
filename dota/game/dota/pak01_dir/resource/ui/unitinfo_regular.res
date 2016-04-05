@@ -40,8 +40,8 @@
 		"enabled"		"1"
 		"scaleImage"		"1"
 		"visible"		"1"
-		"image"			"materials/vgui\hud\hud_healthbar_creepempty_team.vmat"
-		"background_image"	"materials/vgui\hud\hud_healthbar_creepfull_team.vmat"
+		"image"			"materials/vgui/hud/hud_healthbar_creepempty_team.vmat"
+		"background_image"	"materials/vgui/hud/hud_healthbar_creepfull_team.vmat"
 		"fgColor_override" 	"0 0 0 0"
 		"bgcolor_override"	"0 0 0 0"
 	}

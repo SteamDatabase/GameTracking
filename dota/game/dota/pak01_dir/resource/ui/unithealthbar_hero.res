@@ -32,8 +32,8 @@
 		"enabled"		"1"
 		"scaleImage"		"1"
 		"visible"		"1"
-		"image"			"materials/vgui\hud\hud_healthbar_bg_team.vmat"
-		"image_enemy"		"materials/vgui\hud\hud_healthbar_bg_enemy.vmat"
+		"image"			"materials/vgui/hud/hud_healthbar_bg_team.vmat"
+		"image_enemy"		"materials/vgui/hud/hud_healthbar_bg_enemy.vmat"
 	}
 
 	"UnitHealthBarEmptyBackground"
@@ -48,8 +48,8 @@
 		"enabled"		"1"
 		"scaleImage"		"1"
 		"visible"		"1"
-		"image"			"materials/vgui\hud\hud_healthbar_empty_team.vmat"
-		"image_enemy"		"materials/vgui\hud\hud_healthbar_empty_enemy.vmat"
+		"image"			"materials/vgui/hud/hud_healthbar_empty_team.vmat"
+		"image_enemy"		"materials/vgui/hud/hud_healthbar_empty_enemy.vmat"
 	}
 
 	"UnitHealthBar"
@@ -65,8 +65,8 @@
 		"scaleImage"		"1"
 		"visible"		"1"
 		"horizontal"		"1"
-		"image"			"materials/vgui\hud\hud_healthbar_healthfull_team.vmat"
-		"image_enemy"		"materials/vgui\hud\hud_healthbar_healthfull_enemy.vmat"
+		"image"			"materials/vgui/hud/hud_healthbar_healthfull_team.vmat"
+		"image_enemy"		"materials/vgui/hud/hud_healthbar_healthfull_enemy.vmat"
 		"progressbar_min"	"0.039"
 		"progressbar_max"	"0.961"
 	}
@@ -84,8 +84,8 @@
 		"scaleImage"		"1"
 		"visible"		"1"
 		"horizontal"		"1"
-		"image"			"materials/vgui\hud\hud_healthbar_manafull_team.vmat"
-		"image_enemy"	"materials/vgui\hud\hud_healthbar_manafull_enemy.vmat"
+		"image"			"materials/vgui/hud/hud_healthbar_manafull_team.vmat"
+		"image_enemy"	"materials/vgui/hud/hud_healthbar_manafull_enemy.vmat"
 		"progressbar_min"	"0.039"	
 		"progressbar_max"	"0.961"
 	}
@@ -102,8 +102,8 @@
 		"enabled"		"1"
 		"scaleImage"		"1"
 		"visible"		"1"
-		"image"				"materials/vgui\hud\hud_timer_empty.vmat"
-		"background_image"		"materials/vgui\hud\hud_timer_full.vmat" 
+		"image"				"materials/vgui/hud/hud_timer_empty.vmat"
+		"background_image"		"materials/vgui/hud/hud_timer_full.vmat" 
 		"progressbar_min"	".98"
 		"progressbar_max"	"0"
 	}
