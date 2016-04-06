@@ -59,7 +59,7 @@ ProcessDepot ()
 		#then
 			mkdir -p "Strings/$1"
 			
-			strings "$file" -n 5 | grep "^[a-zA-Z0-9\.\_\-]*$" | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -t_ | sort -u > "Strings/$1/$baseFile.txt"
+			strings "$file" -n 5 | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -t_ | sort -u > "Strings/$1/$baseFile.txt"
 		#fi
 	done <   <(find "$1/" -type f -name "*$2" -print0)
 }
