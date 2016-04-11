@@ -1507,7 +1507,7 @@
 	"competitive_stats_update"
 	{
 		"index"		"short"		// entindex of the player
-		"rating"	"short"		// skillrating
+		"rating"	"long"		// skillrating
 		"delta"		"short"		// skillrating adjustment
 		"kills_rank"	"byte"	// num std deviations above
 		"score_rank"	"byte"	//
