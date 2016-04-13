@@ -78,6 +78,7 @@
 	{
 		"teamonly"	"bool"		// true if team only chat
 		"userid" 	"short"		// chatting player 
+		"playerid"	"short"		// chatting player ID 
 		"text" 	 	"string"	// chat text
 	}
 	
