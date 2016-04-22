@@ -91,6 +91,7 @@
 		"reason"	"short"	// see networkdisconnect enum protobuf
 		"name"		"string"	// player name
 		"networkid"	"string"	// player network (i.e steam) id
+		"PlayerID"	"short"
 	}
 
 	"player_activate"
@@ -102,6 +103,7 @@
 	{
 		"userid"	"short"		// user ID on server
 		"index"		"byte"		// player slot (entity index-1)
+		"PlayerID"	"short"
 	}
 
 	"player_say"
