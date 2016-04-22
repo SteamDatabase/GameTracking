@@ -94,9 +94,10 @@
  SteamAPI_RestartAppIfNecessary
  SteamAPI_UnregisterCallResult
  SteamAPI_UnregisterCallback
- SteamClient
+ SteamGameServerInternal_CreateInterface
  SteamGameServer_GetHSteamPipe
  SteamGameServer_GetHSteamUser
+ SteamInternal_CreateInterface
  T CreateInterface
  T _fini
  T _init
@@ -512,6 +513,8 @@
  b (anonymous namespace)::CMsgGCCStrike15_v2_ClientSubmitSurveyVote_reflection_
  b (anonymous namespace)::CMsgGCCStrike15_v2_ClientToGCChat_descriptor_
  b (anonymous namespace)::CMsgGCCStrike15_v2_ClientToGCChat_reflection_
+ b (anonymous namespace)::CMsgGCCStrike15_v2_ClientToGCRequestElevate_descriptor_
+ b (anonymous namespace)::CMsgGCCStrike15_v2_ClientToGCRequestElevate_reflection_
  b (anonymous namespace)::CMsgGCCStrike15_v2_ClientVarValueNotificationInfo_descriptor_
  b (anonymous namespace)::CMsgGCCStrike15_v2_ClientVarValueNotificationInfo_reflection_
  b (anonymous namespace)::CMsgGCCStrike15_v2_Fantasy_FantasySlot_descriptor_
@@ -648,6 +651,8 @@
  b (anonymous namespace)::CMsgGCGetPersonaNames_reflection_
  b (anonymous namespace)::CMsgGCGiftedItems_descriptor_
  b (anonymous namespace)::CMsgGCGiftedItems_reflection_
+ b (anonymous namespace)::CMsgGCHAccountPhoneNumberChange_descriptor_
+ b (anonymous namespace)::CMsgGCHAccountPhoneNumberChange_reflection_
  b (anonymous namespace)::CMsgGCHAccountVacStatusChange_descriptor_
  b (anonymous namespace)::CMsgGCHAccountVacStatusChange_reflection_
  b (anonymous namespace)::CMsgGCHUpdateSession_ExtraField_descriptor_
@@ -1609,6 +1614,9 @@
  b CCascadeLight::m_flEnvLightShadowPitch
  b CCascadeLight_DataDescInit::g_DataMapHolder
  b CChangeLevel_DataDescInit::g_DataMapHolder
+ b CChicken::GetCentroid() const::centroid
+ b CChicken::GetEyes() const::eyes
+ b CChicken::GetFeet() const::feet
  b CChicken_DataDescInit::g_DataMapHolder
  b CChoreoEvent::GetDescription()::description
  b CChoreoScene::s_bEditingDisabled
@@ -1992,6 +2000,7 @@
  b CMsgGCCStrike15_v2_ClientRequestWatchInfoFriends::default_instance_
  b CMsgGCCStrike15_v2_ClientSubmitSurveyVote::default_instance_
  b CMsgGCCStrike15_v2_ClientToGCChat::default_instance_
+ b CMsgGCCStrike15_v2_ClientToGCRequestElevate::default_instance_
  b CMsgGCCStrike15_v2_ClientVarValueNotificationInfo::default_instance_
  b CMsgGCCStrike15_v2_Fantasy::default_instance_
  b CMsgGCCStrike15_v2_Fantasy_FantasySlot::default_instance_
@@ -2060,6 +2069,7 @@
  b CMsgGCGetPersonaNames_Response::default_instance_
  b CMsgGCGetPersonaNames_Response_PersonaName::default_instance_
  b CMsgGCGiftedItems::default_instance_
+ b CMsgGCHAccountPhoneNumberChange::default_instance_
  b CMsgGCHAccountVacStatusChange::default_instance_
  b CMsgGCHUpdateSession::default_instance_
  b CMsgGCHUpdateSession_ExtraField::default_instance_
@@ -5754,6 +5764,9 @@
  b guard variable for CCSWeaponInfo::IsFullAuto(CEconItemView const*, int, float) const::hAttribAlt
  b guard variable for CCSWeaponInfo::IsRevolver(CEconItemView const*, int, float) const::hAttrib
  b guard variable for CCSWeaponInfo::IsRevolver(CEconItemView const*, int, float) const::hAttribAlt
+ b guard variable for CChicken::GetCentroid() const::centroid
+ b guard variable for CChicken::GetEyes() const::eyes
+ b guard variable for CChicken::GetFeet() const::feet
  b guard variable for CCollisionProperty::CollisionToWorldTransform() const::s_matTemp
  b guard variable for CCommentarySystem::InitCommentary()::commentarySpawnedSemaphoreName
  b guard variable for CCommentarySystem::InitCommentary()::infoTargetStr
@@ -8381,6 +8394,7 @@
  b sv_allow_thirdperson
  b sv_allow_votes
  b sv_alltalk
+ b sv_armored_chickens
  b sv_arms_race_vote_to_restart_disallowed_after
  b sv_assassination_target_ratio
  b sv_auto_adjust_bot_difficulty
@@ -10644,7 +10658,6 @@
  g_dwClockSpeed
  g_nThreadID
  g_pMemAlloc
- g_pSteamClientGameServer
  g_pThreadPool
  getc@@GLIBC_2.0
  getcwd@@GLIBC_2.0
@@ -11298,6 +11311,7 @@
  r CMsgGCCStrike15_v2_ClientSubmitSurveyVote::kVoteFieldNumber
  r CMsgGCCStrike15_v2_ClientToGCChat::kMatchIdFieldNumber
  r CMsgGCCStrike15_v2_ClientToGCChat::kTextFieldNumber
+ r CMsgGCCStrike15_v2_ClientToGCRequestElevate::kStageFieldNumber
  r CMsgGCCStrike15_v2_ClientVarValueNotificationInfo::kChokedBlocksFieldNumber
  r CMsgGCCStrike15_v2_ClientVarValueNotificationInfo::kServerAddrFieldNumber
  r CMsgGCCStrike15_v2_ClientVarValueNotificationInfo::kServerPortFieldNumber
@@ -11566,6 +11580,11 @@
  r CMsgGCGiftedItems::kMaxGiftsPossibleFieldNumber
  r CMsgGCGiftedItems::kNumEligibleRecipientsFieldNumber
  r CMsgGCGiftedItems::kRecipientsAccountidsFieldNumber
+ r CMsgGCHAccountPhoneNumberChange::kAppidFieldNumber
+ r CMsgGCHAccountPhoneNumberChange::kIsIdentifyingFieldNumber
+ r CMsgGCHAccountPhoneNumberChange::kIsVerifiedFieldNumber
+ r CMsgGCHAccountPhoneNumberChange::kPhoneIdFieldNumber
+ r CMsgGCHAccountPhoneNumberChange::kSteamidFieldNumber
  r CMsgGCHAccountVacStatusChange::kAppIdFieldNumber
  r CMsgGCHAccountVacStatusChange::kIsBannedFutureFieldNumber
  r CMsgGCHAccountVacStatusChange::kIsBannedNowFieldNumber
@@ -11908,6 +11927,8 @@
  r CSOEconGameAccountClient::kAdditionalBackpackSlotsFieldNumber
  r CSOEconGameAccountClient::kBonusXpTimestampRefreshFieldNumber
  r CSOEconGameAccountClient::kBonusXpUsedflagsFieldNumber
+ r CSOEconGameAccountClient::kElevatedStateFieldNumber
+ r CSOEconGameAccountClient::kElevatedTimestampFieldNumber
  r CSOEconItem::kAccountIdFieldNumber
  r CSOEconItem::kAttributeFieldNumber
  r CSOEconItem::kCustomDescFieldNumber
@@ -11986,6 +12007,7 @@
  r CSOPartyInvite::kSenderIdFieldNumber
  r CSOPartyInvite::kSenderNameFieldNumber
  r CSOPersonaDataPublic::kCommendationFieldNumber
+ r CSOPersonaDataPublic::kElevatedStateFieldNumber
  r CSOPersonaDataPublic::kPlayerLevelFieldNumber
  r CSOQuestProgress::kBonusPointsFieldNumber
  r CSOQuestProgress::kPointsRemainingFieldNumber
@@ -12165,14 +12187,14 @@
  r CSWTCH.25
  r CSWTCH.27
  r CSWTCH.36
- r CSWTCH.3624
- r CSWTCH.3709
+ r CSWTCH.3635
+ r CSWTCH.3720
  r CSWTCH.390
  r CSWTCH.40
  r CSWTCH.42
  r CSWTCH.44
  r CSWTCH.46
- r CSWTCH.4859
+ r CSWTCH.4871
  r CSWTCH.502
  r CSWTCH.613
  r CSWTCH.731
@@ -12609,6 +12631,7 @@
  r protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()::CMsgGCCStrike15_v2_ClientRequestWatchInfoFriends_offsets_
  r protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()::CMsgGCCStrike15_v2_ClientSubmitSurveyVote_offsets_
  r protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()::CMsgGCCStrike15_v2_ClientToGCChat_offsets_
+ r protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()::CMsgGCCStrike15_v2_ClientToGCRequestElevate_offsets_
  r protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()::CMsgGCCStrike15_v2_ClientVarValueNotificationInfo_offsets_
  r protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()::CMsgGCCStrike15_v2_Fantasy_FantasySlot_offsets_
  r protobuf_AssignDesc_cstrike15_5fgcmessages_2eproto()::CMsgGCCStrike15_v2_Fantasy_FantasyTeam_offsets_
@@ -12800,6 +12823,7 @@
  r protobuf_AssignDesc_gcsdk_5fgcmessages_2eproto()::CWorkshop_SetItemPaymentRules_Request_WorkshopItemPaymentRule_offsets_
  r protobuf_AssignDesc_gcsdk_5fgcmessages_2eproto()::CWorkshop_SetItemPaymentRules_Request_offsets_
  r protobuf_AssignDesc_gcsdk_5fgcmessages_2eproto()::CWorkshop_SetItemPaymentRules_Response_offsets_
+ r protobuf_AssignDesc_gcsystemmsgs_2eproto()::CMsgGCHAccountPhoneNumberChange_offsets_
  r protobuf_AssignDesc_gcsystemmsgs_2eproto()::CMsgGCHVacVerificationChange_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CCLCMsg_BaselineAck_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CCLCMsg_ClientInfo_offsets_
@@ -14411,6 +14435,7 @@
  r typeinfo for CMsgGCCStrike15_v2_ClientRequestWatchInfoFriends
  r typeinfo for CMsgGCCStrike15_v2_ClientSubmitSurveyVote
  r typeinfo for CMsgGCCStrike15_v2_ClientToGCChat
+ r typeinfo for CMsgGCCStrike15_v2_ClientToGCRequestElevate
  r typeinfo for CMsgGCCStrike15_v2_ClientVarValueNotificationInfo
  r typeinfo for CMsgGCCStrike15_v2_Fantasy
  r typeinfo for CMsgGCCStrike15_v2_Fantasy_FantasySlot
@@ -14479,6 +14504,7 @@
  r typeinfo for CMsgGCGetPersonaNames_Response
  r typeinfo for CMsgGCGetPersonaNames_Response_PersonaName
  r typeinfo for CMsgGCGiftedItems
+ r typeinfo for CMsgGCHAccountPhoneNumberChange
  r typeinfo for CMsgGCHAccountVacStatusChange
  r typeinfo for CMsgGCHUpdateSession
  r typeinfo for CMsgGCHUpdateSession_ExtraField
@@ -16972,6 +16998,7 @@
  r typeinfo name for CMsgGCCStrike15_v2_ClientRequestWatchInfoFriends
  r typeinfo name for CMsgGCCStrike15_v2_ClientSubmitSurveyVote
  r typeinfo name for CMsgGCCStrike15_v2_ClientToGCChat
+ r typeinfo name for CMsgGCCStrike15_v2_ClientToGCRequestElevate
  r typeinfo name for CMsgGCCStrike15_v2_ClientVarValueNotificationInfo
  r typeinfo name for CMsgGCCStrike15_v2_Fantasy
  r typeinfo name for CMsgGCCStrike15_v2_Fantasy_FantasySlot
@@ -17040,6 +17067,7 @@
  r typeinfo name for CMsgGCGetPersonaNames_Response
  r typeinfo name for CMsgGCGetPersonaNames_Response_PersonaName
  r typeinfo name for CMsgGCGiftedItems
+ r typeinfo name for CMsgGCHAccountPhoneNumberChange
  r typeinfo name for CMsgGCHAccountVacStatusChange
  r typeinfo name for CMsgGCHUpdateSession
  r typeinfo name for CMsgGCHUpdateSession_ExtraField
@@ -19530,6 +19558,7 @@
  r vtable for CMsgGCCStrike15_v2_ClientRequestWatchInfoFriends
  r vtable for CMsgGCCStrike15_v2_ClientSubmitSurveyVote
  r vtable for CMsgGCCStrike15_v2_ClientToGCChat
+ r vtable for CMsgGCCStrike15_v2_ClientToGCRequestElevate
  r vtable for CMsgGCCStrike15_v2_ClientVarValueNotificationInfo
  r vtable for CMsgGCCStrike15_v2_Fantasy
  r vtable for CMsgGCCStrike15_v2_Fantasy_FantasySlot
@@ -19598,6 +19627,7 @@
  r vtable for CMsgGCGetPersonaNames_Response
  r vtable for CMsgGCGetPersonaNames_Response_PersonaName
  r vtable for CMsgGCGiftedItems
+ r vtable for CMsgGCHAccountPhoneNumberChange
  r vtable for CMsgGCHAccountVacStatusChange
  r vtable for CMsgGCHUpdateSession
  r vtable for CMsgGCHUpdateSession_ExtraField
@@ -30532,21 +30562,51 @@
  t CChicken::CChicken()
  t CChicken::ChickenThink()
  t CChicken::ChickenTouch(CBaseEntity*)
+ t CChicken::ChickenUse(CBaseEntity*, CBaseEntity*, USE_TYPE, float)
+ t CChicken::Crouch()
  t CChicken::Event_Killed(CTakeDamageInfo const&)
+ t CChicken::FaceTowards(Vector const&, float)
  t CChicken::FireGameEvent(IGameEvent*)
  t CChicken::Flee(CBaseEntity*, float)
  t CChicken::Fly()
+ t CChicken::Follow(CCSPlayer*)
  t CChicken::GetBaseMap()
+ t CChicken::GetCentroid() const
  t CChicken::GetDataDescMap()
+ t CChicken::GetEyes() const
+ t CChicken::GetFeet() const
+ t CChicken::GetLastKnownArea() const
+ t CChicken::GetLeader() const
+ t CChicken::GetMoveAngle() const
  t CChicken::GetServerClass()
+ t CChicken::GetSimpleGroundHeightWithFloor(Vector const&, float*, Vector*)
  t CChicken::Idle()
  t CChicken::IsAlive()
+ t CChicken::IsCrouching() const
+ t CChicken::IsFollowing(CBaseEntity const*)
+ t CChicken::IsFollowingSomeone()
+ t CChicken::IsJumping() const
+ t CChicken::IsOnGround() const
+ t CChicken::IsRunning() const
+ t CChicken::IsUsingLadder() const
+ t CChicken::Jump()
  t CChicken::Land()
+ t CChicken::ObjectCaps()
+ t CChicken::OnMoveToFailure(Vector const&, CImprovLocomotor::MoveToFailureType)
+ t CChicken::OnMoveToSuccess(Vector const&)
  t CChicken::OnTakeDamage(CTakeDamageInfo const&)
  t CChicken::Precache()
  t CChicken::ResolveCollisions(Vector const&, float)
+ t CChicken::Run()
+ t CChicken::SetChickenStartFollowingPlayer(CCSPlayer*)
  t CChicken::Spawn()
+ t CChicken::StandUp()
+ t CChicken::StartLadder(CNavLadder const*, NavTraverseType, Vector const&, Vector const&)
+ t CChicken::TraceAttack(CTakeDamageInfo const&, Vector const&, CGameTrace*)
+ t CChicken::TrackPath(Vector const&, float)
+ t CChicken::TraverseLadder(CNavLadder const*, NavTraverseType, Vector const&, Vector const&, float)
  t CChicken::Update()
+ t CChicken::UpdateFollowing(float)
  t CChicken::Walk()
  t CChicken::YouForgotToImplementOrDeclareServerClass()
  t CChicken::~CChicken()
@@ -38725,6 +38785,25 @@
  t CMsgGCCStrike15_v2_ClientToGCChat::default_instance()
  t CMsgGCCStrike15_v2_ClientToGCChat::descriptor()
  t CMsgGCCStrike15_v2_ClientToGCChat::~CMsgGCCStrike15_v2_ClientToGCChat()
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::ByteSize() const
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::CMsgGCCStrike15_v2_ClientToGCRequestElevate()
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::CMsgGCCStrike15_v2_ClientToGCRequestElevate(CMsgGCCStrike15_v2_ClientToGCRequestElevate const&)
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::Clear()
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::CopyFrom(CMsgGCCStrike15_v2_ClientToGCRequestElevate const&)
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::GetCachedSize() const
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::GetMetadata() const
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::InitAsDefaultInstance()
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::IsInitialized() const
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::MergeFrom(CMsgGCCStrike15_v2_ClientToGCRequestElevate const&)
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::New() const
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::SerializeWithCachedSizesToArray(unsigned char*) const
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::SetCachedSize(int) const
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::SharedCtor()
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::SharedDtor()
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::Swap(CMsgGCCStrike15_v2_ClientToGCRequestElevate*)
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::default_instance()
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::descriptor()
+ t CMsgGCCStrike15_v2_ClientToGCRequestElevate::~CMsgGCCStrike15_v2_ClientToGCRequestElevate()
  t CMsgGCCStrike15_v2_ClientVarValueNotificationInfo::ByteSize() const
  t CMsgGCCStrike15_v2_ClientVarValueNotificationInfo::CMsgGCCStrike15_v2_ClientVarValueNotificationInfo()
  t CMsgGCCStrike15_v2_ClientVarValueNotificationInfo::CMsgGCCStrike15_v2_ClientVarValueNotificationInfo(CMsgGCCStrike15_v2_ClientVarValueNotificationInfo const&)
@@ -40017,6 +40096,25 @@
  t CMsgGCGiftedItems::default_instance()
  t CMsgGCGiftedItems::descriptor()
  t CMsgGCGiftedItems::~CMsgGCGiftedItems()
+ t CMsgGCHAccountPhoneNumberChange::ByteSize() const
+ t CMsgGCHAccountPhoneNumberChange::CMsgGCHAccountPhoneNumberChange()
+ t CMsgGCHAccountPhoneNumberChange::CMsgGCHAccountPhoneNumberChange(CMsgGCHAccountPhoneNumberChange const&)
+ t CMsgGCHAccountPhoneNumberChange::Clear()
+ t CMsgGCHAccountPhoneNumberChange::CopyFrom(CMsgGCHAccountPhoneNumberChange const&)
+ t CMsgGCHAccountPhoneNumberChange::GetCachedSize() const
+ t CMsgGCHAccountPhoneNumberChange::GetMetadata() const
+ t CMsgGCHAccountPhoneNumberChange::InitAsDefaultInstance()
+ t CMsgGCHAccountPhoneNumberChange::IsInitialized() const
+ t CMsgGCHAccountPhoneNumberChange::MergeFrom(CMsgGCHAccountPhoneNumberChange const&)
+ t CMsgGCHAccountPhoneNumberChange::New() const
+ t CMsgGCHAccountPhoneNumberChange::SerializeWithCachedSizesToArray(unsigned char*) const
+ t CMsgGCHAccountPhoneNumberChange::SetCachedSize(int) const
+ t CMsgGCHAccountPhoneNumberChange::SharedCtor()
+ t CMsgGCHAccountPhoneNumberChange::SharedDtor()
+ t CMsgGCHAccountPhoneNumberChange::Swap(CMsgGCHAccountPhoneNumberChange*)
+ t CMsgGCHAccountPhoneNumberChange::default_instance()
+ t CMsgGCHAccountPhoneNumberChange::descriptor()
+ t CMsgGCHAccountPhoneNumberChange::~CMsgGCHAccountPhoneNumberChange()
  t CMsgGCHAccountVacStatusChange::ByteSize() const
  t CMsgGCHAccountVacStatusChange::CMsgGCHAccountVacStatusChange()
  t CMsgGCHAccountVacStatusChange::CMsgGCHAccountVacStatusChange(CMsgGCHAccountVacStatusChange const&)
@@ -46942,8 +47040,6 @@
  t CStdStringSaveRestoreOps::Restore(SaveRestoreFieldInfo_t const&, IRestore*)
  t CStdStringSaveRestoreOps::Save(SaveRestoreFieldInfo_t const&, ISave*)
  t CSteam3Server::CSteam3Server()
- t CSteamAPIContext::Init()
- t CSteamGameServerAPIContext::Init()
  t CSteamID::BValidExternalSteamID() const
  t CSteamID::CSteamID(char const*, EUniverse)
  t CSteamID::Render() const
@@ -46981,7 +47077,7 @@
  t CSteamWorksGameStatsUploader::OnSteamSessionClosed(GameStatsSessionClosed_t*, bool)
  t CSteamWorksGameStatsUploader::OnSteamSessionIssued(GameStatsSessionIssued_t*, bool)
  t CSteamWorksGameStatsUploader::ParseKeyValuesAndSendStats(KeyValues*)
- t CSteamWorksGameStatsUploader::ParseKeyValuesAndSendStats(KeyValues*) [clone .part.41]
+ t CSteamWorksGameStatsUploader::ParseKeyValuesAndSendStats(KeyValues*) [clone .part.43]
  t CSteamWorksGameStatsUploader::RequestSessionID()
  t CSteamWorksGameStatsUploader::Reset()
  t CSteamWorksGameStatsUploader::ResetServerState()
@@ -49222,7 +49318,7 @@
  t CUtlMemory<inflictorstate_t, int>::~CUtlMemory()
  t CUtlMemory<int, int>::Grow(int)
  t CUtlMemory<int, int>::Grow(int) [clone .part.159]
- t CUtlMemory<int, int>::Grow(int) [clone .part.784]
+ t CUtlMemory<int, int>::Grow(int) [clone .part.785]
  t CUtlMemory<int, int>::Purge()
  t CUtlMemory<int, int>::~CUtlMemory()
  t CUtlMemory<item_list_entry_t, int>::Grow(int)
@@ -53872,7 +53968,7 @@
  t Helper_CleanupStringForSaveRoundDataInformation(char*)
  t Helper_DoesPlayerHaveAssassinateQuestForTeam(CCSPlayer const*, int)
  t Helper_ExtractIntegersFromValuesString(char const*, CCopyableUtlVector<unsigned int>&)
- t Helper_FilenameTokenReplace(char*, int, char const*, char const*) [clone .constprop.1315]
+ t Helper_FilenameTokenReplace(char*, int, char const*, char const*) [clone .constprop.1316]
  t Helper_FillServerReservationStateAndPlayers(CMsgGCCStrike15_v2_MatchmakingServerReservationResponse&)
  t Helper_GetIconKeyForItem(unsigned short, unsigned int, unsigned int)
  t Helper_GetNullWeaponInfo()
@@ -55970,6 +56066,7 @@
  t TimedEventMgr_LessFunc(CEventRegister* const&, CEventRegister* const&)
  t TimescaleChanged(IConVar*, char const*, float)
  t ToBaseActor(CBaseFlex*)
+ t ToCSPlayer(CBaseEntity*)
  t ToolsEnabled()
  t TouchFile(char const*)
  t TournamentEvent::ByteSize() const
@@ -59194,7 +59291,27 @@
  t non-virtual thunk to CCSPlayer::GetAttributeOwner()
  t non-virtual thunk to CCSPlayer::InventoryUpdated(CPlayerInventory*)
  t non-virtual thunk to CCSPlayer::ReapplyProvision()
+ t non-virtual thunk to CChicken::Crouch()
  t non-virtual thunk to CChicken::FireGameEvent(IGameEvent*)
+ t non-virtual thunk to CChicken::GetCentroid() const
+ t non-virtual thunk to CChicken::GetEyes() const
+ t non-virtual thunk to CChicken::GetFeet() const
+ t non-virtual thunk to CChicken::GetLastKnownArea() const
+ t non-virtual thunk to CChicken::GetMoveAngle() const
+ t non-virtual thunk to CChicken::GetSimpleGroundHeightWithFloor(Vector const&, float*, Vector*)
+ t non-virtual thunk to CChicken::IsCrouching() const
+ t non-virtual thunk to CChicken::IsJumping() const
+ t non-virtual thunk to CChicken::IsRunning() const
+ t non-virtual thunk to CChicken::IsUsingLadder() const
+ t non-virtual thunk to CChicken::Jump()
+ t non-virtual thunk to CChicken::OnMoveToFailure(Vector const&, CImprovLocomotor::MoveToFailureType)
+ t non-virtual thunk to CChicken::OnMoveToSuccess(Vector const&)
+ t non-virtual thunk to CChicken::Run()
+ t non-virtual thunk to CChicken::StandUp()
+ t non-virtual thunk to CChicken::StartLadder(CNavLadder const*, NavTraverseType, Vector const&, Vector const&)
+ t non-virtual thunk to CChicken::TrackPath(Vector const&, float)
+ t non-virtual thunk to CChicken::TraverseLadder(CNavLadder const*, NavTraverseType, Vector const&, Vector const&, float)
+ t non-virtual thunk to CChicken::Walk()
  t non-virtual thunk to CChicken::~CChicken()
  t non-virtual thunk to CCollisionEvent::AdditionalCollisionChecksThisTick(int)
  t non-virtual thunk to CCollisionEvent::ObjectSleep(IPhysicsObject*)
