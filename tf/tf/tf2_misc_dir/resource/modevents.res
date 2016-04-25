@@ -351,6 +351,7 @@
 		"player_3_points"	"short"
 		"killstreak_player_1"		"short"
 		"killstreak_player_1_count"	"short"
+		"game_over"		"byte"
 	}
 	"teamplay_teambalanced_player"
 	{
@@ -1772,6 +1773,17 @@
 	{}
 
 	"winpanel_show_scores"
+	{}
+
+	"top_streams_request_finished"
+	{}
+	
+	"show_win_panel"
+	{
+		"use_comp_pos"	"byte"
+	}
+
+	"competitive_state_changed"
 	{}
 }
 

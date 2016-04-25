@@ -12,35 +12,33 @@
 
 		"BlueScoreBG"
 		{
-			"ControlName"		"ImagePanel"
+			"ControlName"		"EditablePanel"
 			"fieldName"		"BlueScoreBG"
-			"xpos"			"0"
-			"ypos"			"10"
-			"wide"			"240"
-			"tall"			"50"
+			"xpos"			"50"
+			"ypos"			"15"
+			"wide"			"135"
+			"tall"			"40"
 			"autoResize"	"0"
 			"pinCorner"		"0"
 			"visible"		"1"
 			"enabled"		"1"
-			"image"			"../hud/winpanel_blue_bg_team"
-			"image_lodef"	"../hud/winpanel_blue_bg_team_lodef"
-			"scaleImage"		"1"
+			
+			"border"		"TFFatLineBorderBlueBGMoreOpaque"
 		}
 		"RedScoreBG"
 		{
-			"ControlName"		"ImagePanel"
+			"ControlName"	"EditablePanel"
 			"fieldName"		"RedScoreBG"
-			"xpos"			"140"
-			"ypos"			"10"
-			"wide"			"240"
-			"tall"			"50"
+			"xpos"			"197"
+			"ypos"			"15"
+			"wide"			"135"
+			"tall"			"40"
 			"autoResize"	"0"
 			"pinCorner"		"0"
 			"visible"		"1"
 			"enabled"		"1"
-			"image"			"../hud/winpanel_red_bg_team"
-			"image_lodef"	"../hud/winpanel_red_bg_team_lodef"
-			"scaleImage"		"1"
+
+			"border"		"TFFatLineBorderRedBGMoreOpaque"
 		}
 		"BlueTeamLabel"
 		{
@@ -51,6 +49,7 @@
 			"textAlignment"		"west"
 			"xpos"			"56"
 			"ypos"			"25"
+			"zpos"			"10"
 			"wide"			"100"
 			"tall"			"20"
 			"tall_lodef"	"24"
@@ -59,6 +58,7 @@
 			"pinCorner"		"0"
 			"visible"		"1"
 			"enabled"		"1"
+			"fgcolor"		"TanLight"
 		}							
 		"BlueTeamScore"
 		{
@@ -136,6 +136,7 @@
 			"textAlignment"		"east"
 			"xpos"			"224"
 			"ypos"			"25"
+			"zpos"			"10"
 			"wide"			"100"
 			"tall"			"20"
 			"tall_lodef"	"24"
@@ -144,6 +145,7 @@
 			"pinCorner"		"0"
 			"visible"		"1"
 			"enabled"		"1"
+			"fgcolor"		"TanLight"
 		}							
 		"RedTeamScore"
 		{
@@ -213,18 +215,21 @@
 			"bgcolor_override"	"117 107 94 255"
 		}
 	}
-	"WinPanelBG"
+
+	"WinPanelBGBorder"
 	{
-		"ControlName"		"ImagePanel"
-		"fieldName"		"WinPanelBG"
-		"xpos"			"-99"
-		"ypos"			"45"
+		"ControlName"		"EditablePanel"
+		"fieldName"		"WinPanelBGBorder"
+		"xpos"			"cs-0.5"
+		"ypos"			"70"
 		"zpos"			"0"
-		"wide"			"496"
-		"tall"			"226"
+		"wide"			"p0.94"
+		"tall"			"185"
 		"visible"		"1"
 		"enabled"		"1"
 		"scaleImage"		"1"	
+		"border"		"TFFatLineBorderBlueBG"
+		"proportionaltoparent"	"1"
 	}
 	"WinningTeamLabel"
 	{	

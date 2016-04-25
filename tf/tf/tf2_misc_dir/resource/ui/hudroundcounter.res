@@ -19,7 +19,7 @@
 
 		"RoundIndicatorPanel_kv"
 		{
-			"ypos"				"3"
+			"ypos"				"4"
 			"wide"				"6"
 			"tall"				"6"
 			"zpos"				"7"
@@ -29,7 +29,7 @@
 
 		"RoundWinPanelRed_kv"
 		{
-			"ypos"				"-3"
+			"ypos"				"-2"
 			"wide"				"17"
 			"tall"				"17"
 			"zpos"				"8"
@@ -39,7 +39,7 @@
 
 		"RoundWinPanelBlue_kv"
 		{
-			"ypos"				"-3"
+			"ypos"				"-2"
 			"wide"				"17"
 			"tall"				"17"
 			"zpos"				"8"
@@ -55,8 +55,8 @@
 		"xpos"			"cs-0.5"
 		"ypos"			"0"
 		"zpos"			"5"
-		"wide"			"115"
-		"tall"			"30"
+		"wide"			"o3.833"
+		"tall"			"35"
 
 		"backgroundtype"		"2"
 		"proportionaltoparent"	"1"
