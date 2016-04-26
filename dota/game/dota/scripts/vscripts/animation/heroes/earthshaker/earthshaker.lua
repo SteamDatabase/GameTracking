@@ -74,3 +74,18 @@ model:CreateSequence(
 		}
 	}
 )
+
+model:CreateSequence(
+	{
+		name = "run_anim",
+		sequences = {
+			{ "@run" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 }
+		}
+	}
+)

@@ -704,6 +704,21 @@
 		"userid"		"short"
 	}
 
+	"dota_ad_nominated_ban"
+	{
+		"heroid"		"short"
+	}
+
+	"dota_ad_ban"
+	{
+		"heroid"		"short"
+	}
+
+	"dota_ad_ban_count"
+	{
+		"count"			"short"
+	}
+
 	"dota_favorite_heroes_updated"
 	{
 	}
