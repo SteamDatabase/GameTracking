@@ -501,7 +501,6 @@ $fffff.
 ,CVRMsg_TrackedCamera_SetUndistortionResponse
 ,CVRMsg_TrackedCamera_StopVideoStreamResponse
 ,^_[]
-,ffff.
 ,u'H9
 -CVRMsg_TrackedCamera_PauseVideoStreamResponse
 -CVRMsg_TrackedCamera_StartVideoStreamResponse
@@ -887,7 +886,6 @@ $fffff.
 <BBBL
 <RRRTi
 <^_[]
-<fff.
 <fffff.
 <w-L
 =CVRMsg_TrackedCamera_GetVideoStreamFrameSharedTextureResponse
@@ -1063,7 +1061,6 @@ $fffff.
 @_glDeleteTextures
 @_glDisable
 @_glEnable
-@_glFramebufferRenderbuffer
 @_glFramebufferTexture2D
 @_glGenFramebuffers
 @_glGenTextures
@@ -1378,6 +1375,7 @@ ARBUARB`
 ATAUARB`
 ATBRBRATARB`KARA[BRAp
 ATBRBRATARB`KA]ARBp
+ATBRB`AA`
 AWAVATS
 AWAVATSA
 AWAVATSH
@@ -1452,7 +1450,6 @@ BRATAp
 BRBVBRAp
 BRBVBRBp
 BRenameFile(char const*, char const*)
-BTBRB`AA`
 B``@p
 BackUp() can only be called after signed char successful Next().
 Bad Access flag on shared mem create: %short: %u
@@ -1877,7 +1874,6 @@ CRenderModelManager::RegisterTextureFilePath(char const*)
 CRenderModelManager::RenderModelHasComponent(char const*, char const*)
 CRenderModelManager::~CRenderModelManager()
 CSimpleMachClient::SendAndReceive(mach_msg_header_t*, mach_msg_header_t*, unsigned int, int*)
-CTBRD`AA`
 CTrackedCameraFrameQueue::Read(int*)
 CTrackedCameraFrameQueue::Write(int)
 CTrackedDevicePropertyCache::CTrackedDevicePropertyCache()
@@ -2193,6 +2189,7 @@ CVRCompositorClientBase::SetSkyboxOverride(vr::Texture_t const*, unsigned int)
 CVRCompositorClientBase::SetTrackingSpace(vr::ETrackingUniverseOrigin)
 CVRCompositorSharedTextures::AcquireSync()
 CVRCompositorSharedTextures::BeginFrameTiming()
+CVRCompositorSharedTextures::CreateSharedTexture(int, int, unsigned int, int, CVRCompositorSharedTextures::SharedTextureData&)
 CVRCompositorSharedTextures::EndFrameTiming()
 CVRCompositorSharedTextures::Flush()
 CVRCompositorSharedTextures::GetGLTextureFromSharedTexture(void*, unsigned int*, void**)
@@ -2208,6 +2205,7 @@ CVRCompositorSharedTextures::ReleaseNativeOverlayHandle(void*, void*)
 CVRCompositorSharedTextures::ReleaseSharedGLTexture(unsigned int, void*)
 CVRCompositorSharedTextures::ReleaseSync()
 CVRCompositorSharedTextures::UnlockGLSharedTextureForAccess(void*)
+CVRCompositorSharedTextures::UpdateSharedTexture(int, int, unsigned int, CVRCompositorSharedTextures::SharedTextureData&)
 CVRCompositor_001
 CVRCompositor_001::BeginFrame(vr::EVREye, vr::TrackedDevicePose_t*, unsigned int)
 CVRCompositor_001::ClearFrameBuffer()
@@ -4810,6 +4808,7 @@ CVROverlay_010::ShowOverlay(unsigned long long)
 CVRPathRegistry::BLoadFromFile()
 CVRPathRegistry::BSaveToFile() const
 CVRPathRegistry::CVRPathRegistry()
+CVRPathRegistry::GetOpenVRConfigPath()
 CVRPathRegistry::GetPaths(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, char const*, char const*, std::__1::vector<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >*)
 CVRPathRegistry::GetVRPathRegistryFilename()
 CVRPathRegistry::SetConfigPath(char const*)
@@ -5439,6 +5438,7 @@ Collision Bounds distances: flMinAxis=%float, Hmd=%float->%float, Controllers=%f
 CompareTrackedDeviceEntry(void const*, void const*)
 Compositor failed to find DX11 hardware (401)
 Compositor failed to initialize (400)
+Compositor requires mandatory firmware update (402)
 CompositorInterfaceRegistration<CVRCompositor_001>
 CompositorInterfaceRegistration<CVRCompositor_001>::GetInterface()
 CompositorInterfaceRegistration<CVRCompositor_001>::~CompositorInterfaceRegistration()
@@ -5505,7 +5505,8 @@ D10f
 D;H(|
 D;I(|9L9
 DDH:P:::>B
-DSATA`PD`
+DSATA`OD`
+DTBRD`AA`
 DXGI2::GetDisplayVisibility(int)
 Default value for an enum field must be an identifier.
 Demangled
@@ -5531,6 +5532,7 @@ E@JcL
 E@L+h0I
 EDIcE@
 ERROR
+ERROR failed to create shared texture of size %dx%double (%double bytes)
 E\IcEX
 E`H9B
 Empty escape sequence in string
@@ -5745,7 +5747,6 @@ GetSystemTime()
 GetSystemTimeFrequency()
 GetSystemTimeFromTicks(unsigned long long)
 GetSystemTimeInTicks()
-GetThisModulePath()
 GetUInt32
 GetUInt64
 GetUniverseIDFromHMDLatest()
@@ -5945,7 +5946,7 @@ I+U H
 I+t$x
 I9GXt H
 I9\$ unsigned short
-I9]8u
+I9^8u
 I9}@unsigned short
 I;4$u(
 I;<$u(
@@ -6112,12 +6113,14 @@ IVRCompositor_013_FnTable_WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int, v
 IVRCompositor_014
 IVRControlPanel_001
 IVRControlPanel_002
+IVRDashboardManager_
 IVRDashboardManager_001
 IVRExtendedDisplay_
 IVRExtendedDisplay_001
 IVRExternalEventSource_001
 IVRHmdDistortPresent_001
 IVRNotificationsInternal_001
+IVRNotifications_
 IVRNotifications_001
 IVRNotifications_002
 IVROculusDirect_
@@ -6550,7 +6553,6 @@ L$(IcV,L
 L$8H)
 L$@L+a0I
 L$XH)
-L95Jq
 L@PpP
 LABEL_OPTIONAL
 LABEL_REPEATED
@@ -6679,8 +6681,8 @@ OBJC_METACLASS_RO_$___ARCLite__
 OD+O<
 ODI+O<
 OLt$f
+OSX - ERROR creating IOSurface
 OSX - ERROR creating shared texture, (%double) - %short
-OSX - ERROR failed to create IOSurface of size %dx%double (%double bytes)
 O`t$f
 OculusDirect_NewFrame
 OculusDirect_Presented
@@ -6760,8 +6762,8 @@ Path_Compact(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1:
 Path_Exists(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
 Path_FixSlashes(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char)
 Path_GetExecutablePath()
-Path_GetModulePath()
 Path_GetSlash()
+Path_GetThisModulePath()
 Path_GetWorkingDirectory()
 Path_IsAbsolute(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
 Path_IsAppBundle(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
@@ -7216,12 +7218,14 @@ VREvent_StatusUpdate
 VREvent_TouchPadMove
 VREvent_TrackedDeviceActivated
 VREvent_TrackedDeviceDeactivated
+VREvent_TrackedDeviceRoleChanged
 VREvent_TrackedDeviceUpdated
 VREvent_TrackedDeviceUserInteractionEnded
 VREvent_TrackedDeviceUserInteractionStarted
 VREvent_VendorSpecific_Reserved_Start+%double
 VRInitError_Compositor_D3D11HardwareRequired
 VRInitError_Compositor_Failed
+VRInitError_Compositor_FirmwareRequiresUpdate
 VRInitError_Driver_CalibrationInvalid
 VRInitError_Driver_Failed
 VRInitError_Driver_HmdDisplayNotFound
@@ -7773,23 +7777,23 @@ __ARCLite__load()
 __Block_copy
 __DATA
 __DefaultRuneLocale
-__GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.57158.ii
-__GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.57250.ii
+__GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.17871.ii
+__GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.17963.ii
 __GLOBAL__sub_I_descriptor.cc
 __GLOBAL__sub_I_descriptor.pb.cc
 __GLOBAL__sub_I_extension_set.cc
-__GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.28902.ii
-__GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.28979.ii
+__GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.17873.ii
+__GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.17977.ii
 __GLOBAL__sub_I_ipcposix2.tmp.steamvr_rel_osx_builder.15826.ii
 __GLOBAL__sub_I_ipcposix2.tmp.steamvr_rel_osx_builder.15987.ii
 __GLOBAL__sub_I_threadtool.tmp.steamvr_rel_osx_builder.15891.ii
 __GLOBAL__sub_I_threadtool.tmp.steamvr_rel_osx_builder.16021.ii
 __GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.56290.ii
 __GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.56391.ii
-__GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.90599.ii
-__GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.90666.ii
-__GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.90016.ii
-__GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.90086.ii
+__GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.17919.ii
+__GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.18011.ii
+__GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.15501.ii
+__GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.15603.ii
 __LINKEDIT
 __NSGetExecutablePath
 __OBJC
@@ -7996,7 +8000,6 @@ _glDeleteFramebuffers
 _glDeleteTextures
 _glDisable
 _glEnable
-_glFramebufferRenderbuffer
 _glFramebufferTexture2D
 _glGenFramebuffers
 _glGenTextures
@@ -9351,6 +9354,7 @@ tFIcG,L
 tGff.
 tHfff.
 tJfffff.
+tJffffff.
 tLfff.
 tPff.
 tRNS after IDAT
