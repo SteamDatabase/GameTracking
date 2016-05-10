@@ -1705,7 +1705,7 @@ function CTutorialAG:_SelectSven()
 
 	self._vItemBuild[5] = { [1] = "item_power_treads", 			[2] = "item_boots", 			[3] = "item_gloves",			[4] = "item_belt_of_strength" }
 
-	self._vItemBuild[6] = { [1] = "item_ancient_janggo", 		[2] = "item_recipe_bracer",		[3] = "item_robe",  			[4] = "item_recipe_ancient_janggo", [0] = "item_bracer", }
+	self._vItemBuild[6] = { [1] = "item_ancient_janggo", 		[2] = "item_recipe_bracer",		[3] = "item_ring_of_regen", [4] = "item_wind_lace", [5] = "item_recipe_ancient_janggo", [0] = "item_bracer", }
 	self._vItemBuild[7] = { [1] = "item_lifesteal" }
 	self._vItemBuild[8] = { [1] = "item_lesser_crit", 			[2] = "item_blades_of_attack",	[3] = "item_broadsword",		[4] = "item_recipe_lesser_crit" }
 
@@ -1785,10 +1785,10 @@ function CTutorialAG:_SelectLina()
 
 	self._vItemBuild[5] = { [1] = "item_phase_boots", 			[2] = "item_boots", 			[3] = "item_blades_of_attack",	[4] = "item_blades_of_attack" }
 
-	self._vItemBuild[6] = { [1] = "item_ancient_janggo", 		[2] = "item_recipe_bracer",		[3] = "item_robe",  			[4] = "item_recipe_ancient_janggo", [0] = "item_bracer", }
-	self._vItemBuild[7] = { [1] = "item_cyclone", 				[2] = "item_sobi_mask",			[3] = "item_staff_of_wizardry",	[4] = "item_void_stone",			[5] = "item_recipe_cyclone" }
+	self._vItemBuild[6] = { [1] = "item_ancient_janggo", 		[2] = "item_recipe_bracer",		[3] = "item_ring_of_regen",		[4] = "item_wind_lace",			[5] = "item_recipe_ancient_janggo", [0] = "item_bracer", }
+	self._vItemBuild[7] = { [1] = "item_cyclone", 				[2] = "item_wind_lace",			[3] = "item_staff_of_wizardry",	[4] = "item_void_stone",		[5] = "item_recipe_cyclone" }
 
-	self._vItemBuild[8] = { [1] = "item_octarine_core", 		[2] = "item_point_booster", 	[3] = "item_vitality_booster", 	[4] = "item_energy_booster",  		[5] = "item_mystic_staff",  [0] = "item_soul_booster" }
+	self._vItemBuild[8] = { [1] = "item_octarine_core", 		[2] = "item_point_booster", 	[3] = "item_vitality_booster", 	[4] = "item_energy_booster", 	[5] = "item_mystic_staff",  [0] = "item_soul_booster" }
 	self._vItemBuild[9] = { [1] = "item_monkey_king_bar",		[2] = "item_demon_edge",		[3] = "item_javelin",			[4] = "item_javelin" }
 
 	self._vDoubleBuyItems = { [1] = "item_blades_of_attack", [2] = "item_javelin" }
