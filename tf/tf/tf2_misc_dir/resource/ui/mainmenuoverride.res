@@ -4264,12 +4264,12 @@
 				{
 					"0"
 					{
-						"item"		"Tough Break Case 01 Pyroland"
-						"show_market"	"1"
+						"item"		"Mayflower Cosmetic Key"
+						"show_market"	"0"
 					}
 					"1"
 					{
-						"item"		"Tough Break Case 02 Warbirds"
+						"item"		"Mayflower Cosmetic Case"
 						"show_market"	"1"
 					}
 					"2"
@@ -4292,7 +4292,16 @@
 						"item"		"Taunt: Mannrobics"
 						"show_market"	"0"
 					}
-					
+					"6"
+					{
+						"item"		"Tough Break Case 01 Pyroland"
+						"show_market"	"1"
+					}
+					"7"
+					{
+						"item"		"Tough Break Case 02 Warbirds"
+						"show_market"	"1"
+					}
 				}
 			}
 
