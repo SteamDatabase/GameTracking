@@ -1108,7 +1108,7 @@ Scheme
 		// to be compatible with materialsystem2 custom fonts.
 		"1"
 		{
-			"font"		"resource/DotaHypatiaSansProBold.vfont"
+			"font"		"resource/dotahypatiasansprobold.vfont"
 			"name"		"Dota Hypatia Bold"
 		}
 	}

@@ -67,7 +67,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "skywrath_mage_run_aggressive",
+		name = "skywrath_mage_run_aggressive_anim",
 		sequences = {
 			{ "@skywrath_mage_run_aggressive" }
 		},
@@ -86,7 +86,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "skywrath_mage_run_glide",
+		name = "skywrath_mage_run_glide_anim",
 		sequences = {
 			{ "@skywrath_mage_run_glide" }
 		},
@@ -104,7 +104,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "skywrath_mage_run_injured",
+		name = "skywrath_mage_run_injured_anim",
 		sequences = {
 			{ "@skywrath_mage_run_injured" }
 		},

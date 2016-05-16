@@ -67,7 +67,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "legion_commander_run",
+		name = "legion_commander_run_anim",
 		sequences = {
 			{ "@legion_commander_run" }
 		},
@@ -159,7 +159,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "legion_commander_run_overwhelmingodds",
+		name = "legion_commander_run_overwhelmingodds_anim",
 		sequences = {
 			{ "@legion_commander_run_overwhelmingodds" }
 		},
@@ -252,7 +252,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "dualwield_legion_commander_run",
+		name = "dualwield_legion_commander_run_anim",
 		sequences = {
 			{ "@dualwield_legion_commander_run" }
 		},
@@ -326,7 +326,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "dualwield_legion_commander_run_haste",
+		name = "dualwield_legion_commander_run_haste_anim",
 		sequences = {
 			{ "@dualwield_legion_commander_run_haste" }
 		},
@@ -421,7 +421,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "dualwield_legion_commander_run_injured",
+		name = "dualwield_legion_commander_run_injured_anim",
 		sequences = {
 			{ "@dualwield_legion_commander_run_injured" }
 		},

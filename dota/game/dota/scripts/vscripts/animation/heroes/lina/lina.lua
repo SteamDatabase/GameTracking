@@ -65,7 +65,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run",
+		name = "run_anim",
 		sequences = {
 			{ "@run" }
 		},
@@ -74,6 +74,22 @@ model:CreateSequence(
 		},
 		activities = {
 			{ name = "ACT_DOTA_RUN", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "run_injured_anim",
+		sequences = {
+			{ "@run_injured" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "injured", weight = 1 }
 		}
 	}
 )

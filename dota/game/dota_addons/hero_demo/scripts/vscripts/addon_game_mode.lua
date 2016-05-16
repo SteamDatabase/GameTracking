@@ -119,7 +119,12 @@ function CHeroDemo:InitGameMode()
 	self.m_bCreepsEnabled = true
 
 	local hNeutralSpawn = Entities:FindByName( nil, "neutral_caster_spawn" )
+	if ( hNeutralSpawn == NIL ) then
+		hNeutralSpawn = Entities:CreateByClassname( "info_target" );
+	end
+
 	self._hNeutralCaster = CreateUnitByName( "npc_dota_neutral_caster", hNeutralSpawn:GetAbsOrigin(), false, nil, nil, NEUTRAL_TEAM )
+	
 
 	PlayerResource:SetCustomTeamAssignment( self.m_nPlayerID, self.m_nALLIES_TEAM ) -- put PlayerID 0 on Radiant team (== team 2)
 end

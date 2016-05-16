@@ -699,6 +699,17 @@
 		"heroid"		"short"
 	}
 
+	"dota_river_painted"
+	{
+		"userid"		"short"
+		"riverid"		"short"
+	}
+
+	"dota_scan_used"
+	{
+		"teamnumber"	"short"
+	}
+	
 	"dota_rd_chat_turn"
 	{
 		"userid"		"short"
@@ -1149,6 +1160,10 @@
 		"hero_entindex"	"int"
 		"item_entindex"	"int"
 		"removed"		"bool"
+	}
+
+	"game_rules_shutdown"
+	{
 	}
 }
 

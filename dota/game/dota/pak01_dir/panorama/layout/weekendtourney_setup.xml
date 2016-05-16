@@ -2,106 +2,239 @@
 	<styles>
 		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
 		<include src="s2r://panorama/styles/weekendtourney_setup.vcss_c" />
+		<include src="s2r://panorama/styles/context_menus/context_menu_weekendtourney_division_select_item.vcss_c" />
 	</styles>
 
-	<DOTAWeekendTourneySetup hittest="true" onactivate="">
-		<Panel id="ContainerLearn" class="StateContainer" >
+	<DOTAWeekendTourneySetup hittest="true" acceptsfocus="true">
+		<Panel class="LeftRightFlow">
 			<Label class="PageHeader" text="#WeekendTourney_Title" />
+			<Button id="FaqButton" class="ControlButton" >
+				<Label class="ControlButtonLabel" text="Rules FAQ" />	
+			</Button>
+		</Panel>	
+		<Panel id="PageBodyContainer">
 
-			<Label class="SetupSectionHeader" text="How it works" />
-			<Panel class="ContainerSetupSection">
-				<Label text="Single elimination tournament with 8 teams.  Win 3 games to win." />
-				<Panel id="BracketImage" />
-			</Panel>
+			<!-- Learn -->
+			<Panel id="ContainerLearn" class="StateContainer" >
 
-			<Label class="SetupSectionHeader" text="What do I win?" />
-			<Panel class="ContainerSetupSection">
-				<Label text="TBD.  But definitely glory and honor." />
-			</Panel>
-
-			<Label class="SetupSectionHeader" text="What's the buy in?" />
-			<Panel class="ContainerSetupSection">
-				<Label text="A total of 5 tickets per team.  Team members do not have to contribute the same amount, but winnings are distributed according to individual contribution." />
-			</Panel>
-
-			<Label class="SetupSectionHeader" text="Who are my opponents?" />
-			<Panel class="ContainerSetupSection">
-				<Label text="At the beginning of a battle pass season, you'll be assigned a skill bracket based on your current MMR.  Teams may select to compete at any skill level at least as high as the highest skill level on their team.  Tournaments opponents will be chosen based on the selected skill bracket; MMR is not used." />
-			</Panel>
-
-			<Label class="SetupSectionHeader" text="Select division" />
-			<Panel class="ContainerSetupSection">
-				<Label text="Select a division according to your geographic region to view the schedule for that region." />
-				<DropDown class="DivisionSelectDropdown">
-					<Label text="Americas Division Tournament" id="division1"/>
-				</DropDown>
-			</Panel>
-		</Panel>
-
-		<Panel id="ContainerSetup" class="StateContainer">
-
-			<Panel id="ContainerSetupBody" class="ContainerPageBody">
-				<Label class="BodyTitle" text="#WeekendTourney_SetupPage_Title" />
-
-				<Label class="SetupSectionHeader" text="Select division" />
-				<Panel class="ContainerSetupSection">
-					<DropDown class="DivisionSelectDropdown">
-						<Label text="Americas Division Tournament" id="division1"/>
-					</DropDown>
-					<Label text="FIXME: Show which regions this will put you in here" />
+				<Panel class="SetupSectionContainer">
+					<Label class="SetupSectionHeader" text="How it works" />
+					<Panel class="SetupSectionBody">
+						<Label text="Single elimination tournament with 8 teams.  Win 3 games to win." />
+						<Panel id="BracketImage" />
+					</Panel>
 				</Panel>
 
-				<Label class="SetupSectionHeader" text="#WeekendTourney_TeamSetup_Title" />
-				<Panel class="ContainerSetupSection">
-					<Panel class="LeftRightFlow">
-						<Panel class="TopBottomFlow">
-							<DOTAParty id="Party" />
-							<Panel id="PartyMemberSkillLevelContainer">
-								<Label id="PartyMemberSkillLevel0" class="PartyMemberSkillLevel" text="?"/>
-								<Label id="PartyMemberSkillLevel1" class="PartyMemberSkillLevel" text="?"/>
-								<Label id="PartyMemberSkillLevel2" class="PartyMemberSkillLevel" text="?"/>
-								<Label id="PartyMemberSkillLevel3" class="PartyMemberSkillLevel" text="?"/>
-								<Label id="PartyMemberSkillLevel4" class="PartyMemberSkillLevel" text="?"/>
+				<Panel class="SetupSectionContainer">
+					<Label class="SetupSectionHeader" text="What do I win?" />
+					<Panel class="SetupSectionBody">
+						<Label text="TBD.  But definitely glory and honor." />
+					</Panel>
+				</Panel>
+
+				<Panel class="SetupSectionContainer">
+					<Label class="SetupSectionHeader" text="What's the buy in?" />
+					<Panel class="SetupSectionBody">
+						<Label text="A total of 5 tickets per team.  Team members do not have to contribute the same amount, but winnings will be distributed evenly." />
+					</Panel>
+				</Panel>
+
+				<Panel class="SetupSectionContainer">
+					<Label class="SetupSectionHeader" text="Who are my opponents?" />
+					<Panel class="SetupSectionBody">
+						<Label text="At the beginning of a battle pass season, you'll be assigned a skill bracket based on your current MMR.  Teams may select to compete at any skill level at least as high as the highest skill level on their team.  Tournaments opponents will be chosen based on the selected skill bracket; MMR is not used." />
+					</Panel>
+				</Panel>
+			</Panel>
+
+			<!-- Setup -->
+			<Panel id="ContainerSetup" class="StateContainer">
+
+				<!-- Division -->
+				<Panel class="SetupSectionContainer" id="HeaderSectionContainer">
+					<!-- Division Name Section -->
+					<Panel class="SetupSectionContainer" id="titleContainer">
+						<Panel class="SetupSectionBody">
+							<Panel class="LeftRightFlow">
+								<Panel id="DivisionSelectContainer">
+									<Label id="SelectLocationTitle" class="TitleStyle" text="#WeekendTourneyp_TitleSelectedDivision" html="true"/>
+									<Button id="ChangeDivisionButton" onactivate="DOTAPopupWeekendTourneyDivisionSelect()">
+										<Label id="ChangeDivision" class="TitleStyle" text="Change Division" />
+										<Panel id="ChangeDivisionArrow" />
+									</Button>	
+								</Panel>
 							</Panel>
 						</Panel>
-						<Label id="TeamSkillLevelValue" text="#WeekendTourney_TeamSkillLevelValue" />
-						<Label id="TeamSkillLevelDescription" html="true" text="#WeekendTourney_TeamSkillLevel" />
-						<Panel class="TopBottomFlow">
-							<Button id="TeamSkillUpButton" class="PaginationArrow Up" onactivate="DOTAWeekendTourneyAdjustSkillLevel(1);" />
-							<Button id="TeamSkillDownButton" class="PaginationArrow Down" onactivate="DOTAWeekendTourneyAdjustSkillLevel(-1);" />
+					</Panel>
+				
+					<!-- Ping Row -->
+					<Panel class="SetupSectionContainer" id="RegionPingRow">
+							<Panel id="RegionPingTimes">
+							<!-- dynamically generated -->
+							</Panel>
+					</Panel>
+				</Panel>		
+						
+				<!-- Party -->
+				<Panel class="SetupSectionContainer">
+					<Panel class="SetupSectionHeaderRow">
+						<Panel id="PartyUpCheckBox" class="SetupStepCheckBox" />
+						<Label class="SetupSectionHeader" text="Party up" />
+						<!-- Whoever writes decides what should go in the tooltip text that would go here can re-enable this
+							<Panel class="InfoIcon" onmouseover="UIShowTextTooltip( #WeekendTourney_PartyUpTooltip )" onmouseout="UIHideTextTooltip()"/>
+						-->
+					</Panel>
+					<Panel class="SetupSectionBody">
+						<Panel class="LeftRightFlow">
+							<Panel class="TopBottomFlow" id="PartyBlock" >
+								<DOTAParty id="Party" />
+								<Panel id="PartyMemberSkillLevelContainer">
+									<Label id="PartyMemberSkillLevel0" class="PartyMemberSkillLevel" text="?"/>
+									<Label id="PartyMemberSkillLevel1" class="PartyMemberSkillLevel" text="?"/>
+									<Label id="PartyMemberSkillLevel2" class="PartyMemberSkillLevel" text="?"/>
+									<Label id="PartyMemberSkillLevel3" class="PartyMemberSkillLevel" text="?"/>
+									<Label id="PartyMemberSkillLevel4" class="PartyMemberSkillLevel" text="?"/>
+								</Panel>
+								<!--<Label id="IndividualTier" class="SubHead" text="#Individual Player Tiers" /> commenting out for now-->
+							</Panel>
+							<Panel id="TeamSkillLevelContainer">
+								<Panel class="TopBottomFlow">
+									<Panel class="LeftRightFlow">
+										<Label id="TeamSkillLevelDescription" class="TitleStyle" html="true" text="Team Tier" />
+										<Panel class="InfoIcon" id="InfoIconTier" onmouseover="UIShowTextTooltip( #WeekendTourney_TeamSkillLevelTooltip )" onmouseout="UIHideTextTooltip()"/>
+									</Panel>
+									<Panel class="LeftRightFlow">
+												<Label id="TeamSkillLevelValue" text="#WeekendTourney_TeamSkillLevelValue" />
+												<Panel id="TeamSkillEditButtons">
+													<Button id="TeamSkillUpButton" class="PaginationArrow Up" onactivate="DOTAWeekendTourneyAdjustSkillLevel(1);" />
+													<Button id="TeamSkillDownButton" class="PaginationArrow Down" onactivate="DOTAWeekendTourneyAdjustSkillLevel(-1);" />
+												</Panel>
+											</Panel>
+									</Panel>
+							</Panel>
 						</Panel>
 					</Panel>
 				</Panel>
 
-				<Label class="SetupSectionHeader" text="Team identity" />
-				<Panel class="ContainerSetupSection">
-					<Label text="FIXME: Edit team name, logo, etc, or select an existing official team." />
-				</Panel>
-
-				<Label class="SetupSectionHeader" text="Buyin: 5 tickets per team" />
-				<Panel id="ContainerEcon" class="ContainerSetupSection">
-					<Label id="TeamBuyinStatus" text="#WeekendTourney_TeamBuyIn" />
-					<Panel class="LeftRightFlow">
-						<Label id="YourBuyinStatus" text="#WeekendTourney_YourBuyIn" />
-						<Button id="BuyInUpButton" class="PaginationArrow Up" onactivate="DOTAWeekendTourneyAdjustBuyIn(1);" />
-						<Button id="BuyInDownButton" class="PaginationArrow Down" onactivate="DOTAWeekendTourneyAdjustBuyIn(-1);" />
+				<!-- Team identity -->
+				<Panel class="SetupSectionContainer" id="TeamContainer">
+					<Panel class="SetupSectionHeaderRow" id="TeamHeaderContainer">
+						<Panel id="TeamIdentityCheckBox" class="SetupStepCheckBox" />
+						<Label class="SetupSectionHeader" text="#WeekendTourney_TeamSetup_Title" />
+						<Panel id="TeamBusySpinner" class="Spinner" hittest="true" onactivate=""/>
 					</Panel>
-					<Label id="CurrentTicketsOwned" text="#WeekendTourney_CurrentTicketsOwned" />
-					<Label text="Winnings are distributed according to individual team member buyin." />
-					<Panel id="TicketPurchaseRow" >
-						<Button id="TicketPurchaseButton" class="PurchaseButton ColoredButton" onactivate="DOTAPurchaseWeekendTourneyTickets()">
-							<Panel id="PurchaseButtonContents">
-								<Label id="PurchaseLabel" text="#DOTA_Ticket_Purchase" />
-								<Label id="TicketPriceLabel" text="{s:ticket_price}" />
+					<Panel id="ContainerTeamIdentity" class="SetupSectionBody">
+						<Panel id="TeamIdentityTypeContainer" >
+							<Label id="TeamIdentityTypeLabelPickup" text="Pick-up team" />
+							<Label id="TeamIdentityTypeLabelOfficial" text="Official team" />
+							<Button id="TeamIdentityPickupButtonEdit" class="TeamIdentityTypeAdjustButton TeamSelectMenuItem" onactivate="DOTAWeekendTourneyTeamIdentityUsePickupTeam();" >
+								<Label id="TeamIdentityPickupSwitchLabel" text="Use Pickup Team" />
+								<Label id="TeamIdentityPickupEditLabel" text="Edit" />
+							</Button>
+							<Panel class="HFill" />
+							<Button id="TeamIdentityOfficialButtonEdit" class="TeamIdentityTypeAdjustButton TeamSelectMenuItem" onactivate="DOTAWeekendTourneyTeamIdentityCreate();">
+								<Label id="TeamIdentityOfficialSwitchLabel" text="Switch to Official Team" />
+								<Label id="TeamIdentityOfficialEditLabel" text="Change Official Team" />
+							</Button>
+						</Panel>
+						<Panel class="LeftRightFlow" id="TeamEntryContainer">
+							<Panel class="TopBottomFlow" id="TeamIdentityNameAndButtonsContainer">
+								<Panel id="TeamIdentityNameContainer" class="TeamIdentityValueContainer">
+									<Label class="TeamIdentityFieldLabel" text="Name" />
+	                                <TextEntry id="TeamIdentityNameTextEntry" placeholder="Enter Team Name" >
+									</TextEntry>
+										
+								</Panel>
 							</Panel>
-						</Button>
-
-						<DropDown id="TicketQuantityDropDown" class="ColoredButton">
-							<!-- Filled in dynamically -->
-						</DropDown>
-
+							<Panel id="TeamIdentityLogoContainer" class="TeamIdentityValueContainer">
+								<Label class="TeamIdentityFieldLabel" text="Logo" />
+								<Button id="TeamLogoButton" onactivate="DOTAWeekendTourneySelectTeamLogo();">
+									<DOTAUGCImage id="TeamLogo" />
+								</Button>
+							</Panel>
+							
+							<!--
+							<Panel id="TeamIdentityTagContainer" class="TeamIdentityValueContainer">
+								<Label class="TeamIdentityFieldLabel" text="Tag" />
+								<TextEntry id="TeamIdentityTagTextEntry" />
+							</Panel>
+							-->
+						</Panel>
+						<Panel class="LeftRightFlow" id="EditPickupTeamConfirmCancelContainer">
+							<Button id="TeamIdentityConfirmButton" class="ButtonBevel" onactivate="DOTAWeekendTourneyTeamIdentityEditConfirm();" >
+								<Label text="Confirm" />
+							</Button>
+							<Button id="TeamIdentityCancelButton" class="ButtonBevel" onactivate="DOTAWeekendTourneyTeamIdentityEditCancel();" >
+								<Label text="Cancel" />
+							</Button>
+						</Panel>
+						<Panel class="LeftRightFlow" id="InitialChoiceTeamButtons">
+							<Button id="TeamIdentityPickupButton" class="ButtonBevel TeamSelectMenuItem" onactivate="DOTAWeekendTourneyTeamIdentityUsePickupTeam();" >
+								<Panel class="InitialTeamButtonContainer">
+									<Label text="Use Pickup Team" />
+									<Panel class="InfoIcon" onmouseover="UIShowTextTooltip( #WeekendTourney_PickupTeamTooltip )" onmouseout="UIHideTextTooltip()"/>
+								</Panel>
+							</Button>
+							<Label class="SubHead" id="OrText" text="OR"/>
+							<Button id="TeamIdentityOfficialButton" class="ButtonBevel TeamSelectMenuItem" onactivate="DOTAWeekendTourneyTeamIdentityCreate();">
+								<Panel class="InitialTeamButtonContainer" >
+									<Label text="Use Official Team" />
+									<Panel class="InfoIcon" onmouseover="UIShowTextTooltip( #WeekendTourney_OfficialTeamTooltip )" onmouseout="UIHideTextTooltip()"/>
+								</Panel>
+							</Button>
+				    </Panel>
 					</Panel>
 				</Panel>
+
+				<!-- Buy in -->
+				<Panel class="SetupSectionContainer">
+					<Panel class="SetupSectionHeaderRow">
+						<Panel id="BuyInCheckBox" class="SetupStepCheckBox" />
+						<Label class="SetupSectionHeader" text="#WeekendTourney_BuyInHeader" />
+						<Label id="TeamBuyInSubHead" text="#WeekendTourney_TeamBuyInSubhead" />
+						<Label id="TeamBuyInCurrent" text="#WeekendTourney_TeamBuyInCurrent" />
+					</Panel>
+					<Panel class="SetupSectionBody">
+						<Panel class="LeftRightFlow">
+							<Panel class="TopBottomFlow">
+								<DOTAParty id="BuyInParty" />
+								<Panel id="PartyMembersBuyInContainer">
+									<DropDown id="YourBuyInDropDown">
+										<Label id="YourBuyIn0" text="0" buyin="0" />
+										<Label id="YourBuyIn1" text="1" buyin="1" />
+										<Label id="YourBuyIn2" text="2" buyin="2" />
+										<Label id="YourBuyIn3" text="3" buyin="3" />
+										<Label id="YourBuyIn4" text="4" buyin="4" />
+										<Label id="YourBuyIn5" text="5" buyin="5" />
+									</DropDown>
+									<Label id="PartyMemberBuyIn1" class="PartyMemberBuyIn"/>
+									<Label id="PartyMemberBuyIn2" class="PartyMemberBuyIn"/>
+									<Label id="PartyMemberBuyIn3" class="PartyMemberBuyIn"/>
+									<Label id="PartyMemberBuyIn4" class="PartyMemberBuyIn"/>
+								</Panel>
+							</Panel>
+							<Panel id="YourTicketsContainer">
+								<Label id="CurrentTicketsOwnedHeader" text="#WeekendTourney_CurrentTicketsOwnedHeader" />
+								<Label id="CurrentTicketsOwned" text="#WeekendTourney_CurrentTicketsOwned" />
+								<Label id="PurchaseModeLabel" text="#WeekendTourney_PurchaseMoreTickets" />
+								<Panel id="TicketPurchaseRow" >
+									<Button id="TicketPurchaseButton" class="PurchaseButton ColoredButton" onactivate="DOTAPurchaseWeekendTourneyTickets()">
+										<Panel id="PurchaseButtonContents">
+											<Label id="TicketPriceLabel" text="{s:ticket_price}" />
+										</Panel>
+									</Button>
+
+									<DropDown id="TicketQuantityDropDown" class="ColoredButton">
+										<!-- Filled in dynamically -->
+									</DropDown>
+
+								</Panel>
+							</Panel>
+						</Panel>
+					</Panel>
+				</Panel>
+
+				<Panel class="VFill" />
 
 				<Button id="CancelSetupButton" class="BlueButton" onactivate="DOTAWeekendTourneyCancelSetup();" >
 					<Panel class="CancelIcon" />
@@ -109,6 +242,5 @@
 				</Button>
 			</Panel>
 		</Panel>
-
 	</DOTAWeekendTourneySetup>
 </root>

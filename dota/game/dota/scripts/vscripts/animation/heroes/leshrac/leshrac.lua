@@ -149,7 +149,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "staff_run",
+		name = "staff_run_anim",
 		sequences = {
 			{ "@staff_run" }
 		},
@@ -204,7 +204,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run",
+		name = "run_anim",
 		sequences = {
 			{ "@run" }
 		},

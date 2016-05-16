@@ -5,7 +5,7 @@
 		<include src="s2r://panorama/styles/popups/popup_team_management.vcss_c" />
 	</styles>
 
-	<PopupTeamManagement class="PopupPanel Hidden" popupbackground="dim" oncancel="UIPopupButtonClicked()">
+	<PopupTeamManagement class="PopupPanel Hidden" popupbackground="dim">
 		<Panel id="TeamInfoHeader" class="PageTitle LeftRightFlow">
 			<DOTAUGCImage id="TeamHeaderImage" class="TeamHeaderLogo" src="s2r://panorama/images/temp/no_logo_png.vtex" scaling="stretch-to-fit-preserve-aspect"/>
 			<Label id="TeamHeaderTeamName" class="PopupTitle" />
@@ -31,7 +31,7 @@
 				<RadioButton id="TeamRosterRadioButton" class="TeamSecondaryTabButton Activated" group="TeamManagementButtons" onactivate="DOTAChangeTeamManagementPage( 1 )">
 					<Label text="#DOTA_TeamRoster" />
 				</RadioButton>
-				<Label class="TeamSecondaryTabSeperator" text="/" />
+				<Label id ="SecondSeparator" class="TeamSecondaryTabSeperator" text="/" />
 				<RadioButton class="TeamSecondaryTabButton Activated" group="TeamManagementButtons" onactivate="DOTAChangeTeamManagementPage( 2 )">
 					<Label text="#DOTA_TeamImages" />
 				</RadioButton>
@@ -39,30 +39,30 @@
 
 			<Panel id="SlotTypeTabContents">
 				<!-- Basic Info Tab -->
-				<Panel id="BasicInfo" class="TabContents TabVisible">
+				<Panel id="BasicInfo" class="TabContents TabVisible" ontabforward="DOTATeamManagementTab()">
 					<Panel class="TeamsInputArea">
 						<Label class="OfficialInfoLabel" text="#DOTA_TeamManagement_FullName"/>
 						<Panel class="LeftRightFlow">
-							<TextEntry id="TeamNameEntry" />
+							<TextEntry id="TeamNameEntry" tabindex="0" />
 						</Panel>
 					</Panel>
 					<Panel class="TeamsInputArea">
 						<Label class="OfficialInfoLabel" text="#DOTA_TeamManagement_URL"/>
 						<Panel class="LeftRightFlow">
 							<Label id="TeamURLHTTP" text="http://" />
-							<TextEntry id="TeamURLEntry" />
+							<TextEntry id="TeamURLEntry" tabindex="1" />
 						</Panel>
 					</Panel>
 					<Panel class="TeamsInputArea">
 						<Label class="OfficialInfoLabel" text="#DOTA_TeamManagement_Country"/>
 						<Panel class="LeftRightFlow">
-							<TextEntry id="TeamCountryEntry" maxchars="1024" />
+							<TextEntry id="TeamCountryEntry" maxchars="50" tabindex="2" />
 						</Panel>
 					</Panel>
 					<Panel class="TeamsInputArea">
 						<Label class="OfficialInfoLabel" text="#DOTA_TeamManagement_TeamTag"/>
 						<Panel class="LeftRightFlow">
-							<TextEntry id="TeamTagEntry" maxchars="8" />
+							<TextEntry id="TeamTagEntry" maxchars="8" tabindex="3" />
 						</Panel>
 					</Panel>
 				</Panel>
@@ -89,9 +89,6 @@
 							</Button>
 							<Button id="TeamAddSelfButton" class="ButtonBevel" onactivate="DOTATeamInvitePlayer( 1 )">
 								<Label text="#DOTA_TeamJoinTeam" />
-							</Button>
-							<Button id="TeamDisbandTeamButton" class="ButtonBevel" disabled="true" onactivate="DOTATeamDisbandTeam()" onmouseover="UIShowTextTooltip( #DOTA_TeamDisbandTeamTooltip )" onmouseout="UIHideTextTooltip()">
-								<Label text="#DOTA_TeamDisbandTeam" />
 							</Button>
 						</Panel>
 					</Panel>

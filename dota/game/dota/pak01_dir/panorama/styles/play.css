@@ -203,19 +203,51 @@ DOTAPlay.ReconnectInProgress .ReconnectSpinner
 	visibility: visible;
 }
 
-#WeekendTourneyPlayStatus
+#WeekendTourneyPlayStatusContainer
 {
-	vertical-align: bottom;
-	horizontal-align: right;
-	text-align: center;
-
 	width: 330px;
 	margin-bottom: 70px;
 	margin-right: 58px;
+	vertical-align: bottom;
+	horizontal-align: right;
+}
+
+#WeekendTourneyPlayStatusContainer Label
+{
+	text-align: center;
+}
+
+#WeekendTourneyPlayStatus,
+#WeekendTourneyQueueDeadlineTooLateLabel,
+#WeekendTourneyQueueDeadlineTimeRemainingContainer
+{
+	horizontal-align: center;
+}
+
+#WeekendTourneyQueueDeadlineTimeRemainingContainer
+{
+	flow-children: right;
 	visibility: collapse;
 }
 
-.WeekendTourneyPageVisible #WeekendTourneyPlayStatus
+.QueueDeadlineTimeRemaining #WeekendTourneyQueueDeadlineTimeRemainingContainer,
+.QueueDeadlineExpiringSoon #WeekendTourneyQueueDeadlineTimeRemainingContainer
+{
+	visibility: visible;
+}
+
+.QueueDeadlineExpiringSoon #WeekendTourneyQueueDeadlineTimeRemainingLabel
+{
+	color: red;
+}
+
+#WeekendTourneyQueueDeadlineTooLateLabel
+{
+	visibility: collapse;
+	color: red;
+}
+
+.QueueDeadlineTooLate #WeekendTourneyQueueDeadlineTooLateLabel
 {
 	visibility: visible;
 }
@@ -505,6 +537,29 @@ DOTAPlay.MatchingRestriction #FXSearching
 	height: 100%;
 }
 
+#SearchWeekendTourneyDeadlineMissed
+{
+	color: red;
+}
+
+#SearchWeekendTourneyDontStopWarning,
+#SearchWeekendTourneyDeadlineMissed,
+#SearchWeekendTourneyEligibleForRefund
+{
+	visibility: collapse;
+	width: 100%;
+	padding-right: 57px;
+	text-align: right;
+}
+
+.QueueDeadlineExpiringSoon #SearchWeekendTourneyDontStopWarning,
+.QueueDeadlineExpiredOK #SearchWeekendTourneyDontStopWarning,
+.QueueDeadlineTooLate #SearchWeekendTourneyDeadlineMissed,
+.QueueDeadlineAllowRefund #SearchWeekendTourneyEligibleForRefund
+{
+	visibility: visible;
+}
+
 #SearchSettingsContainer
 {
 	width: 100%;
@@ -536,7 +591,7 @@ DOTAPlay.Connecting #SearchSettingsContainer
 	hue-rotation: HalloweenHue;
 }
 
-#SearchSettings
+#SearchSettings, #SearchSettingsWeekendTourney
 {
 	horizontal-align: right;
 	text-transform: uppercase;
@@ -546,6 +601,21 @@ DOTAPlay.Connecting #SearchSettingsContainer
 	font-size: 16px;
 	color: #96EFEE;
 	vertical-align: bottom;
+}
+
+#SearchSettingsWeekendTourney
+{
+	visibility: collapse;
+}
+
+.SearchingForWeekendTourney #SearchSettings
+{
+	visibility: collapse;
+}
+
+.SearchingForWeekendTourney #SearchSettingsWeekendTourney
+{
+	visibility: visible;
 }
 
 #SearchingTime
@@ -714,6 +784,11 @@ DOTAPlay.ReturningToQueue #CancelSearch
 }
 
 .SectionVisible_Ranked .PlayTabBackgroundImage
+{
+	background-image: url("s2r://panorama/images/textures/playtabbg_ranked_psd.vtex");
+}
+
+.SectionVisible_SeasonalRanked .PlayTabBackgroundImage
 {
 	background-image: url("s2r://panorama/images/textures/playtabbg_ranked_psd.vtex");
 }
@@ -925,8 +1000,8 @@ DOTAPlay.LobbyVisible #LobbySelectorContent
 {
 	background-color: gradient( linear, 100% 0%, 100% 100%, from( #111111 ), color-stop( 0.01, #202327 ), color-stop( 0.2, #141619 ), to( #000000 ) );
 	box-shadow: black -4px -4px 8px 8px;
-	height: 100%;
-	width: 720px;
+	height: 920px;
+	width: 715px;
 	opacity: 0.0;
 	padding-top: 16px;
 	margin-right: 46px;
@@ -991,6 +1066,278 @@ Label
 {
 	color: white;
 	font-size: 16px;
+}
+
+
+#SeasonalRankedSectionHeader
+{
+	width: 100%;
+}
+
+#SeasonalRankedSectionContent
+{
+	opacity: 0.0;
+	width: 100%;
+
+	transition-property: opacity;
+	transition-duration: 0.2s;
+	transition-timing-function: ease-in;
+	visibility: collapse;
+}
+
+.SectionVisible_SeasonalRanked.EligibleForSeasonalRanked #SeasonalRankedSectionContent
+{
+	opacity: 1.0;
+	visibility: visible;
+}
+
+#SeasonalRankedSection
+{
+	width: 100%;
+	margin-bottom: 8px;
+}
+
+// This is the locked state
+DOTAPlay.SectionVisible_SeasonalRanked #SeasonalRankedSection
+{
+	background-color: sectionbg_active;
+	height: fit-children;
+	opacity: 1.0;
+}
+
+DOTAPlay.SectionVisible_SeasonalRanked.EligibleForSeasonalRanked #SeasonalRankedSection
+{
+	background-color: sectionbg_active;
+	opacity: 1.0;
+}
+
+.SeasonalRankedMMRSection
+{
+	padding: 16px;
+	padding-bottom: 8px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 12px;
+	margin-right: 12px;
+	background-color: #15171944;
+	box-shadow: inset #00000066 0px 2px 6px 0px;
+	
+	width: 100%;
+	padding-top: 12px;
+
+	flow-children: down;
+	
+	transition-property: height;
+	transition-duration: 0.2s;
+	transition-delay: 0.2s;
+	transition-timing-function: ease-in;
+}
+
+DOTAPlay.SectionVisible_SeasonalRanked.EligibleForSeasonalRanked .SeasonalRankedMMRSection
+{
+	margin-bottom: 0px;
+}
+
+.SeasonalRankedMMRSection Label
+{
+	horizontal-align: center;
+	horizontal-align: left;
+}
+
+.SeasonalRankedMMRSection .SectionHeaderLabel
+{
+	color: #d6d6d6;
+}
+
+#SeasonalRankedSection .InfoIcon
+{
+	wash-color: #888888FF;
+	width: 12px;
+	height: width-percentage( 100% );
+	margin-left: 1px;
+	margin-top: 1px;
+}
+
+#SeasonalRankedLocked
+{
+	margin-left: 2px;
+	margin-top: -2px;
+	width: 25px;
+	height: 28px;
+	wash-color: #e54e42;
+}
+
+#SeasonalRankedSectionContent_Locked
+{
+	opacity: 0.0;
+	width: 100%;
+
+	transition-property: opacity;
+	transition-duration: 0.2s;
+	transition-timing-function: ease-in;
+	visibility: collapse;
+}
+
+#SeasonalRankedSectionContent_Locked Label
+{
+	width: 274px;
+}
+
+#SeasonalRankedSectionContent_Locked Label a
+{
+	color: #B1CBC6;
+}
+
+.SectionVisible_SeasonalRanked #SeasonalRankedSectionContent_Locked
+{
+	opacity: 1.0;
+	visibility: visible;
+}
+
+.EligibleForSeasonalRanked #SeasonalRankedSectionContent_Locked
+{
+	visibility: collapse;
+}
+
+#SeasonalRankedGameModes ToggleButton:selected .TickBox
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #e7f6f5 ), to( #a0d6d7 ) );
+	border: 3px solid #000000;
+	box-shadow: #5b62bf77 -4px -4px 8px 8px;
+}
+
+#SeasonalRankedGameModes ToggleButton Label
+{
+	margin-top: 4px;
+	font-size: 16px;
+	margin-left: 8px;
+	color: baseText;
+
+	transition-property: color;
+	transition-duration: 0.2s;
+	transition-timing-function: linear;
+}
+
+#SeasonalRankedGameModes ToggleButton:disabled:hover Label
+{
+	color: #d2d6d1;
+}
+
+#SeasonalRankedGameModes ToggleButton:disabled Label
+{
+	color: white;
+}
+
+ToggleButton:disabled:selected .TickBox
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #222222 ), to( #333333 ) );
+	border: 3px solid #000000;
+	box-shadow: #33333377 -4px -4px 8px 8px;
+}
+
+#SeasonalSoloMMRLabel
+{
+	margin-right: 8px;
+	color: #959596;
+}
+
+#SeasonalPartyMMRLabel
+{
+	margin-right: 8px;
+	color: #959596;
+}
+
+#SeasonalSoloMMRValue
+{
+	visibility: collapse;
+}
+
+#SeasonalSoloMMRCalibrating
+{
+	visibility: collapse;
+	color: white;
+}
+
+#SeasonalSoloMMRNoData
+{
+	visibility: collapse;
+	color: white;
+}
+
+DOTAPlay.SeasonalSoloMMRCalibrated #SeasonalSoloMMRValue
+{
+	visibility: visible;
+}
+
+DOTAPlay.SeasonalSoloMMRCalibrating #SeasonalSoloMMRCalibrating
+{
+	visibility: visible;
+}
+
+DOTAPlay.SeasonalSoloMMRNoData #SeasonalSoloMMRNoData
+{
+	visibility: visible;
+}
+
+#SeasonalPartyMMRValue
+{
+	visibility: collapse;
+	color: white;
+}
+
+#SeasonalPartyMMRCalibrating
+{
+	visibility: collapse;
+	color: white;
+}
+
+#SeasonalPartyMMRNoData
+{
+	visibility: collapse;
+	color: white;
+}
+
+DOTAPlay.SeasonalPartyMMRCalibrated #SeasonalPartyMMRValue
+{
+	visibility: visible;
+}
+
+DOTAPlay.SeasonalPartyMMRCalibrating #SeasonalPartyMMRCalibrating
+{
+	visibility: visible;
+}
+
+DOTAPlay.SeasonalPartyMMRNoData #SeasonalPartyMMRNoData
+{
+	visibility: visible;
+}
+
+#SeasonalPartyMMRValue i, #SeasonalSoloMMRValue i
+{
+	text-decoration: none;
+	font-style: normal;
+	color: #757576;
+	font-weight: lighter;
+}
+
+#SeasonalRankedLeaderboardsButton
+{
+	horizontal-align: center;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#SeasonalRankedLeaderboardsButton Label
+{
+	color: #B1CBC6;
+}
+
+#SeasonalRankedLeaderboardsButton:hover Label
+{
+	text-decoration: underline;
+	color: #FFFFFF;
 }
 
 #RankedSectionHeader
@@ -1546,12 +1893,11 @@ DOTAPlay.SectionVisible_Normal #NormalSectionContent
 }
 
 
-#RankedGameModes
+#RankedGameModes, #SeasonalRankedGameModes
 {
 	padding-top: 8px;
 	padding-left: 8px;
 }
-
 
 #UnrankedGameModes
 {
@@ -1755,7 +2101,7 @@ DOTAPlay.RankedMode #UnrankedGameModes
 	visibility: collapse;
 }
 
-#WeekendTourneyStatus.StateNowOpen, #WeekendTourneyStatus.StateInTourney, #WeekendTourneyStatus.StateStartingSoon
+.ExpandWeekendTourney #WeekendTourneyStatus
 {
 	visibility: visible;
 }

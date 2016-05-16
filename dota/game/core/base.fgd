@@ -2442,10 +2442,8 @@
 	input ToggleSprite(void) : "Toggle the sprite between hidden and shown."
 ]
 
-
-@PointClass base(Targetname) iconsprite("editor/env_wind.vmat") sphere(windradius) = env_wind : 
-	"An entity to control wind in the map. Partially functional."
-[
+@BaseClass base(Targetname) = BaseEnvWind 
+[ 
 	//gustsound(sound) : "Gust Sound Filename" : "" : "Sound to be played to simulate the gusting wind."
 	minwind(integer) : "Min normal speed" : 20 : "Minimum speed of the wind while idling."
 	maxwind(integer) : "Max normal speed" : 50 : "Maximum speed of the wind while idling."
@@ -2465,6 +2463,19 @@
 	output OnGustStart(void) : "Fired when a wind gust begins."
 	output OnGustEnd(void) : "Fired when a wind gust ends."
 ]
+
+@PointClass base(BaseEnvWind) iconsprite("editor/env_wind.vmat") sphere(windradius) = env_wind : 
+	"An entity to control wind in the map. Partially functional."
+[
+	
+]
+
+@PointClass base(BaseEnvWind) iconsprite("editor/env_wind.vmat") sphere(windradius) = env_wind_clientside : 
+	"An entity to control wind in the map, client only. Partially functional."
+[
+	
+]
+
 
 @PointClass size(-16 -16 -16, 16 16 16) color(0 0 255) = sky_camera : 
 	"An entity used to control the 3D Skybox. Its origin is used to determine the 3D Skybox's position relative to the map. Place this entity, in the 3D Skybox, at the point where the origin of the map should be."
@@ -7407,11 +7418,6 @@
 	output OnDisengage(void) : "Fires when disengaged due to going beyond the Disengage Max Distance (or releasing USE if needed)"
 ]
 
-@PointClass base(Targetname, Parentname, EnableDisable) editormodel("models/editor/cone_helper") = point_hmd_anchor
-[
-	PlayerIndex(integer) : "Player Index (0 = any, 1 = player 1)" : 0
-]
-
 @PointClass editormodel() = prop_magic_carpet
 [
 	model(studio) : "Model" : "models/editor/sky_helper.vmdl"
@@ -7431,6 +7437,7 @@
 @BaseClass base(Targetname) = base_clientui_ent 
 [ 
 	dialog_layout_name(string) : "Layout XML"
+	panel_class_name(string) : "Panel Class"
 
 	output CustomOutput0(void) : ""
 	output CustomOutput1(void) : ""
@@ -7454,9 +7461,30 @@
 	input Disable(void) : "Disable the point_viewcontrol_multiplayer, and stop controlling the players' view."
 ]
 
-@PointClass base(base_clientui_ent) = point_clientui_world_panel
+@PointClass base(base_clientui_ent) orientedwidthheight( width, height ) = point_clientui_world_panel
 [
 	width(float) : "Width" : "32"
 	height(float) : "Height" : "32"
+	panel_dpi(float) : "DPI" : "32"
+	ignore_input(boolean) : "Ignore Input" : "0"
+	interact_distance(float) : "Interact Distance" : "8"
+	horizontal_align(Choices) =
+	[
+		0: "Left"
+		1: "Center"
+		2: "Right"
+	]
+	vertical_align(Choices) =
+	[
+		0: "Bottom"
+		1: "Center"
+		2: "Top"
+	]
+	orientation(Choices) =
+	[
+		0: "Default"
+		1: "Face User"
+		2: "Face User Upright"
+	]
 ]
 

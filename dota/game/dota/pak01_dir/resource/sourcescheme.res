@@ -1179,5 +1179,10 @@ Scheme
         	"font"		"vgui/fonts/arial.ttf" [$OSX||$LINUX]
         	"name"		"Arial" [$OSX||$LINUX]
         }
+		"4"
+        {
+        	"font"		"vgui/fonts/lucon.ttf" [$OSX||$LINUX]
+        	"name"		"Lucida Console" [$OSX||$LINUX]
+        }
 	}
 }

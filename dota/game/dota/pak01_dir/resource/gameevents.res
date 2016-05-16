@@ -230,6 +230,7 @@
 		"entindex_attacker"	"long"
 		"entindex_inflictor"	"long"
 		"damagebits"		"long"
+		"damage"			"float"
 	}
 	
 	"bonus_updated"

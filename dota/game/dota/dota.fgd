@@ -54,8 +54,8 @@
 	HeightFogDrawScale2(float) :  "Height Fog Draw Scale 2" : "0.09"
 	HeightFogScrollDir1(vector) : "Height Fog Scroll Dir 1" : "-0.047 0.074 0"
 	HeightFogScrollDir2(vector) : "Height Fog Scroll Dir 2" : "-0.114 0.02 0"
-	HeightFogTexture(resource:texture) : "Height Fog Texture" : "materials/effects/fow_clouds_00.vtex"
-	HeightFogMaskTexture(resource:texture) : "Height Fog Mask Texture" : "materials/effects/fog_world_00.vtex"
+	HeightFogTexture(resource:texture) : "Height Fog Texture" : ""
+	HeightFogMaskTexture(resource:texture) : "Height Fog Mask Texture" : ""
 ]
 
 @PointClass base(Targetname) = ent_dota_game_events : 
@@ -124,6 +124,10 @@
 	specular_color_night(color255) : "Specular Color - Night" : "0 0 0" : "Specular Nighttime color."
 	specular_power_day(float) : "Specular Power - Day" : "-1" : "Daytime Specular Power."
 	specular_power_night(float) : "Specular Power - Night" : "-1" : "Night Specular Power."
+	specular_independence_day(float) : "Specular Independence - Day" : "0" : "Daytime specular light independence from diffuse."
+	specular_independence_night(float) : "Specular Independence - Night" : "0" : "Night specular light independence from diffuse."
+	specular_direction_day(vector) : "Specular Direction - Day" : "90 0 0" : "Daytime specular light direction."
+	specular_direction_night(vector) : "Specular Direction - Night" : "90 0 0" : "Nighttime specular light direction."
 	light_direction_day(vector) : "Light Direction - Day" : "0 0 0" : "Light Daytime direction."
 	light_direction_night(vector) : "Light Direction - Night" : "0 0 0" : "Light Nighttime direction."
 	ambient_direction_day(vector) : "Ambient Direction - Day" : "0 0 0" : "Ambient Daytime direction."
@@ -163,6 +167,9 @@
 		4: "Pestilence Weather Only"
 		5: "Harvest Weather Only"
 		6: "Sirocco Weather Only"
+		7: "Spring Weather Only"
+		8: "Fire Weather Only"
+		9: "Northern Lights Weather Only"
 	]
 
 	lightning_spec_pow_scale_min(float) : "Lightning Specular Power Scale Minimum" : "1" : "The minimum amount to scale the specular power for lightning events."
@@ -351,8 +358,10 @@
 	"Creates a Dota tree.  Trees have collision, block fog of war visibility, and can be destroyed.  Note: it's far faster to place trees via the Tile Editor tool."
 [
 	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
+	ambientfx(particlesystem) : "Ambient Effect"
+	particle_tint_color(color255) : "Particle Tint Color" : "255 255 255"
 	body(integer) : "bodygroup" : 1 : "Show tree in Hammer"
-	
+		
 	input CutDown(void) : "Cut down the tree."
 	input CutDownForever(void) : "Cut down the tree and don't grow back."
 	input GrowBack(void) : "Force the tree to regrow."
@@ -406,6 +415,19 @@
 		0: "No"
 		1: "Yes"
 	]
+]
+
+@PointClass base(prop_dynamic_base, Targetname, teamnumber) studioprop() = prop_dynamic_client_fadeout:
+	"Client-side prop which fades out when it begins to obstruct the view."
+[
+	fade_out_mode(choices) : "Fade out mode" : 0 =
+	[
+		0: "Time"
+		1: "Position"
+	]
+	fade_time(float) : "Fade Time" : "0.5" : "Number of seconds over which the fade occurs. Used by fade out mode time."
+	fade_radius(float) : "Fade Radius" : "0.5" : "Controls the distance from the center of the screen at which the fade out starts, 0 to 1 value."
+	fade_radius_end(float) : "Fade End Radius" : "0.25" : "Controls the distance from the center of screen at which the fade completes, 0 to 1 value. Used by fade mode Position."
 ]
 
 @PointClass base(prop_dynamic_base, Targetname, teamnumber) studioprop() = prop_player_cosmetic: 
@@ -789,6 +811,7 @@
 	
 	specularangles(angle) : "Specular Angle ( Y Z X )" : "90 0 0" : ""
 	specularpower(float) : "Specular Power" : "16" : ""
+	specularindependence(float) : "Specular Independence" : "0" : "Specular independence from diffuse light. 0 specular is multiplied by diffuse, 1 specular is independent of diffuse."
 	specularcolor(color255) : "Specular Color" : "128 128 128 1" : "This is the color of the specular."
 	fov(float) : "FOV" : 5 : "This is the field of view that the sunlight casts in. Use lower values for more distant sun and sharper shadows."
 	nearz(float) : "NearZ Distance" : "4" : "This controls the near clipping plane's distance from the player."
@@ -982,4 +1005,10 @@
 
 @PointClass base(trigger_multiple,dota_entity_filter_flags) = filter_dota : "Dota-specific Filter."
 [
+]
+
+@PointClass base(Targetname, Parentname) size(-4 -4 -4, 4 4 4) = point_hmd_anchor : 
+	"Default room anchor location"
+[
+	
 ]

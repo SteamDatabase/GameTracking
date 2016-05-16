@@ -1,15 +1,12 @@
 /* Don't change the name - referenced from code */
-@define MinScrollbarPosition: 250.0f;
-@define ScrollbarWidth: 950.0f;
-@define ScrollerWidth: 500.0f;
-@define SelectorWidth: 480.0f;
-@define ScrollbarLength: 1392.0f;
 @define RewardItemsOffset16x9: 245.0f;
 @define RewardItemsOffset4x3: -5.0f;
 @define RewardItemsOffset16x10: 150.0f;
 @define RewardItemsOffset5x4: 10.0f;
 @define RewardsLength: 3030.0f;
-@define ScrollbarScale: 0.3;
+
+@define accentColorBright: #e54e42;
+@define accentColor: #A9372E;
 
 DOTAReferencePage
 {
@@ -79,7 +76,6 @@ DOTAReferencePage
 	margin-top: 180px;
 }
 
-
 .SecondaryTabButton Label
 {
 	color: #768e8d;
@@ -88,6 +84,61 @@ DOTAReferencePage
 	text-transform: uppercase;
 	margin: 0px;
 	letter-spacing: 3px;
+}
+
+.SecondaryTabButton.RightAlignTab
+{
+	width: fill-parent-flow( 1.0 );
+	margin-right: 300px;
+}
+
+.AspectRatio4x3 .SecondaryTabButton.RightAlignTab,
+.AspectRatio5x4 .SecondaryTabButton.RightAlignTab
+{
+	margin-right: 400px;
+}
+
+.SecondaryTabButton.RightAlignTab Label
+{
+	width: 100%;
+	text-align: right;
+}
+
+.CompendiumOpen .SecondaryTabButton Label
+{
+	color: #c3b699;
+}
+
+.CompendiumOpen .SecondaryTabButton:disabled Label
+{
+	color: #504b3f;
+}
+
+.CompendiumOpen .SecondaryTabButton:Selected Label
+{
+	text-shadow: 0px 0px 12px #F7DEB555;
+}
+
+.CompendiumOpen RadioButton:selected > Label
+{
+	color: white;
+}
+
+.CompendiumOpen RadioButton:enabled:hover > Label
+{
+	color: white;
+}
+
+.CompendiumOpen .SecondaryTabSeparator
+{
+	color: #5b493d;
+	//color: #a67659;
+	wash-color: none;
+}
+
+.CompendiumOpen .SecondaryTabButton .SecondaryTabPostfixImage
+{
+	wash-color: #a67659;
 }
 
 #CampaignContainer
@@ -496,18 +547,12 @@ DOTAReferencePage
 	visibility: collapse;
 }
 
-#RewardItems.Dragging,
-.Dragging
-{
-    transition-property: transform;
-    transition-duration: 0s;
-}
 
-#RewardItems.NotDragging,
-.NotDragging
+
+Winter2016RewardWell.Dragging #RewardItems,
+Winter2016RewardWell.Dragging #RewardPath
 {
-	transition-property: transform;
-    transition-duration: 0.6s;
+	transition-duration: 0.0s;
 }
 
 #RewardPath
@@ -515,6 +560,8 @@ DOTAReferencePage
 	overflow: noclip;
     transform:  translateY( 0px ) translateX( 0px) rotateX( 50deg);
 
+    transition-property: transform;
+	transition-duration: 0.6s;
 
 	z-index: -1;
 }
@@ -523,10 +570,10 @@ DOTAReferencePage
 {
 	overflow: noclip;
 	transform:  translateY( -100px ) translateX( 0px) translateZ( 0px);
+	z-index: 2;
+
 	transition-property: transform;
     transition-duration: 0.6s;
-	z-index: 2;
-	//visibility: collapse;
 }
 
 
@@ -1232,18 +1279,12 @@ DOTAReferencePage
 	font-size: 20px;
 }
 
-#RewardC1, #RewardC2
+.RewardContainer
 {
     width: 100%;
 	height: 100%;
 }
-.RylaiText
-{
-    width:100%;
-    text-align:center;
-    color:#6B8DAD;
-}
-.AspectRatio4x3 #RewardC1, .AspectRatio4x3 #RewardC2
+.AspectRatio4x3 .RewardContainer
 {
     padding-left:12px;
     padding-right:12px;
@@ -1473,12 +1514,22 @@ DOTAReferencePage
 
  #AchievementsContainer
 {
-	height: 100%;
+	height: 600px;
 	width: 100%;	
     flow-children:right-wrap;
-    //overflow: clip scroll;
-    padding-top: 114px;
+    overflow: clip scroll;
+    margin-top: 85px;
+    padding-bottom:50px;
+	padding-top: 10px;
+	opacity-mask: url("s2r://panorama/images/masks/softedge_vertical_big_bottom_vscroll_wide_psd.vtex") 1.0;
 }
+
+#AchievementsContainer VerticalScrollBar
+{
+	margin-top: 10px;
+}
+
+
 
 #AchievementsHeader
 {
@@ -1506,7 +1557,8 @@ DOTAReferencePage
 	vertical-align: bottom;
 	text-transform: uppercase;
 	letter-spacing: 2px;
-	color: #54A1F1;	
+	//color: #54A1F1; winter 2016 color
+	color: accentColorBright;
 	text-shadow: 0px 1px 3px 3 #000000;
 }
 
@@ -1521,14 +1573,15 @@ DOTAReferencePage
 
 .EarnedLabel 
 {
-	color: #375270;
+	//color: #375270; winter 2016 color
+	color: accentColor;
 	margin-right: 16px;
 }
 
 
 .VerticalDivider
 {
-	wash-color: #54A1F1;
+	wash-color: accentColor;
 	margin-left: 16px;
 	margin-right: 16px;
 }
@@ -1568,7 +1621,7 @@ DOTAReferencePage
 
 .CompendiumOpen #ExpiredTag
 {
-	opacity: 1;
+	opacity: 0;
 	pre-transform-scale2d: 1;
 	transition-delay: 0.0s;
 	transition-duration: 0.15s;

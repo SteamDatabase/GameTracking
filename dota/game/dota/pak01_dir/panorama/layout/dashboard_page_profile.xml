@@ -7,6 +7,20 @@
 		<include src="s2r://panorama/styles/profile_card.vcss_c" />
 	</styles>
 
+	<snippets>
+		<snippet name="TeammateStatsRow">
+			<Panel class="TeammateStatsRow">
+				<DOTAAvatarImage id="TeammateAvatarImage" />
+				<Label class="Teammate" text="{g:dota_persona:teammate_account_id}" html="true" />
+				<Label class="GamesCount" text="{d:teammate_games}" />
+				<Label class="WinsLosses" text="&lt;i&gt;{s:teammate_wins_minus_losses}&lt;/i&gt;" html="true" />
+				<Label class="WinRate" text="{s:teammate_win_rate}" />
+				<ProgressBar id="RatingProgressBar" min="0.0" max="1.0" value="0.7" />
+				<Label id="MostRecentMatchButton" class="MostRecentMatch" text="{T:s:teammate_recent_match_timestamp} {T:t:teammate_recent_match_timestamp}" />
+			</Panel>
+		</snippet>
+	</snippets>
+
 	<script>
 		var SetEnabledTab = function( strContainerID, strTabID )
 		{
@@ -23,7 +37,12 @@
 		{
 			$.DispatchEvent( "DOTAEnsureRecentGamesLoaded", false );
 		};
-		
+
+		var OnTeammateStatsEnabled = function()
+		{
+			$.DispatchEvent( "DOTAEnsureTeammateStatsLoaded" );
+		};
+
 		var OnAllHeroChallengeEnabled = function()
 		{
 			$.DispatchEvent( "DOTAProfileLoadAllHeroChallenge" );
@@ -62,6 +81,7 @@
 		};
 		
 	</script>
+
 
 	<Panel class="DashboardPage" onpagesetupsuccess="OnPageSetupSuccess();">
 		<Panel id="ProfileContainer" class="ProfileTopLevel">
@@ -228,7 +248,7 @@
 									<Label class="GameType" text="#dota_profile_recent_game_header_type" />
 									<Button class="ControlIconButton SettingsButton" id="RecentGamesOptionsButton" onactivate="ToggleRecentGamesOptions();" />
 								</Panel>
-								<Panel id="LoadingSpinnerPanel">
+								<Panel class="LoadingSpinnerPanel">
 									<Panel class="Spinner" />
 								</Panel>
 								<Panel id="RecentGamesTable">
@@ -243,6 +263,22 @@
 								<DOTASettingsCheckbox class="SelfOnly" convar="cl_dota_recent_games_include_practice_matches" text="dota_profile_recent_games_option_show_practice_matches" />
 								<DOTASettingsCheckbox convar="cl_dota_recent_games_include_custom_games" text="dota_profile_recent_games_option_show_custom_games" />
 								<DOTASettingsCheckbox class="SelfOnly" convar="cl_dota_recent_games_show_ranked_mmr_change" text="dota_profile_recent_games_option_show_ranked_mmr_change" />
+							</Panel>
+							<Panel id="TeammateStats">
+								<Panel class="TeammateStatsHeader">
+									<Label class="Teammate" text="#dota_profile_teammate_stats_header_teammate" />
+									<Label class="GamesCount" text="#dota_profile_teammate_stats_header_games" />
+									<Label class="WinsLosses" text="#dota_profile_teammate_stats_header_wins_losses" />
+									<Label class="WinRate" text="#dota_profile_teammate_stats_header_win_rate" />
+									<Label class="Rating" text="#dota_profile_teammate_stats_header_rating" />
+									<Label class="MostRecentMatch" text="#dota_profile_teammate_stats_header_most_recent_match" />
+								</Panel>
+								<Panel class="LoadingSpinnerPanel">
+									<Panel class="Spinner" />
+								</Panel>
+								<Panel id="TeammateStatsTable">
+									<!-- Full of TeammateStatsRow snippets -->
+								</Panel>
 							</Panel>
 							<Panel id="AllHeroChallenge">
 								<Panel id="AHCHeader">
