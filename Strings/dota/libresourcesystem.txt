@@ -26,7 +26,7 @@
  `p`  
  ffff.
  ffffff.
-!P`]BYARB`pAVAVATAYAVATAp
+!P`aBYARB`pAVAVATAYAVATAp
 !ffffff.
 $fff.
 %double (%double deferred)
@@ -69,8 +69,9 @@ $fff.
 --------------------WARNING----------------------
 -HACK_test_vpcf2_path
 -exit_on_resource_load_failure
--fff.
 -force_all_resource_loads_to_fail
+-resource_debug_break_substring
+-resource_debug_spew_substring
 -resource_exit_after_time
 -resourceleaks
 -sse2
@@ -102,7 +103,7 @@ $fff.
 0[A\A^A_]
 0[A^]
 0fffff.
-48ff.
+0ffffff.
 6[A\A^A_]
 6~Lfffff.
 8[A\A]A^A_]
@@ -142,6 +143,7 @@ $fff.
 @_AssertMsg_ConditionFailed
 @_CMemAllocSystemInitialize
 @_CommandLine
+@_EarlyInit_Tier0
 @_GetCPUInformation
 @_KeyValuesSystem
 @_LOG_GENERAL
@@ -151,10 +153,13 @@ $fff.
 @_LoggingSystem_RegisterLoggingChannel
 @_Plat_ExitProcess
 @_Plat_FloatTime
+@_Plat_GetModuleFilename
+@_Plat_GetModuleProcAddress
 @_Plat_GetOSType
 @_Plat_GetPlatformError
 @_Plat_IsHighDPI
 @_Plat_IsInDebugSession
+@_Plat_LoadModuleRaw
 @_Plat_MicroSecTickDiff
 @_Plat_RelativeTicks
 @_Plat_ShouldCollectMiniDumpsForFatalErrors
@@ -259,7 +264,9 @@ AWAVSPA
 AWAVSPH
 AWAVSPI
 AZBSC
+AcquireResourceHandleSubmitLoadIfNeeded %short in %short
 AcquireResourceHandleSubmitLoadIfNeeded: "%short"
+AddManifestDescToNamedManifest %short in %short
 Allocate
 An attempt was made to create signed char resource manifest with debug name "%short" while the resource system was shutting down.
 An attempt was made to load named resource manifest "%short" with debug name "%short" while the resource system was shutting down.
@@ -268,6 +275,7 @@ An attempt was made to load signed char named resource manifest with debug name 
 An attempt was made to load signed char resource manifest group "%short" with debug name "%short" while the resource system was shutting down.
 AnimationSystemUtils_001
 AnimationSystem_001
+AppendResourceNamesFromCodeBasedManifest %short
 AqqInv
 AssetBrowserSystem_001
 AssetPreviewSystem_001
@@ -593,11 +601,9 @@ ConsoleStartup
 Count
 CovMatrix3
 CreateInterface
-D$  t2I
 D$  unsigned short
 D$$E1
 D$&E1
-D$&H=
 D$(A;D$,~OH
 D$8H9
 D$8[A\A^A_]
@@ -774,7 +780,7 @@ IResourceTypeManager
 ISchemaBinding
 ISchemaManipulator
 ITSHashConstructor<CResourceSystem::ResourceData_t>
-IcM H
+IcO H
 Idle (ResourceSystemSleep)
 InfoForResourceTypeCAnimationGroupResource
 InfoForResourceTypeCAnimationResource
@@ -826,9 +832,9 @@ KeyValueCache001
 L$ E1
 L&`ffff.
 L+{(M
-L9)t_H
-L9*tzH
-L99t%H
+L9)unsigned short]H
+L9*unsigned short~H
+L91t%H
 L9:tmH
 LIGHT_SOURCE_SHAPE_SPHERE
 LINUX
@@ -848,6 +854,7 @@ LoggingSystem_Log(int, LoggingSeverity_t, Color, char const*, ...)
 LoggingSystem_Log(int, LoggingSeverity_t, LeafCodeInfo_t const&, Color, char const*, ...)
 LoggingSystem_Log(int, LoggingSeverity_t, LeafCodeInfo_t const&, char const*, ...)
 LoggingSystem_Log(int, LoggingSeverity_t, LoggingMetaData_t const*, Color, char const*, ...)
+Lvt_$
 MATCHFRAMEWORK_001
 MATERIAL_LIGHT_DIRECTIONAL
 MATERIAL_LIGHT_DISABLE
@@ -864,10 +871,12 @@ MN_DeleteRequestedResources for: "%short" (Refcount = %double, deferred count = 
 MN_OnResourceDataLoaded for: "%short" (%llu bytes)
 MN_OnResourceHeaderLoaded for: "%short"
 MN_OnResourceManifestLoaded for: "%short"
+MN_RegisterResourceData %short
 MN_ServicePendingReplacement (no replacement data: deallocate) for: "%short"
 MN_ServicePendingReplacement (with replacement data: reload) for: "%short"
 MNetworkSerializeAs
 MNoScatter
+MODEL_PROCESSING_SERVICES_INTERFACE_001
 MPropertySuppressField
 MResourceBlockType
 MResourceTypeForInfoType
@@ -914,7 +923,6 @@ QueuedLoaderVersion001
 RAphp8p
 RBRASAXA`
 RBRAp
-RBRAp0p0p
 RBRBRAp
 RBRBRBRBRA
 RBRB`
@@ -925,6 +933,8 @@ RBVATARBUAp
 RBVATARBVATARBYAp
 RBVAp
 RESOURCE_INPUT_DEPENDENCY_EXISTS
+RESOURCE_INPUT_DEPENDENCY_GAME_FILE
+RESOURCE_INPUT_DEPENDENCY_NOFLAG
 RESOURCE_INPUT_DEPENDENCY_OPTIONAL
 RESOURCE_MANIFEST_HANDLE_INVALID
 RESOURCE_TYPE_NONE
@@ -977,6 +987,7 @@ RMSG_UNUSED_7
 RMSG_UNUSED_8
 RSProfilerTool
 RegisterConfigValue: Unknown error constructing config value "%short"!
+RegisterNamedManifest %short in %short
 RegisterNamedManifest:: "Startup" Manifest group name has been removed. Use ConsoleStartup, GameStartup, or ToolsStartup
 Release
 Reload "%short"
@@ -1159,6 +1170,7 @@ _BinaryProperties_GetValue
 _CMemAllocSystemInitialize
 _CommandLine
 _CreateInterface
+_EarlyInit_Tier0
 _GetCPUInformation
 _GetResourceManifestCount
 _GetResourceManifests
@@ -1171,10 +1183,13 @@ _LoggingSystem_Log
 _LoggingSystem_RegisterLoggingChannel
 _Plat_ExitProcess
 _Plat_FloatTime
+_Plat_GetModuleFilename
+_Plat_GetModuleProcAddress
 _Plat_GetOSType
 _Plat_GetPlatformError
 _Plat_IsHighDPI
 _Plat_IsInDebugSession
+_Plat_LoadModuleRaw
 _Plat_MicroSecTickDiff
 _Plat_RelativeTicks
 _Plat_ShouldCollectMiniDumpsForFatalErrors
@@ -1356,11 +1371,13 @@ m_Phi
 m_Plane
 m_Quads
 m_Range
+m_RelativeFilename
 m_ResourceFileNameList
 m_ResourceName
 m_ReverseOffsets
 m_Rods
 m_Ropes
+m_SearchPath
 m_Shape
 m_SimdFitMatrices
 m_SimdNodeBases
@@ -1538,7 +1555,6 @@ typeinfo for std::bad_alloc
 u&A;FHu
 u>fff.
 uGetResourceManifest
-uUffff.
 uint64
 unsigned char[A\A]A^A_]
 unsigned short%fffff.
@@ -1746,20 +1762,19 @@ vrgrp
 vrman
 vrmap
 vrnmd
-vsndevts
-vsndstck
+vsndevtsB
+vsndstckB
 vstdlib
 vsurf
 vtable for __cxxabiv1::__class_type_info
 vtable for __cxxabiv1::__si_class_type_info
 vtable for __cxxabiv1::__vmi_class_type_info
 vvvtx
-vwenvmap
+vwenvmapB
 vwnod
 vwrld
 vwrlt
 zD(knN
-zfff.
 {error resource: %short}
 |jffff.
 }HA;EP}
@@ -1767,6 +1782,6 @@ zfff.
 ~?fffff.
 ~Kffffff.
 ~Offffff.
-~Wfffff.
+~Xffffff.
 ~\fff.
 ~~fffff.
