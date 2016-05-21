@@ -1,27 +1,42 @@
--- Workshop Importer [veno_ward_idle]: Multiblend sequence
+-- DmeMultiSequence
+model:CreateSequence(
+	{
+		name = "ward_attack_multi",
+		poseParamX = model:CreatePoseParameter( "aim", -1, 1, 0, false ),
+		sequences = {
+			{ "ward_attack_minus179", "ward_attack_minus90", "ward_attackN", "ward_attack90", "ward_attack180" }
+		},
+		activities = {
+			{ name = "ACT_DOTA_ATTACK", weight = 1 }
+		}
+	}
+)
+
+
+-- DmeMultiSequence
 model:CreateSequence(
 	{
 		name = "ward_idle_multi",
-		looping = true,
-		poseParamX = model:CreatePoseParameter( "idle_aim", -1, 1, 0, false ),
+		poseParamX = model:CreatePoseParameter( "aim", -1, 1, 0, false ),
 		sequences = {
-			{ "backleftidle", "leftidle", "idle", "rightidle", "backrightidle" }
+			{ "ward_idle_minus179", "ward_idle_minus90", "ward_idle", "ward_idle90", "ward_idle180" }
 		},
 		activities = {
 			{ name = "ACT_DOTA_IDLE", weight = 1 }
 		}
 	}
 )
--- Workshop Importer [veno_ward_attack]: Multiblend sequence
+
+-- DmeMultiSequence
 model:CreateSequence(
 	{
-		name = "ward_attack_multi",
-		poseParamX = model:CreatePoseParameter( "attack_aim", -1, 1, 0, false ),
+		name = "ward_die_multi",
+		poseParamX = model:CreatePoseParameter( "aim", -1, 1, 0, false ),
 		sequences = {
-			{ "backleftattack", "leftattack", "attack", "rightattack", "backrightattack" }
+			{ "ward_die_minus179", "ward_die_minus90", "ward_die", "ward_die90", "ward_die180" }
 		},
 		activities = {
-			{ name = "ACT_DOTA_ATTACK", weight = 1 }
+			{ name = "ACT_DOTA_DIE", weight = 1 }
 		}
 	}
 )

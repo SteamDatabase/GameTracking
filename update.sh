@@ -6,14 +6,12 @@ cd "${0%/*}"
 if [[ $1 = "all" ]]; then
 	echo "Going to process all folders"
 	
-	re='^[0-9]+/$'
-	
-	for dir in */; do
-		if [[ $dir =~ $re ]]; then
-			echo "$dir"
-			
-			./update.sh "${dir::-1}" "no-git"
-		fi
+	grep -o "\"[0-9]\+\"" files.json | while read -r dir; do
+		# bloody bash, man
+		dir="${dir%\"}"
+		dir="${dir#\"}"
+		
+		./update.sh "${dir}" "no-git"
 	done
 	
 	./update.sh 0

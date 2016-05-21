@@ -8,31 +8,13 @@
 --
 --=============================================================================
 
+-- DmeMultiSequence
 model:CreateSequence(
 	{
-		name = "serpent_ward_idle",
-		looping = true,
-		fadeInTime = 0.2,
-		fadeOutTime = 0.2,
-		poseParamX = model:CreatePoseParameter( "idle_aim", -1, 1, 0, false ),
+		name = "ss_totem_attack_multi",
+		poseParamX = model:CreatePoseParameter( "aim", -1, 1, 0, false ),
 		sequences = {
-			{ "back_left_idle", "left_idle", "idle", "right_idle", "back_right_idle" }
-		},
-		activities = {
-			{ name = "ACT_DOTA_IDLE", weight = 1 }
-		}
-	}
-)
-
-
-model:CreateSequence(
-	{
-		name = "serpent_ward_attack",
-		fadeInTime = 0.2,
-		fadeOutTime = 0.2,
-		poseParamX = model:CreatePoseParameter( "attack_aim", -1, 1, 0, false ),
-		sequences = {
-			{ "back_left_attack", "left_attack", "attack", "right_attack", "back_right_attack" }
+			{ "ss_totem_attack_minus179", "ss_totem_attack_minus90", "ss_totem_attack", "ss_totem_attack_90", "ss_totem_attack_180" }
 		},
 		activities = {
 			{ name = "ACT_DOTA_ATTACK", weight = 1 }
@@ -40,3 +22,17 @@ model:CreateSequence(
 	}
 )
 
+
+-- DmeMultiSequence
+model:CreateSequence(
+	{
+		name = "ss_totem_idle_multi",
+		poseParamX = model:CreatePoseParameter( "aim", -1, 1, 0, false ),
+		sequences = {
+			{ "ss_totem_idle_minus179", "ss_totem_idle_minus90", "ss_totem_idle", "ss_totem_idle90", "ss_totem_idle180" }
+		},
+		activities = {
+			{ name = "ACT_DOTA_IDLE", weight = 1 }
+		}
+	}
+)
