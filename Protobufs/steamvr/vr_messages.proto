@@ -62,21 +62,12 @@ message CVRMsg_GetDisplayInfoResponse {
 	repeated .CVRMsg_GetDisplayInfoResponse.DisplayInfo display = 1;
 }
 
-message CVRMsg_TrackedCamera_GetFirmwareDescription {
-	optional uint32 device_index = 1;
-}
-
-message CVRMsg_TrackedCamera_GetFirmwareDescriptionResponse {
-	optional bool result = 1;
-	optional string firmware_string = 2;
-}
-
-message CVRMsg_TrackedCamera_GetFrameDimensions {
+message CVRMsg_TrackedCamera_GetFormatDimensions {
 	optional uint32 device_index = 1;
 	optional uint32 video_stream_format = 2;
 }
 
-message CVRMsg_TrackedCamera_GetFrameDimensionsResponse {
+message CVRMsg_TrackedCamera_GetFormatDimensionsResponse {
 	optional bool result = 1;
 	optional uint32 width = 2;
 	optional uint32 height = 3;
@@ -164,15 +155,23 @@ message CVRMsg_TrackedCamera_ResumeVideoStreamResponse {
 }
 
 message CVRMsg_TrackedCamera_GetDistortion {
+	message InputCoord {
+		optional float u = 1;
+		optional float v = 2;
+	}
+
 	optional uint32 device_index = 1;
-	optional float u = 2;
-	optional float v = 3;
+	repeated .CVRMsg_TrackedCamera_GetDistortion.InputCoord coordinates = 2;
 }
 
 message CVRMsg_TrackedCamera_GetDistortionResponse {
+	message OutputCoord {
+		optional float u = 1;
+		optional float v = 2;
+	}
+
 	optional bool result = 1;
-	optional float u = 2;
-	optional float v = 3;
+	repeated .CVRMsg_TrackedCamera_GetDistortionResponse.OutputCoord coordinates = 2;
 }
 
 message CVRMsg_TrackedCamera_GetProjection {
@@ -208,21 +207,6 @@ message CVRMsg_TrackedCamera_SetUndistortionResponse {
 	optional bool result = 1;
 }
 
-message CVRMsg_TrackedCamera_RequestVideoServicesForTool {
-}
-
-message CVRMsg_TrackedCamera_ReleaseVideoServicesForTool {
-}
-
-message CVRMsg_TrackedCamera_GetVideoStreamFrameSharedTexture {
-	optional bool undistorted = 1;
-}
-
-message CVRMsg_TrackedCamera_GetVideoStreamFrameSharedTextureResponse {
-	optional bool result = 1;
-	optional uint64 texture_handle = 2;
-}
-
 message CVRMsg_TrackedCamera_SetCompatibilityMode {
 	optional uint32 device_index = 1;
 	optional int32 compatibility_mode = 2;
@@ -230,6 +214,48 @@ message CVRMsg_TrackedCamera_SetCompatibilityMode {
 
 message CVRMsg_TrackedCamera_SetCompatibilityModeResponse {
 	optional bool result = 1;
+}
+
+message CVRMsg_TrackedCamera_AcquireVideoStreamingService {
+	optional uint32 device_index = 1;
+}
+
+message CVRMsg_TrackedCamera_AcquireVideoStreamingServiceResponse {
+	optional uint64 service_handle = 1;
+}
+
+message CVRMsg_TrackedCamera_ReleaseVideoStreamingService {
+	optional uint64 service_handle = 1;
+}
+
+message CVRMsg_TrackedCamera_ReleaseVideoStreamingServiceResponse {
+	optional bool result = 1;
+}
+
+message CVRMsg_TrackedCamera_GetFrameBounds {
+	optional uint32 device_index = 1;
+	optional uint32 frame_type = 2;
+}
+
+message CVRMsg_TrackedCamera_GetFrameBoundsResponse {
+	optional bool result = 1;
+	optional uint32 left = 2;
+	optional uint32 top = 3;
+	optional uint32 width = 4;
+	optional uint32 height = 5;
+}
+
+message CVRMsg_TrackedCamera_GetIntrinsics {
+	optional uint32 device_index = 1;
+	optional uint32 frame_type = 2;
+}
+
+message CVRMsg_TrackedCamera_GetIntrinsicsResponse {
+	optional bool result = 1;
+	optional float focal_x = 2;
+	optional float focal_y = 3;
+	optional float center_x = 4;
+	optional float center_y = 5;
 }
 
 message CVRMsg_GetProperty {
@@ -284,6 +310,13 @@ message CVRMsg_CompositorHideDashboard {
 message CVRMsg_CompositorHideDashboardResponse {
 }
 
+message CVRMsg_CompositorHandleSystemButton {
+	optional bool down = 1;
+}
+
+message CVRMsg_CompositorHandleSystemButtonResponse {
+}
+
 message CVRMsg_CompositorConnectResponse {
 	optional int32 result = 1;
 }
@@ -309,7 +342,7 @@ message CVRMsg_CompositorHideMirrorWindow {
 message CVRMsg_CompositorDumpImages {
 }
 
-message CVRMsg_CompositorToggleCameraReprojection {
+message CVRMsg_CompositorToggleCameraRoomView {
 }
 
 message CVRMsg_CompositorSetOverlayFromFile {
@@ -565,6 +598,7 @@ message CVRMsg_Settings_GetBool {
 message CVRMsg_Settings_GetBool_Response {
 	optional uint32 settingserror = 1;
 	optional bool value = 2;
+	optional uint32 dirty_count = 3;
 }
 
 message CVRMsg_Settings_SetBool {
@@ -582,6 +616,7 @@ message CVRMsg_Settings_GetInt32 {
 message CVRMsg_Settings_GetInt32_Response {
 	optional uint32 settingserror = 1;
 	optional int32 value = 2;
+	optional uint32 dirty_count = 3;
 }
 
 message CVRMsg_Settings_SetInt32 {
@@ -599,6 +634,7 @@ message CVRMsg_Settings_GetFloat {
 message CVRMsg_Settings_GetFloat_Response {
 	optional uint32 settingserror = 1;
 	optional float value = 2;
+	optional uint32 dirty_count = 3;
 }
 
 message CVRMsg_Settings_SetFloat {
@@ -617,6 +653,7 @@ message CVRMsg_Settings_GetString {
 message CVRMsg_Settings_GetString_Response {
 	optional uint32 settingserror = 1;
 	optional string value = 2;
+	optional uint32 dirty_count = 3;
 }
 
 message CVRMsg_Settings_SetString {
@@ -632,5 +669,15 @@ message CVRMsg_Settings_RemoveSection {
 message CVRMsg_Settings_RemoveKeyInSection {
 	optional string section_key = 1;
 	optional string settings_key = 2;
+}
+
+message CVRMsg_CompositorRequestScreenshot {
+	optional uint32 type = 1;
+	optional string filename = 2;
+	optional string vr_filename = 3;
+}
+
+message CVRMsg_CompositorRequestScreenshotResponse {
+	optional int32 result = 1;
 }
 
