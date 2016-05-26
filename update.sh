@@ -31,6 +31,11 @@ ProcessDepot ()
 	do
 		baseFile=$(basename "$file" "$2")
 		
+		if [ "$baseFile" = "steamclient" ]
+		then
+			continue
+		fi
+		
 		echo "> $baseFile"
 		
 		mono .support/ProtobufDumper.exe "$file" "Protobufs/$1/" > /dev/null
