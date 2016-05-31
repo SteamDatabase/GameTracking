@@ -1785,5 +1785,13 @@
 
 	"competitive_state_changed"
 	{}
+
+	"ds_stop"
+	{}
+
+	"ds_screenshot"
+	{
+		"delay"		"float"
+	}
 }
 
