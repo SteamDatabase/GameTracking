@@ -171,6 +171,7 @@
  B vroverlay011_FnTable
  B vrrendermodels004_FnTable
  B vrsystem011_FnTable
+ B vrtrackedcamera002_FnTable
  CFRelease
  CFStringGetCStringPtr
  CGLErrorString
@@ -406,6 +407,7 @@
  D typeinfo for CVRSystem_009
  D typeinfo for CVRSystem_010
  D typeinfo for CVRSystem_011
+ D typeinfo for CVRTrackedCamera_002
  D typeinfo for ChaperoneInterfaceRegistration<CVRChaperone_001>
  D typeinfo for ChaperoneInterfaceRegistration<CVRChaperone_002>
  D typeinfo for ChaperoneSetupInterfaceRegistration<CVRChaperoneSetup_001>
@@ -484,6 +486,7 @@
  D typeinfo for SystemInterfaceRegistration<CVRClientCore_001>
  D typeinfo for SystemInterfaceRegistration<IHmdSystem_002>
  D typeinfo for SystemInterfaceRegistration<IHmdSystem_003>
+ D typeinfo for TrackedCameraInterfaceRegistration<CVRTrackedCamera_002>
  D typeinfo for std::__1::basic_filebuf<char, std::__1::char_traits<char> >
  D typeinfo for std::__1::basic_ifstream<char, std::__1::char_traits<char> >
  D typeinfo for std::__1::basic_istringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >
@@ -737,6 +740,7 @@
  D vtable for CVRSystem_009
  D vtable for CVRSystem_010
  D vtable for CVRSystem_011
+ D vtable for CVRTrackedCamera_002
  D vtable for ChaperoneInterfaceRegistration<CVRChaperone_001>
  D vtable for ChaperoneInterfaceRegistration<CVRChaperone_002>
  D vtable for ChaperoneSetupInterfaceRegistration<CVRChaperoneSetup_001>
@@ -809,6 +813,7 @@
  D vtable for SystemInterfaceRegistration<CVRClientCore_001>
  D vtable for SystemInterfaceRegistration<IHmdSystem_002>
  D vtable for SystemInterfaceRegistration<IHmdSystem_003>
+ D vtable for TrackedCameraInterfaceRegistration<CVRTrackedCamera_002>
  D vtable for std::__1::basic_filebuf<char, std::__1::char_traits<char> >
  D vtable for std::__1::basic_ifstream<char, std::__1::char_traits<char> >
  D vtable for std::__1::basic_istringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >
@@ -1056,6 +1061,7 @@
  R typeinfo name for CVRSystem_009
  R typeinfo name for CVRSystem_010
  R typeinfo name for CVRSystem_011
+ R typeinfo name for CVRTrackedCamera_002
  R typeinfo name for ChaperoneInterfaceRegistration<CVRChaperone_001>
  R typeinfo name for ChaperoneInterfaceRegistration<CVRChaperone_002>
  R typeinfo name for ChaperoneSetupInterfaceRegistration<CVRChaperoneSetup_001>
@@ -1134,6 +1140,7 @@
  R typeinfo name for SystemInterfaceRegistration<CVRClientCore_001>
  R typeinfo name for SystemInterfaceRegistration<IHmdSystem_002>
  R typeinfo name for SystemInterfaceRegistration<IHmdSystem_003>
+ R typeinfo name for TrackedCameraInterfaceRegistration<CVRTrackedCamera_002>
  R typeinfo name for std::__1::basic_filebuf<char, std::__1::char_traits<char> >
  R typeinfo name for std::__1::basic_ifstream<char, std::__1::char_traits<char> >
  R typeinfo name for std::__1::basic_istringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >
@@ -1771,6 +1778,8 @@
  T CVRCompositorClientBase::IsMirrorWindowVisible()
  T CVRCompositorClientBase::SetSkyboxOverride(vr::Texture_t const*, unsigned int)
  T CVRCompositorClientBase::SetTrackingSpace(vr::ETrackingUniverseOrigin)
+ T CVRCompositorClientBase::SignalSecondaryRenderingStarted()
+ T CVRCompositorClientBase::TestOrCaptureSceneFocus()
  T CVRCompositorSharedTextures::AcquireSync()
  T CVRCompositorSharedTextures::BeginFrameTiming()
  T CVRCompositorSharedTextures::CreateSharedTexture(int, int, unsigned int, unsigned int, int, CVRCompositorSharedTextures::SharedTextureData&)
@@ -4869,6 +4878,14 @@
  T CVRTrackedCameraStreamPtrBase::CVRTrackedCameraStreamPtrBase(CVRTrackedCameraStream*, unsigned int)
  T CVRTrackedCameraStreamPtrBase::~CVRTrackedCameraStreamPtrBase()
  T CVRTrackedCameraStreamWritablePtr::operator->()
+ T CVRTrackedCamera_002::AcquireVideoStreamingService(unsigned int, void**)
+ T CVRTrackedCamera_002::GetCameraErrorNameFromEnum(vr::EVRTrackedCameraError)
+ T CVRTrackedCamera_002::GetCameraFrameSize(unsigned int, vr::EVRTrackedCameraFrameType, unsigned int*, unsigned int*, unsigned int*)
+ T CVRTrackedCamera_002::GetCameraIntrinisics(unsigned int, vr::EVRTrackedCameraFrameType, vr::HmdVector2_t*, vr::HmdVector2_t*)
+ T CVRTrackedCamera_002::GetCameraProjection(unsigned int, vr::EVRTrackedCameraFrameType, float, float, vr::HmdMatrix44_t*)
+ T CVRTrackedCamera_002::GetVideoStreamFrameBuffer(void*, vr::EVRTrackedCameraFrameType, void*, unsigned int, vr::CameraVideoStreamFrameHeader_t*, unsigned int)
+ T CVRTrackedCamera_002::HasCamera(unsigned int, bool*)
+ T CVRTrackedCamera_002::ReleaseVideoStreamingService(void*)
  T ChaperoneInterfaceRegistration<CVRChaperone_001>::GetInterface()
  T ChaperoneInterfaceRegistration<CVRChaperone_001>::~ChaperoneInterfaceRegistration()
  T ChaperoneInterfaceRegistration<CVRChaperone_002>::GetInterface()
@@ -4940,6 +4957,7 @@
  T GetStringForCompositorError(vr::EVRCompositorError)
  T GetStringForRenderModelError(vr::EVRRenderModelError)
  T GetStringForVRApplicationTransitionState(vr::EVRApplicationTransitionState)
+ T GetStringForVRApplicationType(vr::EVRApplicationType)
  T GetStringForVRApplicationsError(vr::EVRApplicationError)
  T GetStringForVRButtonId(vr::EVRButtonId)
  T GetStringForVRControllerAxisType(vr::EVRControllerAxisType)
@@ -5250,6 +5268,8 @@
  T ThreadSetDebugName
  T ThreadSleep
  T ThreadSuspendSignal(int)
+ T TrackedCameraInterfaceRegistration<CVRTrackedCamera_002>::GetInterface()
+ T TrackedCameraInterfaceRegistration<CVRTrackedCamera_002>::~TrackedCameraInterfaceRegistration()
  T Uint64ToString(unsigned long long)
  T VRClientCoreFactory
  T WillLog(LogLevel)
@@ -5528,11 +5548,11 @@
  T non-virtual thunk to vr::CVRTrackedCamera::GetCameraVideoStreamFormat(unsigned int, vr::ECameraVideoStreamFormat*)
  T non-virtual thunk to vr::CVRTrackedCamera::GetRecommendedCameraUndistortion(unsigned int, unsigned int*, unsigned int*)
  T non-virtual thunk to vr::CVRTrackedCamera::GetVideoStreamFrame(unsigned int, vr::CameraVideoStreamFrame_t const**)
- T non-virtual thunk to vr::CVRTrackedCamera::GetVideoStreamFrameSharedTextureGL(void*, vr::EVRTrackedCameraFrameType, unsigned int*, vr::CameraVideoStreamFrame_t*)
+ T non-virtual thunk to vr::CVRTrackedCamera::GetVideoStreamFrameSharedTextureGL(unsigned long long, vr::EVRTrackedCameraFrameType, unsigned int*, vr::CameraVideoStreamFrame_t*)
  T non-virtual thunk to vr::CVRTrackedCamera::IsVideoStreamActive(unsigned int, bool*, bool*, float*)
  T non-virtual thunk to vr::CVRTrackedCamera::PauseVideoStream(unsigned int)
  T non-virtual thunk to vr::CVRTrackedCamera::ReleaseVideoStreamFrame(unsigned int, vr::CameraVideoStreamFrame_t const*)
- T non-virtual thunk to vr::CVRTrackedCamera::ReleaseVideoStreamFrameSharedTextureGL(void*, unsigned int)
+ T non-virtual thunk to vr::CVRTrackedCamera::ReleaseVideoStreamFrameSharedTextureGL(unsigned long long, unsigned int)
  T non-virtual thunk to vr::CVRTrackedCamera::ResumeVideoStream(unsigned int)
  T non-virtual thunk to vr::CVRTrackedCamera::SetAutoExposure(unsigned int, bool)
  T non-virtual thunk to vr::CVRTrackedCamera::SetCameraCompatibilityMode(unsigned int, vr::ECameraCompatibilityMode)
@@ -5942,7 +5962,7 @@
  T vr::CVRSettingsLatest::SetString(char const*, char const*, char const*, vr::EVRSettingsError*)
  T vr::CVRSettingsLatest::Sync(bool, vr::EVRSettingsError*)
  T vr::CVRSettingsLatest::~CVRSettingsLatest()
- T vr::CVRTrackedCamera::AcquireVideoStreamingService(unsigned int, void**)
+ T vr::CVRTrackedCamera::AcquireVideoStreamingService(unsigned int, unsigned long long*)
  T vr::CVRTrackedCamera::CVRTrackedCamera()
  T vr::CVRTrackedCamera::EnableCameraForStreaming(unsigned int, bool)
  T vr::CVRTrackedCamera::GetCameraDistortion(unsigned int, float*, float*, float*, float*, int)
@@ -5955,16 +5975,16 @@
  T vr::CVRTrackedCamera::GetCameraVideoStreamFormat(unsigned int, vr::ECameraVideoStreamFormat*)
  T vr::CVRTrackedCamera::GetRecommendedCameraUndistortion(unsigned int, unsigned int*, unsigned int*)
  T vr::CVRTrackedCamera::GetVideoStreamFrame(unsigned int, vr::CameraVideoStreamFrame_t const**)
- T vr::CVRTrackedCamera::GetVideoStreamFrameBuffer(void*, vr::EVRTrackedCameraFrameType, void*, unsigned int, vr::CameraVideoStreamFrameHeader_t*, unsigned int)
- T vr::CVRTrackedCamera::GetVideoStreamFrameSharedTextureGL(void*, vr::EVRTrackedCameraFrameType, unsigned int*, vr::CameraVideoStreamFrame_t*)
+ T vr::CVRTrackedCamera::GetVideoStreamFrameBuffer(unsigned long long, vr::EVRTrackedCameraFrameType, void*, unsigned int, vr::CameraVideoStreamFrameHeader_t*, unsigned int)
+ T vr::CVRTrackedCamera::GetVideoStreamFrameSharedTextureGL(unsigned long long, vr::EVRTrackedCameraFrameType, unsigned int*, vr::CameraVideoStreamFrame_t*)
  T vr::CVRTrackedCamera::HasCamera(unsigned int, bool*)
  T vr::CVRTrackedCamera::Init(CVRSystemLatest*, CVRClient*, CVRCompositorClient*)
- T vr::CVRTrackedCamera::IsTrackedCameraHandleValid(void*)
+ T vr::CVRTrackedCamera::IsTrackedCameraHandleValid(unsigned long long)
  T vr::CVRTrackedCamera::IsVideoStreamActive(unsigned int, bool*, bool*, float*)
  T vr::CVRTrackedCamera::PauseVideoStream(unsigned int)
  T vr::CVRTrackedCamera::ReleaseVideoStreamFrame(unsigned int, vr::CameraVideoStreamFrame_t const*)
- T vr::CVRTrackedCamera::ReleaseVideoStreamFrameSharedTextureGL(void*, unsigned int)
- T vr::CVRTrackedCamera::ReleaseVideoStreamingService(void*)
+ T vr::CVRTrackedCamera::ReleaseVideoStreamFrameSharedTextureGL(unsigned long long, unsigned int)
+ T vr::CVRTrackedCamera::ReleaseVideoStreamingService(unsigned long long)
  T vr::CVRTrackedCamera::ResumeVideoStream(unsigned int)
  T vr::CVRTrackedCamera::SetAutoExposure(unsigned int, bool)
  T vr::CVRTrackedCamera::SetCameraCompatibilityMode(unsigned int, vr::ECameraCompatibilityMode)
@@ -6318,6 +6338,7 @@
  b GetStringForCompositorError(vr::EVRCompositorError)::buf
  b GetStringForRenderModelError(vr::EVRRenderModelError)::buf
  b GetStringForVRApplicationTransitionState(vr::EVRApplicationTransitionState)::buf
+ b GetStringForVRApplicationType(vr::EVRApplicationType)::buf
  b GetStringForVRApplicationsError(vr::EVRApplicationError)::buf
  b GetStringForVRButtonId(vr::EVRButtonId)::buf
  b GetStringForVRControllerAxisType(vr::EVRControllerAxisType)::buf
@@ -6368,6 +6389,7 @@
  b g_pNotificationsLatest
  b g_pOverlayLatest
  b g_pRenderModelsLatest
+ b g_pTrackedCameraLatest
  b guard variable for BlockingWait(int*, unsigned int, int*)::_systemTickFrequency
  b guard variable for CVRLog::InitLog(char const*, char const*, bool, unsigned long)::sb_combinedLogging
  b guard variable for CVRSystemLatest::TriggerHapticPulse(unsigned int, unsigned int, unsigned short)::k_ulHapticRequestEnforcedDelayMS
@@ -6464,6 +6486,7 @@
  b vrsystem009
  b vrsystem010
  b vrsystem011
+ b vrtrackedcamera002
  bootstrap_look_up
  bootstrap_port
  bzero
@@ -6502,6 +6525,7 @@
  d g_IVROverlay_011_FnTable
  d g_IVRRenderModels_004_FnTable
  d g_IVRSystem_011_FnTable
+ d g_IVRTrackedCamera_002_FnTable
  d g_VR_IVRApplications_FnTable
  d g_VR_IVRChaperoneSetup_FnTable
  d g_VR_IVRChaperone_FnTable
@@ -7228,6 +7252,14 @@
  t IVRSystem_011_FnTable_ResetSeatedZeroPose()
  t IVRSystem_011_FnTable_SetDisplayVisibility(bool)
  t IVRSystem_011_FnTable_TriggerHapticPulse(unsigned int, unsigned int, unsigned short)
+ t IVRTrackedCamera_002_FnTable_AcquireVideoStreamingService(unsigned int, void**)
+ t IVRTrackedCamera_002_FnTable_GetCameraErrorNameFromEnum(vr::EVRTrackedCameraError)
+ t IVRTrackedCamera_002_FnTable_GetCameraFrameSize(unsigned int, vr::EVRTrackedCameraFrameType, unsigned int*, unsigned int*, unsigned int*)
+ t IVRTrackedCamera_002_FnTable_GetCameraIntrinisics(unsigned int, vr::EVRTrackedCameraFrameType, vr::HmdVector2_t*, vr::HmdVector2_t*)
+ t IVRTrackedCamera_002_FnTable_GetCameraProjection(unsigned int, vr::EVRTrackedCameraFrameType, float, float, vr::HmdMatrix44_t*)
+ t IVRTrackedCamera_002_FnTable_GetVideoStreamFrameBuffer(void*, vr::EVRTrackedCameraFrameType, void*, unsigned int, vr::CameraVideoStreamFrameHeader_t*, unsigned int)
+ t IVRTrackedCamera_002_FnTable_HasCamera(unsigned int, bool*)
+ t IVRTrackedCamera_002_FnTable_ReleaseVideoStreamingService(void*)
  t Json::codePointToUTF8(unsigned int)
  t Json::duplicateAndPrefixStringValue(char const*, unsigned int)
  t Json::normalizeEOL(char const*, char const*)
@@ -7471,29 +7503,29 @@
  t VR_IVRSystem_FnTable_ResetSeatedZeroPose()
  t VR_IVRSystem_FnTable_SetDisplayVisibility(bool)
  t VR_IVRSystem_FnTable_TriggerHapticPulse(unsigned int, unsigned int, unsigned short)
- t VR_IVRTrackedCamera_FnTable_AcquireVideoStreamingService(unsigned int, void**)
+ t VR_IVRTrackedCamera_FnTable_AcquireVideoStreamingService(unsigned int, unsigned long long*)
  t VR_IVRTrackedCamera_FnTable_GetCameraErrorNameFromEnum(EVRTrackedCameraError)
  t VR_IVRTrackedCamera_FnTable_GetCameraFrameSize(unsigned int, EVRTrackedCameraFrameType, unsigned int*, unsigned int*, unsigned int*)
  t VR_IVRTrackedCamera_FnTable_GetCameraIntrinisics(unsigned int, EVRTrackedCameraFrameType, HmdVector2_t*, HmdVector2_t*)
  t VR_IVRTrackedCamera_FnTable_GetCameraProjection(unsigned int, EVRTrackedCameraFrameType, float, float, HmdMatrix44_t*)
- t VR_IVRTrackedCamera_FnTable_GetVideoStreamFrameBuffer(void*, EVRTrackedCameraFrameType, void*, unsigned int, CameraVideoStreamFrameHeader_t*, unsigned int)
+ t VR_IVRTrackedCamera_FnTable_GetVideoStreamFrameBuffer(unsigned long long, EVRTrackedCameraFrameType, void*, unsigned int, CameraVideoStreamFrameHeader_t*, unsigned int)
  t VR_IVRTrackedCamera_FnTable_HasCamera(unsigned int, bool*)
- t VR_IVRTrackedCamera_FnTable_ReleaseVideoStreamingService(void*)
- t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.3056.ii
- t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.3150.ii
+ t VR_IVRTrackedCamera_FnTable_ReleaseVideoStreamingService(unsigned long long)
+ t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.80533.ii
+ t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.80625.ii
  t _GLOBAL__sub_I_descriptor.cc
  t _GLOBAL__sub_I_descriptor.pb.cc
  t _GLOBAL__sub_I_extension_set.cc
- t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.3058.ii
- t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.3162.ii
+ t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.80535.ii
+ t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.80634.ii
  t _GLOBAL__sub_I_ipcposix2.tmp.steamvr_rel_osx_builder.57289.ii
  t _GLOBAL__sub_I_ipcposix2.tmp.steamvr_rel_osx_builder.57467.ii
  t _GLOBAL__sub_I_threadtool.tmp.steamvr_rel_osx_builder.11678.ii
  t _GLOBAL__sub_I_threadtool.tmp.steamvr_rel_osx_builder.11784.ii
  t _GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.2365.ii
  t _GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.2454.ii
- t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.3104.ii
- t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.3200.ii
+ t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.80581.ii
+ t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.80675.ii
  t _GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.75020.ii
  t _GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.75170.ii
  t __ARCLite__load()
