@@ -10,23 +10,27 @@
 /* Treasure rarity colors */
 @define rareTextColor: #9ede4c;
 @define rareGlowColor: #afde4b;
+@define rareEscalatingChanceIconColor: #afde4b;
 @define rareHueRotation: 240deg;
 @define rareSaturation: 1.0;
 
 @define veryRareTextColor: #fd9d55;
 @define veryRareGlowColor: #fdc194;
+@define veryRareEscalatingChanceIconColor: #fd9d55;
 @define veryRareHueRotation: 150deg;
 @define veryRareSaturation: 1.0;
 
 @define extremelyRareTextColor: #fddb87;
 @define extremelyRareGlowColor: #fdca4a;
+@define extremelyRareEscalatingChanceIconColor: #fdca4a;
 @define extremelyRareHueRotation: 170deg;
 @define extremelyRareSaturation: 1.0;
 
-@define escalatingChanceTextColor: #fddb87;
-@define escalatingChanceGlowColor: #fdca4a;
-@define escalatingChanceHueRotation: 170deg;
-@define escalatingChanceSaturation: 1.0;
+@define ultraRareChanceTextColor: #fddb87;
+@define ultraRareChanceGlowColor: #fdca4a;
+@define ultraRareEscalatingChanceIconColor: #fdca4a;
+@define ultraRareChanceHueRotation: 170deg;
+@define ultraRareChanceSaturation: 1.0;
 
 /* Override colors */
 @define bronzeTextColor: #cd8f68;
@@ -1056,18 +1060,54 @@ DOTATreasureDetailsPage.FullPreviewMode #TreasureContents .TreasureItem,
 .TreasureItem.TreasureItemRarity_Rare .TreasureItemBackgroundGlow				{ wash-color: rareGlowColor; }
 .TreasureItem.TreasureItemRarity_VeryRare .TreasureItemBackgroundGlow			{ wash-color: veryRareGlowColor; }
 .TreasureItem.TreasureItemRarity_ExtremelyRare .TreasureItemBackgroundGlow		{ wash-color: extremelyRareGlowColor; }
-.TreasureItem.TreasureItemRarity_EscalatingChance .TreasureItemBackgroundGlow	{ wash-color: escalatingChanceGlowColor; }
+.TreasureItem.TreasureItemRarity_UltraRare .TreasureItemBackgroundGlow	{ wash-color: ultraRareChanceGlowColor; }
 .TreasureItem.OverrideClass.TreasureClassBronze .TreasureItemBackgroundGlow		{ wash-color: bronzeGlowColor; }
 .TreasureItem.OverrideClass.TreasureClassSilver .TreasureItemBackgroundGlow		{ wash-color: silverGlowColor; }
 .TreasureItem.OverrideClass.TreasureClassGold .TreasureItemBackgroundGlow		{ wash-color: goldGlowColor; }
 
-.TreasureItemInfoLabel
+
+.TreasureItemInfo
 {
 	vertical-align: bottom;
 	horizontal-align: center;
+	flow-children: right;
+}
+
+#EscalatingChancesIcon
+{
+	brightness: 1.2;
+	width: 44px;
+	height: 44px;
+	background-image: url("s2r://panorama/images/control_icons/escalation_arrow_psd.vtex");
+	background-size: contain;
+	vertical-align: middle;
+	margin-left: 14px;
+	margin-bottom: 8px;
+	visibility: collapse;
+	tooltip-position: top;
+
+	/* todo(ericl): when we support escalating chance on other rarity types, we need different colors here */
+	//wash-color: ultraRareChanceTextColor;
+}
+
+.TreasureItem.TreasureItemRarity_Rare #EscalatingChancesIcon				{ wash-color: rareEscalatingChanceIconColor; }
+.TreasureItem.TreasureItemRarity_VeryRare #EscalatingChancesIcon			{ wash-color: veryRareEscalatingChanceIconColor; }
+.TreasureItem.TreasureItemRarity_ExtremelyRare #EscalatingChancesIcon		{ wash-color: extremelyRareEscalatingChanceIconColor; }
+.TreasureItem.TreasureItemRarity_UltraRare #EscalatingChancesIcon			{ wash-color: ultraRareEscalatingChanceIconColor; }
+
+
+.TreaasureItemHasEscalatingChance #EscalatingChancesIcon
+{
+	visibility: visible;
+}
+
+
+.TreasureItemInfoLabel
+{
 	font-size: 48px;
 	font-weight: bold;
 	text-transform: uppercase;
+	vertical-align: middle;
 }
 
 /* Rarity label colors  */
@@ -1075,13 +1115,13 @@ DOTATreasureDetailsPage.FullPreviewMode #TreasureContents .TreasureItem,
 .TreasureItemRarity_Rare .TreasureItemInfoLabel, .TreasureItemRarity_Rare #TreasureControlsRarityValue 							{ color: rareTextColor; }
 .TreasureItemRarity_VeryRare .TreasureItemInfoLabel, .TreasureItemRarity_VeryRare #TreasureControlsRarityValue					{ color: veryRareTextColor; }
 .TreasureItemRarity_ExtremelyRare .TreasureItemInfoLabel, .TreasureItemRarity_ExtremelyRare #TreasureControlsRarityValue		{ color: extremelyRareTextColor; }
-.TreasureItemRarity_EscalatingChance .TreasureItemInfoLabel, .TreasureItemRarity_EscalatingChance #TreasureControlsRarityValue	{ color: escalatingChanceTextColor; }
+.TreasureItemRarity_UltraRare .TreasureItemInfoLabel, .TreasureItemRarity_UltraRare #TreasureControlsRarityValue	{ color: ultraRareChanceTextColor; }
 .OverrideClass.TreasureClassBronze .TreasureItemInfoLabel, .OverrideClass.TreasureClassBronze #TreasureControlsRarityValue		{ color: bronzeTextColor; }
 .OverrideClass.TreasureClassSilver .TreasureItemInfoLabel, .OverrideClass.TreasureClassSilver #TreasureControlsRarityValue		{ color: silverTextColor; }
 .OverrideClass.TreasureClassGold .TreasureItemInfoLabel, .OverrideClass.TreasureClassGold #TreasureControlsRarityValue			{ color: goldTextColor; }
 
 
-.TreasureItemBackgroundGlow, .TreasureItemInfoLabel
+.TreasureItemBackgroundGlow, .TreasureItemInfo
 {
 	opacity: 0.0;
 	transition-property: opacity;
@@ -1091,7 +1131,7 @@ DOTATreasureDetailsPage.FullPreviewMode #TreasureContents .TreasureItem,
 {
 	opacity: 0.1;
 }
-.FullPreviewMode .TreasureItemInfoLabel
+.FullPreviewMode .TreasureItemInfo
 {
 	opacity: 1.0;
 }
@@ -1168,12 +1208,12 @@ DOTATreasureDetailsPage.FullPreviewMode #TreasureContents .TreasureItem,
 	hue-rotation: extremelyRareHueRotation;
 	saturation: extremelyRareSaturation;
 }
-.TreasureItemRarity_EscalatingChance .MainPreviewRays,
-.TreasureItemRarity_EscalatingChance #RarityBackgroundGradient,
-.TreasureItemRarity_EscalatingChance #PreviewRaysSmall
+.TreasureItemRarity_UltraRare .MainPreviewRays,
+.TreasureItemRarity_UltraRare #RarityBackgroundGradient,
+.TreasureItemRarity_UltraRare #PreviewRaysSmall
 {
-	hue-rotation: escalatingChanceHueRotation;
-	saturation: escalatingChanceSaturation;
+	hue-rotation: ultraRareChanceHueRotation;
+	saturation: ultraRareChanceSaturation;
 }
 .OverrideClass.TreasureClassBronze .MainPreviewRays,
 .OverrideClass.TreasureClassBronze #RarityBackgroundGradient,
