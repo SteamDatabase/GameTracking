@@ -640,14 +640,15 @@
  B CMsgGC_Ladder_RankUp::default_instance_
  B CMsgGC_Match_Result::_default_map_name_
  B CMsgGC_Match_Result::default_instance_
+ B CMsgGC_Match_ResultResponse::default_instance_
  B CMsgGC_Match_Result_Player::default_instance_
  B CMsgGC_PickupItemEligibility_Query::default_instance_
  B CMsgGC_PickupItemEligibility_QueryResponse::default_instance_
  B CMsgGC_ReportPlayer::default_instance_
  B CMsgGC_TFVoteKickPlayerRequest::default_instance_
  B CMsgGC_VoteKickPlayerRequestResponse::default_instance_
- B CMsgGameMatchSignOut::default_instance_
  B CMsgGameServerKickingLobby::default_instance_
+ B CMsgGameServerKickingLobbyResponse::default_instance_
  B CMsgGameServerMatchmakingStatus::_default_map_
  B CMsgGameServerMatchmakingStatus::_default_tags_
  B CMsgGameServerMatchmakingStatus::default_instance_
@@ -705,12 +706,13 @@
  B CMsgNotifyWatchdog::default_instance_
  B CMsgPackageLicense::default_instance_
  B CMsgPartyInviteResponse::default_instance_
+ B CMsgPlayerLeftMatch::default_instance_
+ B CMsgPlayerLeftMatchResponse::default_instance_
  B CMsgProtoBufHeader::_default_error_message_
  B CMsgProtoBufHeader::_default_target_job_name_
  B CMsgProtoBufHeader::default_instance_
  B CMsgReadyUp::default_instance_
  B CMsgRecipeComponent::default_instance_
- B CMsgRemovePlayerFromLobby::default_instance_
  B CMsgReplaySubmitContestEntry::_default_youtube_url_
  B CMsgReplaySubmitContestEntry::default_instance_
  B CMsgReplaySubmitContestEntryResponse::default_instance_
@@ -748,7 +750,6 @@
  B CMsgSetItemPositions::default_instance_
  B CMsgSetItemPositions_ItemPosition::default_instance_
  B CMsgSetItemSlotAttribute::default_instance_
- B CMsgSetLobbySafeToLeave::default_instance_
  B CMsgSetPresetItemPosition::default_instance_
  B CMsgSortItems::default_instance_
  B CMsgStoreGetUserData::default_instance_
@@ -786,7 +787,6 @@
  B CMsgTFOtherJoinedChatChannel::_default_persona_name_
  B CMsgTFOtherJoinedChatChannel::default_instance_
  B CMsgTFOtherLeftChatChannel::default_instance_
- B CMsgTFPlayerFailedToConnect::default_instance_
  B CMsgTFQuickplay_PlayerJoining::default_instance_
  B CMsgTFQuickplay_ScoreServers::default_instance_
  B CMsgTFQuickplay_ScoreServersResponse::default_instance_
@@ -2786,8 +2786,10 @@
  B s_dragSelectionSetBorderColor
  B s_dragSelectionSetDeleteColor
  B s_pConv
+ B s_pCurrentConfirmJob
  B s_pParticleSystemDefinitionUnpack
  B s_pszNextPopfile
+ B s_queuePendingConfirmJobs
  B s_selectedSetBorderColor
  B s_selectedSetColor
  B scene_clientflex
@@ -3093,6 +3095,8 @@
  B tf_competitive_mode
  B tf_competitive_preround_countdown_duration
  B tf_competitive_preround_duration
+ B tf_competitive_required_late_join_confirm_timeout
+ B tf_competitive_required_late_join_timeout
  B tf_construction_build_rate_multiplier
  B tf_ctf_bonus_time
  B tf_damage_disablespread
@@ -3296,12 +3300,17 @@
  B tf_merasmus_speed_recovery_rate
  B tf_merasmus_stun_duration
  B tf_minigame_suddendeath_time
- B tf_mm_ladder_match_info_retry_timer
- B tf_mm_player_reservation_timeout_seconds
+ B tf_mm_match_size_ladder_6v6
+ B tf_mm_match_size_ladder_9v9
+ B tf_mm_match_size_mvm
+ B tf_mm_player_disconnect_time_before_abandon
+ B tf_mm_player_disconnect_time_forgive_ratio
  B tf_mm_servermode
  B tf_mm_skillrating_server_force_average
  B tf_mm_strict
  B tf_mm_trusted
+ B tf_mvm_allow_abandon_after_seconds
+ B tf_mvm_allow_abandon_below_players
  B tf_mvm_bot_allow_flag_carrier_to_fight
  B tf_mvm_bot_flag_carrier_health_regen
  B tf_mvm_bot_flag_carrier_interval_to_1st_upgrade
@@ -4357,12 +4366,13 @@
  D CUtlRBTree<CUtlMap<CBaseEntity*, int, unsigned short>::Node_t, unsigned short, CUtlMap<CBaseEntity*, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CBaseEntity*, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<CChoreoActor*, CBaseFlex*, unsigned short>::Node_t, unsigned short, CUtlMap<CChoreoActor*, CBaseFlex*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CChoreoActor*, CBaseFlex*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short, CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
- D CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<CSteamID, double, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, double, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, double, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<CSteamID, float, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<CUtlConstStringBase<char>, int, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlConstStringBase<char>, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlConstStringBase<char>, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlString, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+ D CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+ D CUtlRBTree<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short, CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<IPhysicsObject*, int, unsigned short>::Node_t, unsigned short, CUtlMap<IPhysicsObject*, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<IPhysicsObject*, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<char const*, AchievementAward_t*, int>::Node_t, int, CUtlMap<char const*, AchievementAward_t*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, AchievementAward_t*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
@@ -4525,14 +4535,16 @@
  D GCSDK::CProtoBufMsg<CMsgGC_GameServer_UseServerModificationItem_Response>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgGC_Match_Result>::s_bRegisteredWithMemoryPoolMgr
  D GCSDK::CProtoBufMsg<CMsgGC_Match_Result>::s_pMemoryPool
+ D GCSDK::CProtoBufMsg<CMsgGC_Match_ResultResponse>::s_bRegisteredWithMemoryPoolMgr
+ D GCSDK::CProtoBufMsg<CMsgGC_Match_ResultResponse>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgGC_TFVoteKickPlayerRequest>::s_bRegisteredWithMemoryPoolMgr
  D GCSDK::CProtoBufMsg<CMsgGC_TFVoteKickPlayerRequest>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgGC_VoteKickPlayerRequestResponse>::s_bRegisteredWithMemoryPoolMgr
  D GCSDK::CProtoBufMsg<CMsgGC_VoteKickPlayerRequestResponse>::s_pMemoryPool
- D GCSDK::CProtoBufMsg<CMsgGameMatchSignOut>::s_bRegisteredWithMemoryPoolMgr
- D GCSDK::CProtoBufMsg<CMsgGameMatchSignOut>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgGameServerKickingLobby>::s_bRegisteredWithMemoryPoolMgr
  D GCSDK::CProtoBufMsg<CMsgGameServerKickingLobby>::s_pMemoryPool
+ D GCSDK::CProtoBufMsg<CMsgGameServerKickingLobbyResponse>::s_bRegisteredWithMemoryPoolMgr
+ D GCSDK::CProtoBufMsg<CMsgGameServerKickingLobbyResponse>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgGameServerMatchmakingStatus>::s_bRegisteredWithMemoryPoolMgr
  D GCSDK::CProtoBufMsg<CMsgGameServerMatchmakingStatus>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgHalloween_Merasmus2012>::s_bRegisteredWithMemoryPoolMgr
@@ -4547,8 +4559,10 @@
  D GCSDK::CProtoBufMsg<CMsgMvMMannUpVictoryReply>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgMvMVictory>::s_bRegisteredWithMemoryPoolMgr
  D GCSDK::CProtoBufMsg<CMsgMvMVictory>::s_pMemoryPool
- D GCSDK::CProtoBufMsg<CMsgRemovePlayerFromLobby>::s_bRegisteredWithMemoryPoolMgr
- D GCSDK::CProtoBufMsg<CMsgRemovePlayerFromLobby>::s_pMemoryPool
+ D GCSDK::CProtoBufMsg<CMsgPlayerLeftMatch>::s_bRegisteredWithMemoryPoolMgr
+ D GCSDK::CProtoBufMsg<CMsgPlayerLeftMatch>::s_pMemoryPool
+ D GCSDK::CProtoBufMsg<CMsgPlayerLeftMatchResponse>::s_bRegisteredWithMemoryPoolMgr
+ D GCSDK::CProtoBufMsg<CMsgPlayerLeftMatchResponse>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgReplicateConVars>::s_bRegisteredWithMemoryPoolMgr
  D GCSDK::CProtoBufMsg<CMsgReplicateConVars>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgSOCacheSubscribed>::s_bRegisteredWithMemoryPoolMgr
@@ -4569,16 +4583,12 @@
  D GCSDK::CProtoBufMsg<CMsgServerHello>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgServerWelcome>::s_bRegisteredWithMemoryPoolMgr
  D GCSDK::CProtoBufMsg<CMsgServerWelcome>::s_pMemoryPool
- D GCSDK::CProtoBufMsg<CMsgSetLobbySafeToLeave>::s_bRegisteredWithMemoryPoolMgr
- D GCSDK::CProtoBufMsg<CMsgSetLobbySafeToLeave>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgTFCoaching_CoachJoined>::s_bRegisteredWithMemoryPoolMgr
  D GCSDK::CProtoBufMsg<CMsgTFCoaching_CoachJoined>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgTFCoaching_CoachJoining>::s_bRegisteredWithMemoryPoolMgr
  D GCSDK::CProtoBufMsg<CMsgTFCoaching_CoachJoining>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgTFCoaching_RemoveCurrentCoach>::s_bRegisteredWithMemoryPoolMgr
  D GCSDK::CProtoBufMsg<CMsgTFCoaching_RemoveCurrentCoach>::s_pMemoryPool
- D GCSDK::CProtoBufMsg<CMsgTFPlayerFailedToConnect>::s_bRegisteredWithMemoryPoolMgr
- D GCSDK::CProtoBufMsg<CMsgTFPlayerFailedToConnect>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgTFQuickplay_PlayerJoining>::s_bRegisteredWithMemoryPoolMgr
  D GCSDK::CProtoBufMsg<CMsgTFQuickplay_PlayerJoining>::s_pMemoryPool
  D GCSDK::CProtoBufMsg<CMsgTFVoteKickBanPlayerResult>::s_bRegisteredWithMemoryPoolMgr
@@ -6156,12 +6166,13 @@
  D guard variable for CUtlRBTree<CUtlMap<CBaseEntity*, int, unsigned short>::Node_t, unsigned short, CUtlMap<CBaseEntity*, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CBaseEntity*, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<CChoreoActor*, CBaseFlex*, unsigned short>::Node_t, unsigned short, CUtlMap<CChoreoActor*, CBaseFlex*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CChoreoActor*, CBaseFlex*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short, CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
- D guard variable for CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<CSteamID, double, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, double, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, double, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<CSteamID, float, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<CUtlConstStringBase<char>, int, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlConstStringBase<char>, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlConstStringBase<char>, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlString, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+ D guard variable for CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+ D guard variable for CUtlRBTree<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short, CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<IPhysicsObject*, int, unsigned short>::Node_t, unsigned short, CUtlMap<IPhysicsObject*, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<IPhysicsObject*, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<char const*, AchievementAward_t*, int>::Node_t, int, CUtlMap<char const*, AchievementAward_t*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, AchievementAward_t*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
@@ -8406,6 +8417,7 @@
  D s_grapplinghook_normal_poseparamtable
  D s_pDebrisContext
  D s_pFadeOutContext
+ D s_pszMatchGroups
  D s_viewmodelacttable
  D sky3dparams_t::m_DataMap
  D steamapicontext
@@ -9705,12 +9717,18 @@
  D typeinfo for CItemSelectionCriteria::CStringCondition
  D typeinfo for CItemSelectionCriteria::ICondition
  D typeinfo for CItemSoda
+ D typeinfo for CJobSendMsgUntilConfirmed<CMsgGC_Match_Result, CMsgGC_Match_ResultResponse, (ETFGCMsg)6520>
+ D typeinfo for CJobSendMsgUntilConfirmed<CMsgGameServerKickingLobby, CMsgGameServerKickingLobbyResponse, (ETFGCMsg)6521>
+ D typeinfo for CJobSendMsgUntilConfirmed<CMsgMvMVictory, CMsgMvMMannUpVictoryReply, (ETFGCMsg)6298>
+ D typeinfo for CJobSendMsgUntilConfirmed<CMsgPlayerLeftMatch, CMsgPlayerLeftMatchResponse, (ETFGCMsg)6523>
  D typeinfo for CKeepUpright
  D typeinfo for CKeyValuesDumpContextAsDevMsg
  D typeinfo for CKickIssue
  D typeinfo for CKnownCollector
  D typeinfo for CKnownEntity
  D typeinfo for CKothLogic
+ D typeinfo for CLadderMatchGroupDescription
+ D typeinfo for CLadderMatchGroupDescription::CLadderProgressionDesc
  D typeinfo for CLagCompensationManager
  D typeinfo for CLaserDot
  D typeinfo for CLight
@@ -9947,14 +9965,15 @@
  D typeinfo for CMsgGC_Halloween_ReservedItem
  D typeinfo for CMsgGC_Ladder_RankUp
  D typeinfo for CMsgGC_Match_Result
+ D typeinfo for CMsgGC_Match_ResultResponse
  D typeinfo for CMsgGC_Match_Result_Player
  D typeinfo for CMsgGC_PickupItemEligibility_Query
  D typeinfo for CMsgGC_PickupItemEligibility_QueryResponse
  D typeinfo for CMsgGC_ReportPlayer
  D typeinfo for CMsgGC_TFVoteKickPlayerRequest
  D typeinfo for CMsgGC_VoteKickPlayerRequestResponse
- D typeinfo for CMsgGameMatchSignOut
  D typeinfo for CMsgGameServerKickingLobby
+ D typeinfo for CMsgGameServerKickingLobbyResponse
  D typeinfo for CMsgGameServerMatchmakingStatus
  D typeinfo for CMsgGameServerMatchmakingStatus_Player
  D typeinfo for CMsgHalloween_Merasmus2012
@@ -9992,10 +10011,11 @@
  D typeinfo for CMsgNotifyWatchdog
  D typeinfo for CMsgPackageLicense
  D typeinfo for CMsgPartyInviteResponse
+ D typeinfo for CMsgPlayerLeftMatch
+ D typeinfo for CMsgPlayerLeftMatchResponse
  D typeinfo for CMsgProtoBufHeader
  D typeinfo for CMsgReadyUp
  D typeinfo for CMsgRecipeComponent
- D typeinfo for CMsgRemovePlayerFromLobby
  D typeinfo for CMsgReplaySubmitContestEntry
  D typeinfo for CMsgReplaySubmitContestEntryResponse
  D typeinfo for CMsgReplayUploadedToYouTube
@@ -10028,7 +10048,6 @@
  D typeinfo for CMsgSetItemPositions
  D typeinfo for CMsgSetItemPositions_ItemPosition
  D typeinfo for CMsgSetItemSlotAttribute
- D typeinfo for CMsgSetLobbySafeToLeave
  D typeinfo for CMsgSetPresetItemPosition
  D typeinfo for CMsgSortItems
  D typeinfo for CMsgStoreGetUserData
@@ -10054,7 +10073,6 @@
  D typeinfo for CMsgTFLeaveChatChannel
  D typeinfo for CMsgTFOtherJoinedChatChannel
  D typeinfo for CMsgTFOtherLeftChatChannel
- D typeinfo for CMsgTFPlayerFailedToConnect
  D typeinfo for CMsgTFQuickplay_PlayerJoining
  D typeinfo for CMsgTFQuickplay_ScoreServers
  D typeinfo for CMsgTFQuickplay_ScoreServersResponse
@@ -10086,6 +10104,7 @@
  D typeinfo for CMultiplayRules
  D typeinfo for CMultiplayer_Expresser
  D typeinfo for CMultipleEscort
+ D typeinfo for CMvMMatchGroupDescription
  D typeinfo for CNPCMaker
  D typeinfo for CNPCSpawnDestination
  D typeinfo for CNPC_Furniture
@@ -10320,7 +10339,6 @@
  D typeinfo for CSearchForCover
  D typeinfo for CSelectDefenseAreaForPoint
  D typeinfo for CSelectPrimaryPatient
- D typeinfo for CSendMvMVictoryMsgJob
  D typeinfo for CSentryGunSpawner
  D typeinfo for CServerBenchmark
  D typeinfo for CServerBenchmarkHook
@@ -11124,10 +11142,11 @@
  D typeinfo for GCSDK::CProtoBufMsg<CMsgGC_GameServer_UseServerModificationItem>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgGC_GameServer_UseServerModificationItem_Response>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgGC_Match_Result>
+ D typeinfo for GCSDK::CProtoBufMsg<CMsgGC_Match_ResultResponse>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgGC_TFVoteKickPlayerRequest>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgGC_VoteKickPlayerRequestResponse>
- D typeinfo for GCSDK::CProtoBufMsg<CMsgGameMatchSignOut>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgGameServerKickingLobby>
+ D typeinfo for GCSDK::CProtoBufMsg<CMsgGameServerKickingLobbyResponse>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgGameServerMatchmakingStatus>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgHalloween_Merasmus2012>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgIncrementKillCountAttribute>
@@ -11135,7 +11154,8 @@
  D typeinfo for GCSDK::CProtoBufMsg<CMsgItemAcknowledged>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgMvMMannUpVictoryReply>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgMvMVictory>
- D typeinfo for GCSDK::CProtoBufMsg<CMsgRemovePlayerFromLobby>
+ D typeinfo for GCSDK::CProtoBufMsg<CMsgPlayerLeftMatch>
+ D typeinfo for GCSDK::CProtoBufMsg<CMsgPlayerLeftMatchResponse>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgReplicateConVars>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgSOCacheSubscribed>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgSOCacheSubscriptionCheck>
@@ -11146,11 +11166,9 @@
  D typeinfo for GCSDK::CProtoBufMsg<CMsgServerGoodbye>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgServerHello>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgServerWelcome>
- D typeinfo for GCSDK::CProtoBufMsg<CMsgSetLobbySafeToLeave>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgTFCoaching_CoachJoined>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgTFCoaching_CoachJoining>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgTFCoaching_RemoveCurrentCoach>
- D typeinfo for GCSDK::CProtoBufMsg<CMsgTFPlayerFailedToConnect>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgTFQuickplay_PlayerJoining>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgTFVoteKickBanPlayerResult>
  D typeinfo for GCSDK::CProtoBufMsg<CMsgTrackUniquePlayerPairEvent>
@@ -11172,10 +11190,11 @@
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_GameServer_UseServerModificationItem>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_GameServer_UseServerModificationItem_Response>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_Match_Result>
+ D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_Match_ResultResponse>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_TFVoteKickPlayerRequest>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_VoteKickPlayerRequestResponse>
- D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGameMatchSignOut>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerKickingLobby>
+ D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerKickingLobbyResponse>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerMatchmakingStatus>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgHalloween_Merasmus2012>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgIncrementKillCountAttribute>
@@ -11183,8 +11202,9 @@
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgItemAcknowledged>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgMvMMannUpVictoryReply>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgMvMVictory>
+ D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgPlayerLeftMatch>
+ D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgPlayerLeftMatchResponse>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgProtoBufHeader>
- D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgRemovePlayerFromLobby>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgReplicateConVars>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgSOCacheSubscribed>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgSOCacheSubscriptionCheck>
@@ -11195,11 +11215,9 @@
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgServerGoodbye>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgServerHello>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgServerWelcome>
- D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgSetLobbySafeToLeave>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_CoachJoined>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_CoachJoining>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_RemoveCurrentCoach>
- D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgTFPlayerFailedToConnect>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgTFQuickplay_PlayerJoining>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgTFVoteKickBanPlayerResult>
  D typeinfo for GCSDK::CProtoBufMsgMemoryPool<CMsgTrackUniquePlayerPairEvent>
@@ -11304,6 +11322,7 @@
  D typeinfo for ILagCompensationManager
  D typeinfo for ILocomotion
  D typeinfo for IMapEntityFilter
+ D typeinfo for IMatchGroupDescription
  D typeinfo for IMerasmusAutoList
  D typeinfo for IMinigameAutoList
  D typeinfo for IModelLoadCallback
@@ -11346,6 +11365,7 @@
  D typeinfo for IPopulator
  D typeinfo for IPositionWatcher
  D typeinfo for IPredictionSystem
+ D typeinfo for IProgressionDesc
  D typeinfo for IRecipientFilter
  D typeinfo for IRefCounted
  D typeinfo for IResponseFilter
@@ -12720,12 +12740,18 @@
  D vtable for CItemSelectionCriteria::CSetCondition
  D vtable for CItemSelectionCriteria::CStringCondition
  D vtable for CItemSoda
+ D vtable for CJobSendMsgUntilConfirmed<CMsgGC_Match_Result, CMsgGC_Match_ResultResponse, (ETFGCMsg)6520>
+ D vtable for CJobSendMsgUntilConfirmed<CMsgGameServerKickingLobby, CMsgGameServerKickingLobbyResponse, (ETFGCMsg)6521>
+ D vtable for CJobSendMsgUntilConfirmed<CMsgMvMVictory, CMsgMvMMannUpVictoryReply, (ETFGCMsg)6298>
+ D vtable for CJobSendMsgUntilConfirmed<CMsgPlayerLeftMatch, CMsgPlayerLeftMatchResponse, (ETFGCMsg)6523>
  D vtable for CKeepUpright
  D vtable for CKeyValuesDumpContextAsDevMsg
  D vtable for CKickIssue
  D vtable for CKnownCollector
  D vtable for CKnownEntity
  D vtable for CKothLogic
+ D vtable for CLadderMatchGroupDescription
+ D vtable for CLadderMatchGroupDescription::CLadderProgressionDesc
  D vtable for CLagCompensationManager
  D vtable for CLaserDot
  D vtable for CLight
@@ -12960,14 +12986,15 @@
  D vtable for CMsgGC_Halloween_ReservedItem
  D vtable for CMsgGC_Ladder_RankUp
  D vtable for CMsgGC_Match_Result
+ D vtable for CMsgGC_Match_ResultResponse
  D vtable for CMsgGC_Match_Result_Player
  D vtable for CMsgGC_PickupItemEligibility_Query
  D vtable for CMsgGC_PickupItemEligibility_QueryResponse
  D vtable for CMsgGC_ReportPlayer
  D vtable for CMsgGC_TFVoteKickPlayerRequest
  D vtable for CMsgGC_VoteKickPlayerRequestResponse
- D vtable for CMsgGameMatchSignOut
  D vtable for CMsgGameServerKickingLobby
+ D vtable for CMsgGameServerKickingLobbyResponse
  D vtable for CMsgGameServerMatchmakingStatus
  D vtable for CMsgGameServerMatchmakingStatus_Player
  D vtable for CMsgHalloween_Merasmus2012
@@ -13005,10 +13032,11 @@
  D vtable for CMsgNotifyWatchdog
  D vtable for CMsgPackageLicense
  D vtable for CMsgPartyInviteResponse
+ D vtable for CMsgPlayerLeftMatch
+ D vtable for CMsgPlayerLeftMatchResponse
  D vtable for CMsgProtoBufHeader
  D vtable for CMsgReadyUp
  D vtable for CMsgRecipeComponent
- D vtable for CMsgRemovePlayerFromLobby
  D vtable for CMsgReplaySubmitContestEntry
  D vtable for CMsgReplaySubmitContestEntryResponse
  D vtable for CMsgReplayUploadedToYouTube
@@ -13041,7 +13069,6 @@
  D vtable for CMsgSetItemPositions
  D vtable for CMsgSetItemPositions_ItemPosition
  D vtable for CMsgSetItemSlotAttribute
- D vtable for CMsgSetLobbySafeToLeave
  D vtable for CMsgSetPresetItemPosition
  D vtable for CMsgSortItems
  D vtable for CMsgStoreGetUserData
@@ -13067,7 +13094,6 @@
  D vtable for CMsgTFLeaveChatChannel
  D vtable for CMsgTFOtherJoinedChatChannel
  D vtable for CMsgTFOtherLeftChatChannel
- D vtable for CMsgTFPlayerFailedToConnect
  D vtable for CMsgTFQuickplay_PlayerJoining
  D vtable for CMsgTFQuickplay_ScoreServers
  D vtable for CMsgTFQuickplay_ScoreServersResponse
@@ -13099,6 +13125,7 @@
  D vtable for CMultiplayRules
  D vtable for CMultiplayer_Expresser
  D vtable for CMultipleEscort
+ D vtable for CMvMMatchGroupDescription
  D vtable for CNPCMaker
  D vtable for CNPCSpawnDestination
  D vtable for CNPC_Furniture
@@ -13315,7 +13342,6 @@
  D vtable for CSearchForCover
  D vtable for CSelectDefenseAreaForPoint
  D vtable for CSelectPrimaryPatient
- D vtable for CSendMvMVictoryMsgJob
  D vtable for CSentryGunSpawner
  D vtable for CServerBenchmark
  D vtable for CServerBenchmarkHook
@@ -14058,10 +14084,11 @@
  D vtable for GCSDK::CProtoBufMsg<CMsgGC_GameServer_UseServerModificationItem>
  D vtable for GCSDK::CProtoBufMsg<CMsgGC_GameServer_UseServerModificationItem_Response>
  D vtable for GCSDK::CProtoBufMsg<CMsgGC_Match_Result>
+ D vtable for GCSDK::CProtoBufMsg<CMsgGC_Match_ResultResponse>
  D vtable for GCSDK::CProtoBufMsg<CMsgGC_TFVoteKickPlayerRequest>
  D vtable for GCSDK::CProtoBufMsg<CMsgGC_VoteKickPlayerRequestResponse>
- D vtable for GCSDK::CProtoBufMsg<CMsgGameMatchSignOut>
  D vtable for GCSDK::CProtoBufMsg<CMsgGameServerKickingLobby>
+ D vtable for GCSDK::CProtoBufMsg<CMsgGameServerKickingLobbyResponse>
  D vtable for GCSDK::CProtoBufMsg<CMsgGameServerMatchmakingStatus>
  D vtable for GCSDK::CProtoBufMsg<CMsgHalloween_Merasmus2012>
  D vtable for GCSDK::CProtoBufMsg<CMsgIncrementKillCountAttribute>
@@ -14069,7 +14096,8 @@
  D vtable for GCSDK::CProtoBufMsg<CMsgItemAcknowledged>
  D vtable for GCSDK::CProtoBufMsg<CMsgMvMMannUpVictoryReply>
  D vtable for GCSDK::CProtoBufMsg<CMsgMvMVictory>
- D vtable for GCSDK::CProtoBufMsg<CMsgRemovePlayerFromLobby>
+ D vtable for GCSDK::CProtoBufMsg<CMsgPlayerLeftMatch>
+ D vtable for GCSDK::CProtoBufMsg<CMsgPlayerLeftMatchResponse>
  D vtable for GCSDK::CProtoBufMsg<CMsgReplicateConVars>
  D vtable for GCSDK::CProtoBufMsg<CMsgSOCacheSubscribed>
  D vtable for GCSDK::CProtoBufMsg<CMsgSOCacheSubscriptionCheck>
@@ -14080,11 +14108,9 @@
  D vtable for GCSDK::CProtoBufMsg<CMsgServerGoodbye>
  D vtable for GCSDK::CProtoBufMsg<CMsgServerHello>
  D vtable for GCSDK::CProtoBufMsg<CMsgServerWelcome>
- D vtable for GCSDK::CProtoBufMsg<CMsgSetLobbySafeToLeave>
  D vtable for GCSDK::CProtoBufMsg<CMsgTFCoaching_CoachJoined>
  D vtable for GCSDK::CProtoBufMsg<CMsgTFCoaching_CoachJoining>
  D vtable for GCSDK::CProtoBufMsg<CMsgTFCoaching_RemoveCurrentCoach>
- D vtable for GCSDK::CProtoBufMsg<CMsgTFPlayerFailedToConnect>
  D vtable for GCSDK::CProtoBufMsg<CMsgTFQuickplay_PlayerJoining>
  D vtable for GCSDK::CProtoBufMsg<CMsgTFVoteKickBanPlayerResult>
  D vtable for GCSDK::CProtoBufMsg<CMsgTrackUniquePlayerPairEvent>
@@ -14105,10 +14131,11 @@
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_GameServer_UseServerModificationItem>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_GameServer_UseServerModificationItem_Response>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_Match_Result>
+ D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_Match_ResultResponse>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_TFVoteKickPlayerRequest>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_VoteKickPlayerRequestResponse>
- D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGameMatchSignOut>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerKickingLobby>
+ D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerKickingLobbyResponse>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerMatchmakingStatus>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgHalloween_Merasmus2012>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgIncrementKillCountAttribute>
@@ -14116,8 +14143,9 @@
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgItemAcknowledged>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgMvMMannUpVictoryReply>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgMvMVictory>
+ D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgPlayerLeftMatch>
+ D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgPlayerLeftMatchResponse>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgProtoBufHeader>
- D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgRemovePlayerFromLobby>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgReplicateConVars>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgSOCacheSubscribed>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgSOCacheSubscriptionCheck>
@@ -14128,11 +14156,9 @@
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgServerGoodbye>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgServerHello>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgServerWelcome>
- D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgSetLobbySafeToLeave>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_CoachJoined>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_CoachJoining>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_RemoveCurrentCoach>
- D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgTFPlayerFailedToConnect>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgTFQuickplay_PlayerJoining>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgTFVoteKickBanPlayerResult>
  D vtable for GCSDK::CProtoBufMsgMemoryPool<CMsgTrackUniquePlayerPairEvent>
@@ -14194,6 +14220,7 @@
  D vtable for IPhysicsPropAutoList
  D vtable for IPopulator
  D vtable for IPredictionSystem
+ D vtable for IProgressionDesc
  D vtable for IRobotDestructionGroupAutoList
  D vtable for IScorer
  D vtable for ITFBotHintEntityAutoList
@@ -15574,12 +15601,18 @@
  R typeinfo name for CItemSelectionCriteria::CStringCondition
  R typeinfo name for CItemSelectionCriteria::ICondition
  R typeinfo name for CItemSoda
+ R typeinfo name for CJobSendMsgUntilConfirmed<CMsgGC_Match_Result, CMsgGC_Match_ResultResponse, (ETFGCMsg)6520>
+ R typeinfo name for CJobSendMsgUntilConfirmed<CMsgGameServerKickingLobby, CMsgGameServerKickingLobbyResponse, (ETFGCMsg)6521>
+ R typeinfo name for CJobSendMsgUntilConfirmed<CMsgMvMVictory, CMsgMvMMannUpVictoryReply, (ETFGCMsg)6298>
+ R typeinfo name for CJobSendMsgUntilConfirmed<CMsgPlayerLeftMatch, CMsgPlayerLeftMatchResponse, (ETFGCMsg)6523>
  R typeinfo name for CKeepUpright
  R typeinfo name for CKeyValuesDumpContextAsDevMsg
  R typeinfo name for CKickIssue
  R typeinfo name for CKnownCollector
  R typeinfo name for CKnownEntity
  R typeinfo name for CKothLogic
+ R typeinfo name for CLadderMatchGroupDescription
+ R typeinfo name for CLadderMatchGroupDescription::CLadderProgressionDesc
  R typeinfo name for CLagCompensationManager
  R typeinfo name for CLaserDot
  R typeinfo name for CLight
@@ -15816,14 +15849,15 @@
  R typeinfo name for CMsgGC_Halloween_ReservedItem
  R typeinfo name for CMsgGC_Ladder_RankUp
  R typeinfo name for CMsgGC_Match_Result
+ R typeinfo name for CMsgGC_Match_ResultResponse
  R typeinfo name for CMsgGC_Match_Result_Player
  R typeinfo name for CMsgGC_PickupItemEligibility_Query
  R typeinfo name for CMsgGC_PickupItemEligibility_QueryResponse
  R typeinfo name for CMsgGC_ReportPlayer
  R typeinfo name for CMsgGC_TFVoteKickPlayerRequest
  R typeinfo name for CMsgGC_VoteKickPlayerRequestResponse
- R typeinfo name for CMsgGameMatchSignOut
  R typeinfo name for CMsgGameServerKickingLobby
+ R typeinfo name for CMsgGameServerKickingLobbyResponse
  R typeinfo name for CMsgGameServerMatchmakingStatus
  R typeinfo name for CMsgGameServerMatchmakingStatus_Player
  R typeinfo name for CMsgHalloween_Merasmus2012
@@ -15861,10 +15895,11 @@
  R typeinfo name for CMsgNotifyWatchdog
  R typeinfo name for CMsgPackageLicense
  R typeinfo name for CMsgPartyInviteResponse
+ R typeinfo name for CMsgPlayerLeftMatch
+ R typeinfo name for CMsgPlayerLeftMatchResponse
  R typeinfo name for CMsgProtoBufHeader
  R typeinfo name for CMsgReadyUp
  R typeinfo name for CMsgRecipeComponent
- R typeinfo name for CMsgRemovePlayerFromLobby
  R typeinfo name for CMsgReplaySubmitContestEntry
  R typeinfo name for CMsgReplaySubmitContestEntryResponse
  R typeinfo name for CMsgReplayUploadedToYouTube
@@ -15897,7 +15932,6 @@
  R typeinfo name for CMsgSetItemPositions
  R typeinfo name for CMsgSetItemPositions_ItemPosition
  R typeinfo name for CMsgSetItemSlotAttribute
- R typeinfo name for CMsgSetLobbySafeToLeave
  R typeinfo name for CMsgSetPresetItemPosition
  R typeinfo name for CMsgSortItems
  R typeinfo name for CMsgStoreGetUserData
@@ -15923,7 +15957,6 @@
  R typeinfo name for CMsgTFLeaveChatChannel
  R typeinfo name for CMsgTFOtherJoinedChatChannel
  R typeinfo name for CMsgTFOtherLeftChatChannel
- R typeinfo name for CMsgTFPlayerFailedToConnect
  R typeinfo name for CMsgTFQuickplay_PlayerJoining
  R typeinfo name for CMsgTFQuickplay_ScoreServers
  R typeinfo name for CMsgTFQuickplay_ScoreServersResponse
@@ -15955,6 +15988,7 @@
  R typeinfo name for CMultiplayRules
  R typeinfo name for CMultiplayer_Expresser
  R typeinfo name for CMultipleEscort
+ R typeinfo name for CMvMMatchGroupDescription
  R typeinfo name for CNPCMaker
  R typeinfo name for CNPCSpawnDestination
  R typeinfo name for CNPC_Furniture
@@ -16189,7 +16223,6 @@
  R typeinfo name for CSearchForCover
  R typeinfo name for CSelectDefenseAreaForPoint
  R typeinfo name for CSelectPrimaryPatient
- R typeinfo name for CSendMvMVictoryMsgJob
  R typeinfo name for CSentryGunSpawner
  R typeinfo name for CServerBenchmark
  R typeinfo name for CServerBenchmarkHook
@@ -16993,10 +17026,11 @@
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgGC_GameServer_UseServerModificationItem>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgGC_GameServer_UseServerModificationItem_Response>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgGC_Match_Result>
+ R typeinfo name for GCSDK::CProtoBufMsg<CMsgGC_Match_ResultResponse>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgGC_TFVoteKickPlayerRequest>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgGC_VoteKickPlayerRequestResponse>
- R typeinfo name for GCSDK::CProtoBufMsg<CMsgGameMatchSignOut>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgGameServerKickingLobby>
+ R typeinfo name for GCSDK::CProtoBufMsg<CMsgGameServerKickingLobbyResponse>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgGameServerMatchmakingStatus>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgHalloween_Merasmus2012>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgIncrementKillCountAttribute>
@@ -17004,7 +17038,8 @@
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgItemAcknowledged>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgMvMMannUpVictoryReply>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgMvMVictory>
- R typeinfo name for GCSDK::CProtoBufMsg<CMsgRemovePlayerFromLobby>
+ R typeinfo name for GCSDK::CProtoBufMsg<CMsgPlayerLeftMatch>
+ R typeinfo name for GCSDK::CProtoBufMsg<CMsgPlayerLeftMatchResponse>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgReplicateConVars>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgSOCacheSubscribed>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgSOCacheSubscriptionCheck>
@@ -17015,11 +17050,9 @@
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgServerGoodbye>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgServerHello>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgServerWelcome>
- R typeinfo name for GCSDK::CProtoBufMsg<CMsgSetLobbySafeToLeave>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgTFCoaching_CoachJoined>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgTFCoaching_CoachJoining>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgTFCoaching_RemoveCurrentCoach>
- R typeinfo name for GCSDK::CProtoBufMsg<CMsgTFPlayerFailedToConnect>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgTFQuickplay_PlayerJoining>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgTFVoteKickBanPlayerResult>
  R typeinfo name for GCSDK::CProtoBufMsg<CMsgTrackUniquePlayerPairEvent>
@@ -17041,10 +17074,11 @@
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_GameServer_UseServerModificationItem>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_GameServer_UseServerModificationItem_Response>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_Match_Result>
+ R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_Match_ResultResponse>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_TFVoteKickPlayerRequest>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGC_VoteKickPlayerRequestResponse>
- R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGameMatchSignOut>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerKickingLobby>
+ R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerKickingLobbyResponse>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerMatchmakingStatus>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgHalloween_Merasmus2012>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgIncrementKillCountAttribute>
@@ -17052,8 +17086,9 @@
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgItemAcknowledged>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgMvMMannUpVictoryReply>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgMvMVictory>
+ R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgPlayerLeftMatch>
+ R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgPlayerLeftMatchResponse>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgProtoBufHeader>
- R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgRemovePlayerFromLobby>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgReplicateConVars>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgSOCacheSubscribed>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgSOCacheSubscriptionCheck>
@@ -17064,11 +17099,9 @@
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgServerGoodbye>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgServerHello>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgServerWelcome>
- R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgSetLobbySafeToLeave>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_CoachJoined>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_CoachJoining>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_RemoveCurrentCoach>
- R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgTFPlayerFailedToConnect>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgTFQuickplay_PlayerJoining>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgTFVoteKickBanPlayerResult>
  R typeinfo name for GCSDK::CProtoBufMsgMemoryPool<CMsgTrackUniquePlayerPairEvent>
@@ -17173,6 +17206,7 @@
  R typeinfo name for ILagCompensationManager
  R typeinfo name for ILocomotion
  R typeinfo name for IMapEntityFilter
+ R typeinfo name for IMatchGroupDescription
  R typeinfo name for IMerasmusAutoList
  R typeinfo name for IMinigameAutoList
  R typeinfo name for IModelLoadCallback
@@ -17215,6 +17249,7 @@
  R typeinfo name for IPopulator
  R typeinfo name for IPositionWatcher
  R typeinfo name for IPredictionSystem
+ R typeinfo name for IProgressionDesc
  R typeinfo name for IRecipientFilter
  R typeinfo name for IRefCounted
  R typeinfo name for IResponseFilter
@@ -23337,12 +23372,6 @@
  T CCompareFriendFoeInfluence::Inspect(CKnownEntity const&)
  T CCompetitiveLogic::GetDataDescMap()
  T CCompetitiveLogic::~CCompetitiveLogic()
- T CCompetitiveMatchInfo::CCompetitiveMatchInfo(unsigned long long, int)
- T CCompetitiveMatchInfo::CalculatePlayerMatchRankData()
- T CCompetitiveMatchInfo::GetMatchRankDataForPlayer(CSteamID)
- T CCompetitiveMatchInfo::GetRankForStat(CCompetitiveMatchInfo::RankStatType_t, int, unsigned int)
- T CCompetitiveMatchInfo::RequestGCRankData()
- T CCompetitiveMatchInfo::SetDailyRankData(CCompetitiveMatchInfo::DailyStatsRankBucket_t)
  T CConceptHistoriesDataOps::IsEmpty(SaveRestoreFieldInfo_t const&)
  T CConceptHistoriesDataOps::MakeEmpty(SaveRestoreFieldInfo_t const&)
  T CConceptHistoriesDataOps::Restore(SaveRestoreFieldInfo_t const&, IRestore*)
@@ -23479,6 +23508,8 @@
  T CDefOps<CSteamID>::LessFunc(CSteamID const&, CSteamID const&)
  T CDefOps<CUtlConstStringBase<char> >::LessFunc(CUtlConstStringBase<char> const&, CUtlConstStringBase<char> const&)
  T CDefOps<CUtlString>::LessFunc(CUtlString const&, CUtlString const&)
+ T CDefOps<EGameCategory>::LessFunc(EGameCategory const&, EGameCategory const&)
+ T CDefOps<EMatchmakingGroupType>::LessFunc(EMatchmakingGroupType const&, EMatchmakingGroupType const&)
  T CDefOps<IPhysicsObject*>::LessFunc(IPhysicsObject* const&, IPhysicsObject* const&)
  T CDefOps<char const*>::LessFunc(char const* const&, char const* const&)
  T CDefOps<int>::LessFunc(int const&, int const&)
@@ -28469,6 +28500,22 @@
  T CItemSoda::Precache()
  T CItemSoda::Spawn()
  T CItemSoda::~CItemSoda()
+ T CJobSendMsgUntilConfirmed<CMsgGC_Match_Result, CMsgGC_Match_ResultResponse, (ETFGCMsg)6520>::BYieldingRunJob(void*)
+ T CJobSendMsgUntilConfirmed<CMsgGC_Match_Result, CMsgGC_Match_ResultResponse, (ETFGCMsg)6520>::BYieldingRunJobInternal()
+ T CJobSendMsgUntilConfirmed<CMsgGC_Match_Result, CMsgGC_Match_ResultResponse, (ETFGCMsg)6520>::CJobSendMsgUntilConfirmed(char const*, GCSDK::CProtoBufMsg<CMsgGC_Match_Result>*)
+ T CJobSendMsgUntilConfirmed<CMsgGC_Match_Result, CMsgGC_Match_ResultResponse, (ETFGCMsg)6520>::~CJobSendMsgUntilConfirmed()
+ T CJobSendMsgUntilConfirmed<CMsgGameServerKickingLobby, CMsgGameServerKickingLobbyResponse, (ETFGCMsg)6521>::BYieldingRunJob(void*)
+ T CJobSendMsgUntilConfirmed<CMsgGameServerKickingLobby, CMsgGameServerKickingLobbyResponse, (ETFGCMsg)6521>::BYieldingRunJobInternal()
+ T CJobSendMsgUntilConfirmed<CMsgGameServerKickingLobby, CMsgGameServerKickingLobbyResponse, (ETFGCMsg)6521>::CJobSendMsgUntilConfirmed(char const*, GCSDK::CProtoBufMsg<CMsgGameServerKickingLobby>*)
+ T CJobSendMsgUntilConfirmed<CMsgGameServerKickingLobby, CMsgGameServerKickingLobbyResponse, (ETFGCMsg)6521>::~CJobSendMsgUntilConfirmed()
+ T CJobSendMsgUntilConfirmed<CMsgMvMVictory, CMsgMvMMannUpVictoryReply, (ETFGCMsg)6298>::BYieldingRunJob(void*)
+ T CJobSendMsgUntilConfirmed<CMsgMvMVictory, CMsgMvMMannUpVictoryReply, (ETFGCMsg)6298>::BYieldingRunJobInternal()
+ T CJobSendMsgUntilConfirmed<CMsgMvMVictory, CMsgMvMMannUpVictoryReply, (ETFGCMsg)6298>::CJobSendMsgUntilConfirmed(char const*, GCSDK::CProtoBufMsg<CMsgMvMVictory>*)
+ T CJobSendMsgUntilConfirmed<CMsgMvMVictory, CMsgMvMMannUpVictoryReply, (ETFGCMsg)6298>::~CJobSendMsgUntilConfirmed()
+ T CJobSendMsgUntilConfirmed<CMsgPlayerLeftMatch, CMsgPlayerLeftMatchResponse, (ETFGCMsg)6523>::BYieldingRunJob(void*)
+ T CJobSendMsgUntilConfirmed<CMsgPlayerLeftMatch, CMsgPlayerLeftMatchResponse, (ETFGCMsg)6523>::BYieldingRunJobInternal()
+ T CJobSendMsgUntilConfirmed<CMsgPlayerLeftMatch, CMsgPlayerLeftMatchResponse, (ETFGCMsg)6523>::CJobSendMsgUntilConfirmed(char const*, GCSDK::CProtoBufMsg<CMsgPlayerLeftMatch>*)
+ T CJobSendMsgUntilConfirmed<CMsgPlayerLeftMatch, CMsgPlayerLeftMatchResponse, (ETFGCMsg)6523>::~CJobSendMsgUntilConfirmed()
  T CKeepUpright::Activate()
  T CKeepUpright::GetDataDescMap()
  T CKeepUpright::InputSetAngularLimit(inputdata_t&)
@@ -28525,6 +28572,12 @@
  T CKothLogic::InputSetRedTimer(inputdata_t&)
  T CKothLogic::UpdateTransmitState()
  T CKothLogic::~CKothLogic()
+ T CLadderMatchGroupDescription::CLadderMatchGroupDescription(ConVar*)
+ T CLadderMatchGroupDescription::CLadderProgressionDesc::CLadderProgressionDesc()
+ T CLadderMatchGroupDescription::CLadderProgressionDesc::GetBadgeSettings(LevelInfo_t const&, int&, int&, int&, int&, int&) const
+ T CLadderMatchGroupDescription::InitGameRulesSettings() const
+ T CLadderMatchGroupDescription::PostMatchClearServerSettings() const
+ T CLadderMatchGroupDescription::ShouldRequestLateJoin() const
  T CLagCompensationManager::BacktrackPlayer(CBasePlayer*, float)
  T CLagCompensationManager::CLagCompensationManager(char const*)
  T CLagCompensationManager::FinishLagCompensation(CBasePlayer*)
@@ -28746,6 +28799,18 @@
  T CMapInfoContainer::~CMapInfoContainer()
  T CMapLoadEntityFilter::CreateNextEntity(char const*)
  T CMapLoadEntityFilter::ShouldCreateEntity(char const*)
+ T CMatchInfo::AddPlayer(CSteamID, CTFLobbyMember const*)
+ T CMatchInfo::BPlayerSafeToLeaveMatch(CSteamID)
+ T CMatchInfo::CMatchInfo(CTFLobby*)
+ T CMatchInfo::CalculatePlayerMatchRankData()
+ T CMatchInfo::GetCanonicalMatchSize() const
+ T CMatchInfo::GetMatchDataForPlayer(CSteamID)
+ T CMatchInfo::GetMatchDataForPlayer(int)
+ T CMatchInfo::GetNumActiveMatchPlayers() const
+ T CMatchInfo::GetNumTotalMatchPlayers() const
+ T CMatchInfo::GetRankForStat(CMatchInfo::RankStatType_t, int, unsigned int)
+ T CMatchInfo::RequestGCRankData()
+ T CMatchInfo::SetDailyRankData(CMatchInfo::DailyStatsRankBucket_t)
  T CMaterialModifyControl::CMaterialModifyControl()
  T CMaterialModifyControl::GetDataDescMap()
  T CMaterialModifyControl::GetServerClass()
@@ -30751,6 +30816,19 @@
  T CMsgGC_Match_Result::default_instance()
  T CMsgGC_Match_Result::descriptor()
  T CMsgGC_Match_Result::~CMsgGC_Match_Result()
+ T CMsgGC_Match_ResultResponse::ByteSize() const
+ T CMsgGC_Match_ResultResponse::CMsgGC_Match_ResultResponse()
+ T CMsgGC_Match_ResultResponse::Clear()
+ T CMsgGC_Match_ResultResponse::GetCachedSize() const
+ T CMsgGC_Match_ResultResponse::GetMetadata() const
+ T CMsgGC_Match_ResultResponse::IsInitialized() const
+ T CMsgGC_Match_ResultResponse::MergeFrom(CMsgGC_Match_ResultResponse const&)
+ T CMsgGC_Match_ResultResponse::New() const
+ T CMsgGC_Match_ResultResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgGC_Match_ResultResponse::SetCachedSize(int) const
+ T CMsgGC_Match_ResultResponse::default_instance()
+ T CMsgGC_Match_ResultResponse::descriptor()
+ T CMsgGC_Match_ResultResponse::~CMsgGC_Match_ResultResponse()
  T CMsgGC_Match_Result_Player::ByteSize() const
  T CMsgGC_Match_Result_Player::CMsgGC_Match_Result_Player()
  T CMsgGC_Match_Result_Player::Clear()
@@ -30818,19 +30896,6 @@
  T CMsgGC_VoteKickPlayerRequestResponse::default_instance()
  T CMsgGC_VoteKickPlayerRequestResponse::descriptor()
  T CMsgGC_VoteKickPlayerRequestResponse::~CMsgGC_VoteKickPlayerRequestResponse()
- T CMsgGameMatchSignOut::ByteSize() const
- T CMsgGameMatchSignOut::CMsgGameMatchSignOut()
- T CMsgGameMatchSignOut::Clear()
- T CMsgGameMatchSignOut::GetCachedSize() const
- T CMsgGameMatchSignOut::GetMetadata() const
- T CMsgGameMatchSignOut::IsInitialized() const
- T CMsgGameMatchSignOut::MergeFrom(CMsgGameMatchSignOut const&)
- T CMsgGameMatchSignOut::New() const
- T CMsgGameMatchSignOut::SerializeWithCachedSizesToArray(unsigned char*) const
- T CMsgGameMatchSignOut::SetCachedSize(int) const
- T CMsgGameMatchSignOut::default_instance()
- T CMsgGameMatchSignOut::descriptor()
- T CMsgGameMatchSignOut::~CMsgGameMatchSignOut()
  T CMsgGameServerKickingLobby::ByteSize() const
  T CMsgGameServerKickingLobby::CMsgGameServerKickingLobby()
  T CMsgGameServerKickingLobby::Clear()
@@ -30844,6 +30909,19 @@
  T CMsgGameServerKickingLobby::default_instance()
  T CMsgGameServerKickingLobby::descriptor()
  T CMsgGameServerKickingLobby::~CMsgGameServerKickingLobby()
+ T CMsgGameServerKickingLobbyResponse::ByteSize() const
+ T CMsgGameServerKickingLobbyResponse::CMsgGameServerKickingLobbyResponse()
+ T CMsgGameServerKickingLobbyResponse::Clear()
+ T CMsgGameServerKickingLobbyResponse::GetCachedSize() const
+ T CMsgGameServerKickingLobbyResponse::GetMetadata() const
+ T CMsgGameServerKickingLobbyResponse::IsInitialized() const
+ T CMsgGameServerKickingLobbyResponse::MergeFrom(CMsgGameServerKickingLobbyResponse const&)
+ T CMsgGameServerKickingLobbyResponse::New() const
+ T CMsgGameServerKickingLobbyResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgGameServerKickingLobbyResponse::SetCachedSize(int) const
+ T CMsgGameServerKickingLobbyResponse::default_instance()
+ T CMsgGameServerKickingLobbyResponse::descriptor()
+ T CMsgGameServerKickingLobbyResponse::~CMsgGameServerKickingLobbyResponse()
  T CMsgGameServerMatchmakingStatus::ByteSize() const
  T CMsgGameServerMatchmakingStatus::CMsgGameServerMatchmakingStatus()
  T CMsgGameServerMatchmakingStatus::Clear()
@@ -31245,6 +31323,32 @@
  T CMsgPartyInviteResponse::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgPartyInviteResponse::SetCachedSize(int) const
  T CMsgPartyInviteResponse::~CMsgPartyInviteResponse()
+ T CMsgPlayerLeftMatch::ByteSize() const
+ T CMsgPlayerLeftMatch::CMsgPlayerLeftMatch()
+ T CMsgPlayerLeftMatch::Clear()
+ T CMsgPlayerLeftMatch::GetCachedSize() const
+ T CMsgPlayerLeftMatch::GetMetadata() const
+ T CMsgPlayerLeftMatch::IsInitialized() const
+ T CMsgPlayerLeftMatch::MergeFrom(CMsgPlayerLeftMatch const&)
+ T CMsgPlayerLeftMatch::New() const
+ T CMsgPlayerLeftMatch::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgPlayerLeftMatch::SetCachedSize(int) const
+ T CMsgPlayerLeftMatch::default_instance()
+ T CMsgPlayerLeftMatch::descriptor()
+ T CMsgPlayerLeftMatch::~CMsgPlayerLeftMatch()
+ T CMsgPlayerLeftMatchResponse::ByteSize() const
+ T CMsgPlayerLeftMatchResponse::CMsgPlayerLeftMatchResponse()
+ T CMsgPlayerLeftMatchResponse::Clear()
+ T CMsgPlayerLeftMatchResponse::GetCachedSize() const
+ T CMsgPlayerLeftMatchResponse::GetMetadata() const
+ T CMsgPlayerLeftMatchResponse::IsInitialized() const
+ T CMsgPlayerLeftMatchResponse::MergeFrom(CMsgPlayerLeftMatchResponse const&)
+ T CMsgPlayerLeftMatchResponse::New() const
+ T CMsgPlayerLeftMatchResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgPlayerLeftMatchResponse::SetCachedSize(int) const
+ T CMsgPlayerLeftMatchResponse::default_instance()
+ T CMsgPlayerLeftMatchResponse::descriptor()
+ T CMsgPlayerLeftMatchResponse::~CMsgPlayerLeftMatchResponse()
  T CMsgProtoBufHeader::ByteSize() const
  T CMsgProtoBufHeader::CMsgProtoBufHeader()
  T CMsgProtoBufHeader::Clear()
@@ -31279,19 +31383,6 @@
  T CMsgRecipeComponent::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgRecipeComponent::SetCachedSize(int) const
  T CMsgRecipeComponent::~CMsgRecipeComponent()
- T CMsgRemovePlayerFromLobby::ByteSize() const
- T CMsgRemovePlayerFromLobby::CMsgRemovePlayerFromLobby()
- T CMsgRemovePlayerFromLobby::Clear()
- T CMsgRemovePlayerFromLobby::GetCachedSize() const
- T CMsgRemovePlayerFromLobby::GetMetadata() const
- T CMsgRemovePlayerFromLobby::IsInitialized() const
- T CMsgRemovePlayerFromLobby::MergeFrom(CMsgRemovePlayerFromLobby const&)
- T CMsgRemovePlayerFromLobby::New() const
- T CMsgRemovePlayerFromLobby::SerializeWithCachedSizesToArray(unsigned char*) const
- T CMsgRemovePlayerFromLobby::SetCachedSize(int) const
- T CMsgRemovePlayerFromLobby::default_instance()
- T CMsgRemovePlayerFromLobby::descriptor()
- T CMsgRemovePlayerFromLobby::~CMsgRemovePlayerFromLobby()
  T CMsgReplaySubmitContestEntry::ByteSize() const
  T CMsgReplaySubmitContestEntry::Clear()
  T CMsgReplaySubmitContestEntry::GetCachedSize() const
@@ -31643,19 +31734,6 @@
  T CMsgSetItemSlotAttribute::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgSetItemSlotAttribute::SetCachedSize(int) const
  T CMsgSetItemSlotAttribute::~CMsgSetItemSlotAttribute()
- T CMsgSetLobbySafeToLeave::ByteSize() const
- T CMsgSetLobbySafeToLeave::CMsgSetLobbySafeToLeave()
- T CMsgSetLobbySafeToLeave::Clear()
- T CMsgSetLobbySafeToLeave::GetCachedSize() const
- T CMsgSetLobbySafeToLeave::GetMetadata() const
- T CMsgSetLobbySafeToLeave::IsInitialized() const
- T CMsgSetLobbySafeToLeave::MergeFrom(CMsgSetLobbySafeToLeave const&)
- T CMsgSetLobbySafeToLeave::New() const
- T CMsgSetLobbySafeToLeave::SerializeWithCachedSizesToArray(unsigned char*) const
- T CMsgSetLobbySafeToLeave::SetCachedSize(int) const
- T CMsgSetLobbySafeToLeave::default_instance()
- T CMsgSetLobbySafeToLeave::descriptor()
- T CMsgSetLobbySafeToLeave::~CMsgSetLobbySafeToLeave()
  T CMsgSetPresetItemPosition::ByteSize() const
  T CMsgSetPresetItemPosition::Clear()
  T CMsgSetPresetItemPosition::GetCachedSize() const
@@ -31917,19 +31995,6 @@
  T CMsgTFOtherLeftChatChannel::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgTFOtherLeftChatChannel::SetCachedSize(int) const
  T CMsgTFOtherLeftChatChannel::~CMsgTFOtherLeftChatChannel()
- T CMsgTFPlayerFailedToConnect::ByteSize() const
- T CMsgTFPlayerFailedToConnect::CMsgTFPlayerFailedToConnect()
- T CMsgTFPlayerFailedToConnect::Clear()
- T CMsgTFPlayerFailedToConnect::GetCachedSize() const
- T CMsgTFPlayerFailedToConnect::GetMetadata() const
- T CMsgTFPlayerFailedToConnect::IsInitialized() const
- T CMsgTFPlayerFailedToConnect::MergeFrom(CMsgTFPlayerFailedToConnect const&)
- T CMsgTFPlayerFailedToConnect::New() const
- T CMsgTFPlayerFailedToConnect::SerializeWithCachedSizesToArray(unsigned char*) const
- T CMsgTFPlayerFailedToConnect::SetCachedSize(int) const
- T CMsgTFPlayerFailedToConnect::default_instance()
- T CMsgTFPlayerFailedToConnect::descriptor()
- T CMsgTFPlayerFailedToConnect::~CMsgTFPlayerFailedToConnect()
  T CMsgTFQuickplay_PlayerJoining::ByteSize() const
  T CMsgTFQuickplay_PlayerJoining::CMsgTFQuickplay_PlayerJoining()
  T CMsgTFQuickplay_PlayerJoining::Clear()
@@ -32365,6 +32430,10 @@
  T CMultiplayer_Expresser::~CMultiplayer_Expresser()
  T CMultipleEscort::UpdateTransmitState()
  T CMultipleEscort::~CMultipleEscort()
+ T CMvMMatchGroupDescription::InitGameRulesSettings() const
+ T CMvMMatchGroupDescription::InitServerSettingsForMatch(CTFLobby const*) const
+ T CMvMMatchGroupDescription::PostMatchClearServerSettings() const
+ T CMvMMatchGroupDescription::ShouldRequestLateJoin() const
  T CMvMVictoryInfo::Init(CTFLobby*)
  T CNPCMaker* _CreateEntityTemplate<CNPCMaker>(CNPCMaker*, char const*)
  T CNPCMaker::GetDataDescMap()
@@ -35119,9 +35188,6 @@
  T CSelectDefenseAreaForPoint::~CSelectDefenseAreaForPoint()
  T CSelectPrimaryPatient::Inspect(CKnownEntity const&)
  T CSelectPrimaryPatient::SelectPreferred(CTFPlayer*, CTFPlayer*)
- T CSendMvMVictoryMsgJob::BYieldingRunJob(void*)
- T CSendMvMVictoryMsgJob::CSendMvMVictoryMsgJob(CMvMVictoryInfo&)
- T CSendMvMVictoryMsgJob::~CSendMvMVictoryMsgJob()
  T CSentryGunSpawner::HasEventChangeAttributes(char const*) const
  T CSentryGunSpawner::Parse(KeyValues*)
  T CSentryGunSpawner::Spawn(Vector const&, CUtlVector<CHandle<CBaseEntity>, CUtlMemory<CHandle<CBaseEntity>, int> >*)
@@ -37091,24 +37157,23 @@
  T CTFForceRespawn::InputForceRespawnSwitchTeams(inputdata_t&)
  T CTFForceRespawn::InputForceTeamRespawn(inputdata_t&)
  T CTFForceRespawn::~CTFForceRespawn()
+ T CTFGCServerSystem::AcceptGCReservation(CSteamID, CTFLobbyMember const*)
+ T CTFGCServerSystem::BLateJoinEligible()
  T CTFGCServerSystem::CTFGCServerSystem()
- T CTFGCServerSystem::CheckLadderMatchCompleted()
- T CTFGCServerSystem::CheckMvMMannUpVictory()
  T CTFGCServerSystem::ClientActive(CSteamID)
+ T CTFGCServerSystem::ClientConnected(CSteamID, edict_t*)
  T CTFGCServerSystem::ClientDisconnected(CSteamID)
+ T CTFGCServerSystem::EndManagedMatch(bool)
  T CTFGCServerSystem::FireGameEvent(IGameEvent*)
- T CTFGCServerSystem::GetFirstConnectTimeForLobbyMember(CSteamID const&) const
- T CTFGCServerSystem::GetLobby()
+ T CTFGCServerSystem::GCKickedPlayer(CSteamID)
+ T CTFGCServerSystem::GetLiveMatchPlayer(CSteamID)
  T CTFGCServerSystem::GetLobby() const
- T CTFGCServerSystem::GetVoteKickAttemptsByLobbyMember(CSteamID const&) const
  T CTFGCServerSystem::HasLobby() const
- T CTFGCServerSystem::IncrementVoteKickAttemptsByLobbyMember(CSteamID const&)
  T CTFGCServerSystem::Init()
  T CTFGCServerSystem::LevelInitPreEntity()
  T CTFGCServerSystem::LevelShutdownPostEntity()
  T CTFGCServerSystem::MMServerModeChanged()
- T CTFGCServerSystem::MatchSignOut()
- T CTFGCServerSystem::MvMVictory()
+ T CTFGCServerSystem::MatchPlayerAbandonThink()
  T CTFGCServerSystem::PostInitGC()
  T CTFGCServerSystem::PostSOUpdate(CSteamID const&, GCSDK::ESOCacheEvent)
  T CTFGCServerSystem::PreClientUpdate()
@@ -37120,13 +37185,11 @@
  T CTFGCServerSystem::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
  T CTFGCServerSystem::SODestroyed(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
  T CTFGCServerSystem::SOUpdated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
- T CTFGCServerSystem::SendGameServerKickingLobby(CUtlVector<CSteamID, CUtlMemory<CSteamID, int> > const*)
- T CTFGCServerSystem::SendLoadFailure(CUtlVector<CSteamID, CUtlMemory<CSteamID, int> > const&)
- T CTFGCServerSystem::SendRemovePlayerFromLobby(CSteamID, CMsgRemovePlayerFromLobby_RemoveReason)
+ T CTFGCServerSystem::SendCompetitiveMatchResult(GCSDK::CProtoBufMsg<CMsgGC_Match_Result>*)
+ T CTFGCServerSystem::SendMvMVictoryResult()
+ T CTFGCServerSystem::SendPlayerLeftMatch(CSteamID, TFMatchLeaveReason, bool)
  T CTFGCServerSystem::SetHibernation(bool)
- T CTFGCServerSystem::SetLobbySafeToLeave()
- T CTFGCServerSystem::SetMatchInfoAndSend()
- T CTFGCServerSystem::ShouldBlockMvMMatchMaking()
+ T CTFGCServerSystem::SetMatchPlayerDropped(CSteamID, TFMatchLeaveReason)
  T CTFGCServerSystem::ShouldHibernate()
  T CTFGCServerSystem::ShouldHideServer()
  T CTFGCServerSystem::Shutdown()
@@ -37248,6 +37311,8 @@
  T CTFGameRules::DropHalloweenSoulPack(int, Vector const&, CBaseEntity*, int)
  T CTFGameRules::DropHalloweenSoulPackToTeam(int, Vector const&, int, int)
  T CTFGameRules::DropSpellPickup(Vector const&, int) const
+ T CTFGameRules::EndCompetitiveMatch()
+ T CTFGameRules::EndManagedMvMMatch(bool)
  T CTFGameRules::FPlayerCanTakeDamage(CBasePlayer*, CBaseEntity*, CTakeDamageInfo const&)
  T CTFGameRules::FillOutTeamplayRoundWinEvent(IGameEvent*)
  T CTFGameRules::FireGameEvent(IGameEvent*)
@@ -37265,6 +37330,7 @@
  T CTFGameRules::GetCaptureValueForPlayer(CBasePlayer*)
  T CTFGameRules::GetChatFormat(bool, CBasePlayer*)
  T CTFGameRules::GetCostForUpgrade(CMannVsMachineUpgrades*, int, int, CTFPlayer*)
+ T CTFGameRules::GetCurrentMatchGroup() const
  T CTFGameRules::GetDeathScorer(CBaseEntity*, CBaseEntity*, CBaseEntity*)
  T CTFGameRules::GetEncryptionKey()
  T CTFGameRules::GetFarthestOwnedControlPoint(int, bool)
@@ -37278,7 +37344,6 @@
  T CTFGameRules::GetPayloadToBlock(int) const
  T CTFGameRules::GetPayloadToPush(int) const
  T CTFGameRules::GetPlayerSpawnSpot(CBasePlayer*)
- T CTFGameRules::GetRankForSkillRating(unsigned int)
  T CTFGameRules::GetRecentDamager(CTFPlayer*, int, float)
  T CTFGameRules::GetRespawnTimeScalar(int)
  T CTFGameRules::GetRespawnWaveMaxLength(int, bool)
@@ -37287,6 +37352,7 @@
  T CTFGameRules::GetStatsMinimumPlayers()
  T CTFGameRules::GetTaggedConVarList(KeyValues*)
  T CTFGameRules::GetTeamAssignmentOverride(CTFPlayer*, int)
+ T CTFGameRules::GetTeamForLobbyTeam(TF_GC_TEAM)
  T CTFGameRules::GetUpgradeTier(int)
  T CTFGameRules::GetViewVectors() const
  T CTFGameRules::GoToIntermission()
@@ -37300,6 +37366,7 @@
  T CTFGameRules::InitTeams()
  T CTFGameRules::InternalHandleTeamWin(int)
  T CTFGameRules::IsBirthday() const
+ T CTFGameRules::IsCompetitiveMode() const
  T CTFGameRules::IsConnectedUserInfoChangeAllowed(CBasePlayer*)
  T CTFGameRules::IsDefaultGameMode()
  T CTFGameRules::IsHolidayActive(int) const
@@ -37307,6 +37374,7 @@
  T CTFGameRules::IsInItemTestingMode()
  T CTFGameRules::IsInKothMode() const
  T CTFGameRules::IsInTraining()
+ T CTFGameRules::IsManagedMatchEnded() const
  T CTFGameRules::IsPVEModeActive() const
  T CTFGameRules::IsPVEModeControlled(CBaseEntity*) const
  T CTFGameRules::IsQuickBuildTime()
@@ -37327,6 +37395,7 @@
  T CTFGameRules::ManageCompetitiveMode()
  T CTFGameRules::ManageServerSideVoteCreation()
  T CTFGameRules::ManageStopwatchTimer(bool)
+ T CTFGameRules::MatchmakingShouldUseStopwatchMode()
  T CTFGameRules::OnCoachJoining(unsigned int, unsigned int)
  T CTFGameRules::OnDispenserBuilt(CBaseEntity*)
  T CTFGameRules::OnDispenserDestroyed(CBaseEntity*)
@@ -37347,6 +37416,7 @@
  T CTFGameRules::PlayerKilledCheckAchievements(CTFPlayer*, CTFPlayer*)
  T CTFGameRules::PlayerMayBlockPoint(CBasePlayer*, int, char*, int)
  T CTFGameRules::PlayerMayCapturePoint(CBasePlayer*, int, char*, int)
+ T CTFGameRules::PlayerReadyStatus_ArePlayersOnTeamReady(int)
  T CTFGameRules::PlayerReadyStatus_HaveMinPlayersToEnable()
  T CTFGameRules::PlayerReadyStatus_ResetState()
  T CTFGameRules::PlayerReadyStatus_ShouldStartCountdown()
@@ -37384,7 +37454,6 @@
  T CTFGameRules::SendTeamScoresEvent()
  T CTFGameRules::SendWinPanelInfo(bool)
  T CTFGameRules::SetCompetitiveMode(bool)
- T CTFGameRules::SetCompetitiveWinConditions(bool)
  T CTFGameRules::SetCurrentRoundStateBitString()
  T CTFGameRules::SetCustomUpgradesFile(inputdata_t&)
  T CTFGameRules::SetHalloweenEffectStatus(int, float)
@@ -37432,10 +37501,12 @@
  T CTFGameRules::SpawnPlayerInHell(CTFPlayer*, char const*)
  T CTFGameRules::SpawnZombieMob()
  T CTFGameRules::StartCompetitiveMatch()
+ T CTFGameRules::StartManagedMatch()
  T CTFGameRules::Status(void (*)(char const*, ...))
  T CTFGameRules::StopCompetitiveMatch(CMsgGC_Match_Result_Status)
  T CTFGameRules::StopWatchModeThink()
  T CTFGameRules::SwitchToNextBestWeapon(CBaseCombatCharacter*, CBaseCombatWeapon*)
+ T CTFGameRules::SyncMatchSettings()
  T CTFGameRules::TFVoiceManager(CBasePlayer*, CBasePlayer*)
  T CTFGameRules::TacticalMissionManagerFactory()
  T CTFGameRules::TeamMayCapturePoint(int, int)
@@ -37768,6 +37839,8 @@
  T CTFItemDefinition::IsContentStreamable() const
  T CTFItemDefinition::~CTFItemDefinition()
  T CTFItemSchema::BCanStrangeFilterApplyToStrangeSlotInItem(unsigned int, unsigned int, IEconItemInterface const*, int, unsigned int*) const
+ T CTFItemSchema::BInitGameModes(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
+ T CTFItemSchema::BInitMMCategories(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
  T CTFItemSchema::BInitMaps(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
  T CTFItemSchema::BInitMvmMissions(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
  T CTFItemSchema::BInitMvmTours(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
@@ -37863,7 +37936,6 @@
  T CTFLaserPointer::YouForgotToImplementOrDeclareServerClass()
  T CTFLaserPointer::~CTFLaserPointer()
  T CTFLobby::AllowInvites() const
- T CTFLobby::BLeavingDuringGameIncursPenalty() const
  T CTFLobby::BShouldDeleteByCache() const
  T CTFLobby::CTFLobby()
  T CTFLobby::GetGroupID() const
@@ -37874,7 +37946,6 @@
  T CTFLobby::GetMemberConnectState(int) const
  T CTFLobby::GetMemberDetails(int) const
  T CTFLobby::GetMemberIndexBySteamID(CSteamID const&) const
- T CTFLobby::GetMemberTeam(CSteamID const&) const
  T CTFLobby::GetNumLeftMembers() const
  T CTFLobby::GetNumMembers() const
  T CTFLobby::GetNumPendingInvites() const
@@ -40905,8 +40976,6 @@
  T CTeamplayRoundBasedRules::AddPlayedRound(string_t)
  T CTeamplayRoundBasedRules::AddTeamRespawnWaveTime(int, float)
  T CTeamplayRoundBasedRules::AllowWaitingForPlayers()
- T CTeamplayRoundBasedRules::AreLobbyPlayersConnected()
- T CTeamplayRoundBasedRules::AreLobbyPlayersOnTeamReady(int)
  T CTeamplayRoundBasedRules::AreTeamsUnbalanced(int&, int&)
  T CTeamplayRoundBasedRules::BalanceTeams(bool)
  T CTeamplayRoundBasedRules::BetweenRounds_End()
@@ -40933,18 +41002,15 @@
  T CTeamplayRoundBasedRules::FillOutTeamplayRoundWinEvent(IGameEvent*)
  T CTeamplayRoundBasedRules::FireGameEvent(IGameEvent*)
  T CTeamplayRoundBasedRules::GetActiveRoundTimer()
- T CTeamplayRoundBasedRules::GetAllPlayersLobbyInfo(CUtlVector<LobbyPlayerInfo_t, CUtlMemory<LobbyPlayerInfo_t, int> >&, bool)
  T CTeamplayRoundBasedRules::GetBonusRoundTime(bool)
  T CTeamplayRoundBasedRules::GetLastMajorEventTime()
  T CTeamplayRoundBasedRules::GetLastPlayedRound()
  T CTeamplayRoundBasedRules::GetMinTimeWhenPlayerMaySpawn(CBasePlayer*)
  T CTeamplayRoundBasedRules::GetNextRespawnWave(int, CBasePlayer*)
  T CTeamplayRoundBasedRules::GetPostMatchPeriod()
- T CTeamplayRoundBasedRules::GetPotentialPlayersLobbyPlayerInfo(CUtlVector<LobbyPlayerInfo_t, CUtlMemory<LobbyPlayerInfo_t, int> >&, bool)
  T CTeamplayRoundBasedRules::GetRespawnTimeScalar(int)
  T CTeamplayRoundBasedRules::GetRespawnWaveMaxLength(int, bool)
  T CTeamplayRoundBasedRules::GetStalemateSong(int)
- T CTeamplayRoundBasedRules::GetWaitingForPlayersTime()
  T CTeamplayRoundBasedRules::GetWinningTeam()
  T CTeamplayRoundBasedRules::GoToIntermission()
  T CTeamplayRoundBasedRules::HandleTeamScoreModify(int, int)
@@ -41787,6 +41853,8 @@
  T CUtlMap<CUtlConstStringBase<char>, int, unsigned short>::Insert(CUtlConstStringBase<char> const&, int const&)
  T CUtlMap<CUtlString, float, unsigned short>::Find(CUtlString const&) const
  T CUtlMap<CUtlString, float, unsigned short>::Insert(CUtlString const&, float const&)
+ T CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::PurgeAndDeleteElements()
+ T CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::PurgeAndDeleteElements()
  T CUtlMap<char const*, CEconItemSetDefinition*, int>::PurgeAndDeleteElements()
  T CUtlMap<char const*, CEconLootListDefinition*, int>::PurgeAndDeleteElements()
  T CUtlMap<char const*, CQuestThemeDefinition*, int>::PurgeAndDeleteElements()
@@ -41846,12 +41914,13 @@
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CBaseEntity*, int, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CChoreoActor*, CBaseFlex*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
- T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, double, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, float, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlConstStringBase<char>, int, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
+ T CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
+ T CUtlMemory<UtlRBTreeNode_t<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<IPhysicsObject*, int, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, BasicGameStatsRecord_t, unsigned short>::Node_t, unsigned short>, unsigned short>::Grow(int)
@@ -41922,6 +41991,8 @@
  T CUtlPriorityQueue<SoundCommand_t*>::Insert(SoundCommand_t* const&)
  T CUtlPriorityQueue<SoundCommand_t*>::RemoveAt(int)
  T CUtlPriorityQueue<SoundCommand_t*>::RemoveAtHead()
+ T CUtlQueue<GCSDK::CGCClientJob*, CUtlMemory<GCSDK::CGCClientJob*, int> >::Insert(GCSDK::CGCClientJob* const&)
+ T CUtlQueue<GCSDK::CGCClientJob*, CUtlMemory<GCSDK::CGCClientJob*, int> >::~CUtlQueue()
  T CUtlRBTree<AI_CriteriaSet::CritEntry_t, short, bool (*)(AI_CriteriaSet::CritEntry_t const&, AI_CriteriaSet::CritEntry_t const&), CUtlMemory<UtlRBTreeNode_t<AI_CriteriaSet::CritEntry_t, short>, short> >::CopyFrom(CUtlRBTree<AI_CriteriaSet::CritEntry_t, short, bool (*)(AI_CriteriaSet::CritEntry_t const&, AI_CriteriaSet::CritEntry_t const&), CUtlMemory<UtlRBTreeNode_t<AI_CriteriaSet::CritEntry_t, short>, short> > const&)
  T CUtlRBTree<AI_CriteriaSet::CritEntry_t, short, bool (*)(AI_CriteriaSet::CritEntry_t const&, AI_CriteriaSet::CritEntry_t const&), CUtlMemory<UtlRBTreeNode_t<AI_CriteriaSet::CritEntry_t, short>, short> >::Find(AI_CriteriaSet::CritEntry_t const&) const
  T CUtlRBTree<AI_CriteriaSet::CritEntry_t, short, bool (*)(AI_CriteriaSet::CritEntry_t const&, AI_CriteriaSet::CritEntry_t const&), CUtlMemory<UtlRBTreeNode_t<AI_CriteriaSet::CritEntry_t, short>, short> >::FindInsertionPosition(AI_CriteriaSet::CritEntry_t const&, short&, bool&)
@@ -42136,17 +42207,6 @@
  T CUtlRBTree<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short, CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
  T CUtlRBTree<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short, CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
  T CUtlRBTree<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short, CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
- T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t const&) const
- T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t const&, unsigned short&, bool&)
- T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t const&)
- T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
- T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsLeftChild(unsigned short) const
- T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsRightChild(unsigned short) const
- T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::NewNode()
- T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
- T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
- T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
- T CUtlRBTree<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, CTFGCServerSystem::LobbyPlayerData_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
  T CUtlRBTree<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t const&) const
  T CUtlRBTree<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t const&, unsigned short&, bool&)
  T CUtlRBTree<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, GCSDK::CGCClientSharedObjectCache*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FirstInorder() const
@@ -42216,6 +42276,27 @@
  T CUtlRBTree<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlString, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
  T CUtlRBTree<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlString, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::Unlink(unsigned short)
  T CUtlRBTree<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlString, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
+ T CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t const&, unsigned short&, bool&)
+ T CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t const&)
+ T CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
+ T CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsLeftChild(unsigned short) const
+ T CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsRightChild(unsigned short) const
+ T CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::NewNode()
+ T CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
+ T CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
+ T CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
+ T CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
+ T CUtlRBTree<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t const&) const
+ T CUtlRBTree<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t const&, unsigned short&, bool&)
+ T CUtlRBTree<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t const&)
+ T CUtlRBTree<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
+ T CUtlRBTree<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsLeftChild(unsigned short) const
+ T CUtlRBTree<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsRightChild(unsigned short) const
+ T CUtlRBTree<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::NewNode()
+ T CUtlRBTree<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
+ T CUtlRBTree<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
+ T CUtlRBTree<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
+ T CUtlRBTree<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EMatchmakingGroupType, SchemaMMGroup_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
  T CUtlRBTree<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short, CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t const&) const
  T CUtlRBTree<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short, CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t const&, unsigned short&, bool&)
  T CUtlRBTree<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short, CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t const&)
@@ -43319,8 +43400,6 @@
  T CUtlVector<CChoreoEvent*, CUtlMemory<CChoreoEvent*, int> >::~CUtlVector()
  T CUtlVector<CChoreoScene*, CUtlMemory<CChoreoScene*, int> >::~CUtlVector()
  T CUtlVector<CCommandContext, CUtlMemory<CCommandContext, int> >::~CUtlVector()
- T CUtlVector<CCompetitiveMatchInfo::DailyStatsRankBucket_t, CUtlMemory<CCompetitiveMatchInfo::DailyStatsRankBucket_t, int> >::~CUtlVector()
- T CUtlVector<CCompetitiveMatchInfo::PlayerMatchRankData_t, CUtlMemory<CCompetitiveMatchInfo::PlayerMatchRankData_t, int> >::~CUtlVector()
  T CUtlVector<CConstraintFloodEntry, CUtlMemory<CConstraintFloodEntry, int> >::~CUtlVector()
  T CUtlVector<CCoroutineMgr*, CUtlMemory<CCoroutineMgr*, int> >::~CUtlVector()
  T CUtlVector<CDecalEmitterSystem::DecalListEntry, CUtlMemory<CDecalEmitterSystem::DecalListEntry, int> >::~CUtlVector()
@@ -43476,6 +43555,8 @@
  T CUtlVector<CLeaderboardInfo*, CUtlMemory<CLeaderboardInfo*, int> >::AddToTail(CLeaderboardInfo* const&)
  T CUtlVector<CLeaderboardInfo*, CUtlMemory<CLeaderboardInfo*, int> >::~CUtlVector()
  T CUtlVector<CMannVsMachineUpgrades, CUtlMemory<CMannVsMachineUpgrades, int> >::~CUtlVector()
+ T CUtlVector<CMatchInfo::DailyStatsRankBucket_t, CUtlMemory<CMatchInfo::DailyStatsRankBucket_t, int> >::~CUtlVector()
+ T CUtlVector<CMatchInfo::PlayerMatchData_t, CUtlMemory<CMatchInfo::PlayerMatchData_t, int> >::~CUtlVector()
  T CUtlVector<CMerasmusAOEAttack::MerasmusGrenadeCreateSpec_t, CUtlMemory<CMerasmusAOEAttack::MerasmusGrenadeCreateSpec_t, int> >::~CUtlVector()
  T CUtlVector<CModelSoundsCache*, CUtlMemory<CModelSoundsCache*, int> >::~CUtlVector()
  T CUtlVector<CMoveHelperServer::touchlist_t, CUtlMemory<CMoveHelperServer::touchlist_t, int> >::~CUtlVector()
@@ -43735,8 +43816,9 @@
  T CUtlVector<KeyValues*, CUtlMemory<KeyValues*, int> >::~CUtlVector()
  T CUtlVector<LeaderboardEntry_t*, CUtlMemory<LeaderboardEntry_t*, int> >::GrowVector(int)
  T CUtlVector<LeaderboardEntry_t*, CUtlMemory<LeaderboardEntry_t*, int> >::~CUtlVector()
- T CUtlVector<LobbyPlayerInfo_t, CUtlMemory<LobbyPlayerInfo_t, int> >::AddToTail()
- T CUtlVector<LobbyPlayerInfo_t, CUtlMemory<LobbyPlayerInfo_t, int> >::~CUtlVector()
+ T CUtlVector<LevelInfo_t, CUtlMemory<LevelInfo_t, int> >::AddToTail(LevelInfo_t const&)
+ T CUtlVector<LevelInfo_t, CUtlMemory<LevelInfo_t, int> >::~CUtlVector()
+ T CUtlVector<MapDef_t*, CUtlMemory<MapDef_t*, int> >::~CUtlVector()
  T CUtlVector<MapNameAndPlaytime_t, CUtlMemory<MapNameAndPlaytime_t, int> >::~CUtlVector()
  T CUtlVector<MvMMap_t, CUtlMemory<MvMMap_t, int> >::Purge()
  T CUtlVector<MvMMap_t, CUtlMemory<MvMMap_t, int> >::~CUtlVector()
@@ -43768,7 +43850,9 @@
  T CUtlVector<ResponseContext_t, CUtlMemory<ResponseContext_t, int> >::~CUtlVector()
  T CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> >::InsertMultipleBefore(int, int, SaveRestoreBlockHeader_t const*)
  T CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> >::~CUtlVector()
- T CUtlVector<SchemaMap_t, CUtlMemory<SchemaMap_t, int> >::~CUtlVector()
+ T CUtlVector<SchemaGameCategory_t const*, CUtlMemory<SchemaGameCategory_t const*, int> >::~CUtlVector()
+ T CUtlVector<SchemaMap_t const*, CUtlMemory<SchemaMap_t const*, int> >::~CUtlVector()
+ T CUtlVector<SchemaMap_t*, CUtlMemory<SchemaMap_t*, int> >::~CUtlVector()
  T CUtlVector<ScriptedNPCInteraction_t, CUtlMemory<ScriptedNPCInteraction_t, int> >::GrowVector(int)
  T CUtlVector<ScriptedNPCInteraction_t, CUtlMemory<ScriptedNPCInteraction_t, int> >::InsertBefore(int)
  T CUtlVector<ScriptedNPCInteraction_t, CUtlMemory<ScriptedNPCInteraction_t, int> >::InsertMultipleBefore(int, int, ScriptedNPCInteraction_t const*)
@@ -45680,6 +45764,9 @@
  T GCSDK::CProtoBufMsg<CMsgGC_Match_Result>::CProtoBufMsg(unsigned int)
  T GCSDK::CProtoBufMsg<CMsgGC_Match_Result>::GetGenericBody() const
  T GCSDK::CProtoBufMsg<CMsgGC_Match_Result>::~CProtoBufMsg()
+ T GCSDK::CProtoBufMsg<CMsgGC_Match_ResultResponse>::AllocProto()
+ T GCSDK::CProtoBufMsg<CMsgGC_Match_ResultResponse>::GetGenericBody() const
+ T GCSDK::CProtoBufMsg<CMsgGC_Match_ResultResponse>::~CProtoBufMsg()
  T GCSDK::CProtoBufMsg<CMsgGC_TFVoteKickPlayerRequest>::AllocProto()
  T GCSDK::CProtoBufMsg<CMsgGC_TFVoteKickPlayerRequest>::CProtoBufMsg(unsigned int)
  T GCSDK::CProtoBufMsg<CMsgGC_TFVoteKickPlayerRequest>::GetGenericBody() const
@@ -45687,14 +45774,13 @@
  T GCSDK::CProtoBufMsg<CMsgGC_VoteKickPlayerRequestResponse>::AllocProto()
  T GCSDK::CProtoBufMsg<CMsgGC_VoteKickPlayerRequestResponse>::GetGenericBody() const
  T GCSDK::CProtoBufMsg<CMsgGC_VoteKickPlayerRequestResponse>::~CProtoBufMsg()
- T GCSDK::CProtoBufMsg<CMsgGameMatchSignOut>::AllocProto()
- T GCSDK::CProtoBufMsg<CMsgGameMatchSignOut>::CProtoBufMsg(unsigned int)
- T GCSDK::CProtoBufMsg<CMsgGameMatchSignOut>::GetGenericBody() const
- T GCSDK::CProtoBufMsg<CMsgGameMatchSignOut>::~CProtoBufMsg()
  T GCSDK::CProtoBufMsg<CMsgGameServerKickingLobby>::AllocProto()
  T GCSDK::CProtoBufMsg<CMsgGameServerKickingLobby>::CProtoBufMsg(unsigned int)
  T GCSDK::CProtoBufMsg<CMsgGameServerKickingLobby>::GetGenericBody() const
  T GCSDK::CProtoBufMsg<CMsgGameServerKickingLobby>::~CProtoBufMsg()
+ T GCSDK::CProtoBufMsg<CMsgGameServerKickingLobbyResponse>::AllocProto()
+ T GCSDK::CProtoBufMsg<CMsgGameServerKickingLobbyResponse>::GetGenericBody() const
+ T GCSDK::CProtoBufMsg<CMsgGameServerKickingLobbyResponse>::~CProtoBufMsg()
  T GCSDK::CProtoBufMsg<CMsgGameServerMatchmakingStatus>::AllocProto()
  T GCSDK::CProtoBufMsg<CMsgGameServerMatchmakingStatus>::CProtoBufMsg(unsigned int)
  T GCSDK::CProtoBufMsg<CMsgGameServerMatchmakingStatus>::GetGenericBody() const
@@ -45721,10 +45807,13 @@
  T GCSDK::CProtoBufMsg<CMsgMvMVictory>::CProtoBufMsg(unsigned int)
  T GCSDK::CProtoBufMsg<CMsgMvMVictory>::GetGenericBody() const
  T GCSDK::CProtoBufMsg<CMsgMvMVictory>::~CProtoBufMsg()
- T GCSDK::CProtoBufMsg<CMsgRemovePlayerFromLobby>::AllocProto()
- T GCSDK::CProtoBufMsg<CMsgRemovePlayerFromLobby>::CProtoBufMsg(unsigned int)
- T GCSDK::CProtoBufMsg<CMsgRemovePlayerFromLobby>::GetGenericBody() const
- T GCSDK::CProtoBufMsg<CMsgRemovePlayerFromLobby>::~CProtoBufMsg()
+ T GCSDK::CProtoBufMsg<CMsgPlayerLeftMatch>::AllocProto()
+ T GCSDK::CProtoBufMsg<CMsgPlayerLeftMatch>::CProtoBufMsg(unsigned int)
+ T GCSDK::CProtoBufMsg<CMsgPlayerLeftMatch>::GetGenericBody() const
+ T GCSDK::CProtoBufMsg<CMsgPlayerLeftMatch>::~CProtoBufMsg()
+ T GCSDK::CProtoBufMsg<CMsgPlayerLeftMatchResponse>::AllocProto()
+ T GCSDK::CProtoBufMsg<CMsgPlayerLeftMatchResponse>::GetGenericBody() const
+ T GCSDK::CProtoBufMsg<CMsgPlayerLeftMatchResponse>::~CProtoBufMsg()
  T GCSDK::CProtoBufMsg<CMsgReplicateConVars>::AllocProto()
  T GCSDK::CProtoBufMsg<CMsgReplicateConVars>::GetGenericBody() const
  T GCSDK::CProtoBufMsg<CMsgReplicateConVars>::~CProtoBufMsg()
@@ -45757,10 +45846,6 @@
  T GCSDK::CProtoBufMsg<CMsgServerWelcome>::AllocProto()
  T GCSDK::CProtoBufMsg<CMsgServerWelcome>::GetGenericBody() const
  T GCSDK::CProtoBufMsg<CMsgServerWelcome>::~CProtoBufMsg()
- T GCSDK::CProtoBufMsg<CMsgSetLobbySafeToLeave>::AllocProto()
- T GCSDK::CProtoBufMsg<CMsgSetLobbySafeToLeave>::CProtoBufMsg(unsigned int)
- T GCSDK::CProtoBufMsg<CMsgSetLobbySafeToLeave>::GetGenericBody() const
- T GCSDK::CProtoBufMsg<CMsgSetLobbySafeToLeave>::~CProtoBufMsg()
  T GCSDK::CProtoBufMsg<CMsgTFCoaching_CoachJoined>::AllocProto()
  T GCSDK::CProtoBufMsg<CMsgTFCoaching_CoachJoined>::CProtoBufMsg(unsigned int)
  T GCSDK::CProtoBufMsg<CMsgTFCoaching_CoachJoined>::GetGenericBody() const
@@ -45771,10 +45856,6 @@
  T GCSDK::CProtoBufMsg<CMsgTFCoaching_RemoveCurrentCoach>::AllocProto()
  T GCSDK::CProtoBufMsg<CMsgTFCoaching_RemoveCurrentCoach>::GetGenericBody() const
  T GCSDK::CProtoBufMsg<CMsgTFCoaching_RemoveCurrentCoach>::~CProtoBufMsg()
- T GCSDK::CProtoBufMsg<CMsgTFPlayerFailedToConnect>::AllocProto()
- T GCSDK::CProtoBufMsg<CMsgTFPlayerFailedToConnect>::CProtoBufMsg(unsigned int)
- T GCSDK::CProtoBufMsg<CMsgTFPlayerFailedToConnect>::GetGenericBody() const
- T GCSDK::CProtoBufMsg<CMsgTFPlayerFailedToConnect>::~CProtoBufMsg()
  T GCSDK::CProtoBufMsg<CMsgTFQuickplay_PlayerJoining>::AllocProto()
  T GCSDK::CProtoBufMsg<CMsgTFQuickplay_PlayerJoining>::GetGenericBody() const
  T GCSDK::CProtoBufMsg<CMsgTFQuickplay_PlayerJoining>::~CProtoBufMsg()
@@ -45840,18 +45921,21 @@
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGC_Match_Result>::GetName()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGC_Match_Result>::InternalAlloc()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGC_Match_Result>::~CProtoBufMsgMemoryPool()
+ T GCSDK::CProtoBufMsgMemoryPool<CMsgGC_Match_ResultResponse>::GetName()
+ T GCSDK::CProtoBufMsgMemoryPool<CMsgGC_Match_ResultResponse>::InternalAlloc()
+ T GCSDK::CProtoBufMsgMemoryPool<CMsgGC_Match_ResultResponse>::~CProtoBufMsgMemoryPool()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGC_TFVoteKickPlayerRequest>::GetName()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGC_TFVoteKickPlayerRequest>::InternalAlloc()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGC_TFVoteKickPlayerRequest>::~CProtoBufMsgMemoryPool()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGC_VoteKickPlayerRequestResponse>::GetName()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGC_VoteKickPlayerRequestResponse>::InternalAlloc()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGC_VoteKickPlayerRequestResponse>::~CProtoBufMsgMemoryPool()
- T GCSDK::CProtoBufMsgMemoryPool<CMsgGameMatchSignOut>::GetName()
- T GCSDK::CProtoBufMsgMemoryPool<CMsgGameMatchSignOut>::InternalAlloc()
- T GCSDK::CProtoBufMsgMemoryPool<CMsgGameMatchSignOut>::~CProtoBufMsgMemoryPool()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerKickingLobby>::GetName()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerKickingLobby>::InternalAlloc()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerKickingLobby>::~CProtoBufMsgMemoryPool()
+ T GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerKickingLobbyResponse>::GetName()
+ T GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerKickingLobbyResponse>::InternalAlloc()
+ T GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerKickingLobbyResponse>::~CProtoBufMsgMemoryPool()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerMatchmakingStatus>::GetName()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerMatchmakingStatus>::InternalAlloc()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgGameServerMatchmakingStatus>::~CProtoBufMsgMemoryPool()
@@ -45873,12 +45957,15 @@
  T GCSDK::CProtoBufMsgMemoryPool<CMsgMvMVictory>::GetName()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgMvMVictory>::InternalAlloc()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgMvMVictory>::~CProtoBufMsgMemoryPool()
+ T GCSDK::CProtoBufMsgMemoryPool<CMsgPlayerLeftMatch>::GetName()
+ T GCSDK::CProtoBufMsgMemoryPool<CMsgPlayerLeftMatch>::InternalAlloc()
+ T GCSDK::CProtoBufMsgMemoryPool<CMsgPlayerLeftMatch>::~CProtoBufMsgMemoryPool()
+ T GCSDK::CProtoBufMsgMemoryPool<CMsgPlayerLeftMatchResponse>::GetName()
+ T GCSDK::CProtoBufMsgMemoryPool<CMsgPlayerLeftMatchResponse>::InternalAlloc()
+ T GCSDK::CProtoBufMsgMemoryPool<CMsgPlayerLeftMatchResponse>::~CProtoBufMsgMemoryPool()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgProtoBufHeader>::GetName()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgProtoBufHeader>::InternalAlloc()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgProtoBufHeader>::~CProtoBufMsgMemoryPool()
- T GCSDK::CProtoBufMsgMemoryPool<CMsgRemovePlayerFromLobby>::GetName()
- T GCSDK::CProtoBufMsgMemoryPool<CMsgRemovePlayerFromLobby>::InternalAlloc()
- T GCSDK::CProtoBufMsgMemoryPool<CMsgRemovePlayerFromLobby>::~CProtoBufMsgMemoryPool()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgReplicateConVars>::GetName()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgReplicateConVars>::InternalAlloc()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgReplicateConVars>::~CProtoBufMsgMemoryPool()
@@ -45909,9 +45996,6 @@
  T GCSDK::CProtoBufMsgMemoryPool<CMsgServerWelcome>::GetName()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgServerWelcome>::InternalAlloc()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgServerWelcome>::~CProtoBufMsgMemoryPool()
- T GCSDK::CProtoBufMsgMemoryPool<CMsgSetLobbySafeToLeave>::GetName()
- T GCSDK::CProtoBufMsgMemoryPool<CMsgSetLobbySafeToLeave>::InternalAlloc()
- T GCSDK::CProtoBufMsgMemoryPool<CMsgSetLobbySafeToLeave>::~CProtoBufMsgMemoryPool()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_CoachJoined>::GetName()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_CoachJoined>::InternalAlloc()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_CoachJoined>::~CProtoBufMsgMemoryPool()
@@ -45921,9 +46005,6 @@
  T GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_RemoveCurrentCoach>::GetName()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_RemoveCurrentCoach>::InternalAlloc()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgTFCoaching_RemoveCurrentCoach>::~CProtoBufMsgMemoryPool()
- T GCSDK::CProtoBufMsgMemoryPool<CMsgTFPlayerFailedToConnect>::GetName()
- T GCSDK::CProtoBufMsgMemoryPool<CMsgTFPlayerFailedToConnect>::InternalAlloc()
- T GCSDK::CProtoBufMsgMemoryPool<CMsgTFPlayerFailedToConnect>::~CProtoBufMsgMemoryPool()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgTFQuickplay_PlayerJoining>::GetName()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgTFQuickplay_PlayerJoining>::InternalAlloc()
  T GCSDK::CProtoBufMsgMemoryPool<CMsgTFQuickplay_PlayerJoining>::~CProtoBufMsgMemoryPool()
@@ -46129,6 +46210,7 @@
  T GetLongFloorZ(Vector const&)
  T GetMPConceptIndexFromString(char const*)
  T GetMassEquivalent(float)
+ T GetMatchGroupDescription(EMatchGroup const&)
  T GetMaterialIndex(char const*)
  T GetMaterialNameFromIndex(int)
  T GetMaxCardUpgradesPerItem()
@@ -46148,6 +46230,7 @@
  T GetPowerupIconName(RuneTypes_t, int)
  T GetQuestEventsKeyValues()
  T GetRandomBotName()
+ T GetRankForSkillRating(unsigned int)
  T GetRecentNPCSpeech(recentNPCSpeech_t*)
  T GetReplayGameStatsHelper()
  T GetSceneDuration(char const*)
@@ -46163,7 +46246,6 @@
  T GetSkyCameraList()
  T GetSoundSaveRestoreOps()
  T GetSpringAttachments(CBaseEntity*, CBaseEntity**, IPhysicsObject**)
- T GetSteamIDForPlayerIndex(int)
  T GetSteamUGC()
  T GetSteamWorksSGameStatsUploader()
  T GetTFConditionFromName(char const*)
@@ -46442,6 +46524,8 @@
  T ILocomotion::Update()
  T ILocomotion::Walk()
  T ILocomotion::~ILocomotion()
+ T IMatchGroupDescription::GetMatchSize() const
+ T IMatchGroupDescription::InitServerSettingsForMatch(CTFLobby const*) const
  T IMerasmusAutoList::IMerasmusAutoList(bool)
  T IMerasmusAutoList::~IMerasmusAutoList()
  T IMinigameAutoList::IMinigameAutoList(bool)
@@ -46567,6 +46651,7 @@
  T IPopulator::Update()
  T IPopulator::~IPopulator()
  T IPredictionSystem::~IPredictionSystem()
+ T IProgressionDesc::GetLevelForSteamID(CSteamID const&)
  T IRobotDestructionGroupAutoList::IRobotDestructionGroupAutoList(bool)
  T IRobotDestructionGroupAutoList::~IRobotDestructionGroupAutoList()
  T ISchemaAttributeType::BSupportsGameplayModificationAndNetworking() const
@@ -47086,6 +47171,7 @@
  T NextBotTraversableTraceFilter::ShouldHitEntity(IHandleEntity*, int)
  T NotifyObjectBuiltInSuggestedArea(CBaseObject&)
  T NotifyObjectUpgradedInSuggestedArea(CBaseObject&)
+ T On6v6MatchSizeChanged(IConVar*, char const*, float)
  T OnBaseCombatWeaponCreated(CBaseCombatWeapon*)
  T OnBaseCombatWeaponDestroyed(CBaseCombatWeapon*)
  T OnBotTeleported(CTFBot*)
@@ -50493,6 +50579,8 @@
  b (anonymous namespace)::CMsgGC_Halloween_ReservedItem_reflection_
  b (anonymous namespace)::CMsgGC_Ladder_RankUp_descriptor_
  b (anonymous namespace)::CMsgGC_Ladder_RankUp_reflection_
+ b (anonymous namespace)::CMsgGC_Match_ResultResponse_descriptor_
+ b (anonymous namespace)::CMsgGC_Match_ResultResponse_reflection_
  b (anonymous namespace)::CMsgGC_Match_Result_Player_descriptor_
  b (anonymous namespace)::CMsgGC_Match_Result_Player_reflection_
  b (anonymous namespace)::CMsgGC_Match_Result_Status_descriptor_
@@ -50508,8 +50596,8 @@
  b (anonymous namespace)::CMsgGC_TFVoteKickPlayerRequest_reflection_
  b (anonymous namespace)::CMsgGC_VoteKickPlayerRequestResponse_descriptor_
  b (anonymous namespace)::CMsgGC_VoteKickPlayerRequestResponse_reflection_
- b (anonymous namespace)::CMsgGameMatchSignOut_descriptor_
- b (anonymous namespace)::CMsgGameMatchSignOut_reflection_
+ b (anonymous namespace)::CMsgGameServerKickingLobbyResponse_descriptor_
+ b (anonymous namespace)::CMsgGameServerKickingLobbyResponse_reflection_
  b (anonymous namespace)::CMsgGameServerKickingLobby_descriptor_
  b (anonymous namespace)::CMsgGameServerKickingLobby_reflection_
  b (anonymous namespace)::CMsgGameServerMatchmakingStatus_Event_descriptor_
@@ -50589,15 +50677,16 @@
  b (anonymous namespace)::CMsgPackageLicense_reflection_
  b (anonymous namespace)::CMsgPartyInviteResponse_descriptor_
  b (anonymous namespace)::CMsgPartyInviteResponse_reflection_
+ b (anonymous namespace)::CMsgPlayerLeftMatchResponse_descriptor_
+ b (anonymous namespace)::CMsgPlayerLeftMatchResponse_reflection_
+ b (anonymous namespace)::CMsgPlayerLeftMatch_descriptor_
+ b (anonymous namespace)::CMsgPlayerLeftMatch_reflection_
  b (anonymous namespace)::CMsgProtoBufHeader_descriptor_
  b (anonymous namespace)::CMsgProtoBufHeader_reflection_
  b (anonymous namespace)::CMsgReadyUp_descriptor_
  b (anonymous namespace)::CMsgReadyUp_reflection_
  b (anonymous namespace)::CMsgRecipeComponent_descriptor_
  b (anonymous namespace)::CMsgRecipeComponent_reflection_
- b (anonymous namespace)::CMsgRemovePlayerFromLobby_RemoveReason_descriptor_
- b (anonymous namespace)::CMsgRemovePlayerFromLobby_descriptor_
- b (anonymous namespace)::CMsgRemovePlayerFromLobby_reflection_
  b (anonymous namespace)::CMsgReplaySubmitContestEntryResponse_descriptor_
  b (anonymous namespace)::CMsgReplaySubmitContestEntryResponse_reflection_
  b (anonymous namespace)::CMsgReplaySubmitContestEntry_descriptor_
@@ -50662,8 +50751,6 @@
  b (anonymous namespace)::CMsgSetItemPositions_reflection_
  b (anonymous namespace)::CMsgSetItemSlotAttribute_descriptor_
  b (anonymous namespace)::CMsgSetItemSlotAttribute_reflection_
- b (anonymous namespace)::CMsgSetLobbySafeToLeave_descriptor_
- b (anonymous namespace)::CMsgSetLobbySafeToLeave_reflection_
  b (anonymous namespace)::CMsgSetPresetItemPosition_descriptor_
  b (anonymous namespace)::CMsgSetPresetItemPosition_reflection_
  b (anonymous namespace)::CMsgSortItems_descriptor_
@@ -50714,8 +50801,6 @@
  b (anonymous namespace)::CMsgTFOtherJoinedChatChannel_reflection_
  b (anonymous namespace)::CMsgTFOtherLeftChatChannel_descriptor_
  b (anonymous namespace)::CMsgTFOtherLeftChatChannel_reflection_
- b (anonymous namespace)::CMsgTFPlayerFailedToConnect_descriptor_
- b (anonymous namespace)::CMsgTFPlayerFailedToConnect_reflection_
  b (anonymous namespace)::CMsgTFQuickplay_PlayerJoining_descriptor_
  b (anonymous namespace)::CMsgTFQuickplay_PlayerJoining_reflection_
  b (anonymous namespace)::CMsgTFQuickplay_ScoreServersResponse_ServerInfo_descriptor_
@@ -50860,6 +50945,7 @@
  b (anonymous namespace)::PartnerAccountType_descriptor_
  b (anonymous namespace)::ServerMatchmakingState_descriptor_
  b (anonymous namespace)::TFLobbyReadyState_descriptor_
+ b (anonymous namespace)::TFMatchLeaveReason_descriptor_
  b (anonymous namespace)::TF_GC_GameState_descriptor_
  b (anonymous namespace)::TF_GC_TEAM_descriptor_
  b (anonymous namespace)::TF_MatchmakingMode_descriptor_
@@ -51074,6 +51160,10 @@
  b GetBspFilename(char const*)::bspFilename
  b GetEarnedBonusPoints(IEconItemInterface const*)::pAttribDef_EarnedBonusPoints
  b GetEarnedStandardPoints(IEconItemInterface const*)::pAttribDef_EarnedStandardPoints
+ b GetMatchGroupDescription(EMatchGroup const&)::descBootcamp
+ b GetMatchGroupDescription(EMatchGroup const&)::descLadder6v6
+ b GetMatchGroupDescription(EMatchGroup const&)::descLadder9v9
+ b GetMatchGroupDescription(EMatchGroup const&)::descMannup
  b GetPhysObjSaveRestoreOps(PhysInterfaceId_t)::inited
  b GetQuestEventsKeyValues()::pQuestEvents
  b GetRandomBotName()::nameCount
@@ -52134,6 +52224,10 @@
  b guard variable for GetAmmoDef()::def
  b guard variable for GetEarnedBonusPoints(IEconItemInterface const*)::pAttribDef_EarnedBonusPoints
  b guard variable for GetEarnedStandardPoints(IEconItemInterface const*)::pAttribDef_EarnedStandardPoints
+ b guard variable for GetMatchGroupDescription(EMatchGroup const&)::descBootcamp
+ b guard variable for GetMatchGroupDescription(EMatchGroup const&)::descLadder6v6
+ b guard variable for GetMatchGroupDescription(EMatchGroup const&)::descLadder9v9
+ b guard variable for GetMatchGroupDescription(EMatchGroup const&)::descMannup
  b guard variable for GetReplayGameStatsHelper()::s_Instance
  b guard variable for GetSceneManager()::s_SceneManager
  b guard variable for IBody::GetEyePosition() const::eye
@@ -52702,7 +52796,6 @@
  b s_bConnected
  b s_bInDMXContext
  b s_bMMXEnabled
- b s_bMannUpVictoryJobComplete
  b s_bRegistered
  b s_bRunningWithDebugModules
  b s_bSSE2Enabled
@@ -52719,7 +52812,6 @@
  b s_pClassLists
  b s_pMapName
  b s_pNonModifiedPointerProxyHead
- b s_pPendingMannUpVictoryMsg
  b s_pPerFrameSystemList
  b s_pSystemList
  b s_pTokenBuf
@@ -53287,6 +53379,7 @@
  d s_pThrowSpeedConvars
  d s_pszDisguiseProps
  d s_pszGameModes
+ d s_pszMMTypes
  d s_pszQuickplayMatchTypes
  d s_pszRuneIcons
  d s_pszStrangeRestrictionTypes
@@ -53704,6 +53797,7 @@
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Halloween_ItemClaimed_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Halloween_ReservedItem_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Ladder_RankUp_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Match_ResultResponse_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Match_Result_Player_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Match_Result_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_PickupItemEligibility_QueryResponse_offsets_
@@ -53711,7 +53805,7 @@
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_ReportPlayer_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_TFVoteKickPlayerRequest_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_VoteKickPlayerRequestResponse_offsets_
- r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGameMatchSignOut_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGameServerKickingLobbyResponse_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGameServerKickingLobby_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGameServerMatchmakingStatus_Player_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGameServerMatchmakingStatus_offsets_
@@ -53729,13 +53823,13 @@
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgMvMVictoryInfo_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgMvMVictory_Player_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgMvMVictory_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgPlayerLeftMatchResponse_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgPlayerLeftMatch_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgReadyUp_offsets_
- r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgRemovePlayerFromLobby_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgReplaySubmitContestEntryResponse_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgReplaySubmitContestEntry_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgSaxxyAwarded_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgSetItemSlotAttribute_offsets_
- r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgSetLobbySafeToLeave_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgTFCoaching_AddToCoaches_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgTFCoaching_AskCoachResponse_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgTFCoaching_AskCoach_offsets_
@@ -53756,7 +53850,6 @@
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgTFLeaveChatChannel_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgTFOtherJoinedChatChannel_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgTFOtherLeftChatChannel_offsets_
- r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgTFPlayerFailedToConnect_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgTFQuickplay_PlayerJoining_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgTFQuickplay_ScoreServersResponse_ServerInfo_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgTFQuickplay_ScoreServersResponse_offsets_
@@ -54057,7 +54150,7 @@
  t __cxx_global_array_dtor119
  t __cxx_global_array_dtor121
  t __cxx_global_array_dtor122
- t __cxx_global_array_dtor1235
+ t __cxx_global_array_dtor1249
  t __cxx_global_array_dtor13
  t __cxx_global_array_dtor14
  t __cxx_global_array_dtor140
@@ -54089,10 +54182,10 @@
  t __cxx_global_array_dtor220
  t __cxx_global_array_dtor228
  t __cxx_global_array_dtor23
- t __cxx_global_array_dtor231
- t __cxx_global_array_dtor236
+ t __cxx_global_array_dtor232
+ t __cxx_global_array_dtor237
  t __cxx_global_array_dtor240
- t __cxx_global_array_dtor241
+ t __cxx_global_array_dtor242
  t __cxx_global_array_dtor25
  t __cxx_global_array_dtor251
  t __cxx_global_array_dtor257
@@ -54104,7 +54197,7 @@
  t __cxx_global_array_dtor280
  t __cxx_global_array_dtor29
  t __cxx_global_array_dtor30
- t __cxx_global_array_dtor306
+ t __cxx_global_array_dtor307
  t __cxx_global_array_dtor31
  t __cxx_global_array_dtor34
  t __cxx_global_array_dtor35
@@ -54115,9 +54208,9 @@
  t __cxx_global_array_dtor397
  t __cxx_global_array_dtor40
  t __cxx_global_array_dtor408
- t __cxx_global_array_dtor409
  t __cxx_global_array_dtor41
  t __cxx_global_array_dtor412
+ t __cxx_global_array_dtor418
  t __cxx_global_array_dtor425
  t __cxx_global_array_dtor43
  t __cxx_global_array_dtor45
