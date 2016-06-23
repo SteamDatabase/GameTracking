@@ -74,16 +74,25 @@
 	{
 		"HasModAppSystems" "1"
 		"Capable64Bit" "1"
+		"UsesVGui" "0"
 		"UsesScaleform" "1"
 		"UsesPanorama" "1"
 		"PanoramaUIClientFromClient" "1" // IPanoramaUIClient is implemented by client.dll
 		"HasGameUI" "1" // dota uses gameui
 		"GameUIFromClient" "1"  // AND that gameui comes from client.dll
 		"URLName" "dota2"
+		"MsaaOverrideType" "0"
 		"UsesBink" "0"
         "MaxNetworkableEntities" "10000"
         "MaxNonNetworkableEntities" "10000"
         "DefaultDXVersion" "9"
+        // The shader binary cache on Linux can be over 100MB so
+        // we have to allow very large allocations.
+		"AllocWarnMB_linuxsteamrt64" "200"
+		"AllocWarnMB" "64"
+		// There are some known large virtual reservations, such as the SBH, which
+		// bypass this limit so we can be fairly conservative.
+		"ReserveWarnMB" "32"
 
 		"RenderingPipeline"
 		{
@@ -115,6 +124,7 @@
 		"CMTAtlasWidth" "512"
 		"CMTAtlasHeight" "512"
 		"CMTAtlasChunkSize" "128"
+		"DrawParticleChildrenSeparateFromParents" "1"
 	}
 
 	ToolsEnvironment
@@ -141,8 +151,9 @@
 		"AddonMapCommand"		"dota_launch_custom_game"
 		"PostMapLoadCommands"	"jointeam good" // Commands sent to the console by hammer after it finishes building a map and loads it
 		"RequiredGameEntities"	"info_player_start_goodguys|info_player_start_dota; info_player_start_badguys|info_player_start_dota; env_global_light; ent_dota_game_events"
-		"UnitsFiles"			"scripts/npc/npc_units.txt; scripts/npc/npc_units_custom.txt"
+		"UnitsFiles"			"scripts/npc/npc_units.txt; scripts/npc/npc_units_custom.txt; scripts/npc/npc_heroes.txt"
 		"ItemsFiles"			"scripts/npc/items.txt; scripts/npc/npc_items_custom.txt"
+		"OverlayBoxSize"		"16"
 	}
 
 	MaterialEditor

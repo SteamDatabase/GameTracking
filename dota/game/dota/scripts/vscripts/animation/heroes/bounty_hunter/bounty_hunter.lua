@@ -67,7 +67,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run",
+		name = "run_anim",
 		sequences = {
 			{ "@run" }
 		},
@@ -104,7 +104,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run_injured",
+		name = "run_injured_anim",
 		sequences = {
 			{ "@run_injured" }
 		},
@@ -143,7 +143,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run_haste",
+		name = "run_haste_anim",
 		sequences = {
 			{ "@run_haste" }
 		},
@@ -153,6 +153,62 @@ model:CreateSequence(
 		activities = {
 			{ name = "ACT_DOTA_RUN", weight = 1 },
 			{ name = "haste", weight = 1 }
+		}
+	}
+)
+
+-- AsTurningRun
+
+model:CreateSequence(
+	{
+		name = "hoard_run",
+		sequences = {
+			{ "@hoard_run" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "hoard", weight = 1 }
+		}
+	}
+)
+
+-- AsTurningRun
+
+model:CreateSequence(
+	{
+		name = "hoard_run_haste",
+		sequences = {
+			{ "@hoard_run_haste" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "haste", weight = 1 },
+			{ name = "hoard", weight = 1 }
+		}
+	}
+)
+
+-- AsTurningRun
+
+model:CreateSequence(
+	{
+		name = "hoard_run_injured",
+		sequences = {
+			{ "@hoard_run_injured" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "injured", weight = 1 },
+			{ name = "hoard", weight = 1 }
 		}
 	}
 )

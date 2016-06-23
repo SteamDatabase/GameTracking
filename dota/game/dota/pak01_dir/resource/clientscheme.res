@@ -259,6 +259,17 @@ Scheme
 				"antialias" "1"
 			}
 		}
+		"DebugStats"
+		{
+			"1"
+			{
+				"name"		"Courier New"
+				"tall"		"14"
+				"weight"	"650"
+				"antialias" "1"
+				"outline"	"1"
+			}
+		}
 		// fonts listed later in the order will only be used if they fulfill a range not already filled
 		// if a font fails to load then the subsequent fonts will replace
 		

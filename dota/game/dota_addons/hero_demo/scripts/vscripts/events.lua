@@ -5,17 +5,17 @@
 --------------------------------------------------------------------------------
 function CHeroDemo:OnGameRulesStateChange()
 	local nNewState = GameRules:State_Get()
-	print( "OnGameRulesStateChange: " .. nNewState )
+	--print( "OnGameRulesStateChange: " .. nNewState )
 
 	if nNewState == DOTA_GAMERULES_STATE_HERO_SELECTION then
-		print( "OnGameRulesStateChange: Hero Selection" )
+		--print( "OnGameRulesStateChange: Hero Selection" )
 
 	elseif nNewState == DOTA_GAMERULES_STATE_PRE_GAME then
-		print( "OnGameRulesStateChange: Pre Game Selection" )
+		--print( "OnGameRulesStateChange: Pre Game Selection" )
 		SendToServerConsole( "dota_dev forcegamestart" )
 
 	elseif nNewState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-		print( "OnGameRulesStateChange: Game In Progress" )
+		--print( "OnGameRulesStateChange: Game In Progress" )
 
 	end
 end
@@ -27,13 +27,13 @@ function CHeroDemo:OnNPCSpawned( event )
 	spawnedUnit = EntIndexToHScript( event.entindex )
 
 	if spawnedUnit:GetPlayerOwnerID() == 0 and spawnedUnit:IsRealHero() and not spawnedUnit:IsClone() then
-		print( "spawnedUnit is player's hero" )
+		--print( "spawnedUnit is player's hero" )
 		local hPlayerHero = spawnedUnit
 		hPlayerHero:SetContextThink( "self:Think_InitializePlayerHero", function() return self:Think_InitializePlayerHero( hPlayerHero ) end, 0 )
 	end
 
 	if spawnedUnit:GetUnitName() == "npc_dota_neutral_caster" then
-		print( "Neutral Caster spawned" )
+		--print( "Neutral Caster spawned" )
 		spawnedUnit:SetContextThink( "self:Think_InitializeNeutralCaster", function() return self:Think_InitializeNeutralCaster( spawnedUnit ) end, 0 )
 	end
 end
@@ -75,7 +75,7 @@ function CHeroDemo:Think_InitializeNeutralCaster( neutralCaster )
 		return 0.1
 	end
 
-	print( "neutralCaster:AddAbility( \"la_spawn_enemy_at_target\" )" )
+	--print( "neutralCaster:AddAbility( \"la_spawn_enemy_at_target\" )" )
 	neutralCaster:AddAbility( "la_spawn_enemy_at_target" )
 	return
 end
@@ -94,7 +94,7 @@ end
 --------------------------------------------------------------------------------
 function CHeroDemo:OnNPCReplaced( event )
 	local sNewHeroName = PlayerResource:GetSelectedHeroName( event.new_entindex )
-	print( "sNewHeroName == " .. sNewHeroName ) -- we fail to get in here
+	--print( "sNewHeroName == " .. sNewHeroName ) -- we fail to get in here
 	self:BroadcastMsg( "Changed hero to " .. sNewHeroName )
 end
 
@@ -102,7 +102,7 @@ end
 -- ButtonEvent: OnWelcomePanelDismissed
 --------------------------------------------------------------------------------
 function CHeroDemo:OnWelcomePanelDismissed( event )
-	print( "Entering CHeroDemo:OnWelcomePanelDismissed( event )" )
+	--print( "Entering CHeroDemo:OnWelcomePanelDismissed( event )" )
 end
 
 --------------------------------------------------------------------------------
@@ -189,7 +189,6 @@ end
 function CHeroDemo:OnSpawnAllyButtonPressed( eventSourceIndex, data )
 	local hPlayerHero = PlayerResource:GetSelectedHeroEntity( data.PlayerID )
 	self.m_nAlliesCount = self.m_nAlliesCount + 1
-	print( "Ally team count is now: " .. self.m_nAlliesCount )
 	self.m_tAlliesList[ self.m_nAlliesCount ] = CreateUnitByName( "npc_dota_hero_axe", hPlayerHero:GetAbsOrigin(), true, nil, nil, self.m_nALLIES_TEAM )
 	local hUnit = self.m_tAlliesList[ self.m_nAlliesCount ]
 	hUnit:SetControllableByPlayer( self.m_nPlayerID, false )
@@ -206,8 +205,6 @@ end
 --------------------------------------------------------------------------------
 function CHeroDemo:OnSpawnEnemyButtonPressed( eventSourceIndex, data )
 	if #self.m_tEnemiesList >= 100 then
-		print( "#self.m_tEnemiesList == " .. #self.m_tEnemiesList )
-
 		self:BroadcastMsg( "#MaxEnemies_Msg" )
 		return
 	end
@@ -218,7 +215,7 @@ function CHeroDemo:OnSpawnEnemyButtonPressed( eventSourceIndex, data )
 	local hPlayerHero = PlayerResource:GetSelectedHeroEntity( data.PlayerID )
 	local hAbilityTestSearch = hPlayerHero:FindAbilityByName( "la_spawn_enemy_at_target" )
 	if hAbilityTestSearch then -- Testing whether AddAbility worked successfully on the lua-based ability
-		print( "hPlayerHero:AddAbility( \"la_spawn_enemy_at_target\" ) was successful" )
+		--print( "hPlayerHero:AddAbility( \"la_spawn_enemy_at_target\" ) was successful" )
 	end
 
 	self:BroadcastMsg( "#SpawnEnemy_Msg" )
@@ -235,12 +232,11 @@ function CHeroDemo:OnLevelUpEnemyButtonPressed( eventSourceIndex )
 end
 
 --------------------------------------------------------------------------------
--- ButtonEvent: OnDummyTargetsButtonPressed
+-- ButtonEvent: OnDummyTargetButtonPressed
 --------------------------------------------------------------------------------
-function CHeroDemo:OnDummyTargetsButtonPressed( eventSourceIndex, data )
+function CHeroDemo:OnDummyTargetButtonPressed( eventSourceIndex, data )
 	local hPlayerHero = PlayerResource:GetSelectedHeroEntity( data.PlayerID )
 	self.m_nDummiesCount = self.m_nDummiesCount + 1
-	print( "Dummy team count is now: " .. self.m_nDummiesCount )
 	self.m_tDummiesList[ self.m_nDummiesCount ] = CreateUnitByName( "target_dummy", hPlayerHero:GetAbsOrigin(), true, nil, nil, self.m_nDUMMIES_TEAM )
 	local hUnit = self.m_tDummiesList[ self.m_nDummiesCount ]
 	hUnit:SetControllableByPlayer( self.m_nPlayerID, false )
@@ -255,18 +251,14 @@ end
 -- ButtonEvent: OnRemoveSpawnedUnitsButtonPressed
 --------------------------------------------------------------------------------
 function CHeroDemo:OnRemoveSpawnedUnitsButtonPressed( eventSourceIndex )
-	print( "Entering CHeroDemo:OnRemoveSpawnedUnitsButtonPressed( eventSourceIndex )" )
-	PrintTable( self.m_tAlliesList, " " )
 	for k, v in pairs( self.m_tAlliesList ) do
 		self.m_tAlliesList[ k ]:Destroy()
 		self.m_tAlliesList[ k ] = nil
 	end
-	PrintTable( self.m_tEnemiesList, " " )
 	for k, v in pairs( self.m_tEnemiesList ) do
 		self.m_tEnemiesList[ k ]:Destroy()
 		self.m_tEnemiesList[ k ] = nil
 	end
-	PrintTable( self.m_tDummiesList, " " )
 	for k, v in pairs( self.m_tDummiesList ) do
 		self.m_tDummiesList[ k ]:Destroy()
 		self.m_tDummiesList[ k ] = nil

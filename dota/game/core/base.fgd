@@ -2923,10 +2923,10 @@
 [
 ]
 
-@PointClass base(Targetname) color(0 255 0) iconsprite("editor/info_target.vmat") = info_spawngroup_load : "Logical entity that starts async loading the next level."
+@PointClass base(Targetname) color(0 255 0) iconsprite("editor/info_target.vmat") = info_spawngroup_load_unload : "Logical entity that starts async loading or unloading a level."
 [
 	targetname(target_source) : "Name"
-	mapname(string) : "Level to stream in"	
+	mapname(string) : "Level to stream in/out"	
 	entityfiltername(string) : "Name of entity filter to apply"	
 	landmark(string) : "The landmark (same landmark name should be in both maps) used to determine the offset of the second map to the first"
 	timeoutInterval(float) : "Timeout Interval" : "0" : "The amount of seconds after which, if any client hasn't finished streaming the necessary assets, that client is disconnected and the spawngroup spawns anyways. 0 means use some reasonable default set in the code."
@@ -2934,23 +2934,13 @@
 	// Outputs
 	output OnSpawnGroupLoadStarted(void) : "Fired when the level starts streaming in."
 	output OnSpawnGroupLoadFinished(void) : "Fired when the level finishes streaming in."
-
-	input StartSpawnGroupLoad(void) : "Start loading the level."
-	input ActivateSpawnGroup(void) : "Activate the loaded spawn group."
-]
-
-@PointClass base(Targetname) color(255 0 0) iconsprite("editor/info_target.vmat") = info_spawngroup_unload : "Logical entity that unloads a level."
-[
-	targetname(target_source) : "Name"
-	mapname(string) : "Level to stream out"	
-	
-	// Outputs
 	output OnSpawnGroupUnloadStarted(void) : "Fired when the level starts streaming out."
 	output OnSpawnGroupUnloadFinished(void) : "Fired when the level finishes streaming out."
 
+	input StartSpawnGroupLoad(void) : "Start loading the level."
+	input ActivateSpawnGroup(void) : "Activate the loaded spawn group."
 	input StartSpawnGroupUnload(void) : "Start unloading the level."
 ]
-
 
 @PointClass base(Targetname) size(-8 -8 -8, 8 8 8) = info_null : 
 	"An entity that's immediately removed on spawning. Useful as a spotlight target."
@@ -5521,6 +5511,12 @@
 @PointClass base(TwoObjectPhysics) editormodel("models/editor/axis_helper_thick") = phys_constraint :
 	"Constrain an entity to the world or another entity at a fixed relative position."
 [
+	linearfrequency(float) : "Linear Frequency" : "0" : "Linear spring frequency (stiffness)."
+	lineardampingratio(float) : "Linear Damping Ratio" : "0" : "Linear spring damping ratio."
+	angularfrequency(float) : "Angular Frequency" : "0" : "Angular spring frequency (stiffness)."
+	angulardampingratio(float) : "Angular Damping Ratio" : "0" : "Angular spring damping ratio."
+	enablelinearconstraint(boolean) : "Enable Linear Constraint" : 1
+	enableangularconstraint(boolean) : "Enable Angular Constraint" : 1
 ]
 
 
@@ -6764,7 +6760,7 @@
 //-------------------------------------------------------------------------
 // Camera entity
 //-------------------------------------------------------------------------
-@PointClass base(Parentname, Targetname) frustum( FOV, ZNear, ZFar, rendercolor ) editormodel("models/editor/camera.vmdl") = point_camera : "Camera"
+@PointClass base(Parentname, Targetname, CanBeClientOnly) frustum( FOV, ZNear, ZFar, rendercolor ) editormodel("models/editor/camera.vmdl") = point_camera : "Camera"
 [
 	spawnflags(Flags) =
 	[
@@ -7442,6 +7438,11 @@
 	dialog_layout_name(string) : "Layout XML"
 	panel_class_name(string) : "Panel Class"
 
+	// Inputs
+	input Enable(void) : "Enable the UI."
+	input Disable(void) : "Disable the UI (may hide it)."
+
+	// Outputs
 	output CustomOutput0(void) : ""
 	output CustomOutput1(void) : ""
 	output CustomOutput2(void) : ""
@@ -7458,10 +7459,6 @@
 [
 	model(studio) : "World model"
 	StartEnabled(boolean) : "Start Enabled" : "1" : "Start Enabled"
-
-	// Inputs
-	input Enable(void) : "Enable the point_viewcontrol_multiplayer, and start controlling the players' view."
-	input Disable(void) : "Disable the point_viewcontrol_multiplayer, and stop controlling the players' view."
 ]
 
 @PointClass base(base_clientui_ent) orientedwidthheight( width, height ) = point_clientui_world_panel
@@ -7489,5 +7486,17 @@
 		1: "Face User"
 		2: "Face User Upright"
 	]
+
+	// Inputs
+	input IgnoreUserInput(void) : "Ignore user input."
+	input AcceptUserInput(void) : "Accept user input."
+	input AddCSSClass(string) : "Add a CSS class to the panel."
+	input RemoveCSSClass(string) : "Remove a CSS class from the panel."
 ]
+
+@PointClass base(Targetname) iconsprite("editor/info_target.vmat") = info_spawngroup_landmark : 
+       "Used by info_spawngroup_load to specify a landmark between two spawngroups to load"
+[
+]
+
 

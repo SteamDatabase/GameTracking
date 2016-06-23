@@ -1,9 +1,6 @@
 /* Shared classes */
 
-.VFill
-{
-	height: fill-parent-flow( 9999 );
-}
+
 .HFill
 {
 	width: fill-parent-flow( 9999 );
@@ -25,24 +22,81 @@ DOTAWeekendTourneySetup
 	opacity: 0.0;
 }
 
+#ContainerPendingJoinRequest
+{
+	height: 0px;
+}
+
+.ChangeInFlight #ContainerPendingJoinRequest
+{
+	opacity: 1.0;
+	height: fit-children;
+}
+
+.Spinner
+{
+	horizontal-align: center;
+	margin-top: 200px;
+}
+
+#HeaderContainer
+{
+	width: 635px;
+}
+
 .PageHeader
 {
 	text-transform: uppercase;
 	font-size: 30px;
 	margin-top: 7px;
 	margin-bottom: 12px; 
+	font-weight: bold;
+	//color: #9dcdcf;
 }
+
+.PageHeaderSub
+{
+	text-transform: uppercase;
+	font-size: 30px;
+	margin-top: 8px;
+	margin-left: 10px;
+	margin-bottom: 12px; 
+	font-weight: regular;
+	color: #555;
+}
+
+#ContainerLearn
+{
+	overflow: clip;
+	height: 700px; 
+}
+
 
 #PageBodyContainer
 {
 	width: 100%;
-	height: fill-parent-flow( 1.0 );
+	//height: fill-parent-flow( 1.0 );
+	height: 780px;
 	flow-children: none;
+	overflow: scroll;
+	opacity-mask: url("s2r://panorama/images/masks/softedge_vertical_top_bottom_vscroll_wide_psd.vtex") 1.0;
+	padding-top: 20px;
+	padding-bottom: 15px;
+	margin-top: -20px;
+}
+
+VerticalScrollBar
+{
+	background-color: #1f2428;
+	width: 6px;
+	margin-left: 5px;
+	margin-top: 20px;
+	margin-bottom: 15px;
 }
 
 .SetupSectionContainer
 {
-	width:100%;
+	width: 636px;
 	flow-children: down;
 	//background-color: #22262a;
 	//background-color: #ffffff01;
@@ -102,25 +156,28 @@ DOTAWeekendTourneySetup
 	horizontal-align: center;
 	padding-left: 10px;
 	padding-right: 10px;
+	margin-top: 2px;
 }
 
 .ControlButton
 {
 	height: 28px;
-	wash-color: #beb7b4;
+	//wash-color: #beb7b4;
 	background-repeat: no-repeat;
 	vertical-align: middle;
 	horizontal-align: right;
 	
 
-    background-color: gradient( linear, 0% 0%, 0% 100%, from( #5a6c75 ), to( #3d4a50 ) );
-    border: 1px solid black;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #373d45 ), to( #4d5860 ) );
+	border-style: solid;
+	border-width: 1px;
 
     padding: 2px 10px 2px 10px;
-    border-top: 1px solid #ffffff22;
-    border-right: 1px solid #4e5b60;
-    border-left: 1px solid #4e5b60;
-    border-bottom: 1px solid #00000088;
+    
+	border-top-color: #555555;
+	border-left-color: #494949;
+	border-bottom-color: #333333;
+	border-right-color: #404040;
 
     transition-property: brightness, wash-color;
     transition-delay: 0.0s;
@@ -140,6 +197,7 @@ DOTAWeekendTourneySetup
 {
 	opacity: 1.0;
 }
+
 
 #BracketImage
 {
@@ -170,6 +228,7 @@ DOTAWeekendTourneySetup
 {
 	margin-left: 15px;
 	margin-bottom: 11px;
+	horizontal-align: right;
 }
 
 /* Setup container */
@@ -177,6 +236,7 @@ DOTAWeekendTourneySetup
 .StateSetup #ContainerSetup
 {
 	opacity: 1.0;
+	height: fit-children;
 }
 
 .SetupStepCheckBox
@@ -242,6 +302,12 @@ DOTAWeekendTourneySetup
 	background-color: #000000;
 	margin-bottom: 0px;
 	background-image: url("s2r://panorama/images/weekend_tourney/division_americas_header_image_psd.vtex");
+	width: 100%;
+}
+
+.SetupSectionContainer #TitleContainer
+{
+	margin-right: 0px;
 }
 
 #ChangeDivision
@@ -254,6 +320,7 @@ DOTAWeekendTourneySetup
 	flow-children: right;
 	transition-property: brightness;
 	transition-duration: .2s;
+	margin-top: 3px;
 }
 .LocalPlayerIsNotPartyLeader #ChangeDivisionButton
 {
@@ -316,12 +383,44 @@ DOTAWeekendTourneySetup
 }
 
 
-#TeamSkillLevelContainer
+#TeamSkillLevelContainer,
+#TeamHasIneligibleMemberContainer
 {
-	flow-children: right;
+	flow-children: down;
 	width: 150px;
 	margin-top: 5px;
-	margin-left: 10px;
+	margin-left: 7px;
+}
+
+#AnyPlayerIneligibleLabel,
+#LocalPlayerIneligibleLabel
+{
+	border: 1px solid #e05050;
+	width: 150px;
+	height: 100px;
+	padding: 2px;
+	color: #e05050;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 16px;
+}
+
+#LocalPlayerIneligibleLabel,
+#TeamHasIneligibleMemberContainer
+{
+	visibility:collapse;
+}
+
+.LocalPlayerIsIneligible #LocalPlayerIneligibleLabel,
+.AnyIneligibleTeamMember #TeamHasIneligibleMemberContainer
+{
+	visibility:visible;
+}
+
+.AnyIneligibleTeamMember #TeamSkillLevelContainer,
+.LocalPlayerIsIneligible #AnyPlayerIneligibleLabel
+{
+	visibility: collapse;
 }
 
 /* Party Up */
@@ -341,9 +440,15 @@ DOTAWeekendTourneySetup
 	color: white;
 	font-weight: bold;
 	padding-top: 3px;
-	margin-right: 18px;
+	margin-right: 14px;
 	margin-left: 0px;
 	margin-top: 1px;
+}
+
+.PartyMemberSkillLevel.Ineligible
+{
+	color: red;
+	background-color: #481e22;
 }
 
 #Party
@@ -428,7 +533,7 @@ DOTAWeekendTourneySetup
 #TeamContainer
 {
 	padding-bottom: 4px;
-	height: 122px;
+	height: fit-children;
 	transition-property: height;
 	transition-duration: .2s;
 }
@@ -442,14 +547,6 @@ DOTAWeekendTourneySetup
 {
 	margin-bottom: 5px;
 }
-
-.TeamIdentityTypePickup #TeamContainer,
-.TeamIdentityPickupEditing #TeamContainer,
-.TeamIdentityTypeOfficial #TeamContainer
-{
-	height: 292px;
-}
-
 
 #InitialChoiceTeamButtons
 {
@@ -472,7 +569,7 @@ DOTAWeekendTourneySetup
 
 #InitialChoiceTeamButtons Button
 {
-	width: 236px;
+	width: 239px;
 }
 
 #InitialChoiceTeamButtons Button .InfoIcon
@@ -501,7 +598,7 @@ DOTAWeekendTourneySetup
 	transition-duration: .5s;
 	margin-left: 47px;
 	margin-top: 10px;
-	
+	margin-bottom: 4px;
 }
 
 .TeamIdentityTypeBlank #TeamIdentityTypeContainer
@@ -528,6 +625,10 @@ DOTAWeekendTourneySetup
 #TeamBusySpinner
 {
 	visibility: collapse;
+	margin-top: 0px;
+	width: 32px;
+	height: 32px;
+	margin-right: 14px;
 }
 
 
@@ -539,17 +640,36 @@ DOTAWeekendTourneySetup
 	color: #878787;
 }
 
+.TeamMsgInFlight #TeamIdentityCheckBox
+{
+	visibility: collapse;
+}
+
 .TeamMsgInFlight #TeamBusySpinner
 {
 	visibility: visible;
 }
 
+.TeamIdentityTypeAdjustButton
+{
+	Margin-right: 10px;
+}
+
+
 .TeamIdentityTypeAdjustButton Label
 {
 	text-transform: uppercase;
-	color: #437281;
+	color: #888;
+	//color: #437281;
 	transition-property: brightness, opacity;
 	transition-duration: .2s;
+	font-size: 14px;
+	//background-color: #66666633;
+	border: 1px solid #66666655;
+	//border-bottom: 1px solid #66666655;
+	padding-left: 7px;
+	padding-right: 5px;
+	padding-top:2px;
 }
 
 .TeamIdentityTypeAdjustButton Label:Hover
@@ -644,7 +764,8 @@ DOTAWeekendTourneySetup
 #TeamIdentityNameAndButtonsContainer
 {
 	margin-right: 36px;
-	width: 382px;
+	//width: 382px;
+	width: 390px;
 }
 
 #TeamIdentityNameContainer
@@ -706,6 +827,7 @@ DOTAWeekendTourneySetup
 {
 	horizontal-align: center;
 	margin-top: 16px;
+	margin-bottom: 0px;
 	opacity: 0;
 	transition-property: opacity;
 	transition-duration: 2s;
@@ -714,15 +836,81 @@ DOTAWeekendTourneySetup
 .TeamIdentityPickupEditing #EditPickupTeamConfirmCancelContainer
 {
 	opacity: 1;
+	margin-bottom: 14px;
 }
 
 /* Buy In */
+#BuyInContainer
+{
+	margin-bottom: 0px;
+}
+
+#BuyInPartyContainer
+{
+	background-color: gradient( linear, 100% 0%, 100% 100%, from( #111111 ), color-stop( 0.03, #272b30 ), color-stop( 0.6, #141619 ), to( #131518 ) );
+	margin-left: 46px;
+	padding: 16px;
+	border-bottom: 1px solid #404b4a33;
+	box-shadow: inset #000000 0px 2px 6px 3px;
+}
+
+#TeamBuyInSubHead
+{
+	text-transform: uppercase;
+	vertical-align: center;
+	margin-top: 1px;
+	margin-left: 10px;
+	font-size: 20px;
+	color: #666; 
+}
+
+#TeamBuyInCurrent
+{
+	text-transform: uppercase;
+	vertical-align: center;
+	margin-top: 1px;
+	margin-left: 10px;
+	font-size: 20px;
+	color: #fff; 
+}
+
+
 
 #YourBuyInDropDown
 {
 	width: 65px;
 	margin-left: 6px;
-	margin-right: 16px;
+	margin-right: 16px;	
+	background-image: url("s2r://panorama/images/weekend_tourney/bc_ticket_icon_psd.vtex");
+	background-size: 80% 48%;
+	background-position: 55% 45%;
+	
+}
+
+#PartyMembersBuyInContainer #YourBuyInDropDown Label
+{
+	font-size: 25px;
+	color: white;
+	font-weight: bold;
+	margin: 0px 0px 0px 19px;
+}
+
+#PartyMembersBuyInContainer Label
+{
+	font-size: 25px;
+	color: white;
+	font-weight: bold;
+}
+
+/* #YourBuyInDropDown, DOTASettingsEnumDropDown
+{
+	background-size: 20px 20px;
+	background-position: right 28px 45%;
+} */
+
+#YourBuyInDropDownDropDownMenu
+{
+	width: 65px;
 }
 
 #PartyMembersBuyInContainer
@@ -738,15 +926,57 @@ DOTAWeekendTourneySetup
 	text-align: center;
 }
 
+#PartyMemberBuyIn1
+{
+	margin-left: 6px;
+}
+
 .PurchaseButton
 {
-	width: 75px;
+	width: 80px;
 }
 
 #YourTicketsContainer
 {
 	flow-children: down;
+	background-color: #1f2428;
+	margin-left: 26px;
+	margin-right: 3px;
+	padding: 12px 16px;
+	height: 144px;
+	
+	transition-property: brightness;
+	transition-duration: .2s;
 }
+
+#YourTicketsContainer:hover
+{
+	brightness: 1.25;
+}
+
+#CurrentTicketsOwnedHeader
+{
+	text-transform: uppercase;
+	height: 36px;
+	color: #587271;
+	line-height: 16px;
+}
+
+#CurrentTicketsOwned
+{
+	text-transform: uppercase;
+	color: #9eced2;
+}
+
+#PurchaseModeLabel
+{
+	font-size: 14px;
+	text-transform: uppercase;
+	color: #587271;
+	margin-top: 12px;
+	margin-bottom: 1px;
+}
+
 
 #PurchaseButtonContents
 {
@@ -763,16 +993,17 @@ DOTAWeekendTourneySetup
 	color: #ffffff;
 	text-transform: uppercase;
 	letter-spacing: 1px;
-	padding: 10px 6px 8px 10px;
+	padding: 10px 6px 8px 6px;
 }
 
 #TicketPriceLabel 
 {
 	color: white;
-	font-size: 22px;
-	font-weight: bold;
-	margin-top: -3px;
-	min-width: 100px;
+	font-size: 15px;
+	//font-weight: bold;
+	padding-top: 4px;
+	min-width: 1000px;
+	horizontal-align: center;
 	//vertical-align: center;
 }
 
@@ -794,9 +1025,20 @@ DOTAWeekendTourneySetup
 
 #TicketPurchaseButton
 {
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #60842c ), to( #40601d ));
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #60862d ), to( #3d5f1c ));
 	//background-color: gradient( linear, 0% 0%, 0% 100%, from( #47662b ), to( #2e4a17 ));
-	border-right: 1px solid #00000085;
+	
+	border-top: 1px solid #ffffff22;
+	border-left: 1px solid #ffffff11;
+	border-right: 1px solid #00000044;
+	border-bottom: 1px solid #00000088;
+	transition-property: brightness;
+	transition-duration: .2s;
+}
+
+#TicketPurchaseButton:hover
+{
+	brightness: 1.5;
 }
 
 #TicketPriceButton
@@ -806,7 +1048,7 @@ DOTAWeekendTourneySetup
 
 #TicketQuantityDropDown
 {
-	width: 82px;
+	width: 65px;
 	height: 44px;
 	margin-left: 0px;
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #47662b ), to( #2e4a17 ));
@@ -814,26 +1056,67 @@ DOTAWeekendTourneySetup
 	padding: 0px 10px;
 	background-position: right 23px 44%;
 	background-size: 17px 17px;
+	padding-left: 7px;
+	
+	border-top: 1px solid #ffffff22;
+	border-left: 0px solid #ffffff11;
+	border-right: 1px solid #00000044;
+	border-bottom: 1px solid #00000088;
+	
+	transition-property: brightness;
+	transition-duration: .2s;
+}
+
+#TicketQuantityDropDown:hover
+{
+	brightness: 1.5;
+}
+
+#TicketQuantityDropDown, DOTASettingsEnumDropDown
+{
+	background-size: 15px 20px;
+	background-position: right 20px 30%;
+	color: red;
+}
+
+.AspectRatio16x9 #TicketQuantityDropDown, DOTASettingsEnumDropDown
+{
+	background-size: 10px 15px;
+	background-position: right 14px 30%;
+	color: red;
+}
+
+.AspectRatio4x3 #TicketQuantityDropDown, DOTASettingsEnumDropDown
+{
+	background-size: 10px 15px;
+	background-position: right 14px 40%;
+	color: red;
 }
 
 #TicketQuantityDropDown Label
 {
 	vertical-align: middle;
-	font-size: 18px;
-	margin: 0px 0px 0px 0px;
+	font-size: 15px;
+	margin: 0px 0px 0px 1px;
 	color: #ffffff;
+	
 }
 
 #TicketQuantityDropDownDropDownMenu
 {
-	width: 80px;
+	width: 60px;
+}
+
+#TicketQuantityDropDownDropDownMenu Label
+{
+	font-size: 15px;
 }
 
 #TicketPurchaseRow
 {
 	flow-children: right;
 	opacity: 1;
-	max-height: 100%;
+	max-height: 28px;
 
 	transition-property: max-height;
 	transition-duration: 0.2s;
@@ -843,6 +1126,17 @@ DOTAWeekendTourneySetup
 #CancelSetupButton
 {
 	flow-children: none;
+	opacity: 0.0;
+}
+
+.StateSetup #CancelSetupButton
+{
+	opacity: 1.0;
+}
+
+#CancelSetupButton Label
+{
+	margin-left: 40px;
 }
 
 /* Cancel */
@@ -850,19 +1144,58 @@ DOTAWeekendTourneySetup
 .CancelIcon
 {
 	margin-left: 12px;
+	margin-right: 15px;
+	margin-top: 0px;
 	wash-color: #00000066;
-	width: 20px;
-	height: 20px;
+	width: 22px;
+	height: 22px;
 	vertical-align: center;
-	background-image: url("s2r://panorama/images/cancel_search_png.vtex");
+	horizontal-align: right;
+	background-image: url("s2r://panorama/images/icon_x_red_off_png.vtex");
 	background-size: 100% 100%;
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
-
+	
+	
 }
 	
-.CancelIcon:hover
+#CancelSetupButton:hover
 {
+	background-color: #111;
+	brightness: 2;
 	wash-color: none;
 }
+
+#JoinDivisionChatButton
+{
+	margin-top: 5px;
+	horizontal-align: left;
+	margin-left: 12px;
+	margin-right: 5px;
+}
+
+#JoinDivisionChatButton Label
+{
+	padding-left: 11px;
+	padding-right: 4px;
+}
+
+#CancelSetupButton
+{
+	horizontal-align: center;
+	background-color: none;
+	border: 1px solid #303031;
+	transition-property: background-color, brightness;
+	transition-duration: .2s;
+}
+
+#CancelSetupButton Label
+{
+	color: #555;
+	margin-left: 20px;
+	margin-top: 5px;
+	margin-right: 40px;
+	font-size: 18px;
+}
+
 

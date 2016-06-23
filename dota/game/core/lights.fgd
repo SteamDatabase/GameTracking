@@ -14,7 +14,7 @@
 ]
 
 
-@PointClass light() base(light_base, light_base_legacy_params, light_base_attenuation_params) editormodel("models/editor/spot") leansphere(lightsourceradius,255,255,255) lightcone() = light_spot : "A spot light source."
+@PointClass light() base(light_base, light_base_legacy_params, light_base_attenuation_params, CanBeClientOnly) editormodel("models/editor/spot") leansphere(lightsourceradius,255,255,255) lightcone() = light_spot : "A spot light source."
 [
 	lightcookie(string) : "Light Cookie" : "" : "light cookie name in effects/lightcookies.vtex"
 
@@ -24,4 +24,44 @@
 
 	shadowfademindist(float) : "Shadow Start Fade Dist" : -250 : "Distance at which the shadow starts to fade (<0 = use fademaxdist)."
 	shadowfademaxdist(float) : "Shadow End Fade Dist" : 1000 : "Maximum distance at which the shadow is visible (0 = don't fade out)."
+]
+
+@PointClass
+	iconsprite( "materials/editor/light_sky.vmat" )
+	bakeskylight( color, intensity, lower_hemisphere_is_black )
+= light_sky
+[
+	color(color255) : "Color" : "255 255 255"
+	intensity(float) : "Intensity" : "1.0"
+	lower_hemisphere_is_black(boolean) : "Lower Hemisphere Is Black" : "1"
+]
+
+@PointClass
+	iconsprite( "materials/editor/light_ambient.vmat" )
+	bakeambientlight( color )
+= light_ambient
+[
+	color(color255) : "Color" : "255 255 255"
+]
+
+@PointClass
+	iconsprite( "materials/editor/light_ambientocclusion.vmat" )
+	bakeambientocclusion( max_distance, weight )
+= light_ambientocclusion
+[
+	max_distance(float) : "Max Distance" : "512.0"
+	weight(float) : "Weight" : "1.0"
+]
+
+@PointClass
+	base( Targetname, Parentname, EnableDisable )
+	editormodel( "models/editor/iv_helper" )
+	orientedwirebox( box_mins, box_maxs )
+	bakeresource( lightprobetexture, vtex, env_light_probe_volume, "ToolObjects/LightProbeVolume" )
+= env_light_probe_volume : "A grid of precomputed light probes."
+[
+	lightprobetexture(resource:texture) : "Light Probe Texture" : "" : "Name of the light probe texture"
+	box_mins(vector) : "Box Projection Mins" : "-72 -72 -72"
+	box_maxs(vector) : "Box Projection Maxs" : "72 72 72"
+	lightgroup(string) : "Light Group" : "" : "Semicolon-delimited list of light groups to affect"
 ]

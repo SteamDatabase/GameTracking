@@ -1184,5 +1184,10 @@ Scheme
         	"font"		"vgui/fonts/lucon.ttf" [$OSX||$LINUX]
         	"name"		"Lucida Console" [$OSX||$LINUX]
         }
+		"5"
+        {
+        	"font"		"vgui/fonts/cour.ttf" [$OSX||$LINUX]
+        	"name"		"Courier New" [$OSX||$LINUX]
+        }
 	}
 }

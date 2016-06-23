@@ -77,3 +77,19 @@ model:CreateSequence(
 		}
 	}
 )
+
+model:CreateSequence(
+	{
+		name = "tears_run",
+		sequences = {
+			{ "@tears_run" }
+		},
+		addlayer = {
+			"turns_new"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "tears", weight = 1 }
+		}
+	}
+)
