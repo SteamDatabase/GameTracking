@@ -226,7 +226,9 @@ end
 --------------------------------------------------------------------------------
 function CHeroDemo:OnLevelUpEnemyButtonPressed( eventSourceIndex )
 	for k, v in pairs( self.m_tEnemiesList ) do
-		self.m_tEnemiesList[ k ]:HeroLevelUp( false )
+		if self.m_tEnemiesList[ k ]:IsRealHero() then
+			self.m_tEnemiesList[ k ]:HeroLevelUp( false )
+		end
 	end
 	self:BroadcastMsg( "#LevelUpEnemy_Msg" )
 end
@@ -236,9 +238,8 @@ end
 --------------------------------------------------------------------------------
 function CHeroDemo:OnDummyTargetButtonPressed( eventSourceIndex, data )
 	local hPlayerHero = PlayerResource:GetSelectedHeroEntity( data.PlayerID )
-	self.m_nDummiesCount = self.m_nDummiesCount + 1
-	self.m_tDummiesList[ self.m_nDummiesCount ] = CreateUnitByName( "target_dummy", hPlayerHero:GetAbsOrigin(), true, nil, nil, self.m_nDUMMIES_TEAM )
-	local hUnit = self.m_tDummiesList[ self.m_nDummiesCount ]
+	table.insert( self.m_tEnemiesList, CreateUnitByName( "npc_dota_target_dummy", hPlayerHero:GetAbsOrigin(), true, nil, nil, self.m_nENEMIES_TEAM ) )
+	local hUnit = self.m_tEnemiesList[ #self.m_tEnemiesList ]
 	hUnit:SetControllableByPlayer( self.m_nPlayerID, false )
 	FindClearSpaceForUnit( hUnit, hPlayerHero:GetAbsOrigin(), false )
 	hUnit:Hold()
@@ -259,13 +260,8 @@ function CHeroDemo:OnRemoveSpawnedUnitsButtonPressed( eventSourceIndex )
 		self.m_tEnemiesList[ k ]:Destroy()
 		self.m_tEnemiesList[ k ] = nil
 	end
-	for k, v in pairs( self.m_tDummiesList ) do
-		self.m_tDummiesList[ k ]:Destroy()
-		self.m_tDummiesList[ k ] = nil
-	end
 
 	self.m_nEnemiesCount = 0
-	self.m_nDummiesCount = 0
 
 	self:BroadcastMsg( "#RemoveSpawnedUnits_Msg" )
 end

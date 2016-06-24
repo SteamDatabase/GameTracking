@@ -323,7 +323,8 @@ DropDown
 
 	visibility: collapse;
 }
-.EventPurchaseAvailable #EventPurchase
+.EventPurchaseAvailable #EventPurchase,
+.HasUnclaimedEventRewards #EventPurchase
 {
 	visibility: visible;
 }
@@ -355,14 +356,18 @@ DropDown
 	font-weight: bold;
 }
 
-#EventLevelsRequired, .OwnsEvent #EventRequired
+#EventLevelsRequired,
+.OwnsEvent #EventRequired,
+#UnclaimedEventRewards
 {
 	visibility: collapse;
 }
-.OwnsEvent #EventLevelsRequired
+.OwnsEvent:not(.HasUnclaimedEventRewards) #EventLevelsRequired,
+.OwnsEvent.HasUnclaimedEventRewards #UnclaimedEventRewards
 {
 	visibility: visible;
 }
+
 
 .EventPurchaseButton
 {
@@ -431,10 +436,7 @@ DropDown
 {
 	visibility: visible;
 }
-
-.OwnsEvent #PurchaseEventButton,
-#PurchaseEventLevelsButton,
-#ViewEventLevelsButton
+.OwnsEvent #PurchaseEventButton
 {
 	visibility: collapse;
 }
@@ -442,6 +444,17 @@ DropDown
 .OwnsEvent:not(.CanPurchaseEventLevels) #ViewEventLevelsButton
 {
 	visibility: visible;
+}
+
+/* If you have unclaimed rewards, this visibility trumps the other button visibility */
+.OwnsEvent.HasUnclaimedEventRewards #ClaimEventRewardsButton
+{
+    visibility: visible;
+}
+.OwnsEvent.HasUnclaimedEventRewards #PurchaseEventLevelsButton,
+.OwnsEvent.HasUnclaimedEventRewards #ViewEventLevelsButton
+{
+    visibility: collapse;
 }
 
 #CharmPurchaseButton

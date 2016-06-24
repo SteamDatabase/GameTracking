@@ -109,11 +109,6 @@ function CHeroDemo:InitGameMode()
 	self.m_nENEMIES_TEAM = 3
 	self.m_tEnemiesList = {}
 
-	self.m_nDUMMIES_TEAM = 4
-	self.m_tDummiesList = {}
-	self.m_nDummiesCount = 0
-	self.m_bDummiesEnabled = false
-
 	self.m_bFreeSpellsEnabled = false
 	self.m_bInvulnerabilityEnabled = false
 	self.m_bCreepsEnabled = true
