@@ -575,7 +575,7 @@
 !! (%short) key not handled: "%short" "%short"
 !! Double-dropping player %short
 !! ERROR: bad input/output link:
-!! Got assigned signed char lobby not in server-setup state, this will not be recognized as signed char new game. Lobby matchID [ %llu ], existing match [ %llu ]
+!! Got assigned signed char lobby not in server-setup state, or when not accepting lobbies. Rejecting.
 !! Match player %short not present but marked connected
 !! Missing playermodel on Player Class
 !! Missing printname on Player Class
@@ -5238,6 +5238,7 @@ $no_fullbright
 1k_EMsgGC_PickupItemEligibility_Query_DEPRECATED_2
 1k_ItemPurgatoryResponse_Finalize_Failed_NoSOCache
 1k_ItemPurgatoryResponse_Refund_Failed_NexonWebAPI
+2		03	
 2 .CMsgGCHUpdateSession.ExtraField
 2 .CMsgGCRoutingInfo.RoutingMethod:
 2 .CMsgHttpResponse.ResponseHeader
@@ -5317,7 +5318,7 @@ $no_fullbright
 333?)\
 333?333?
 33750
-33s?hB
+33s?HB
 350.0
 3A$3A
 3A43A
@@ -5432,6 +5433,7 @@ $no_fullbright
 9PPt.
 9PPts
 9Qx~9
+9T9 u
 9W(unsigned short"
 9XLvz
 9Xpv}
@@ -5533,7 +5535,7 @@ $no_fullbright
 <self>
 <unconnected>
 <unnamed>
-=333?CRestartGameIssue
+=333?
 ===============
 ========================================
 ====================================================
@@ -5560,6 +5562,7 @@ $no_fullbright
 ?333333
 ?333?CTFFlameThrower
 ???AI_Response bogus index
+?CBaseCombatWeapon
 ?CDataManager<CBoneCache, bonecacheparams_t, CBoneCache*, CThreadFastMutex>
 ?CFourWheelVehiclePhysics
 ?CGameMovement
@@ -5595,7 +5598,6 @@ $no_fullbright
 @0@0@P 
 @0@`@000  
 @0ppp@@
-@333333
 @4@tK
 @<@te
 @<@ty
@@ -29391,6 +29393,7 @@ CResponseSystem::ScoreCriteriaAgainstRule(AI_CriteriaSet const&, int, bool)
 CResponseSystem::ScoreCriteriaAgainstRuleCriteria(AI_CriteriaSet const&, int, bool&, bool)
 CResponseSystem::SelectWeightedResponseFromResponseGroup(ResponseGroup*, IResponseFilter*)
 CResponseSystem::~CResponseSystem()
+CRestartGameIssue
 CRestartGameIssue::CanCallVote(int, char const*, vote_create_failed_t&, int&)
 CRestartGameIssue::ExecuteCommand()
 CRestartGameIssue::GetDisplayString()
@@ -32635,7 +32638,6 @@ CTFGCServerSystem::MvMVictory() -- no lobby, so not sending results to GC
 CTFGCServerSystem::PostInitGC()
 CTFGCServerSystem::PostSOUpdate(CSteamID const&, GCSDK::ESOCacheEvent)
 CTFGCServerSystem::PreClientUpdate()
-CTFGCServerSystem::PreClientUpdate()::iSavedVisibleMaxPlayers
 CTFGCServerSystem::PreClientUpdate()::sv_password
 CTFGCServerSystem::PreClientUpdate()::sv_visiblemaxplayers
 CTFGCServerSystem::PreInitGC()
@@ -32648,6 +32650,7 @@ CTFGCServerSystem::SODestroyed(CSteamID const&, GCSDK::CSharedObject const*, GCS
 CTFGCServerSystem::SOUpdated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
 CTFGCServerSystem::SendMvMVictoryResult()
 CTFGCServerSystem::SendPlayerLeftMatch(CSteamID, TFMatchLeaveReason, bool)
+CTFGCServerSystem::SendRejectLobby()
 CTFGCServerSystem::SetHibernation(bool)
 CTFGCServerSystem::SetMatchPlayerDropped(CSteamID, TFMatchLeaveReason)
 CTFGCServerSystem::ShouldHibernate()
@@ -41219,7 +41222,6 @@ Catmull_Rom_Spline_NormalizeX(Vector const&, Vector const&, Vector const&, Vecto
 Catmull_Rom_Spline_Tangent(Vector const&, Vector const&, Vector const&, Vector const&, float, Vector&)
 CdF;0|
 Centers the nav mesh in the world
-Cffff.
 Cfffff.
 Change players FOV
 Change to signed char target popfile for MvM
@@ -48089,7 +48091,7 @@ Lobby %016llx
 Lobby %016llx / Match %016llx
 Lobby %016llx instanced on this server in state %short
 Lobby in invalid state %double
-Lobby object is present when tf_mm_servermode is not set to receive it.  long double&-sending server info
+Lobby matchID [ %llu ], existing match [ %llu ]
 Lobby-based matchmaking is active
 Lobby-based matchmaking mode not active
 LocalActiveTFWeaponData
@@ -48332,6 +48334,7 @@ Match Particle Velocities
 Match player %short dropped before going active
 Match player %short has been absent for signed char combined total of %u seconds, dropping from match
 Match player %short reconnected after %u seconds into slot %double, total disconnected accumulation: %u seconds
+Match state is not in sync with GC, remaining out of MM until lobby is cleaned up
 MatchGroup_Ladder_6v6
 MatchGroup_Ladder_9v9
 MatchGroup_MvM_MannUp
@@ -51410,6 +51413,7 @@ SendTable::SendTable()
 SendTable::SendTable(SendProp*, int, char const*)
 SendTable::~SendTable()
 SendVoteResponseToGC(bool)
+Sending CMsgGameServerKickingLobby to reject stale lobby
 Sending CMsgGameServerKickingLobby, not requesting party
 Sending CMsgGameServerKickingLobby, requesting party with %double connected players
 Sending CMsgGameServerMatchmakingStatus (state=%short)
@@ -51886,7 +51890,8 @@ SkillRatingRecord_t::GetRatingForMatchType(int)
 SkillRating_CalculateAdjustmentForTeams(): Invalid team!
 SkillRating_CalculateAdjustmentForTeams(): Match %llu has an invalid MatchGroup (%int)
 SkillRating_CalculateAdjustmentForTeams(): Match %llu has invalid team size(short): %double vs %double
-SkillRating_CalculateAdjustmentForTeams(): Match has bogus CCompetitiveMatchInfo
+SkillRating_CalculateAdjustmentForTeams(): Match has bogus CMatchInfo
+SkillRating_CalculateAdjustmentForTeams(): Match has bogus MatchGroupDescription
 SkillRating_CalculateAdjustmentForTeams(): SkillRating system disabled!
 Skin: %double
 Skipped enemy selection due to schedule restriction
@@ -54722,6 +54727,7 @@ Zrange
 \long long%02x
 ] ~V1
 ]Gug1
+]fff.
 ]ffff.
 ^ ;^$uY
 ^,;^0~
@@ -54922,7 +54928,7 @@ ___cxx_global_array_dtor116
 ___cxx_global_array_dtor119
 ___cxx_global_array_dtor121
 ___cxx_global_array_dtor122
-___cxx_global_array_dtor1249
+___cxx_global_array_dtor1250
 ___cxx_global_array_dtor13
 ___cxx_global_array_dtor14
 ___cxx_global_array_dtor140
@@ -81685,6 +81691,7 @@ u!ffffff.
 u"fffff.
 u&G;{
 u'G;...
+u'fffff.
 u'ffffff.
 u)ffffff.
 u*C;_
@@ -81755,6 +81762,7 @@ unsigned int GetAttributeTypeUniqueIdentifier<float>()::s_unUniqueCounter
 unsigned int GetAttributeTypeUniqueIdentifier<unsigned int>()::s_unUniqueCounter
 unsigned int GetAttributeTypeUniqueIdentifier<unsigned long long>()::s_unUniqueCounter
 unsigned int* std::fill_n<unsigned int*, unsigned long, unsigned int>(unsigned int*, unsigned long, unsigned int const&)
+unsigned long		 __int128	
 unsigned long long signed char::* not have cleaned up on NPC death
 unsigned long long@"ty
 unsigned short	#F$
