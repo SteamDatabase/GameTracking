@@ -89,6 +89,12 @@
         // The shader binary cache on Linux can be over 100MB so
         // we have to allow very large allocations.
 		"AllocWarnMB_linuxsteamrt64" "200"
+		// Also currently demo files are loaded entirely into
+		// memory for 64-bit binaries so they can use well
+		// over 100MB at load time.  Zoid is looking at
+		// converting that to streaming.
+		"AllocWarnMB_osx64" "200"
+		"AllocWarnMB_pc64" "200"
 		"AllocWarnMB" "64"
 		// There are some known large virtual reservations, such as the SBH, which
 		// bypass this limit so we can be fairly conservative.
