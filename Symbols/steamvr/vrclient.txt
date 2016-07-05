@@ -64,6 +64,8 @@
  B CVRMsg_DriverDebugRequest::default_instance_
  B CVRMsg_DriverDebugResponse::default_instance_
  B CVRMsg_GetApplicationInfo::default_instance_
+ B CVRMsg_GetApplicationLaunchArguments::default_instance_
+ B CVRMsg_GetApplicationLaunchArgumentsResponse::default_instance_
  B CVRMsg_GetDisplayInfo::default_instance_
  B CVRMsg_GetDisplayInfoResponse::default_instance_
  B CVRMsg_GetDisplayInfoResponse_DisplayInfo::default_instance_
@@ -77,12 +79,15 @@
  B CVRMsg_InputCaptureRequest::default_instance_
  B CVRMsg_InputCaptureResponse::default_instance_
  B CVRMsg_LaunchApplication::default_instance_
+ B CVRMsg_LaunchApplicationForMimeType::default_instance_
+ B CVRMsg_LaunchApplicationForMimeTypeResponse::default_instance_
  B CVRMsg_LaunchApplicationResponse::default_instance_
  B CVRMsg_LaunchInternalProcess::default_instance_
  B CVRMsg_LaunchInternalProcessResponse::default_instance_
  B CVRMsg_LaunchTemplateApplication::default_instance_
  B CVRMsg_LaunchTemplateApplicationResponse::default_instance_
  B CVRMsg_LaunchTemplateApplication_AppOverrideKey::default_instance_
+ B CVRMsg_MimeType::default_instance_
  B CVRMsg_PerformApplicationPrelaunchCheck::default_instance_
  B CVRMsg_PerformApplicationPrelaunchCheckResponse::default_instance_
  B CVRMsg_PowerOffTrackedDevice::default_instance_
@@ -92,6 +97,8 @@
  B CVRMsg_SetApplicationOptionsResponse::default_instance_
  B CVRMsg_SetApplicationProcessId::default_instance_
  B CVRMsg_SetApplicationProcessIdResponse::default_instance_
+ B CVRMsg_SetDefaultApplicationForMimeType::default_instance_
+ B CVRMsg_SetDefaultApplicationForMimeTypeResponse::default_instance_
  B CVRMsg_SetMasterProcess::default_instance_
  B CVRMsg_SetMasterProcessResponse::default_instance_
  B CVRMsg_SetNotificationImage::default_instance_
@@ -114,8 +121,6 @@
  B CVRMsg_Settings_Sync::default_instance_
  B CVRMsg_Settings_Sync_Response::default_instance_
  B CVRMsg_StartAutolaunchOverlays::default_instance_
- B CVRMsg_StartProcess::default_instance_
- B CVRMsg_StartProcessResponse::default_instance_
  B CVRMsg_TrackedCamera_AcquireVideoStreamingService::default_instance_
  B CVRMsg_TrackedCamera_AcquireVideoStreamingServiceResponse::default_instance_
  B CVRMsg_TrackedCamera_Enable::default_instance_
@@ -132,8 +137,6 @@
  B CVRMsg_TrackedCamera_GetIntrinsicsResponse::default_instance_
  B CVRMsg_TrackedCamera_GetProjection::default_instance_
  B CVRMsg_TrackedCamera_GetProjectionResponse::default_instance_
- B CVRMsg_TrackedCamera_GetRecommendedUndistortion::default_instance_
- B CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse::default_instance_
  B CVRMsg_TrackedCamera_GetVideoStreamFormat::default_instance_
  B CVRMsg_TrackedCamera_GetVideoStreamFormatResponse::default_instance_
  B CVRMsg_TrackedCamera_IsVideoStreamActive::default_instance_
@@ -148,8 +151,6 @@
  B CVRMsg_TrackedCamera_SetAutoExposureResponse::default_instance_
  B CVRMsg_TrackedCamera_SetCompatibilityMode::default_instance_
  B CVRMsg_TrackedCamera_SetCompatibilityModeResponse::default_instance_
- B CVRMsg_TrackedCamera_SetUndistortion::default_instance_
- B CVRMsg_TrackedCamera_SetUndistortionResponse::default_instance_
  B CVRMsg_TrackedCamera_SetVideoStreamFormat::default_instance_
  B CVRMsg_TrackedCamera_SetVideoStreamFormatResponse::default_instance_
  B CVRMsg_TrackedCamera_StartVideoStream::default_instance_
@@ -166,6 +167,7 @@
  B autoreg_VR_IVRNotifications_FnTable
  B autoreg_VR_IVROverlay_FnTable
  B autoreg_VR_IVRRenderModels_FnTable
+ B autoreg_VR_IVRResources_FnTable
  B autoreg_VR_IVRScreenshots_FnTable
  B autoreg_VR_IVRSettings_FnTable
  B autoreg_VR_IVRSystem_FnTable
@@ -178,10 +180,13 @@
  B g_nCurThreadSuspendCount
  B g_pCurThread
  B vrapplications004_FnTable
+ B vrapplications005_FnTable
  B vrcompositor013_FnTable
  B vrcompositor014_FnTable
+ B vrcompositor015_FnTable
  B vroverlay010_FnTable
  B vroverlay011_FnTable
+ B vroverlay012_FnTable
  B vrrendermodels004_FnTable
  B vrsystem011_FnTable
  B vrtrackedcamera002_FnTable
@@ -208,7 +213,9 @@
  D typeinfo for ApplicationsInterfaceRegistration<CVRApplications_002>
  D typeinfo for ApplicationsInterfaceRegistration<CVRApplications_003>
  D typeinfo for ApplicationsInterfaceRegistration<CVRApplications_004>
+ D typeinfo for ApplicationsInterfaceRegistration<CVRApplications_005>
  D typeinfo for CClientTrackedDeviceProvider
+ D typeinfo for CClientTrackedDeviceProvider_003
  D typeinfo for CClientTrackedDeviceProvider_Latest
  D typeinfo for CDriverLog
  D typeinfo for CHmdSystemLatest
@@ -226,10 +233,12 @@
  D typeinfo for CServerTrackedDeviceProvider
  D typeinfo for CServerTrackedDeviceProvider_002
  D typeinfo for CServerTrackedDeviceProvider_Latest
+ D typeinfo for CSettingsManager
  D typeinfo for CVRApplications_001
  D typeinfo for CVRApplications_002
  D typeinfo for CVRApplications_003
  D typeinfo for CVRApplications_004
+ D typeinfo for CVRApplications_005
  D typeinfo for CVRChaperoneSetup_001
  D typeinfo for CVRChaperoneSetup_002
  D typeinfo for CVRChaperoneSetup_003
@@ -253,7 +262,9 @@
  D typeinfo for CVRCompositor_012
  D typeinfo for CVRCompositor_013
  D typeinfo for CVRCompositor_014
+ D typeinfo for CVRCompositor_015
  D typeinfo for CVRControlPanel_001
+ D typeinfo for CVRControlPanel_002
  D typeinfo for CVRMsg_AbortApplicationTransition
  D typeinfo for CVRMsg_AcknowledgeQuit_Exiting
  D typeinfo for CVRMsg_AcknowledgeQuit_UserPrompt
@@ -311,6 +322,8 @@
  D typeinfo for CVRMsg_DriverDebugRequest
  D typeinfo for CVRMsg_DriverDebugResponse
  D typeinfo for CVRMsg_GetApplicationInfo
+ D typeinfo for CVRMsg_GetApplicationLaunchArguments
+ D typeinfo for CVRMsg_GetApplicationLaunchArgumentsResponse
  D typeinfo for CVRMsg_GetDisplayInfo
  D typeinfo for CVRMsg_GetDisplayInfoResponse
  D typeinfo for CVRMsg_GetDisplayInfoResponse_DisplayInfo
@@ -324,12 +337,15 @@
  D typeinfo for CVRMsg_InputCaptureRequest
  D typeinfo for CVRMsg_InputCaptureResponse
  D typeinfo for CVRMsg_LaunchApplication
+ D typeinfo for CVRMsg_LaunchApplicationForMimeType
+ D typeinfo for CVRMsg_LaunchApplicationForMimeTypeResponse
  D typeinfo for CVRMsg_LaunchApplicationResponse
  D typeinfo for CVRMsg_LaunchInternalProcess
  D typeinfo for CVRMsg_LaunchInternalProcessResponse
  D typeinfo for CVRMsg_LaunchTemplateApplication
  D typeinfo for CVRMsg_LaunchTemplateApplicationResponse
  D typeinfo for CVRMsg_LaunchTemplateApplication_AppOverrideKey
+ D typeinfo for CVRMsg_MimeType
  D typeinfo for CVRMsg_PerformApplicationPrelaunchCheck
  D typeinfo for CVRMsg_PerformApplicationPrelaunchCheckResponse
  D typeinfo for CVRMsg_PowerOffTrackedDevice
@@ -339,6 +355,8 @@
  D typeinfo for CVRMsg_SetApplicationOptionsResponse
  D typeinfo for CVRMsg_SetApplicationProcessId
  D typeinfo for CVRMsg_SetApplicationProcessIdResponse
+ D typeinfo for CVRMsg_SetDefaultApplicationForMimeType
+ D typeinfo for CVRMsg_SetDefaultApplicationForMimeTypeResponse
  D typeinfo for CVRMsg_SetMasterProcess
  D typeinfo for CVRMsg_SetMasterProcessResponse
  D typeinfo for CVRMsg_SetNotificationImage
@@ -361,8 +379,6 @@
  D typeinfo for CVRMsg_Settings_Sync
  D typeinfo for CVRMsg_Settings_Sync_Response
  D typeinfo for CVRMsg_StartAutolaunchOverlays
- D typeinfo for CVRMsg_StartProcess
- D typeinfo for CVRMsg_StartProcessResponse
  D typeinfo for CVRMsg_TrackedCamera_AcquireVideoStreamingService
  D typeinfo for CVRMsg_TrackedCamera_AcquireVideoStreamingServiceResponse
  D typeinfo for CVRMsg_TrackedCamera_Enable
@@ -379,8 +395,6 @@
  D typeinfo for CVRMsg_TrackedCamera_GetIntrinsicsResponse
  D typeinfo for CVRMsg_TrackedCamera_GetProjection
  D typeinfo for CVRMsg_TrackedCamera_GetProjectionResponse
- D typeinfo for CVRMsg_TrackedCamera_GetRecommendedUndistortion
- D typeinfo for CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse
  D typeinfo for CVRMsg_TrackedCamera_GetVideoStreamFormat
  D typeinfo for CVRMsg_TrackedCamera_GetVideoStreamFormatResponse
  D typeinfo for CVRMsg_TrackedCamera_IsVideoStreamActive
@@ -395,8 +409,6 @@
  D typeinfo for CVRMsg_TrackedCamera_SetAutoExposureResponse
  D typeinfo for CVRMsg_TrackedCamera_SetCompatibilityMode
  D typeinfo for CVRMsg_TrackedCamera_SetCompatibilityModeResponse
- D typeinfo for CVRMsg_TrackedCamera_SetUndistortion
- D typeinfo for CVRMsg_TrackedCamera_SetUndistortionResponse
  D typeinfo for CVRMsg_TrackedCamera_SetVideoStreamFormat
  D typeinfo for CVRMsg_TrackedCamera_SetVideoStreamFormatResponse
  D typeinfo for CVRMsg_TrackedCamera_StartVideoStream
@@ -417,10 +429,12 @@
  D typeinfo for CVROverlay_009
  D typeinfo for CVROverlay_010
  D typeinfo for CVROverlay_011
+ D typeinfo for CVROverlay_012
  D typeinfo for CVRRenderModels_001
  D typeinfo for CVRRenderModels_002
  D typeinfo for CVRRenderModels_003
  D typeinfo for CVRRenderModels_004
+ D typeinfo for CVRResourcesLatest
  D typeinfo for CVRScreenshotsLatest
  D typeinfo for CVRScreenshots_001
  D typeinfo for CVRSystemLatest
@@ -456,7 +470,9 @@
  D typeinfo for CompositorInterfaceRegistration<CVRCompositor_012>
  D typeinfo for CompositorInterfaceRegistration<CVRCompositor_013>
  D typeinfo for CompositorInterfaceRegistration<CVRCompositor_014>
+ D typeinfo for CompositorInterfaceRegistration<CVRCompositor_015>
  D typeinfo for ControlPanelInterfaceRegistration<CVRControlPanel_001>
+ D typeinfo for ControlPanelInterfaceRegistration<CVRControlPanel_002>
  D typeinfo for GenericInterfaceRegistration
  D typeinfo for HmdInterfaceRegistration<CHmd_001>
  D typeinfo for HmdInterfaceRegistration<CHmd_002>
@@ -504,6 +520,7 @@
  D typeinfo for OverlayInterfaceRegistration<CVROverlay_009>
  D typeinfo for OverlayInterfaceRegistration<CVROverlay_010>
  D typeinfo for OverlayInterfaceRegistration<CVROverlay_011>
+ D typeinfo for OverlayInterfaceRegistration<CVROverlay_012>
  D typeinfo for RenderModelsInterfaceRegistration<CVRRenderModels_001>
  D typeinfo for RenderModelsInterfaceRegistration<CVRRenderModels_002>
  D typeinfo for RenderModelsInterfaceRegistration<CVRRenderModels_003>
@@ -551,6 +568,7 @@
  D typeinfo for vr::IVROverlay
  D typeinfo for vr::IVRRenderModels
  D typeinfo for vr::IVRRenderModelsInternal
+ D typeinfo for vr::IVRResources
  D typeinfo for vr::IVRScreenshots
  D typeinfo for vr::IVRSettings
  D typeinfo for vr::IVRSystem
@@ -560,6 +578,8 @@
  D vtable for ApplicationsInterfaceRegistration<CVRApplications_002>
  D vtable for ApplicationsInterfaceRegistration<CVRApplications_003>
  D vtable for ApplicationsInterfaceRegistration<CVRApplications_004>
+ D vtable for ApplicationsInterfaceRegistration<CVRApplications_005>
+ D vtable for CClientTrackedDeviceProvider_003
  D vtable for CClientTrackedDeviceProvider_Latest
  D vtable for CDriverLog
  D vtable for CHmdSystemLatest
@@ -574,12 +594,15 @@
  D vtable for COculusDirectClient
  D vtable for CRenderModelLoadThread
  D vtable for CRenderModelManager
+ D vtable for CServerTrackedDeviceProvider
  D vtable for CServerTrackedDeviceProvider_002
  D vtable for CServerTrackedDeviceProvider_Latest
+ D vtable for CSettingsManager
  D vtable for CVRApplications_001
  D vtable for CVRApplications_002
  D vtable for CVRApplications_003
  D vtable for CVRApplications_004
+ D vtable for CVRApplications_005
  D vtable for CVRChaperoneSetup_001
  D vtable for CVRChaperoneSetup_002
  D vtable for CVRChaperoneSetup_003
@@ -603,7 +626,9 @@
  D vtable for CVRCompositor_012
  D vtable for CVRCompositor_013
  D vtable for CVRCompositor_014
+ D vtable for CVRCompositor_015
  D vtable for CVRControlPanel_001
+ D vtable for CVRControlPanel_002
  D vtable for CVRMsg_AbortApplicationTransition
  D vtable for CVRMsg_AcknowledgeQuit_Exiting
  D vtable for CVRMsg_AcknowledgeQuit_UserPrompt
@@ -661,6 +686,8 @@
  D vtable for CVRMsg_DriverDebugRequest
  D vtable for CVRMsg_DriverDebugResponse
  D vtable for CVRMsg_GetApplicationInfo
+ D vtable for CVRMsg_GetApplicationLaunchArguments
+ D vtable for CVRMsg_GetApplicationLaunchArgumentsResponse
  D vtable for CVRMsg_GetDisplayInfo
  D vtable for CVRMsg_GetDisplayInfoResponse
  D vtable for CVRMsg_GetDisplayInfoResponse_DisplayInfo
@@ -674,12 +701,15 @@
  D vtable for CVRMsg_InputCaptureRequest
  D vtable for CVRMsg_InputCaptureResponse
  D vtable for CVRMsg_LaunchApplication
+ D vtable for CVRMsg_LaunchApplicationForMimeType
+ D vtable for CVRMsg_LaunchApplicationForMimeTypeResponse
  D vtable for CVRMsg_LaunchApplicationResponse
  D vtable for CVRMsg_LaunchInternalProcess
  D vtable for CVRMsg_LaunchInternalProcessResponse
  D vtable for CVRMsg_LaunchTemplateApplication
  D vtable for CVRMsg_LaunchTemplateApplicationResponse
  D vtable for CVRMsg_LaunchTemplateApplication_AppOverrideKey
+ D vtable for CVRMsg_MimeType
  D vtable for CVRMsg_PerformApplicationPrelaunchCheck
  D vtable for CVRMsg_PerformApplicationPrelaunchCheckResponse
  D vtable for CVRMsg_PowerOffTrackedDevice
@@ -689,6 +719,8 @@
  D vtable for CVRMsg_SetApplicationOptionsResponse
  D vtable for CVRMsg_SetApplicationProcessId
  D vtable for CVRMsg_SetApplicationProcessIdResponse
+ D vtable for CVRMsg_SetDefaultApplicationForMimeType
+ D vtable for CVRMsg_SetDefaultApplicationForMimeTypeResponse
  D vtable for CVRMsg_SetMasterProcess
  D vtable for CVRMsg_SetMasterProcessResponse
  D vtable for CVRMsg_SetNotificationImage
@@ -711,8 +743,6 @@
  D vtable for CVRMsg_Settings_Sync
  D vtable for CVRMsg_Settings_Sync_Response
  D vtable for CVRMsg_StartAutolaunchOverlays
- D vtable for CVRMsg_StartProcess
- D vtable for CVRMsg_StartProcessResponse
  D vtable for CVRMsg_TrackedCamera_AcquireVideoStreamingService
  D vtable for CVRMsg_TrackedCamera_AcquireVideoStreamingServiceResponse
  D vtable for CVRMsg_TrackedCamera_Enable
@@ -729,8 +759,6 @@
  D vtable for CVRMsg_TrackedCamera_GetIntrinsicsResponse
  D vtable for CVRMsg_TrackedCamera_GetProjection
  D vtable for CVRMsg_TrackedCamera_GetProjectionResponse
- D vtable for CVRMsg_TrackedCamera_GetRecommendedUndistortion
- D vtable for CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse
  D vtable for CVRMsg_TrackedCamera_GetVideoStreamFormat
  D vtable for CVRMsg_TrackedCamera_GetVideoStreamFormatResponse
  D vtable for CVRMsg_TrackedCamera_IsVideoStreamActive
@@ -745,8 +773,6 @@
  D vtable for CVRMsg_TrackedCamera_SetAutoExposureResponse
  D vtable for CVRMsg_TrackedCamera_SetCompatibilityMode
  D vtable for CVRMsg_TrackedCamera_SetCompatibilityModeResponse
- D vtable for CVRMsg_TrackedCamera_SetUndistortion
- D vtable for CVRMsg_TrackedCamera_SetUndistortionResponse
  D vtable for CVRMsg_TrackedCamera_SetVideoStreamFormat
  D vtable for CVRMsg_TrackedCamera_SetVideoStreamFormatResponse
  D vtable for CVRMsg_TrackedCamera_StartVideoStream
@@ -767,10 +793,12 @@
  D vtable for CVROverlay_009
  D vtable for CVROverlay_010
  D vtable for CVROverlay_011
+ D vtable for CVROverlay_012
  D vtable for CVRRenderModels_001
  D vtable for CVRRenderModels_002
  D vtable for CVRRenderModels_003
  D vtable for CVRRenderModels_004
+ D vtable for CVRResourcesLatest
  D vtable for CVRScreenshotsLatest
  D vtable for CVRScreenshots_001
  D vtable for CVRSystemLatest
@@ -806,7 +834,9 @@
  D vtable for CompositorInterfaceRegistration<CVRCompositor_012>
  D vtable for CompositorInterfaceRegistration<CVRCompositor_013>
  D vtable for CompositorInterfaceRegistration<CVRCompositor_014>
+ D vtable for CompositorInterfaceRegistration<CVRCompositor_015>
  D vtable for ControlPanelInterfaceRegistration<CVRControlPanel_001>
+ D vtable for ControlPanelInterfaceRegistration<CVRControlPanel_002>
  D vtable for GenericInterfaceRegistration
  D vtable for HmdInterfaceRegistration<CHmd_001>
  D vtable for HmdInterfaceRegistration<CHmd_002>
@@ -848,6 +878,7 @@
  D vtable for OverlayInterfaceRegistration<CVROverlay_009>
  D vtable for OverlayInterfaceRegistration<CVROverlay_010>
  D vtable for OverlayInterfaceRegistration<CVROverlay_011>
+ D vtable for OverlayInterfaceRegistration<CVROverlay_012>
  D vtable for RenderModelsInterfaceRegistration<CVRRenderModels_001>
  D vtable for RenderModelsInterfaceRegistration<CVRRenderModels_002>
  D vtable for RenderModelsInterfaceRegistration<CVRRenderModels_003>
@@ -895,7 +926,9 @@
  R typeinfo name for ApplicationsInterfaceRegistration<CVRApplications_002>
  R typeinfo name for ApplicationsInterfaceRegistration<CVRApplications_003>
  R typeinfo name for ApplicationsInterfaceRegistration<CVRApplications_004>
+ R typeinfo name for ApplicationsInterfaceRegistration<CVRApplications_005>
  R typeinfo name for CClientTrackedDeviceProvider
+ R typeinfo name for CClientTrackedDeviceProvider_003
  R typeinfo name for CClientTrackedDeviceProvider_Latest
  R typeinfo name for CDriverLog
  R typeinfo name for CHmdSystemLatest
@@ -913,10 +946,12 @@
  R typeinfo name for CServerTrackedDeviceProvider
  R typeinfo name for CServerTrackedDeviceProvider_002
  R typeinfo name for CServerTrackedDeviceProvider_Latest
+ R typeinfo name for CSettingsManager
  R typeinfo name for CVRApplications_001
  R typeinfo name for CVRApplications_002
  R typeinfo name for CVRApplications_003
  R typeinfo name for CVRApplications_004
+ R typeinfo name for CVRApplications_005
  R typeinfo name for CVRChaperoneSetup_001
  R typeinfo name for CVRChaperoneSetup_002
  R typeinfo name for CVRChaperoneSetup_003
@@ -940,7 +975,9 @@
  R typeinfo name for CVRCompositor_012
  R typeinfo name for CVRCompositor_013
  R typeinfo name for CVRCompositor_014
+ R typeinfo name for CVRCompositor_015
  R typeinfo name for CVRControlPanel_001
+ R typeinfo name for CVRControlPanel_002
  R typeinfo name for CVRMsg_AbortApplicationTransition
  R typeinfo name for CVRMsg_AcknowledgeQuit_Exiting
  R typeinfo name for CVRMsg_AcknowledgeQuit_UserPrompt
@@ -998,6 +1035,8 @@
  R typeinfo name for CVRMsg_DriverDebugRequest
  R typeinfo name for CVRMsg_DriverDebugResponse
  R typeinfo name for CVRMsg_GetApplicationInfo
+ R typeinfo name for CVRMsg_GetApplicationLaunchArguments
+ R typeinfo name for CVRMsg_GetApplicationLaunchArgumentsResponse
  R typeinfo name for CVRMsg_GetDisplayInfo
  R typeinfo name for CVRMsg_GetDisplayInfoResponse
  R typeinfo name for CVRMsg_GetDisplayInfoResponse_DisplayInfo
@@ -1011,12 +1050,15 @@
  R typeinfo name for CVRMsg_InputCaptureRequest
  R typeinfo name for CVRMsg_InputCaptureResponse
  R typeinfo name for CVRMsg_LaunchApplication
+ R typeinfo name for CVRMsg_LaunchApplicationForMimeType
+ R typeinfo name for CVRMsg_LaunchApplicationForMimeTypeResponse
  R typeinfo name for CVRMsg_LaunchApplicationResponse
  R typeinfo name for CVRMsg_LaunchInternalProcess
  R typeinfo name for CVRMsg_LaunchInternalProcessResponse
  R typeinfo name for CVRMsg_LaunchTemplateApplication
  R typeinfo name for CVRMsg_LaunchTemplateApplicationResponse
  R typeinfo name for CVRMsg_LaunchTemplateApplication_AppOverrideKey
+ R typeinfo name for CVRMsg_MimeType
  R typeinfo name for CVRMsg_PerformApplicationPrelaunchCheck
  R typeinfo name for CVRMsg_PerformApplicationPrelaunchCheckResponse
  R typeinfo name for CVRMsg_PowerOffTrackedDevice
@@ -1026,6 +1068,8 @@
  R typeinfo name for CVRMsg_SetApplicationOptionsResponse
  R typeinfo name for CVRMsg_SetApplicationProcessId
  R typeinfo name for CVRMsg_SetApplicationProcessIdResponse
+ R typeinfo name for CVRMsg_SetDefaultApplicationForMimeType
+ R typeinfo name for CVRMsg_SetDefaultApplicationForMimeTypeResponse
  R typeinfo name for CVRMsg_SetMasterProcess
  R typeinfo name for CVRMsg_SetMasterProcessResponse
  R typeinfo name for CVRMsg_SetNotificationImage
@@ -1048,8 +1092,6 @@
  R typeinfo name for CVRMsg_Settings_Sync
  R typeinfo name for CVRMsg_Settings_Sync_Response
  R typeinfo name for CVRMsg_StartAutolaunchOverlays
- R typeinfo name for CVRMsg_StartProcess
- R typeinfo name for CVRMsg_StartProcessResponse
  R typeinfo name for CVRMsg_TrackedCamera_AcquireVideoStreamingService
  R typeinfo name for CVRMsg_TrackedCamera_AcquireVideoStreamingServiceResponse
  R typeinfo name for CVRMsg_TrackedCamera_Enable
@@ -1066,8 +1108,6 @@
  R typeinfo name for CVRMsg_TrackedCamera_GetIntrinsicsResponse
  R typeinfo name for CVRMsg_TrackedCamera_GetProjection
  R typeinfo name for CVRMsg_TrackedCamera_GetProjectionResponse
- R typeinfo name for CVRMsg_TrackedCamera_GetRecommendedUndistortion
- R typeinfo name for CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse
  R typeinfo name for CVRMsg_TrackedCamera_GetVideoStreamFormat
  R typeinfo name for CVRMsg_TrackedCamera_GetVideoStreamFormatResponse
  R typeinfo name for CVRMsg_TrackedCamera_IsVideoStreamActive
@@ -1082,8 +1122,6 @@
  R typeinfo name for CVRMsg_TrackedCamera_SetAutoExposureResponse
  R typeinfo name for CVRMsg_TrackedCamera_SetCompatibilityMode
  R typeinfo name for CVRMsg_TrackedCamera_SetCompatibilityModeResponse
- R typeinfo name for CVRMsg_TrackedCamera_SetUndistortion
- R typeinfo name for CVRMsg_TrackedCamera_SetUndistortionResponse
  R typeinfo name for CVRMsg_TrackedCamera_SetVideoStreamFormat
  R typeinfo name for CVRMsg_TrackedCamera_SetVideoStreamFormatResponse
  R typeinfo name for CVRMsg_TrackedCamera_StartVideoStream
@@ -1104,10 +1142,12 @@
  R typeinfo name for CVROverlay_009
  R typeinfo name for CVROverlay_010
  R typeinfo name for CVROverlay_011
+ R typeinfo name for CVROverlay_012
  R typeinfo name for CVRRenderModels_001
  R typeinfo name for CVRRenderModels_002
  R typeinfo name for CVRRenderModels_003
  R typeinfo name for CVRRenderModels_004
+ R typeinfo name for CVRResourcesLatest
  R typeinfo name for CVRScreenshotsLatest
  R typeinfo name for CVRScreenshots_001
  R typeinfo name for CVRSystemLatest
@@ -1143,7 +1183,9 @@
  R typeinfo name for CompositorInterfaceRegistration<CVRCompositor_012>
  R typeinfo name for CompositorInterfaceRegistration<CVRCompositor_013>
  R typeinfo name for CompositorInterfaceRegistration<CVRCompositor_014>
+ R typeinfo name for CompositorInterfaceRegistration<CVRCompositor_015>
  R typeinfo name for ControlPanelInterfaceRegistration<CVRControlPanel_001>
+ R typeinfo name for ControlPanelInterfaceRegistration<CVRControlPanel_002>
  R typeinfo name for GenericInterfaceRegistration
  R typeinfo name for HmdInterfaceRegistration<CHmd_001>
  R typeinfo name for HmdInterfaceRegistration<CHmd_002>
@@ -1191,6 +1233,7 @@
  R typeinfo name for OverlayInterfaceRegistration<CVROverlay_009>
  R typeinfo name for OverlayInterfaceRegistration<CVROverlay_010>
  R typeinfo name for OverlayInterfaceRegistration<CVROverlay_011>
+ R typeinfo name for OverlayInterfaceRegistration<CVROverlay_012>
  R typeinfo name for RenderModelsInterfaceRegistration<CVRRenderModels_001>
  R typeinfo name for RenderModelsInterfaceRegistration<CVRRenderModels_002>
  R typeinfo name for RenderModelsInterfaceRegistration<CVRRenderModels_003>
@@ -1238,6 +1281,7 @@
  R typeinfo name for vr::IVROverlay
  R typeinfo name for vr::IVRRenderModels
  R typeinfo name for vr::IVRRenderModelsInternal
+ R typeinfo name for vr::IVRResources
  R typeinfo name for vr::IVRScreenshots
  R typeinfo name for vr::IVRSettings
  R typeinfo name for vr::IVRSystem
@@ -1251,6 +1295,8 @@
  T ApplicationsInterfaceRegistration<CVRApplications_003>::~ApplicationsInterfaceRegistration()
  T ApplicationsInterfaceRegistration<CVRApplications_004>::GetInterface()
  T ApplicationsInterfaceRegistration<CVRApplications_004>::~ApplicationsInterfaceRegistration()
+ T ApplicationsInterfaceRegistration<CVRApplications_005>::GetInterface()
+ T ApplicationsInterfaceRegistration<CVRApplications_005>::~ApplicationsInterfaceRegistration()
  T BCreateDirectoryRecursive(char const*)
  T BCreateProcess(char const*, char const**, unsigned int*, bool, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*)
  T BDeleteFileIfExists(char const*)
@@ -1258,12 +1304,20 @@
  T BProcessRunning(char const*, bool)
  T BProcessRunning(unsigned int)
  T BRenameFile(char const*, char const*)
+ T CClientTrackedDeviceProvider_003::BIsHmdPresent(char const*)
+ T CClientTrackedDeviceProvider_003::Cleanup()
+ T CClientTrackedDeviceProvider_003::GetHiddenAreaMesh(vr::EVREye)
+ T CClientTrackedDeviceProvider_003::GetMCImage(unsigned int*, unsigned int*, unsigned int*, void*, unsigned int)
+ T CClientTrackedDeviceProvider_003::GetSourceVersion()
+ T CClientTrackedDeviceProvider_003::Init(vr::EClientDriverMode, vr::IDriverLog*, vr::IClientDriverHost*, char const*, char const*)
+ T CClientTrackedDeviceProvider_003::SetDisplayId(char const*)
+ T CClientTrackedDeviceProvider_003::~CClientTrackedDeviceProvider_003()
  T CClientTrackedDeviceProvider_Latest::BIsHmdPresent(char const*)
  T CClientTrackedDeviceProvider_Latest::Cleanup()
  T CClientTrackedDeviceProvider_Latest::GetHiddenAreaMesh(vr::EVREye)
  T CClientTrackedDeviceProvider_Latest::GetMCImage(unsigned int*, unsigned int*, unsigned int*, void*, unsigned int)
  T CClientTrackedDeviceProvider_Latest::GetSourceVersion()
- T CClientTrackedDeviceProvider_Latest::Init(vr::IDriverLog*, vr::IClientDriverHost*, char const*, char const*)
+ T CClientTrackedDeviceProvider_Latest::Init(vr::EClientDriverMode, vr::IDriverLog*, vr::IClientDriverHost*, char const*, char const*)
  T CClientTrackedDeviceProvider_Latest::SetDisplayId(char const*)
  T CClientTrackedDeviceProvider_Latest::~CClientTrackedDeviceProvider_Latest()
  T CDirIterator::BCurrentIsDir() const
@@ -1272,6 +1326,7 @@
  T CDirIterator::CurrentFileName()
  T CDirIterator::~CDirIterator()
  T CDriverLog::Log(char const*)
+ T CDriverManager::AddDriver(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T CDriverManager::BInit()
  T CDriverManager::CDriverManager()
  T CDriverManager::Cleanup()
@@ -1284,6 +1339,10 @@
  T CDriverManager::GetDriverPath(unsigned int)
  T CDriverManager::LoadDriver(unsigned int, CDriverManager::HmdDriverContext, bool, vr::IServerDriverHost*, vr::IClientDriverHost*)
  T CDriverManager::~CDriverManager()
+ T CGpuTiming::BeginFrame()
+ T CGpuTiming::EndFrame()
+ T CGpuTiming::GetDeltas(float*, unsigned int)
+ T CGpuTiming::MarkEvent(unsigned int, wchar_t const*)
  T CHmdSystemLatest::AbortTransition()
  T CHmdSystemLatest::BHmdPresentForDriver(int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&)
  T CHmdSystemLatest::BIsHmdPresent()
@@ -1293,8 +1352,6 @@
  T CHmdSystemLatest::DismissDashboard()
  T CHmdSystemLatest::ForceQuitProcess(unsigned int)
  T CHmdSystemLatest::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
- T CHmdSystemLatest::GetCurrentCompositorInterface(char const*)
- T CHmdSystemLatest::GetCurrentDisplayInterface(char const*)
  T CHmdSystemLatest::GetDashboardEnabled()
  T CHmdSystemLatest::GetDriverCount()
  T CHmdSystemLatest::GetDriverDisplayCount(char const*)
@@ -1307,8 +1364,9 @@
  T CHmdSystemLatest::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T CHmdSystemLatest::GetGenericInterface(char const*, vr::EVRInitError*)
  T CHmdSystemLatest::GetIDForVRInitError(vr::EVRInitError)
- T CHmdSystemLatest::GetIPD()
  T CHmdSystemLatest::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T CHmdSystemLatest::GetResourceFullPath(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T CHmdSystemLatest::GetResourceNames(std::__1::vector<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T CHmdSystemLatest::GetSettings(char const*)
  T CHmdSystemLatest::GetSettingsDirtyCount()
  T CHmdSystemLatest::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*)
@@ -1318,20 +1376,17 @@
  T CHmdSystemLatest::Init(vr::EVRApplicationType)
  T CHmdSystemLatest::IsInterfaceVersionValid(char const*)
  T CHmdSystemLatest::IsTrackedDeviceConnected(unsigned int)
- T CHmdSystemLatest::LoadFileInternal(char const*, char*, unsigned int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T CHmdSystemLatest::LoadHmdClientProvider()
- T CHmdSystemLatest::LoadSharedResource(char const*, char*, unsigned int)
  T CHmdSystemLatest::PostOverlayEvent(unsigned long long, vr::VREvent_t const&)
  T CHmdSystemLatest::PowerOffTrackedDevice(unsigned int)
  T CHmdSystemLatest::PrepareInternalProcessTransition(unsigned int, unsigned int)
  T CHmdSystemLatest::QuitProcess(unsigned int)
  T CHmdSystemLatest::SetDashboardEnabled(bool)
- T CHmdSystemLatest::SetIPD(float)
  T CHmdSystemLatest::SetMasterProcessToThis()
  T CHmdSystemLatest::SetVRMonitorState(vr::EVRState)
  T CHmdSystemLatest::StartAutolaunchOverlays()
- T CHmdSystemLatest::StartVRProcess(char const*, char const**, unsigned int, char const*)
  T CHmdSystemLatest::TopologyChanged()
+ T CHmdSystemLatest::WatchdogWakeUp()
  T CHmdSystemLatest::~CHmdSystemLatest()
  T CHmdSystem_001::Cleanup()
  T CHmdSystem_001::GetControlPanel(char const*, vr::EVRInitError*)
@@ -1479,7 +1534,7 @@
  T CRenderModelLoadThread::Load(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T CRenderModelLoadThread::Run()
  T CRenderModelLoadThread::~CRenderModelLoadThread()
- T CRenderModelManager::BInit(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, CDriverManager*, vr::IVRSettings*, IVRClientInternal*)
+ T CRenderModelManager::BInit(vr::IVRSettings*, IVRClientInternal*)
  T CRenderModelManager::CRenderModelManager()
  T CRenderModelManager::Cleanup()
  T CRenderModelManager::Component_t::GetInputValue(vr::VRControllerState001_t const*)
@@ -1506,10 +1561,11 @@
  T CRenderModelManager::LoadTextureInternal(int, void*)
  T CRenderModelManager::LoadTexture_Async(int, vr::RenderModel_TextureMap_t**)
  T CRenderModelManager::ModelInfo_t::GetComponentByName(char const*)
- T CRenderModelManager::PopulateNames()
  T CRenderModelManager::RegisterTextureFilePath(char const*)
  T CRenderModelManager::RenderModelHasComponent(char const*, char const*)
  T CRenderModelManager::~CRenderModelManager()
+ T CServerTrackedDeviceProvider::InitWithAdapter(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T CServerTrackedDeviceProvider::~CServerTrackedDeviceProvider()
  T CServerTrackedDeviceProvider_002::Cleanup()
  T CServerTrackedDeviceProvider_002::EnterStandby()
  T CServerTrackedDeviceProvider_002::FindTrackedDeviceDriver(char const*)
@@ -1534,6 +1590,21 @@
  T CServerTrackedDeviceProvider_Latest::RunFrame()
  T CServerTrackedDeviceProvider_Latest::ShouldBlockStandbyMode()
  T CServerTrackedDeviceProvider_Latest::~CServerTrackedDeviceProvider_Latest()
+ T CSettingsManager::CheckSectionDirtyFlags(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T CSettingsManager::GetBool(char const*, char const*, bool, vr::EVRSettingsError*)
+ T CSettingsManager::GetCurrentDirtyCount()
+ T CSettingsManager::GetFloat(char const*, char const*, float, vr::EVRSettingsError*)
+ T CSettingsManager::GetInt32(char const*, char const*, int, vr::EVRSettingsError*)
+ T CSettingsManager::GetSettingsErrorNameFromEnum(vr::EVRSettingsError)
+ T CSettingsManager::GetString(char const*, char const*, char*, unsigned int, char const*, vr::EVRSettingsError*)
+ T CSettingsManager::Init(char const*, IVRServer*)
+ T CSettingsManager::RemoveKeyInSection(char const*, char const*, vr::EVRSettingsError*)
+ T CSettingsManager::RemoveSection(char const*, vr::EVRSettingsError*)
+ T CSettingsManager::SetBool(char const*, char const*, bool, vr::EVRSettingsError*)
+ T CSettingsManager::SetFloat(char const*, char const*, float, vr::EVRSettingsError*)
+ T CSettingsManager::SetInt32(char const*, char const*, int, vr::EVRSettingsError*)
+ T CSettingsManager::SetString(char const*, char const*, char const*, vr::EVRSettingsError*)
+ T CSettingsManager::Sync(bool, vr::EVRSettingsError*)
  T CSimpleMachClient::SendAndReceive(mach_msg_header_t*, mach_msg_header_t*, unsigned int, int*)
  T CTrackedCameraFrameQueue::Read(int*)
  T CTrackedCameraFrameQueue::Write(int)
@@ -1632,6 +1703,30 @@
  T CVRApplications_004::PerformApplicationPrelaunchCheck(char const*)
  T CVRApplications_004::RemoveApplicationManifest(char const*)
  T CVRApplications_004::SetApplicationAutoLaunch(char const*, bool)
+ T CVRApplications_005::AddApplicationManifest(char const*, bool)
+ T CVRApplications_005::CancelApplicationLaunch(char const*)
+ T CVRApplications_005::GetApplicationAutoLaunch(char const*)
+ T CVRApplications_005::GetApplicationCount()
+ T CVRApplications_005::GetApplicationKeyByIndex(unsigned int, char*, unsigned int)
+ T CVRApplications_005::GetApplicationKeyByProcessId(unsigned int, char*, unsigned int)
+ T CVRApplications_005::GetApplicationProcessId(char const*)
+ T CVRApplications_005::GetApplicationPropertyBool(char const*, vr::EVRApplicationProperty, vr::EVRApplicationError*)
+ T CVRApplications_005::GetApplicationPropertyString(char const*, vr::EVRApplicationProperty, char*, unsigned int, vr::EVRApplicationError*)
+ T CVRApplications_005::GetApplicationPropertyUint64(char const*, vr::EVRApplicationProperty, vr::EVRApplicationError*)
+ T CVRApplications_005::GetApplicationsErrorNameFromEnum(vr::EVRApplicationError)
+ T CVRApplications_005::GetApplicationsTransitionStateNameFromEnum(vr::EVRApplicationTransitionState)
+ T CVRApplications_005::GetStartingApplication(char*, unsigned int)
+ T CVRApplications_005::GetTransitionState()
+ T CVRApplications_005::IdentifyApplication(unsigned int, char const*)
+ T CVRApplications_005::IsApplicationInstalled(char const*)
+ T CVRApplications_005::IsQuitUserPromptRequested()
+ T CVRApplications_005::LaunchApplication(char const*)
+ T CVRApplications_005::LaunchDashboardOverlay(char const*)
+ T CVRApplications_005::LaunchInternalProcess(char const*, char const*, char const*)
+ T CVRApplications_005::LaunchTemplateApplication(char const*, char const*, vr::AppOverrideKeys_t const*, unsigned int)
+ T CVRApplications_005::PerformApplicationPrelaunchCheck(char const*)
+ T CVRApplications_005::RemoveApplicationManifest(char const*)
+ T CVRApplications_005::SetApplicationAutoLaunch(char const*, bool)
  T CVRChaperoneSetup_001::CommitWorkingCopy(char const*)
  T CVRChaperoneSetup_001::GetWorkingHardBoundsInfo(vr::HmdQuad_t*, unsigned int*)
  T CVRChaperoneSetup_001::GetWorkingSeatedZeroPoseToRawTrackingPose(vr::HmdMatrix34_t*)
@@ -1726,7 +1821,6 @@
  T CVRCompositorClient::BInitialized() const
  T CVRCompositorClient::BStartVRCompositor()
  T CVRCompositorClient::BeginFrame_DEPRECATED(vr::EVREye, vr::TrackedDevicePose_t*, unsigned int)
- T CVRCompositorClient::CVRCompositorClient()
  T CVRCompositorClient::CanRenderScene()
  T CVRCompositorClient::Cleanup()
  T CVRCompositorClient::ClearLastSubmittedFrame()
@@ -1740,7 +1834,6 @@
  T CVRCompositorClient::ForceInterleavedReprojectionOn(bool)
  T CVRCompositorClient::ForceReconnectProcess()
  T CVRCompositorClient::GetCurrentSceneFocusProcess()
- T CVRCompositorClient::GetCurrentScreenshotType()
  T CVRCompositorClient::GetMirrorTextureD3D11(vr::EVREye, void*, void**)
  T CVRCompositorClient::GetMirrorTextureGL(vr::EVREye, unsigned int*, void**)
  T CVRCompositorClient::HideMirrorWindow()
@@ -1750,7 +1843,6 @@
  T CVRCompositorClient::PrepareInternalProcessTransition(unsigned int, unsigned int)
  T CVRCompositorClient::Present(int)
  T CVRCompositorClient::ReleaseSharedGLTexture(unsigned int, void*)
- T CVRCompositorClient::RequestScreenshot(vr::EVRScreenshotType, char const*, char const*)
  T CVRCompositorClient::SetNotificationImage(unsigned int)
  T CVRCompositorClient::SetOverlay_DEPRECATED(void*, vr::Compositor_OverlaySettings*)
  T CVRCompositorClient::ShouldAppRenderWithLowResources()
@@ -1778,7 +1870,7 @@
  T CVRCompositorSharedTextures::AcquireSync()
  T CVRCompositorSharedTextures::BeginFrameTiming()
  T CVRCompositorSharedTextures::CreateSharedTexture(int, int, unsigned int, unsigned int, int, CVRCompositorSharedTextures::SharedTextureData&)
- T CVRCompositorSharedTextures::EndFrameTiming()
+ T CVRCompositorSharedTextures::EndFrameTiming(float*, unsigned int)
  T CVRCompositorSharedTextures::Flush()
  T CVRCompositorSharedTextures::GetGLTextureFromSharedTexture(void*, unsigned int*, void**)
  T CVRCompositorSharedTextures::GetSharedTextureData(void*, void*, unsigned int)
@@ -1788,6 +1880,7 @@
  T CVRCompositorSharedTextures::GetSharedTextureSize(void*, unsigned int*, unsigned int*)
  T CVRCompositorSharedTextures::Init(int, vr::IVROculusDirect*)
  T CVRCompositorSharedTextures::LockGLSharedTextureForAccess(void*)
+ T CVRCompositorSharedTextures::MarkTimingEvent(unsigned int, wchar_t const*)
  T CVRCompositorSharedTextures::OpenSharedTextureD3D11(void*, void*, void**)
  T CVRCompositorSharedTextures::Release()
  T CVRCompositorSharedTextures::ReleaseNativeOverlayHandle(void*, void*)
@@ -2030,7 +2123,7 @@
  T CVRCompositor_011::FadeToColor(float, float, float, float, float, bool)
  T CVRCompositor_011::GetCurrentSceneFocusProcess()
  T CVRCompositor_011::GetFrameTimeRemaining()
- T CVRCompositor_011::GetFrameTiming(vr::Compositor_FrameTiming*, unsigned int)
+ T CVRCompositor_011::GetFrameTiming(Compositor_FrameTiming_015*, unsigned int)
  T CVRCompositor_011::GetLastFrameRenderer()
  T CVRCompositor_011::GetLastPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
  T CVRCompositor_011::GetTrackingSpace()
@@ -2054,7 +2147,7 @@
  T CVRCompositor_012::FadeToColor(float, float, float, float, float, bool)
  T CVRCompositor_012::GetCurrentSceneFocusProcess()
  T CVRCompositor_012::GetFrameTimeRemaining()
- T CVRCompositor_012::GetFrameTiming(vr::Compositor_FrameTiming*, unsigned int)
+ T CVRCompositor_012::GetFrameTiming(Compositor_FrameTiming_015*, unsigned int)
  T CVRCompositor_012::GetLastFrameRenderer()
  T CVRCompositor_012::GetLastPoseForTrackedDeviceIndex(unsigned int, vr::TrackedDevicePose_t*, vr::TrackedDevicePose_t*)
  T CVRCompositor_012::GetLastPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
@@ -2082,7 +2175,7 @@
  T CVRCompositor_013::ForceReconnectProcess()
  T CVRCompositor_013::GetCurrentSceneFocusProcess()
  T CVRCompositor_013::GetFrameTimeRemaining()
- T CVRCompositor_013::GetFrameTiming(vr::Compositor_FrameTiming*, unsigned int)
+ T CVRCompositor_013::GetFrameTiming(Compositor_FrameTiming_015*, unsigned int)
  T CVRCompositor_013::GetLastFrameRenderer()
  T CVRCompositor_013::GetLastPoseForTrackedDeviceIndex(unsigned int, vr::TrackedDevicePose_t*, vr::TrackedDevicePose_t*)
  T CVRCompositor_013::GetLastPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
@@ -2111,7 +2204,7 @@
  T CVRCompositor_014::GetCurrentSceneFocusProcess()
  T CVRCompositor_014::GetCurrentScreenshotType()
  T CVRCompositor_014::GetFrameTimeRemaining()
- T CVRCompositor_014::GetFrameTiming(vr::Compositor_FrameTiming*, unsigned int)
+ T CVRCompositor_014::GetFrameTiming(Compositor_FrameTiming_015*, unsigned int)
  T CVRCompositor_014::GetLastFrameRenderer()
  T CVRCompositor_014::GetLastPoseForTrackedDeviceIndex(unsigned int, vr::TrackedDevicePose_t*, vr::TrackedDevicePose_t*)
  T CVRCompositor_014::GetLastPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
@@ -2128,6 +2221,43 @@
  T CVRCompositor_014::Submit(vr::EVREye, vr::Texture_t const*, vr::VRTextureBounds_t const*, vr::EVRSubmitFlags)
  T CVRCompositor_014::SuspendRendering(bool)
  T CVRCompositor_014::WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRCompositor_015::CanRenderScene()
+ T CVRCompositor_015::ClearLastSubmittedFrame()
+ T CVRCompositor_015::ClearSkyboxOverride()
+ T CVRCompositor_015::CompositorBringToFront()
+ T CVRCompositor_015::CompositorDumpImages()
+ T CVRCompositor_015::CompositorGoToBack()
+ T CVRCompositor_015::CompositorQuit()
+ T CVRCompositor_015::FadeGrid(float, bool)
+ T CVRCompositor_015::FadeToColor(float, float, float, float, float, bool)
+ T CVRCompositor_015::ForceInterleavedReprojectionOn(bool)
+ T CVRCompositor_015::ForceReconnectProcess()
+ T CVRCompositor_015::GetCumulativeStats(vr::Compositor_CumulativeStats*, unsigned int)
+ T CVRCompositor_015::GetCurrentSceneFocusProcess()
+ T CVRCompositor_015::GetCurrentScreenshotType()
+ T CVRCompositor_015::GetFrameTimeRemaining()
+ T CVRCompositor_015::GetFrameTiming(Compositor_FrameTiming_015*, unsigned int)
+ T CVRCompositor_015::GetLastFrameRenderer()
+ T CVRCompositor_015::GetLastPoseForTrackedDeviceIndex(unsigned int, vr::TrackedDevicePose_t*, vr::TrackedDevicePose_t*)
+ T CVRCompositor_015::GetLastPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
+ T CVRCompositor_015::GetMirrorTextureD3D11(vr::EVREye, void*, void**)
+ T CVRCompositor_015::GetMirrorTextureGL(vr::EVREye, unsigned int*, void**)
+ T CVRCompositor_015::GetTrackingSpace()
+ T CVRCompositor_015::HideMirrorWindow()
+ T CVRCompositor_015::IsFullscreen()
+ T CVRCompositor_015::IsMirrorWindowVisible()
+ T CVRCompositor_015::LockGLSharedTextureForAccess(void*)
+ T CVRCompositor_015::PostPresentHandoff()
+ T CVRCompositor_015::ReleaseSharedGLTexture(unsigned int, void*)
+ T CVRCompositor_015::RequestScreenshot(vr::EVRScreenshotType, char const*, char const*)
+ T CVRCompositor_015::SetSkyboxOverride(vr::Texture_t const*, unsigned int)
+ T CVRCompositor_015::SetTrackingSpace(vr::ETrackingUniverseOrigin)
+ T CVRCompositor_015::ShouldAppRenderWithLowResources()
+ T CVRCompositor_015::ShowMirrorWindow()
+ T CVRCompositor_015::Submit(vr::EVREye, vr::Texture_t const*, vr::VRTextureBounds_t const*, vr::EVRSubmitFlags)
+ T CVRCompositor_015::SuspendRendering(bool)
+ T CVRCompositor_015::UnlockGLSharedTextureForAccess(void*)
+ T CVRCompositor_015::WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
  T CVRControlPanel_001::AbortTransition()
  T CVRControlPanel_001::ForceQuitProcess(unsigned int)
  T CVRControlPanel_001::GetCurrentCompositorInterface(char const*)
@@ -2150,6 +2280,29 @@
  T CVRControlPanel_001::SetVRMonitorState(vr::EVRState)
  T CVRControlPanel_001::StartAutolaunchOverlays()
  T CVRControlPanel_001::StartVRProcess(char const*, char const**, unsigned int, char const*)
+ T CVRControlPanel_002::AbortTransition()
+ T CVRControlPanel_002::ForceQuitProcess(unsigned int)
+ T CVRControlPanel_002::GetCurrentCompositorInterface(char const*)
+ T CVRControlPanel_002::GetCurrentDisplayInterface(char const*)
+ T CVRControlPanel_002::GetDashboardEnabled()
+ T CVRControlPanel_002::GetDriverCount()
+ T CVRControlPanel_002::GetDriverDisplayCount(char const*)
+ T CVRControlPanel_002::GetDriverDisplayId(char const*, unsigned int, char*, unsigned int)
+ T CVRControlPanel_002::GetDriverDisplayModelNumber(char const*, char const*, char*, unsigned int)
+ T CVRControlPanel_002::GetDriverDisplaySerialNumber(char const*, char const*, char*, unsigned int)
+ T CVRControlPanel_002::GetDriverId(unsigned int, char*, unsigned int)
+ T CVRControlPanel_002::GetDriverInitError(char const*)
+ T CVRControlPanel_002::GetIPD()
+ T CVRControlPanel_002::GetVRMonitorState()
+ T CVRControlPanel_002::LoadSharedResource(char const*, char*, unsigned int)
+ T CVRControlPanel_002::PowerOffTrackedDevice(unsigned int)
+ T CVRControlPanel_002::QuitProcess(unsigned int)
+ T CVRControlPanel_002::SetDashboardEnabled(bool)
+ T CVRControlPanel_002::SetIPD(float)
+ T CVRControlPanel_002::SetMasterProcessToThis()
+ T CVRControlPanel_002::SetVRMonitorState(vr::EVRState)
+ T CVRControlPanel_002::StartAutolaunchOverlays()
+ T CVRControlPanel_002::StartVRProcess(char const*, char const**, unsigned int, char const*)
  T CVRLog::InitLog(char const*, char const*, bool, unsigned long)
  T CVRLog::Log(char const*, ...)
  T CVRLog::LogDirect(LogLevel, bool, char const*, __va_list_tag (&) [1])
@@ -2201,6 +2354,7 @@
  T CVRMsg_ApplicationInfo::SetCachedSize(int) const
  T CVRMsg_ApplicationInfo::~CVRMsg_ApplicationInfo()
  T CVRMsg_ApplicationInfo_Manifest::ByteSize() const
+ T CVRMsg_ApplicationInfo_Manifest::CVRMsg_ApplicationInfo_Manifest()
  T CVRMsg_ApplicationInfo_Manifest::Clear()
  T CVRMsg_ApplicationInfo_Manifest::GetCachedSize() const
  T CVRMsg_ApplicationInfo_Manifest::GetMetadata() const
@@ -2655,6 +2809,7 @@
  T CVRMsg_CompositorToggleCameraRoomView::SetCachedSize(int) const
  T CVRMsg_CompositorToggleCameraRoomView::~CVRMsg_CompositorToggleCameraRoomView()
  T CVRMsg_CompositorUpdateScreenshotProgress::ByteSize() const
+ T CVRMsg_CompositorUpdateScreenshotProgress::CVRMsg_CompositorUpdateScreenshotProgress()
  T CVRMsg_CompositorUpdateScreenshotProgress::Clear()
  T CVRMsg_CompositorUpdateScreenshotProgress::GetCachedSize() const
  T CVRMsg_CompositorUpdateScreenshotProgress::GetMetadata() const
@@ -2665,6 +2820,7 @@
  T CVRMsg_CompositorUpdateScreenshotProgress::SetCachedSize(int) const
  T CVRMsg_CompositorUpdateScreenshotProgress::~CVRMsg_CompositorUpdateScreenshotProgress()
  T CVRMsg_CompositorUpdateScreenshotProgressResponse::ByteSize() const
+ T CVRMsg_CompositorUpdateScreenshotProgressResponse::CVRMsg_CompositorUpdateScreenshotProgressResponse()
  T CVRMsg_CompositorUpdateScreenshotProgressResponse::Clear()
  T CVRMsg_CompositorUpdateScreenshotProgressResponse::GetCachedSize() const
  T CVRMsg_CompositorUpdateScreenshotProgressResponse::GetMetadata() const
@@ -2785,6 +2941,28 @@
  T CVRMsg_GetApplicationInfo::SerializeWithCachedSizesToArray(unsigned char*) const
  T CVRMsg_GetApplicationInfo::SetCachedSize(int) const
  T CVRMsg_GetApplicationInfo::~CVRMsg_GetApplicationInfo()
+ T CVRMsg_GetApplicationLaunchArguments::ByteSize() const
+ T CVRMsg_GetApplicationLaunchArguments::CVRMsg_GetApplicationLaunchArguments()
+ T CVRMsg_GetApplicationLaunchArguments::Clear()
+ T CVRMsg_GetApplicationLaunchArguments::GetCachedSize() const
+ T CVRMsg_GetApplicationLaunchArguments::GetMetadata() const
+ T CVRMsg_GetApplicationLaunchArguments::IsInitialized() const
+ T CVRMsg_GetApplicationLaunchArguments::MergeFrom(CVRMsg_GetApplicationLaunchArguments const&)
+ T CVRMsg_GetApplicationLaunchArguments::New() const
+ T CVRMsg_GetApplicationLaunchArguments::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_GetApplicationLaunchArguments::SetCachedSize(int) const
+ T CVRMsg_GetApplicationLaunchArguments::~CVRMsg_GetApplicationLaunchArguments()
+ T CVRMsg_GetApplicationLaunchArgumentsResponse::ByteSize() const
+ T CVRMsg_GetApplicationLaunchArgumentsResponse::CVRMsg_GetApplicationLaunchArgumentsResponse()
+ T CVRMsg_GetApplicationLaunchArgumentsResponse::Clear()
+ T CVRMsg_GetApplicationLaunchArgumentsResponse::GetCachedSize() const
+ T CVRMsg_GetApplicationLaunchArgumentsResponse::GetMetadata() const
+ T CVRMsg_GetApplicationLaunchArgumentsResponse::IsInitialized() const
+ T CVRMsg_GetApplicationLaunchArgumentsResponse::MergeFrom(CVRMsg_GetApplicationLaunchArgumentsResponse const&)
+ T CVRMsg_GetApplicationLaunchArgumentsResponse::New() const
+ T CVRMsg_GetApplicationLaunchArgumentsResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_GetApplicationLaunchArgumentsResponse::SetCachedSize(int) const
+ T CVRMsg_GetApplicationLaunchArgumentsResponse::~CVRMsg_GetApplicationLaunchArgumentsResponse()
  T CVRMsg_GetDisplayInfo::ByteSize() const
  T CVRMsg_GetDisplayInfo::CVRMsg_GetDisplayInfo()
  T CVRMsg_GetDisplayInfo::Clear()
@@ -2930,6 +3108,28 @@
  T CVRMsg_LaunchApplication::SerializeWithCachedSizesToArray(unsigned char*) const
  T CVRMsg_LaunchApplication::SetCachedSize(int) const
  T CVRMsg_LaunchApplication::~CVRMsg_LaunchApplication()
+ T CVRMsg_LaunchApplicationForMimeType::ByteSize() const
+ T CVRMsg_LaunchApplicationForMimeType::CVRMsg_LaunchApplicationForMimeType()
+ T CVRMsg_LaunchApplicationForMimeType::Clear()
+ T CVRMsg_LaunchApplicationForMimeType::GetCachedSize() const
+ T CVRMsg_LaunchApplicationForMimeType::GetMetadata() const
+ T CVRMsg_LaunchApplicationForMimeType::IsInitialized() const
+ T CVRMsg_LaunchApplicationForMimeType::MergeFrom(CVRMsg_LaunchApplicationForMimeType const&)
+ T CVRMsg_LaunchApplicationForMimeType::New() const
+ T CVRMsg_LaunchApplicationForMimeType::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_LaunchApplicationForMimeType::SetCachedSize(int) const
+ T CVRMsg_LaunchApplicationForMimeType::~CVRMsg_LaunchApplicationForMimeType()
+ T CVRMsg_LaunchApplicationForMimeTypeResponse::ByteSize() const
+ T CVRMsg_LaunchApplicationForMimeTypeResponse::CVRMsg_LaunchApplicationForMimeTypeResponse()
+ T CVRMsg_LaunchApplicationForMimeTypeResponse::Clear()
+ T CVRMsg_LaunchApplicationForMimeTypeResponse::GetCachedSize() const
+ T CVRMsg_LaunchApplicationForMimeTypeResponse::GetMetadata() const
+ T CVRMsg_LaunchApplicationForMimeTypeResponse::IsInitialized() const
+ T CVRMsg_LaunchApplicationForMimeTypeResponse::MergeFrom(CVRMsg_LaunchApplicationForMimeTypeResponse const&)
+ T CVRMsg_LaunchApplicationForMimeTypeResponse::New() const
+ T CVRMsg_LaunchApplicationForMimeTypeResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_LaunchApplicationForMimeTypeResponse::SetCachedSize(int) const
+ T CVRMsg_LaunchApplicationForMimeTypeResponse::~CVRMsg_LaunchApplicationForMimeTypeResponse()
  T CVRMsg_LaunchApplicationResponse::ByteSize() const
  T CVRMsg_LaunchApplicationResponse::CVRMsg_LaunchApplicationResponse()
  T CVRMsg_LaunchApplicationResponse::Clear()
@@ -2997,6 +3197,18 @@
  T CVRMsg_LaunchTemplateApplication_AppOverrideKey::SerializeWithCachedSizesToArray(unsigned char*) const
  T CVRMsg_LaunchTemplateApplication_AppOverrideKey::SetCachedSize(int) const
  T CVRMsg_LaunchTemplateApplication_AppOverrideKey::~CVRMsg_LaunchTemplateApplication_AppOverrideKey()
+ T CVRMsg_MimeType::ByteSize() const
+ T CVRMsg_MimeType::CVRMsg_MimeType()
+ T CVRMsg_MimeType::CVRMsg_MimeType(CVRMsg_MimeType const&)
+ T CVRMsg_MimeType::Clear()
+ T CVRMsg_MimeType::GetCachedSize() const
+ T CVRMsg_MimeType::GetMetadata() const
+ T CVRMsg_MimeType::IsInitialized() const
+ T CVRMsg_MimeType::MergeFrom(CVRMsg_MimeType const&)
+ T CVRMsg_MimeType::New() const
+ T CVRMsg_MimeType::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_MimeType::SetCachedSize(int) const
+ T CVRMsg_MimeType::~CVRMsg_MimeType()
  T CVRMsg_PerformApplicationPrelaunchCheck::ByteSize() const
  T CVRMsg_PerformApplicationPrelaunchCheck::CVRMsg_PerformApplicationPrelaunchCheck()
  T CVRMsg_PerformApplicationPrelaunchCheck::Clear()
@@ -3096,6 +3308,28 @@
  T CVRMsg_SetApplicationProcessIdResponse::SerializeWithCachedSizesToArray(unsigned char*) const
  T CVRMsg_SetApplicationProcessIdResponse::SetCachedSize(int) const
  T CVRMsg_SetApplicationProcessIdResponse::~CVRMsg_SetApplicationProcessIdResponse()
+ T CVRMsg_SetDefaultApplicationForMimeType::ByteSize() const
+ T CVRMsg_SetDefaultApplicationForMimeType::CVRMsg_SetDefaultApplicationForMimeType()
+ T CVRMsg_SetDefaultApplicationForMimeType::Clear()
+ T CVRMsg_SetDefaultApplicationForMimeType::GetCachedSize() const
+ T CVRMsg_SetDefaultApplicationForMimeType::GetMetadata() const
+ T CVRMsg_SetDefaultApplicationForMimeType::IsInitialized() const
+ T CVRMsg_SetDefaultApplicationForMimeType::MergeFrom(CVRMsg_SetDefaultApplicationForMimeType const&)
+ T CVRMsg_SetDefaultApplicationForMimeType::New() const
+ T CVRMsg_SetDefaultApplicationForMimeType::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_SetDefaultApplicationForMimeType::SetCachedSize(int) const
+ T CVRMsg_SetDefaultApplicationForMimeType::~CVRMsg_SetDefaultApplicationForMimeType()
+ T CVRMsg_SetDefaultApplicationForMimeTypeResponse::ByteSize() const
+ T CVRMsg_SetDefaultApplicationForMimeTypeResponse::CVRMsg_SetDefaultApplicationForMimeTypeResponse()
+ T CVRMsg_SetDefaultApplicationForMimeTypeResponse::Clear()
+ T CVRMsg_SetDefaultApplicationForMimeTypeResponse::GetCachedSize() const
+ T CVRMsg_SetDefaultApplicationForMimeTypeResponse::GetMetadata() const
+ T CVRMsg_SetDefaultApplicationForMimeTypeResponse::IsInitialized() const
+ T CVRMsg_SetDefaultApplicationForMimeTypeResponse::MergeFrom(CVRMsg_SetDefaultApplicationForMimeTypeResponse const&)
+ T CVRMsg_SetDefaultApplicationForMimeTypeResponse::New() const
+ T CVRMsg_SetDefaultApplicationForMimeTypeResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CVRMsg_SetDefaultApplicationForMimeTypeResponse::SetCachedSize(int) const
+ T CVRMsg_SetDefaultApplicationForMimeTypeResponse::~CVRMsg_SetDefaultApplicationForMimeTypeResponse()
  T CVRMsg_SetMasterProcess::ByteSize() const
  T CVRMsg_SetMasterProcess::CVRMsg_SetMasterProcess()
  T CVRMsg_SetMasterProcess::Clear()
@@ -3345,28 +3579,6 @@
  T CVRMsg_StartAutolaunchOverlays::SerializeWithCachedSizesToArray(unsigned char*) const
  T CVRMsg_StartAutolaunchOverlays::SetCachedSize(int) const
  T CVRMsg_StartAutolaunchOverlays::~CVRMsg_StartAutolaunchOverlays()
- T CVRMsg_StartProcess::ByteSize() const
- T CVRMsg_StartProcess::CVRMsg_StartProcess()
- T CVRMsg_StartProcess::Clear()
- T CVRMsg_StartProcess::GetCachedSize() const
- T CVRMsg_StartProcess::GetMetadata() const
- T CVRMsg_StartProcess::IsInitialized() const
- T CVRMsg_StartProcess::MergeFrom(CVRMsg_StartProcess const&)
- T CVRMsg_StartProcess::New() const
- T CVRMsg_StartProcess::SerializeWithCachedSizesToArray(unsigned char*) const
- T CVRMsg_StartProcess::SetCachedSize(int) const
- T CVRMsg_StartProcess::~CVRMsg_StartProcess()
- T CVRMsg_StartProcessResponse::ByteSize() const
- T CVRMsg_StartProcessResponse::CVRMsg_StartProcessResponse()
- T CVRMsg_StartProcessResponse::Clear()
- T CVRMsg_StartProcessResponse::GetCachedSize() const
- T CVRMsg_StartProcessResponse::GetMetadata() const
- T CVRMsg_StartProcessResponse::IsInitialized() const
- T CVRMsg_StartProcessResponse::MergeFrom(CVRMsg_StartProcessResponse const&)
- T CVRMsg_StartProcessResponse::New() const
- T CVRMsg_StartProcessResponse::SerializeWithCachedSizesToArray(unsigned char*) const
- T CVRMsg_StartProcessResponse::SetCachedSize(int) const
- T CVRMsg_StartProcessResponse::~CVRMsg_StartProcessResponse()
  T CVRMsg_TrackedCamera_AcquireVideoStreamingService::ByteSize() const
  T CVRMsg_TrackedCamera_AcquireVideoStreamingService::CVRMsg_TrackedCamera_AcquireVideoStreamingService()
  T CVRMsg_TrackedCamera_AcquireVideoStreamingService::Clear()
@@ -3542,28 +3754,6 @@
  T CVRMsg_TrackedCamera_GetProjectionResponse::SerializeWithCachedSizesToArray(unsigned char*) const
  T CVRMsg_TrackedCamera_GetProjectionResponse::SetCachedSize(int) const
  T CVRMsg_TrackedCamera_GetProjectionResponse::~CVRMsg_TrackedCamera_GetProjectionResponse()
- T CVRMsg_TrackedCamera_GetRecommendedUndistortion::ByteSize() const
- T CVRMsg_TrackedCamera_GetRecommendedUndistortion::CVRMsg_TrackedCamera_GetRecommendedUndistortion()
- T CVRMsg_TrackedCamera_GetRecommendedUndistortion::Clear()
- T CVRMsg_TrackedCamera_GetRecommendedUndistortion::GetCachedSize() const
- T CVRMsg_TrackedCamera_GetRecommendedUndistortion::GetMetadata() const
- T CVRMsg_TrackedCamera_GetRecommendedUndistortion::IsInitialized() const
- T CVRMsg_TrackedCamera_GetRecommendedUndistortion::MergeFrom(CVRMsg_TrackedCamera_GetRecommendedUndistortion const&)
- T CVRMsg_TrackedCamera_GetRecommendedUndistortion::New() const
- T CVRMsg_TrackedCamera_GetRecommendedUndistortion::SerializeWithCachedSizesToArray(unsigned char*) const
- T CVRMsg_TrackedCamera_GetRecommendedUndistortion::SetCachedSize(int) const
- T CVRMsg_TrackedCamera_GetRecommendedUndistortion::~CVRMsg_TrackedCamera_GetRecommendedUndistortion()
- T CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse::ByteSize() const
- T CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse::CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse()
- T CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse::Clear()
- T CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse::GetCachedSize() const
- T CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse::GetMetadata() const
- T CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse::IsInitialized() const
- T CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse::MergeFrom(CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse const&)
- T CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse::New() const
- T CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse::SerializeWithCachedSizesToArray(unsigned char*) const
- T CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse::SetCachedSize(int) const
- T CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse::~CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse()
  T CVRMsg_TrackedCamera_GetVideoStreamFormat::ByteSize() const
  T CVRMsg_TrackedCamera_GetVideoStreamFormat::CVRMsg_TrackedCamera_GetVideoStreamFormat()
  T CVRMsg_TrackedCamera_GetVideoStreamFormat::Clear()
@@ -3718,28 +3908,6 @@
  T CVRMsg_TrackedCamera_SetCompatibilityModeResponse::SerializeWithCachedSizesToArray(unsigned char*) const
  T CVRMsg_TrackedCamera_SetCompatibilityModeResponse::SetCachedSize(int) const
  T CVRMsg_TrackedCamera_SetCompatibilityModeResponse::~CVRMsg_TrackedCamera_SetCompatibilityModeResponse()
- T CVRMsg_TrackedCamera_SetUndistortion::ByteSize() const
- T CVRMsg_TrackedCamera_SetUndistortion::CVRMsg_TrackedCamera_SetUndistortion()
- T CVRMsg_TrackedCamera_SetUndistortion::Clear()
- T CVRMsg_TrackedCamera_SetUndistortion::GetCachedSize() const
- T CVRMsg_TrackedCamera_SetUndistortion::GetMetadata() const
- T CVRMsg_TrackedCamera_SetUndistortion::IsInitialized() const
- T CVRMsg_TrackedCamera_SetUndistortion::MergeFrom(CVRMsg_TrackedCamera_SetUndistortion const&)
- T CVRMsg_TrackedCamera_SetUndistortion::New() const
- T CVRMsg_TrackedCamera_SetUndistortion::SerializeWithCachedSizesToArray(unsigned char*) const
- T CVRMsg_TrackedCamera_SetUndistortion::SetCachedSize(int) const
- T CVRMsg_TrackedCamera_SetUndistortion::~CVRMsg_TrackedCamera_SetUndistortion()
- T CVRMsg_TrackedCamera_SetUndistortionResponse::ByteSize() const
- T CVRMsg_TrackedCamera_SetUndistortionResponse::CVRMsg_TrackedCamera_SetUndistortionResponse()
- T CVRMsg_TrackedCamera_SetUndistortionResponse::Clear()
- T CVRMsg_TrackedCamera_SetUndistortionResponse::GetCachedSize() const
- T CVRMsg_TrackedCamera_SetUndistortionResponse::GetMetadata() const
- T CVRMsg_TrackedCamera_SetUndistortionResponse::IsInitialized() const
- T CVRMsg_TrackedCamera_SetUndistortionResponse::MergeFrom(CVRMsg_TrackedCamera_SetUndistortionResponse const&)
- T CVRMsg_TrackedCamera_SetUndistortionResponse::New() const
- T CVRMsg_TrackedCamera_SetUndistortionResponse::SerializeWithCachedSizesToArray(unsigned char*) const
- T CVRMsg_TrackedCamera_SetUndistortionResponse::SetCachedSize(int) const
- T CVRMsg_TrackedCamera_SetUndistortionResponse::~CVRMsg_TrackedCamera_SetUndistortionResponse()
  T CVRMsg_TrackedCamera_SetVideoStreamFormat::ByteSize() const
  T CVRMsg_TrackedCamera_SetVideoStreamFormat::CVRMsg_TrackedCamera_SetVideoStreamFormat()
  T CVRMsg_TrackedCamera_SetVideoStreamFormat::Clear()
@@ -3841,6 +4009,8 @@
  T CVROverlayLatest::GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
  T CVROverlayLatest::GetOverlayName(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
  T CVROverlayLatest::GetOverlayRenderingPid(unsigned long long)
+ T CVROverlayLatest::GetOverlaySortOrder(unsigned long long, unsigned int*)
+ T CVROverlayLatest::GetOverlayTexelAspect(unsigned long long, float*)
  T CVROverlayLatest::GetOverlayTexture(unsigned long long, void**, void*, unsigned int*, unsigned int*, unsigned int*, vr::EGraphicsAPIConvention*, vr::EColorSpace*)
  T CVROverlayLatest::GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
  T CVROverlayLatest::GetOverlayTextureColorSpace(unsigned long long, vr::EColorSpace*)
@@ -3878,6 +4048,8 @@
  T CVROverlayLatest::SetOverlayNeighbor(vr::EOverlayDirection, unsigned long long, unsigned long long)
  T CVROverlayLatest::SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
  T CVROverlayLatest::SetOverlayRenderingPid(unsigned long long, unsigned int)
+ T CVROverlayLatest::SetOverlaySortOrder(unsigned long long, unsigned int)
+ T CVROverlayLatest::SetOverlayTexelAspect(unsigned long long, float)
  T CVROverlayLatest::SetOverlayTexture(unsigned long long, vr::Texture_t const*)
  T CVROverlayLatest::SetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t const*)
  T CVROverlayLatest::SetOverlayTextureColorSpace(unsigned long long, vr::EColorSpace)
@@ -4488,6 +4660,74 @@
  T CVROverlay_011::ShowKeyboard(vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
  T CVROverlay_011::ShowKeyboardForOverlay(unsigned long long, vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
  T CVROverlay_011::ShowOverlay(unsigned long long)
+ T CVROverlay_012::ClearOverlayTexture(unsigned long long)
+ T CVROverlay_012::ComputeOverlayIntersection(unsigned long long, vr::VROverlayIntersectionParams_t const*, vr::VROverlayIntersectionResults_t*)
+ T CVROverlay_012::CreateDashboardOverlay(char const*, char const*, unsigned long long*, unsigned long long*)
+ T CVROverlay_012::CreateOverlay(char const*, char const*, unsigned long long*)
+ T CVROverlay_012::DestroyOverlay(unsigned long long)
+ T CVROverlay_012::FindOverlay(char const*, unsigned long long*)
+ T CVROverlay_012::GetDashboardOverlaySceneProcess(unsigned long long, unsigned int*)
+ T CVROverlay_012::GetGamepadFocusOverlay()
+ T CVROverlay_012::GetHighQualityOverlay()
+ T CVROverlay_012::GetKeyboardText(char*, unsigned int)
+ T CVROverlay_012::GetOverlayAlpha(unsigned long long, float*)
+ T CVROverlay_012::GetOverlayAutoCurveDistanceRangeInMeters(unsigned long long, float*, float*)
+ T CVROverlay_012::GetOverlayColor(unsigned long long, float*, float*, float*)
+ T CVROverlay_012::GetOverlayErrorNameFromEnum(vr::EVROverlayError)
+ T CVROverlay_012::GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
+ T CVROverlay_012::GetOverlayImageData(unsigned long long, void*, unsigned int, unsigned int*, unsigned int*)
+ T CVROverlay_012::GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
+ T CVROverlay_012::GetOverlayKey(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
+ T CVROverlay_012::GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
+ T CVROverlay_012::GetOverlayName(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
+ T CVROverlay_012::GetOverlayRenderingPid(unsigned long long)
+ T CVROverlay_012::GetOverlayTexture(unsigned long long, void**, void*, unsigned int*, unsigned int*, unsigned int*, vr::EGraphicsAPIConvention*, vr::EColorSpace*)
+ T CVROverlay_012::GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
+ T CVROverlay_012::GetOverlayTextureColorSpace(unsigned long long, vr::EColorSpace*)
+ T CVROverlay_012::GetOverlayTextureSize(unsigned long long, unsigned int*, unsigned int*)
+ T CVROverlay_012::GetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin*, vr::HmdMatrix34_t*)
+ T CVROverlay_012::GetOverlayTransformTrackedDeviceComponent(unsigned long long, unsigned int*, char*, unsigned int)
+ T CVROverlay_012::GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
+ T CVROverlay_012::GetOverlayTransformType(unsigned long long, vr::VROverlayTransformType*)
+ T CVROverlay_012::GetOverlayWidthInMeters(unsigned long long, float*)
+ T CVROverlay_012::GetPrimaryDashboardDevice()
+ T CVROverlay_012::GetTransformForOverlayCoordinates(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdVector2_t, vr::HmdMatrix34_t*)
+ T CVROverlay_012::HandleControllerOverlayInteractionAsMouse(unsigned long long, unsigned int)
+ T CVROverlay_012::HideKeyboard()
+ T CVROverlay_012::HideOverlay(unsigned long long)
+ T CVROverlay_012::IsActiveDashboardOverlay(unsigned long long)
+ T CVROverlay_012::IsDashboardVisible()
+ T CVROverlay_012::IsHoverTargetOverlay(unsigned long long)
+ T CVROverlay_012::IsOverlayVisible(unsigned long long)
+ T CVROverlay_012::MoveGamepadFocusToNeighbor(vr::EOverlayDirection, unsigned long long)
+ T CVROverlay_012::PollNextOverlayEvent(unsigned long long, vr::VREvent_t*, unsigned int)
+ T CVROverlay_012::ReleaseNativeOverlayHandle(unsigned long long, void*)
+ T CVROverlay_012::SetDashboardOverlaySceneProcess(unsigned long long, unsigned int)
+ T CVROverlay_012::SetGamepadFocusOverlay(unsigned long long)
+ T CVROverlay_012::SetHighQualityOverlay(unsigned long long)
+ T CVROverlay_012::SetKeyboardPositionForOverlay(unsigned long long, vr::HmdRect2_t)
+ T CVROverlay_012::SetKeyboardTransformAbsolute(vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ T CVROverlay_012::SetOverlayAlpha(unsigned long long, float)
+ T CVROverlay_012::SetOverlayAutoCurveDistanceRangeInMeters(unsigned long long, float, float)
+ T CVROverlay_012::SetOverlayColor(unsigned long long, float, float, float)
+ T CVROverlay_012::SetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool)
+ T CVROverlay_012::SetOverlayFromFile(unsigned long long, char const*)
+ T CVROverlay_012::SetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod)
+ T CVROverlay_012::SetOverlayMouseScale(unsigned long long, vr::HmdVector2_t const*)
+ T CVROverlay_012::SetOverlayNeighbor(vr::EOverlayDirection, unsigned long long, unsigned long long)
+ T CVROverlay_012::SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
+ T CVROverlay_012::SetOverlayRenderingPid(unsigned long long, unsigned int)
+ T CVROverlay_012::SetOverlayTexture(unsigned long long, vr::Texture_t const*)
+ T CVROverlay_012::SetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t const*)
+ T CVROverlay_012::SetOverlayTextureColorSpace(unsigned long long, vr::EColorSpace)
+ T CVROverlay_012::SetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ T CVROverlay_012::SetOverlayTransformTrackedDeviceComponent(unsigned long long, unsigned int, char const*)
+ T CVROverlay_012::SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
+ T CVROverlay_012::SetOverlayWidthInMeters(unsigned long long, float)
+ T CVROverlay_012::ShowDashboard(char const*)
+ T CVROverlay_012::ShowKeyboard(vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
+ T CVROverlay_012::ShowKeyboardForOverlay(unsigned long long, vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
+ T CVROverlay_012::ShowOverlay(unsigned long long)
  T CVRPathRegistry::BLoadFromFile()
  T CVRPathRegistry::BSaveToFile() const
  T CVRPathRegistry::CVRPathRegistry()
@@ -4547,6 +4787,13 @@
  T CVRRenderModels_004::LoadTextureD3D11_Async(int, void*, void**)
  T CVRRenderModels_004::LoadTexture_Async(int, vr::RenderModel_TextureMap_t**)
  T CVRRenderModels_004::RenderModelHasComponent(char const*, char const*)
+ T CVRResourcesLatest::AddNamedResourcePath(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T CVRResourcesLatest::BInit(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T CVRResourcesLatest::Cleanup()
+ T CVRResourcesLatest::GetResourceFullPath(char const*, char const*, char*, unsigned int)
+ T CVRResourcesLatest::GetResourceFullPath(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T CVRResourcesLatest::GetResourceNames(std::__1::vector<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T CVRResourcesLatest::LoadSharedResource(char const*, char*, unsigned int)
  T CVRScreenshotsLatest::GetScreenshotPropertyFilename(unsigned int, vr::EVRScreenshotPropertyFilenames, char*, unsigned int, vr::EVRScreenshotError*)
  T CVRScreenshotsLatest::GetScreenshotPropertyType(unsigned int, vr::EVRScreenshotError*)
  T CVRScreenshotsLatest::HookScreenshot(vr::EVRScreenshotType const*, int)
@@ -4630,7 +4877,7 @@
  T CVRSystemLatest::PredictRawPose(vr::ETrackingUniverseOrigin, double, vr::ChaperoneInfo*, VRTrackingState_DeviceInfo_t const&, VRTrackingState_Pose_t const&, vr::TrackedDevicePose_t*)
  T CVRSystemLatest::PushOverlayEvent(VRTrackingState_Event_t, unsigned long long)
  T CVRSystemLatest::ReleaseInputFocus()
- T CVRSystemLatest::Reset(CVRClient*, CRenderModelManager*, vr::IVRControlPanel*)
+ T CVRSystemLatest::Reset(vr::EVRApplicationType, CVRClient*, CRenderModelManager*, vr::IVRControlPanel*)
  T CVRSystemLatest::ResetSeatedZeroPose()
  T CVRSystemLatest::SetAbsoluteTrackingPoseOffset(vr::HmdMatrix34_t const*)
  T CVRSystemLatest::SetClientProvider(vr::IClientTrackedDeviceProvider*)
@@ -5137,14 +5384,20 @@
  T CompositorInterfaceRegistration<CVRCompositor_013>::~CompositorInterfaceRegistration()
  T CompositorInterfaceRegistration<CVRCompositor_014>::GetInterface()
  T CompositorInterfaceRegistration<CVRCompositor_014>::~CompositorInterfaceRegistration()
+ T CompositorInterfaceRegistration<CVRCompositor_015>::GetInterface()
+ T CompositorInterfaceRegistration<CVRCompositor_015>::~CompositorInterfaceRegistration()
  T ComputeOverlayIntersectionInternal(VRCompositor_OverlaySettings_t const*, float, vr::HmdVector3_t, vr::HmdVector3_t, vr::HmdVector2_t*, vr::HmdVector3_t*, vr::HmdVector3_t*, float*)
  T ControlPanelInterfaceRegistration<CVRControlPanel_001>::GetInterface()
  T ControlPanelInterfaceRegistration<CVRControlPanel_001>::~ControlPanelInterfaceRegistration()
+ T ControlPanelInterfaceRegistration<CVRControlPanel_002>::GetInterface()
+ T ControlPanelInterfaceRegistration<CVRControlPanel_002>::~ControlPanelInterfaceRegistration()
  T CreateClientDriverProviderAdapter(void* (*)(char const*, int*), vr::IClientDriverHost*, vr::IDriverLog*, int*)
  T CreateOverlayInternal(VRCompositorState_t*, char const*, char const*, unsigned long long*)
  T CreateServerDriverProviderAdapter(void* (*)(char const*, int*), vr::IServerDriverHost*, vr::IDriverLog*, int*)
  T DXGI2::GetDisplayVisibility(int)
  T DriverCompare(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&)
+ T DriverManifest_t::DriverManifest_t()
+ T DriverManifest_t::FromJson(Json::Value const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T EventWriteString(wchar_t const*)
  T FillDataStruct(_finddata_t*)
  T FindAppByKey(VRApplicationsState_t const*, char const*)
@@ -5314,6 +5567,7 @@
  T Json::Value::Value(unsigned long long)
  T Json::Value::append(Json::Value const&)
  T Json::Value::asBool() const
+ T Json::Value::asCString() const
  T Json::Value::asDouble() const
  T Json::Value::asInt() const
  T Json::Value::asInt64() const
@@ -5323,17 +5577,24 @@
  T Json::Value::asUInt() const
  T Json::Value::asUInt64() const
  T Json::Value::begin() const
+ T Json::Value::clear()
+ T Json::Value::compare(Json::Value const&) const
  T Json::Value::end() const
  T Json::Value::find(char const*, char const*) const
  T Json::Value::get(char const*, Json::Value const&) const
+ T Json::Value::get(char const*, char const*, Json::Value const&) const
  T Json::Value::getComment(Json::CommentPlacement) const
  T Json::Value::getMemberNames() const
  T Json::Value::getString(char const**, char const**) const
  T Json::Value::hasComment(Json::CommentPlacement) const
  T Json::Value::isArray() const
+ T Json::Value::isConvertibleTo(Json::ValueType) const
+ T Json::Value::isIntegral() const
  T Json::Value::isMember(char const*) const
  T Json::Value::isObject() const
+ T Json::Value::isString() const
  T Json::Value::operator!() const
+ T Json::Value::operator<(Json::Value const&) const
  T Json::Value::operator=(Json::Value)
  T Json::Value::operator[](char const*)
  T Json::Value::operator[](char const*) const
@@ -5343,6 +5604,8 @@
  T Json::Value::operator[](std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) const
  T Json::Value::operator[](unsigned int)
  T Json::Value::operator[](unsigned int) const
+ T Json::Value::removeMember(char const*)
+ T Json::Value::removeMember(char const*, char const*, Json::Value*)
  T Json::Value::resolveReference(char const*, char const*)
  T Json::Value::setComment(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, Json::CommentPlacement)
  T Json::Value::setOffsetLimit(unsigned long)
@@ -5393,6 +5656,8 @@
  T OverlayInterfaceRegistration<CVROverlay_010>::~OverlayInterfaceRegistration()
  T OverlayInterfaceRegistration<CVROverlay_011>::GetInterface()
  T OverlayInterfaceRegistration<CVROverlay_011>::~OverlayInterfaceRegistration()
+ T OverlayInterfaceRegistration<CVROverlay_012>::GetInterface()
+ T OverlayInterfaceRegistration<CVROverlay_012>::~OverlayInterfaceRegistration()
  T Path_Compact(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char)
  T Path_Exists(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T Path_FilePathToUrl(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
@@ -5408,6 +5673,7 @@
  T Path_Join(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char)
  T Path_MakeAbsolute(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char)
  T Path_ReadBinaryFile(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, int*)
+ T Path_ReadBinaryFile(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, unsigned char*, unsigned int)
  T Path_ReadTextFile(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T Path_SetWorkingDirectory(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T Path_StripDirectory(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char)
@@ -5415,6 +5681,7 @@
  T Path_StripFilename(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char)
  T Path_WriteStringToTextFile(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char const*)
  T Plat_IsInDebugSession()
+ T ReadDriverManifestFromFile(DriverManifest_t&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T RegisterInterface(char const*, void*)
  T RemoveNotificationsOwnedByOverlay(VRCompositorState_t*, unsigned long long)
  T RenderModelsInterfaceRegistration<CVRRenderModels_001>::GetInterface()
@@ -5426,6 +5693,7 @@
  T RenderModelsInterfaceRegistration<CVRRenderModels_003>::~RenderModelsInterfaceRegistration()
  T RenderModelsInterfaceRegistration<CVRRenderModels_004>::GetInterface()
  T RenderModelsInterfaceRegistration<CVRRenderModels_004>::~RenderModelsInterfaceRegistration()
+ T ReplaceInterface(char const*, void*)
  T RepositionKeyboard(VRCompositorState_t*, vr::TrackedDevicePose_t)
  T ReturnStdString(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char*, unsigned int)
  T ScreenshotsInterfaceRegistration<CVRScreenshots_001>::GetInterface()
@@ -5437,7 +5705,7 @@
  T SharedLib_GetFunction(void*, char const*)
  T SharedLib_Load(char const*)
  T SharedLib_Unload(void*)
- T SortedTrackedDeviceIndicesOfClass(VRTrackingState_t const*, vr::ETrackedDeviceClass, unsigned int*, unsigned int, unsigned int)
+ T SortedTrackedDeviceIndicesOfClass(VRTrackingState_t const*, vr::ETrackedDeviceClass, unsigned int*, unsigned int, unsigned int, bool)
  T SteamThreadTools::CThread::CThread()
  T SteamThreadTools::CThread::GetThreadProc()
  T SteamThreadTools::CThread::Init()
@@ -5507,15 +5775,18 @@
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_CompositorShowDashboardResponse>(unsigned int, unsigned int, CVRMsg_CompositorShowDashboardResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_CompositorSubmitScreenshotResponse>(unsigned int, unsigned int, CVRMsg_CompositorSubmitScreenshotResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_CompositorTakeStereoScreenshotResponse>(unsigned int, unsigned int, CVRMsg_CompositorTakeStereoScreenshotResponse&, unsigned int)
+ T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_CompositorUpdateScreenshotProgressResponse>(unsigned int, unsigned int, CVRMsg_CompositorUpdateScreenshotProgressResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_ComputeDistortionResponse>(unsigned int, unsigned int, CVRMsg_ComputeDistortionResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_ConnectResponse>(unsigned int, unsigned int, CVRMsg_ConnectResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_CreateSwapTextureSetResponse>(unsigned int, unsigned int, CVRMsg_CreateSwapTextureSetResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_DriverDebugResponse>(unsigned int, unsigned int, CVRMsg_DriverDebugResponse&, unsigned int)
+ T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_GetApplicationLaunchArgumentsResponse>(unsigned int, unsigned int, CVRMsg_GetApplicationLaunchArgumentsResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_GetDisplayInfoResponse>(unsigned int, unsigned int, CVRMsg_GetDisplayInfoResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_GetDriverDetailResponse>(unsigned int, unsigned int, CVRMsg_GetDriverDetailResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_GetDriverInfoResponse>(unsigned int, unsigned int, CVRMsg_GetDriverInfoResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_GetPropertyResponse>(unsigned int, unsigned int, CVRMsg_GetPropertyResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_InputCaptureResponse>(unsigned int, unsigned int, CVRMsg_InputCaptureResponse&, unsigned int)
+ T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_LaunchApplicationForMimeTypeResponse>(unsigned int, unsigned int, CVRMsg_LaunchApplicationForMimeTypeResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_LaunchApplicationResponse>(unsigned int, unsigned int, CVRMsg_LaunchApplicationResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_LaunchInternalProcessResponse>(unsigned int, unsigned int, CVRMsg_LaunchInternalProcessResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_LaunchTemplateApplicationResponse>(unsigned int, unsigned int, CVRMsg_LaunchTemplateApplicationResponse&, unsigned int)
@@ -5523,6 +5794,7 @@
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_QuitProcessResponse>(unsigned int, unsigned int, CVRMsg_QuitProcessResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_SetApplicationOptionsResponse>(unsigned int, unsigned int, CVRMsg_SetApplicationOptionsResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_SetApplicationProcessIdResponse>(unsigned int, unsigned int, CVRMsg_SetApplicationProcessIdResponse&, unsigned int)
+ T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_SetDefaultApplicationForMimeTypeResponse>(unsigned int, unsigned int, CVRMsg_SetDefaultApplicationForMimeTypeResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_SetMasterProcessResponse>(unsigned int, unsigned int, CVRMsg_SetMasterProcessResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_SetNotificationImageResponse>(unsigned int, unsigned int, CVRMsg_SetNotificationImageResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_Settings_GetBool_Response>(unsigned int, unsigned int, CVRMsg_Settings_GetBool_Response&, unsigned int)
@@ -5531,7 +5803,6 @@
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_Settings_GetString_Response>(unsigned int, unsigned int, CVRMsg_Settings_GetString_Response&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_Settings_SetValue_Response>(unsigned int, unsigned int, CVRMsg_Settings_SetValue_Response&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_Settings_Sync_Response>(unsigned int, unsigned int, CVRMsg_Settings_Sync_Response&, unsigned int)
- T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_StartProcessResponse>(unsigned int, unsigned int, CVRMsg_StartProcessResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_AcquireVideoStreamingServiceResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_AcquireVideoStreamingServiceResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_EnableResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_EnableResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_GetDistortionResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_GetDistortionResponse&, unsigned int)
@@ -5539,7 +5810,6 @@
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_GetFrameBoundsResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_GetFrameBoundsResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_GetIntrinsicsResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_GetIntrinsicsResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_GetProjectionResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_GetProjectionResponse&, unsigned int)
- T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_GetVideoStreamFormatResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_GetVideoStreamFormatResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_IsVideoStreamActiveResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_IsVideoStreamActiveResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_PauseVideoStreamResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_PauseVideoStreamResponse&, unsigned int)
@@ -5547,7 +5817,6 @@
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_ResumeVideoStreamResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_ResumeVideoStreamResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_SetAutoExposureResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_SetAutoExposureResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_SetCompatibilityModeResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_SetCompatibilityModeResponse&, unsigned int)
- T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_SetUndistortionResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_SetUndistortionResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_SetVideoStreamFormatResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_SetVideoStreamFormatResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_StartVideoStreamResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_StartVideoStreamResponse&, unsigned int)
  T bool CIPCPipe::ReceiveProtobufMessage<CVRMsg_TrackedCamera_StopVideoStreamResponse>(unsigned int, unsigned int, CVRMsg_TrackedCamera_StopVideoStreamResponse&, unsigned int)
@@ -5565,23 +5834,27 @@
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_CompositorShowDashboard, CVRMsg_CompositorShowDashboardResponse>(unsigned int, CVRMsg_CompositorShowDashboard const&, unsigned int, CVRMsg_CompositorShowDashboardResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_CompositorSubmitScreenshot, CVRMsg_CompositorSubmitScreenshotResponse>(unsigned int, CVRMsg_CompositorSubmitScreenshot const&, unsigned int, CVRMsg_CompositorSubmitScreenshotResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_CompositorTakeStereoScreenshot, CVRMsg_CompositorTakeStereoScreenshotResponse>(unsigned int, CVRMsg_CompositorTakeStereoScreenshot const&, unsigned int, CVRMsg_CompositorTakeStereoScreenshotResponse&, unsigned int)
+ T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_CompositorUpdateScreenshotProgress, CVRMsg_CompositorUpdateScreenshotProgressResponse>(unsigned int, CVRMsg_CompositorUpdateScreenshotProgress const&, unsigned int, CVRMsg_CompositorUpdateScreenshotProgressResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_ComputeDistortion, CVRMsg_ComputeDistortionResponse>(unsigned int, CVRMsg_ComputeDistortion const&, unsigned int, CVRMsg_ComputeDistortionResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_Connect, CVRMsg_ConnectResponse>(unsigned int, CVRMsg_Connect const&, unsigned int, CVRMsg_ConnectResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_CreateSwapTextureSet, CVRMsg_CreateSwapTextureSetResponse>(unsigned int, CVRMsg_CreateSwapTextureSet const&, unsigned int, CVRMsg_CreateSwapTextureSetResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_DriverDebugRequest, CVRMsg_DriverDebugResponse>(unsigned int, CVRMsg_DriverDebugRequest const&, unsigned int, CVRMsg_DriverDebugResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_GetApplicationInfo, CVRMsg_ApplicationInfo>(unsigned int, CVRMsg_GetApplicationInfo const&, unsigned int, CVRMsg_ApplicationInfo&, unsigned int)
+ T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_GetApplicationLaunchArguments, CVRMsg_GetApplicationLaunchArgumentsResponse>(unsigned int, CVRMsg_GetApplicationLaunchArguments const&, unsigned int, CVRMsg_GetApplicationLaunchArgumentsResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_GetDisplayInfo, CVRMsg_GetDisplayInfoResponse>(unsigned int, CVRMsg_GetDisplayInfo const&, unsigned int, CVRMsg_GetDisplayInfoResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_GetDriverDetail, CVRMsg_GetDriverDetailResponse>(unsigned int, CVRMsg_GetDriverDetail const&, unsigned int, CVRMsg_GetDriverDetailResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_GetDriverInfo, CVRMsg_GetDriverInfoResponse>(unsigned int, CVRMsg_GetDriverInfo const&, unsigned int, CVRMsg_GetDriverInfoResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_GetProperty, CVRMsg_GetPropertyResponse>(unsigned int, CVRMsg_GetProperty const&, unsigned int, CVRMsg_GetPropertyResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_InputCaptureRequest, CVRMsg_InputCaptureResponse>(unsigned int, CVRMsg_InputCaptureRequest const&, unsigned int, CVRMsg_InputCaptureResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_LaunchApplication, CVRMsg_LaunchApplicationResponse>(unsigned int, CVRMsg_LaunchApplication const&, unsigned int, CVRMsg_LaunchApplicationResponse&, unsigned int)
+ T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_LaunchApplicationForMimeType, CVRMsg_LaunchApplicationForMimeTypeResponse>(unsigned int, CVRMsg_LaunchApplicationForMimeType const&, unsigned int, CVRMsg_LaunchApplicationForMimeTypeResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_LaunchInternalProcess, CVRMsg_LaunchInternalProcessResponse>(unsigned int, CVRMsg_LaunchInternalProcess const&, unsigned int, CVRMsg_LaunchInternalProcessResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_LaunchTemplateApplication, CVRMsg_LaunchTemplateApplicationResponse>(unsigned int, CVRMsg_LaunchTemplateApplication const&, unsigned int, CVRMsg_LaunchTemplateApplicationResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_PerformApplicationPrelaunchCheck, CVRMsg_PerformApplicationPrelaunchCheckResponse>(unsigned int, CVRMsg_PerformApplicationPrelaunchCheck const&, unsigned int, CVRMsg_PerformApplicationPrelaunchCheckResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_QuitProcessRequest, CVRMsg_QuitProcessResponse>(unsigned int, CVRMsg_QuitProcessRequest const&, unsigned int, CVRMsg_QuitProcessResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_SetApplicationOptions, CVRMsg_SetApplicationOptionsResponse>(unsigned int, CVRMsg_SetApplicationOptions const&, unsigned int, CVRMsg_SetApplicationOptionsResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_SetApplicationProcessId, CVRMsg_SetApplicationProcessIdResponse>(unsigned int, CVRMsg_SetApplicationProcessId const&, unsigned int, CVRMsg_SetApplicationProcessIdResponse&, unsigned int)
+ T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_SetDefaultApplicationForMimeType, CVRMsg_SetDefaultApplicationForMimeTypeResponse>(unsigned int, CVRMsg_SetDefaultApplicationForMimeType const&, unsigned int, CVRMsg_SetDefaultApplicationForMimeTypeResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_SetMasterProcess, CVRMsg_SetMasterProcessResponse>(unsigned int, CVRMsg_SetMasterProcess const&, unsigned int, CVRMsg_SetMasterProcessResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_SetNotificationImage, CVRMsg_SetNotificationImageResponse>(unsigned int, CVRMsg_SetNotificationImage const&, unsigned int, CVRMsg_SetNotificationImageResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_Settings_GetBool, CVRMsg_Settings_GetBool_Response>(unsigned int, CVRMsg_Settings_GetBool const&, unsigned int, CVRMsg_Settings_GetBool_Response&, unsigned int)
@@ -5595,7 +5868,6 @@
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_Settings_SetInt32, CVRMsg_Settings_SetValue_Response>(unsigned int, CVRMsg_Settings_SetInt32 const&, unsigned int, CVRMsg_Settings_SetValue_Response&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_Settings_SetString, CVRMsg_Settings_SetValue_Response>(unsigned int, CVRMsg_Settings_SetString const&, unsigned int, CVRMsg_Settings_SetValue_Response&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_Settings_Sync, CVRMsg_Settings_Sync_Response>(unsigned int, CVRMsg_Settings_Sync const&, unsigned int, CVRMsg_Settings_Sync_Response&, unsigned int)
- T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_StartProcess, CVRMsg_StartProcessResponse>(unsigned int, CVRMsg_StartProcess const&, unsigned int, CVRMsg_StartProcessResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_AcquireVideoStreamingService, CVRMsg_TrackedCamera_AcquireVideoStreamingServiceResponse>(unsigned int, CVRMsg_TrackedCamera_AcquireVideoStreamingService const&, unsigned int, CVRMsg_TrackedCamera_AcquireVideoStreamingServiceResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_Enable, CVRMsg_TrackedCamera_EnableResponse>(unsigned int, CVRMsg_TrackedCamera_Enable const&, unsigned int, CVRMsg_TrackedCamera_EnableResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_GetDistortion, CVRMsg_TrackedCamera_GetDistortionResponse>(unsigned int, CVRMsg_TrackedCamera_GetDistortion const&, unsigned int, CVRMsg_TrackedCamera_GetDistortionResponse&, unsigned int)
@@ -5603,7 +5875,6 @@
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_GetFrameBounds, CVRMsg_TrackedCamera_GetFrameBoundsResponse>(unsigned int, CVRMsg_TrackedCamera_GetFrameBounds const&, unsigned int, CVRMsg_TrackedCamera_GetFrameBoundsResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_GetIntrinsics, CVRMsg_TrackedCamera_GetIntrinsicsResponse>(unsigned int, CVRMsg_TrackedCamera_GetIntrinsics const&, unsigned int, CVRMsg_TrackedCamera_GetIntrinsicsResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_GetProjection, CVRMsg_TrackedCamera_GetProjectionResponse>(unsigned int, CVRMsg_TrackedCamera_GetProjection const&, unsigned int, CVRMsg_TrackedCamera_GetProjectionResponse&, unsigned int)
- T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_GetRecommendedUndistortion, CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse>(unsigned int, CVRMsg_TrackedCamera_GetRecommendedUndistortion const&, unsigned int, CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_GetVideoStreamFormat, CVRMsg_TrackedCamera_GetVideoStreamFormatResponse>(unsigned int, CVRMsg_TrackedCamera_GetVideoStreamFormat const&, unsigned int, CVRMsg_TrackedCamera_GetVideoStreamFormatResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_IsVideoStreamActive, CVRMsg_TrackedCamera_IsVideoStreamActiveResponse>(unsigned int, CVRMsg_TrackedCamera_IsVideoStreamActive const&, unsigned int, CVRMsg_TrackedCamera_IsVideoStreamActiveResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_PauseVideoStream, CVRMsg_TrackedCamera_PauseVideoStreamResponse>(unsigned int, CVRMsg_TrackedCamera_PauseVideoStream const&, unsigned int, CVRMsg_TrackedCamera_PauseVideoStreamResponse&, unsigned int)
@@ -5611,17 +5882,15 @@
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_ResumeVideoStream, CVRMsg_TrackedCamera_ResumeVideoStreamResponse>(unsigned int, CVRMsg_TrackedCamera_ResumeVideoStream const&, unsigned int, CVRMsg_TrackedCamera_ResumeVideoStreamResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_SetAutoExposure, CVRMsg_TrackedCamera_SetAutoExposureResponse>(unsigned int, CVRMsg_TrackedCamera_SetAutoExposure const&, unsigned int, CVRMsg_TrackedCamera_SetAutoExposureResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_SetCompatibilityMode, CVRMsg_TrackedCamera_SetCompatibilityModeResponse>(unsigned int, CVRMsg_TrackedCamera_SetCompatibilityMode const&, unsigned int, CVRMsg_TrackedCamera_SetCompatibilityModeResponse&, unsigned int)
- T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_SetUndistortion, CVRMsg_TrackedCamera_SetUndistortionResponse>(unsigned int, CVRMsg_TrackedCamera_SetUndistortion const&, unsigned int, CVRMsg_TrackedCamera_SetUndistortionResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_SetVideoStreamFormat, CVRMsg_TrackedCamera_SetVideoStreamFormatResponse>(unsigned int, CVRMsg_TrackedCamera_SetVideoStreamFormat const&, unsigned int, CVRMsg_TrackedCamera_SetVideoStreamFormatResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_StartVideoStream, CVRMsg_TrackedCamera_StartVideoStreamResponse>(unsigned int, CVRMsg_TrackedCamera_StartVideoStream const&, unsigned int, CVRMsg_TrackedCamera_StartVideoStreamResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_StopVideoStream, CVRMsg_TrackedCamera_StopVideoStreamResponse>(unsigned int, CVRMsg_TrackedCamera_StopVideoStream const&, unsigned int, CVRMsg_TrackedCamera_StopVideoStreamResponse&, unsigned int)
  T bool std::__1::__insertion_sort_incomplete<bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&), CDriverManager::HmdDriver_t*>(CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&))
+ T bool std::__1::__lexicographical_compare<std::__1::__less<std::__1::pair<Json::Value::CZString const, Json::Value>, std::__1::pair<Json::Value::CZString const, Json::Value> >&, std::__1::__map_const_iterator<std::__1::__tree_const_iterator<std::__1::__value_type<Json::Value::CZString, Json::Value>, std::__1::__tree_node<std::__1::__value_type<Json::Value::CZString, Json::Value>, void*>*, long> >, std::__1::__map_const_iterator<std::__1::__tree_const_iterator<std::__1::__value_type<Json::Value::CZString, Json::Value>, std::__1::__tree_node<std::__1::__value_type<Json::Value::CZString, Json::Value>, void*>*, long> > >(std::__1::__map_const_iterator<std::__1::__tree_const_iterator<std::__1::__value_type<Json::Value::CZString, Json::Value>, std::__1::__tree_node<std::__1::__value_type<Json::Value::CZString, Json::Value>, void*>*, long> >, std::__1::__map_const_iterator<std::__1::__tree_const_iterator<std::__1::__value_type<Json::Value::CZString, Json::Value>, std::__1::__tree_node<std::__1::__value_type<Json::Value::CZString, Json::Value>, void*>*, long> >, std::__1::__map_const_iterator<std::__1::__tree_const_iterator<std::__1::__value_type<Json::Value::CZString, Json::Value>, std::__1::__tree_node<std::__1::__value_type<Json::Value::CZString, Json::Value>, void*>*, long> >, std::__1::__map_const_iterator<std::__1::__tree_const_iterator<std::__1::__value_type<Json::Value::CZString, Json::Value>, std::__1::__tree_node<std::__1::__value_type<Json::Value::CZString, Json::Value>, void*>*, long> >, std::__1::__less<std::__1::pair<Json::Value::CZString const, Json::Value>, std::__1::pair<Json::Value::CZString const, Json::Value> >&)
  T non-virtual thunk to CHmdSystemLatest::AbortTransition()
  T non-virtual thunk to CHmdSystemLatest::DismissDashboard()
  T non-virtual thunk to CHmdSystemLatest::ForceQuitProcess(unsigned int)
  T non-virtual thunk to CHmdSystemLatest::GetBoolTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
- T non-virtual thunk to CHmdSystemLatest::GetCurrentCompositorInterface(char const*)
- T non-virtual thunk to CHmdSystemLatest::GetCurrentDisplayInterface(char const*)
  T non-virtual thunk to CHmdSystemLatest::GetDashboardEnabled()
  T non-virtual thunk to CHmdSystemLatest::GetDriverCount()
  T non-virtual thunk to CHmdSystemLatest::GetDriverDisplayCount(char const*)
@@ -5631,8 +5900,9 @@
  T non-virtual thunk to CHmdSystemLatest::GetDriverId(unsigned int, char*, unsigned int)
  T non-virtual thunk to CHmdSystemLatest::GetDriverInitError(char const*)
  T non-virtual thunk to CHmdSystemLatest::GetFloatTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
- T non-virtual thunk to CHmdSystemLatest::GetIPD()
  T non-virtual thunk to CHmdSystemLatest::GetInt32TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
+ T non-virtual thunk to CHmdSystemLatest::GetResourceFullPath(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T non-virtual thunk to CHmdSystemLatest::GetResourceNames(std::__1::vector<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T non-virtual thunk to CHmdSystemLatest::GetSettings(char const*)
  T non-virtual thunk to CHmdSystemLatest::GetSettingsDirtyCount()
  T non-virtual thunk to CHmdSystemLatest::GetStringTrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, char*, unsigned int, vr::ETrackedPropertyError*)
@@ -5640,18 +5910,16 @@
  T non-virtual thunk to CHmdSystemLatest::GetUint64TrackedDeviceProperty(unsigned int, vr::ETrackedDeviceProperty, vr::ETrackedPropertyError*)
  T non-virtual thunk to CHmdSystemLatest::GetVRMonitorState()
  T non-virtual thunk to CHmdSystemLatest::IsTrackedDeviceConnected(unsigned int)
- T non-virtual thunk to CHmdSystemLatest::LoadSharedResource(char const*, char*, unsigned int)
  T non-virtual thunk to CHmdSystemLatest::PostOverlayEvent(unsigned long long, vr::VREvent_t const&)
  T non-virtual thunk to CHmdSystemLatest::PowerOffTrackedDevice(unsigned int)
  T non-virtual thunk to CHmdSystemLatest::PrepareInternalProcessTransition(unsigned int, unsigned int)
  T non-virtual thunk to CHmdSystemLatest::QuitProcess(unsigned int)
  T non-virtual thunk to CHmdSystemLatest::SetDashboardEnabled(bool)
- T non-virtual thunk to CHmdSystemLatest::SetIPD(float)
  T non-virtual thunk to CHmdSystemLatest::SetMasterProcessToThis()
  T non-virtual thunk to CHmdSystemLatest::SetVRMonitorState(vr::EVRState)
  T non-virtual thunk to CHmdSystemLatest::StartAutolaunchOverlays()
- T non-virtual thunk to CHmdSystemLatest::StartVRProcess(char const*, char const**, unsigned int, char const*)
  T non-virtual thunk to CHmdSystemLatest::TopologyChanged()
+ T non-virtual thunk to CHmdSystemLatest::WatchdogWakeUp()
  T non-virtual thunk to CRenderModelManager::RegisterTextureFilePath(char const*)
  T non-virtual thunk to CVRCompositorClient::BeginFrame_DEPRECATED(vr::EVREye, vr::TrackedDevicePose_t*, unsigned int)
  T non-virtual thunk to CVRCompositorClient::EndFrame_DEPRECATED(vr::EVREye, void*, vr::VRTextureBounds_t*)
@@ -5701,17 +5969,14 @@
  T non-virtual thunk to vr::CVRTrackedCamera::GetCameraFormatDimensions(unsigned int, vr::ECameraVideoStreamFormat, unsigned int*, unsigned int*)
  T non-virtual thunk to vr::CVRTrackedCamera::GetCameraFrameBounds(unsigned int, vr::EVRTrackedCameraFrameType, unsigned int*, unsigned int*, unsigned int*, unsigned int*, unsigned int*)
  T non-virtual thunk to vr::CVRTrackedCamera::GetCameraVideoStreamFormat(unsigned int, vr::ECameraVideoStreamFormat*)
- T non-virtual thunk to vr::CVRTrackedCamera::GetRecommendedCameraUndistortion(unsigned int, unsigned int*, unsigned int*)
  T non-virtual thunk to vr::CVRTrackedCamera::GetVideoStreamFrame(unsigned int, vr::CameraVideoStreamFrame_t const**)
- T non-virtual thunk to vr::CVRTrackedCamera::GetVideoStreamFrameSharedTextureGL(unsigned long long, vr::EVRTrackedCameraFrameType, unsigned int*, vr::CameraVideoStreamFrame_t*)
+ T non-virtual thunk to vr::CVRTrackedCamera::GetVideoStreamTextureGL(unsigned long long, vr::EVRTrackedCameraFrameType, unsigned int*, vr::CameraVideoStreamFrame_t*)
  T non-virtual thunk to vr::CVRTrackedCamera::IsVideoStreamActive(unsigned int, bool*, bool*, float*)
  T non-virtual thunk to vr::CVRTrackedCamera::PauseVideoStream(unsigned int)
  T non-virtual thunk to vr::CVRTrackedCamera::ReleaseVideoStreamFrame(unsigned int, vr::CameraVideoStreamFrame_t const*)
- T non-virtual thunk to vr::CVRTrackedCamera::ReleaseVideoStreamFrameSharedTextureGL(unsigned long long, unsigned int)
  T non-virtual thunk to vr::CVRTrackedCamera::ResumeVideoStream(unsigned int)
  T non-virtual thunk to vr::CVRTrackedCamera::SetAutoExposure(unsigned int, bool)
  T non-virtual thunk to vr::CVRTrackedCamera::SetCameraCompatibilityMode(unsigned int, vr::ECameraCompatibilityMode)
- T non-virtual thunk to vr::CVRTrackedCamera::SetCameraUndistortion(unsigned int, unsigned int, unsigned int)
  T non-virtual thunk to vr::CVRTrackedCamera::SetCameraVideoStreamFormat(unsigned int, vr::ECameraVideoStreamFormat)
  T non-virtual thunk to vr::CVRTrackedCamera::StartVideoStream(unsigned int)
  T non-virtual thunk to vr::CVRTrackedCamera::StopVideoStream(unsigned int)
@@ -5751,6 +6016,8 @@
  T std::__1::__tree<int, std::__1::less<int>, std::__1::allocator<int> >::__node_insert_unique(std::__1::__tree_node<int, void*>*)
  T std::__1::__tree<int, std::__1::less<int>, std::__1::allocator<int> >::destroy(std::__1::__tree_node<int, void*>*)
  T std::__1::__tree<std::__1::__value_type<Json::Value::CZString, Json::Value>, std::__1::__map_value_compare<Json::Value::CZString, std::__1::__value_type<Json::Value::CZString, Json::Value>, std::__1::less<Json::Value::CZString>, true>, std::__1::allocator<std::__1::__value_type<Json::Value::CZString, Json::Value> > >::destroy(std::__1::__tree_node<std::__1::__value_type<Json::Value::CZString, Json::Value>, void*>*)
+ T std::__1::__tree<std::__1::__value_type<Json::Value::CZString, Json::Value>, std::__1::__map_value_compare<Json::Value::CZString, std::__1::__value_type<Json::Value::CZString, Json::Value>, std::__1::less<Json::Value::CZString>, true>, std::__1::allocator<std::__1::__value_type<Json::Value::CZString, Json::Value> > >::erase(std::__1::__tree_const_iterator<std::__1::__value_type<Json::Value::CZString, Json::Value>, std::__1::__tree_node<std::__1::__value_type<Json::Value::CZString, Json::Value>, void*>*, int>)
+ T std::__1::__tree<std::__1::__value_type<Json::Value::CZString, Json::Value>, std::__1::__map_value_compare<Json::Value::CZString, std::__1::__value_type<Json::Value::CZString, Json::Value>, std::__1::less<Json::Value::CZString>, true>, std::__1::allocator<std::__1::__value_type<Json::Value::CZString, Json::Value> > >::erase(std::__1::__tree_const_iterator<std::__1::__value_type<Json::Value::CZString, Json::Value>, std::__1::__tree_node<std::__1::__value_type<Json::Value::CZString, Json::Value>, void*>*, long>)
  T std::__1::__tree<std::__1::__value_type<int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::__map_value_compare<int, std::__1::__value_type<int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::less<int>, true>, std::__1::allocator<std::__1::__value_type<int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >::__insert_node_at(std::__1::__tree_node_base<void*>*, std::__1::__tree_node_base<void*>*&, std::__1::__tree_node_base<void*>*)
  T std::__1::__tree<std::__1::__value_type<int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::__map_value_compare<int, std::__1::__value_type<int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::less<int>, true>, std::__1::allocator<std::__1::__value_type<int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >::destroy(std::__1::__tree_node<std::__1::__value_type<int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, void*>*)
  T std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, CRenderModelManager::ModelInfo_t*>, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, CRenderModelManager::ModelInfo_t*>, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, CRenderModelManager::ModelInfo_t*> > >::destroy(std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, CRenderModelManager::ModelInfo_t*>, void*>*)
@@ -5779,13 +6046,12 @@
  T std::__1::__tree<std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, CVRMsg_Settings_GetString_Response>, std::__1::__map_value_compare<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, CVRMsg_Settings_GetString_Response>, std::__1::less<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, CVRMsg_Settings_GetString_Response> > >::erase(std::__1::__tree_const_iterator<std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, CVRMsg_Settings_GetString_Response>, std::__1::__tree_node<std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, CVRMsg_Settings_GetString_Response>, void*>*, long>)
  T std::__1::__tree<std::__1::__value_type<tinyobj::vertex_index, unsigned int>, std::__1::__map_value_compare<tinyobj::vertex_index, std::__1::__value_type<tinyobj::vertex_index, unsigned int>, std::__1::less<tinyobj::vertex_index>, true>, std::__1::allocator<std::__1::__value_type<tinyobj::vertex_index, unsigned int> > >::destroy(std::__1::__tree_node<std::__1::__value_type<tinyobj::vertex_index, unsigned int>, void*>*)
  T std::__1::__tree<std::__1::__value_type<unsigned int, CVRCompositorSharedTextures::SharedTextureEntry>, std::__1::__map_value_compare<unsigned int, std::__1::__value_type<unsigned int, CVRCompositorSharedTextures::SharedTextureEntry>, std::__1::less<unsigned int>, true>, std::__1::allocator<std::__1::__value_type<unsigned int, CVRCompositorSharedTextures::SharedTextureEntry> > >::destroy(std::__1::__tree_node<std::__1::__value_type<unsigned int, CVRCompositorSharedTextures::SharedTextureEntry>, void*>*)
+ T std::__1::__tree<std::__1::__value_type<unsigned int, void*>, std::__1::__map_value_compare<unsigned int, std::__1::__value_type<unsigned int, void*>, std::__1::less<unsigned int>, true>, std::__1::allocator<std::__1::__value_type<unsigned int, void*> > >::destroy(std::__1::__tree_node<std::__1::__value_type<unsigned int, void*>, void*>*)
  T std::__1::__tree<std::__1::__value_type<unsigned long long, std::__1::pair<vr::RenderModel_t*, vr::RenderModel_TextureMap_t*> >, std::__1::__map_value_compare<unsigned long long, std::__1::__value_type<unsigned long long, std::__1::pair<vr::RenderModel_t*, vr::RenderModel_TextureMap_t*> >, std::__1::less<unsigned long long>, true>, std::__1::allocator<std::__1::__value_type<unsigned long long, std::__1::pair<vr::RenderModel_t*, vr::RenderModel_TextureMap_t*> > > >::destroy(std::__1::__tree_node<std::__1::__value_type<unsigned long long, std::__1::pair<vr::RenderModel_t*, vr::RenderModel_TextureMap_t*> >, void*>*)
  T std::__1::__tree<std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*>, std::__1::__map_value_compare<unsigned long long, std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*>, std::__1::less<unsigned long long>, true>, std::__1::allocator<std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*> > >::__node_insert_unique(std::__1::__tree_node<std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*>, void*>*)
  T std::__1::__tree<std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*>, std::__1::__map_value_compare<unsigned long long, std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*>, std::__1::less<unsigned long long>, true>, std::__1::allocator<std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*> > >::destroy(std::__1::__tree_node<std::__1::__value_type<unsigned long long, vr::ChaperoneInfo*>, void*>*)
  T std::__1::__tree<std::__1::__value_type<vr::ETrackedDeviceProperty, CVRMsg_GetPropertyResponse>, std::__1::__map_value_compare<vr::ETrackedDeviceProperty, std::__1::__value_type<vr::ETrackedDeviceProperty, CVRMsg_GetPropertyResponse>, std::__1::less<vr::ETrackedDeviceProperty>, true>, std::__1::allocator<std::__1::__value_type<vr::ETrackedDeviceProperty, CVRMsg_GetPropertyResponse> > >::destroy(std::__1::__tree_node<std::__1::__value_type<vr::ETrackedDeviceProperty, CVRMsg_GetPropertyResponse>, void*>*)
  T std::__1::__tree<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >::__insert_node_at(std::__1::__tree_node_base<void*>*, std::__1::__tree_node_base<void*>*&, std::__1::__tree_node_base<void*>*)
- T std::__1::__tree<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >::__insert_unique(std::__1::__tree_const_iterator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__tree_node<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, void*>*, int>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
- T std::__1::__tree<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >::__insert_unique(std::__1::__tree_const_iterator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__tree_node<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, void*>*, long>, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T std::__1::__tree<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >::__insert_unique(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T std::__1::__tree<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >::destroy(std::__1::__tree_node<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, void*>*)
  T std::__1::__tree_const_iterator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, void*>*, int> std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> > > >::__lower_bound<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, void*>*, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, void*>*) const
@@ -5813,7 +6079,9 @@
  T std::__1::__tree_iterator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, void*>*, int> std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int> > >::find<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T std::__1::__tree_iterator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, void*>*, long> std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int> > >::find<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T std::__1::__tree_iterator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, void*>*, int> std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >::__insert_unique<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > const&>(std::__1::__tree_const_iterator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, void*>*, int>, std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > const&)
+ T std::__1::__tree_iterator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, void*>*, int> std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >::find<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T std::__1::__tree_iterator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, void*>*, long> std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >::__insert_unique<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > const&>(std::__1::__tree_const_iterator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, void*>*, long>, std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > const&)
+ T std::__1::__tree_iterator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, void*>*, long> std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >::find<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T std::__1::__tree_iterator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, void*>*, int> std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> > > >::__insert_unique<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::pair<void const*, int> > >(std::__1::__tree_const_iterator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, void*>*, int>, std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::pair<void const*, int> >&&)
  T std::__1::__tree_iterator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, void*>*, int> std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> > > >::__upper_bound<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, void*>*, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, void*>*)
  T std::__1::__tree_iterator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, void*>*, long> std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> > > >::__insert_unique<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::pair<void const*, int> > >(std::__1::__tree_const_iterator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<void const*, int> >, void*>*, long>, std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::pair<void const*, int> >&&)
@@ -5854,8 +6122,6 @@
  T std::__1::__tree_node_base<void*>*& std::__1::__tree<std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::pair<void const*, int> >, std::__1::__map_value_compare<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::pair<void const*, int> >, std::__1::less<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int> >, true>, std::__1::allocator<std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::pair<void const*, int> > > >::__find_equal<std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::pair<void const*, int> > >(std::__1::__tree_node_base<void*>*&, std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::pair<void const*, int> > const&)
  T std::__1::__tree_node_base<void*>*& std::__1::__tree<std::__1::__value_type<tinyobj::vertex_index, unsigned int>, std::__1::__map_value_compare<tinyobj::vertex_index, std::__1::__value_type<tinyobj::vertex_index, unsigned int>, std::__1::less<tinyobj::vertex_index>, true>, std::__1::allocator<std::__1::__value_type<tinyobj::vertex_index, unsigned int> > >::__find_equal<std::__1::__value_type<tinyobj::vertex_index, unsigned int> >(std::__1::__tree_const_iterator<std::__1::__value_type<tinyobj::vertex_index, unsigned int>, std::__1::__tree_node<std::__1::__value_type<tinyobj::vertex_index, unsigned int>, void*>*, int>, std::__1::__tree_node_base<void*>*&, std::__1::__value_type<tinyobj::vertex_index, unsigned int> const&)
  T std::__1::__tree_node_base<void*>*& std::__1::__tree<std::__1::__value_type<tinyobj::vertex_index, unsigned int>, std::__1::__map_value_compare<tinyobj::vertex_index, std::__1::__value_type<tinyobj::vertex_index, unsigned int>, std::__1::less<tinyobj::vertex_index>, true>, std::__1::allocator<std::__1::__value_type<tinyobj::vertex_index, unsigned int> > >::__find_equal<std::__1::__value_type<tinyobj::vertex_index, unsigned int> >(std::__1::__tree_const_iterator<std::__1::__value_type<tinyobj::vertex_index, unsigned int>, std::__1::__tree_node<std::__1::__value_type<tinyobj::vertex_index, unsigned int>, void*>*, long>, std::__1::__tree_node_base<void*>*&, std::__1::__value_type<tinyobj::vertex_index, unsigned int> const&)
- T std::__1::__tree_node_base<void*>*& std::__1::__tree<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >::__find_equal<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >(std::__1::__tree_const_iterator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__tree_node<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, void*>*, int>, std::__1::__tree_node_base<void*>*&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
- T std::__1::__tree_node_base<void*>*& std::__1::__tree<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >::__find_equal<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >(std::__1::__tree_const_iterator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__tree_node<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, void*>*, long>, std::__1::__tree_node_base<void*>*&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T std::__1::__tree_node_base<void*>*& std::__1::__tree<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >::__find_equal<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >(std::__1::__tree_node_base<void*>*&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T std::__1::__vector_base<char const*, std::__1::allocator<char const*> >::~__vector_base()
  T std::__1::__vector_base<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*> >::~__vector_base()
@@ -5907,6 +6173,8 @@
  T std::__1::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, CVRMsg_ApplicationInfo, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, CVRMsg_ApplicationInfo> > >::__find_equal_key(std::__1::__tree_node_base<void*>*&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T std::__1::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, CVRMsg_ApplicationInfo, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, CVRMsg_ApplicationInfo> > >::operator[](std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T std::__1::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, int> > >::__find_equal_key(std::__1::__tree_node_base<void*>*&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T std::__1::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >::__find_equal_key(std::__1::__tree_node_base<void*>*&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T std::__1::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >::operator[](std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T std::__1::map<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, CVRMsg_Settings_GetBool_Response, std::__1::less<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >, std::__1::allocator<std::__1::pair<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > const, CVRMsg_Settings_GetBool_Response> > >::__construct_node_with_key(std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > const&)
  T std::__1::map<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, CVRMsg_Settings_GetBool_Response, std::__1::less<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >, std::__1::allocator<std::__1::pair<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > const, CVRMsg_Settings_GetBool_Response> > >::__find_equal_key(std::__1::__tree_node_base<void*>*&, std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > const&)
  T std::__1::map<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, CVRMsg_Settings_GetBool_Response, std::__1::less<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >, std::__1::allocator<std::__1::pair<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > const, CVRMsg_Settings_GetBool_Response> > >::operator[](std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > const&)
@@ -6010,24 +6278,30 @@
  T vr::CVRApplicationsLatest::GetApplicationInfo(char const*)
  T vr::CVRApplicationsLatest::GetApplicationKeyByIndex(unsigned int, char*, unsigned int)
  T vr::CVRApplicationsLatest::GetApplicationKeyByProcessId(unsigned int, char*, unsigned int)
+ T vr::CVRApplicationsLatest::GetApplicationLaunchArguments(unsigned int, char*, unsigned int)
  T vr::CVRApplicationsLatest::GetApplicationProcessId(char const*)
  T vr::CVRApplicationsLatest::GetApplicationPropertyBool(char const*, vr::EVRApplicationProperty, vr::EVRApplicationError*)
  T vr::CVRApplicationsLatest::GetApplicationPropertyString(char const*, vr::EVRApplicationProperty, char*, unsigned int, vr::EVRApplicationError*)
  T vr::CVRApplicationsLatest::GetApplicationPropertyUint64(char const*, vr::EVRApplicationProperty, vr::EVRApplicationError*)
+ T vr::CVRApplicationsLatest::GetApplicationSupportedMimeTypes(char const*, char*, unsigned int)
  T vr::CVRApplicationsLatest::GetApplicationsErrorNameFromEnum(vr::EVRApplicationError)
+ T vr::CVRApplicationsLatest::GetApplicationsThatSupportMimeType(char const*, char*, unsigned int)
  T vr::CVRApplicationsLatest::GetApplicationsTransitionStateNameFromEnum(vr::EVRApplicationTransitionState)
+ T vr::CVRApplicationsLatest::GetDefaultApplicationForMimeType(char const*, char*, unsigned int)
  T vr::CVRApplicationsLatest::GetStartingApplication(char*, unsigned int)
  T vr::CVRApplicationsLatest::GetTransitionState()
  T vr::CVRApplicationsLatest::IdentifyApplication(unsigned int, char const*)
  T vr::CVRApplicationsLatest::IsApplicationInstalled(char const*)
  T vr::CVRApplicationsLatest::IsQuitUserPromptRequested()
  T vr::CVRApplicationsLatest::LaunchApplication(char const*)
+ T vr::CVRApplicationsLatest::LaunchApplicationFromMimeType(char const*, char const*)
  T vr::CVRApplicationsLatest::LaunchDashboardOverlay(char const*)
  T vr::CVRApplicationsLatest::LaunchInternalProcess(char const*, char const*, char const*)
  T vr::CVRApplicationsLatest::LaunchTemplateApplication(char const*, char const*, vr::AppOverrideKeys_t const*, unsigned int)
  T vr::CVRApplicationsLatest::PerformApplicationPrelaunchCheck(char const*)
  T vr::CVRApplicationsLatest::RemoveApplicationManifest(char const*)
  T vr::CVRApplicationsLatest::SetApplicationAutoLaunch(char const*, bool)
+ T vr::CVRApplicationsLatest::SetDefaultApplicationForMimeType(char const*, char const*)
  T vr::CVRApplicationsLatest::~CVRApplicationsLatest()
  T vr::CVRChaperoneLatest::AreBoundsVisible()
  T vr::CVRChaperoneLatest::BInit(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, CVRSystemLatest*)
@@ -6134,22 +6408,23 @@
  T vr::CVRTrackedCamera::GetCameraIntrinisics(unsigned int, vr::EVRTrackedCameraFrameType, vr::HmdVector2_t*, vr::HmdVector2_t*)
  T vr::CVRTrackedCamera::GetCameraProjection(unsigned int, vr::EVRTrackedCameraFrameType, float, float, vr::HmdMatrix44_t*)
  T vr::CVRTrackedCamera::GetCameraVideoStreamFormat(unsigned int, vr::ECameraVideoStreamFormat*)
- T vr::CVRTrackedCamera::GetRecommendedCameraUndistortion(unsigned int, unsigned int*, unsigned int*)
  T vr::CVRTrackedCamera::GetVideoStreamFrame(unsigned int, vr::CameraVideoStreamFrame_t const**)
  T vr::CVRTrackedCamera::GetVideoStreamFrameBuffer(unsigned long long, vr::EVRTrackedCameraFrameType, void*, unsigned int, vr::CameraVideoStreamFrameHeader_t*, unsigned int)
- T vr::CVRTrackedCamera::GetVideoStreamFrameSharedTextureGL(unsigned long long, vr::EVRTrackedCameraFrameType, unsigned int*, vr::CameraVideoStreamFrame_t*)
+ T vr::CVRTrackedCamera::GetVideoStreamTextureD3D11(unsigned long long, vr::EVRTrackedCameraFrameType, void*, void**, vr::CameraVideoStreamFrameHeader_t*, unsigned int)
+ T vr::CVRTrackedCamera::GetVideoStreamTextureGL(unsigned long long, vr::EVRTrackedCameraFrameType, unsigned int*, vr::CameraVideoStreamFrameHeader_t*, unsigned int)
+ T vr::CVRTrackedCamera::GetVideoStreamTextureGL(unsigned long long, vr::EVRTrackedCameraFrameType, unsigned int*, vr::CameraVideoStreamFrame_t*)
+ T vr::CVRTrackedCamera::GetVideoStreamTextureSize(unsigned int, vr::EVRTrackedCameraFrameType, vr::VRTextureBounds_t*, unsigned int*, unsigned int*)
  T vr::CVRTrackedCamera::HasCamera(unsigned int, bool*)
  T vr::CVRTrackedCamera::Init(CVRSystemLatest*, CVRClient*, CVRCompositorClient*)
  T vr::CVRTrackedCamera::IsTrackedCameraHandleValid(unsigned long long)
  T vr::CVRTrackedCamera::IsVideoStreamActive(unsigned int, bool*, bool*, float*)
  T vr::CVRTrackedCamera::PauseVideoStream(unsigned int)
  T vr::CVRTrackedCamera::ReleaseVideoStreamFrame(unsigned int, vr::CameraVideoStreamFrame_t const*)
- T vr::CVRTrackedCamera::ReleaseVideoStreamFrameSharedTextureGL(unsigned long long, unsigned int)
+ T vr::CVRTrackedCamera::ReleaseVideoStreamTextureGL(unsigned long long, unsigned int)
  T vr::CVRTrackedCamera::ReleaseVideoStreamingService(unsigned long long)
  T vr::CVRTrackedCamera::ResumeVideoStream(unsigned int)
  T vr::CVRTrackedCamera::SetAutoExposure(unsigned int, bool)
  T vr::CVRTrackedCamera::SetCameraCompatibilityMode(unsigned int, vr::ECameraCompatibilityMode)
- T vr::CVRTrackedCamera::SetCameraUndistortion(unsigned int, unsigned int, unsigned int)
  T vr::CVRTrackedCamera::SetCameraVideoStreamFormat(unsigned int, vr::ECameraVideoStreamFormat)
  T vr::CVRTrackedCamera::StartVideoStream(unsigned int)
  T vr::CVRTrackedCamera::StopVideoStream(unsigned int)
@@ -6321,6 +6596,10 @@
  b (anonymous namespace)::CVRMsg_DriverDebugResponse_reflection_
  b (anonymous namespace)::CVRMsg_GetApplicationInfo_descriptor_
  b (anonymous namespace)::CVRMsg_GetApplicationInfo_reflection_
+ b (anonymous namespace)::CVRMsg_GetApplicationLaunchArgumentsResponse_descriptor_
+ b (anonymous namespace)::CVRMsg_GetApplicationLaunchArgumentsResponse_reflection_
+ b (anonymous namespace)::CVRMsg_GetApplicationLaunchArguments_descriptor_
+ b (anonymous namespace)::CVRMsg_GetApplicationLaunchArguments_reflection_
  b (anonymous namespace)::CVRMsg_GetDisplayInfoResponse_DisplayInfo_descriptor_
  b (anonymous namespace)::CVRMsg_GetDisplayInfoResponse_DisplayInfo_reflection_
  b (anonymous namespace)::CVRMsg_GetDisplayInfoResponse_descriptor_
@@ -6346,6 +6625,10 @@
  b (anonymous namespace)::CVRMsg_InputCaptureRequest_reflection_
  b (anonymous namespace)::CVRMsg_InputCaptureResponse_descriptor_
  b (anonymous namespace)::CVRMsg_InputCaptureResponse_reflection_
+ b (anonymous namespace)::CVRMsg_LaunchApplicationForMimeTypeResponse_descriptor_
+ b (anonymous namespace)::CVRMsg_LaunchApplicationForMimeTypeResponse_reflection_
+ b (anonymous namespace)::CVRMsg_LaunchApplicationForMimeType_descriptor_
+ b (anonymous namespace)::CVRMsg_LaunchApplicationForMimeType_reflection_
  b (anonymous namespace)::CVRMsg_LaunchApplicationResponse_descriptor_
  b (anonymous namespace)::CVRMsg_LaunchApplicationResponse_reflection_
  b (anonymous namespace)::CVRMsg_LaunchApplication_descriptor_
@@ -6360,6 +6643,8 @@
  b (anonymous namespace)::CVRMsg_LaunchTemplateApplication_AppOverrideKey_reflection_
  b (anonymous namespace)::CVRMsg_LaunchTemplateApplication_descriptor_
  b (anonymous namespace)::CVRMsg_LaunchTemplateApplication_reflection_
+ b (anonymous namespace)::CVRMsg_MimeType_descriptor_
+ b (anonymous namespace)::CVRMsg_MimeType_reflection_
  b (anonymous namespace)::CVRMsg_PerformApplicationPrelaunchCheckResponse_descriptor_
  b (anonymous namespace)::CVRMsg_PerformApplicationPrelaunchCheckResponse_reflection_
  b (anonymous namespace)::CVRMsg_PerformApplicationPrelaunchCheck_descriptor_
@@ -6378,6 +6663,10 @@
  b (anonymous namespace)::CVRMsg_SetApplicationProcessIdResponse_reflection_
  b (anonymous namespace)::CVRMsg_SetApplicationProcessId_descriptor_
  b (anonymous namespace)::CVRMsg_SetApplicationProcessId_reflection_
+ b (anonymous namespace)::CVRMsg_SetDefaultApplicationForMimeTypeResponse_descriptor_
+ b (anonymous namespace)::CVRMsg_SetDefaultApplicationForMimeTypeResponse_reflection_
+ b (anonymous namespace)::CVRMsg_SetDefaultApplicationForMimeType_descriptor_
+ b (anonymous namespace)::CVRMsg_SetDefaultApplicationForMimeType_reflection_
  b (anonymous namespace)::CVRMsg_SetMasterProcessResponse_descriptor_
  b (anonymous namespace)::CVRMsg_SetMasterProcessResponse_reflection_
  b (anonymous namespace)::CVRMsg_SetMasterProcess_descriptor_
@@ -6422,10 +6711,6 @@
  b (anonymous namespace)::CVRMsg_Settings_Sync_reflection_
  b (anonymous namespace)::CVRMsg_StartAutolaunchOverlays_descriptor_
  b (anonymous namespace)::CVRMsg_StartAutolaunchOverlays_reflection_
- b (anonymous namespace)::CVRMsg_StartProcessResponse_descriptor_
- b (anonymous namespace)::CVRMsg_StartProcessResponse_reflection_
- b (anonymous namespace)::CVRMsg_StartProcess_descriptor_
- b (anonymous namespace)::CVRMsg_StartProcess_reflection_
  b (anonymous namespace)::CVRMsg_TrackedCamera_AcquireVideoStreamingServiceResponse_descriptor_
  b (anonymous namespace)::CVRMsg_TrackedCamera_AcquireVideoStreamingServiceResponse_reflection_
  b (anonymous namespace)::CVRMsg_TrackedCamera_AcquireVideoStreamingService_descriptor_
@@ -6458,10 +6743,6 @@
  b (anonymous namespace)::CVRMsg_TrackedCamera_GetProjectionResponse_reflection_
  b (anonymous namespace)::CVRMsg_TrackedCamera_GetProjection_descriptor_
  b (anonymous namespace)::CVRMsg_TrackedCamera_GetProjection_reflection_
- b (anonymous namespace)::CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse_descriptor_
- b (anonymous namespace)::CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse_reflection_
- b (anonymous namespace)::CVRMsg_TrackedCamera_GetRecommendedUndistortion_descriptor_
- b (anonymous namespace)::CVRMsg_TrackedCamera_GetRecommendedUndistortion_reflection_
  b (anonymous namespace)::CVRMsg_TrackedCamera_GetVideoStreamFormatResponse_descriptor_
  b (anonymous namespace)::CVRMsg_TrackedCamera_GetVideoStreamFormatResponse_reflection_
  b (anonymous namespace)::CVRMsg_TrackedCamera_GetVideoStreamFormat_descriptor_
@@ -6490,10 +6771,6 @@
  b (anonymous namespace)::CVRMsg_TrackedCamera_SetCompatibilityModeResponse_reflection_
  b (anonymous namespace)::CVRMsg_TrackedCamera_SetCompatibilityMode_descriptor_
  b (anonymous namespace)::CVRMsg_TrackedCamera_SetCompatibilityMode_reflection_
- b (anonymous namespace)::CVRMsg_TrackedCamera_SetUndistortionResponse_descriptor_
- b (anonymous namespace)::CVRMsg_TrackedCamera_SetUndistortionResponse_reflection_
- b (anonymous namespace)::CVRMsg_TrackedCamera_SetUndistortion_descriptor_
- b (anonymous namespace)::CVRMsg_TrackedCamera_SetUndistortion_reflection_
  b (anonymous namespace)::CVRMsg_TrackedCamera_SetVideoStreamFormatResponse_descriptor_
  b (anonymous namespace)::CVRMsg_TrackedCamera_SetVideoStreamFormatResponse_reflection_
  b (anonymous namespace)::CVRMsg_TrackedCamera_SetVideoStreamFormat_descriptor_
@@ -6514,6 +6791,7 @@
  b CVRCompositorClient::Submit(vr::EVREye, vr::Texture_t const*, vr::VRTextureBounds_t const*, vr::EVRSubmitFlags)::s_bFirstTime
  b CVRCompositorSharedTextures::GetSharedTextureHandle(vr::Texture_t const*, vr::VRTextureBounds_t*, int, int, vr::EVRSubmitFlags, CVRCompositorSharedTextures::Error*, bool*)::s_nCounter
  b CVRLog::InitLog(char const*, char const*, bool, unsigned long)::sb_combinedLogging
+ b CVRScreenshotsLatest::UpdateScreenshotProgress(unsigned int, float)::sflLastLog
  b CVRSystemLatest::GetPropErrorNameFromEnum(vr::ETrackedPropertyError)::buf
  b CVRSystemLatest::PollNextEventWithPoseInternal(vr::ETrackingUniverseOrigin, vr::VREvent_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned long long)::bLogOnce
  b CVRSystemLatest::TriggerHapticPulse(unsigned int, unsigned int, unsigned short)::k_ulHapticRequestEnforcedDelayMS
@@ -6567,6 +6845,7 @@
  b g_pIVRNotifications
  b g_pIVROverlay
  b g_pIVRRenderModels
+ b g_pIVRResources
  b g_pIVRScreenshots
  b g_pIVRSettings
  b g_pIVRSystem
@@ -6575,10 +6854,12 @@
  b g_pNotificationsLatest
  b g_pOverlayLatest
  b g_pRenderModelsLatest
+ b g_pResourcesLatest
  b g_pScreenshotsLatest
  b g_pTrackedCameraLatest
  b guard variable for BlockingWait(int*, unsigned int, int*)::_systemTickFrequency
  b guard variable for CVRLog::InitLog(char const*, char const*, bool, unsigned long)::sb_combinedLogging
+ b guard variable for CVRScreenshotsLatest::UpdateScreenshotProgress(unsigned int, float)::sflLastLog
  b guard variable for CVRSystemLatest::TriggerHapticPulse(unsigned int, unsigned int, unsigned short)::k_ulHapticRequestEnforcedDelayMS
  b guard variable for add_image_hook_ARC(mach_header const*, long)::patches
  b guard variable for add_image_hook_autoreleasepool(mach_header const*, long)::patches
@@ -6633,6 +6914,7 @@
  b vrapplications002
  b vrapplications003
  b vrapplications004
+ b vrapplications005
  b vrchaperonesetup001
  b vrchaperonesetup002
  b vrchaperonesetup003
@@ -6646,7 +6928,9 @@
  b vrcompositor012
  b vrcompositor013
  b vrcompositor014
+ b vrcompositor015
  b vrcontrolpanel001
+ b vrcontrolpanel002
  b vrnotifications001
  b vroverlay001
  b vroverlay002
@@ -6659,6 +6943,7 @@
  b vroverlay009
  b vroverlay010
  b vroverlay011
+ b vroverlay012
  b vrrendermodels001
  b vrrendermodels002
  b vrrendermodels003
@@ -6707,10 +6992,13 @@
  d OBJC_METACLASS_RO_$___ARCLite__
  d demangleLock
  d g_IVRApplications_004_FnTable
+ d g_IVRApplications_005_FnTable
  d g_IVRCompositor_013_FnTable
  d g_IVRCompositor_014_FnTable
+ d g_IVRCompositor_015_FnTable
  d g_IVROverlay_010_FnTable
  d g_IVROverlay_011_FnTable
+ d g_IVROverlay_012_FnTable
  d g_IVRRenderModels_004_FnTable
  d g_IVRSystem_011_FnTable
  d g_IVRTrackedCamera_002_FnTable
@@ -6722,6 +7010,7 @@
  d g_VR_IVRNotifications_FnTable
  d g_VR_IVROverlay_FnTable
  d g_VR_IVRRenderModels_FnTable
+ d g_VR_IVRResources_FnTable
  d g_VR_IVRScreenshots_FnTable
  d g_VR_IVRSettings_FnTable
  d g_VR_IVRSystem_FnTable
@@ -6810,6 +7099,7 @@
  mkdir
  mmap
  mmap$UNIX2003
+ modf
  munmap
  munmap$UNIX2003
  nanosleep
@@ -6934,6 +7224,8 @@
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_DriverDebugRequest_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_DriverDebugResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_GetApplicationInfo_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_GetApplicationLaunchArgumentsResponse_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_GetApplicationLaunchArguments_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_GetDisplayInfoResponse_DisplayInfo_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_GetDisplayInfoResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_GetDisplayInfo_offsets_
@@ -6946,6 +7238,8 @@
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_GetProperty_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_InputCaptureRequest_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_InputCaptureResponse_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_LaunchApplicationForMimeTypeResponse_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_LaunchApplicationForMimeType_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_LaunchApplicationResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_LaunchApplication_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_LaunchInternalProcessResponse_offsets_
@@ -6953,6 +7247,7 @@
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_LaunchTemplateApplicationResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_LaunchTemplateApplication_AppOverrideKey_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_LaunchTemplateApplication_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_MimeType_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_PerformApplicationPrelaunchCheckResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_PerformApplicationPrelaunchCheck_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_PowerOffTrackedDevice_offsets_
@@ -6962,6 +7257,8 @@
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_SetApplicationOptions_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_SetApplicationProcessIdResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_SetApplicationProcessId_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_SetDefaultApplicationForMimeTypeResponse_offsets_
+ r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_SetDefaultApplicationForMimeType_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_SetMasterProcessResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_SetMasterProcess_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_SetNotificationImageResponse_offsets_
@@ -6984,8 +7281,6 @@
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_Settings_Sync_Response_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_Settings_Sync_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_StartAutolaunchOverlays_offsets_
- r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_StartProcessResponse_offsets_
- r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_StartProcess_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_AcquireVideoStreamingServiceResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_AcquireVideoStreamingService_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_EnableResponse_offsets_
@@ -7002,8 +7297,6 @@
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetIntrinsics_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetProjectionResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetProjection_offsets_
- r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse_offsets_
- r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetRecommendedUndistortion_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetVideoStreamFormatResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_GetVideoStreamFormat_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_IsVideoStreamActiveResponse_offsets_
@@ -7018,8 +7311,6 @@
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_SetAutoExposure_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_SetCompatibilityModeResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_SetCompatibilityMode_offsets_
- r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_SetUndistortionResponse_offsets_
- r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_SetUndistortion_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_SetVideoStreamFormatResponse_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_SetVideoStreamFormat_offsets_
  r protobuf_AssignDesc_vr_5fmessages_2eproto()::CVRMsg_TrackedCamera_StartVideoStreamResponse_offsets_
@@ -7125,6 +7416,7 @@
  std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::resize(unsigned long, char)
  std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::rfind(char, unsigned long) const
  std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_string()
+ std::__1::basic_string<wchar_t, std::__1::char_traits<wchar_t>, std::__1::allocator<wchar_t> >::~basic_string()
  std::__1::codecvt<char, char, __mbstate_t>::id
  std::__1::ctype<char>::id
  std::__1::ios_base::__set_badbit_and_consider_rethrow()
@@ -7153,6 +7445,7 @@
  strlcpy
  strlen
  strncasecmp
+ strncat
  strncmp
  strncpy
  strpbrk
@@ -7201,6 +7494,30 @@
  t IVRApplications_004_FnTable_PerformApplicationPrelaunchCheck(char const*)
  t IVRApplications_004_FnTable_RemoveApplicationManifest(char const*)
  t IVRApplications_004_FnTable_SetApplicationAutoLaunch(char const*, bool)
+ t IVRApplications_005_FnTable_AddApplicationManifest(char const*, bool)
+ t IVRApplications_005_FnTable_CancelApplicationLaunch(char const*)
+ t IVRApplications_005_FnTable_GetApplicationAutoLaunch(char const*)
+ t IVRApplications_005_FnTable_GetApplicationCount()
+ t IVRApplications_005_FnTable_GetApplicationKeyByIndex(unsigned int, char*, unsigned int)
+ t IVRApplications_005_FnTable_GetApplicationKeyByProcessId(unsigned int, char*, unsigned int)
+ t IVRApplications_005_FnTable_GetApplicationProcessId(char const*)
+ t IVRApplications_005_FnTable_GetApplicationPropertyBool(char const*, vr::EVRApplicationProperty, vr::EVRApplicationError*)
+ t IVRApplications_005_FnTable_GetApplicationPropertyString(char const*, vr::EVRApplicationProperty, char*, unsigned int, vr::EVRApplicationError*)
+ t IVRApplications_005_FnTable_GetApplicationPropertyUint64(char const*, vr::EVRApplicationProperty, vr::EVRApplicationError*)
+ t IVRApplications_005_FnTable_GetApplicationsErrorNameFromEnum(vr::EVRApplicationError)
+ t IVRApplications_005_FnTable_GetApplicationsTransitionStateNameFromEnum(vr::EVRApplicationTransitionState)
+ t IVRApplications_005_FnTable_GetStartingApplication(char*, unsigned int)
+ t IVRApplications_005_FnTable_GetTransitionState()
+ t IVRApplications_005_FnTable_IdentifyApplication(unsigned int, char const*)
+ t IVRApplications_005_FnTable_IsApplicationInstalled(char const*)
+ t IVRApplications_005_FnTable_IsQuitUserPromptRequested()
+ t IVRApplications_005_FnTable_LaunchApplication(char const*)
+ t IVRApplications_005_FnTable_LaunchDashboardOverlay(char const*)
+ t IVRApplications_005_FnTable_LaunchInternalProcess(char const*, char const*, char const*)
+ t IVRApplications_005_FnTable_LaunchTemplateApplication(char const*, char const*, vr::AppOverrideKeys_t const*, unsigned int)
+ t IVRApplications_005_FnTable_PerformApplicationPrelaunchCheck(char const*)
+ t IVRApplications_005_FnTable_RemoveApplicationManifest(char const*)
+ t IVRApplications_005_FnTable_SetApplicationAutoLaunch(char const*, bool)
  t IVRCompositor_013_FnTable_CanRenderScene()
  t IVRCompositor_013_FnTable_ClearLastSubmittedFrame()
  t IVRCompositor_013_FnTable_ClearSkyboxOverride()
@@ -7214,7 +7531,7 @@
  t IVRCompositor_013_FnTable_ForceReconnectProcess()
  t IVRCompositor_013_FnTable_GetCurrentSceneFocusProcess()
  t IVRCompositor_013_FnTable_GetFrameTimeRemaining()
- t IVRCompositor_013_FnTable_GetFrameTiming(vr::Compositor_FrameTiming*, unsigned int)
+ t IVRCompositor_013_FnTable_GetFrameTiming(Compositor_FrameTiming_015*, unsigned int)
  t IVRCompositor_013_FnTable_GetLastFrameRenderer()
  t IVRCompositor_013_FnTable_GetLastPoseForTrackedDeviceIndex(unsigned int, vr::TrackedDevicePose_t*, vr::TrackedDevicePose_t*)
  t IVRCompositor_013_FnTable_GetLastPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
@@ -7243,7 +7560,7 @@
  t IVRCompositor_014_FnTable_GetCurrentSceneFocusProcess()
  t IVRCompositor_014_FnTable_GetCurrentScreenshotType()
  t IVRCompositor_014_FnTable_GetFrameTimeRemaining()
- t IVRCompositor_014_FnTable_GetFrameTiming(vr::Compositor_FrameTiming*, unsigned int)
+ t IVRCompositor_014_FnTable_GetFrameTiming(Compositor_FrameTiming_015*, unsigned int)
  t IVRCompositor_014_FnTable_GetLastFrameRenderer()
  t IVRCompositor_014_FnTable_GetLastPoseForTrackedDeviceIndex(unsigned int, vr::TrackedDevicePose_t*, vr::TrackedDevicePose_t*)
  t IVRCompositor_014_FnTable_GetLastPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
@@ -7260,6 +7577,43 @@
  t IVRCompositor_014_FnTable_Submit(vr::EVREye, vr::Texture_t const*, vr::VRTextureBounds_t const*, vr::EVRSubmitFlags)
  t IVRCompositor_014_FnTable_SuspendRendering(bool)
  t IVRCompositor_014_FnTable_WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
+ t IVRCompositor_015_FnTable_CanRenderScene()
+ t IVRCompositor_015_FnTable_ClearLastSubmittedFrame()
+ t IVRCompositor_015_FnTable_ClearSkyboxOverride()
+ t IVRCompositor_015_FnTable_CompositorBringToFront()
+ t IVRCompositor_015_FnTable_CompositorDumpImages()
+ t IVRCompositor_015_FnTable_CompositorGoToBack()
+ t IVRCompositor_015_FnTable_CompositorQuit()
+ t IVRCompositor_015_FnTable_FadeGrid(float, bool)
+ t IVRCompositor_015_FnTable_FadeToColor(float, float, float, float, float, bool)
+ t IVRCompositor_015_FnTable_ForceInterleavedReprojectionOn(bool)
+ t IVRCompositor_015_FnTable_ForceReconnectProcess()
+ t IVRCompositor_015_FnTable_GetCumulativeStats(vr::Compositor_CumulativeStats*, unsigned int)
+ t IVRCompositor_015_FnTable_GetCurrentSceneFocusProcess()
+ t IVRCompositor_015_FnTable_GetCurrentScreenshotType()
+ t IVRCompositor_015_FnTable_GetFrameTimeRemaining()
+ t IVRCompositor_015_FnTable_GetFrameTiming(Compositor_FrameTiming_015*, unsigned int)
+ t IVRCompositor_015_FnTable_GetLastFrameRenderer()
+ t IVRCompositor_015_FnTable_GetLastPoseForTrackedDeviceIndex(unsigned int, vr::TrackedDevicePose_t*, vr::TrackedDevicePose_t*)
+ t IVRCompositor_015_FnTable_GetLastPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
+ t IVRCompositor_015_FnTable_GetMirrorTextureD3D11(vr::EVREye, void*, void**)
+ t IVRCompositor_015_FnTable_GetMirrorTextureGL(vr::EVREye, unsigned int*, void**)
+ t IVRCompositor_015_FnTable_GetTrackingSpace()
+ t IVRCompositor_015_FnTable_HideMirrorWindow()
+ t IVRCompositor_015_FnTable_IsFullscreen()
+ t IVRCompositor_015_FnTable_IsMirrorWindowVisible()
+ t IVRCompositor_015_FnTable_LockGLSharedTextureForAccess(void*)
+ t IVRCompositor_015_FnTable_PostPresentHandoff()
+ t IVRCompositor_015_FnTable_ReleaseSharedGLTexture(unsigned int, void*)
+ t IVRCompositor_015_FnTable_RequestScreenshot(vr::EVRScreenshotType, char const*, char const*)
+ t IVRCompositor_015_FnTable_SetSkyboxOverride(vr::Texture_t const*, unsigned int)
+ t IVRCompositor_015_FnTable_SetTrackingSpace(vr::ETrackingUniverseOrigin)
+ t IVRCompositor_015_FnTable_ShouldAppRenderWithLowResources()
+ t IVRCompositor_015_FnTable_ShowMirrorWindow()
+ t IVRCompositor_015_FnTable_Submit(vr::EVREye, vr::Texture_t const*, vr::VRTextureBounds_t const*, vr::EVRSubmitFlags)
+ t IVRCompositor_015_FnTable_SuspendRendering(bool)
+ t IVRCompositor_015_FnTable_UnlockGLSharedTextureForAccess(void*)
+ t IVRCompositor_015_FnTable_WaitGetPoses(vr::TrackedDevicePose_t*, unsigned int, vr::TrackedDevicePose_t*, unsigned int)
  t IVROverlay_010_FnTable_ClearOverlayTexture(unsigned long long)
  t IVROverlay_010_FnTable_ComputeOverlayIntersection(unsigned long long, vr::VROverlayIntersectionParams_t const*, vr::VROverlayIntersectionResults_t*)
  t IVROverlay_010_FnTable_CreateDashboardOverlay(char const*, char const*, unsigned long long*, unsigned long long*)
@@ -7392,6 +7746,74 @@
  t IVROverlay_011_FnTable_ShowKeyboard(vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
  t IVROverlay_011_FnTable_ShowKeyboardForOverlay(unsigned long long, vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
  t IVROverlay_011_FnTable_ShowOverlay(unsigned long long)
+ t IVROverlay_012_FnTable_ClearOverlayTexture(unsigned long long)
+ t IVROverlay_012_FnTable_ComputeOverlayIntersection(unsigned long long, vr::VROverlayIntersectionParams_t const*, vr::VROverlayIntersectionResults_t*)
+ t IVROverlay_012_FnTable_CreateDashboardOverlay(char const*, char const*, unsigned long long*, unsigned long long*)
+ t IVROverlay_012_FnTable_CreateOverlay(char const*, char const*, unsigned long long*)
+ t IVROverlay_012_FnTable_DestroyOverlay(unsigned long long)
+ t IVROverlay_012_FnTable_FindOverlay(char const*, unsigned long long*)
+ t IVROverlay_012_FnTable_GetDashboardOverlaySceneProcess(unsigned long long, unsigned int*)
+ t IVROverlay_012_FnTable_GetGamepadFocusOverlay()
+ t IVROverlay_012_FnTable_GetHighQualityOverlay()
+ t IVROverlay_012_FnTable_GetKeyboardText(char*, unsigned int)
+ t IVROverlay_012_FnTable_GetOverlayAlpha(unsigned long long, float*)
+ t IVROverlay_012_FnTable_GetOverlayAutoCurveDistanceRangeInMeters(unsigned long long, float*, float*)
+ t IVROverlay_012_FnTable_GetOverlayColor(unsigned long long, float*, float*, float*)
+ t IVROverlay_012_FnTable_GetOverlayErrorNameFromEnum(vr::EVROverlayError)
+ t IVROverlay_012_FnTable_GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
+ t IVROverlay_012_FnTable_GetOverlayImageData(unsigned long long, void*, unsigned int, unsigned int*, unsigned int*)
+ t IVROverlay_012_FnTable_GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
+ t IVROverlay_012_FnTable_GetOverlayKey(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
+ t IVROverlay_012_FnTable_GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
+ t IVROverlay_012_FnTable_GetOverlayName(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
+ t IVROverlay_012_FnTable_GetOverlayRenderingPid(unsigned long long)
+ t IVROverlay_012_FnTable_GetOverlayTexture(unsigned long long, void**, void*, unsigned int*, unsigned int*, unsigned int*, vr::EGraphicsAPIConvention*, vr::EColorSpace*)
+ t IVROverlay_012_FnTable_GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
+ t IVROverlay_012_FnTable_GetOverlayTextureColorSpace(unsigned long long, vr::EColorSpace*)
+ t IVROverlay_012_FnTable_GetOverlayTextureSize(unsigned long long, unsigned int*, unsigned int*)
+ t IVROverlay_012_FnTable_GetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin*, vr::HmdMatrix34_t*)
+ t IVROverlay_012_FnTable_GetOverlayTransformTrackedDeviceComponent(unsigned long long, unsigned int*, char*, unsigned int)
+ t IVROverlay_012_FnTable_GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
+ t IVROverlay_012_FnTable_GetOverlayTransformType(unsigned long long, vr::VROverlayTransformType*)
+ t IVROverlay_012_FnTable_GetOverlayWidthInMeters(unsigned long long, float*)
+ t IVROverlay_012_FnTable_GetPrimaryDashboardDevice()
+ t IVROverlay_012_FnTable_GetTransformForOverlayCoordinates(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdVector2_t, vr::HmdMatrix34_t*)
+ t IVROverlay_012_FnTable_HandleControllerOverlayInteractionAsMouse(unsigned long long, unsigned int)
+ t IVROverlay_012_FnTable_HideKeyboard()
+ t IVROverlay_012_FnTable_HideOverlay(unsigned long long)
+ t IVROverlay_012_FnTable_IsActiveDashboardOverlay(unsigned long long)
+ t IVROverlay_012_FnTable_IsDashboardVisible()
+ t IVROverlay_012_FnTable_IsHoverTargetOverlay(unsigned long long)
+ t IVROverlay_012_FnTable_IsOverlayVisible(unsigned long long)
+ t IVROverlay_012_FnTable_MoveGamepadFocusToNeighbor(vr::EOverlayDirection, unsigned long long)
+ t IVROverlay_012_FnTable_PollNextOverlayEvent(unsigned long long, vr::VREvent_t*, unsigned int)
+ t IVROverlay_012_FnTable_ReleaseNativeOverlayHandle(unsigned long long, void*)
+ t IVROverlay_012_FnTable_SetDashboardOverlaySceneProcess(unsigned long long, unsigned int)
+ t IVROverlay_012_FnTable_SetGamepadFocusOverlay(unsigned long long)
+ t IVROverlay_012_FnTable_SetHighQualityOverlay(unsigned long long)
+ t IVROverlay_012_FnTable_SetKeyboardPositionForOverlay(unsigned long long, vr::HmdRect2_t)
+ t IVROverlay_012_FnTable_SetKeyboardTransformAbsolute(vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ t IVROverlay_012_FnTable_SetOverlayAlpha(unsigned long long, float)
+ t IVROverlay_012_FnTable_SetOverlayAutoCurveDistanceRangeInMeters(unsigned long long, float, float)
+ t IVROverlay_012_FnTable_SetOverlayColor(unsigned long long, float, float, float)
+ t IVROverlay_012_FnTable_SetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool)
+ t IVROverlay_012_FnTable_SetOverlayFromFile(unsigned long long, char const*)
+ t IVROverlay_012_FnTable_SetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod)
+ t IVROverlay_012_FnTable_SetOverlayMouseScale(unsigned long long, vr::HmdVector2_t const*)
+ t IVROverlay_012_FnTable_SetOverlayNeighbor(vr::EOverlayDirection, unsigned long long, unsigned long long)
+ t IVROverlay_012_FnTable_SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
+ t IVROverlay_012_FnTable_SetOverlayRenderingPid(unsigned long long, unsigned int)
+ t IVROverlay_012_FnTable_SetOverlayTexture(unsigned long long, vr::Texture_t const*)
+ t IVROverlay_012_FnTable_SetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t const*)
+ t IVROverlay_012_FnTable_SetOverlayTextureColorSpace(unsigned long long, vr::EColorSpace)
+ t IVROverlay_012_FnTable_SetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ t IVROverlay_012_FnTable_SetOverlayTransformTrackedDeviceComponent(unsigned long long, unsigned int, char const*)
+ t IVROverlay_012_FnTable_SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
+ t IVROverlay_012_FnTable_SetOverlayWidthInMeters(unsigned long long, float)
+ t IVROverlay_012_FnTable_ShowDashboard(char const*)
+ t IVROverlay_012_FnTable_ShowKeyboard(vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
+ t IVROverlay_012_FnTable_ShowKeyboardForOverlay(unsigned long long, vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
+ t IVROverlay_012_FnTable_ShowOverlay(unsigned long long)
  t IVRRenderModels_004_FnTable_FreeRenderModel(vr::RenderModel_t*)
  t IVRRenderModels_004_FnTable_FreeTexture(vr::RenderModel_TextureMap_t*)
  t IVRRenderModels_004_FnTable_FreeTextureD3D11(void*)
@@ -7474,24 +7896,30 @@
  t VR_IVRApplications_FnTable_GetApplicationCount()
  t VR_IVRApplications_FnTable_GetApplicationKeyByIndex(unsigned int, char*, unsigned int)
  t VR_IVRApplications_FnTable_GetApplicationKeyByProcessId(unsigned int, char*, unsigned int)
+ t VR_IVRApplications_FnTable_GetApplicationLaunchArguments(unsigned int, char*, unsigned int)
  t VR_IVRApplications_FnTable_GetApplicationProcessId(char*)
  t VR_IVRApplications_FnTable_GetApplicationPropertyBool(char*, EVRApplicationProperty, EVRApplicationError*)
  t VR_IVRApplications_FnTable_GetApplicationPropertyString(char*, EVRApplicationProperty, char*, unsigned int, EVRApplicationError*)
  t VR_IVRApplications_FnTable_GetApplicationPropertyUint64(char*, EVRApplicationProperty, EVRApplicationError*)
+ t VR_IVRApplications_FnTable_GetApplicationSupportedMimeTypes(char*, char*, unsigned int)
  t VR_IVRApplications_FnTable_GetApplicationsErrorNameFromEnum(EVRApplicationError)
+ t VR_IVRApplications_FnTable_GetApplicationsThatSupportMimeType(char*, char*, unsigned int)
  t VR_IVRApplications_FnTable_GetApplicationsTransitionStateNameFromEnum(EVRApplicationTransitionState)
+ t VR_IVRApplications_FnTable_GetDefaultApplicationForMimeType(char*, char*, unsigned int)
  t VR_IVRApplications_FnTable_GetStartingApplication(char*, unsigned int)
  t VR_IVRApplications_FnTable_GetTransitionState()
  t VR_IVRApplications_FnTable_IdentifyApplication(unsigned int, char*)
  t VR_IVRApplications_FnTable_IsApplicationInstalled(char*)
  t VR_IVRApplications_FnTable_IsQuitUserPromptRequested()
  t VR_IVRApplications_FnTable_LaunchApplication(char*)
+ t VR_IVRApplications_FnTable_LaunchApplicationFromMimeType(char*, char*)
  t VR_IVRApplications_FnTable_LaunchDashboardOverlay(char*)
  t VR_IVRApplications_FnTable_LaunchInternalProcess(char*, char*, char*)
  t VR_IVRApplications_FnTable_LaunchTemplateApplication(char*, char*, AppOverrideKeys_t*, unsigned int)
  t VR_IVRApplications_FnTable_PerformApplicationPrelaunchCheck(char*)
  t VR_IVRApplications_FnTable_RemoveApplicationManifest(char*)
  t VR_IVRApplications_FnTable_SetApplicationAutoLaunch(char*, bool)
+ t VR_IVRApplications_FnTable_SetDefaultApplicationForMimeType(char*, char*)
  t VR_IVRChaperoneSetup_FnTable_CommitWorkingCopy(EChaperoneConfigFile)
  t VR_IVRChaperoneSetup_FnTable_ExportLiveToBuffer(char*, unsigned int*)
  t VR_IVRChaperoneSetup_FnTable_GetLiveCollisionBoundsInfo(HmdQuad_t*, unsigned int*)
@@ -7533,7 +7961,6 @@
  t VR_IVRCompositor_FnTable_ForceReconnectProcess()
  t VR_IVRCompositor_FnTable_GetCumulativeStats(Compositor_CumulativeStats*, unsigned int)
  t VR_IVRCompositor_FnTable_GetCurrentSceneFocusProcess()
- t VR_IVRCompositor_FnTable_GetCurrentScreenshotType()
  t VR_IVRCompositor_FnTable_GetFrameTimeRemaining()
  t VR_IVRCompositor_FnTable_GetFrameTiming(Compositor_FrameTiming*, unsigned int)
  t VR_IVRCompositor_FnTable_GetLastFrameRenderer()
@@ -7548,7 +7975,6 @@
  t VR_IVRCompositor_FnTable_LockGLSharedTextureForAccess(void*)
  t VR_IVRCompositor_FnTable_PostPresentHandoff()
  t VR_IVRCompositor_FnTable_ReleaseSharedGLTexture(unsigned int, void*)
- t VR_IVRCompositor_FnTable_RequestScreenshot(EVRScreenshotType, char*, char*)
  t VR_IVRCompositor_FnTable_SetSkyboxOverride(Texture_t*, unsigned int)
  t VR_IVRCompositor_FnTable_SetTrackingSpace(ETrackingUniverseOrigin)
  t VR_IVRCompositor_FnTable_ShouldAppRenderWithLowResources()
@@ -7583,6 +8009,8 @@
  t VR_IVROverlay_FnTable_GetOverlayMouseScale(unsigned long long, HmdVector2_t*)
  t VR_IVROverlay_FnTable_GetOverlayName(unsigned long long, char*, unsigned int, EVROverlayError*)
  t VR_IVROverlay_FnTable_GetOverlayRenderingPid(unsigned long long)
+ t VR_IVROverlay_FnTable_GetOverlaySortOrder(unsigned long long, unsigned int*)
+ t VR_IVROverlay_FnTable_GetOverlayTexelAspect(unsigned long long, float*)
  t VR_IVROverlay_FnTable_GetOverlayTexture(unsigned long long, void**, void*, unsigned int*, unsigned int*, unsigned int*, EGraphicsAPIConvention*, EColorSpace*)
  t VR_IVROverlay_FnTable_GetOverlayTextureBounds(unsigned long long, VRTextureBounds_t*)
  t VR_IVROverlay_FnTable_GetOverlayTextureColorSpace(unsigned long long, EColorSpace*)
@@ -7619,6 +8047,8 @@
  t VR_IVROverlay_FnTable_SetOverlayNeighbor(EOverlayDirection, unsigned long long, unsigned long long)
  t VR_IVROverlay_FnTable_SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
  t VR_IVROverlay_FnTable_SetOverlayRenderingPid(unsigned long long, unsigned int)
+ t VR_IVROverlay_FnTable_SetOverlaySortOrder(unsigned long long, unsigned int)
+ t VR_IVROverlay_FnTable_SetOverlayTexelAspect(unsigned long long, float)
  t VR_IVROverlay_FnTable_SetOverlayTexture(unsigned long long, Texture_t*)
  t VR_IVROverlay_FnTable_SetOverlayTextureBounds(unsigned long long, VRTextureBounds_t*)
  t VR_IVROverlay_FnTable_SetOverlayTextureColorSpace(unsigned long long, EColorSpace)
@@ -7648,6 +8078,8 @@
  t VR_IVRRenderModels_FnTable_LoadTextureD3D11_Async(int, void*, void**)
  t VR_IVRRenderModels_FnTable_LoadTexture_Async(int, RenderModel_TextureMap_t**)
  t VR_IVRRenderModels_FnTable_RenderModelHasComponent(char*, char*)
+ t VR_IVRResources_FnTable_GetResourceFullPath(char*, char*, char*, unsigned int)
+ t VR_IVRResources_FnTable_LoadSharedResource(char*, char*, unsigned int)
  t VR_IVRScreenshots_FnTable_GetScreenshotPropertyFilename(unsigned int, EVRScreenshotPropertyFilenames, char*, unsigned int, EVRScreenshotError*)
  t VR_IVRScreenshots_FnTable_GetScreenshotPropertyType(unsigned int, EVRScreenshotError*)
  t VR_IVRScreenshots_FnTable_HookScreenshot(EVRScreenshotType*, int)
@@ -7717,25 +8149,29 @@
  t VR_IVRTrackedCamera_FnTable_GetCameraIntrinisics(unsigned int, EVRTrackedCameraFrameType, HmdVector2_t*, HmdVector2_t*)
  t VR_IVRTrackedCamera_FnTable_GetCameraProjection(unsigned int, EVRTrackedCameraFrameType, float, float, HmdMatrix44_t*)
  t VR_IVRTrackedCamera_FnTable_GetVideoStreamFrameBuffer(unsigned long long, EVRTrackedCameraFrameType, void*, unsigned int, CameraVideoStreamFrameHeader_t*, unsigned int)
+ t VR_IVRTrackedCamera_FnTable_GetVideoStreamTextureD3D11(unsigned long long, EVRTrackedCameraFrameType, void*, void**, CameraVideoStreamFrameHeader_t*, unsigned int)
+ t VR_IVRTrackedCamera_FnTable_GetVideoStreamTextureGL(unsigned long long, EVRTrackedCameraFrameType, unsigned int*, CameraVideoStreamFrameHeader_t*, unsigned int)
+ t VR_IVRTrackedCamera_FnTable_GetVideoStreamTextureSize(unsigned int, EVRTrackedCameraFrameType, VRTextureBounds_t*, unsigned int*, unsigned int*)
  t VR_IVRTrackedCamera_FnTable_HasCamera(unsigned int, bool*)
+ t VR_IVRTrackedCamera_FnTable_ReleaseVideoStreamTextureGL(unsigned long long, unsigned int)
  t VR_IVRTrackedCamera_FnTable_ReleaseVideoStreamingService(unsigned long long)
- t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.30428.ii
- t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.30520.ii
+ t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.31575.ii
+ t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.31691.ii
  t _GLOBAL__sub_I_descriptor.cc
  t _GLOBAL__sub_I_descriptor.pb.cc
  t _GLOBAL__sub_I_extension_set.cc
- t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.30430.ii
- t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.30529.ii
+ t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.38066.ii
+ t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.38167.ii
  t _GLOBAL__sub_I_ipcposix2.tmp.steamvr_rel_osx_builder.57289.ii
  t _GLOBAL__sub_I_ipcposix2.tmp.steamvr_rel_osx_builder.57467.ii
  t _GLOBAL__sub_I_threadtool.tmp.steamvr_rel_osx_builder.11678.ii
  t _GLOBAL__sub_I_threadtool.tmp.steamvr_rel_osx_builder.11784.ii
- t _GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.84787.ii
- t _GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.84954.ii
- t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.30476.ii
- t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.30570.ii
- t _GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.84924.ii
- t _GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.85092.ii
+ t _GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.30713.ii
+ t _GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.30859.ii
+ t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.38072.ii
+ t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.38201.ii
+ t _GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.30837.ii
+ t _GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.30987.ii
  t __ARCLite__load()
  t __arclite_NSArray_objectAtIndexedSubscript(NSArray*, objc_selector*, unsigned long)
  t __arclite_NSDictionary_objectForKeyedSubscript(NSDictionary*, objc_selector*, objc_object*)
@@ -7834,6 +8270,7 @@
  t transcribeMethods(objc_class*, glue_class_ro_t*)
  t transcribeProperties(objc_class*, glue_class_ro_t*)
  t transcribeProtocols(objc_class*, glue_class_ro_t*)
+ time
  typeinfo for std::__1::basic_iostream<char, std::__1::char_traits<char> >
  typeinfo for std::__1::basic_istream<char, std::__1::char_traits<char> >
  typeinfo for std::__1::basic_ostream<char, std::__1::char_traits<char> >

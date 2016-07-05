@@ -176,35 +176,14 @@ message CVRMsg_TrackedCamera_GetDistortionResponse {
 
 message CVRMsg_TrackedCamera_GetProjection {
 	optional uint32 device_index = 1;
-	optional float width = 2;
-	optional float height = 3;
-	optional float z_near = 4;
-	optional float z_far = 5;
+	optional uint32 frame_type = 2;
+	optional float z_near = 3;
+	optional float z_far = 4;
 }
 
 message CVRMsg_TrackedCamera_GetProjectionResponse {
 	optional bool result = 1;
 	repeated float matrix_value = 2;
-}
-
-message CVRMsg_TrackedCamera_GetRecommendedUndistortion {
-	optional uint32 device_index = 1;
-}
-
-message CVRMsg_TrackedCamera_GetRecommendedUndistortionResponse {
-	optional bool result = 1;
-	optional uint32 width_pixels = 2;
-	optional uint32 height_pixels = 3;
-}
-
-message CVRMsg_TrackedCamera_SetUndistortion {
-	optional uint32 device_index = 1;
-	optional uint32 width_pixels = 2;
-	optional uint32 height_pixels = 3;
-}
-
-message CVRMsg_TrackedCamera_SetUndistortionResponse {
-	optional bool result = 1;
 }
 
 message CVRMsg_TrackedCamera_SetCompatibilityMode {
@@ -416,16 +395,6 @@ message CVRMsg_AcknowledgeQuit_UserPrompt {
 message CVRMsg_AbortApplicationTransition {
 }
 
-message CVRMsg_StartProcess {
-	optional string executable = 1;
-	repeated string argument = 2;
-	optional string working_directory = 3;
-}
-
-message CVRMsg_StartProcessResponse {
-	optional uint32 process_id = 1;
-}
-
 message CVRMsg_SetMasterProcess {
 	optional uint32 process_id = 1;
 }
@@ -444,6 +413,10 @@ message CVRMsg_GetApplicationInfo {
 	optional string app_key = 1;
 }
 
+message CVRMsg_MimeType {
+	optional string mime_type = 1;
+}
+
 message CVRMsg_ApplicationInfo_Manifest {
 	optional string app_key = 1;
 	optional string name = 2;
@@ -460,11 +433,13 @@ message CVRMsg_ApplicationInfo_Manifest {
 	optional string source = 13;
 	optional bool is_template = 14 [default = false];
 	optional bool is_instance = 15 [default = false];
+	repeated .CVRMsg_MimeType supported_mime_types = 16;
 }
 
 message CVRMsg_ApplicationInfo_Options {
 	optional bool is_autolaunch = 1;
 	optional uint64 last_launch_time = 2;
+	repeated .CVRMsg_MimeType handles_mime_types = 3;
 }
 
 message CVRMsg_ApplicationInfo {
@@ -492,6 +467,15 @@ message CVRMsg_LaunchApplicationResponse {
 	optional uint32 result = 1;
 }
 
+message CVRMsg_LaunchApplicationForMimeType {
+	optional string mime_type = 1;
+	optional string args = 2;
+}
+
+message CVRMsg_LaunchApplicationForMimeTypeResponse {
+	optional uint32 result = 1;
+}
+
 message CVRMsg_LaunchTemplateApplication {
 	message AppOverrideKey {
 		optional string key = 1;
@@ -514,6 +498,24 @@ message CVRMsg_SetApplicationOptions {
 
 message CVRMsg_SetApplicationOptionsResponse {
 	optional uint32 result = 1;
+}
+
+message CVRMsg_SetDefaultApplicationForMimeType {
+	optional string app_key = 1;
+	optional string mime_type = 2;
+}
+
+message CVRMsg_SetDefaultApplicationForMimeTypeResponse {
+	optional uint32 result = 1;
+}
+
+message CVRMsg_GetApplicationLaunchArguments {
+	optional uint32 handle = 1;
+}
+
+message CVRMsg_GetApplicationLaunchArgumentsResponse {
+	optional bool result = 1;
+	optional string args = 2;
 }
 
 message CVRMsg_SetApplicationProcessId {
@@ -735,5 +737,6 @@ message CVRMsg_CompositorUpdateScreenshotProgress {
 }
 
 message CVRMsg_CompositorUpdateScreenshotProgressResponse {
+	optional int32 result = 1;
 }
 
