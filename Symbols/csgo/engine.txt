@@ -230,6 +230,8 @@
  b (anonymous namespace)::CCLCMsg_SplitPlayerConnect_reflection_
  b (anonymous namespace)::CCLCMsg_VoiceData_descriptor_
  b (anonymous namespace)::CCLCMsg_VoiceData_reflection_
+ b (anonymous namespace)::CEngineGotvSyncPacket_descriptor_
+ b (anonymous namespace)::CEngineGotvSyncPacket_reflection_
  b (anonymous namespace)::CLC_Messages_descriptor_
  b (anonymous namespace)::CMsgQAngle_descriptor_
  b (anonymous namespace)::CMsgQAngle_reflection_
@@ -481,6 +483,7 @@
  b CEngine::Frame()::cl_embedded_stream_video_playing
  b CEngine::Frame()::pSyncReportConVar
  b CEngine::Frame()::s_lastFrequencyTimestamp
+ b CEngineGotvSyncPacket::default_instance_
  b CEngineTrace::TraceRay(Ray_t const&, unsigned int, ITraceFilter*, CGameTrace*)::_counter
  b CFmtStrN<1040, false>::sprintf(char const*, ...)::scAsserted
  b CFmtStrN<2048, false>::CFmtStrN(char const*, ...)::scAsserted
@@ -1812,6 +1815,7 @@
  b plugin_unpause_command
  b pmainwindow
  b prop_crosshair
+ b protobuf_AddDesc_engine_5fgcmessages_2eproto()::already_here
  b protobuf_AddDesc_netmessages_2eproto()::already_here
  b protobuf_AddDesc_network_5fconnection_2eproto()::already_here
  b protobuf_AddDesc_steamdatagram_5fmessages_2eproto()::already_here
@@ -2084,6 +2088,7 @@
  b ss_map
  b ss_voice_hearpartner
  b star_memory_command
+ b static_descriptor_initializer_engine_5fgcmessages_2eproto_
  b static_descriptor_initializer_netmessages_2eproto_
  b static_descriptor_initializer_network_5fconnection_2eproto_
  b static_descriptor_initializer_steamdatagram_5fmessages_2eproto_
@@ -2321,6 +2326,7 @@
  b tv_name
  b tv_overridemaster
  b tv_password
+ b tv_playcast_delay_prediction
  b tv_playcast_max_rcvage
  b tv_playcast_max_rtdelay
  b tv_playcast_origin_auth
@@ -3937,6 +3943,15 @@
  r CCLCMsg_VoiceData::kUncompressedSampleOffsetFieldNumber
  r CCLCMsg_VoiceData::kXuidFieldNumber
  r CDispCollTree::AxisPlanesXYZ(Ray_t const&, CDispCollTri*, CDispCollHelper*)::g_ImpactNormalVecs
+ r CEngineGotvSyncPacket::kCurrentfragmentFieldNumber
+ r CEngineGotvSyncPacket::kInstanceIdFieldNumber
+ r CEngineGotvSyncPacket::kKeyframeIntervalFieldNumber
+ r CEngineGotvSyncPacket::kMatchIdFieldNumber
+ r CEngineGotvSyncPacket::kRcvageFieldNumber
+ r CEngineGotvSyncPacket::kRtdelayFieldNumber
+ r CEngineGotvSyncPacket::kSignupfragmentFieldNumber
+ r CEngineGotvSyncPacket::kTickFieldNumber
+ r CEngineGotvSyncPacket::kTickrateFieldNumber
  r CGame::CLASSNAME
  r CMsgQAngle::kXFieldNumber
  r CMsgQAngle::kYFieldNumber
@@ -4422,6 +4437,7 @@
  r perm_b
  r perm_c
  r perm_d
+ r protobuf_AssignDesc_engine_5fgcmessages_2eproto()::CEngineGotvSyncPacket_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CCLCMsg_BaselineAck_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CCLCMsg_ClientInfo_offsets_
  r protobuf_AssignDesc_netmessages_2eproto()::CCLCMsg_CmdKeyValues_offsets_
@@ -4667,6 +4683,7 @@
  r typeinfo for CEngine
  r typeinfo for CEngineBSPTree
  r typeinfo for CEngineConsoleLoggingListener
+ r typeinfo for CEngineGotvSyncPacket
  r typeinfo for CEngineRecipientFilter
  r typeinfo for CEngineSingleUserFilter
  r typeinfo for CEngineSoundServer
@@ -5311,6 +5328,7 @@
  r typeinfo name for CEngine
  r typeinfo name for CEngineBSPTree
  r typeinfo name for CEngineConsoleLoggingListener
+ r typeinfo name for CEngineGotvSyncPacket
  r typeinfo name for CEngineRecipientFilter
  r typeinfo name for CEngineSingleUserFilter
  r typeinfo name for CEngineSoundServer
@@ -6408,6 +6426,7 @@
  r vtable for CEngine
  r vtable for CEngineBSPTree
  r vtable for CEngineConsoleLoggingListener
+ r vtable for CEngineGotvSyncPacket
  r vtable for CEngineRecipientFilter
  r vtable for CEngineSingleUserFilter
  r vtable for CEngineSoundServer
@@ -8360,6 +8379,7 @@
  t CDemoFile::WriteStringTables(bf_write*, int)
  t CDemoFile::WriteUserCmd(int, char const*, unsigned char, int, int)
  t CDemoFile::~CDemoFile()
+ t CDemoStreamHttp::BeginBuffering(int)
  t CDemoStreamHttp::CDemoStreamHttp()
  t CDemoStreamHttp::CFragmentRequest::OnFailure(HTTPRequestCompleted_t const*)
  t CDemoStreamHttp::CFragmentRequest::OnSuccess(HTTPRequestCompleted_t const*)
@@ -8379,24 +8399,30 @@
  t CDemoStreamHttp::Fragment_t::ResetBuffers()
  t CDemoStreamHttp::Fragment_t::SetField(CDemoStreamHttp::FragmentTypeEnum_t, CDemoStreamHttp::Buffer_t*)
  t CDemoStreamHttp::GetFragmentBuffer(int, CDemoStreamHttp::FragmentTypeEnum_t)
+ t CDemoStreamHttp::GetStreamId(char const*)
+ t CDemoStreamHttp::GetStreamStartReference(bool)
  t CDemoStreamHttp::GetTicksPerFrame()
  t CDemoStreamHttp::GetTicksPerSecond()
  t CDemoStreamHttp::GetTotalTicks()
  t CDemoStreamHttp::GetUrl()
  t CDemoStreamHttp::MakeBuffer(unsigned int)
+ t CDemoStreamHttp::OnEngineGotvSyncPacket(CEngineGotvSyncPacket const*)
  t CDemoStreamHttp::OnFragmentRequestFailure(EHTTPStatusCode, int, CDemoStreamHttp::FragmentTypeEnum_t)
  t CDemoStreamHttp::OnFragmentRequestSuccess(unsigned int, int, CDemoStreamHttp::FragmentTypeEnum_t)
- t CDemoStreamHttp::OnStart(unsigned int, int, int, int)
+ t CDemoStreamHttp::OnStart(unsigned int)
  t CDemoStreamHttp::OnSync(char const*, int, int)
+ t CDemoStreamHttp::OnSync(int)
  t CDemoStreamHttp::PrepareForStreaming(char const*)
  t CDemoStreamHttp::ReleaseFragment(int)
  t CDemoStreamHttp::RequestFragment(int, CDemoStreamHttp::FragmentTypeEnum_t)
- t CDemoStreamHttp::Resync(char const*)
+ t CDemoStreamHttp::Resync()
  t CDemoStreamHttp::SendGet(char const*, CDemoStreamHttp::CPendingRequest*)
- t CDemoStreamHttp::SendSync(char const*, int)
- t CDemoStreamHttp::StartStreaming(char const*, char const*)
+ t CDemoStreamHttp::SendSync(int)
+ t CDemoStreamHttp::StartStreaming(char const*, CDemoStreamHttp::SyncParams_t)
  t CDemoStreamHttp::StartStreamingCached(char const*, int)
  t CDemoStreamHttp::StopStreaming()
+ t CDemoStreamHttp::SyncParams_t::PrintSyncRequest(char*, int) const
+ t CDemoStreamHttp::Update()
  t CDemoStreamHttp::~CDemoStreamHttp()
  t CDevShotGenerator::BuildMapList()
  t CDevShotGenerator::CDevShotGenerator()
@@ -8596,6 +8622,25 @@
  t CEngineBSPTree::ListLeavesInBox(Vector const&, Vector const&, unsigned short*, int)
  t CEngineBSPTree::ListLeavesInSphereWithFlagSet(int*, Vector const&, float, int, unsigned short const*, int, int)
  t CEngineConsoleLoggingListener::Log(LoggingContext_t const*, char const*)
+ t CEngineGotvSyncPacket::ByteSize() const
+ t CEngineGotvSyncPacket::CEngineGotvSyncPacket()
+ t CEngineGotvSyncPacket::CEngineGotvSyncPacket(CEngineGotvSyncPacket const&)
+ t CEngineGotvSyncPacket::Clear()
+ t CEngineGotvSyncPacket::CopyFrom(CEngineGotvSyncPacket const&)
+ t CEngineGotvSyncPacket::GetCachedSize() const
+ t CEngineGotvSyncPacket::GetMetadata() const
+ t CEngineGotvSyncPacket::InitAsDefaultInstance()
+ t CEngineGotvSyncPacket::IsInitialized() const
+ t CEngineGotvSyncPacket::MergeFrom(CEngineGotvSyncPacket const&)
+ t CEngineGotvSyncPacket::New() const
+ t CEngineGotvSyncPacket::SerializeWithCachedSizesToArray(unsigned char*) const
+ t CEngineGotvSyncPacket::SetCachedSize(int) const
+ t CEngineGotvSyncPacket::SharedCtor()
+ t CEngineGotvSyncPacket::SharedDtor()
+ t CEngineGotvSyncPacket::Swap(CEngineGotvSyncPacket*)
+ t CEngineGotvSyncPacket::default_instance()
+ t CEngineGotvSyncPacket::descriptor()
+ t CEngineGotvSyncPacket::~CEngineGotvSyncPacket()
  t CEngineRecipientFilter::AddAllPlayers()
  t CEngineRecipientFilter::AddPlayersFromBitMask(CBitVec<255>&)
  t CEngineRecipientFilter::AddPlayersFromFilter(IRecipientFilter const*)
@@ -9053,6 +9098,7 @@
  t CHLTVBroadcast::CHttpCallback::GetCallbackSizeBytes()
  t CHLTVBroadcast::CHttpCallback::Run(void*)
  t CHLTVBroadcast::CHttpCallback::Run(void*, bool, unsigned long long)
+ t CHLTVBroadcast::CHttpCallback::SetProtobufMsgForGCUponSuccess(CEngineGotvSyncPacket const*)
  t CHLTVBroadcast::CHttpCallback::~CHttpCallback()
  t CHLTVBroadcast::CMemoryStream::CMemoryStream()
  t CHLTVBroadcast::CMemoryStream::Commit(unsigned int)
@@ -9061,7 +9107,7 @@
  t CHLTVBroadcast::CMemoryStream::WriteCmdHeader(unsigned char, int, int)
  t CHLTVBroadcast::DumpStats()
  t CHLTVBroadcast::FlushCollectedStreams(char const*)
- t CHLTVBroadcast::FlushCollectedStreams(char const*) [clone .part.95]
+ t CHLTVBroadcast::FlushCollectedStreams(char const*) [clone .part.102]
  t CHLTVBroadcast::IsRecording()
  t CHLTVBroadcast::LowLevelSend(CUtlString const&, void const*, unsigned int)
  t CHLTVBroadcast::OnHttpRequestFailed()
@@ -13234,6 +13280,7 @@
  t CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::DoRealloc(int)
  t CUtlHashtable<unsigned int, SteamDatagramTransport::SharedClusterData::DataCenterPing, DefaultHashFunctor<unsigned int>, DefaultEqualFunctor<unsigned int>, undefined_t>::RemoveAll()
  t CUtlIncrementalVector<CDemoStreamHttp::CPendingRequest, DefaultIncrementalVectorAccessor_t<CDemoStreamHttp::CPendingRequest>, CUtlMemory<CDemoStreamHttp::CPendingRequest*, int> >::~CUtlIncrementalVector()
+ t CUtlIncrementalVector<CHLTVBroadcast::CHttpCallback, DefaultIncrementalVectorAccessor_t<CHLTVBroadcast::CHttpCallback>, CUtlMemory<CHLTVBroadcast::CHttpCallback*, int> >::~CUtlIncrementalVector()
  t CUtlInplaceBuffer::CUtlInplaceBuffer(int, int, int)
  t CUtlInplaceBuffer::InplaceGetLinePtr()
  t CUtlInplaceBuffer::InplaceGetLinePtr(char**, int*)
@@ -19758,6 +19805,7 @@
  t _GLOBAL__sub_I__Z29CheckConnectionLessRateLimitsRK10ns_address
  t _GLOBAL__sub_I__Z39protobuf_AssignDesc_netmessages_2eprotov
  t _GLOBAL__sub_I__Z40DataTable_SetupReceiveTableFromSendTableP9SendTableb
+ t _GLOBAL__sub_I__Z47protobuf_AssignDesc_engine_5fgcmessages_2eprotov
  t _GLOBAL__sub_I__Z48protobuf_AssignDesc_network_5fconnection_2eprotov
  t _GLOBAL__sub_I__Z52protobuf_AssignDesc_steamdatagram_5fmessages_2eprotov
  t _GLOBAL__sub_I__Z7MD5InitP12MD5Context_t
@@ -21660,12 +21708,15 @@
  t plugin_unpause(CCommand const&)
  t plugin_unpause_all(CCommand const&)
  t pqdownheap(TState&, ct_data*, int)
+ t protobuf_AddDesc_engine_5fgcmessages_2eproto()
  t protobuf_AddDesc_netmessages_2eproto()
  t protobuf_AddDesc_network_5fconnection_2eproto()
  t protobuf_AddDesc_steamdatagram_5fmessages_2eproto()
+ t protobuf_AssignDesc_engine_5fgcmessages_2eproto()
  t protobuf_AssignDesc_netmessages_2eproto()
  t protobuf_AssignDesc_network_5fconnection_2eproto()
  t protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()
+ t protobuf_ShutdownFile_engine_5fgcmessages_2eproto()
  t protobuf_ShutdownFile_netmessages_2eproto()
  t protobuf_ShutdownFile_network_5fconnection_2eproto()
  t protobuf_ShutdownFile_steamdatagram_5fmessages_2eproto()
@@ -24111,7 +24162,7 @@
  t unsigned int CUtlHashtable<CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::IndirectIndex, empty_t, CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::HashProxy, CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::EqualProxy, void*>::DoLookup<void*>(void*, unsigned int, unsigned int*) const
  t unsigned int CUtlHashtable<IModelLoadCallback*, int, DefaultHashFunctor<IModelLoadCallback*>, DefaultEqualFunctor<IModelLoadCallback*>, undefined_t>::DoLookup<IModelLoadCallback*>(IModelLoadCallback*, unsigned int, unsigned int*) const [clone .part.226]
  t unsigned int CUtlHashtable<int, CAsyncOcclusionQuery*, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoLookup<int>(int, unsigned int, unsigned int*) const [clone .part.109]
- t unsigned int CUtlHashtable<int, CDemoStreamHttp::Fragment_t, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoLookup<int>(int, unsigned int, unsigned int*) const [clone .part.54]
+ t unsigned int CUtlHashtable<int, CDemoStreamHttp::Fragment_t, IdentityHashFunctor, DefaultEqualFunctor<int>, undefined_t>::DoLookup<int>(int, unsigned int, unsigned int*) const [clone .part.65]
  t unsigned int CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoInsert<model_t*>(model_t*, unsigned int)
  t unsigned int CUtlHashtable<model_t*, CModelLoader::CDynamicModelInfo, DefaultHashFunctor<model_t*>, DefaultEqualFunctor<model_t*>, undefined_t>::DoLookup<model_t*>(model_t*, unsigned int, unsigned int*) const [clone .part.150]
  t unsigned int CUtlHashtable<qhFace*, int, DefaultHashFunctor<qhFace*>, DefaultEqualFunctor<qhFace*>, undefined_t>::DoLookup<qhFace*>(qhFace*, unsigned int, unsigned int*) const [clone .part.42] [clone .constprop.55]
