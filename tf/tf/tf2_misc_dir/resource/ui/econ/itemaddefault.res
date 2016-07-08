@@ -116,8 +116,6 @@
 		}
 	}
 
-	
-
 	"ItemIcon"
 	{
 		"ControlName"	"CItemModelPanel"
@@ -139,16 +137,6 @@
 		"text_ypos"		"60"
 		"text_center"	"1"
 		"model_only"	"1"
-			
-		"deferred_description"	"1"
-		"deferred_icon"			"1"
-			
-		"itemmodelpanel"
-		{
-			"inventory_image_type"	"1"
-			"use_item_rendertarget" "0"
-			"allow_rot"				"0"
-		}
 
 		"use_item_sounds"	"1"
 	}
@@ -179,6 +167,10 @@
 
 		"defaultBgColor_override"	"72 103 32 255"
 		"armedBgColor_override"		"72 133 32 255"
+
+		"sound_armed"		"ui/item_info_mouseover.wav"
+		"sound_depressed"	"UI/buttonclick.wav"
+		"sound_released"	"UI/buttonclickrelease.wav"
 	}
 
 	"MarketButton"
@@ -207,5 +199,9 @@
 
 		"defaultBgColor_override"	"72 103 32 255"
 		"armedBgColor_override"		"72 133 32 255"
+
+		"sound_armed"		"ui/item_info_mouseover.wav"
+		"sound_depressed"	"UI/buttonclick.wav"
+		"sound_released"	"UI/buttonclickrelease.wav"
 	}
 }

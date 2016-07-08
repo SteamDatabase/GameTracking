@@ -1017,7 +1017,7 @@ event CollectionCrafting_LetterSend
 	Animate LetterFront			xpos	c-320	Deaccel 0 0.3
 	Animate DrawingPanel		xpos	c-320	Deaccel 0 0.3
 
-	RunEventChild BehindItemParticlePanel PlayEnvelopSendParticles 0.3
+	RunEventChild BehindItemParticlePanel StartParticle2 0.3
 	Animate Stamp				xpos 1120	Accel 0.3 0.2
 	Animate LetterFront			xpos 1000	Accel 0.3 0.2
 	Animate DrawingPanel		xpos 1000	Accel 0.3 0.2
@@ -1025,17 +1025,17 @@ event CollectionCrafting_LetterSend
 	FireCommand	0.2 "playsound ui/trade_up_envelope_slide_out.wav"
 }
 
-event PlayNewItemParticles
+event StartParticle0
 {
 	FireCommand 0 "start0"
 }
 
-event PlayCrateSmashParticles
+event StartParticle1
 {
 	FireCommand 0 "start1"
 }
 
-event PlayEnvelopSendParticles
+event StartParticle2
 {
 	FireCommand 0 "start2"
 }
@@ -1055,7 +1055,7 @@ event CollectionCrafting_ItemRecieved
 	FireCommand 0	"playcratesequence1"
 	SetVisible	NewItemPanel					0 0 
 	SetVisible ReturnModel						1 0.05
-	RunEventChild BehindItemParticlePanel PlayCrateSmashParticles 0.2
+	RunEventChild BehindItemParticlePanel StartParticle1 0.2
 
 	FireCommand	0 "playsound ui/trade_up_crate_smash.wav"
 
@@ -1063,7 +1063,7 @@ event CollectionCrafting_ItemRecieved
 	SetVisible CloseButton		  1			1.5
 
 	FireCommand 2.1 "playcratesequence2"
-	RunEventChild BehindItemParticlePanel PlayNewItemParticles 1.5
+//	RunEventChild BehindItemParticlePanel PlayNewItemParticles 1.5
 	
 	FireCommand	1.0 "playsound ../player/taunt_medic_heroic.wav"
 }
@@ -1463,7 +1463,7 @@ event HudTournament_AnimateTeams_Out
 	Animate BlueTeamPanel xpos -155 Accel 0 0.68
 }
 
-event HudMatchSummary_ShowMatchStartDoors
+event HudMatchStatus_ShowMatchStartDoors
 {
 	SetVisible	MatchDoors	1	0
 	SetVisible	BlueTeamPanel	1	0
@@ -1493,7 +1493,7 @@ event HudMatchSummary_ShowMatchStartDoors
 	SetVisible CountdownBG 1 11
 }
 
-event HudMatchSummary_ShowCountdown
+event HudMatchStatus_ShowCountdown
 {
 	SetVisible CountdownLabel 1 0
 	SetVisible CountdownLabelShadow 1 0
@@ -1557,18 +1557,6 @@ event HudTournament_HideTimer
 	SetVisible CountdownLabelShadow 0 0
 }
 
-event Hud_StatsAndMedals_Show
-{
-	SetVisible	DrawingPanel	0	0
-	SetVisible	StatsBgPanel	1	0
-	SetVisible	StatsLabelPanel	1	0
-	Animate StatsLabelPanel ypos 75 Accel 0 0.1
-	Animate BlueMedals ypos 75 Accel 0 0.1
-	Animate RedMedals ypos 75 Accel 0 0.1
-	Animate BlueTeamLabel ypos 107 Accel 0 0.1
-	Animate RedTeamLabel ypos 107 Accel 0 0.1
-}
-
 event CompetitiveGame_HideDisconnectButton
 {
 	Animate DisconnectButton ypos r-100 Accel 0 0
@@ -1576,7 +1564,7 @@ event CompetitiveGame_HideDisconnectButton
 
 event CompetitiveGame_ShowDisconnectButton
 {
-	Animate DisconnectButton ypos r50 Accel 0 0.4
+	Animate DisconnectButton ypos r30 Accel 0 0.4
 }
 
 event HudTournament_ShowRoundSign
@@ -1614,7 +1602,7 @@ event TeamStatus_PlayerAlive
 	SetVisible respawntime 0 0.2
 }
 
-event HudMatchSummary_ShowMatchWinDoors
+event HudMatchStatus_ShowMatchWinDoors
 {
 	SetVisible	MatchDoors	1	0
 	SetVisible	FrontParticlePanel	1	0
@@ -1627,13 +1615,202 @@ event HudMatchSummary_ShowMatchWinDoors
 	SetVisible	FrontParticlePanel	0	7
 }
 
-event WinPanel_CompPos
+event HudMatchStatus_ShowMatchWinDoors_NoOpen
 {
-	Animate WinPanel ypos 115 Linear 0 0
+	SetVisible	MatchDoors	1	0
+	SetVisible	FrontParticlePanel	1	0
+
+	RunEventChild MatchDoors PlayDoorCloseAnim 0
+	RunEventChild FrontParticlePanel PlayDoorSlamParticles 0.45
 }
 
-event WinPanel_NormalPos
+event HudMatchSummary_SlideInPanels
 {
-	Animate WinPanel ypos 215 Linear 0 0
+	Animate BlueTeamPanel xpos 0 Accel 0.25 0.25
+	Animate RedTeamPanel xpos 0 Accel 0.25 0.25
 }
+
+event MMenu_PlayList_Expand
+{
+	Animate ItemsContainer			ypos 420 Spline 0 0.4
+	Animate EventPromo				ypos 470 Spline 0 0.4
+	Animate SafeMode				ypos 470 Spline 0 0.4
+	Animate VRBGPanel				ypos 633 Spline 0 0.4
+	Animate VRModeButton			ypos 639 Spline 0 0.4
+	Animate ShowPromoCodesButton	ypos 639 Spline 0 0.4
+
+	Animate PlayListContainer Tall 260	 Spline	0.0 0.40
+
+	FireCommand 0 "soundentry Panel.SlideDown"
+}
+
+event MMenu_PlayList_Collapse
+{
+	Animate ItemsContainer			ypos 160 Spline 0 0.4
+	Animate EventPromo				ypos 210 Spline 0 0.4
+	Animate SafeMode				ypos 210 Spline 0 0.4
+	Animate VRBGPanel				ypos 373 Spline	0 0.4
+	Animate VRModeButton			ypos 379 Spline 0 0.4
+	Animate ShowPromoCodesButton	ypos 379 Spline 0 0.4
+
+	Animate PlayListContainer Tall 0 Spline 0 0.4
+
+	FireCommand 0 "soundentry Panel.SlideUp"
+}
+
+event MMenu_PlayList_Collapse_Immediate
+{
+	Animate ItemsContainer			ypos 160 Spline 0 0
+	Animate EventPromo				ypos 210 Spline 0 0
+	Animate VRBGPanel				ypos 373 Spline	0 0
+	Animate VRModeButton			ypos 379 Spline 0 0
+	Animate ShowPromoCodesButton	ypos 379 Spline 0 0
+
+	Animate PlayListContainer Tall 0 Spline 0 0
+}
+
+event MMenu_SafeMode_Blink
+{
+	Animate InfoImage	alpha 255 Linear	0.0 0.1 
+	Animate InfoImage	alpha 0 Linear		0.1 0.1
+
+	Animate InfoImage	alpha 255 Linear	0.2 0.1 
+	Animate InfoImage	alpha 0 Linear		0.3 0.1
+
+	Animate InfoImage	alpha 255 Linear		0.4 0.1
+
+	RunEvent MMenu_SafeMode_Blink 1
+}
+
+event PvPRankModelClicked
+{
+	RunEventChild AboveModelParticlePanel StartParticle1 0
+}
+
+event PvPRankLevelUpXPBar
+{
+	Animate ContinuousProgressBar BgColor "100 255 100 255" Linear 0.0 0.1
+	Animate ContinuousProgressBar BgColor ProgressBackground Linear 0.1 0.3
+
+	Animate LevelLabel FgColor "100 255 100 255"	Linear 0.0 0.1
+	Animate LevelLabel FgColor TanLight				Linear 4.0 0.3 
+}
+
+event PvPRankLevelUpModel
+{
+	RunEventChild BelowModelParticlePanel StartParticle0 1.0
+	RunEventChild AboveModelParticlePanel StartParticle0 1.0
+
+	PlaySound 0 "ui/mm_medal_spin_hit.wav"
+}
+
+event PvPRankLevelDownXPBar
+{
+	Animate ContinuousProgressBar FgColor "255 100 100 255" Linear 0.0 0.1
+	Animate ContinuousProgressBar FgColor CreditsGreen Linear 0.1 0.3
+
+	Animate LevelLabel FgColor "255 100 100 255"	Linear 0.0 0.1
+	Animate LevelLabel FgColor TanLight				Linear 4.0 0.3 
+}
+
+event PvPRankLevelDownModel
+{
+	RunEventChild AboveModelParticlePanel StartParticle2 0.15
+	PlaySound 0 "ui/mm_rank_down_medal_shoot.wav"
+	PlaySound 0.15 "ui/mm_rank_down_medal_shoot_impact.wav"
+}
+
+event CompetitiveGame_ShowPvPRankPanel
+{
+	Animate RankPanel ypos r0 Linear 0 0
+	Animate RankPanel ypos r295 Bias 0.90 0.2 0.3
+	RunEventChild RankPanel PvPRankPanelShowXPChange 1
+}
+
+event PvPRankPanelShowXPChange
+{
+	FireCommand 0 "begin_xp_lerp"
+}
+
+event PyroVsHeavyWar_ShowChooseScene
+{
+	// Reset
+	Animate Background	ypos -250 Linear 0 0
+	Animate Heavy		ypos -180 Linear 0 0
+	Animate Pyro		ypos -180 Linear 0 0
+	Animate Foreground	ypos -100 Linear 0 0
+
+	// Paralax
+	Animate Background	ypos -175	Bias 0.9 0 1
+	Animate Heavy		ypos -60	Bias 0.9 0 1
+	Animate Pyro		ypos -60	Bias 0.9 0 1
+	Animate Foreground	ypos 65		Bias 0.9 0 1
+}
+
+event CasualCategory_Checkbox_Hide
+{
+	Animate Checkbutton xpos 250 Deaccel 0 0.2
+	Animate Title		xpos 115 Deaccel 0 0.2
+	Animate TitleShadow	xpos 116 Deaccel 0 0.2
+
+	//Animate Title		FgColor TanDark Deaccel 0 0.2
+}
+
+event CasualCategory_Checkbox_Show
+{
+	Animate Checkbutton xpos 215 Deaccel 0 0.2
+	Animate Title		xpos 100 Deaccel 0 0.2
+	Animate TitleShadow	xpos 101 Deaccel 0 0.2
+
+	//Animate Title		FgColor TanLight Deaccel 0 0.2
+}
+
+event CasualCategory_Selected
+{
+	Animate Shade BgColor "0 0 0 0" Deaccel 0 0.2
+	Animate Title		FgColor TanLight Deaccel 0 0.2
+}
+
+event CasualCategory_NotSelected
+{
+	Animate Shade BgColor "0 0 0 200" Deaccel 0 0.2
+	Animate Title		FgColor TanDark Deaccel 0 0.2
+}
+
+event MMenu_UpdateButton_StartGlow
+{
+	SetVisible	ViewDetailsGlow	1	0
+	Animate ViewDetailsGlow BgColor "238 103 17 255" Linear 0 0
+	Animate ViewDetailsGlow Alpha 0   Linear 0.0 0.2
+	Animate ViewDetailsGlow Alpha 255 Linear 0.2 0.2
+	Animate ViewDetailsGlow Alpha 0	  Linear 0.4 0.2
+	Animate ViewDetailsGlow Alpha 255 Linear 0.6 0.2
+	Animate ViewDetailsGlow Alpha 0	  Linear 0.8 0.2
+	Animate ViewDetailsGlow Alpha 255 Linear 1.0 0.2
+	Animate ViewDetailsGlow BgColor "178 83 22 255" Linear 1.0 1.0
+
+	SetVisible	ViewWarButtonGlow	1	0
+	Animate ViewWarButtonGlow BgColor "238 103 17 255" Linear 0 0
+	Animate ViewWarButtonGlow Alpha 0   Linear 0.0 0.2
+	Animate ViewWarButtonGlow Alpha 255 Linear 0.2 0.2
+	Animate ViewWarButtonGlow Alpha 0	  Linear 0.4 0.2
+	Animate ViewWarButtonGlow Alpha 255 Linear 0.6 0.2
+	Animate ViewWarButtonGlow Alpha 0	  Linear 0.8 0.2
+	Animate ViewWarButtonGlow Alpha 255 Linear 1.0 0.2
+	Animate ViewWarButtonGlow BgColor "178 83 22 255" Linear 1.0 1.0
+
+	RunEvent MMenu_UpdateButton_SubtleGlow 5
+}
+
+event MMenu_UpdateButton_SubtleGlow
+{
+	Animate ViewDetailsGlow BgColor "238 103 17 255" Linear 0 0.2
+	Animate ViewDetailsGlow BgColor "178 83 22 255" Linear 0.2 1.0
+
+	Animate ViewWarButtonGlow BgColor "238 103 17 255" Linear 0 0.2
+	Animate ViewWarButtonGlow BgColor "178 83 22 255" Linear 0.2 1.0
+
+	RunEvent MMenu_UpdateButton_SubtleGlow 5
+}
+
 //

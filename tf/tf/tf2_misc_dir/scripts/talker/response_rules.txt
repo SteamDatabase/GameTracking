@@ -200,6 +200,7 @@ criterion "ConceptPlayerHoldTaunt" "Concept" "TLK_PLAYER_HOLDTAUNT" required
 //Auto fire concepts
 criterion "ConceptPlayerCapturedPoint" "Concept" "TLK_CAPTURED_POINT" required
 criterion "ConceptPlayerRoundStart" "Concept" "TLK_ROUND_START" required
+criterion "ConceptPlayerRoundStartComp" "Concept" "TLK_ROUND_START_COMP" required
 criterion "ConceptPlayerSuddenDeathStart" "Concept" "TLK_SUDDENDEATH_START" required
 criterion "ConceptPlayerStalemate" "Concept" "TLK_STALEMATE" required
 criterion "ConceptPlayerBuildingObject" "Concept" "TLK_BUILDING_OBJECT" required
@@ -393,10 +394,11 @@ criterion "WeaponIsRocket" "playerweapon" "tf_weapon_rocketlauncher" "required"
 criterion "WeaponIsShovel" "playerweapon" "tf_weapon_shovel" "required"
 criterion "WeaponIsFlaregun" "playerweapon" "tf_weapon_flaregun" "required"
 // Lunchbox modified to fire for Sandvich only, so we don't share lines.
-criterion "WeaponIsSandvich" "item_name" "The Sandvich" "required"
-criterion "WeaponIsRobotSandvich" "item_name" "The Robo-Sandvich" "required"
-criterion "WeaponIsFestiveSandvich" "item_name" "Festive Sandvich" "required"
+criterion "WeaponIsSandvich" "item_name" "The Sandvich" "required" weight 5
+criterion "WeaponIsRobotSandvich" "item_name" "The Robo-Sandvich" "required" weight 5
+criterion "WeaponIsFestiveSandvich" "item_name" "Festive Sandvich" "required" weight 5
 criterion "WeaponIsLunchboxDrink" "playerweapon" "tf_weapon_lunchbox_drink" "required"
+criterion "WeaponIsLunchbox" "playerweapon" "tf_weapon_lunchbox" "required"
 criterion "WeaponIsGloves" "item_type_name" "#TF_Weapon_Gloves" "required" weight 10
 criterion "WeaponIsKritzkrieg" "item_name" "The Kritzkrieg" "required" weight 10
 criterion "WeaponIsBow" "item_type_name" "#TF_Weapon_CompoundBow" "required" weight 10
@@ -532,8 +534,11 @@ criterion "NotLowHealth" "playerhealthfrac" ">0.5" required
 criterion "SuperHighHealthContext" "playerhealthfrac" ">1.400" required
 criterion "GameRulesInWinState" "GameRound" "5" required
 criterion "PlayerLostPreviousRound" "LostRound" "1" required
+criterion "PlayerWonPreviousRound" "LostRound" "0" required
 criterion "PlayerOnWinningTeam" "OnWinningTeam" "1" required
 criterion "PlayerOnLosingTeam" "OnWinningTeam" "0" required
+criterion "PreviousRoundWasTie" "PrevRoundWasTie" "1" required
+criterion "PreviousRoundWasNotTie" "PrevRoundWasTie" "0" required
 
 criterion "IsRedTeam" "OnRedTeam" "1" required
 criterion "IsBlueTeam" "OnRedTeam" "0" required
@@ -586,6 +591,8 @@ criterion "DuelTargetIsEngineer" "dueltargetclass" "Engineer" required
 
 
 criterion "ConceptRocketDestroyed" "Concept" "TLK_ROCKET_DESTOYED" required 
+
+criterion "ConceptComboKilled" "Concept" "TLK_COMBO_KILLED" required  
 
 // MvM criterion
 criterion "IsMvMDefender" "IsMvMDefender" "1" required
@@ -665,6 +672,15 @@ criterion "ConceptPlayerSkeletonKingAppear" "Concept" "TLK_PLAYER_SKELETON_KING_
 criterion "IsMapHelltower" "map" "plr_hightower_event" required
 criterion "IsInHell"	"IsInHell"	"1" required
 criterion "IsNotInHell"	"IsInHell"	"0" required
+
+criterion "IsFirstRound"	"RoundsPlayed"	"<1" required
+criterion "IsNotFirstRound"	"RoundsPlayed"	">0" required
+criterion "IsComp6v6"	"IsComp6v6"	"1" required
+criterion "IsNotComp6v6"	"IsComp6v6"	"0" required
+criterion "IsCompWinner"	"IsCompWinner" "1" required
+
+criterion "ConceptPlayerGameOverComp" "Concept" "TLK_GAME_OVER_COMP" required
+criterion "ConceptPlayerMatchOverComp" "Concept" "TLK_MATCH_OVER_COMP" required
 
 // Test rules
 #include "talker/tf.txt"

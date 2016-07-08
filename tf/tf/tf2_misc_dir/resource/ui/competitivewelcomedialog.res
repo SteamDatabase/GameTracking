@@ -269,15 +269,48 @@
 		"fgcolor_override" "TanDark"
 	}
 
+	"TakeTourButton"
+	{
+		"ControlName"	"CExButton"
+		"fieldName"		"TakeTourButton"
+		"proportionalToParent"  "1"
+		"xpos"			"rs1-170"
+		"ypos"			"352" // 4 margin
+		"zpos"			"20"
+		"wide"			"150"
+		"tall"			"25"
+		"default"		"1"
+		"autoResize"	"0"
+		"pinCorner"		"0"
+		"visible"		"1"
+		"enabled"		"1"
+		"tabPosition"	"0"
+		"labelText"		"#TF_MM_TakeUITour"
+		"font"			"EconFontSmall"
+		"textAlignment"	"center"
+		"textinsetx"	"50"
+		"dulltext"		"0"
+		"brighttext"	"0"
+		"Command"		"show_explanations"
+		"sound_depressed"	"UI/buttonclick.wav"
+		"sound_released"	"UI/buttonclickrelease.wav"
+		"border_default"			"Econ.Button.Border.Default"
+		"border_armed"				"Econ.Button.Border.Armed"
+		"armedBgColor_override"		"Econ.Button.ArmedBgColor"
+		"armedFgColor_override"		"Econ.Button.ArmedFgColor"
+		"depressedBgColor_override"	"Econ.Button.DepressedBgColor"
+		"depressedFgColor_override"	"Econ.Button.DepressedFgColor"
+	}
+
 	"ConfirmButton"
 	{
 		"ControlName"	"CExButton"
 		"fieldName"		"ConfirmButton"
 		"proportionalToParent"  "1"
-		"xpos"			"cs+.06"
+		"xpos"			"rs1-10"
 		"ypos"			"352" // 4 margin
 		"zpos"			"20"
-		"wide"			"p0.425"
+		"wide"			"150"
 		"tall"			"25"
 		"default"		"1"
 		"autoResize"	"0"
@@ -300,5 +333,18 @@
 		"armedFgColor_override"		"Econ.Button.ArmedFgColor"
 		"depressedBgColor_override"	"Econ.Button.DepressedBgColor"
 		"depressedFgColor_override"	"Econ.Button.DepressedFgColor"
+	}
+
+	"NeverShowAgainCheckBox"
+	{
+		"ControlName"		"CheckButton"
+		"fieldName"		"NeverShowAgainCheckBox"
+		"xpos"		"20"
+		"ypos"			"352" // 4 margin
+		"zpos"		"-1"
+		"wide"		"200"
+		"tall"		"20"
+		"font"			"HudFontSmall"
+		"labelText"		"#TF_Competitive_Welcome_DontShow"
 	}
 }

@@ -1130,4 +1130,32 @@
 			"scaleImage"	"1"
 		}				
 	}
+
+	"mouseoveritempanel"
+	{
+		"fieldName"		"mouseoveritempanel"
+		"xpos"			"c-70"
+		"ypos"			"270"
+		"zpos"			"10001"
+		"wide"			"200"
+		"tall"			"150"
+		"visible"		"0"
+		"bgcolor_override"		"0 0 0 0"
+		"noitem_textcolor"		"117 107 94 255"
+		"PaintBackgroundType"	"2"
+		"paintborder"	"1"
+
+		"text_center_x"		"1"
+		"resize_to_text"	"1"
+		"padding_height"	"15"
+
+		"model_ypos"	"15"
+		"model_wide"	"150"
+		"model_tall"	"100"
+
+		"hide_collection_panel" "1"
+		"model_center_x"	"1"
+
+		"name_only"			"1"
+	}
 }

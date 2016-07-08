@@ -1777,13 +1777,14 @@
 
 	"top_streams_request_finished"
 	{}
-	
-	"show_win_panel"
-	{
-		"use_comp_pos"	"byte"
-	}
 
 	"competitive_state_changed"
+	{}
+
+	"global_war_data_updated"
+	{}
+
+	"stop_watch_changed"
 	{}
 
 	"ds_stop"
@@ -1793,5 +1794,15 @@
 	{
 		"delay"		"float"
 	}
+
+	"show_match_summary"
+	{}
+
+	"experience_changed"
+	{}
+
+	// Really only for debugging
+	"begin_xp_lerp"
+	{}
 }
 

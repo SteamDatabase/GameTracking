@@ -939,6 +939,7 @@
  B vaudio
  B vcr_verbose
  B vgui::BuildGroup::m_HandleTable
+ B vgui::BuildGroup::m_dictCachedResFiles
  B vgui::CBuildFactoryHelper::m_sHelpers
  B vgui::ToolWindow::s_ToolWindows
  B vgui::g_pMDLCache
@@ -946,6 +947,7 @@
  B vgui::g_pMaterialSystem
  B vgui::g_pMaterialSystemHardwareConfig
  B vgui::g_pStudioRender
+ B vgui_cache_res_files
  B vgui_drawfocus
  B vgui_drawtree_clear
  B vgui_drawtree_off
@@ -1354,6 +1356,7 @@
  D CUtlRBTree<CUtlMap<char const*, CSaveRestore::RestoreLookupTable, int>::Node_t, int, CUtlMap<char const*, CSaveRestore::RestoreLookupTable, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CSaveRestore::RestoreLookupTable, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
  D CUtlRBTree<CUtlMap<char const*, CSentence*, int>::Node_t, int, CUtlMap<char const*, CSentence*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CSentence*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
  D CUtlRBTree<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, CUtlString, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+ D CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
  D CUtlRBTree<CUtlMap<char const*, int, int>::Node_t, int, CUtlMap<char const*, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, int, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
  D CUtlRBTree<CUtlMap<char const*, int, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<char const*, memhandle_t__*, int>::Node_t, int, CUtlMap<char const*, memhandle_t__*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, memhandle_t__*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
@@ -2214,6 +2217,7 @@
  D guard variable for CUtlRBTree<CUtlMap<char const*, CSaveRestore::RestoreLookupTable, int>::Node_t, int, CUtlMap<char const*, CSaveRestore::RestoreLookupTable, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CSaveRestore::RestoreLookupTable, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<char const*, CSentence*, int>::Node_t, int, CUtlMap<char const*, CSentence*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CSentence*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, CUtlString, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+ D guard variable for CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<char const*, int, int>::Node_t, int, CUtlMap<char const*, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, int, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<char const*, int, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<char const*, memhandle_t__*, int>::Node_t, int, CUtlMap<char const*, memhandle_t__*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, memhandle_t__*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
@@ -6645,6 +6649,7 @@
  T CDrawTreeFrame::OnClose()
  T CDrawTreeFrame::OnCommand(char const*)
  T CDrawTreeFrame::OnItemSelected()
+ T CDrawTreeFrame::OnThink()
  T CDrawTreeFrame::PerformLayout()
  T CDrawTreeFrame::RecalculateSelectedHighlight()
  T CDrawTreeFrame::~CDrawTreeFrame()
@@ -7588,7 +7593,7 @@
  T CHLTVServer::OnLastDemoInLoopPlayed()
  T CHLTVServer::PausePlayback(float)
  T CHLTVServer::ProcessConnectionlessPacket(netpacket_s*)
- T CHLTVServer::ReadCompeleteDemoFile()
+ T CHLTVServer::ReadCompleteDemoFile()
  T CHLTVServer::ReadPacket()
  T CHLTVServer::ReplyInfo(netadr_s const&)
  T CHLTVServer::ResetDemoInterpolation()
@@ -9871,6 +9876,7 @@
  T CUtlDict<CSentence*, int>::PurgeAndDeleteElements()
  T CUtlDict<CSentence*, int>::~CUtlDict()
  T CUtlDict<CUtlString, unsigned short>::~CUtlDict()
+ T CUtlDict<KeyValues*, int>::~CUtlDict()
  T CUtlDict<int, int>::~CUtlDict()
  T CUtlDict<memhandle_t__*, int>::~CUtlDict()
  T CUtlDict<vgui::IPanelAnimationPropertyConverter*, int>::~CUtlDict()
@@ -10362,6 +10368,19 @@
  T CUtlRBTree<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, CUtlString, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short>, unsigned short> >::NextInorder(unsigned short) const
  T CUtlRBTree<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, CUtlString, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
  T CUtlRBTree<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, CUtlString, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
+ T CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::Find(CUtlMap<char const*, KeyValues*, int>::Node_t const&) const
+ T CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::FindInsertionPosition(CUtlMap<char const*, KeyValues*, int>::Node_t const&, int&, bool&)
+ T CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::FirstInorder() const
+ T CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::Insert(CUtlMap<char const*, KeyValues*, int>::Node_t const&)
+ T CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::InsertRebalance(int)
+ T CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::IsLeftChild(int) const
+ T CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::IsRightChild(int) const
+ T CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::NewNode()
+ T CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::NextInorder(int) const
+ T CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::RemoveAll()
+ T CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::RotateLeft(int)
+ T CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::RotateRight(int)
+ T CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::~CUtlRBTree()
  T CUtlRBTree<CUtlMap<char const*, int, int>::Node_t, int, CUtlMap<char const*, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, int, int>::Node_t, int>, int> >::Find(CUtlMap<char const*, int, int>::Node_t const&) const
  T CUtlRBTree<CUtlMap<char const*, int, int>::Node_t, int, CUtlMap<char const*, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, int, int>::Node_t, int>, int> >::FindInsertionPosition(CUtlMap<char const*, int, int>::Node_t const&, int&, bool&)
  T CUtlRBTree<CUtlMap<char const*, int, int>::Node_t, int, CUtlMap<char const*, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, int, int>::Node_t, int>, int> >::FirstInorder() const
@@ -14660,6 +14679,7 @@
  T vgui::CTreeViewListControl::~CTreeViewListControl()
  T vgui::CheckButton::AddToMap(char const*, void (vgui::Panel::*)(), int, int, char const*, int, char const*)
  T vgui::CheckButton::ApplySchemeSettings(vgui::IScheme*)
+ T vgui::CheckButton::ApplySettings(KeyValues*)
  T vgui::CheckButton::CheckButton(vgui::Panel*, char const*, char const*)
  T vgui::CheckButton::GetAnimMap()
  T vgui::CheckButton::GetBorder(bool, bool, bool, bool)
@@ -14858,7 +14878,7 @@
  T vgui::EditablePanel::SetControlInt(char const*, int)
  T vgui::EditablePanel::SetControlString(char const*, char const*)
  T vgui::EditablePanel::SetControlString(char const*, wchar_t const*)
- T vgui::EditablePanel::SetControlVisible(char const*, bool)
+ T vgui::EditablePanel::SetControlVisible(char const*, bool, bool)
  T vgui::EditablePanel::SetDialogVariable(char const*, char const*)
  T vgui::EditablePanel::SetDialogVariable(char const*, float)
  T vgui::EditablePanel::SetDialogVariable(char const*, int)

@@ -1,100 +1,5 @@
-"Resource/UI/HudTeamGoal.res"
+"Resource/UI/HudTeamGoalTournament.res"
 {
-	"HudTeamGoalBG"
-	{
-		"ControlName"		"CTFImagePanel"
-		"fieldName"		"HudTeamGoalBG"
-		"xpos"			"0"
-		"ypos"			"115"
-		"zpos"			"-1"
-		"wide"			"320"
-		"tall"			"150"
-		"autoResize"		"0"
-		"pinCorner"		"0"
-		"visible"		"1"
-		"enabled"		"1"
-		"image"			"../hud/death_panel_blue_bg"
-		"scaleImage"		"1"
-		"teambg_2"		"../hud/death_panel_red_bg"
-		"teambg_3"		"../hud/death_panel_blue_bg"
-
-		if_comp
-		{
-			"ypos"	"130"
-		}
-	}
-	"SwitchLabel"
-	{	
-		"ControlName"		"Label"
-		"fieldName"		"SwitchLabel"
-		"font"			"HudFontSmallBold"
-		"xpos"			"80"
-		"ypos"			"135"
-		"zpos"			"1"
-		"wide"			"220"	[$WIN32]
-		"wide"			"180"	[$X360]
-		"tall"			"15"
-		"autoResize"		"0"
-		"pinCorner"		"0"
-		"visible"		"1"
-		"enabled"		"1"
-		"wrap"			"1"
-		"labelText"		"#TF_teamswitch_attackers"
-		"textAlignment"		"North"
-		
-		if_comp
-		{
-			"ypos"	"150"
-		}
-	}
-	"GoalLabel"
-	{	
-		"ControlName"		"Label"
-		"fieldName"		"GoalLabel"
-		"font"			"HudFontSmall"
-		"xpos"			"80"
-		"ypos"			"150"
-		"zpos"			"1"
-		"wide"			"220"
-		"wide_hidef"	"200"
-		"wide_lodef"		"230"
-		"tall"			"55"
-		"tall_lodef"	"60"
-		"autoResize"		"0"
-		"pinCorner"		"0"
-		"visible"		"1"
-		"enabled"		"1"
-		"wrap"			"1"
-		"labelText"		""
-		"textAlignment"		"North"
-
-		if_comp
-		{
-			"ypos"	"165"
-		}
-	}
-	"GoalImage"
-	{
-		"ControlName"		"CTFImagePanel"
-		"fieldName"		"GoalImage"
-		"xpos"			"27"
-		"ypos"			"140"
-		"zpos"			"1"
-		"wide"			"45"
-		"tall"			"45"
-		"autoResize"		"0"
-		"pinCorner"		"0"
-		"visible"		"1"
-		"enabled"		"1"
-		"image"			"../hud/hud_icon_attack"
-		"scaleImage"		"1"
-
-		if_comp
-		{
-			"ypos"	"155"
-		}
-	}
-
 	"HudStopWatchObjective"
 	{
 		"ControlName"		"EditablePanel"
@@ -103,7 +8,7 @@
 		"ypos"				"105"
 		"zpos"				"1"
 		"wide"				"275"
-		"tall"				"130"
+		"tall"				"190"
 		"visible"			"0"
 		"enabled"			"1"
 
@@ -120,7 +25,7 @@
 			"ypos"			"0"
 			"zpos"			"-1"
 			"wide"			"275"
-			"tall"			"130"
+			"tall"			"170"
 			"autoResize"		"0"
 			"pinCorner"		"0"
 			"visible"		"1"
@@ -142,7 +47,7 @@
 			"ypos"			"0"
 			"zpos"			"-1"
 			"wide"			"275"
-			"tall"			"80"
+			"tall"			"100"
 			"autoResize"		"0"
 			"pinCorner"		"0"
 			"visible"		"0"
@@ -178,8 +83,8 @@
 		{
 			"ControlName"		"CExRichText"
 			"fieldName"		"HudStopWatchObjectiveText1"
-			"xpos"			"25"	[$WIN32]
-			"ypos"			"35"	[$WIN32]
+			"xpos"			"25"
+			"ypos"			"35"
 			"wide"			"225"
 			"tall"			"150"
 			"wrap"			"1"
@@ -187,7 +92,7 @@
 			"pinCorner"		"1"
 			"visible"		"1"
 			"enabled"		"1"
-			"labelText"		"They got 3 points in just 20 minutes 43 seconds."
+			"labelText"		""
 			"textAlignment"		"west"
 			"font"			"HudFontSmallestShadow"
 			"maxchars"		"-1"
@@ -218,13 +123,13 @@
 			"xpos"			"25"	[$WIN32]
 			"ypos"			"75"	[$WIN32]
 			"wide"			"225"
-			"tall"			"150"
+			"tall"			"165"
 			"wrap"			"1"
 			"autoResize"		"1"
 			"pinCorner"		"1"
 			"visible"		"1"
 			"enabled"		"1"
-			"labelText"		"They got 3 points in just 20 minutes 43 seconds."
+			"labelText"		""
 			"textAlignment"		"west"
 			"font"			"HudFontSmallestShadow"
 			"maxchars"		"-1"

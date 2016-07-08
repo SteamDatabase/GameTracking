@@ -2278,7 +2278,6 @@ $vertexcolor
 00`p p
 00p p00
 00p0 p 
-09:32:16
 0: no radiosity
 0: off
 0=Off, 1=Normal, 2=Wireframe
@@ -2308,6 +2307,7 @@ $vertexcolor
 1234567890123
 131072
 1440.0
+14:02:59
 16.6666666667
 1750.0f
 1: draw light cache entries
@@ -4831,7 +4831,6 @@ CDemoFile::ReadConsoleCommand()::cmdstring
 CDemoFile::ReadDemoHeader()
 CDemoFile::ReadNetworkDataTables(bf_read*)
 CDemoFile::ReadRawData(char*, int)
-CDemoFile::ReadRawData: buffe overflow (%int).
 CDemoFile::ReadRawData: buffer overflow (%int).
 CDemoFile::ReadSequenceInfo(int&, int&)
 CDemoFile::ReadStringTables(bf_read*)
@@ -4895,6 +4894,7 @@ CDemoRecorder::RecordCommand(char const*)
 CDemoRecorder::RecordMessages(bf_read&, int)
 CDemoRecorder::RecordPacket()
 CDemoRecorder::RecordServerClasses(ServerClass*)
+CDemoRecorder::RecordStringTables
 CDemoRecorder::RecordStringTables()
 CDemoRecorder::RecordUserInput(int)
 CDemoRecorder::ResetDemoInterpolation()
@@ -5209,6 +5209,7 @@ CDrawTreeFrame::KB_ChainToMap()::chained
 CDrawTreeFrame::OnClose()
 CDrawTreeFrame::OnCommand(char const*)
 CDrawTreeFrame::OnItemSelected()
+CDrawTreeFrame::OnThink()
 CDrawTreeFrame::PanelMessageFunc_OnItemSelected::InitVar()::bAdded
 CDrawTreeFrame::PerformLayout()
 CDrawTreeFrame::RecalculateSelectedHighlight()
@@ -6277,7 +6278,7 @@ CHLTVServer::LinkInstanceBaselines()
 CHLTVServer::OnLastDemoInLoopPlayed()
 CHLTVServer::PausePlayback(float)
 CHLTVServer::ProcessConnectionlessPacket(netpacket_s*)
-CHLTVServer::ReadCompeleteDemoFile()
+CHLTVServer::ReadCompleteDemoFile()
 CHLTVServer::ReadPacket()
 CHLTVServer::ReplyInfo(netadr_s const&)
 CHLTVServer::ReplyInfo(netadr_s const&)::gamedir
@@ -8071,6 +8072,7 @@ CReplayDemoRecorder::RecordCommand(char const*)
 CReplayDemoRecorder::RecordMessages(bf_read&, int)
 CReplayDemoRecorder::RecordPacket()
 CReplayDemoRecorder::RecordServerClasses(ServerClass*)
+CReplayDemoRecorder::RecordStringTables
 CReplayDemoRecorder::RecordStringTables()
 CReplayDemoRecorder::RecordUserInput(int)
 CReplayDemoRecorder::ResetDemoInterpolation()
@@ -9069,6 +9071,7 @@ CUtlDict<CSaveRestore::RestoreLookupTable, int>::~CUtlDict()
 CUtlDict<CSentence*, int>::PurgeAndDeleteElements()
 CUtlDict<CSentence*, int>::~CUtlDict()
 CUtlDict<CUtlString, unsigned short>::~CUtlDict()
+CUtlDict<KeyValues*, int>::~CUtlDict()
 CUtlDict<int, int>::~CUtlDict()
 CUtlDict<memhandle_t__*, int>::~CUtlDict()
 CUtlDict<vgui::IPanelAnimationPropertyConverter*, int>::~CUtlDict()
@@ -9586,6 +9589,20 @@ CUtlRBTree<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned sh
 CUtlRBTree<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, CUtlString, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short>, unsigned short> >::NextInorder(unsigned short) const
 CUtlRBTree<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, CUtlString, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
 CUtlRBTree<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, CUtlString, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
+CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::Find(CUtlMap<char const*, KeyValues*, int>::Node_t const&) const
+CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::FindInsertionPosition(CUtlMap<char const*, KeyValues*, int>::Node_t const&, int&, bool&)
+CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::FirstInorder() const
+CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::Insert(CUtlMap<char const*, KeyValues*, int>::Node_t const&)
+CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::InsertRebalance(int)
+CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::IsLeftChild(int) const
+CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::IsRightChild(int) const
+CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
+CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::NewNode()
+CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::NextInorder(int) const
+CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::RemoveAll()
+CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::RotateLeft(int)
+CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::RotateRight(int)
+CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::~CUtlRBTree()
 CUtlRBTree<CUtlMap<char const*, int, int>::Node_t, int, CUtlMap<char const*, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, int, int>::Node_t, int>, int> >::Find(CUtlMap<char const*, int, int>::Node_t const&) const
 CUtlRBTree<CUtlMap<char const*, int, int>::Node_t, int, CUtlMap<char const*, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, int, int>::Node_t, int>, int> >::FindInsertionPosition(CUtlMap<char const*, int, int>::Node_t const&, int&, bool&)
 CUtlRBTree<CUtlMap<char const*, int, int>::Node_t, int, CUtlMap<char const*, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, int, int>::Node_t, int>, int> >::FirstInorder() const
@@ -12431,6 +12448,7 @@ Failed loading game lump %int: lump claims to be compressed but metadata does no
 Failed registering for arbitration
 Failed to AudioQueueAllocateBuffer output %double (%int)
 Failed to AudioQueueEnqueueBuffer output %double
+Failed to RecordStringTables. Trying to record string table that'short bigger than max string table size
 Failed to add local players
 Failed to allocate minimum memory requirement for game (%double MB)
 Failed to cache info for %short
@@ -13517,6 +13535,7 @@ Join request denied
 Joining team: %short
 Jump To
 Jumping to %short
+Jun 27 2016
 K ^_[]
 K,;K(}
 Keep this many old copies in history of autosaves and quicksaves.
@@ -13626,7 +13645,7 @@ KilobytesSortFunc(vgui::ListPanel*, vgui::ListPanelItem const&, vgui::ListPanelI
 L %02i/%02i/%04i - %02i:%02i:%02i: %short
 L%02i%02i
 L2Miss
-L=U#@
+L=AO@
 L?fff?
 L@CEngineTool
 LB;PH|
@@ -15001,11 +15020,13 @@ Read from EMS failed
 Read from XMS failed
 Read: Attempted to read from signed char write-only file
 ReadCheatCommandsFromFile(char*)
+ReadCompleteDemoFile failed to read string tables. Trying to read string tables that'short bigger than max string table size
 ReadDeletions
 ReadDeltaEnt
 ReadEnterPVS
 ReadKeyValuesFile(char const*)
 ReadLeavePVS
+ReadPacket failed to read string tables. Trying to read string tables that'short bigger than max string table size
 ReadPacketEntities
 ReadPreserveEnt
 ReadVideoConfigInt(char const*, int)
@@ -19356,6 +19377,7 @@ _vaudio
 _vcr_verbose
 _vec3_angle
 _vec3_origin
+_vgui_cache_res_files
 _vgui_drawfocus
 _vgui_drawtree_clear
 _vgui_drawtree_off
@@ -20346,6 +20368,7 @@ curlWriteFn(void*, unsigned long, unsigned long, void*)
 current_skill
 currently logging to: 
 customFiles
+custom_mod
 cvar "%short" not found
 cvar list
 cvar_name
@@ -21383,6 +21406,7 @@ guard variable for CUtlRBTree<CUtlMap<char const*, CPureServerWhitelist::CComman
 guard variable for CUtlRBTree<CUtlMap<char const*, CSaveRestore::RestoreLookupTable, int>::Node_t, int, CUtlMap<char const*, CSaveRestore::RestoreLookupTable, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CSaveRestore::RestoreLookupTable, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<char const*, CSentence*, int>::Node_t, int, CUtlMap<char const*, CSentence*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CSentence*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, CUtlString, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CUtlString, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
+guard variable for CUtlRBTree<CUtlMap<char const*, KeyValues*, int>::Node_t, int, CUtlMap<char const*, KeyValues*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, KeyValues*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<char const*, int, int>::Node_t, int, CUtlMap<char const*, int, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, int, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<char const*, int, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
 guard variable for CUtlRBTree<CUtlMap<char const*, memhandle_t__*, int>::Node_t, int, CUtlMap<char const*, memhandle_t__*, int>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, memhandle_t__*, int>::Node_t, int>, int> >::Links(int) const::s_Sentinel
@@ -23441,6 +23465,7 @@ resolutions with aspect ratios wider than 1.85:1 (slightly wider than 16:9).
 resolvepath
 resource
 resource/%s_%%language%%.txt
+resource/DebugOptionsPanel.res
 resource/SourceScheme.res
 resource/game-icon.bmp
 resource/icon_file
@@ -23462,7 +23487,6 @@ resource\BaseActionSkipAheadDialog.res
 resource\BaseActionStopPlaybackDialog.res
 resource\BaseActionTextMessageStartDialog.res
 resource\BaseActionZoomDialog.res
-resource\DebugOptionsPanel.res
 resource\askconnectpanel.res
 resourefiles
 restart
@@ -23487,6 +23511,7 @@ rgpparseword
 rightText
 room_type
 room_type %int
+rotation
 rpt_client_enable
 rpt_connect
 rpt_download_log
@@ -23866,6 +23891,7 @@ skybox/%s_dx80%short
 skybox/%short%short
 skyboxMaterials
 slots
+smallcheckimage
 smooth
 smooth angles
 smooth edges
@@ -25851,7 +25877,6 @@ unsigned int CUtlStableHashtable<CUtlConstStringBase<char>, CNetworkStringTableI
 unsigned int CUtlStableHashtable<model_t*, empty_t, CModelInfo::ModelFileHandleHash, CModelInfo::ModelFileHandleEq, short, void*>::DoInsert<model_t*>(model_t*)
 unsigned int'Vlk
 unsigned long long "%float"
-unsigned long long signed char::* 31 2016
 unsigned long long'ff.
 unsigned long long?wwwwww
 unsigned short	;K0
@@ -26089,6 +26114,7 @@ vgui::BuildGroup::SetEnabled(bool)
 vgui::BuildGroup::SetRulerLabelsVisible(bool)
 vgui::BuildGroup::ToggleRulerDisplay()
 vgui::BuildGroup::m_HandleTable
+vgui::BuildGroup::m_dictCachedResFiles
 vgui::BuildGroup::~BuildGroup()
 vgui::BuildModeDialog
 vgui::BuildModeDialog::AddToMap(char const*, void (vgui::Panel::*)(), int, int, char const*, int, char const*)
@@ -26278,6 +26304,7 @@ vgui::CTreeViewListControl::~CTreeViewListControl()
 vgui::CheckButton
 vgui::CheckButton::AddToMap(char const*, void (vgui::Panel::*)(), int, int, char const*, int, char const*)
 vgui::CheckButton::ApplySchemeSettings(vgui::IScheme*)
+vgui::CheckButton::ApplySettings(KeyValues*)
 vgui::CheckButton::ChainToAnimationMap()::chained
 vgui::CheckButton::ChainToMap()::chained
 vgui::CheckButton::CheckButton(vgui::Panel*, char const*, char const*)
@@ -26553,7 +26580,7 @@ vgui::EditablePanel::SetControlEnabled(char const*, bool)
 vgui::EditablePanel::SetControlInt(char const*, int)
 vgui::EditablePanel::SetControlString(char const*, char const*)
 vgui::EditablePanel::SetControlString(char const*, wchar_t const*)
-vgui::EditablePanel::SetControlVisible(char const*, bool)
+vgui::EditablePanel::SetControlVisible(char const*, bool, bool)
 vgui::EditablePanel::SetDialogVariable(char const*, char const*)
 vgui::EditablePanel::SetDialogVariable(char const*, float)
 vgui::EditablePanel::SetDialogVariable(char const*, int)
@@ -28633,6 +28660,7 @@ vgui::g_pMaterialSystemHardwareConfig
 vgui::g_pStudioRender
 vgui::g_szControlsModuleName
 vgui::ivgui()->Start()
+vgui_cache_res_files
 vgui_controls is missing signed char required interface!
 vgui_drawfocus
 vgui_drawtree

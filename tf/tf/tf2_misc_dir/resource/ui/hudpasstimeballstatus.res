@@ -367,8 +367,7 @@
 				"scaleImage"	"1"					
 			}
 		}
-
-
+		
 		"BallPowerMeterFillContainer"
 		{
 			// This exists because the bar is filled by changing the width dynamically
@@ -378,14 +377,14 @@
 			// Also so that the bar is clipped nicely to the border.
 			"ControlName"		"EditablePanel"
 			"fieldName"			"BallPowerMeterFillContainer"
-			"xpos"			"c-85"
-			"ypos"			"16"
-			"zpos"			"4"
-			"wide"			"168"
-			"tall"			"18"
+			"xpos"				"c-85"
+			"ypos"				"16"
+			"zpos"				"4"
+			"wide"				"168"
+			"tall"				"18"
 			"visible"			"1"
 			"enabled"			"1"
-			
+
 			"BallPowerMeterFill"
 			{
 				"ControlName"	"ImagePanel"

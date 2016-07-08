@@ -14,7 +14,7 @@
 		"Background"
 		{
 			"ControlName"	"EditablePanel"
-			"fieldName"		"AvatarPanel0"
+			"fieldName"		"Background"
 			"xpos"			"0"
 			"ypos"			"0"
 			"zpos"			"2"

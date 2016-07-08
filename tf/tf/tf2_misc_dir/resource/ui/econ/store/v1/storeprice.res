@@ -97,6 +97,28 @@
 		"fgcolor"		"10 10 10 255"
 	}
 
+	"Highlighted"
+	{
+		"ControlName"	"CExLabel"
+		"fieldName"		"Highlighted"
+		"font"			"FontStorePrice"
+		"textAlignment"	"east"
+		"xpos"			"0"
+		"ypos"			"0"
+		"zpos"			"18"
+		"wide"			"85"
+		"tall"			"12"
+		"textinsetx"	"8"
+		"autoResize"	"1"
+		"pinCorner"		"0"	
+		"visible"		"0"
+		"enabled"		"1"
+		"labelText"		"#Store_Price_Highlighted"
+		"paintbackground"	"0"
+		"border"		"StoreHighlightedBorder"
+		"fgcolor"		"10 10 10 255"
+	}
+
 	"Sale"
 	{
 		"ControlName"	"CExLabel"

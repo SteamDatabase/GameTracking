@@ -288,7 +288,7 @@
 		"zpos"			"0"
 		"wide"			"325"
 		"tall"			"260"
-		"visible"		"1"
+		"visible"		"0"
 		"border"		"GrayDialogBorder"
 		
 		"TitleBG"

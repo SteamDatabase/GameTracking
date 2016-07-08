@@ -324,7 +324,26 @@
 		"enabled"		"1"
 		"dulltext"		"0"
 		"brighttext"	"0"
-		"command"		"UpdateHalfLambert"
+		"border"		"SteamWorkshopBorder"
+	}
+
+	"PartnerCheckButton"
+	{
+		"ControlName"	"CheckButton"
+		"fieldName"		"PartnerCheckButton"
+		"labelText"		"Partner"
+		"Font"			"HudFontSmallest"
+		"textAlignment"	"west"
+		"xpos"			"325" 
+		"ypos"			"85"
+		"wide"			"80"
+		"tall"			"20"
+		"autoResize"	"0"
+		"pinCorner"		"0"
+		"visible"		"1"
+		"enabled"		"1"
+		"dulltext"		"0"
+		"brighttext"	"0"
 		"border"		"SteamWorkshopBorder"
 	}
 

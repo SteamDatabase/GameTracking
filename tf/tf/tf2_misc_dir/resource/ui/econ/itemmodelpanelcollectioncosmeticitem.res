@@ -3,7 +3,6 @@
 	"mouseoveritempanel"
 	{
 		"fieldName"			"mouseoveritempanel"
-		"collection_wide"		"360"
 		"collection_list_xpos"	"200"
 		"is_mouseover"		"1"
 		"text_xpos_collection"	"15"
