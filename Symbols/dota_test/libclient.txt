@@ -17,8 +17,10 @@
  CFStringCreateWithCStringNoCopy
  CFStringGetBytes
  CFStringGetLength
- CFiber::AllocPooledFiber(CFiber::SizeBuckets_t, bool)
+ CFiber::AllocPooledFiber(CFiber::SizeBuckets_t, unsigned long)
+ CFiber::DetachFromStackContext()
  CFiber::ReleasePooledFiber()
+ CFiber::SetThreadFiberMemoryRange(unsigned long)
  CGaussianRandomStream::AttachToStream(IUniformRandomStream*)
  CGaussianRandomStream::CGaussianRandomStream(IUniformRandomStream*)
  CMemAllocSystemInitialize
@@ -60,12 +62,6 @@
  CVProfNode::ExitScope()
  CVProfNode::GetSubNode(char const*, int, char const*, int)
  CVProfile::FindOrCreateCounter(char const*, CounterGroup_t)
- CVProfile::GetBudgetGroupColor(int, int&, int&, int&, int&)
- CVProfile::GetCounterGroup(int) const
- CVProfile::GetCounterName(int) const
- CVProfile::GetCounterValue(int) const
- CVProfile::GetNumCounters() const
- CVProfile::ResetCounters(CounterGroup_t)
  CommandLine
  ConColorMsg(Color const&, char const*, ...)
  ConDMsg
@@ -84,6 +80,7 @@
  DevMsg(char const*, ...)
  DevWarning
  DevWarning(char const*, ...)
+ EarlyInit_Tier0
  FindOrCreateQuantizedFloatEncoder
  GenericThreadLocals::CThreadLocalBase::CThreadLocalBase()
  GenericThreadLocals::CThreadLocalBase::~CThreadLocalBase()
@@ -115,17 +112,20 @@
  Plat_ExitProcess
  Plat_FloatTime
  Plat_GetCPUFrequency
+ Plat_GetDocumentDirectory
  Plat_GetEnv
  Plat_GetLocalTime
+ Plat_GetModuleFilename
+ Plat_GetModuleProcAddress
  Plat_GetOSType
  Plat_GetPlatformError
- Plat_GetThreadIndex
  Plat_GetTimeString
  Plat_GlobalMemoryStatus
  Plat_Is64BitOS
  Plat_IsHighDPI
  Plat_IsInDebugSession
  Plat_IsInTestMode
+ Plat_LoadModuleRaw
  Plat_MSTime
  Plat_NeedsLowFragmentation
  Plat_RelativeTicks
@@ -159,14 +159,13 @@
  StackStats_GathererRegistration
  SteamAPI_GetHSteamPipe
  SteamAPI_GetHSteamUser
- SteamAPI_InitSafe
+ SteamAPI_Init
  SteamAPI_RegisterCallResult
  SteamAPI_RegisterCallback
  SteamAPI_SetTryCatchCallbacks
  SteamAPI_UnregisterCallResult
  SteamAPI_UnregisterCallback
- SteamClient
- SteamController
+ SteamInternal_CreateInterface
  T BinaryProperties_GetValue
  T Coroutine_Cancel
  T Coroutine_Continue
@@ -323,11 +322,14 @@
  exit
  exp
  expf
+ fclose
  fflush
  floor
  floorf
+ fmin
  fmod
  fmodf
+ fopen
  fprintf
  fputc
  fread
@@ -390,7 +392,6 @@
  select$DARWIN_EXTSN
  setenv
  setjmp
- setlocale
  sin
  sinf
  snprintf
@@ -480,7 +481,6 @@
  strlen
  strncat
  strncmp
- strncpy
  strpbrk
  strrchr
  strstr

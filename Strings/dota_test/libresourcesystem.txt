@@ -30,7 +30,7 @@
 !"CUtlMemoryPoolBase::Alloc: ran out of memory"
 !( hResource->m_nFlags & RESOURCE_BINDING_HAS_MOUNTED_VPK )
 !( m_nFlags & FCVAR_NEVER_AS_STRING )
-!P`gATCYARB`pAVAVATAYAVATAp
+!P`kAp
 !bDeferred
 !bWantsLoad
 !ffffff.
@@ -109,7 +109,11 @@ $$t	H
 --------------------WARNING----------------------
 -HACK_test_vpcf2_path
 -exit_on_resource_load_failure
+-ffff.
 -force_all_resource_loads_to_fail
+-resource_debug_break_substring
+-resource_debug_id
+-resource_debug_spew_substring
 -resource_exit_after_time
 -resourceleaks
 -sse2
@@ -187,7 +191,6 @@ $$t	H
 0[A\A^A_]
 0fffff.
 4$A;\$
-48ff.
 6[A\A^A_]
 6~Lfffff.
 8[A\A]A^A_]
@@ -232,6 +235,7 @@ $$t	H
 @_AssertMsg_ConditionFailed
 @_CMemAllocSystemInitialize
 @_CommandLine
+@_EarlyInit_Tier0
 @_GetCPUInformation
 @_IterateCapturedStackAnnotations
 @_KeyValuesSystem
@@ -242,10 +246,13 @@ $$t	H
 @_LoggingSystem_RegisterLoggingChannel
 @_Plat_ExitProcess
 @_Plat_FloatTime
+@_Plat_GetModuleFilename
+@_Plat_GetModuleProcAddress
 @_Plat_GetOSType
 @_Plat_GetPlatformError
 @_Plat_IsHighDPI
 @_Plat_IsInDebugSession
+@_Plat_LoadModuleRaw
 @_Plat_MicroSecTickDiff
 @_Plat_RelativeTicks
 @_Plat_ShouldCollectMiniDumpsForFatalErrors
@@ -356,8 +363,10 @@ AWAVSPH
 AWAVSPI
 AZBSBp
 A[ATAp
+AcquireResourceHandleSubmitLoadIfNeeded %short in %short
 AcquireResourceHandleSubmitLoadIfNeeded: "%short"
 ActiveManifestState_t CResourceManifest::GetState() const
+AddManifestDescToNamedManifest %short in %short
 Allocate
 An attempt was made to create signed char resource manifest with debug name "%short" while the resource system was shutting down.
 An attempt was made to load named resource manifest "%short" with debug name "%short" while the resource system was shutting down.
@@ -366,6 +375,7 @@ An attempt was made to load signed char named resource manifest with debug name 
 An attempt was made to load signed char resource manifest group "%short" with debug name "%short" while the resource system was shutting down.
 AnimationSystemUtils_001
 AnimationSystem_001
+AppendResourceNamesFromCodeBasedManifest %short
 AqqInv
 AssetBrowserSystem_001
 AssetPreviewSystem_001
@@ -978,7 +988,6 @@ L&`ffff.
 L+{(M
 L1<ffff.
 L90t*H
-L90tzH
 LIGHT_SOURCE_SHAPE_SPHERE
 LINUX
 LOWVIOLENCE
@@ -1014,10 +1023,12 @@ MN_DeleteRequestedResources for: "%short" (Refcount = %double, deferred count = 
 MN_OnResourceDataLoaded for: "%short" (%llu bytes)
 MN_OnResourceHeaderLoaded for: "%short"
 MN_OnResourceManifestLoaded for: "%short"
+MN_RegisterResourceData %short
 MN_ServicePendingReplacement (no replacement data: deallocate) for: "%short"
 MN_ServicePendingReplacement (with replacement data: reload) for: "%short"
 MNetworkSerializeAs
 MNoScatter
+MODEL_PROCESSING_SERVICES_INTERFACE_001
 MPropertySuppressField
 MResourceBlockType
 MResourceTypeForInfoType
@@ -1039,6 +1050,7 @@ Mc~$M
 MeshSystem001
 MeshUtils001
 MetaTxtAH
+ModelDocCommandSystem001
 N(Hcz(1
 N8Hcz81
 NHHczH1
@@ -1076,6 +1088,8 @@ RBRBRBRBRA
 RBRCp
 RBVAp
 RESOURCE_INPUT_DEPENDENCY_EXISTS
+RESOURCE_INPUT_DEPENDENCY_GAME_FILE
+RESOURCE_INPUT_DEPENDENCY_NOFLAG
 RESOURCE_INPUT_DEPENDENCY_OPTIONAL
 RESOURCE_MANIFEST_HANDLE_INVALID
 RESOURCE_TYPE_NONE
@@ -1128,6 +1142,7 @@ RMSG_UNUSED_7
 RMSG_UNUSED_8
 RSProfilerTool
 RegisterConfigValue: Unknown error constructing config value "%short"!
+RegisterNamedManifest %short in %short
 RegisterNamedManifest:: "Startup" Manifest group name has been removed. Use ConsoleStartup, GameStartup, or ToolsStartup
 Release
 Reload "%short"
@@ -1221,19 +1236,20 @@ T &CUtlBlockMemory<const ResourceBindingBase_t *, int>::operator[](I) [T = const
 T &CUtlStringMap<CResourceSystem::NamedResourceManifest_t *, CUtlSymbolTable>::operator[](UtlSymId_t) [T = CResourceSystem::NamedResourceManifest_t *, SymbolTableType_t = CUtlSymbolTable]
 T &CUtlStringMap<ResourceManifestEntry_t *, CUtlSymbolTable>::operator[](UtlSymId_t) [T = ResourceManifestEntry_t *, SymbolTableType_t = CUtlSymbolTable]
 T$(~_A
-TASBp
+TARAp
 TBRASAYATAp
 TBRAp
 TBRBSATAp
 TBTBp
 TBVBRB
 TCRAp
-TCRBRAp0p0p
+TCRBRA
 TCTAp
 TCTBp
 TCUAp
 TCVATARAp
 TCXAp
+TCYARB`pAVAVATAYAVATAp
 TCYAp
 TestScriptMgr001
 TextLayout_001
@@ -1339,6 +1355,7 @@ Zero refcount resource detected when m_DeletionRequests = 0: '%short'
 [A\A^A_]A
 [A^A_]
 [unsigned short,fD
+\fff.
 ^fffff.
 _0IcG
 _AssertMsg_ConditionFailed
@@ -1346,6 +1363,7 @@ _BinaryProperties_GetValue
 _CMemAllocSystemInitialize
 _CommandLine
 _CreateInterface
+_EarlyInit_Tier0
 _GetCPUInformation
 _GetResourceManifestCount
 _GetResourceManifests
@@ -1359,10 +1377,13 @@ _LoggingSystem_Log
 _LoggingSystem_RegisterLoggingChannel
 _Plat_ExitProcess
 _Plat_FloatTime
+_Plat_GetModuleFilename
+_Plat_GetModuleProcAddress
 _Plat_GetOSType
 _Plat_GetPlatformError
 _Plat_IsHighDPI
 _Plat_IsInDebugSession
+_Plat_LoadModuleRaw
 _Plat_MicroSecTickDiff
 _Plat_RelativeTicks
 _Plat_ShouldCollectMiniDumpsForFatalErrors
@@ -1403,7 +1424,7 @@ __cstring
 __data
 __gcc_except_tab__TEXT
 __got
-__int128 <= m_Vector.Count()
+__int128 < m_Vector.Count()
 __int128 >= 0
 __la_symbol_ptr
 __mod_init_func
@@ -1607,12 +1628,14 @@ m_Phi
 m_Plane
 m_Quads
 m_Range
+m_RelativeFilename
 m_ResourceFileNameList
 m_ResourceName
 m_ReverseOffsets
 m_Rods
 m_Root == InvalidIndex()
 m_Ropes
+m_SearchPath
 m_SectionStartMarker.m_pMarker
 m_Shape
 m_SimdFitMatrices
@@ -1725,6 +1748,7 @@ m_originalResourceName
 m_pActiveBlockingManifest == NULL
 m_pActiveBlockingManifest == pManifest
 m_pAttachedDest && (m_pAttachedDest->m_pAttachedSource == this)
+m_pData
 m_pData == NULL
 m_pEntityClass
 m_pEntityName
@@ -1792,7 +1816,7 @@ nNodeY0
 nNodeY1
 nParentNode
 nResourceHeaderBytesToRead >= 0
-nResourceReferenceType == DeduceResourceTypeFromResourceName( pResourceName )
+nResourceReferenceType == DeduceResourceTypeFromResourceName( pInvalidResourceName )
 nResourceType == DeduceResourceTypeFromResourceName( "%short" ).
 nSide
 nSize != 0
@@ -1996,9 +2020,12 @@ tlIcG
 tqJ94
 typeinfo for IStack_Annotation
 typeinfo for std::bad_alloc
+u(L9=5
 u2A;^Xu
+u4H95^
 uGetResourceManifest
 uQfff.
+uint CResourceStream::GetTotalSize() const
 uint64
 unsigned char[A\A]A^A_]
 unsigned short%fffff.
@@ -2352,6 +2379,7 @@ zD(knN
 |jffff.
 }HA;EP}
 ~+ffff.
+~@ffffff.
 ~Kffffff.
 ~Offffff.
 ~kff.
