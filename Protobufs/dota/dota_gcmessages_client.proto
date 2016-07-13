@@ -170,12 +170,19 @@ message CMsgDOTAPopup {
 		LIMITED_USER_CHAT = 66;
 		EVENT_PREMIUM_POINTS_EARNED = 67;
 		LOBBY_MVP_AWARDED = 68;
+		GENERIC_INFO = 69;
+		GENERIC_ERROR = 70;
 	}
 
 	optional .CMsgDOTAPopup.PopupID id = 1 [default = NONE];
 	optional string custom_text = 2;
 	optional sint32 int_data = 3;
 	optional bytes popup_data = 4;
+	optional string loc_token_header = 5;
+	optional string loc_token_msg = 6;
+	repeated string var_names = 7;
+	repeated string var_values = 8;
+	optional string debug_text = 9;
 }
 
 message CMsgDOTAReportsRemainingRequest {
@@ -199,6 +206,7 @@ message CMsgDOTASubmitPlayerReportResponse {
 	optional uint32 target_account_id = 1;
 	optional uint32 report_flags = 2;
 	optional uint32 result = 3;
+	optional string debug_message = 4;
 }
 
 message CMsgDOTAReportCountsRequest {
@@ -1892,6 +1900,7 @@ message CMsgClientToGCRecyclePlayerCardResponse {
 		ERROR_FAILED_TO_FIND_PLAYER_CARD = 3;
 		ERROR_ITEM_NOT_PLAYER_CARD = 4;
 		ERROR_FAILED_DUST_CARD_CREATE = 5;
+		ERROR_CARD_LOCKED = 6;
 	}
 
 	optional .CMsgClientToGCRecyclePlayerCardResponse.Result result = 1 [default = SUCCESS];

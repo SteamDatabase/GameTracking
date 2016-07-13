@@ -63,7 +63,7 @@
 						<Panel class="PrivateLobbyButtonIcon"/>
 						<Panel class="FullWidth LeftRightFlow">
 							<Label text="#WeekendTourneyStatus_Title"/>
-							<Image id="WeekendTourneyLogo" src="s2r://panorama/images/weekend_tourney/battlecup_icon_psd.vtex" />
+							<Panel class="BattleCupVictoryIcon" />
 						</Panel>
 					</Panel>
 					<WeekendTourneyStatusPanel id="WeekendTourneyStatus" />
@@ -266,18 +266,32 @@
 			<Panel id="CloseButtonIcon" />
 		</Button>
 
-		<Button id="AbandonButton" class="RedBackgroundImageButton" onactivate="DOTAAbandonClicked();">
-			<Panel class="LeftRightFlow">
-				<Label text="#dota_abandon_game" />
-				<Image src="s2r://panorama/images/icon_x_red_off_png.vtex" />
+		<Panel id="AbovePlayButtonStack">
+			<Panel id="WeekendTourneyPlayStatusContainer">
+				<Label id="WeekendTourneyPlayStatus" />
+				<Panel id="WeekendTourneyQueueDeadlineTimeRemainingContainer">
+					<Label id="WeekendTourneyQueueDeadlineTimeRemainingLabel" text="#DOTA_PlayTourneyStatus_QueueDeadlineTimeRemaining"/>
+					<Panel class="InfoIcon" onmouseover="UIShowTextTooltip( #WeekendTourney_QueueDeadlineTooltip )" onmouseout="UIHideTextTooltip()"/>
+				</Panel>
+				<Label id="WeekendTourneyQueueDeadlineTooLateLabel" text="#DOTA_PlayTourneyStatus_QueueDeadlineMissed"/>
 			</Panel>
-		</Button>
 
-		<Button id="SafeLeaveButton" class="RedBackgroundImageButton" onactivate="DOTAAbandonClicked();">
 			<Panel class="LeftRightFlow">
-				<Label text="#dota_safe_leave_game" />
+				<Button id="AbandonButton" class="RedBackgroundImageButton" onactivate="DOTAAbandonClicked();">
+					<Panel class="LeftRightFlow">
+						<Label id="AbandonGameLabel" text="#dota_abandon_game" />
+						<Label id="AbandonTourneyLabel" text="#WeekendTourneyLeaveButton" />
+						<Image src="s2r://panorama/images/icon_x_red_off_png.vtex" />
+					</Panel>
+				</Button>
 			</Panel>
-		</Button>
+
+			<Button id="SafeLeaveButton" class="RedBackgroundImageButton" onactivate="DOTAAbandonClicked();">
+				<Panel class="LeftRightFlow">
+					<Label text="#dota_safe_leave_game" />
+				</Panel>
+			</Button>
+		</Panel>
 
 		<Button id="DisconnectButton" class="" onactivate="DOTADisconnectClicked();">
 			<Panel class="DisconnectLabel LeftRightFlow">
@@ -294,16 +308,8 @@
 			</Panel>
 		</Button>
 
-		<Panel id="WeekendTourneyPlayStatusContainer">
-			<Label id="WeekendTourneyPlayStatus" />
-			<Panel id="WeekendTourneyQueueDeadlineTimeRemainingContainer">
-				<Label id="WeekendTourneyQueueDeadlineTimeRemainingLabel" text="#DOTA_PlayTourneyStatus_QueueDeadlineTimeRemaining"/>
-				<Panel class="InfoIcon" onmouseover="UIShowTextTooltip( #WeekendTourney_QueueDeadlineTooltip )" onmouseout="UIHideTextTooltip()"/>
-			</Panel>
-			<Label id="WeekendTourneyQueueDeadlineTooLateLabel" text="#DOTA_PlayTourneyStatus_QueueDeadlineMissed"/>
-		</Panel>
 		<Button id="PlayButton" class="PlayButton" onactivate="DOTAPlayButtonClicked()">
-			<Label text="#dota_play_button_label" />
+			<Label text="{s:play_button_label}" />
 			<Panel class="Spinner FindMatchSpinner" />
 		</Button>
 
@@ -314,6 +320,10 @@
 		<Panel id="LeaverConsequences" class="LeaverConsequences" >
 			<Label class="Consequences" text="#dota_leaver_consequences" />
 		</Panel>
+
+		<Button id="ExtraReturnToWeekendTourneyButton" class="BlueButton" onactivate="DOTAShowWeekendTourneyPage();">
+			<Panel id="ExtraReturnVictoryIcon" class="BattleCupVictoryIcon" />
+		</Button>
 
 		<Panel id="LeaverConsequences_Warning"  class="LeaverConsequences Warning" onmouseover="UIShowTextTooltipStyled( #dota_leaver_consequences_details, LeaverConsequencesTooltip )" onmouseout="UIHideTextTooltip()">
 			<Panel id="ConsequencesContainer">
@@ -334,14 +344,16 @@
 			</Panel>
 			<Panel id="SearchingContainer">
 				<Panel id="SearchBackground" class="SearchGradient"/>
-				<Panel id="SearchLabelContainer">
-					<Panel>
+				<Panel id="SearchControlsContainer">
+					<Panel id="SearchLabelContainer">
 						<Label id="SearchingLabel" text="{s:find_match_label}"/>
+						<Label id="SearchingCount" text="#dota_finding_match_players" />  <!-- players searching label for beta -->
 					</Panel>
-					<Label id="SearchingCount" text="#dota_finding_match_players" />  <!-- players searching label for beta -->
+					<Button id="SearchReturnToWeekendTourneyButton" onactivate="DOTAShowWeekendTourneyPage();">
+						<Panel id="ReturnVictoryIcon" class="BattleCupVictoryIcon" />
+					</Button>
+					<Button id="CancelSearch" onactivate="DOTACancelFindMatch()" />
 				</Panel>
-				<Button id="CancelSearch" onactivate="DOTACancelFindMatch()" />
-				<Panel id="SearchingSpinner" class="Spinner"/>
 			</Panel>
 		</Panel>
 	</DOTAPlay>

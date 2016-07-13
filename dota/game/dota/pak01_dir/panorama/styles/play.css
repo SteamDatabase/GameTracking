@@ -33,16 +33,87 @@ DOTAPlay.MatchingRestriction #LowPrioritySection
 	visibility: visible;
 }
 
+#SearchReturnToWeekendTourneyButton
+{
+	background-position: 50% 50%;
+	background-image: url("s2r://panorama/images/weekend_tourney/battle_cup_return_psd.vtex");
+	background-size: 100% 100%;   
+    background-repeat: no-repeat;
+	//wash-color: #00000066;
+	border: 0px;
+	
+	width: 0px;
+	opacity: 0.0f;
+	height: 40px;
+	transition-property: width, opacity;
+	transition-duration: .2s;
+	margin: 6px 10px 0px 7px;
+}
+
+#ReturnVictoryIcon
+{
+	margin-top: 8px;
+	margin-left: 9px;
+	wash-color: #000000ee;
+}
+
+
+.CanReturnToWeekendTourney #SearchReturnToWeekendTourneyButton
+{
+	
+	opacity: 1.0f;
+	width: 40px;
+}
+
+.CanReturnToWeekendTourney #SearchReturnToWeekendTourneyButton:hover
+{
+	brightness: 2;
+}
+
+#WeekendTourneyReturnToBracketButton Label
+{
+	horizontal-align: center;
+}
+
+.StateParticipatingInTourney #AbovePlayButtonStack
+{
+	margin-bottom: 68px;
+}
+
+#AbovePlayButtonStack
+{
+	flow-children: down;
+	width: 330px;
+	margin-bottom: 80px;
+	margin-right: 58px;
+	vertical-align: bottom;
+	horizontal-align: right;
+	transition-property: margin;
+	transition-duration: .2s;
+}
+
+DOTAPlay.FindingMatch #AbovePlayButtonStack,
+DOTAPlay.Connecting #AbovePlayButtonStack
+{
+	margin-bottom: 110px;
+}
+
 #AbandonButton
 {
-	width: 330px;
+	//width: 330px;
+	width: fill-parent-flow(2);
 	height: 33px;
 	vertical-align:bottom;
 	horizontal-align: right;
-	margin-bottom: 90px;
-	margin-right: 58px;
+	//margin-bottom: 90px;
+	//margin-right: 58px;
 
 	visibility: collapse;
+}
+
+.StateParticipatingInTourney #AbandonButton
+{
+	margin-bottom: 10px;
 }
 
 #AbandonButton:hover Label
@@ -50,14 +121,18 @@ DOTAPlay.MatchingRestriction #LowPrioritySection
 	color: red;
 }
 
-DOTAPlay.CanAbandon #AbandonButton
-{
-	visibility: visible;
-}
-
-DOTAPlay.Connecting #AbandonButton
+#AbandonGameLabel,
+#AbandonTourneyLabel
 {
 	visibility: collapse;
+}
+
+DOTAPlay.CanAbandonGame #AbandonButton,
+DOTAPlay.CanAbandonGame #AbandonGameLabel,
+DOTAPlay.CanAbandonTourney #AbandonButton,
+DOTAPlay.CanAbandonTourney #AbandonTourneyLabel
+{
+	visibility: visible;
 }
 
 #SafeLeaveButton
@@ -66,8 +141,6 @@ DOTAPlay.Connecting #AbandonButton
 	height: 33px;
 	vertical-align:bottom;
 	horizontal-align: right;
-	margin-bottom: 90px;
-	margin-right: 58px;
 
 	visibility: collapse;
 }
@@ -141,6 +214,47 @@ DOTAPlay.CanSafeLeaveGame #SafeLeaveButton
 	sound: "ui_custom_lobby_quit";
 }
 
+#ExtraReturnToWeekendTourneyButton
+{
+	background-position: 50% 50%;
+	background-image: url("s2r://panorama/images/weekend_tourney/battle_cup_return_psd.vtex");
+	background-size: 100% 100%;   
+    background-repeat: no-repeat;
+	//wash-color: #00000066;
+	border: 0px;
+	vertical-align: bottom;
+	horizontal-align: right;
+	width: 0px;
+	height: 49px;
+	transition-property: width, brightness;
+	transition-duration: .2s;
+	margin: 0px 400px 21px 0px;
+	
+
+	visibility: collapse;
+}
+
+#ExtraReturnToWeekendTourneyButton:hover
+{
+	brightness: 2;
+}
+
+#ExtraReturnVictoryIcon
+{
+	margin-top: 9px;
+	margin-left: 10px;
+	wash-color: #000000ee;
+	width: 29px;
+	height: 29px;
+}
+
+.CanReturnToWeekendTourney.CanReconnect #ExtraReturnToWeekendTourneyButton,
+.CanReturnToWeekendTourney.CanDisconnect #ExtraReturnToWeekendTourneyButton
+{
+	visibility: visible;
+	width: 49px;
+}
+
 DOTAPlay.CanDisconnect #DisconnectButton
 {
 	visibility: visible;
@@ -205,9 +319,7 @@ DOTAPlay.ReconnectInProgress .ReconnectSpinner
 
 #WeekendTourneyPlayStatusContainer
 {
-	width: 330px;
-	margin-bottom: 70px;
-	margin-right: 58px;
+	
 	vertical-align: bottom;
 	horizontal-align: right;
 }
@@ -219,6 +331,7 @@ DOTAPlay.ReconnectInProgress .ReconnectSpinner
 	line-height: 16px;
 	color: #888;
 	font-size: 16px;
+	width:330px;
 }
 
 #WeekendTourneyPlayStatus,
@@ -302,7 +415,7 @@ DOTAPlay.ReconnectInProgress .ReconnectSpinner
 
 .FindMsgInFlight .PlayButton Label, .WeekendTourneyParticipationMsgInFlight .PlayButton Label
 {
-	visibility: collapse;
+	opacity: 0.0;
 }
 
 // de-emphasize the button when on the custom games page
@@ -377,17 +490,19 @@ DOTAPlay.FindMsgInFlight #PlayButton:enabled:hover
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5Aa15E ), to( #87d695 ) );  
 }
 
-DOTAPlay.SlideOutVisible #PlayButton, #ReconnectButton
+DOTAPlay.PlayButtonStartsSearching #PlayButton,
+#ReconnectButton
 {
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5Aa15E ), to( #87d69533 ) );  
 }
 
-DOTAPlay.SlideOutVisible #PlayButton:enabled:hover, #ReconnectButton:enabled:hover
+DOTAPlay.PlayButtonStartsSearching #PlayButton:enabled:hover,
+#ReconnectButton:enabled:hover
 {
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5Aa15E ), to( #87d695 ) );  
 }
 
-DOTAPlay.SlideOutVisible #PlayButton:activationdisabled
+DOTAPlay.PlayButtonStartsSearching #PlayButton:activationdisabled
 {
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5A615Ecc ), to( #879695cc ) );
 	saturation: 0.1;
@@ -395,7 +510,8 @@ DOTAPlay.SlideOutVisible #PlayButton:activationdisabled
 	box-shadow: none;
 }
 
-DOTAPlay.LobbySelectorVisible.MatchingRestriction #PlayButton, DOTAPlay.LobbySelectorVisible #PlayButton
+DOTAPlay.LobbySelectorVisible.MatchingRestriction #PlayButton,
+DOTAPlay.LobbySelectorVisible #PlayButton
 {
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #14161a ), to( #23262b ) );
 	box-shadow: fill #00000000 0px 0px 0px 0px;
@@ -403,7 +519,8 @@ DOTAPlay.LobbySelectorVisible.MatchingRestriction #PlayButton, DOTAPlay.LobbySel
 	border-left: 1px solid #ffffff03;
 }
 
-DOTAPlay.LobbyLeaderStart.MatchingRestriction #PlayButton, DOTAPlay.LobbyLeaderStart #PlayButton
+DOTAPlay.LobbyLeaderStart.MatchingRestriction #PlayButton,
+DOTAPlay.LobbyLeaderStart #PlayButton
 {
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #2d4881cc ), to( #486ca9cc ) );
 	box-shadow: fill #486ca922 -4px -4px 8px 8px;
@@ -411,7 +528,8 @@ DOTAPlay.LobbyLeaderStart.MatchingRestriction #PlayButton, DOTAPlay.LobbyLeaderS
 	border-left: 1px solid #ffffff03;
 }
 
-DOTAPlay.LobbyLeaderStart.MatchingRestriction #PlayButton:hover, DOTAPlay.LobbyLeaderStart #PlayButton:hover
+DOTAPlay.LobbyLeaderStart.MatchingRestriction #PlayButton:hover,
+DOTAPlay.LobbyLeaderStart #PlayButton:hover
 {
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #2d4881cc ), to( #84acff ) );
 	box-shadow: fill #486ca966 -4px -4px 18px 8px;
@@ -422,7 +540,8 @@ DOTAPlay.LobbySelectorVisible #PlayButton Label
 	color: #ffffff11;
 }
 
-DOTAPlay.LobbySelectorVisible.MatchingRestriction #PlayButton:hover, DOTAPlay.LobbySelectorVisible #PlayButton:hover
+DOTAPlay.LobbySelectorVisible.MatchingRestriction #PlayButton:hover,
+DOTAPlay.LobbySelectorVisible #PlayButton:hover
 {
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #14161a ), to( #23262b ) );
 	box-shadow: fill #00000000 0px 0px 0px 0px;
@@ -461,12 +580,17 @@ DOTAPlay.1v1Disallowed.SectionVisible_1v1  #PlayButton
 	background-color: #444444;
 }
 
-DOTAPlay.CanDisconnect #DeniedPlayButton, DOTAPlay.CanReconnect #DeniedPlayButton, DOTAPlay.CanAbandon #DeniedPlayButton, DOTAPlay.InReadyUp #DeniedPlayButton, DOTAPlay.ReturningToQueue #DeniedPlayButton, DOTAPlay.PlayButtonHidden #DeniedPlayButton, DOTAPlay.Connecting #DeniedPlayButton
+DOTAPlay.CanReturnToWeekendTourney #DeniedPlayButton,
+DOTAPlay.InReadyUp #DeniedPlayButton,
+DOTAPlay.ReturningToQueue #DeniedPlayButton,
+DOTAPlay.PlayButtonHidden #DeniedPlayButton,
 {
 	visibility: collapse;
 }
 
-DOTAPlay.FindingMatch #PlayButton, DOTAPlay.CanDisconnect #PlayButton, DOTAPlay.CanReconnect #PlayButton, DOTAPlay.CanAbandon #PlayButton, DOTAPlay.InReadyUp #PlayButton, DOTAPlay.ReturningToQueue #PlayButton, DOTAPlay.PlayButtonHidden #PlayButton, DOTAPlay.Connecting #PlayButton
+DOTAPlay.InReadyUp #PlayButton,
+DOTAPlay.ReturningToQueue #PlayButton,
+DOTAPlay.PlayButtonHidden #PlayButton,
 {
 	visibility: collapse;
 }
@@ -535,6 +659,13 @@ DOTAPlay.MatchingRestriction #FXSearching
 	hue-rotation: HalloweenHue;
 }
 
+.StateParticipatingInTourney #FXSearching
+{
+	hue-rotation: 150deg;
+	opacity: .5;
+	brightness: .3;
+}
+
 #FXSearchingParticles
 {
 	width: 100%;
@@ -552,9 +683,11 @@ DOTAPlay.MatchingRestriction #FXSearching
 {
 	visibility: collapse;
 	width: 540px;
-	padding-left: 100px;
 	padding-right: 57px;
 	text-align: right;
+	text-transform: uppercase;
+	line-height: 16px;
+	color: #888;
 }
 
 .QueueDeadlineExpiringSoon #SearchWeekendTourneyDontStopWarning,
@@ -596,6 +729,13 @@ DOTAPlay.Connecting #SearchSettingsContainer
 	hue-rotation: HalloweenHue;
 }
 
+.StateParticipatingInTourney .SearchGradient
+{
+	hue-rotation: 180deg;
+	brightness: .8;
+	//saturation: .5;
+}
+
 #SearchSettings, #SearchSettingsWeekendTourney
 {
 	horizontal-align: right;
@@ -604,7 +744,19 @@ DOTAPlay.Connecting #SearchSettingsContainer
 	//width: 90%;
 	padding-top: 4px;
 	font-size: 16px;
-	color: #96EFEE;
+	color: #99dfee;
+	vertical-align: bottom;
+}
+
+#SearchSettingsWeekendTourney
+{
+	horizontal-align: right;
+	text-transform: uppercase;
+	margin-right: 112px;
+	//width: 90%;
+	padding-top: 4px;
+	font-size: 16px;
+	color: #c3a771;
 	vertical-align: bottom;
 }
 
@@ -666,14 +818,25 @@ DOTAPlay.LANLobby #SearchSettings
 }
 
 
+#SearchControlsContainer
+{
+	flow-children: right;
+	horizontal-align: right;
+}
+
 #SearchLabelContainer
 {
-	margin-right: 56px;
+	//margin-right: 56px;
 	animation-name: SearchingAnimation;
 	animation-duration: 1.2s;
 	animation-timing-function: linear;
 	animation-iteration-count: infinite;
 	horizontal-align: right;
+}
+
+.StateParticipatingInTourney #SearchLabelContainer
+{
+	animation-name: SearchingAnimation-BattleCup;
 }
 
 #MinigameButton
@@ -750,16 +913,6 @@ DOTAPlay.LANLobby #SearchSettings
 	font-size:30px;
 }
 
-#SearchingSpinner
-{
-	width: 18px;
-	height: 18px;
-	margin-top: 14px;
-	margin-left: 212px;
-	horizontal-align: left;
-	visibility: collapse;
-}
-
 @keyframes 'SearchingAnimation'
 {
 	0%
@@ -778,23 +931,45 @@ DOTAPlay.LANLobby #SearchSettings
 	}
 }
 
+@keyframes 'SearchingAnimation-BattleCup'
+{
+	0%
+	{
+		wash-color: white;
+	}
+
+	50%
+	{
+		wash-color: #fdd993cc;
+	}
+	
+	100%
+	{
+		wash-color: white;
+	}
+}
+
 #SearchingLabel
 {
 	opacity: 1.0;
 	font-size: 30px;
 	font-weight: thin;
-	color: #DFF8FF;
+	color: #w;
 	text-shadow: 0px 0px 6px 1.0 #c1c0ff;
 	text-transform: uppercase;
 	letter-spacing: 2px;
 	margin-top: 8px;
-	margin-right: 57px;
+	//margin-right: 57px;
 	
 	transition-property: opacity;
 	transition-duration: 0.2s;
 	transition-timing-function: ease-in;
 }
 
+.StateParticipatingInTourney #SearchingLabel
+{
+	text-shadow: 0px 0px 6px 1.0 #d77b16;
+}
 
 #SearchingCount
 {
@@ -808,7 +983,7 @@ DOTAPlay.SearchingCountVisible #SearchingCount
 	margin-top: 36px;
 	opacity: .2;
 	horizontal-align: right;
-	margin-right: 57px;
+	//margin-right: 57px;
 	font-size: 12px;
 	color: white;
 	text-shadow: 0px 0px 1px 3 black;
@@ -1076,7 +1251,8 @@ DOTAPlay.LobbyVisible #LobbySelectorContent
 
 #WeekendTourneySetup
 {
-	background-color: gradient( linear, 100% 0%, 100% 100%, from( #111111 ), color-stop( 0.01, #202327 ), color-stop( 0.2, #141619 ), to( #000000 ) );
+	//background-color: gradient( linear, 100% 0%, 100% 100%, from( #111111 ), color-stop( 0.01, #202327 ), color-stop( 0.2, #141619 ), to( #000000 ) );
+	background-color: gradient( linear, 100% 0%, 100% 100%, from( #111111 ), color-stop( 0.01, #1c1e20 ), color-stop( 0.06, #1b1b1b ), color-stop( 0.9, #151515 ), to( #000000 ) );
 	box-shadow: black -4px -4px 8px 8px;
 	height: 920px;
 	width: 715px;
@@ -1088,6 +1264,7 @@ DOTAPlay.LobbyVisible #LobbySelectorContent
 	transition-property: opacity;
 	transition-duration: 0.4s;
 	transition-timing-function: ease-in-out;
+	//border-left:  1px solid #ffffff02;
 }
 
 DOTAPlay.WeekendTourneySetupVisible #WeekendTourneySetup
@@ -2157,39 +2334,59 @@ DOTAPlay.RankedMode #UnrankedGameModes
 #WeekendTourneyButton
 {
 	flow-children: down;
-	visibility: collapse; /* Not finished yet */
 }
-.MainBranch #WeekendTourneyButton
+
+.RelBranch #WeekendTourneyButton
 {
-	visibility: visible; /* Show work in progress in main branch */
+	visibility: collapse; /* Hide this to prevent confusion */
 }
+
+.ExpandWeekendTourney #WeekendTourneyButton
+{
+	background-color: green;
+	background-image: url("s2r://panorama/images/weekend_tourney/battle_cup_tooltip_backer_psd.vtex");
+	background-size: 100% 100%;
+	box-shadow: black -4px -4px 8px 8px;
+	transition-property: brightness;
+	transition-duration: .2s;
+	padding-bottom: 0px;
+}
+
+.ExpandWeekendTourney #WeekendTourneyButton:hover
+{
+	brightness: 2;
+}
+
 #WeekendTourneyTitle
 {
 	width: 100%;
 	flow-children: right;
 }
-#WeekendTourneyLogo
+.BattleCupVictoryIcon
 {
-	margin-top: 2px;
+	margin-top: 4px;
 	margin-left: 2px;
-	width: 34px;
-	height: 24px;
-	padding-right: 10px;
+	width: 22px;
+	height: 22px;
+	margin-left: 6px;
 }
 
 #WeekendTourneyStatus
 {
 	width: 100%;
 
-	background-color: sectionbg_inactive;
+	background-color: none;
 	
-	margin-bottom: 8px;
+	//margin-bottom: 8px;
 	
 	transition-property: wash-color;
 	transition-delay: 0.0s;
 	transition-duration: 0.25s;
 	transition-timing-function: ease-in-out;
 	visibility: collapse;
+	
+	padding-bottom: 12px;
+	padding-top: 5px;
 }
 
 .ExpandWeekendTourney #WeekendTourneyStatus
@@ -2224,6 +2421,11 @@ DOTAPlay.RankedMode #UnrankedGameModes
 	transition-timing-function: ease-in-out;
 }
 
+.ExpandWeekendTourney #WeekendTourneyButton .PrivateLobbyButtonIcon
+{
+	wash-color: none;
+}
+
 .LobbyButton:hover
 {
 }
@@ -2250,6 +2452,13 @@ DOTAPlay.RankedMode #UnrankedGameModes
 	transition-delay: 0.0s;
 	transition-duration: 0.25s;
 	transition-timing-function: ease-in-out;
+}
+
+.ExpandWeekendTourney #WeekendTourneyButton.LobbyButton Label
+{
+	color: #ffe0a3;
+	text-shadow: 0px 0px 6px 1.0 #fca64a;
+	font-weight: bold;
 }
 
 
@@ -2570,21 +2779,6 @@ DOTAPlay.CanDisconnect .LeaverConsequences
 {
 	flow-children: right;
 	horizontal-align: right;
-}
-
-// "View Details" label
-.ViewConsequences	
-{
-	width: 100%;
-	color: white;
-	text-align: right;
-	visibility: collapse;
-}
-
-// Only visible when there is a tooltip with valid leaver data
-.ConsequencesTooltipAvailable .ViewConsequences
-{
-	//visibility: visible;
 }
 
 .LeaverConsequence_Safe #LeaverConsequences

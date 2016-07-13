@@ -435,3 +435,77 @@ model:CreateSequence(
 		}
 	}
 )
+
+
+-- (legacy of the fallen legion: standalone cloth ripple gesture)
+model:CreateWeightlist(
+	"lotfl_cape",
+	{
+		{ "Root0_JNT", 0 },
+		{ "Spine3_JNT", 0 },
+		{ "banner_0_root", 0 },
+		{ "feather_a_l_0", 1 },
+		{ "feather_b_l_0", 1 },
+		{ "feather_c_l_0", 1 },
+		{ "feather_d_l_0", 1 },
+		{ "feather_a_r_0", 1 },
+		{ "feather_b_r_0", 1 },
+		{ "feather_c_r_0", 1 },
+		{ "feather_d_r_0", 1 },
+		{ "banner_a_l_0", 1 },
+		{ "banner_b_l_0", 1 },
+		{ "banner_c_l_0", 1 },
+		{ "banner_a_r_0", 1 },
+		{ "banner_b_r_0", 1 },
+		{ "banner_c_r_0", 1 },
+	}
+)
+model:CreateSequence(
+    {
+        name = "lotfl_pta_cloth_gesture",
+        looping = true,
+        sequences = {
+            { "@lotfl_pta_overlay" }
+        },
+        weightlist = "lotfl_cape",
+        activities = {
+            { name = "ACT_SCRIPT_CUSTOM_0", weight = 1 },
+            { name = "fallen_legion", weight = 1 }
+        }
+
+    }
+)
+
+-- overriding run animations with inherited "jetpack" rotations toned down
+model:CreateSequence(
+	{
+		name = "lotfl_run_anim",
+		sequences = {
+			{ "@lotfl_run" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+            { name = "fallen_legion", weight = 1 }
+		}
+	}
+)
+model:CreateSequence(
+	{
+		name = "lotfl_dualwield_run_anim",
+		sequences = {
+			{ "@lotfl_dualwield_run" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+            { name = "fallen_legion", weight = 1 },
+			{ name = "dualwield", weight = 1 }
+		}
+	}
+)
+

@@ -83,36 +83,29 @@ TournamentNode
 	background-color: gradient( linear, 0% 0%, 100% 0%, from( #24242488 ), to( #24242488 ) );
 	margin-top: 2px;
 	margin-bottom: 2px;
-	//padding: 4px;
-}
-
-.BattleCupBracket .CurrentRound TournamentNodeTeam
-{
-	//background-color: gradient( linear, 0% 0%, 100% 0%, from( #242424 ), to( #3a3a3a ) );
 	
-	margin-top: 2px;
-	margin-bottom: 2px;
-	//padding: 4px;
+	transition-property: background-color;
+	transition-duration: 0.0s;
 }
-
-
-
-.BattleCupBracket .CurrentRound.YourNode TournamentNodeTeam 
+.BattleCupBracket.BracketAnimationInProgress TournamentNodeTeam
 {
-	//background-color: gradient( linear, 0% 0%, 100% 0%, from( #394c6c ), to( #437181 ) );
-	background-color: gradient( linear, 0% 0%, 100% 0%, from( #925b1f ), to( #a27e37 ) );
-	box-shadow: fill black -2px -2px 5px 5px;
-	//border: 1px solid black;
+	transition-duration: .5s;	
 }
 
+.CurrentRound.YourNode TournamentNodeTeam 
+{
+	box-shadow: fill black -2px -2px 5px 5px;
+}
 
 .BattleCupBracket .CurrentRound TournamentNodeTeam 
 {
-	//background-color: gradient( linear, 0% 0%, 100% 0%, from( #394c6c ), to( #437181 ) );
 	background-color: gradient( linear, 0% 0%, 100% 0%, from( #925b1f ), to( #a27e37 ) );
-	//box-shadow: fill black -2px -2px 5px 5px;
-	//border: 1px solid black;
 }
+.BattleCupBracket.FadeOthersInCurrentRound .CurrentRound:not(.YourNode) TournamentNodeTeam
+{
+	background-color: #24242488;
+}
+
 
 #ChampionTeam 
 {
@@ -125,9 +118,6 @@ TournamentNode
 .CurrentRound #ChampionTeam 
 {
 	background-color: gradient( linear, 0% 0%, 100% 0%, from( #925b1f ), to( #a27e37 ) );
-	margin-top: 2px;
-	margin-bottom: 2px;
-	margin-left: 4px;
 }
 
 #ChampionTeam #TeamScore
@@ -144,17 +134,107 @@ TournamentNode
 }
 
 
-.BattleCupBracket .LosingTeam  
+.BattleCupBracket .LosingTeam,
+.BattleCupBracket .ShowEliminatedMessage TournamentNodeTeam.AnimEliminatedTeam
 {
-	background-color: gradient( linear, 0% 0%, 100% 0%, from( #242424 ), to( #3a3a3a ) );
+	//background-color: gradient( linear, 0% 0%, 100% 0%, from( #242424 ), to( #3a3a3a ) );
+	background-color: gradient( linear, 0% 0%, 100% 0%, from( #242424 ), to( #242424 ) );
 	margin-top: 2px;
 	margin-bottom: 2px;
 	//padding: 4px;
+	animation-name: losing-node; 
+	animation-duration: 7s;
+	animation-timing-function: linear;
+	animation-iteration-count: 1;
+	animation-direction: normal;
 }
 
-.BattleCupBracket .LosingTeam.YourTeam
+.BattleCupBracket .LosingTeam,
+.BattleCupBracket .HasEliminatedTeamMessage TournamentNodeTeam.AnimEliminatedTeam
 {
-	//background-color: gradient( linear, 0% 0%, 100% 0%, from( #2e1c1c ), to( #482c2c ) );
+	background-color: gradient( linear, 0% 0%, 100% 0%, from( #242424 ), to( #242424 ) );
+	animation-name: none;
+}
+
+
+@keyframes 'losing-node'
+{
+	from
+	{
+		background-color: gradient( linear, 0% 0%, 100% 0%, from( #925b1f ), to( #a27e37 ) );
+		box-shadow: fill #ff000000 -4px -4px 8px 8px;
+	}
+
+	10%
+	{
+		background-color: gradient( linear, 0% 0%, 100% 0%, from( #925b1f ), to( #a27e37 ) );
+		box-shadow: fill #ff000000 -4px -4px 8px 8px;
+	}
+
+	
+	 30%
+	{
+		background-color: #d95930;
+		box-shadow: fill #ff0000 -4px -4px 8px 8px;
+	}
+	
+	50%
+	{
+		background-color: gradient( linear, 0% 0%, 100% 0%, from( #242424 ), to( #242424 ) );	
+		box-shadow: fill #ff000000 -4px -4px 8px 8px;
+	}
+	
+	to
+	{
+		background-color: gradient( linear, 0% 0%, 100% 0%, from( #242424 ), to( #242424 ) );	
+		box-shadow: fill #ff000000 -4px -4px 8px 8px;	
+	}
+}
+
+.BattleCupBracket .WinningTeam,
+.BattleCupBracket .ShowEliminatedMessage TournamentNodeTeam.AnimAdvancingTeam
+{
+	background-color: gradient( linear, 0% 0%, 100% 0%, from( #393939 ), to( #5c5c5c ) );
+	margin-top: 2px;
+	margin-bottom: 2px;
+	//padding: 4px;
+	animation-name: winning-node; 
+	animation-duration: 7s;
+	animation-timing-function: linear;
+	animation-iteration-count: 1;
+	animation-direction: normal;
+}
+
+.BattleCupBracket .WinningTeam,
+.BattleCupBracket .HasAdvancedTeamMessage .ShowEliminatedMessage TournamentNodeTeam.AnimAdvancingTeam
+{
+	background-color: gradient( linear, 0% 0%, 100% 0%, from( #393939 ), to( #5c5c5c ) );
+	animation-name: none;
+	animation-duration: 0s;
+	animation-timing-function: linear;
+	animation-iteration-count: 1;
+	animation-direction: normal;
+}
+
+
+@keyframes 'winning-node'
+{
+	from
+	{
+		background-color: gradient( linear, 0% 0%, 100% 0%, from( #925b1f ), to( #a27e37 ) );
+	}
+
+	
+	 90%
+	{
+		background-color: gradient( linear, 0% 0%, 100% 0%, from( #925b1f ), to( #a27e37 ) );
+	}
+	
+	
+	to
+	{
+		background-color: gradient( linear, 0% 0%, 100% 0%, from( #393939 ), to( #5c5c5c ) );
+	}
 }
 
 
@@ -181,19 +261,86 @@ TournamentNode
 	border-left:4px solid #00000000;
 }
 
-.BattleCupBracket .CurrentRound.YourNode  #YourNodeBackgroundAnimation
-{ 
+
+
+#YourNodeBackgroundAnimation
+{
 	width: 450px;
 	height: 180px;
 	margin-bottom: -180px;
 	transform: translateY(-10px) translateX(-90px);
 	//hue-rotation: 400deg;
 	hue-rotation: 160deg;
-	opacity:.8;
+	opacity:0;
 	wash-color: #936017;
 	saturation: .1;
 	opacity-mask: url("s2r://panorama/images/masks/softedge_circle_png.vtex");
+	transition-property: opacity;
+	transition-duration: .2;
+}
+
+.BattleCupBracket .CurrentRound.YourNode  #YourNodeBackgroundAnimation
+{ 
+	opacity:1;
 } 
+
+/*.BattleCupBracket  .CurrentRound.YourNode   #AdvancedParticle.ShowAdvancedParticle
+{ 
+	opacity:1;
+	//animation-name: particle-burst; 
+	//animation-duration: 30s;
+	//animation-timing-function: linear;
+	//animation-iteration-count: 1;
+	//animation-direction: normal;
+} 
+
+#AdvancedParticle
+{
+	width: 450px;
+	height: 180px;
+	margin-bottom: -180px;
+	transform: translateY(-10px) translateX(-90px);
+	//hue-rotation: 400deg;
+	hue-rotation: 160deg;
+	opacity:0;
+	wash-color: #936017;
+	saturation: 1;
+	//opacity-mask: url("s2r://panorama/images/masks/softedge_circle_png.vtex");
+	//transition-property: opacity;
+	//transition-duration: .2s;
+	//transition-delay: .5s;
+	transition-property: opacity;
+	transition-duration: .2;
+	
+}
+
+@keyframes 'particle-burst'
+{
+	from
+	{
+		opacity: 0; 
+	}
+
+	 5%
+	{
+		opacity: 1; 
+	}
+	
+	 10%
+	{
+		opacity: 1; 
+	}
+	
+	 70%
+	{
+		opacity: 1; 
+	}
+	
+	to
+	{
+		opacity: 0; 
+	}
+} */
 
 
 .MatchLive #Background
@@ -332,9 +479,26 @@ TournamentNode.ScoreSpoilerBlocked #Background:hover #SpoilerCover
 
 .BattleCupBracket #TournamentMatchContainer Label
 {
+	color: #666;
+}
+
+.BattleCupBracket .CurrentRound #TournamentMatchContainer Label
+{
+	color: #ccc;
+}
+
+.BattleCupBracket TournamentNodeTeam.WinningTeam  #TeamName
+{
 	color: #aaa;
 }
 
+.BattleCupBracket  #ChampionTeam #TeamName
+{
+	color: #fff4df;
+	font-weight: bold;
+	font-size: 22px;
+	margin-top: 5px;
+}
 
 .BattleCupBracket TournamentNodeTeam.YourTeam  #TeamName 
 {
@@ -353,146 +517,70 @@ TournamentNode.ScoreSpoilerBlocked #Background:hover #SpoilerCover
 
 /*Animating Brackets*/
 
-
-.BattleCupBracket #Node4 
+.BattleCupBracket.UseAnimation TournamentNode
 {
 	transform: translateX(-60px) rotateY(-40deg);
 	transition-property: transform, opacity;
 	opacity: 0;
+	transition-timing-function: ease-in-out;
 	transition-duration: .2s;
+}
+
+DOTAWeekendTourneyPage.PageVisible .BattleCupBracket.UseAnimation TournamentNode
+{
+	transform: translateX(0px);
+	opacity: 1;
+}
+
+.BattleCupBracket.UseAnimation #Node4 
+{
 	transition-delay: .2s;
-	transition-timing-function: ease-in-out;
 }
 
-DOTAWeekendTourneyPage.PageVisible .BattleCupBracket #Node4 
+.BattleCupBracket.UseAnimation #Node5 
 {
-	transform: translateX(0px);
-	opacity: 1;
-}
-
-.BattleCupBracket #Node5 
-{
-	transform: translateX(-60px) rotateY(-40deg);
-	transition-property: transform, opacity;
-	opacity: 0;
-	transition-duration: .2s;
 	transition-delay: .3s;
-	transition-timing-function: ease-in-out;
 }
 
-DOTAWeekendTourneyPage.PageVisible .BattleCupBracket #Node5 
+.BattleCupBracket.UseAnimation #Node6 
 {
-	transform: translateX(0px);
-	opacity: 1;
-}
-
-.BattleCupBracket #Node6 
-{
-	transform: translateX(-60px) rotateY(-40deg);
-	transition-property: transform, opacity;
-	opacity: 0;
-	transition-duration: .2s;
 	transition-delay: .4s;
-	transition-timing-function: ease-in-out;
 }
 
-DOTAWeekendTourneyPage.PageVisible .BattleCupBracket #Node6 
+.BattleCupBracket.UseAnimation #Node7 
 {
-	transform: translateX(0px);
-	opacity: 1;
-}
-
-.BattleCupBracket #Node7 
-{
-	transform: translateX(-60px) rotateY(-40deg);
-	transition-property: transform, opacity;
-	opacity: 0;
-	transition-duration: .2s;
 	transition-delay: .5s;
-	transition-timing-function: ease-in-out;
 }
 
-DOTAWeekendTourneyPage.PageVisible .BattleCupBracket #Node7 
+.BattleCupBracket.UseAnimation #Node7 
 {
-	transform: translateX(0px);
-	opacity: 1;
-	
-}
-
-.BattleCupBracket #Node7 
-{
-	transform: translateX(-60px) rotateY(-40deg);
-	transition-property: transform, opacity;
-	opacity: 0;
-	transition-duration: .2s;
 	transition-delay: .6s;
-	transition-timing-function: ease-in-out;
 }
 
-DOTAWeekendTourneyPage.PageVisible .BattleCupBracket #Node7 
+.BattleCupBracket.UseAnimation #Node2 
 {
-	transform: translateX(0px);
-	opacity: 1;
-}
-
-.BattleCupBracket #Node2 
-{
-	transform: translateX(-60px) rotateY(-40deg);
-	transition-property: transform, opacity;
-	opacity: 0;
-	transition-duration: .2s;
 	transition-delay: .7s;
-	transition-timing-function: ease-in-out;
 }
 
-DOTAWeekendTourneyPage.PageVisible .BattleCupBracket #Node2 
+.BattleCupBracket.UseAnimation #Node3 
 {
-	transform: translateX(0px);
-	opacity: 1;
-}
-
-.BattleCupBracket #Node3 
-{
-	transform: translateX(-60px) rotateY(-40deg);
-	transition-property: transform, opacity;
-	opacity: 0;
-	transition-duration: .2s;
 	transition-delay: .8s;
-	transition-timing-function: ease-in-out;
 }
 
-DOTAWeekendTourneyPage.PageVisible .BattleCupBracket #Node3
+.BattleCupBracket.UseAnimation #Node1 
 {
-	transform: translateX(0px);
-	opacity: 1;
-}
-
-.BattleCupBracket #Node1 
-{
-	transform: translateX(-60px) rotateY(-40deg);
-	transition-property: transform, opacity;
-	opacity: 0;
-	transition-duration: .2s;
 	transition-delay: .8s;
-	transition-timing-function: ease-in-out;
 	
 }
 
 DOTAWeekendTourneyPage.PageVisible .BattleCupBracket #Node1
 {
-	transform: translateX(0px);
-	opacity: 1;
 	sound: "ui_friends_slide_in";
 }
 
 DOTAWeekendTourneyPage.PageVisible .BattleCupBracket #Node1:hover
 {
 	sound: "ui_friends_slide_in";
-}
-
-.BattleCupBracket .CurrentRound.YourNode #TournamentMatchContainer Label
-{
-	color: white;
 }
 
 TournamentNode:enabled #Background:hover
@@ -532,4 +620,10 @@ TournamentNode:enabled #Background:hover
     width:100%;
     text-align:center;
     color:green;
+}
+
+/* No scene panels on the loading screen */
+DOTALoadingScreenWeekendTourney DOTAScenePanel
+{
+	visibility: collapse;
 }

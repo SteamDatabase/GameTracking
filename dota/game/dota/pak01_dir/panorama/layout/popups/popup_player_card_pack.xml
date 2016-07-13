@@ -5,6 +5,18 @@
 		<include src="s2r://panorama/styles/popups/popup_player_card_pack.vcss_c" />
 	</styles>
 
+	<snippets>
+		<snippet name="PlayerCardContainer">
+			<Panel class="PlayerCardContainer TopBottomFlow">
+				<DOTAPlayerCard id="PlayerCard"/>
+				<Label id="DupeLabel" text="#DOTA_PlayerCard_Dupe" onmouseout="UIHideTextTooltip();" onmouseover="UIShowTextTooltip( #DOTA_PlayerCard_Dupe_Tooltip )"/>
+				<Button id="RecycleButton" class="ButtonBevel" onactivate="DOTARecyclePlayerCard()">
+					<Label text="#DOTA_PlayerCardsRecycle"/>
+				</Button>
+			</Panel>
+		</snippet>
+	</snippets>
+	
 	<DOTAPopupPlayerCardPack class="PopupPanel" popupbackground="dim">
 
 		<Panel id="Background">
@@ -22,10 +34,16 @@
 				<Label id="ErrorFailedCardCreate" text="#DOTA_Popup_CardPack_ErrorFailedCardCreate"/>
 			</Panel>
 
-			<Panel id="CardContainer">
-				<!-- Dynamically filled out -->
+			<Panel id="Success">
+				<Panel id="UnopenedPack" class="TopBottomFlow"	onactivate="DOTAPlayerCardPackOpenState(1)">
+					<Panel id="CardPack"><Panel id="CardPackInterior"/></Panel>
+					<Label text="#DOTA_Popup_CardPack_ClickToOpen"/>
+				</Panel>
+
+				<Panel id="CardList">
+					<!-- Dynamically filled with PlayerCardContainer snippets -->	
+				</Panel>
 			</Panel>
-		
 		</Panel>
 		
 	</DOTAPopupPlayerCardPack>

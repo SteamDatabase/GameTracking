@@ -206,17 +206,6 @@ Scheme
 	// describes all the fonts
 	Fonts
 	{	
-		"DIN10Fine"  // used by combatlog
-		{
-			"1"
-			{
-				"name"		"DIN-Regular"
-				"tall"		"10"
-				"weight"	"200"
-				"antialias" "1"
-			}
-		}
-
 		"Arial10Fine"  // used by healthbars
 		{
 			"1"
@@ -655,72 +644,6 @@ Scheme
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 			}
 		}
-		// this is the symbol font
-		"Marlett"
-		{
-			"1"
-			{
-				"name"		"Marlett"
-				"tall"		"22"
-				"weight"	"20"
-				"symbol"	"1"
-			}
-		}
-		"Trebuchet24"
-		{
-			"1"
-			{
-				"name"		"Trebuchet MS"
-				"tall"		"38"
-				"weight"	"900"
-				"range"		"0x0000 0x007F"	//	Basic Latin
-				"antialias" "1"
-				"additive"	"1"
-			}
-		}
-		"Trebuchet18"
-		{
-			"1"
-			{
-				"name"		"Trebuchet MS"
-				"tall"		"29"
-				"weight"	"900"
-			}
-		}
-		ClientTitleFont
-		{
-			"1"
-			{
-				"name"  "HalfLife2"
-				"tall"			"51"
-				"tall_hidef"	"74"
-				"weight" "0"
-				"additive" "0"
-				"antialias" "1"
-			}
-		}
-		CenterPrintText
-		{
-			// note that this scales with the screen resolution
-			"1"
-			{
-				"name"		"Trebuchet MS"
-				"tall"		"29"
-				"weight"	"900"
-				"antialias" "1"
-				"additive"	"1"
-			}
-		}
-		"AchievementNotification"
-		{
-			"1"
-			{
-				"name"		"Trebuchet MS"
-				"tall"		"22"
-				"weight"	"900"
-				"antialias" "1"
-			}
-		}
 		"CommentaryDefault"
 		{
 			"1"
@@ -783,63 +706,6 @@ Scheme
 			}			
 		}
 		
-		"InstructorTitle"
-		{
-			"1"
-			{
-				"name"		"Trade Gothic Bold"
-				"tall"		"29"
-				"weight"	"400"
-				"antialias" "1"
-				"dropshadow"	"1"
-			}
-		}
-
-		"InstructorTitle_ss"
-		{
-			"1"
-			{
-				"name"		"Trade Gothic Bold"
-				"tall"		"22"
-				"weight"	"400"
-				"antialias" "1"
-				"dropshadow"	"1"
-			}
-		}
-		
-		"InstructorButtons"
-		{
-			"1"
-			{
-				"bitmap"	"1"
-				"name"		"Buttons"
-				"scalex"	"0.8"
-				"scaley"	"0.8"
-			}
-		}
-		
-		"InstructorButtons_ss"
-		{
-			"1"
-			{
-				"bitmap"	"1"
-				"name"		"Buttons"
-				"scalex"	"0.5"
-				"scaley"	"0.5"
-			}
-		}
-		
-		"InstructorKeyBindings"
-		{
-			"1"
-			{
-				"name"		"Trade Gothic"
-				"tall"		"19"
-				"weight"	"400"
-				"antialias" "1"
-			}
-		}
-
 		"UnitInfoHeroNameFont"
 		{
 			"1"
@@ -1122,6 +988,20 @@ Scheme
 			"font"		"resource/dotahypatiasansprobold.vfont"
 			"name"		"Dota Hypatia Bold"
 		}
+		"2"
+        {
+        	"font"		"vgui/fonts/verdana.ttf" [$LINUX]
+        	"name"		"Verdana" [$LINUX]
+        }
+		"3"
+        {
+        	"font"		"vgui/fonts/arial.ttf" [$OSX||$LINUX]
+        	"name"		"Arial" [$OSX||$LINUX]
+        }
+		"4"
+        {
+        	"font"		"vgui/fonts/cour.ttf" [$OSX||$LINUX]
+        	"name"		"Courier New" [$OSX||$LINUX]
+        }
 	}
-
 }

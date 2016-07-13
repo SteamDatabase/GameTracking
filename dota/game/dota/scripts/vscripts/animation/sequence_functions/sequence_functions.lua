@@ -12,6 +12,138 @@ require "animationsystem.utilities"
 -- DoIncludeScript( "animation/sequence_functions/sequence_functions", getfenv(1) )
 
 --[[
+Sequence Arguments
+Helper function that allows all the basic sequence options and error checking to be handled by a shared functions
+the args table is passed to the sequence functions and they seet up the cmds
+]]--
+
+function SequenceArgs( options )
+	local model = options.model or nil
+	local name = options.name or nil
+	local source = options.source or nil
+	local animevents = options.animevents or nil
+	local activities = options.activities or nil
+	local looping = options.looping or false
+	local pose_x = options.pose_x or nil
+	local pose_y = options.pose_y or nil
+	local delta = options.delta or false
+	local framerangesequence = options.framerangesequence or nil
+	local hidden = options.hidden or false
+	local numframes = options.numframes or nil
+	local fps = options.fps or nil
+	local snap = options.snap or nil
+
+	-- error checking
+	if not model then
+		Log_Error( "Model is not specified" )
+		return
+	end
+	
+	if not source then
+		Log_Error( "Source animation not specified" )
+		return
+	end
+	
+	if not name then
+		Log_Error( "Sequence name not specified" )
+		return
+	end
+	
+	if not source then
+		Log_Error( "Source animation not specified" )
+		return
+	end
+	
+	-- make a table of the sequence arguments
+	local args = {}
+	args["name"] = name
+	
+	if pose_x then
+		args["poseParamX"] = pose_x
+	end
+	
+	if pose_y then
+		args["poseParamY"] = pose_y
+	end
+	
+	args["looping"] = looping
+	args["delta"] = delta
+	args["hidden"] = hidden
+	
+	if snap then
+		args["snap"] = snap
+	end	
+
+	if numframes then
+		args["numframes"] = numframes
+	else
+		if framerangesequence then
+			args["framerangesequence"] = framerangesequence
+		else
+			args["framerangesequence"] = source 
+		end
+	end
+
+	if animevents then
+		args["animevents"] = animevents
+	end
+	
+	if activities then
+		args["activities"] = activities
+	end
+	
+	if fps then
+		args["fps"] = fps
+	end
+	
+	return args
+end
+
+
+--[[
+SequenceFromFrameRange
+Grab the specified frames from the animation and make it a unique sequence
+--]]
+
+function SequenceFromFrameRange( options )
+	
+	local startframe = options.startframe or nil
+	local endframe = options.endframe or nil
+	local addlayer = options.addlayer or nil
+	
+	if not startframe then
+		Log_Error( "Start Frame not specified" )
+		return
+	end 
+	
+	if not endframe then
+		Log_Error( "End Frame not specified" )
+		return
+	end 
+	
+	options.numframes = ( endframe - startframe ) + 1
+	local args = SequenceArgs( options )
+
+	local source = options.source 
+	-- sequence commands
+	local cmds = {}
+	local cmdFetch = { cmd = "fetchframerange", sequence = source, startframe = startframe, endframe = endframe, dst = 0 }
+
+	table.insert( cmds, cmdFetch )
+
+	args["cmds"] = cmds
+	
+	if addlayer then
+		args["addlayer"] = addlayer
+	end
+	
+	model:CreateSequence( args )
+	
+end
+
+
+
+--[[
 EightWaySequence
 Traditional 3x3 run/walk matrix
 Output is a pose parameter driven sequence
@@ -451,6 +583,63 @@ function SequenceFromSequence( options )
 	
 	model:CreateSequence( args )
 	
+end
+
+
+
+--[[
+LayerSequenceOverSequence
+Layers a sequence on top of another sequence using the given weightlist
+Output is a new full body sequence
+]]--
+
+function LayerSequenceOverSequence( options )
+
+	local args = SequenceArgs( options )
+
+	-- additional args for this function
+	local worldspace = options.worldspace
+
+	-- if worldspace is not defined make it true
+	if worldspace == nil then
+		bWorldSpace = true
+	else
+		bWorldSpace = options.worldspace
+	end
+	
+	local source = options.source  
+
+	local target = options.target or nil
+	if not target then
+		Log_Error( "Target animation not specified" )
+		return
+	end
+	
+	-- sequence commands
+	local cmds = {}
+	local cmdTarget = { cmd = "sequence", sequence = target, dst = 1 }
+	local cmdSequence = { cmd = "sequence", sequence = source, dst = 2 }
+	local cmdWorldspace = { cmd = "worldspace", dst = 1, src = 2 }
+	local cmdSlerp = { cmd = "slerp", dst = 1, src = 2 }
+	if weightlist then
+		cmdWorldspace["weightlist"] = weightlist
+		cmdSlerp["weightlist"] = weightlist
+	end
+	local cmdFinalSlerp = { cmd = "slerp", dst = 0, src = 1 }
+
+	table.insert( cmds, cmdTarget )
+	table.insert( cmds, cmdSequence )
+	
+	if bWorldSpace then
+		table.insert( cmds, cmdWorldspace )
+	else
+		table.insert( cmds, cmdSlerp )
+	end
+	
+	table.insert( cmds, cmdFinalSlerp )
+	
+	args["cmds"] = cmds
+	model:CreateSequence( args )
 end
 
 

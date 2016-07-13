@@ -7,6 +7,24 @@
 		<include src="s2r://panorama/styles/battle_pass/spring2016/bp_spring2016_weekendtourney_hub.vcss_c" />
 	</styles>
 
+  <script>
+      
+		
+		var SwitchDisplayedShop = function( strShopID )
+		{
+			var container = $( '#ShopCategoriesContainer' );
+			for ( var i = 0; i < container.GetChildCount(); ++i )
+			{
+				var child = container.GetChild( i );
+				
+				var bVisible = child.id == strShopID;
+				child.SetHasClass( "TabVisible", bVisible );
+			}
+			
+			UpdateCamera();
+		}
+  </script>
+  
 	<DOTABPSpring2016WeekendTourneyHubPage class="DashboardPage" >
 
 		<Panel id="CompendiumBody" class="CompendiumBody">
@@ -14,27 +32,167 @@
 			<Panel id="WeekendTourneyHubContent">
 
 				<Panel id="OverviewBlock">
-					<DOTAScenePanel id="WeekendTourneyTrophyModel" map="scenes/singleobject_default" camera="camera_1"/>
-					<Panel id="OverviewTextRightColumn">
-						<Label class="OverviewTextLabel OverviewTextSeason" text="#dota_weekend_tourney_hub_overview_season_summer_2016" />
-						<Label class="OverviewTextLabel OverviewTextBattleCup" text="#dota_weekend_tourney_hub_overview_battle_cup" />
-						<Label class="OverviewTextLabel OverviewTextDescription" text="#dota_weekend_tourney_hub_overview_description" />
-						<Image id="OverviewBracketImage" src="s2r://panorama/images/battlepass/spring2016/weekend_tourney_hub_bracket_psd.vtex" scaling="stretch-to-fit-preserve-aspect" />
-
-						<TextButton id="FAQButton" class="HackyTextButtonFixMe" text="#dota_weekend_tourney_hub_faq_button" onactivate="BrowserGoToURL( http:\\www.dota2.com\battlecup )" />
-
-						<Button id="GetStartedButton" class="ButtonBevel">
-							<Label text="#dota_weekend_tourney_hub_get_started_button" onactivate="DOTAWeekendTourneyJoin()"/>
-						</Button>
-					</Panel>
-					<!-- <Panel id="PlayerStatsBlock" >
-						<Label text="Wins: 0" />
-						<Label text="Current Tier: 0" />
-						<Label text="Battle Cup Points: 0" />
-					</Panel> -->
+          
+          <Panel id="TopBlock">
+            <Panel id="BattleCupStatsBlock" class="ContentBlock">
+              <Panel id="BattleCupStatsBlockLeft">
+                <Label text="#dota_weekend_tourney_hub_battle_cup"/>
+                <Label text="#dota_weekend_tourney_hub_summer_2016"/>
+                <DOTAScenePanel id="ModelTest3" map="scenes/battle_cup/battle_cup_rotate_large" camera="camera_1"/>
+                <Label text="#dota_weekend_tourney_hub_cup_wins"/>
+              </Panel>
+              <Panel id="BattleCupStatsBlockRight">
+                <Label text="#dota_weekend_tourney_hub_my_stats"/>
+                <Panel id="BattleCupStatsMyInfo">
+                  <DOTAAvatarImage id="AvatarImage" steamid="local"/>
+                  <DOTABattleCupVictoryIcon id="BattleCupVictoryIcon" steamid="local" />
+                  <DOTAUserName id="UserName" steamid="local"/>
+                </Panel>
+                <Panel class="BattleCupStatsTable Main">
+                  <Label class="StatsTableLabel" text="#dota_weekend_tourney_hub_current_tier" />
+                  <Label class="StatsTableData" text="{i:current_tier}" />
+                </Panel>
+                <Panel class="BattleCupStatsTable">
+                  <Label class="StatsTableLabel" text="#dota_weekend_tourney_hub_highest_tier_played" />
+                  <Label class="StatsTableData" text="{i:highest_tier_played}" />
+                </Panel>
+                <Panel class="BattleCupStatsTable">
+                  <Label class="StatsTableLabel" text="#dota_weekend_tourney_hub_battlecups_entered" />
+                  <Label class="StatsTableData" text="{i:battlecups_entered}" />
+                </Panel>
+                <Panel class="BattleCupStatsTable">
+                  <Label class="StatsTableLabel" text="#dota_weekend_tourney_hub_qf_wins" />
+                  <Label class="StatsTableData" text="{i:qf_wins}" />
+                </Panel>
+                <Panel class="BattleCupStatsTable">
+                  <Label class="StatsTableLabel" text="#dota_weekend_tourney_hub_sf_wins" />
+                  <Label class="StatsTableData" text="{i:sf_wins}" />
+                </Panel>
+                <Panel class="BattleCupStatsTable">
+                  <Label class="StatsTableLabel" text="#dota_weekend_tourney_hub_wins" />
+                  <Label class="StatsTableData" text="{i:wins}" />
+                </Panel>
+                <Panel class="BattleCupStatsTable">
+                  <Label class="StatsTableLabel" text="#dota_weekend_tourney_hub_cup_score" />
+                  <Label class="StatsTableData" text="{i:cup_score}" />
+                </Panel>
+              </Panel>
+            </Panel>
+            <Panel id="RecentTournamentsBlock" class="ContentBlock">
+              <Label id="RecentTournamentsHeader" text="#dota_weekend_tourney_hub_friends_recent_header" />
+              <!-- Snippet start-->
+              <Panel id="TournamentDate">
+                <Image class="ExpandArrow"/>
+                <Label text="{s:tourney_date}"/>
+                <Panel class="TierContainer">
+                  <Label text="{d:tourney_tier}"/>
+                </Panel>
+              </Panel>
+              <Panel id="YourTeam">
+                
+                <Label text="{s:your_team_name}"/>
+              </Panel>
+              <Panel id="YourRoster">
+                <Label text="#dota_weekend_tourney_hub_roster"/>
+                <Panel id="PlayerList">
+                  <DOTAAvatarImage id="TeamPlayer1" class="TeamPlayer" steamid="local"/>
+                  <DOTAAvatarImage id="TeamPlayer2" class="TeamPlayer" steamid="local"/>
+                  <DOTAAvatarImage id="TeamPlayer3" class="TeamPlayer" steamid="local"/>
+                  <DOTAAvatarImage id="TeamPlayer4" class="TeamPlayer" steamid="local"/>
+                  <DOTAAvatarImage id="TeamPlayer5" class="TeamPlayer" steamid="local"/>
+                </Panel>
+              </Panel>
+              <Panel id="YourResult" class="ResultChampion">
+                <Label text="#dota_weekend_tourney_hub_eliminated_in" class="Eliminated"/>
+                <Label text="#dota_weekend_tourney_hub_champions" class="Champion"/>
+                <Label text="#dota_weekend_tourney_hub_finals" class="Eliminated Finals"/>
+                <Label text="#dota_weekend_tourney_hub_semifinals" class="Eliminated Semifinals"/>
+                <Label text="#dota_weekend_tourney_hub_quarterfinals" class="Eliminated Quarterfinals"/>
+                <Button class="ButtonBevel">
+                  <Label text="#dota_weekend_tourney_hub_show_bracket"/>
+                </Button>
+              </Panel>
+              <!-- Snippet end -->
+            </Panel>
+          </Panel>
+          <Panel id="BottomBlock">
+            <Panel id="WatchBlock" class="ContentBlock">
+              <Panel id="MapPreview">
+                <Panel id="MapBuildingLayer"/>
+                <Panel id="MapHeroLayer"/>
+                <Image id="MapBG"/>
+              </Panel>
+            </Panel>
+            <Panel id="FriendsLeaderboardPanel" class="ContentBlock">
+              <Label text="#dota_weekend_tourney_hub_friends_leaderboard_header" />
+              <Panel id="LeaderboardHeaderRow">
+                <Label text="#dota_weekend_tourney_hub_leaderboard_header_player"/>
+                <Label id="LeaderBoardHeaderRow2" text="#dota_weekend_tourney_hub_leaderboard_header_score"/>
+              </Panel>
+              <Panel id="LeaderList" class="RightColumnBlock">
+                
+              </Panel>
+            </Panel>
+          </Panel>
 				</Panel>
 
 				<Panel id="RightColumn">
+          <Panel id="RulesBlock" class="ContentBlock">
+            <Label id="RulesHeader" text="#dota_weekend_tourney_hub_rules_header" />
+            <Button id="FAQButton" class="ButtonBevel" onactivate="BrowserGoToDOTAURL( battlecup ) DOTAPlayPanelCloseButtonClicked(true)" >
+              <Label text="#dota_weekend_tourney_hub_rules_faq_button" />
+            </Button>
+          </Panel>
+          <Panel id="ScheduleBlock" class="ContentBlock">
+            <Label id="ScheduleHeader" text="#dota_weekend_tourney_hub_schedule_header" />
+            <Panel id="DivisionBlock" class="RightColumnBlock" >
+              <Button id="ChangeDivisionButton" onactivate="DOTAPopupWeekendTourneyDivisionSelect()">
+                <Label id="ChangeDivision" class="TitleStyle" text="#dota_weekend_tourney_hub_schedule_division" />
+                <Panel id="ChangeDivisionArrow" />
+              </Button>
+            
+              <Label id="DivisionLabel" text="{s:weekend_tourney_selected_division_name}" />
+              <Label text="#dota_weekend_tourney_hub_schedule_next_begins" />
+              <Label id="TimeRemainingLongDuration" text="{t:l:t:m:weekendtourney_time_window_open}" />
+            </Panel>
+            <Panel id="LastWeekBlock" class="RightColumnBlock" >
+              <Label text="#dota_weekend_tourney_hub_schedule_last_week_info" />
+              <Panel id="LastWeekTable">
+                <Panel class="LastWeekTableRow">
+                  <Label class="LastWeekTableLabel" text="#dota_weekend_tourney_hub_schedule_last_week_players" />
+                  <Label class="LastWeekTableData" text="{i:last_week_players}" />
+                </Panel>
+                <Panel class="LastWeekTableRow">
+                  <Label class="LastWeekTableLabel" text="#dota_weekend_tourney_hub_schedule_last_week_teams" />
+                  <Label class="LastWeekTableData" text="{i:last_week_teams}" />
+                </Panel>
+                <Panel class="LastWeekTableRow">
+                  <Label class="LastWeekTableLabel" text="#dota_weekend_tourney_hub_schedule_last_week_winners" />
+                  <Label class="LastWeekTableData" text="{i:last_week_winners}" />
+                </Panel>
+                <Panel class="LastWeekTableRow">
+                  <Label class="LastWeekTableLabel" text="#dota_weekend_tourney_hub_schedule_2_week_streak" />
+                  <Label class="LastWeekTableData" text="{i:2_week_streak}" />
+                </Panel>
+                <Panel class="LastWeekTableRow">
+                  <Label class="LastWeekTableLabel" text="#dota_weekend_tourney_hub_schedule_3_week_streak" />
+                  <Label class="LastWeekTableData" text="{i:3_week_streak}" />
+                </Panel>
+                <Panel class="LastWeekTableRow">
+                  <Label class="LastWeekTableLabel" text="#dota_weekend_tourney_hub_schedule_4_week_streak" />
+                  <Label class="LastWeekTableData" text="{i:4_week_streak}" />
+                </Panel>
+              </Panel>
+              
+            </Panel>
+            <Panel id="TeamSetupBlock" class="RightColumnBlock">
+              <Label text="#dota_weekend_tourney_hub_set_up_now" />
+              <Button id="StartButton" class="ButtonBevel" onactivate="DOTAWeekendTourneyJoin();" >
+                <Label text="#dota_weekend_tourney_hub_get_started" />
+              </Button>
+            </Panel>
+          </Panel>
+          <!-- 
 					<Label id="RightColumnHeader" text="#dota_weekend_tourney_hub_schedule_header" />
 
 					<Panel id="DivisionBlock" class="RightColumnBlock" >
@@ -65,20 +223,19 @@
 							</Button>
 						</Panel>
 
-						<!-- nothing scheduled selected division -->
-						<!-- nothing scheduled any division -->
+					
 						<Panel id="StateNothingScheduled" class="StartingInBlock">
 							<Label class="BlockHeaderLabel" text="#dota_weekend_tourney_hub_status_header" />
 							<Label id="NoTournamentScheduledLabel" text="#WeekendTourneyStatus_NoTournamentScheduled" html="true"/>
 						</Panel>
 
-						<!-- currently participating -->
+				
 						<Panel id="StateCurrentlyParticipating" class="StartingInBlock" >
 							<Label class="BlockHeaderLabel" text="#dota_weekend_tourney_hub_status_header" />
 							<Label id="CurrentlyParticipating" text="#WeekendTourneyStatus_Participating" html="true"/>
 						</Panel>
 
-						<!-- too late ? window closed and we don't yet know next tournament -->
+						
 						<Panel id="StateTooLate" class="StartingInBlock" >
 							<Label class="BlockHeaderLabel" text="#dota_weekend_tourney_hub_status_header" />
 							<Label id="TooLateLabel" text="#WeekendTourneyStatus_TooLate" html="true"/>
@@ -93,13 +250,8 @@
 					</Panel>
 
 					<Label text="#dota_weekend_tourney_hub_leaderboard_title" id="LeaderboardHeaderLabel"/>
-					<Panel id="LeaderboardHeaderRow">
-						<Label id="LeaderboardHeaderPlayer" text="#dota_weekend_tourney_hub_leaderboard_header_player"/>
-						<Label id="LeaderboardHeaderWins" text="#dota_weekend_tourney_hub_leaderboard_header_score"/>
-					</Panel>
-					<Panel id="LeaderList" class="RightColumnBlock">
-						<!-- Dynamic -->
-					</Panel>
+					
+          -->
 				</Panel>
 			</Panel>
 
