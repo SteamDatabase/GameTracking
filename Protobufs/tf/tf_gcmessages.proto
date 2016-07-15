@@ -123,6 +123,8 @@ enum ETFGCMsg {
 	k_EMsgGCGameServerKickingLobbyResponse = 6521;
 	k_EMsgGCPlayerLeftMatch = 6522;
 	k_EMsgGCPlayerLeftMatchResponse = 6523;
+	k_EMsgGCRequestCasualCriteriaStats = 6524;
+	k_EMsgGCCasualCriteriaStatsResponse = 6525;
 	k_EMsgGCDev_GrantWarKill = 10001;
 }
 
@@ -540,8 +542,7 @@ message CMsgMatchSearchCriteria {
 }
 
 message CMsgCasualMatchmakingSearchCriteria {
-	optional uint32 mm_groups_bit_field = 1 [default = 0];
-	optional uint32 game_categories_bit_field = 2 [default = 4294967295];
+	repeated fixed32 selected_maps_bits = 3;
 }
 
 message CMsgCreateOrUpdateParty {
@@ -1237,5 +1238,12 @@ message CSOTFMatchResultPlayerStats {
 	optional uint32 healing_medal = 24;
 	optional uint32 support_medal = 25;
 	optional uint32 map_index = 26;
+}
+
+message CMsgGCRequestCasualCriteriaStats {
+}
+
+message CMsgGCCasualCriteriaStatsResponse {
+	repeated uint32 map_count = 1;
 }
 

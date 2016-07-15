@@ -1804,5 +1804,8 @@
 	// Really only for debugging
 	"begin_xp_lerp"
 	{}
+
+	"casual_criteria_updated"
+	{}
 }
 

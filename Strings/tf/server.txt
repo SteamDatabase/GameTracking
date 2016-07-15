@@ -168,6 +168,7 @@
 	leader_id
 	life_time
 	longitude
+	map_count
 	map_index
 	max_users
 	name_part
@@ -469,6 +470,7 @@
  CGCMsg_WorldItemPlacement_Update
  CHANGE_TO 
  CMsgGCIncrementKillCountResponse
+ CMsgGCRequestCasualCriteriaStats"6
  CMsgGC_GameServer_CreateIdentity
  CMsgTFCoaching_FindCoachResponse
  CMsgTFCoaching_RemoveFromCoaches">
@@ -591,6 +593,7 @@
 !AWAITING_RESERVATION_CONFIRMATION
 !CAttribute_DynamicRecipeComponent
 !CMsgFulfillDynamicRecipeComponent
+!CMsgGCCasualCriteriaStatsResponse
 !CMsgGCQuestObjective_PointsChange
 !CMsgGCStorePurchaseCancelResponse
 !CMsgMatchmakingSearchCountRequest"H
@@ -774,6 +777,7 @@
 "k_EMsgGCItemPreviewRequestResponse
 "k_EMsgGCKickedFromMatchmakingQueue
 "k_EMsgGCLookupMultipleAccountNames
+"k_EMsgGCRequestCasualCriteriaStats
 "k_EMsgGCStartedTraining_DEPRECATED
 "k_EMsgGC_GameServer_CreateIdentity
 "k_EMsgGC_Halloween_ServerBossEvent
@@ -1036,6 +1040,7 @@
 #k_EGCMsgAccountTradeBanStatusChange
 #k_EGCMsgCheckClanMembershipResponse
 #k_EMsgGCApplyHalloweenSpellbookPage
+#k_EMsgGCCasualCriteriaStatsResponse
 #k_EMsgGCCoaching_RemoveCurrentCoach
 #k_EMsgGCDeliverGiftResponseReceiver
 #k_EMsgGCGameServerMatchmakingStatus
@@ -1688,6 +1693,8 @@ $no_fullbright
 (anonymous namespace)::CMsgFulfillDynamicRecipeComponent_reflection_
 (anonymous namespace)::CMsgGCBannedWordListRequest_descriptor_
 (anonymous namespace)::CMsgGCBannedWordListRequest_reflection_
+(anonymous namespace)::CMsgGCCasualCriteriaStatsResponse_descriptor_
+(anonymous namespace)::CMsgGCCasualCriteriaStatsResponse_reflection_
 (anonymous namespace)::CMsgGCCheckClanMembership_Response_descriptor_
 (anonymous namespace)::CMsgGCCheckClanMembership_Response_reflection_
 (anonymous namespace)::CMsgGCCheckClanMembership_descriptor_
@@ -1804,6 +1811,8 @@ $no_fullbright
 (anonymous namespace)::CMsgGCReportAbuseResponse_reflection_
 (anonymous namespace)::CMsgGCReportAbuse_descriptor_
 (anonymous namespace)::CMsgGCReportAbuse_reflection_
+(anonymous namespace)::CMsgGCRequestCasualCriteriaStats_descriptor_
+(anonymous namespace)::CMsgGCRequestCasualCriteriaStats_reflection_
 (anonymous namespace)::CMsgGCRequestStoreSalesDataResponse_Price_descriptor_
 (anonymous namespace)::CMsgGCRequestStoreSalesDataResponse_Price_reflection_
 (anonymous namespace)::CMsgGCRequestStoreSalesDataResponse_descriptor_
@@ -4702,7 +4711,6 @@ $no_fullbright
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/game/shared/tf/tf_mapinfo.h
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/game/shared/tf/tf_match_description.cpp
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/game/shared/tf/tf_match_description.h
-/Users/buildbot/buildslave/rel_hl2_osx/build/src/game/shared/tf/tf_matchmaking_shared.cpp
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/game/shared/tf/tf_matchmaking_shared.h
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/game/shared/tf/tf_obj_baseupgrade_shared.cpp
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/game/shared/tf/tf_obj_baseupgrade_shared.h
@@ -5164,7 +5172,6 @@ $no_fullbright
 0@P0@@
 0@`PP`
 0@pp0
-0A		`A	
 0CMsgGC_Client_UseServerModificationItem_Response
 0E28CSteamWorksGameStatsUploader
 0P0000
@@ -5237,7 +5244,7 @@ $no_fullbright
 2#.CMsgSOMultipleObjects.SingleObject
 2$.CGCMsgMemCachedGetResponse.ValueTag
 2$.CMsgCasualMatchmakingSearchCriteria
-2$.CMsgCasualMatchmakingSearchCriteria"unsigned short
+2$.CMsgCasualMatchmakingSearchCriteria"A
 2%.CMsgAMGetUserGameStatsResponse.Stats
 2%.CMsgSOCacheSubscribed.SubscribedType
 2&.CMsgGCMsgMasterSetWebAPIRouting.Entry
@@ -5329,7 +5336,6 @@ $no_fullbright
 3r(3u
 400.0f
 411CPlayerMove
-4294967295"
 44444444444
 45.0f
 4CMsgGC_GameServer_UseServerModificationItem_Response
@@ -5584,7 +5590,6 @@ $no_fullbright
 @0ppp@@
 @333333
 @4@tK
-@;		`<	
 @<@te
 @<@ts
 @<@u(
@@ -9083,7 +9088,7 @@ ArrivalConceptModifier
 Arrow alive for %f3.2
 ArrowLight
 Ascend
-Ask the GC if signed char kick vote can be called by this player.
+Ask the GC if signed char kick vote can be called by this player.  Official servers only.
 Asking FirstTimeSeen for enemy that'short not in my memory!!
 Asking LastKnownPosition for enemy that'short not in my memory!!
 Asking LastTimeSeen for enemy that'short not in my memory!!
@@ -22397,7 +22402,7 @@ CMapInfoContainer::~CMapInfoContainer()
 CMapLoadEntityFilter
 CMapLoadEntityFilter::CreateNextEntity(char const*)
 CMapLoadEntityFilter::ShouldCreateEntity(char const*)
-CMatchInfo::AddPlayer(CSteamID, CTFLobbyMember const*)
+CMatchInfo::AddPlayer(CSteamID, CTFLobbyMember const*, bool)
 CMatchInfo::BPlayerSafeToLeaveMatch(CSteamID)
 CMatchInfo::CMatchInfo(CTFLobby*)
 CMatchInfo::CalculatePlayerMatchRankData()
@@ -23365,6 +23370,18 @@ CMsgGCBannedWordListRequest::SerializeWithCachedSizesToArray(unsigned char*) con
 CMsgGCBannedWordListRequest::SetCachedSize(int) const
 CMsgGCBannedWordListRequest::default_instance_
 CMsgGCBannedWordListRequest::~CMsgGCBannedWordListRequest()
+CMsgGCCasualCriteriaStatsResponse
+CMsgGCCasualCriteriaStatsResponse::ByteSize() const
+CMsgGCCasualCriteriaStatsResponse::Clear()
+CMsgGCCasualCriteriaStatsResponse::GetCachedSize() const
+CMsgGCCasualCriteriaStatsResponse::GetMetadata() const
+CMsgGCCasualCriteriaStatsResponse::IsInitialized() const
+CMsgGCCasualCriteriaStatsResponse::MergeFrom(CMsgGCCasualCriteriaStatsResponse const&)
+CMsgGCCasualCriteriaStatsResponse::New() const
+CMsgGCCasualCriteriaStatsResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGCCasualCriteriaStatsResponse::SetCachedSize(int) const
+CMsgGCCasualCriteriaStatsResponse::default_instance_
+CMsgGCCasualCriteriaStatsResponse::~CMsgGCCasualCriteriaStatsResponse()
 CMsgGCCheckClanMembership
 CMsgGCCheckClanMembership::ByteSize() const
 CMsgGCCheckClanMembership::Clear()
@@ -24078,6 +24095,18 @@ CMsgGCReportAbuseResponse::SetCachedSize(int) const
 CMsgGCReportAbuseResponse::_default_error_message_
 CMsgGCReportAbuseResponse::default_instance_
 CMsgGCReportAbuseResponse::~CMsgGCReportAbuseResponse()
+CMsgGCRequestCasualCriteriaStats
+CMsgGCRequestCasualCriteriaStats::ByteSize() const
+CMsgGCRequestCasualCriteriaStats::Clear()
+CMsgGCRequestCasualCriteriaStats::GetCachedSize() const
+CMsgGCRequestCasualCriteriaStats::GetMetadata() const
+CMsgGCRequestCasualCriteriaStats::IsInitialized() const
+CMsgGCRequestCasualCriteriaStats::MergeFrom(CMsgGCRequestCasualCriteriaStats const&)
+CMsgGCRequestCasualCriteriaStats::New() const
+CMsgGCRequestCasualCriteriaStats::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGCRequestCasualCriteriaStats::SetCachedSize(int) const
+CMsgGCRequestCasualCriteriaStats::default_instance_
+CMsgGCRequestCasualCriteriaStats::~CMsgGCRequestCasualCriteriaStats()
 CMsgGCRequestStoreSalesData
 CMsgGCRequestStoreSalesData::ByteSize() const
 CMsgGCRequestStoreSalesData::Clear()
@@ -32634,7 +32663,7 @@ CTFForceRespawn::~CTFForceRespawn()
 CTFForceRespawn_DataDescInit::g_DataMapHolder
 CTFGCServerSystem
 CTFGCServerSystem - removing listener to old Steam ID %short
-CTFGCServerSystem::AcceptGCReservation(CSteamID, CTFLobbyMember const*)
+CTFGCServerSystem::AcceptGCReservation(CSteamID, CTFLobbyMember const*, bool)
 CTFGCServerSystem::BLateJoinEligible()
 CTFGCServerSystem::CTFGCServerSystem()
 CTFGCServerSystem::ClientActive(CSteamID)
@@ -32862,6 +32891,7 @@ CTFGameRules::IsInItemTestingMode()
 CTFGameRules::IsInKothMode() const
 CTFGameRules::IsInTraining()
 CTFGameRules::IsManagedMatchEnded() const
+CTFGameRules::IsMatchTypeCompetitive() const
 CTFGameRules::IsPVEModeActive() const
 CTFGameRules::IsPVEModeControlled(CBaseEntity*) const
 CTFGameRules::IsQuickBuildTime()
@@ -40302,6 +40332,7 @@ CUtlVector<ResponseContext_t, CUtlMemory<ResponseContext_t, int> >::GrowVector(i
 CUtlVector<ResponseContext_t, CUtlMemory<ResponseContext_t, int> >::~CUtlVector()
 CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> >::InsertMultipleBefore(int, int, SaveRestoreBlockHeader_t const*)
 CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> >::~CUtlVector()
+CUtlVector<SchemaGameCategory_t const*, CUtlMemory<SchemaGameCategory_t const*, int> >::AddToTail(SchemaGameCategory_t const* const&)
 CUtlVector<SchemaGameCategory_t const*, CUtlMemory<SchemaGameCategory_t const*, int> >::~CUtlVector()
 CUtlVector<SchemaMap_t const*, CUtlMemory<SchemaMap_t const*, int> >::AddToTail(SchemaMap_t const* const&)
 CUtlVector<SchemaMap_t const*, CUtlMemory<SchemaMap_t const*, int> >::~CUtlVector()
@@ -46113,6 +46144,7 @@ I picked up the flag!
 I$;H$
 I$;H$t
 I$;N$t
+I'unsigned long actually dead
 I'unsigned long done panicking
 I'unsigned long entering panic and being attacked
 I'unsigned long invulnerable - no need to retreat!
@@ -49871,6 +49903,7 @@ P,G;{0|
 P0 @@ PP
 P0;P4uj
 P0@@@ @
+P0P0p
 P0`pp
 P0p0@@P
 P@@pPp@@
@@ -55113,7 +55146,7 @@ ___cxx_global_array_dtor118
 ___cxx_global_array_dtor119
 ___cxx_global_array_dtor121
 ___cxx_global_array_dtor122
-___cxx_global_array_dtor1251
+___cxx_global_array_dtor1253
 ___cxx_global_array_dtor13
 ___cxx_global_array_dtor14
 ___cxx_global_array_dtor140
@@ -55173,7 +55206,7 @@ ___cxx_global_array_dtor40
 ___cxx_global_array_dtor408
 ___cxx_global_array_dtor41
 ___cxx_global_array_dtor412
-___cxx_global_array_dtor419
+___cxx_global_array_dtor421
 ___cxx_global_array_dtor425
 ___cxx_global_array_dtor43
 ___cxx_global_array_dtor45
@@ -55205,13 +55238,13 @@ ___cxx_global_array_dtor96
 ___cxx_global_var_init11
 ___cxx_global_var_init1163
 ___cxx_global_var_init12
-___cxx_global_var_init1272
+___cxx_global_var_init1274
 ___cxx_global_var_init130
 ___cxx_global_var_init16
 ___cxx_global_var_init169
 ___cxx_global_var_init18
 ___cxx_global_var_init24
-___cxx_global_var_init345
+___cxx_global_var_init343
 ___cxx_global_var_init37
 ___cxx_global_var_init4
 ___cxx_global_var_init446
@@ -56458,8 +56491,8 @@ _sv_vote_issue_extendlevel_allowed
 _sv_vote_issue_extendlevel_quorum
 _sv_vote_issue_kick_allowed
 _sv_vote_issue_kick_allowed_mvm
+_sv_vote_issue_kick_limit_gc
 _sv_vote_issue_kick_limit_mvm
-_sv_vote_issue_kick_limit_mvm_gc
 _sv_vote_issue_kick_min_connect_time_mvm
 _sv_vote_issue_kick_namelock_duration
 _sv_vote_issue_kick_spectators_mvm
@@ -56504,6 +56537,7 @@ _tf_arena_override_team_size
 _tf_arena_preround_time
 _tf_arena_round_time
 _tf_arena_use_queue
+_tf_attack_defend_map
 _tf_avoidteammates
 _tf_avoidteammates_pushaway
 _tf_base_boss_max_turn_rate
@@ -58152,6 +58186,7 @@ channel_name
 channel_type
 channels
 chaptertitle
+char restrict;??
 char* std::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_construct<char*>(char*, char*, std::allocator<char> const&, std::forward_iterator_tag)
 charge_impact_damage
 charge_meter_on_hit
@@ -61775,7 +61810,6 @@ game mode '%short' missing localized desc!
 game mode '%short' missing localized name!
 game time per map in minutes
 game_
-game_categories_bit_field
 game_end
 game_forcerespawn
 game_gib_manager
@@ -70263,7 +70297,6 @@ mission_sniper
 mission_spy
 missions
 mitigator
-mm_groups_bit_field
 mm_type
 mm_type '%short' does not have signed char matchmaking_categories entry
 mmamammmmammamamaaamammma
@@ -73198,7 +73231,6 @@ pyrovision_scorchshot_trail_red
 p}?fff?
 q 3q43q
 q$;r$
-qWvJ1
 qangle
 qangle_array
 qffffff.
@@ -73231,6 +73263,7 @@ r$+r
 r$;p$
 r,+r(
 r,321
+r8ffffff.
 rJff.
 rL+rH
 r_AirboatViewDampenDamp
@@ -73842,6 +73875,7 @@ seeplayer
 selectable
 selectcmd
 selected
+selected_maps_bits
 self_destruct_think
 self_mark_for_death
 selfcollisions
@@ -74755,8 +74789,8 @@ sv_vote_issue_extendlevel_allowed
 sv_vote_issue_extendlevel_quorum
 sv_vote_issue_kick_allowed
 sv_vote_issue_kick_allowed_mvm
+sv_vote_issue_kick_limit_gc
 sv_vote_issue_kick_limit_mvm
-sv_vote_issue_kick_limit_mvm_gc
 sv_vote_issue_kick_min_connect_time_mvm
 sv_vote_issue_kick_namelock_duration
 sv_vote_issue_kick_spectators_mvm
@@ -75022,6 +75056,7 @@ tf_arena_override_team_size
 tf_arena_preround_time
 tf_arena_round_time
 tf_arena_use_queue
+tf_attack_defend_map
 tf_avoidteammates
 tf_avoidteammates_pushaway
 tf_base_boss_max_turn_rate
@@ -77553,6 +77588,7 @@ typeinfo for CMsgEconPlayerStrangeCountAdjustment_CStrangeCountAdjustment
 typeinfo for CMsgExitMatchmaking
 typeinfo for CMsgFulfillDynamicRecipeComponent
 typeinfo for CMsgGCBannedWordListRequest
+typeinfo for CMsgGCCasualCriteriaStatsResponse
 typeinfo for CMsgGCCheckClanMembership
 typeinfo for CMsgGCCheckClanMembership_Response
 typeinfo for CMsgGCCheckFriendship
@@ -77610,6 +77646,7 @@ typeinfo for CMsgGCRemoveStrangePart
 typeinfo for CMsgGCRemoveUpgradeCard
 typeinfo for CMsgGCReportAbuse
 typeinfo for CMsgGCReportAbuseResponse
+typeinfo for CMsgGCRequestCasualCriteriaStats
 typeinfo for CMsgGCRequestStoreSalesData
 typeinfo for CMsgGCRequestStoreSalesDataResponse
 typeinfo for CMsgGCRequestStoreSalesDataResponse_Price
@@ -80504,6 +80541,7 @@ typeinfo name for CMsgEconPlayerStrangeCountAdjustment_CStrangeCountAdjustment
 typeinfo name for CMsgExitMatchmaking
 typeinfo name for CMsgFulfillDynamicRecipeComponent
 typeinfo name for CMsgGCBannedWordListRequest
+typeinfo name for CMsgGCCasualCriteriaStatsResponse
 typeinfo name for CMsgGCCheckClanMembership
 typeinfo name for CMsgGCCheckClanMembership_Response
 typeinfo name for CMsgGCCheckFriendship
@@ -80561,6 +80599,7 @@ typeinfo name for CMsgGCRemoveStrangePart
 typeinfo name for CMsgGCRemoveUpgradeCard
 typeinfo name for CMsgGCReportAbuse
 typeinfo name for CMsgGCReportAbuseResponse
+typeinfo name for CMsgGCRequestCasualCriteriaStats
 typeinfo name for CMsgGCRequestStoreSalesData
 typeinfo name for CMsgGCRequestStoreSalesDataResponse
 typeinfo name for CMsgGCRequestStoreSalesDataResponse_Price
@@ -83835,6 +83874,7 @@ vtable for CMsgEconPlayerStrangeCountAdjustment_CStrangeCountAdjustment
 vtable for CMsgExitMatchmaking
 vtable for CMsgFulfillDynamicRecipeComponent
 vtable for CMsgGCBannedWordListRequest
+vtable for CMsgGCCasualCriteriaStatsResponse
 vtable for CMsgGCCheckClanMembership
 vtable for CMsgGCCheckClanMembership_Response
 vtable for CMsgGCCheckFriendship
@@ -83892,6 +83932,7 @@ vtable for CMsgGCRemoveStrangePart
 vtable for CMsgGCRemoveUpgradeCard
 vtable for CMsgGCReportAbuse
 vtable for CMsgGCReportAbuseResponse
+vtable for CMsgGCRequestCasualCriteriaStats
 vtable for CMsgGCRequestStoreSalesData
 vtable for CMsgGCRequestStoreSalesDataResponse
 vtable for CMsgGCRequestStoreSalesDataResponse_Price

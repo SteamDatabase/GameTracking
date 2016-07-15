@@ -489,6 +489,7 @@
  B CMsgExitMatchmaking::default_instance_
  B CMsgFulfillDynamicRecipeComponent::default_instance_
  B CMsgGCBannedWordListRequest::default_instance_
+ B CMsgGCCasualCriteriaStatsResponse::default_instance_
  B CMsgGCCheckClanMembership::default_instance_
  B CMsgGCCheckClanMembership_Response::default_instance_
  B CMsgGCCheckFriendship::default_instance_
@@ -564,6 +565,7 @@
  B CMsgGCReportAbuse::default_instance_
  B CMsgGCReportAbuseResponse::_default_error_message_
  B CMsgGCReportAbuseResponse::default_instance_
+ B CMsgGCRequestCasualCriteriaStats::default_instance_
  B CMsgGCRequestStoreSalesData::default_instance_
  B CMsgGCRequestStoreSalesDataResponse::default_instance_
  B CMsgGCRequestStoreSalesDataResponse_Price::default_instance_
@@ -2910,8 +2912,8 @@
  B sv_vote_issue_extendlevel_quorum
  B sv_vote_issue_kick_allowed
  B sv_vote_issue_kick_allowed_mvm
+ B sv_vote_issue_kick_limit_gc
  B sv_vote_issue_kick_limit_mvm
- B sv_vote_issue_kick_limit_mvm_gc
  B sv_vote_issue_kick_min_connect_time_mvm
  B sv_vote_issue_kick_namelock_duration
  B sv_vote_issue_kick_spectators_mvm
@@ -2956,6 +2958,7 @@
  B tf_arena_preround_time
  B tf_arena_round_time
  B tf_arena_use_queue
+ B tf_attack_defend_map
  B tf_avoidteammates
  B tf_avoidteammates_pushaway
  B tf_base_boss_max_turn_rate
@@ -9879,6 +9882,7 @@
  D typeinfo for CMsgExitMatchmaking
  D typeinfo for CMsgFulfillDynamicRecipeComponent
  D typeinfo for CMsgGCBannedWordListRequest
+ D typeinfo for CMsgGCCasualCriteriaStatsResponse
  D typeinfo for CMsgGCCheckClanMembership
  D typeinfo for CMsgGCCheckClanMembership_Response
  D typeinfo for CMsgGCCheckFriendship
@@ -9936,6 +9940,7 @@
  D typeinfo for CMsgGCRemoveUpgradeCard
  D typeinfo for CMsgGCReportAbuse
  D typeinfo for CMsgGCReportAbuseResponse
+ D typeinfo for CMsgGCRequestCasualCriteriaStats
  D typeinfo for CMsgGCRequestStoreSalesData
  D typeinfo for CMsgGCRequestStoreSalesDataResponse
  D typeinfo for CMsgGCRequestStoreSalesDataResponse_Price
@@ -12914,6 +12919,7 @@
  D vtable for CMsgExitMatchmaking
  D vtable for CMsgFulfillDynamicRecipeComponent
  D vtable for CMsgGCBannedWordListRequest
+ D vtable for CMsgGCCasualCriteriaStatsResponse
  D vtable for CMsgGCCheckClanMembership
  D vtable for CMsgGCCheckClanMembership_Response
  D vtable for CMsgGCCheckFriendship
@@ -12971,6 +12977,7 @@
  D vtable for CMsgGCRemoveUpgradeCard
  D vtable for CMsgGCReportAbuse
  D vtable for CMsgGCReportAbuseResponse
+ D vtable for CMsgGCRequestCasualCriteriaStats
  D vtable for CMsgGCRequestStoreSalesData
  D vtable for CMsgGCRequestStoreSalesDataResponse
  D vtable for CMsgGCRequestStoreSalesDataResponse_Price
@@ -15791,6 +15798,7 @@
  R typeinfo name for CMsgExitMatchmaking
  R typeinfo name for CMsgFulfillDynamicRecipeComponent
  R typeinfo name for CMsgGCBannedWordListRequest
+ R typeinfo name for CMsgGCCasualCriteriaStatsResponse
  R typeinfo name for CMsgGCCheckClanMembership
  R typeinfo name for CMsgGCCheckClanMembership_Response
  R typeinfo name for CMsgGCCheckFriendship
@@ -15848,6 +15856,7 @@
  R typeinfo name for CMsgGCRemoveUpgradeCard
  R typeinfo name for CMsgGCReportAbuse
  R typeinfo name for CMsgGCReportAbuseResponse
+ R typeinfo name for CMsgGCRequestCasualCriteriaStats
  R typeinfo name for CMsgGCRequestStoreSalesData
  R typeinfo name for CMsgGCRequestStoreSalesDataResponse
  R typeinfo name for CMsgGCRequestStoreSalesDataResponse_Price
@@ -28875,7 +28884,7 @@
  T CMapInfoContainer::~CMapInfoContainer()
  T CMapLoadEntityFilter::CreateNextEntity(char const*)
  T CMapLoadEntityFilter::ShouldCreateEntity(char const*)
- T CMatchInfo::AddPlayer(CSteamID, CTFLobbyMember const*)
+ T CMatchInfo::AddPlayer(CSteamID, CTFLobbyMember const*, bool)
  T CMatchInfo::BPlayerSafeToLeaveMatch(CSteamID)
  T CMatchInfo::CMatchInfo(CTFLobby*)
  T CMatchInfo::CalculatePlayerMatchRankData()
@@ -29669,6 +29678,16 @@
  T CMsgGCBannedWordListRequest::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgGCBannedWordListRequest::SetCachedSize(int) const
  T CMsgGCBannedWordListRequest::~CMsgGCBannedWordListRequest()
+ T CMsgGCCasualCriteriaStatsResponse::ByteSize() const
+ T CMsgGCCasualCriteriaStatsResponse::Clear()
+ T CMsgGCCasualCriteriaStatsResponse::GetCachedSize() const
+ T CMsgGCCasualCriteriaStatsResponse::GetMetadata() const
+ T CMsgGCCasualCriteriaStatsResponse::IsInitialized() const
+ T CMsgGCCasualCriteriaStatsResponse::MergeFrom(CMsgGCCasualCriteriaStatsResponse const&)
+ T CMsgGCCasualCriteriaStatsResponse::New() const
+ T CMsgGCCasualCriteriaStatsResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgGCCasualCriteriaStatsResponse::SetCachedSize(int) const
+ T CMsgGCCasualCriteriaStatsResponse::~CMsgGCCasualCriteriaStatsResponse()
  T CMsgGCCheckClanMembership::ByteSize() const
  T CMsgGCCheckClanMembership::Clear()
  T CMsgGCCheckClanMembership::GetCachedSize() const
@@ -30248,6 +30267,16 @@
  T CMsgGCReportAbuseResponse::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgGCReportAbuseResponse::SetCachedSize(int) const
  T CMsgGCReportAbuseResponse::~CMsgGCReportAbuseResponse()
+ T CMsgGCRequestCasualCriteriaStats::ByteSize() const
+ T CMsgGCRequestCasualCriteriaStats::Clear()
+ T CMsgGCRequestCasualCriteriaStats::GetCachedSize() const
+ T CMsgGCRequestCasualCriteriaStats::GetMetadata() const
+ T CMsgGCRequestCasualCriteriaStats::IsInitialized() const
+ T CMsgGCRequestCasualCriteriaStats::MergeFrom(CMsgGCRequestCasualCriteriaStats const&)
+ T CMsgGCRequestCasualCriteriaStats::New() const
+ T CMsgGCRequestCasualCriteriaStats::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgGCRequestCasualCriteriaStats::SetCachedSize(int) const
+ T CMsgGCRequestCasualCriteriaStats::~CMsgGCRequestCasualCriteriaStats()
  T CMsgGCRequestStoreSalesData::ByteSize() const
  T CMsgGCRequestStoreSalesData::Clear()
  T CMsgGCRequestStoreSalesData::GetCachedSize() const
@@ -37245,7 +37274,7 @@
  T CTFForceRespawn::InputForceRespawnSwitchTeams(inputdata_t&)
  T CTFForceRespawn::InputForceTeamRespawn(inputdata_t&)
  T CTFForceRespawn::~CTFForceRespawn()
- T CTFGCServerSystem::AcceptGCReservation(CSteamID, CTFLobbyMember const*)
+ T CTFGCServerSystem::AcceptGCReservation(CSteamID, CTFLobbyMember const*, bool)
  T CTFGCServerSystem::BLateJoinEligible()
  T CTFGCServerSystem::CTFGCServerSystem()
  T CTFGCServerSystem::ClientActive(CSteamID)
@@ -37463,6 +37492,7 @@
  T CTFGameRules::IsInKothMode() const
  T CTFGameRules::IsInTraining()
  T CTFGameRules::IsManagedMatchEnded() const
+ T CTFGameRules::IsMatchTypeCompetitive() const
  T CTFGameRules::IsPVEModeActive() const
  T CTFGameRules::IsPVEModeControlled(CBaseEntity*) const
  T CTFGameRules::IsQuickBuildTime()
@@ -44009,6 +44039,7 @@
  T CUtlVector<ResponseContext_t, CUtlMemory<ResponseContext_t, int> >::~CUtlVector()
  T CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> >::InsertMultipleBefore(int, int, SaveRestoreBlockHeader_t const*)
  T CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> >::~CUtlVector()
+ T CUtlVector<SchemaGameCategory_t const*, CUtlMemory<SchemaGameCategory_t const*, int> >::AddToTail(SchemaGameCategory_t const* const&)
  T CUtlVector<SchemaGameCategory_t const*, CUtlMemory<SchemaGameCategory_t const*, int> >::~CUtlVector()
  T CUtlVector<SchemaMap_t const*, CUtlMemory<SchemaMap_t const*, int> >::AddToTail(SchemaMap_t const* const&)
  T CUtlVector<SchemaMap_t const*, CUtlMemory<SchemaMap_t const*, int> >::~CUtlVector()
@@ -50514,6 +50545,8 @@
  b (anonymous namespace)::CMsgFulfillDynamicRecipeComponent_reflection_
  b (anonymous namespace)::CMsgGCBannedWordListRequest_descriptor_
  b (anonymous namespace)::CMsgGCBannedWordListRequest_reflection_
+ b (anonymous namespace)::CMsgGCCasualCriteriaStatsResponse_descriptor_
+ b (anonymous namespace)::CMsgGCCasualCriteriaStatsResponse_reflection_
  b (anonymous namespace)::CMsgGCCheckClanMembership_Response_descriptor_
  b (anonymous namespace)::CMsgGCCheckClanMembership_Response_reflection_
  b (anonymous namespace)::CMsgGCCheckClanMembership_descriptor_
@@ -50630,6 +50663,8 @@
  b (anonymous namespace)::CMsgGCReportAbuseResponse_reflection_
  b (anonymous namespace)::CMsgGCReportAbuse_descriptor_
  b (anonymous namespace)::CMsgGCReportAbuse_reflection_
+ b (anonymous namespace)::CMsgGCRequestCasualCriteriaStats_descriptor_
+ b (anonymous namespace)::CMsgGCRequestCasualCriteriaStats_reflection_
  b (anonymous namespace)::CMsgGCRequestStoreSalesDataResponse_Price_descriptor_
  b (anonymous namespace)::CMsgGCRequestStoreSalesDataResponse_Price_reflection_
  b (anonymous namespace)::CMsgGCRequestStoreSalesDataResponse_descriptor_
@@ -53952,6 +53987,8 @@
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgCreateOrUpdatePartyReply_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgCreateOrUpdateParty_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgExitMatchmaking_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCCasualCriteriaStatsResponse_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCRequestCasualCriteriaStats_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCTFSpecificItemBroadcast_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Client2GCEconPreviewDataBlockRequest_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Client2GCEconPreviewDataBlockResponse_offsets_
@@ -54338,7 +54375,7 @@
  t __cxx_global_array_dtor119
  t __cxx_global_array_dtor121
  t __cxx_global_array_dtor122
- t __cxx_global_array_dtor1251
+ t __cxx_global_array_dtor1253
  t __cxx_global_array_dtor13
  t __cxx_global_array_dtor14
  t __cxx_global_array_dtor140
@@ -54398,7 +54435,7 @@
  t __cxx_global_array_dtor408
  t __cxx_global_array_dtor41
  t __cxx_global_array_dtor412
- t __cxx_global_array_dtor419
+ t __cxx_global_array_dtor421
  t __cxx_global_array_dtor425
  t __cxx_global_array_dtor43
  t __cxx_global_array_dtor45
@@ -54430,13 +54467,13 @@
  t __cxx_global_var_init11
  t __cxx_global_var_init1163
  t __cxx_global_var_init12
- t __cxx_global_var_init1272
+ t __cxx_global_var_init1274
  t __cxx_global_var_init130
  t __cxx_global_var_init16
  t __cxx_global_var_init169
  t __cxx_global_var_init18
  t __cxx_global_var_init24
- t __cxx_global_var_init345
+ t __cxx_global_var_init343
  t __cxx_global_var_init37
  t __cxx_global_var_init4
  t __cxx_global_var_init446
