@@ -398,6 +398,10 @@
 		"matchID"	"uint64"
 		"result"	"byte"
 	}
+	"team_details_updated"
+	{
+		"teamID"	"long"
+	}
 	"live_games_updated"
 	{
 	}

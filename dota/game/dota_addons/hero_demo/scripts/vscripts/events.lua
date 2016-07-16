@@ -238,13 +238,13 @@ end
 --------------------------------------------------------------------------------
 function CHeroDemo:OnDummyTargetButtonPressed( eventSourceIndex, data )
 	local hPlayerHero = PlayerResource:GetSelectedHeroEntity( data.PlayerID )
-	table.insert( self.m_tEnemiesList, CreateUnitByName( "npc_dota_target_dummy", hPlayerHero:GetAbsOrigin(), true, nil, nil, self.m_nENEMIES_TEAM ) )
-	local hUnit = self.m_tEnemiesList[ #self.m_tEnemiesList ]
-	hUnit:SetControllableByPlayer( self.m_nPlayerID, false )
-	FindClearSpaceForUnit( hUnit, hPlayerHero:GetAbsOrigin(), false )
-	hUnit:Hold()
-	hUnit:SetIdleAcquire( false )
-	hUnit:SetAcquisitionRange( 0 )
+	table.insert( self.m_tEnemiesList, CreateUnitByName( "npc_dota_hero_target_dummy", hPlayerHero:GetAbsOrigin(), true, nil, nil, self.m_nENEMIES_TEAM ) )
+	local hDummy = self.m_tEnemiesList[ #self.m_tEnemiesList ]
+	hDummy:SetAbilityPoints( 0 )
+	hDummy:SetControllableByPlayer( self.m_nPlayerID, false )
+	hDummy:Hold()
+	hDummy:SetIdleAcquire( false )
+	hDummy:SetAcquisitionRange( 0 )
 	self:BroadcastMsg( "#SpawnDummyTarget_Msg" )
 end
 

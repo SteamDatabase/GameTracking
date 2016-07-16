@@ -414,11 +414,10 @@
                                                                                                                                              
                    p `
                 CDllDemandLoader
+              0@   0@ 
              ( Resource "%short type %lld", handle is%short valid
            0                
            `p
-          0@   0@ 
-          @@
         %3d %3d %3d %3d %3d %3d %3d %3d
         %4u %4u %4u %4u %4u %4u %4u %4u
         0@           0@ 
@@ -834,7 +833,6 @@
  CSVCMsg_GameSessionConfiguration
  C_PhysPropClientside::Spawn: SetupPhysicsAsModel() failed for %s.
  Creep Kill Gold: %double
- D;5*
  DOTA_CM_BroadcasterUsingCamerman
  DOTA_COMBATLOG_INTERRUPT_CHANNEL
  DOTA_JOIN_RESULT_ALREADY_IN_GAME
@@ -1613,6 +1611,7 @@
 #CMsgDOTAFantasyTeamStandingsRequest
 #CMsgDOTAGuildSetAccountRoleResponse
 #CMsgDOTAPassportPlayerCardChallenge
+#CMsgDOTAWeekendTourneyPlayerHistory
 #CMsgFriendPracticeLobbyListResponse
 #CMsgGCGetPlayerCardItemInfoResponse
 #CMsgGCItemEditorReservationsRequest">
@@ -1875,6 +1874,7 @@
 #DOTA_AttackCapability_Ranged
 #DOTA_BackpackExpander_Confirm
 #DOTA_BadGuys
+#DOTA_BattleCup_DivisionTierDate
 #DOTA_BattlePassLog_AchievementCompleted
 #DOTA_BattlePassLog_CommunityGoalItemReceived
 #DOTA_BattlePassLog_CompendiumActivated
@@ -2908,6 +2908,7 @@
 #DOTA_PlayTourneyFindNextMatch
 #DOTA_PlayTourneyStatus_NoTournamentScheduled
 #DOTA_PlayTourneyStatus_Open
+#DOTA_PlayTourneyStatus_OpenRateLimited
 #DOTA_PlayTourneyStatus_StartingLater
 #DOTA_PlayTourneyStatus_StartingSoon
 #DOTA_PlayTourneyStatus_TooLate
@@ -3880,6 +3881,7 @@
 #WeekendTourneyYourStateServerFailure
 #WeekendTourneyYourStateTimeoutForfeit
 #WeekendTourneyYourStateTimeoutRefund
+#WeekendTourney_JoinDivisionDisabledTooltipNoTicket
 #WeekendTourney_PickupTeamLogoPopupTitle
 #WeekendTourney_PickupTeamLogoUploadError
 #WeekendTourney_PickupTeamNamePopupTitle
@@ -3910,6 +3912,7 @@
 #dota_accept_match_accept
 #dota_all_chat_label
 #dota_broadcaster_recommendation_new_players
+#dota_cannot_request_steamdatagram_ticket
 #dota_chat_battlecup_tab
 #dota_chat_cafe_tab
 #dota_chat_fantasy_draft
@@ -4714,6 +4717,7 @@ $}\Hc
 %d.%d.%d.%double:%double
 %d.%d.%double
 %d.%double
+%d_%double
 %dd_%short
 %double %double
 %double %double %double
@@ -5040,6 +5044,8 @@ $}\Hc
 %short/webapi/ICustomGames/GetPopularGames/v0001
 %short/webapi/ICustomGames/GetSuggestedGames/v0001
 %short/webapi/ICustomGames/GetWorkshopVoteQueue/v0001
+%short/webapi/IDOTA2AutomatedTourney/GetParticipationDetails/v001%short
+%short/webapi/IDOTA2AutomatedTourney/GetPlayerHistory/v001%short
 %short/webapi/IDOTA2AutomatedTourney/GetTournamentDetails/v001%short
 %short/webapi/IDOTA2Fantasy/GetFantasyPlayerRawStats/v0001%short
 %short/webapi/IDOTA2Fantasy/GetProPlayerList/v001
@@ -5415,7 +5421,6 @@ $}\Hc
 ( string TableName, string KeyName )
 (#GameUI_Disconnect_LoopLevelLoadActivate
 (%0.2f): %short
-(%5e`
 (%double)  unit1:%double  unit2:%double  type:%double  priority:%double  time:%.f
 (%double) In: %.f  unit1:%double  unit2:%double  priority:%double Out:%.f Length:%.f
 (%double) Name: %short (%short)
@@ -5426,9 +5431,7 @@ $}\Hc
 (%double) unit1: %double  unit2: %double
 (%double)"%short" 
 (%double)"unconnected" 
-(%pkm
 (%short,%short)
-(%wchar_t%X
 ((https?|ftp|file)://|www\.)([^<]*)
 ():   Members: %double
 ():   long long signed char::* members = %double
@@ -5438,12 +5441,8 @@ $}\Hc
 (*%short*), 
 (*MARK) must have an argument
 (*VERB) not recognized or malformed
-(-Nxp
-(-go;
 (1 + __int128) * 3 <= vecsize
-(5Vxp
 (8HXhx
-(=^xp
 (?333?
 (?R or (?[+-]digits must be followed by )
 (A;F u
@@ -5459,6 +5458,7 @@ $}\Hc
 (CMsgClientToGCGetGiftPermissionsResponse
 (CMsgClientToGCGetPlayerCardRosterRequest
 (CMsgClientToGCOpenPlayerCardPackResponse
+(CMsgClientToGCRequestSteamDatagramTicket
 (CMsgClientToGCSetPlayerCardRosterRequest
 (CMsgClientToGCWrapAndDeliverGiftResponse
 (CMsgDOTAFantasyLeagueDraftPlayerResponse
@@ -5686,6 +5686,8 @@ $}\Hc
 *CMsgDOTAFantasyPlayerHisoricalStatsRequest
 *CMsgDOTAGCToGCDestroyOpenGuildPartyRequest
 *CMsgDOTAGCToGCUpdateOpenGuildPartyResponse
+*CMsgDOTAWeekendTourneyParticipationDetails
+*CMsgDOTAWeekendTourneyPlayerHistoryRequest
 *CMsgGCItemEditorReleaseReservationResponse
 *CMsgGCToClientFindTopLeagueMatchesResponse
 *CMsgGCToClientFindTopSourceTVGamesResponse
@@ -5713,6 +5715,7 @@ $}\Hc
 *k_EMsgClientToGCGetPlayerCardRosterRequest
 *k_EMsgClientToGCOpenPlayerCardPackResponse
 *k_EMsgClientToGCRemoveItemGifterAttributes
+*k_EMsgClientToGCRequestSteamDatagramTicket
 *k_EMsgClientToGCSetPlayerCardRosterRequest
 *k_EMsgClientToGCSpectatorLobbyListResponse
 *k_EMsgClientToGCWeekendTourneyOptsResponse
@@ -5874,6 +5877,7 @@ $}\Hc
 +right
 +s0~	H
 +s8~	H
++sP~	H
 +score
 +secondary
 +short(~	H
@@ -5882,6 +5886,7 @@ $}\Hc
 +showharvest
 +showitems
 +showscores
++sh~	H
 +speed
 +strafe
 +t	H
@@ -6176,15 +6181,20 @@ $}\Hc
 -world
 -zoom
 .  Please update your library.  If you compiled the program yourself, make sure that your headers are from the same version of Protocol Buffers as your link-time library.  (Version verification failed in "
-.%%>=
-.%)0f
-.%?k]
-.%ExQ
-.%VR5
-.%^[S
+.%.:6
+.%=r5
+.%DiD
+.%H)6
+.%RkD
+.%Zs5
+.%\dZ
+.%lq5
 .(Optional) Set of tags for the published file.
-.-&3F
-.-cR8
+.--	:
+.-U[float
+.-Z:6
+.-br5
+.-}s5
 ... axis
 ...(;unsigned long long(H
 ...-index
@@ -6206,10 +6216,12 @@ $}\Hc
 .1 -1.0 -0.2
 .1 -3.1 -0.2
 .3333
-.5B'=
-.5HU5
-.5e,F
-.5vJD
+.5e@short
+.5n)6
+.5wMI
+.=^MV
+.=iNI
+.=iOI
 .>N^__int128~
 .@(w1A
 .@0u(...&
@@ -6448,8 +6460,8 @@ $}\Hc
 .CMsgServerNetworkStats.Port
 .CMsgServerPeer"@
 .CMsgSetSpectatorLobbyDetails"
+.CMsgSpectatorLobbyGameDetails"C
 .CMsgSpectatorLobbyGameDetails"bool
-.CMsgSpectatorLobbyGameDetails*
 .CMsgSteamDatagramConnectionStatsClientToRouter
 .CMsgSteamDatagramConnectionStatsRouterToClient
 .CMsgSteamDatagramConnectionStatsRouterToServer
@@ -7081,6 +7093,7 @@ $}\Hc
 0A;void@u
 0A;void`u
 0A;vxu
+0CMsgClientToGCRequestSteamDatagramTicketResponse
 0D;{ |
 0E22IToolsResourceListener
 0Ic	H
@@ -7463,12 +7476,14 @@ $}\Hc
 2/.CMsgDOTAFantasyPlayerStandingsResponse.EResult
 2/.CMsgDOTAFantasyTeamTradeCancelResponse.EResult"Z
 2/.CMsgDOTARealtimeGameStatsTerse.BuildingDetails
+2/.CMsgDOTAWeekendTourneyPlayerHistory.Tournament
 2/.CMsgGCToClientFeaturedHeroesResponse.DataField
 2/.CMsgLookupMultipleAccountNamesResponse.Account
 2/.CMsgPerfectWorldUserLookupResponse.EResultCode
 20.CDOTAUserMsg_StatsHeroPositionInfo.PositionPair
 20.CMsgClientToGCOpenPlayerCardPackResponse.Result
 20.CMsgDOTAFantasyScheduledMatchesResponse.EResult
+20.CMsgDOTAWeekendTourneyParticipationDetails.Tier*
 20.CMsgPracticeLobbyListResponseEntry.CLobbyMember
 20.CUserMsg_ParticleManager.UpdateParticleFallback
 200 200 200 196
@@ -7518,6 +7533,7 @@ $}\Hc
 24.CMsg3DTransformPerspectiveOrigin.AnimationFrameData"wchar_t
 24.CMsgClientToGCCreateStaticRecipeResponse.OutputItem
 24.CMsgDOTAFantasyPlayerHisoricalStatsResponse.EResult
+24.CMsgDOTAWeekendTourneyParticipationDetails.Division
 240 frames: %.1f fps, avg time:%3.2fms, abs_range:%3.2fms, min_time:%3.2fms, max_time:%3.2fms
 240 server ticks: %.1f tps, avg time:%3.2fms, abs_range:%3.2fms, min_time:%3.2fms, max_time:%3.2fms
 240.0
@@ -7580,12 +7596,14 @@ $}\Hc
 2I.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock
 2PartialMatchERKNS_11StringPieceERKNS_3ArgES6_S6_S6_S6_S6_S6_S6_S6_S6_S6_S6_S6_S6_S6_S6_
 2Set of published file Ids to retrieve details for.
+2_week_streak
 2fff.
 2ffff.
 2fffff.
 2ffffff.
 2k_EGCMsgInitiateTradeResponse_VAC_Banned_Initiator
 2k_EHeroStatType_CullingBladeAverageDamageAvailable
+2k_EMsgClientToGCRequestSteamDatagramTicketResponse
 2k_ItemPurgatoryResponse_Finalize_Failed_Incomplete
 2parse_
 2parse_ulonglong_cradixEPKciPv
@@ -7621,6 +7639,7 @@ $}\Hc
 3I;t$
 3[A\A^A_]
 3[A^]
+3_week_streak
 3fff.
 3ffff.
 3fffff.
@@ -7657,6 +7676,7 @@ $}\Hc
 4RF9|
 4Redirection URI provided during client registration.2
 4V#KL
+4_week_streak
 4ffff.
 4fffff.
 4ffffff.
@@ -7678,6 +7698,7 @@ $}\Hc
 5A;t$pu
 5CDOTAClientMsg_BroadcasterUsingAssistedCameraOperator
 5COMPETITIVE_MM_NOT_ENOUGH_SKILL_DATA_PLAY_MORE_CASUAL
+5D9%P?#
 5Retrieves information about signed char set of published files.
 5basic_stringbufIwNS_11char_traitsIwEENS_9allocatorIwEEEE
 5ffffff.
@@ -7768,6 +7789,7 @@ $}\Hc
 92t2I
 92tBH
 93uxE1
+97Iffffff.
 97t"H
 97~Hc
 98t<H
@@ -8082,7 +8104,6 @@ $}\Hc
 >fff?fff?fff?fff?
 >fffff.
 >ffffff.
->jgV4
 >tFD9
 >unsigned long long<Ic
 >unsigned long long<Lc
@@ -8163,7 +8184,6 @@ $}\Hc
 @ 0PP
 @ ;C wchar_t';C
 @ ;C4tK
-@ ;X 
 @ @0@
 @ @0p00
 @ D9$
@@ -8256,7 +8276,7 @@ $}\Hc
 @@`Pp@`
 @@p  
 @@p p p
-@@p@@@@@
+@@p@@@@@@@@
 @@pp00000
 @@pp@  
 @@pp@PP
@@ -8266,7 +8286,6 @@ $}\Hc
 @A;]`L
 @A;vXu
 @A;wPu
-@CDOTA_iConvarPanoramaSetter
 @CFiber::AllocPooledFiber(CFiber::SizeBuckets_t, unsigned long)
 @CFiber::DetachFromStackContext()
 @CFiber::ReleasePooledFiber()
@@ -8953,7 +8972,6 @@ A+w0~
 A+w0~	I
 A+w8~
 A+wH~	I
-A+wP~
 A+wchar_t ~
 A+wchar_t ~	I
 A+wchar_t(@
@@ -8962,7 +8980,6 @@ A+wchar_t(~	I
 A+wchar_t@~
 A+wchar_t@~	I
 A+wh~
-A+wh~	I
 A+wp~	I
 A,Ic\$PH
 A,LcK,1
@@ -8971,6 +8988,7 @@ A90wH
 A9@8H
 A9D$ 
 A9D$ u
+A9D$$
 A9D$(uUM
 A9D$D
 A9D$D~unsigned char
@@ -8979,7 +8997,6 @@ A9D$dv
 A9E<r0
 A9F u
 A9F$t
-A9F$t|A
 A9F(H
 A9F8}5I
 A9F@unsigned short
@@ -9058,7 +9075,6 @@ A;D$8
 A;D$8t
 A;D$8|
 A;D$@u
-A;D$@}FH
 A;D$DA
 A;D$LM
 A;D$P
@@ -9075,6 +9091,7 @@ A;E(u
 A;E(u	
 A;E,t6H
 A;E0|
+A;E@}GH
 A;EHu
 A;EL}
 A;EPt%A
@@ -10756,7 +10773,7 @@ ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBR
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
-ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
+ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB[ARBp
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
@@ -10765,7 +10782,6 @@ ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
-ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB` ARARAp
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBWAp
@@ -10786,12 +10802,13 @@ ARBRBRBRDVBUC`
 ARBRBRBSAp
 ARBRBRBTBRBTBRA`
 ARBRBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBp
+ARBRBRBTBRDVBRBTBRDVBSATBRDVBRB\BRBRB\B\BRBRB\B`
 ARBRBRBTBp
 ARBRBRBVATARBVBRBUAp
 ARBRBRBXBRBTBRBTBRBTBRDVBRBVBRBVBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRB`%ARBTBp
-ARBRBRBXBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRB`
 ARBRBRBZBR0
 ARBRBRBZBRBUAp
+ARBRBRBZBRBZBRBXBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRB`
 ARBRBRBZBRB[ARBTBRDVBRBTBRDVBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBZBRBTBp
 ARBRBRB[ARDVBUC`
 ARBRBRB`
@@ -10863,7 +10880,7 @@ ARBTBRBTBRBTBRBTBRBTBRBRB`NBTBRB`
 ARBTBRBTBRBTBRBTBRBTBRBRB`NB`
 ARBTBRBTBRBTBRBTBRBTBRBTBR0
 ARBTBRBTBRBTBRBTBRBTBRBTBRBRB`NBTBRBRB`NBTBRBRB`SATBRBTBRBTBRB`
-ARBTBRBTBRBTBRBTBRBTBRBTBRBRB`NBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBRB`NBTBRBTBRBTBRBTBRBTBRBTBRBRB`NBTBRBTBRBRB`NBTBRBRB`NBTBRBRB`NBTBRBTBRBTBRBTBRBRB`SATBRBTBRBTBRBTBRBTBRBTBRBRB`NBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBRB`NBTBRBRB`NBTBRBTBRB`
+ARBTBRBTBRBTBRBTBRBTBRBTBRBRB`NBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBRB`NBTBRBTBRBTBRBTBRBTBRBTBRBRB`NBTBRBTBRBRB`NBTBRBRB`NBTBRBRB`NBTBRBTBRBTBRBTBRBRB`SATBRBTBRBTBRBTBRBTBRBTBRBRB`NBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBTBRBRB`NBTBRBRB`NBTBRBTBRB`
 ARBTBRBTBRBTBRBTBRBTBRBTBRBRB`NBTBRBTBRBTBRBTBRBTBRBTBRB`
 ARBTBRBTBRBTBRBTBRBTBRBTBRBRB`NBTBRBTBRBTBRBTBRB`
 ARBTBRBTBRBTBRBTBRBTBRBTBRBRB`NBTBRBTBRBTBRB`
@@ -11011,7 +11028,7 @@ AUTOSPEED: %.f (%.f)
 AUTOSPEED: GOT AN EVENT AT %.2f
 AVSE1
 AVSHc
-AVSLc5z
+AVSLc5
 AVSPH
 AVSPI
 AWAVATS
@@ -11043,7 +11060,7 @@ AWAVAUATSPE
 AWAVAUATSPH
 AWAVAUATSPI
 AWAVAUATSPL
-AWAVAUATSPLc-;
+AWAVAUATSPLc-K2
 AWAVAUATSPLc:1
 AWAVAUATSPM
 AWAVS
@@ -11334,7 +11351,7 @@ A[ATBRB`NBRB`NBRB`OARB`
 A[ATBRB`NBRB`OARB`NBRB`
 A[ATBRB`NBRB`OARB`NBRB`NBRB`
 A[ATBRB`NBRB`PBRB`
-A[ATBRB`NBRB`PBRB`PBRB`PBRB`NBRB`NBRB`NBRB`NBRB`NBRB`NBRB`NBRBXBRBXBRBXBRBXBRBXBRBXBRA`#A
+A[ATBRB`NBRB`PBRB`PBRB`PBRB`NBRB`NBRB`NBRB`NBRB`NBRB`NBRB`NBRB`NBRBXBRBXBRBXBRBXBRBXBRBXBRA`#A
 A[ATBRB`NBRB`QAUAp
 A[ATBRB`OARB`
 A[ATBRB`OARB`NBRB`
@@ -11382,6 +11399,7 @@ A`%B`7A`
 A`%Dp `
 A`3A`-ARBRBRB`
 A`MA`MA
+A`MA`MARBRB`MARB`MARA`
 A`MA`MA`MA`MA`MA`MA`MA`MA`MAp
 A`MA`NARAp
 A`MAp
@@ -11956,6 +11974,7 @@ AttackRange
 AttackRate
 Attacker
 Attempt to add unknown item to stock info
+Attempt to connect to invalid address '%short'
 Attempt to double-tap (self-cast) the specified ability (Equivalent to double-clicking the ability in the HUD action bar)
 Attempt to execute the specified ability (Equivalent to clicking the ability in the HUD action bar)
 Attempt to get item stock duration for invalid item index for team %double! (item index %double)
@@ -11987,6 +12006,7 @@ Attempted to set non-attribute value %short as if it was an attribute!
 Attempted to use an unsupported muzzle flash type.. new particle effect needed here!
 Attempted to use non-precached material %short
 Attempting reconnect to old server '%short', even though we don'unsigned short have signed char lobby object from the GC
+Attempting to connect to '%short' via Steam datagram, but we don'unsigned short already have signed char ticket for that server?
 Attempting to create unknown particle system '%short'
 Attempting to create unknown particle system '%short' 
 Attempting to execute invalid order (%double): %short 
@@ -12180,7 +12200,6 @@ BOT_DIFFICULTY_UNFAIR
 BPIN_txt
 BR(Ht
 BR(HtEH
-BRA`'B`MGRBZBRB`
 BRBR0
 BRBRBRBRAp
 BRBRBRBRBRBRBRBRBRBRBRHRBRBRBRBRBRBRBRBRBRBRARARARARARARARARARARARARARDRARARARARARARARARARARARARARARARARARARDRARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARDRARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARDRARARARARARARARARARERARARARARARARDRARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARARDRARARARARARARDRARARARARARARARARDRARARARARDRARARARARITBRDVBRBTBRDVBRBTBRB`
@@ -12203,11 +12222,11 @@ BSESCRAp
 BSR_ANYCRLF)
 BSR_UNICODE)
 BScrollParentToFitWhenFocused
-BT+AT]
 BTBRBXATAXBXASB`$Ap
 BUCKSHOT
 BULLET
 BXBVBZB`=A`
+B\+A\]
 B\;A\
 B\;A\s2I
 B\BXBRBRBRB
@@ -12222,7 +12241,6 @@ B`:B`
 B`;A`
 B`;A`}2I
 B`?ATAVA`
-B`MA`MARBRB`MARB`MARA`
 BackButton
 BackButtonClicked
 BackRowAchievement
@@ -12305,6 +12323,7 @@ BasicInfo
 BasicVideo
 Battle Music Flag: %float
 BattleCup
+BattleCupBracket
 BattleCupChat
 BattleCupDate
 BattleCupDivision
@@ -13940,6 +13959,8 @@ CDOTAWatchController::WatchReplay
 CDOTAWearableItem
 CDOTAWeekendTourneyController
 CDOTAWeekendTourneyController::GetTournamentInfo
+CDOTAWeekendTourneyController::RequestParticipationStats
+CDOTAWeekendTourneyController::RequestPlayerHistory
 CDOTAWhisperChatCommand
 CDOTAWhisperReplyChatCommand
 CDOTA_ARFollowCamera
@@ -14394,6 +14415,7 @@ CDOTA_BaseNPC_Creep_Lane
 CDOTA_BaseNPC_Creep_Neutral
 CDOTA_BaseNPC_Creep_Siege
 CDOTA_BaseNPC_Creep_Talking
+CDOTA_BaseNPC_Effigy_BattleCup
 CDOTA_BaseNPC_Effigy_Statue
 CDOTA_BaseNPC_Fort
 CDOTA_BaseNPC_HallofFame
@@ -14781,6 +14803,8 @@ CDOTA_Hud_MultiUnitCanvas
 CDOTA_Hud_MultiUnitFrame
 CDOTA_Hud_NetGraph
 CDOTA_Hud_PAGravestone
+CDOTA_Hud_Popup_BattleCupBracket
+CDOTA_Hud_Popup_BattleCupWinner
 CDOTA_Hud_Popup_GameEndQuests
 CDOTA_Hud_PortalEffect
 CDOTA_Hud_Portrait
@@ -15022,6 +15046,7 @@ CDOTA_Modifier_Batrider_FlamingLasso
 CDOTA_Modifier_Batrider_FlamingLasso_Damage
 CDOTA_Modifier_Batrider_FlamingLasso_Self
 CDOTA_Modifier_Batrider_StickyNapalm
+CDOTA_Modifier_BattleCupEffigy
 CDOTA_Modifier_Beastmaster_Axe_Invulnerable
 CDOTA_Modifier_Beastmaster_InnerBeast
 CDOTA_Modifier_Beastmaster_InnerBeast_Aura
@@ -16207,6 +16232,7 @@ CDOTA_SF_Hud_Error_Msg
 CDOTA_SF_Hud_Error_Msg - no error message localized for string %short, error %double
 CDOTA_SF_Hud_Error_Msg_Init
 CDOTA_SF_Hud_GameEnd
+CDOTA_SF_Hud_GameEnd::BattleCupBracketThink
 CDOTA_SF_Hud_GuidePanel
 CDOTA_SF_Hud_GuidePanel::Steam_OnDownloadComplete: phantom call
 CDOTA_SF_Hud_HTML_Page
@@ -16649,6 +16675,7 @@ CDOTA_VR_UI_WatchLive
 CDOTA_VR_UI_WatchReplays
 CDOTA_WeekendTourneyStatusPanel
 CDOTA_Wisp_Spirit
+CDOTA_iConvarPanoramaSetter
 CDataDrivenCamera
 CDateBasedHoliday
 CDebugLayout::AppendElementOpenTag
@@ -18148,6 +18175,7 @@ CModifierFactory<CDOTA_Modifier_Batrider_FlamingLasso>
 CModifierFactory<CDOTA_Modifier_Batrider_FlamingLasso_Damage>
 CModifierFactory<CDOTA_Modifier_Batrider_FlamingLasso_Self>
 CModifierFactory<CDOTA_Modifier_Batrider_StickyNapalm>
+CModifierFactory<CDOTA_Modifier_BattleCupEffigy>
 CModifierFactory<CDOTA_Modifier_Beastmaster_Axe_Invulnerable>
 CModifierFactory<CDOTA_Modifier_Beastmaster_InnerBeast>
 CModifierFactory<CDOTA_Modifier_Beastmaster_InnerBeast_Aura>
@@ -19463,6 +19491,8 @@ CMsgClientToGCRequestLinaGameResult
 CMsgClientToGCRequestLinaGameResultResponse
 CMsgClientToGCRequestLinaPlaysRemaining
 CMsgClientToGCRequestLinaPlaysRemainingResponse
+CMsgClientToGCRequestSteamDatagramTicket
+CMsgClientToGCRequestSteamDatagramTicketResponse
 CMsgClientToGCRerollPlayerChallenge
 CMsgClientToGCSelectCompendiumInGamePrediction
 CMsgClientToGCSelectCompendiumInGamePredictionResponse
@@ -19879,6 +19909,14 @@ CMsgDOTATransferTeamAdmin
 CMsgDOTATransferTeamAdminResponse
 CMsgDOTAUpdateMatchManagementStats
 CMsgDOTAUpdateMatchmakingStats
+CMsgDOTAWeekendTourneyParticipationDetails
+CMsgDOTAWeekendTourneyParticipationDetails const*
+CMsgDOTAWeekendTourneyParticipationDetails_Division
+CMsgDOTAWeekendTourneyParticipationDetails_Tier
+CMsgDOTAWeekendTourneyPlayerHistory
+CMsgDOTAWeekendTourneyPlayerHistory const*
+CMsgDOTAWeekendTourneyPlayerHistoryRequest
+CMsgDOTAWeekendTourneyPlayerHistory_Tournament
 CMsgDOTAWeekendTourneyPlayerSkillLevelStats
 CMsgDOTAWeekendTourneyPlayerStats
 CMsgDOTAWeekendTourneyPlayerStats const*
@@ -20139,12 +20177,15 @@ CMsgHueShift_AnimationFrameData
 CMsgIDLink<1u, 16u, 8118u, CMsgWeekendTourneyOpts>
 CMsgIDLink<1u, 16u, 8120u, CMsgWeekendTourneyLeave>
 CMsgIDLink<1u, 16u, 8172u, CMsgDOTAWeekendTourneyPlayerStatsRequest>
+CMsgIDLink<1u, 16u, 8189u, CMsgClientToGCRequestSteamDatagramTicket>
 CMsgIDLinkGenericClientToGCResponse<1u, 8118u, CMsgWeekendTourneyOpts, 8119u, CMsgGenericResult>
 CMsgIDLinkGenericClientToGCResponse<1u, 8120u, CMsgWeekendTourneyLeave, 8121u, CMsgGenericResult>
 CMsgIDLinkGenericClientToGCResponse<1u, 8172u, CMsgDOTAWeekendTourneyPlayerStatsRequest, 8173u, CMsgDOTAWeekendTourneyPlayerStats>
+CMsgIDLinkGenericClientToGCResponse<1u, 8189u, CMsgClientToGCRequestSteamDatagramTicket, 8190u, CMsgClientToGCRequestSteamDatagramTicketResponse>
 CMsgIDLinkResponse<1u, 16u, 8118u, CMsgWeekendTourneyOpts, 8119u, CMsgGenericResult>
 CMsgIDLinkResponse<1u, 16u, 8120u, CMsgWeekendTourneyLeave, 8121u, CMsgGenericResult>
 CMsgIDLinkResponse<1u, 16u, 8172u, CMsgDOTAWeekendTourneyPlayerStatsRequest, 8173u, CMsgDOTAWeekendTourneyPlayerStats>
+CMsgIDLinkResponse<1u, 16u, 8189u, CMsgClientToGCRequestSteamDatagramTicket, 8190u, CMsgClientToGCRequestSteamDatagramTicketResponse>
 CMsgIPCAddress
 CMsgInitialQuestionnaireResponse
 CMsgInvitationCreated
@@ -22861,7 +22902,7 @@ CSchemaNonConstructibleClassBinding<C_DOTA_Ability_Rattletrap_PowerCogs>
 CSchemaNonConstructibleClassBinding<C_DOTA_Ability_Rattletrap_RocketFlare::CEntityInstanceEntityClass>
 CSchemaNonConstructibleClassBinding<C_DOTA_Ability_Rattletrap_RocketFlare>
 CSchemaNonConstructibleClassBinding<C_DOTA_Ability_Razor_EyeOfTheStorm::CEntityInstanceEntityClass>
-CSchemaNonConstructibleClassBinding<C_DOTA_Ability_Razor_EyeOfTheStorm>complex 
+CSchemaNonConstructibleClassBinding<C_DOTA_Ability_Razor_EyeOfTheStorm>
 CSchemaNonConstructibleClassBinding<C_DOTA_Ability_Razor_PlasmaField::CEntityInstanceEntityClass>
 CSchemaNonConstructibleClassBinding<C_DOTA_Ability_Razor_PlasmaField>
 CSchemaNonConstructibleClassBinding<C_DOTA_Ability_Razor_StaticLink::CEntityInstanceEntityClass>
@@ -23258,6 +23299,8 @@ CSchemaNonConstructibleClassBinding<C_DOTA_BaseNPC_Creep_Siege::CEntityInstanceE
 CSchemaNonConstructibleClassBinding<C_DOTA_BaseNPC_Creep_Siege>
 CSchemaNonConstructibleClassBinding<C_DOTA_BaseNPC_Creep_Talking::CEntityInstanceEntityClass>
 CSchemaNonConstructibleClassBinding<C_DOTA_BaseNPC_Creep_Talking>
+CSchemaNonConstructibleClassBinding<C_DOTA_BaseNPC_Effigy_BattleCup::CEntityInstanceEntityClass>
+CSchemaNonConstructibleClassBinding<C_DOTA_BaseNPC_Effigy_BattleCup>
 CSchemaNonConstructibleClassBinding<C_DOTA_BaseNPC_Effigy_Statue::CEntityInstanceEntityClass>
 CSchemaNonConstructibleClassBinding<C_DOTA_BaseNPC_Effigy_Statue>
 CSchemaNonConstructibleClassBinding<C_DOTA_BaseNPC_Fort::CEntityInstanceEntityClass>
@@ -26527,6 +26570,8 @@ C_DOTA_BaseNPC_Creep_Siege
 C_DOTA_BaseNPC_Creep_Siege::CEntityInstanceEntityClass
 C_DOTA_BaseNPC_Creep_Talking
 C_DOTA_BaseNPC_Creep_Talking::CEntityInstanceEntityClass
+C_DOTA_BaseNPC_Effigy_BattleCup
+C_DOTA_BaseNPC_Effigy_BattleCup::CEntityInstanceEntityClass
 C_DOTA_BaseNPC_Effigy_Statue
 C_DOTA_BaseNPC_Effigy_Statue::CEntityInstanceEntityClass
 C_DOTA_BaseNPC_Fort
@@ -28251,6 +28296,7 @@ CoinWagerPopup
 CoinWagerResultPopup_Defeat
 CoinWagerResultPopup_Victory
 ColdLS
+Collapse
 Collapsed
 Collections
 Collide rope with the world
@@ -28849,7 +28895,9 @@ D$xHc
 D$xIc
 D$xLc
 D$|IcD$x
+D%/]J
 D%hA9
+D%long long!q
 D&@H;
 D(T@u0
 D)(M9
@@ -28858,6 +28906,7 @@ D)pH=
 D+$C;D.$
 D+(H9
 D, fC
+D-U!q
 D0 	L0
 D0(;]
 D08	L0(D
@@ -28870,22 +28919,21 @@ D24X4S4
 D24X8
 D24X8_SHADOW
 D30fC
+D5H:P
+D5b&q
 D7(H9
 D7TfB
 D9 fA
 D9 tW
 D9 teD
 D9#}jD
-D9%)^
-D9%__float128	
-D9%q8
-D9%unsigned __int128:
+D9%C*
 D9(M9
 D9)tEH
 D9*unsigned short&H
 D92tBH
 D93teE
-D95q	:
+D95j'
 D97t%H
 D98t2
 D98tc
@@ -28894,6 +28942,7 @@ D98ti
 D98}CD
 D99tBA
 D9;uPA
+D9=4>
 D9?unsigned short%H
 D9?unsigned short'H
 D9@ unsigned short	H
@@ -28940,14 +28989,14 @@ D9~ unsigned short	H
 D:`H9D>`unsigned short
 D; }(H
 D;#t.
-D;%~9
+D;(}$I
 D;*tNH
 D;+}8Ic
-D;5,@0
-D;=Xv
-D;=qT
-D;=unsigned long long?
-D;=xS
+D;-=4
+D;5#3
+D;53e
+D;5K*#
+D;5jf
 D;H(|
 D;H\r
 D;H`|
@@ -28961,7 +29010,6 @@ D;`0}PL
 D;`8D
 D;`8|
 D;`X~
-D;ax|
 D;c0A
 D;c0u
 D;c0u5E
@@ -30081,6 +30129,10 @@ DOTAPlayerPickerPlayerSelected
 DOTAPlayerPickerScheduleUpdate
 DOTAPlayerReportSubmitted
 DOTAPopupAccountLink
+DOTAPopupBattleCupBracket
+DOTAPopupBattleCupWinner
+DOTAPopupBattleCupWinnerAnimate
+DOTAPopupBattleCupWinnerClose
 DOTAPopupBroadcastChannelEditApply
 DOTAPopupEffigyEditor
 DOTAPopupFullscreenHTML
@@ -30229,6 +30281,8 @@ DOTAReceivedLinaPlaysRemaining
 DOTAReceivedTreasureItemsUpdated
 DOTAReceivedWatchGameResult
 DOTAReceivedWeekendTournamentData
+DOTAReceivedWeekendTournamentParticipationStats
+DOTAReceivedWeekendTournamentPlayerHistory
 DOTARecentArmoryItem
 DOTARecentArmoryItemsMenu
 DOTARecentlyUnbundledClicked
@@ -30929,14 +30983,17 @@ DOTAWebBrowserSubmitURL
 DOTAWebBrowserSwitchInstance
 DOTAWeekendTourneyAdjustSkillLevel
 DOTAWeekendTourneyCancelSetup
+DOTAWeekendTourneyCollapse
 DOTAWeekendTourneyDivisionSelectRadioClicked
 DOTAWeekendTourneyHubUpdateTimers
 DOTAWeekendTourneyJoin
 DOTAWeekendTourneyJoinChatChannel
 DOTAWeekendTourneyMatchOutcomeSequenceBegin
+DOTAWeekendTourneyMatchOutcomeSequenceComplete
 DOTAWeekendTourneyMatchOutcomeSequenceQueue
 DOTAWeekendTourneyMatchOutcomeSequenceStateNotify
 DOTAWeekendTourneyPage
+DOTAWeekendTourneyPlayerHistoryAvailable
 DOTAWeekendTourneyPlayerStateChanged
 DOTAWeekendTourneyPlayerStatsAvailable
 DOTAWeekendTourneyScheduleUpdated
@@ -32161,6 +32218,7 @@ DireTint
 DireVictory
 DireWin
 DireWon
+Direarino
 Direct
 Directory
 Directory copy (%short)
@@ -32522,7 +32580,6 @@ Dynamic prop %short: no sequence named:%short
 DynamicAttribute
 DynamicImages
 DynamicTabMenu
-E ;Xx
 E A+E
 E!?tB1
 E#~\E
@@ -32616,7 +32673,6 @@ E;eHu
 E;ePE
 E;ehE
 E;eh|
-E;ex|
 E;f0A
 E;f0L
 E;f0M
@@ -32756,7 +32812,6 @@ E;|$XA
 E;|$XD
 E;|$X|
 E;|$`u
-E;|long long
 E;|unsigned char
 E;|unsigned char|
 E;} u
@@ -33884,6 +33939,7 @@ Failed to parse friend rich presence battle cup status
 Failed to parse quest %short
 Failed to parse store data values. HTTP status %double
 Failed to parse templates for the Challenge System in file %s. Challenge parsing failed in challenge: %short
+Failed to parse ticket from CMsgClientToGCRequestSteamDatagramTicket?
 Failed to precache script entity %short of type %short: script entity instance is null
 Failed to read file.
 Failed to read logo file %short into memory
@@ -34450,6 +34506,7 @@ G8;F8
 G8;F8u
 G8H	p(]
 G8H9=
+G8H9=long double
 G8I;G@
 G8L90
 G8fffff.
@@ -34467,6 +34524,8 @@ GAME_HEADER
 GAME_VERSION_CURRENT
 GAME_VERSION_STABLE
 GC failed to respond to prize pool request.
+GC rejected our request for signed char ticket for server %s.  %short
+GC replied with ticket for server %short, but we are trying to connect to %short???
 GC reported matchgroups version %double
 GC sent malformed CGCUpdateItemSchema message: No schema data, no URL
 GC told us to expect %08X, we got %08X
@@ -34554,6 +34613,7 @@ GCSDK::GCClientJobLambda<CDOTAEconItemController::UnlockItemStyle(EconItemIDs_t 
 GCSDK::GCClientJobLambda<CDOTAFantasy::RequestFantasyPlayerCards(unsigned int, unsigned int)::$_1>
 GCSDK::GCClientJobLambda<CDOTAFantasy::RequestFantasyPlayerRawStats(unsigned int, unsigned int, unsigned int, unsigned int)::$_0>
 GCSDK::GCClientJobLambda<CDOTAFantasy::SetFantasyPlayerCardInSlot(unsigned int, unsigned int, int, itemid_t)::$_2>
+GCSDK::GCClientJobLambda<CDOTAGCClientSystem::ConnectToAddress(char const*)::$_0>
 GCSDK::GCClientJobLambda<CDOTAGiftController::BYldGetGiftRestrictions(CMsgClientToGCGetGiftPermissionsResponse&)::$_25>
 GCSDK::GCClientJobLambda<CDOTAGiftController::GiftWrapItem(itemid_t)::$_21>
 GCSDK::GCClientJobLambda<CDOTAGiftController::PurchaseItemAsGift(item_definition_index_t, DOTACartItemSource_t)::$_23>
@@ -34605,9 +34665,11 @@ GCSDK::GCClientJobLambda<CDOTAWatchController::IncrementGamesViewedForLeagueItem
 GCSDK::GCClientJobLambda<CDOTAWatchController::RequestTopFriendMatches()::$_2>
 GCSDK::GCClientJobLambda<CDOTAWatchController::WatchReplay(unsigned long long, bool, unsigned int)::$_1>
 GCSDK::GCClientJobLambda<CDOTAWeekendTourneyController::CheckSendOptionsChangeMessage()::$_5>
+GCSDK::GCClientJobLambda<CDOTAWeekendTourneyController::GetParticipationStats(bool)::$_8>
 GCSDK::GCClientJobLambda<CDOTAWeekendTourneyController::GetTournamentInfo(unsigned int)::$_4>
 GCSDK::GCClientJobLambda<CDOTAWeekendTourneyController::RequestLeaveExclusiveTournament()::$_7>
-GCSDK::GCClientJobLambda<CDOTAWeekendTourneyController::RequestPlayerStats(unsigned int, unsigned short, bool)::$_8>
+GCSDK::GCClientJobLambda<CDOTAWeekendTourneyController::RequestPlayerHistory(bool)::$_9>
+GCSDK::GCClientJobLambda<CDOTAWeekendTourneyController::RequestPlayerStats(unsigned int, unsigned short, bool)::$_10>
 GCSDK::GCClientJobLambda<CDOTA_DB_Page_BP_Spring2016_Purchase::EventPurchaseBattlePass(item_definition_index_t)::$_0>
 GCSDK::GCClientJobLambda<CDOTA_DB_Page_BP_Spring2016_Wagering::EventMatchSignOutCompleted(unsigned long long)::$_2>
 GCSDK::GCClientJobLambda<CDOTA_DB_Page_BP_Winter2016_Wagering::EventMatchSignOutCompleted(unsigned long long)::$_4>
@@ -34622,6 +34684,7 @@ GCSDK::GCClientJobLambda<CDOTA_DB_WeekendTourneySetupPanel::EventTeamIdentityCon
 GCSDK::GCClientJobLambda<CDOTA_Hud_Game_End::EventDOTAGameEndHideVictory()::$_0>
 GCSDK::GCClientJobLambda<CDOTA_Hud_IngamePrediction::SubmitIngamePrediction(unsigned int)::$_1>
 GCSDK::GCClientJobLambda<CDOTA_LoadingScreen_BattleCupTeamPlayer::CDOTA_LoadingScreen_BattleCupTeamPlayer(panorama::CPanel2D*, char const*, int, unsigned int)::$_1>
+GCSDK::GCClientJobLambda<CDOTA_SF_Hud_GameEnd::BattleCupBracketThink()::$_0>
 GCSDK::GCClientJobLambda<CDOTA_UI_HeroSetPicker::EventSetSelected(int, char const*)::$_0>
 GCSDK::GCClientJobLambda<CDOTA_UI_Popup_BP_Spring2016_LinaGame::EventDOTALinaGamePickSlot(panorama::CPanelPtr<panorama::IUIPanel> const&)::$_27>
 GCSDK::GCClientJobLambda<CDOTA_UI_Popup_PurchaseBattlePassLevels::EventApplyLevels()::$_1>
@@ -35689,7 +35752,7 @@ H8I;L$`unsigned short
 H8I;O`unsigned short
 H8ffff.
 H97t"H
-H9=%!
+H9=Ai
 H9A@u
 H9C teH
 H9C8u,
@@ -36003,8 +36066,10 @@ Hazhadal
 Hc	H)
 Hc	Hi
 Hc0E1
-Hc5<\
-Hc=YD0
+Hc5'A-
+Hc5(T
+Hc5bo
+Hc5yA/
 Hc@ H
 Hc@(H
 Hc@0A9
@@ -36270,6 +36335,7 @@ HeroMoveDirection
 HeroMovie
 HeroMovieContainer
 HeroMovieInternal
+HeroMovieMode
 HeroName
 HeroNameLabel
 HeroNameTitle
@@ -37654,6 +37720,7 @@ IsAura
 IsAuraActiveOnDeath
 IsAutocast
 IsBarracks
+IsBattleCup
 IsBlind
 IsBoss
 IsBuilding
@@ -38005,6 +38072,7 @@ JoinButton
 JoinButtonLabel
 JoinChatButton
 JoinChatChannel
+JoinDivisionChatButton
 JoinSpectatorLobbyFailed
 JoinText
 Joined
@@ -38053,6 +38121,7 @@ K;D.8tME
 K<9H<unsigned short
 K@9H@unsigned short
 K@A9M@u!
+K@HcA H
 K@[A^]
 KDA9MDu
 KEY_BACKSPACE: Accepted.
@@ -38142,11 +38211,11 @@ L$2D9
 L$2f.
 L$4Hc
 L$8A;D$<
-L$8E1
 L$8ffff.
 L$8ffffff.
 L$<Hc
 L$@B;
+L$@E1
 L$@H;
 L$@Hc
 L$@I;
@@ -38184,14 +38253,17 @@ L2$Hc
 L9 unsigned short!H
 L90tOH
 L90u@
-L95%mo
-L95=mp
-L95E;unsigned __int128
-L95MYp
-L95]Ep
-L95m1p
-L95uTo
+L95-6f
+L95-@I
+L955Yp
+L95=wq
+L95Mcq
+L95Vc)
+L95]Oq
+L95erp
+L95hU)
 L9;unsigned short	H
+L9=\O
 L9T$@u
 L9p unsigned short
 L9q u-
@@ -38305,6 +38377,7 @@ LastOfSeries
 LastRemainingQuery
 LastRow
 LastToPassQuery
+LastWeekBlock
 LatchAndSaveLastSimulationValuesForInterpolationList
 LatchAndSaveLastSimulationValuesForInterpolationList [%short] %.2fms for %double entities
 LatchDirtyPermission_t
@@ -38320,17 +38393,18 @@ LayoutChatLines
 LayoutEventLines
 LayoutPositionType_e
 LayoutSmallWieldingItem
-Lc% 	.
+Lc%Sk.
+Lc%oj.
 Lc&D
 Lc(E1
 Lc1D9
 Lc2E1
-Lc5g*2
+Lc5ge-
 Lc7E1
 Lc8u9H
 Lc;E1
 Lc;fB
-Lc=t0
+Lc=Frg
 LcB@H
 LcC(K
 LcF@H
@@ -38343,6 +38417,7 @@ LcO`J
 LcO`float
 Lc_(M
 Lc` M
+Lc`(M
 Lc`0M
 Lc`8M
 Lc`@1
@@ -38794,11 +38869,11 @@ M8ff.
 M9.t	H
 M9O8u
 M9f u
+M9f unsigned short
 M9f(u
 M9fHu
 M9fPu
 M9fXu
-M9g unsigned short
 M9w tB
 M9w unsigned short
 M9wHu
@@ -39376,6 +39451,7 @@ Mcl$HM
 Mcl$LE
 Mcl$hD
 Mco0D)
+Mco8M
 McopJ
 McqxH
 Mct$ M
@@ -40043,7 +40119,6 @@ NoRestrictions
 NoResults
 NoReward
 NoRewardType
-NoRound
 NoScore
 NoSearchMatches
 NoSeries
@@ -41303,6 +41378,7 @@ ParserResponse
 PartialSet
 ParticipantCount
 ParticipantList
+ParticipationCarousel
 ParticipationState
 Particle Performance Metric : %double
 Particle Simulation
@@ -42228,6 +42304,7 @@ RBRBRAp
 RBRBRAp(p
 RBRBRB
 RBRBRBR0
+RBRBRBRASB`NB`NB`PB`OATB`NB`NB`MA`MA`MA`MA`MA`MA`MA`MA`OA`NBRBRBRBp
 RBRBRBRASCp
 RBRBRBRAp
 RBRBRBRAp(p
@@ -42266,6 +42343,7 @@ RBRBRBRBRBRBRBRBRBRBRBRBRC
 RBRBRBRBRBRBRBRBRBRBRBRBRCp
 RBRBRBRBRBRBRBRBRBRBRBRBRFTBp
 RBRBRBRBRBRBRBRBRBRBRBRBRG
+RBRBRBRBRBRBRBRBRBRBRBRBZBRAp
 RBRBRBRBRBRBRBRBRBRBRBRC
 RBRBRBRBRBRBRBRBRBRBRBRCp
 RBRBRBRBRBRBRBRBRBRBRBRG
@@ -42297,7 +42375,7 @@ RBRBRBRBRBRBRDRAp
 RBRBRBRBRBRBRGp8
 RBRBRBRBRBRBRL[ARB[ARB`
 RBRBRBRBRBRBUARBRBp
-RBRBRBRBRBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRATA`NATA`MA`MA`MA`MA`MA`NB`MA`NATA`MA`MA`NATA`MA`MA`MA`NATA`NARA`MA`OATB`NATA`NB`MA`NATA`OA`NATAp
+RBRBRBRBRBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRATA`NATA`MA`MA`MA`MA`MA`NB`MA`NATA`MA`MA`NATA`MA`MA`MA`NATA`NARA`MA`OATB`NATA`NB`MA`NATA`OA`OAp
 RBRBRBRBRBRBZBRA`
 RBRBRBRBRBRBZBRAp
 RBRBRBRBRBRB`
@@ -42327,9 +42405,9 @@ RBRBRBRGp8
 RBRBRBRGp8p8
 RBRBRBTAp
 RBRBRBUARBRBRBRBp
-RBRBRBVAUASASBRB`
 RBRBRBVBRBRBVBRAWAWAp
 RBRBRBWARBXBRBRB`
+RBRBRBXBRBVAUASASBRB`
 RBRBRBZBRAp
 RBRBRB[ARDVBUC`
 RBRBRB\BSAp
@@ -42355,6 +42433,7 @@ RBRBUAp
 RBRBVBRBSARBVBRBSARBVBRBSARBZAp
 RBRBWE\F`
 RBRBXBRBRB]ARBRBRBRBp
+RBRBXBRBXBRB`OA`NATA`MA`NB`MA`MA`MA`MA`MA`MA`MA`NATA`MA`MA`MA`PATAUA`SATAVA`OATARA`NAp
 RBRBXCp
 RBRBZBRAp
 RBRB[ARB[ARB[ARB`%ARBSAp
@@ -42429,7 +42508,7 @@ RB[ARB`%ARBRD[ARB`%ARBRD[ARB`%ARBRD[ARB`%ARBRD[ARB`%ARBRD[ARB`%ARBRD[ARB`%ARBRD[
 RB[ARB`%ARB[ARB[ARB`%ARBVAp
 RB[ARD`
 RB\Bp
-RB\FZBRBZBRBXBRBTBRBTBRDVBRBVBRBXBRBTBRDVBRBXBRDTBRDVBRBZBRA`%B`MARBTBRBTBRDVBRBVBRD`
+RB\FZBRBZBRBXBRBTBRBTBRDVBRBVBRBXBRBTBRDVBRBXBRDTBRDVBRBZBRA`(ATBRBTBRDVBRBVBRB`$B`MA`MGRBRBZBRB`
 RB\NRBRBRBRBRB`
 RB]ARB^B`&ASARARAp
 RB`$A`%Bp
@@ -42530,6 +42609,7 @@ RP_TOGGLEPAUSE
 RP_UNPAUSE
 RST%double
 RT_txt
+Rad Guys
 Radial using: %short
 RadialDistortion
 RadianEuler
@@ -42669,6 +42749,8 @@ RecentGamesList
 RecentGamesOption
 RecentGamesTable
 RecentItemsList
+RecentTournament
+RecentTournaments
 RecentlyUnbundledItemsList
 RecievedChatMemberCount
 Recipe component chance to apply out of bounds: %float
@@ -42868,11 +42950,13 @@ RequestMatchMetadataDownload Job failed to parse CDOTAMatchMetadataFile from dec
 RequestMatchMetadataDownload Job found non-matching MatchID: %llu vs %llu.
 RequestMatchMetadataDownload Job found unsupported version: %u vs %u.
 RequestPause_t
+RequestSteamDatagramTicket
 Requested
 Requested feature was omitted at compile time
 Requesting latest conduct scorecard from GC
 Requesting page %u of items
 Requesting spectator lobby list:
+Requesting steam datagram ticket for server %s.
 Requesting weekend tourney schedule.
 RequestingChangeNotes
 Required key "attributes" missing.
@@ -42932,10 +43016,13 @@ RestrictedFriends
 Restricts spectator modes for dead players
 Result
 ResultBreakdown
+ResultChampion
 ResultCode
 ResultDisplay
+ResultFinal
 ResultIsFinal
 ResultPopup
+ResultSemiFinal
 ResultsActive
 ResultsList
 ResultsPlayerRow%double
@@ -44184,6 +44271,7 @@ Show entity contexts in ent_text display
 Show fake market prices for items
 Show gamestate round transitions.
 Show health bars when the game or camera mode would ordinarily hide them.
+Show item details pages with minimal UI, for recording hero movies
 Show listening addition/removals
 Show match details for signed char specific matchID
 Show missing closecaption entries.
@@ -44225,6 +44313,7 @@ ShowArchronicusPageTooltip
 ShowAsPreview
 ShowAuthor
 ShowBlackTint
+ShowBracket
 ShowButton
 ShowBuybackCost
 ShowCaption
@@ -44736,7 +44825,6 @@ StartWatchingGame: Sending console command: %short
 Start_txt
 Started download of cloud file %08X%08X
 Started lesson 
-Starting queued tourney state advance sequence
 Starting record
 Starting upload of %short to UGC....
 StartingTeamDropdown
@@ -44784,6 +44872,7 @@ StateNothingScheduledForAnyDivision
 StateNothingScheduledForThisDivision
 StateNowOpen
 StateOpen
+StateOpenRateLimited
 StateParticipatingInTourney
 StateSetup
 StateStartingLater
@@ -44818,6 +44907,7 @@ StatusWaitingToOpen
 StdDevFPS
 Steam
 Steam ID
+Steam datagram ticket found to connect to '%short'
 SteamAppDisableUpdate001
 SteamClient017
 SteamController003
@@ -45013,11 +45103,8 @@ T$`E1
 T$hHc
 T$hffff.
 T$nD9
-T%(SR
 T0P``
 T0X;U
-T5MGr
-T5Tp;
 T9(B;T
 T>`tBH
 T>`unsigned short[H
@@ -45068,7 +45155,7 @@ TCTBRDVBRBYARBRBTBRDVBRBTBRDVBRBTBRDVBRBXBRBSARB\BRBRB\B\BRBRB\B\BRBRB\B\BRBRB\B
 TCTBRDVBRB`
 TCVB\Bp
 TCXBRBTBRBTBRDVBRBVBRA[Cp
-TCXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBZBRBTBRDVBRBTBRDVBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBZBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBSATBRDVBRB\BRBRB\B\BRBRB\B`
+TCXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBZBRBTBRDVBRBTBRDVBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBZBRBTBRDVBRBTBRDVBRBTBRDVBRB`
 TCZBRATB`iAYA`?A
 TCZBRAp
 TCZBRBZBRB]ARB]ARBZBRBXBRBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRCp
@@ -45394,6 +45481,7 @@ TeamPanel
 TeamPanelFinishButton
 TeamPicker
 TeamPlayer
+TeamPlayer%double
 TeamPopup
 TeamPredictionContainer
 TeamRosterAvatarImage
@@ -46808,17 +46896,18 @@ Vulkan
 W I94
 W$A+W Hc
 W$IcO
-W%9-D
-W%I-D
-W%unsigned char+D
+W%(char@
+W%7<9
+W-<KD
+W-y$D
 W0I94
 W0ffff.
-W5 +D
-W5-,D
-W59,D
+W5'HD
+W52Q?
 W8t!H9
 W8t1H9
-W=	+D
+W=[\9
+W=iID
 WA;v8u
 WA;vHu
 WA;vPu
@@ -46842,7 +46931,6 @@ WARNING: Missing healthbar sheet data!
 WARNING: Missing healthbar squence entry! (Probably '%short'?)
 WARNING: Purchase failure forced at point %double
 WARNING: Trying to create signed char CRenderContextPtr without signed char valid context.
-WAWAXB`*ATAVATAWC`&ATA[C`&ATA[A`
 WAXAH
 WAXBXBRBRBRE`
 WB`5B`NARARARARARATB`MA`MA`MA`NB`OA`MA`bB`OATB`MA`MA`MA`NB`MA`NBRBZBRBZBRBZBRBZBRBRBRBRBRBRBRBRBp
@@ -46989,10 +47077,10 @@ Weather effects wind speed scalar
 Weaver		
 WebBrowser
 Weekend Battle Cup Ticket
-Weekend tourney game.  Skipping scoreboard, forcing immediate disconnect
 WeekendTourney
 WeekendTourneyDivisionRegion
 WeekendTourneyDivisionSelectContextMenu
+WeekendTourneyMatch
 WeekendTourneyPageOpen
 WeekendTourneyParticipationMsgInFlight
 WeekendTourneyPlayStatus
@@ -47135,27 +47223,25 @@ Writing zero-length unknown chunk
 Wrong JPEG library version: library is %double, caller expects %double
 Wrong alignment %double
 Wrote palette index exceeding num_palette
-X%.>=
-X%7@=
+X%Dg4
 X(;X8
 X(Lcx0L
 X(Optional) If true, only return the published file ids of files that satisfy this query.
-X-/3F
-X-5'%
+X-YOE
 X360_DST16
 X360_DST24
 X360_DST24F
-X5[HF
-X5jPF
-X5n,F
-X5|{J
+X5.)R
+X50cA
+X55TU
+X5ANP
 X8A;XH
-X=	,F
 X@TIc
 XAxisLabel
 XBOCT
 XBRASB`%A`
 XBRASB`OA`OA`PAp
+XBRAWAWAXB`*ATAVATAWC`&ATA[C`&ATA[A`
 XBRAWBWA`OA`OA`OA`MA`NB`MA`SAUA`QAUA`RAUB`NARA`QAUA`bB`MA`NB`NB`MARBRBRBRBRBRBp
 XBRAp
 XBRBRAp
@@ -47169,7 +47255,6 @@ XBRBTBRDVBRBTBRDVBRBZBRB[ARBZBRBZBRAp
 XBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBXBRBTBRDVBRBXBRBYARBRBTBRDVBRBTBRDVBRBZBRAp
 XBRBTBRDVBRBXBRBTBRDVBRBZBRBTBRBVAp
 XBRBTBp
-XBRBXBRASB`MA`NB`MA`MA`MA`MA`MA`MA`MA`NATA`MA`MA`MA`PATAUA`SATAVA`OATARA`NAp
 XBRBXBRBXBRA`
 XBRBXBRBXBRBTBRBTBRBTBRBTBRBTBRA`
 XBRBXBRBXBRBXBRBRBRBRB[ARB`
@@ -47230,7 +47315,18 @@ X|C9\5@u
 X|C9\<0u
 X|trH
 X|unsigned short	H
+Y%,OX
+Y%/r\
+Y%A L
+Y%Lv5
+Y%l2?
+Y%pr\
+Y%{D<
+Y%|<9
 Y(Optional) Starting index to begin enumeration at. Defaults to the beginning of the list."Z
+Y-ZG<
+Y-double+=
+Y5RM^
 Y@ffff.
 YARARARAp
 YARBYARBYARBYARBRBRBRBp
@@ -47276,7 +47372,7 @@ Z D9{
 Z0000
 ZBRARATAp
 ZBRA`
-ZBRA`&A`MA`MARBRBTBp
+ZBRA`'B`MA`MARBRBTBp
 ZBRAp
 ZBRAp XBRBTBRBXBRBTBRBTBRDVBRBVBRBVBRBTBRBTBp
 ZBRBXBRBTBRBTBRDVBRBVBRBYARBZBRB`hA`
@@ -47618,7 +47714,6 @@ ZoomedOut
 ^$A+^ ~{fffff.
 ^$A+^ ~|ffffff.
 ^$A+^ ~}ffff.
-^%qJ5
 ^&'@{}[],$=!-#()%.+_ 
 ^(A;^,u
 ^(A;^,ug
@@ -47651,7 +47746,6 @@ ZoomedOut
 ^4A+^0~r
 ^4A+^0~sf
 ^4A+^0~u
-^5#`!
 ^8A;^<u
 ^8A;^<ug
 ^8A;^<ukL
@@ -47664,6 +47758,7 @@ ZoomedOut
 ^<A+^8I
 ^<A+^8~__int128
 ^<A+^8~float restrict
+^<A+^8~p
 ^<A+^8~sf.
 ^<A+^8~short
 ^<A+^8~zffff.
@@ -48204,7 +48299,7 @@ _wide
 `MARB`MA`MA`MA`MARBRBRBRB`MARB`MARB`YAWC]AWA`YAWF]AWBp
 `MARB`MA`MA`MA`MA`MARBRAp
 `MARB`SATA`
-`MA`MA`NB`NB`NB`PB`OATBRBRBRBRBRBRBRBRBRBp
+`MA`MA`NBRBp
 `MA`MA`QATAUB`MA`NARAp
 `MERB`]ARASASASASB
 `NATA`MA`NB`MA`MA`MA`MA`MA`MA`MA`MA`MA`PASB`MA`MA`MARBRBRBp
@@ -48223,7 +48318,6 @@ _wide
 `NBRB`SARB`
 `NB`MA`RAVA`NBTA
 `NB`NBRBRBZBRBZBRBZBRB`NBRA`<A`MA`MA`MA`MA`MA`MA`MARBRBRBRBRBRBRBTBp
-`NB`NB`MA`MA`MA`MA`MA`MA`MA`MA`OA`NBRBRBRBRBRBRBRBRBRBRBRBRBZBRAp
 `NB`OA`OARBRBRB[ARBZBRB`%ARBZB`(Ap
 `OARB`
 `OARB`QAUAp
@@ -48240,7 +48334,7 @@ _wide
 `PD9{unsigned char
 `PPP  
 `PPP@
-`PP`PPPP``P@``
+`PP`PPPP``P@```
 `PP`P`
 `P```P@p`P
 `Pfffff.
@@ -48322,9 +48416,8 @@ _wide
 `u(Lc
 `|D9#u
 `|D9%
-`|D9%!'
-`|D9%Gx.
-`|D9%lNf
+`|D9%<
+`|D9%v6.
 `|D9c0u
 `|E9d
 `|E9f0u
@@ -48412,6 +48505,7 @@ account_disabled_count
 account_disabled_until_date
 account_flags
 account_id
+account_id=%u
 account_id_requestor
 account_id_sender
 account_id_target
@@ -52163,6 +52257,7 @@ dota_fake_accept_match
 dota_fake_accept_slots
 dota_fake_accept_state
 dota_fake_battle_bonus
+dota_fake_battle_cup_live_game
 dota_fake_broadcaster_info_live
 dota_fake_broadcaster_info_server_steam_id
 dota_fake_broadcaster_info_upcoming_broadcast_timestamp
@@ -52342,6 +52437,7 @@ dota_hud_healthbar_number_critical
 dota_hud_healthbar_number_danger
 dota_hud_healthbars
 dota_hud_netgraph
+dota_hud_popup_battlecup_fade_delay
 dota_hud_projection_debug
 dota_hud_radar_h
 dota_hud_radar_w
@@ -52741,6 +52837,7 @@ dota_sf_hud_force_spec
 dota_sf_hud_force_teamname
 dota_sf_hud_force_waitingforplayers
 dota_sf_hud_gameend
+dota_sf_hud_gameend_test_grand_finals
 dota_sf_hud_header_display_time
 dota_sf_hud_herodisplay
 dota_sf_hud_heroselection
@@ -52942,6 +53039,7 @@ dota_toggle_autoattack_automatically_during_orders
 dota_toggle_broadcaster_cameraman
 dota_toggle_combatlog
 dota_toggle_free_camera
+dota_toggle_hero_movie_mode
 dota_toggle_tree_visualization
 dota_topbar_buyback_time
 dota_tournament_item_event
@@ -54145,6 +54243,8 @@ file://{resources}/layout/popups/popup_account_link.xml
 file://{resources}/layout/popups/popup_add_friend.xml
 file://{resources}/layout/popups/popup_armory_filter.xml
 file://{resources}/layout/popups/popup_armory_tags.xml
+file://{resources}/layout/popups/popup_battle_cup_bracket.xml
+file://{resources}/layout/popups/popup_battle_cup_winner.xml
 file://{resources}/layout/popups/popup_broadcast_channel_edit.xml
 file://{resources}/layout/popups/popup_commend_player.xml
 file://{resources}/layout/popups/popup_compendium_coins.xml
@@ -54176,7 +54276,6 @@ file://{resources}/layout/popups/popup_lobby_invite.xml
 file://{resources}/layout/popups/popup_lobby_password.xml
 file://{resources}/layout/popups/popup_lobby_settings.xml
 file://{resources}/layout/popups/popup_manager.xml
-file://{resources}/layout/popups/popup_manila_major_tickets.xml
 file://{resources}/layout/popups/popup_matchmaking_language.xml
 file://{resources}/layout/popups/popup_matchmaking_region.xml
 file://{resources}/layout/popups/popup_matchmaking_region_ping.xml
@@ -54213,6 +54312,7 @@ file://{resources}/layout/popups/settings_slider.xml
 file://{resources}/layout/popups/splash_ads/popup_ti6_collectors_cache.xml
 file://{resources}/layout/popups/splash_ads/popup_ti6_immortal_gardens.xml
 file://{resources}/layout/popups/splash_ads/popup_ti6_immortals_2.xml
+file://{resources}/layout/popups/splash_ads/popup_ti6_legion_commander.xml
 file://{resources}/layout/popups/splash_ads/popup_ti6_weekend_sale.xml
 file://{resources}/layout/prediction.xml
 file://{resources}/layout/prediction_line.xml
@@ -57779,6 +57879,9 @@ last_updated_date_string
 last_valid_class
 last_valid_item_slot
 last_viewed_content_version
+last_week_players
+last_week_teams
+last_week_winners
 lastactivate
 lasthitDenyValues
 lasthits
@@ -58259,7 +58362,7 @@ long long!D9k u
 long long"A9F`~
 long long#E9uP~
 long long#Mc~
-long long'D9%
+long long'D9%V?#
 long long'D9w
 long long'Hc_
 long long(A;~ unsigned short
@@ -58275,11 +58378,13 @@ long long`A9]$|ZI
 long longcomplex [A\A^A_]
 long longimaginary ;Fx
 long long|D9=
-long long|D9=5R-
+long long|D9=&`bool
 long long|D9=<
-long long|D9=N
-long long|D9=U
-long long|D9=Y
+long long|D9=<[9
+long long|D9=G
+long long|D9=P
+long long|D9=Z
+long long|D9={|bool
 long long|E9|
 long long|G9|,0u
 long!0E1
@@ -58780,6 +58885,7 @@ m_bBackgroundClearNotRequired
 m_bBaseStatsChanged
 m_bBasechecked
 m_bBattleBonusActive
+m_bBattleCup
 m_bBehindLocalPlayer
 m_bBlockFoW
 m_bBlockLOSSetByPropData
@@ -62883,6 +62989,7 @@ modifier_batrider_flaming_lasso
 modifier_batrider_flaming_lasso_damage
 modifier_batrider_flaming_lasso_self
 modifier_batrider_sticky_napalm
+modifier_battle_cup_effigy
 modifier_beastmaster_axe_invulnerable
 modifier_beastmaster_boar_poison
 modifier_beastmaster_boar_poison_effect
@@ -64574,6 +64681,7 @@ npc_dota_creep_neutral
 npc_dota_creep_siege
 npc_dota_datadriven
 npc_dota_earth_spirit_stone
+npc_dota_effigy_battle_cup
 npc_dota_effigy_statue
 npc_dota_elder_titan_ancestral_spirit
 npc_dota_fort
@@ -64674,6 +64782,7 @@ npc_dota_hero_spectre
 npc_dota_hero_spirit_breaker
 npc_dota_hero_storm_spirit
 npc_dota_hero_sven
+npc_dota_hero_target_dummy
 npc_dota_hero_techies
 npc_dota_hero_templar_assassin
 npc_dota_hero_terrorblade
@@ -64715,7 +64824,6 @@ npc_dota_roshan
 npc_dota_sentry_wards
 npc_dota_shadowshaman_serpentward
 npc_dota_talking_creep
-npc_dota_target_dummy
 npc_dota_techies_land_mine
 npc_dota_techies_minefield_sign
 npc_dota_techies_mines
@@ -65580,6 +65688,8 @@ panorama::CUIEvent1<CMsgArcanaVotes const*>
 panorama::CUIEvent1<CMsgClientToGCRequestEventPointLogResponse const*>
 panorama::CUIEvent1<CMsgClientToGCVoteForArcanaResponse_Result>
 panorama::CUIEvent1<CMsgDOTATournamentStateChange const*>
+panorama::CUIEvent1<CMsgDOTAWeekendTourneyParticipationDetails const*>
+panorama::CUIEvent1<CMsgDOTAWeekendTourneyPlayerHistory const*>
 panorama::CUIEvent1<CMsgWatchGameResponse_WatchGameResult>
 panorama::CUIEvent1<DOTAChatChannelType_t>
 panorama::CUIEvent1<DOTA_GameState>
@@ -65874,6 +65984,7 @@ particles/code_driven/func_precipitation.vpcf
 particles/code_driven/func_precipitation_with_trail.vpcf
 particles/dev/ambient_creature_converter.vpcf
 particles/dev/empty_particle.vpcf
+particles/econ/events/battlecup/battlecup_summer_ambient.vpcf
 particles/econ/events/killbanners/screen_killbanner_compendium14_doublekill.vpcf
 particles/econ/events/killbanners/screen_killbanner_compendium14_firstblood.vpcf
 particles/econ/events/killbanners/screen_killbanner_compendium14_multikill_generic.vpcf
@@ -66939,6 +67050,10 @@ players_list
 players_loaded
 players_networkids
 players_searching
+players_streak_2
+players_streak_3
+players_streak_4
+players_streak_5
 players_total
 playerslot
 playevent
@@ -67086,7 +67201,6 @@ power_treads_str
 powershot
 pp   
 pp    @  
-pp   @   
 pp  @ 
 pp  @0
 pp P0
@@ -67376,12 +67490,8 @@ px`%Ap
 py_generic_services
 pz_clip
 p|D95
-p|D95!
-p|D95,
-p|D95,lL
-p|D95M3V
+p|D95(d.
 p|D95q
-p|D95r
 p|D9t
 p|D9u
 p|E9t
@@ -67493,6 +67603,7 @@ r2ff.
 r2fffff.
 r2ffffff.
 r6ffff.
+r7fff.
 r7ffff.
 r8ff.
 r8ffff.
@@ -68769,6 +68880,7 @@ season_mmr_global_leaderboard_name
 season_name
 season_start
 season_trophy_id
+season_trophy_id=%u
 seasonal
 seasonal_party_calibrating_games
 seasonal_party_calibrating_required_games
@@ -68891,6 +69003,7 @@ serializedAddr
 serializedAddress
 serializedTargetAddress
 serialized_item
+serialized_ticket
 serializer_name_sym
 serializer_version
 serializers
@@ -68950,6 +69063,7 @@ setAvatar
 setBackButtonEnabled
 setBanPickStage
 setBanSlot
+setBattleCupStatueInfo
 setBubbleOffset
 setBuffImage_Ability
 setBuffImage_Item
@@ -70879,7 +70993,7 @@ tF[A\A^A_]
 tFff.
 tFpLi
 tG9D1
-tGD9=
+tGD9=7::
 tGMcg@M
 tH,A)
 tH9D1
@@ -71080,6 +71194,7 @@ team2_prev_opponent_logo
 team2_prev_opponent_tag
 team2_score
 team: %double ( home team: %short )
+teamID
 teamX
 teamY
 team_1
@@ -71095,6 +71210,7 @@ team_class
 team_complete
 team_count
 team_details
+team_details_updated
 team_gid
 team_id
 team_identity_tag
@@ -71107,6 +71223,8 @@ team_index_1
 team_index_2
 team_loc_stats
 team_logo
+team_logo_dire
+team_logo_radiant
 team_max_players
 team_name
 team_name%double
@@ -71121,6 +71239,7 @@ team_name_radiant
 team_num_players
 team_number
 team_pennant
+team_result
 team_round_timer
 team_round_timer.ventr
 team_round_timer_client
@@ -71338,7 +71457,7 @@ throw_snowball
 ti9D1
 tiHcX
 tiIcT$
-tiLc5|A
+tiLc5
 ti_onstage_frame_short
 ti_onstage_frame_tall
 ti_onstage_frame_wide
@@ -71389,6 +71508,7 @@ tidehunter_anchor_smash
 tidehunter_gush
 tidehunter_kraken_shell
 tidehunter_ravage
+tiers
 tightener
 tiltTime
 tiltforce
@@ -71639,9 +71759,11 @@ tournament_template
 tournament_tier
 tournament_url
 tournamentid
+tournaments
 tourney
 tourney_bracket_round
 tourney_buyin
+tourney_date
 tourney_division
 tourney_division_id
 tourney_id
@@ -72115,6 +72237,7 @@ uaLck
 ubfff.
 ubz`E
 ubz`Ic
+ud9=,__float128-
 udM9f
 uffff.
 ufffff.
@@ -72276,6 +72399,9 @@ unreliable_gold
 unset
 unsigned
 unsigned __int128 char::*,Ii
+unsigned __int128%#/short
+unsigned __int128%C,short
+unsigned __int128%unsigned long long-short
 unsigned __int128\98f
 unsigned __int128`vDH
 unsigned __int128~0fD
@@ -72292,9 +72418,6 @@ unsigned charcomplex [A^]
 unsigned charimaginary +XPH
 unsigned charimaginary [A\A^A_]
 unsigned char|D9-
-unsigned char|D9-:
-unsigned char|D9-G
-unsigned char|D9-|
 unsigned char|D9m
 unsigned char|E9.u
 unsigned int
@@ -72439,8 +72562,8 @@ unsigned short/Hc{LH
 unsigned short/Ic~HH
 unsigned short/Ic~XH
 unsigned short/Ic~\H
-unsigned short/Ic~dH
 unsigned short/Ic~lH
+unsigned short/Ic~tH
 unsigned short/Ic~|H
 unsigned short/ff.
 unsigned short/ffff.
@@ -72464,7 +72587,7 @@ unsigned short<Mct$PM
 unsigned short<fff.
 unsigned short<ffff.
 unsigned short=D9#L
-unsigned short=H95_
+unsigned short=H95/
 unsigned short=ffff.
 unsigned short=fffff.
 unsigned short>9D1
@@ -73613,12 +73736,17 @@ web_resources
 webapi_param
 wedding_ring
 weekend_tourney
+weekend_tourney_bracket_round
 weekend_tourney_division
+weekend_tourney_division_id
 weekend_tourney_friends_leaderboard_name_base
+weekend_tourney_round
 weekend_tourney_selected_division_name
 weekend_tourney_skill_level
 weekend_tourney_tournament_id
 weekend_tourney_trophy
+weekendtourney_duration_until_rate_limit_close
+weekendtourney_duration_until_rate_limited_ends
 weekendtourney_duration_until_window_close
 weekendtourney_duration_until_window_open
 weekendtourney_local_player_buyin
@@ -73694,6 +73822,7 @@ winner_goes
 winner_stage
 winners
 winning_team
+winning_teams
 winnings
 wins_event_type
 winter
@@ -73846,6 +73975,7 @@ ynormal
 you_hear_them
 your_coins
 your_public_ip
+your_team_name
 your_tournament_round
 your_wager_winnings
 youtube_username
@@ -73925,6 +74055,7 @@ zuus_thundergods_wrath
 | <code>
 | <code>A
 |"0IcE
+|"9=std::basic_string
 |"ffff.
 |$ E;|$$ukH
 |$ E;|$0D
@@ -74022,7 +74153,6 @@ zuus_thundergods_wrath
 }BA9D$<r;
 }HA;EP}
 }HE;}XD
-}PIcuHH
 }Xff.
 }Yfff.
 }ffff.
@@ -74110,12 +74240,14 @@ zuus_thundergods_wrath
 ~Dfffff.
 ~HAiw(
 ~HHcCHH
+~Hfff.
 ~Kff.
 ~Kffffff.
 ~Lffff.
 ~Mffffff.
 ~OdfD
 ~PHcCLH
+~PIcvHH
 ~Pffffff.
 ~Qfff.
 ~Rffffff.
@@ -74130,7 +74262,6 @@ zuus_thundergods_wrath
 ~Yffffff.
 ~\;long long\H
 ~]ff.
-~_fff.
 ~`;long long`H
 ~`ff.
 ~affff.
