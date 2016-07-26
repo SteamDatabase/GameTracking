@@ -24,6 +24,23 @@ model:CreateSequence(
 	}
 )
 
+model:CreateSequence(
+	{
+		name = "razor_ti6_plasma_field",
+		framerangesequence = "@razor_ti6_plasma_field",
+		cmds = {
+			{ cmd = "sequence", sequence = "@razor_ti6_plasma_field", dst = 1 },
+			{ cmd = "fetchframe", sequence = "@razor_ti6_plasma_field", frame = 0, dst = 2 },
+			{ cmd = "subtract", dst = 1, src = 2 },
+			{ cmd = "add", dst = 0, src = 1 }
+		},
+		activities = {
+			{ name = "ACT_DOTA_OVERRIDE_ABILITY_1", weight = 1 },
+			{ name = "ti6", weight = 1 }
+		}
+	}
+)
+
 
 model:CreateSequence(
 	{

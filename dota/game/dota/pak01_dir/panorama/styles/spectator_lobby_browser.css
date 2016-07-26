@@ -2,20 +2,14 @@
 DOTASpectatorLobbyBrowser
 {
 	flow-children: down;
-	padding: 16px;
+	padding: 32px;
 	background-color: #000c;
 
 	width: 100%;
 	height: 100%;
 }
 
-#LobbyCells
-{
-	margin-top: 8px;
-	flow-children: right-wrap;
-}
-
-.Header
+#Header
 {
 	flow-children: right;
 	width: 100%;
@@ -26,194 +20,167 @@ DOTASpectatorLobbyBrowser
 	color: white;
 	text-transform: uppercase;
 	vertical-align: middle;
-	font-size: 64px;
+	font-size: 80px;
 }
 
-.RefreshButton
+#RefreshButton
 {
 	vertical-align: middle;
-	width: 64px;
-	height: 64px;
+	width: 120px;
+	height: 120px;
 	margin-right: 8px;
 
+   	background-image: url("s2r://panorama/images/control_icons/refresh_psd.vtex");
 	background-size: contain;
 	background-position: center;
+    background-repeat: no-repeat;
+
+    wash-color: #aaa;
+}
+
+#RefreshButton:hover
+{
+    wash-color: #fff;
+}
+#RefreshButton:active
+{
+    wash-color: #ccc;
+}
+
+#RefreshButton.LoadingLobbies
+{
+    animation-name: RefreshButtonLoadingAnimation;
+	animation-duration: 1.0s;
+    animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+@keyframes 'RefreshButtonLoadingAnimation'
+{
+	0%
+	{
+		transform: rotateZ( 360deg );
+	}
+    50%
+    {
+        transform: rotateZ( 180deg );
+    }
+	100%
+	{
+		transform: rotateZ( 00deg );
+	}
+}
+
+#LoadedContents
+{
+    flow-children: right;
+}
+.ErrorLoadingLobbies #LoadedContents
+{
+    visibility: collapse;
+}
+
+#LobbiesCarousel
+{
+	flow-children: right;
+	width: 1880px;
+	height: 930px;
+	vertical-align: middle;
+}
+
+.LobbiesCarouselPage
+{
+    flow-children: right;
+    width: 100%;
+    height: 100%;
+
+    transition-property: position;
+    transition-duration: 0.2s;
+}
+
+CarouselNavButton
+{
+	width: fill-parent-flow( 1.0 );
+	height: 160px;
+	background-image: url("s2r://panorama/images/control_icons/arrow_solid_right_png.vtex");
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	wash-color: #999;
+	vertical-align: middle;
+}
+CarouselNavButton:enabled:hover
+{
+	wash-color: #fff;
+}
+CarouselNavButton:active
+{
+	wash-color: #bbb;
+}
+CarouselNavButton:disabled
+{
+	wash-color: #333;
+}
+CarouselNavButton.NavBackward
+{
+	background-image: url("s2r://panorama/images/control_icons/arrow_solid_left_png.vtex");
+}
+
+#ErrorMessage
+{
+    horizontal-align: center;
+    vertical-align: middle;
+    font-size: 80px;
+    width: 1400px;
+    text-align: center;
+
+    visibility: collapse;
+}
+
+.ErrorLoadingLobbies #ErrorMessage
+{
+    visibility: visible;
+}
+
+#Footer
+{
+	flow-children: right;
 }
 
 .LanguageLabel
 {
 	vertical-align: middle;
 	margin-right: 8px;
-	font-size: 30px;
+	font-size: 64px;
 	text-transform: uppercase;
+	color: #ccc;
 }
 
 #LanguageDropDown
 {
-	margin-right: 16px;
 	vertical-align: middle;
+	height: 80px;
+	width: 450px;
+	font-size: 48px;
+	margin-left: 8px;
+	border: 4px solid #5e686966;
+
+	background-size: 64px 64px;
+	background-position: right 80px 35%;
 }
 
-/* ------------------------------------------------------------------------- */
-
-DOTASpectatorLobbyCell
+#LanguageDropDown Label
 {
-	width: 382px;
-	height: 465px;
-	background-color: #000c;
-	margin-right: 8px;
-	margin-bottom: 8px;
-	padding: 8px 8px 4px 8px;
-	flow-children: down;
+	font-size: 48px;
+	margin: 4px 40px 0px 6px;
 }
 
-DOTASpectatorLobbyCell:hover
+#LanguageDropDownDropDownMenu
 {
-	background-color: #222c;
+	width: 500px;
 }
 
-.CellHeader
+#LanguageDropDownDropDownMenu Label
 {
-	width: 100%;
-	flow-children: right;
-}
-
-.CellTitle
-{
-	font-size: 30px;
-}
-
-.CellTitle .WatchingLive
-{
-	color: #64c390;
-}
-
-.CellLanguage
-{
-	font-size: 24px;
-	vertical-align: middle;
-	text-transform: uppercase;
-	color: #888;
-}
-
-#LeagueImage
-{
-	margin-top: 4px;
-	width: 100%;
-	height: width-percentage( 39% );
-	tooltip-body-position: 50% 50%;
-
-	visibility: collapse;
-}
-.HasLeague #LeagueImage
-{
-	visibility: visible;
-}
-
-.GameInfo
-{
-	margin-top: 8px;
-	width: 100%;
-	flow-children: down;
-}
-
-.TeamInfo
-{
-	horizontal-align: center;
-	flow-children: right;
-}
-
-.GameStage
-{
-	text-transform: uppercase;
-	horizontal-align: center;
-	margin-top: 4px;
-	font-size: 28px;
-}
-
-.GameSeries
-{
-	horizontal-align: center;
-	margin-top: -2px;
-	font-size: 24px;
-}
-
-.TeamLogo
-{
-	width: 120px;
-	height: 120px;
-}
-
-.TeamVersus
-{
-	vertical-align: middle;
-	text-align: center;
-	margin: 0px 8px;
 	font-size: 48px;
 }
-
-.StreamInfo
-{
-	visibility: collapse;
-}
-
-.CellFooter
-{
-	flow-children: right;
-	width: 100%;
-}
-
-.MembersIcon
-{
-	width: 30px;
-	height: 30px;
-
-	background-image: url("s2r://panorama/images/control_icons/friends_small_png.vtex");
-	background-size: contain;
-	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	vertical-align: center;
-	margin-bottom: 2px;
-}
-
-.MemberCount
-{
-	margin-left: 4px;
-	font-size: 30px;
-}
-
-.PasswordedIcon
-{
-	width: 30px;
-	height: 30px;
-
-	background-image: url("s2r://panorama/images/control_icons/lock_small_png.vtex");
-	background-size: contain;
-	background-repeat: no-repeat;
-	vertical-align: middle;
-	horizontal-align: center;
-
-	wash-color: #888;
-
-	visibility: collapse;
-}
-
-DOTASpectatorLobbyCell.Passworded .PasswordedIcon
-{
-	visibility: visible;
-}
-
-
-#FriendsInLobby
-{
-	flow-children: right;
-}
-
-
-#FriendsInLobby DOTAAvatarImage
-{
-	width: 40px;
-	height: 40px;
-	margin-left: 4px;
-}
-

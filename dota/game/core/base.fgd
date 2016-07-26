@@ -9,61 +9,6 @@
 @mapsize(-16384, 16384)
 
 
-
-//-------------------------------------------------------------------------
-//
-// Components
-//
-//-------------------------------------------------------------------------
-@componentclass = CNameComponent : "Entity Name"
-[
-	targetname(target_source) : "targetname"
-]
-
-
-@componentclass = CBodyComponent
-[
-	local.origin(vector) : "local.origin"
-	local.angles(angle) : "local.angles"
-	model(resource:model) : "model"
-	materialgroup(string) : "materialgroup"
-	parentAttachmentName(string) : "parentAttachmentName"
-	cycle(float) : "cycle"
-	playbackrate(float) : "playbackrate"
-	velocity(vector) : "velocity"
-	rotationAxis(vector) : "rotationAxis"
-	rotationSpeed(float) : "rotationSpeed"
-	parentname(target_destination) : "parent"
-	sequenceName(string) : "sequenceName"
-
-	// Inputs
-	input SetSequence(void) : "Modifies the active sequence"
-	input SetBodyGroup(void) : "Modifies the body group"
-	input SetScale(void) : "Modifies the scale"
-]
-
-
-@componentclass base(CBodyComponent) = CBodyComponentBaseAnimating : "Body Component BaseAnimating"
-[
-]
-
-
-@componentclass = CPhysConstraintComponent : "Prop Physics Constraint"
-[
-	twistLow(float) : "twistLow"
-	twistHigh(float) : "twistHigh"
-	swingY(float) : "swingY"
-	swingZ(float) : "swingZ"
-	angularMotor(vector) : "angularMotor"
-	referenceTarget(target_destination) : "referenceTarget"
-	referencePartName(string) : "referencePartName"
-	constraintPartName(string) : "constraintPartName"
-
-	// Inputs
-	input SetEnabled(void) : "Enable or disable constraint"
-]
-
-
 //-------------------------------------------------------------------------
 //
 // PhysicsType Base Classes
@@ -98,7 +43,7 @@
 
 @BaseClass = VScript
 [
-	vscripts(scriptlist) : "Entity Scripts" : "" : "Name(s) of script files that are executed after all entities have spawned."
+	vscripts(scriptlist) [ group="Misc" ] : "Entity Scripts" : "" : "Name(s) of script files that are executed after all entities have spawned."
 
 	// Inputs
 	input RunScriptFile(string) : "Load and execute a script file"
@@ -139,11 +84,11 @@
 
 @BaseClass = Parentname
 [ 
-	parentname(target_destination) : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
-	parentAttachmentName(string) : "Parent Model Bone/Attachment Name" : : "The name of the bone or attachment to attach to on the entity's parent in the movement hierarchy. Use !bonemerge to use bone-merge style attachment."
-	local.origin(vector) : "Model Attachment position offset" : : "Offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
-	local.angles(angle) : "Model Attachment angular offset" : : "Angular offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
-	useLocalOffset(boolean) : "Use Model Attachment Offset" : 0 : "Whether to respect the specified local offset when doing the initial hierarchical attachment to its parent."
+	parentname(target_destination) [ group="Heirarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	parentAttachmentName(string) [ group="Heirarchy" ] : "Parent Model Bone/Attachment Name" : : "The name of the bone or attachment to attach to on the entity's parent in the movement hierarchy. Use !bonemerge to use bone-merge style attachment."
+	local.origin(vector) [ group="Heirarchy" ] : "Model Attachment position offset" : : "Offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+	local.angles(angle) [ group="Heirarchy" ] : "Model Attachment angular offset" : : "Angular offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+	useLocalOffset(boolean) [ group="Heirarchy" ] : "Use Model Attachment Offset" : 0 : "Whether to respect the specified local offset when doing the initial hierarchical attachment to its parent."
 
 	// Inputs
 	input SetParent(target_destination) : "Changes the entity's parent in the movement hierarchy."
@@ -155,13 +100,13 @@
 
 @BaseClass = Studiomodel
 [
-	model(studio) report : "World Model"
-	skin(choices) : "Skin" : "0" : "Some models have multiple versions of their textures, called skins. This is programmatically populated from the model. The FGD data is unused!" =
+	model(studio) [report]: "World Model"
+	skin(choices) [ group="Misc" ] : "Skin" : "0" : "Some models have multiple versions of their textures, called skins. This is programmatically populated from the model. The FGD data is unused!" =
 	[
 		"0" : "Ignored by the modelhelper code"
 	]
 	
-	disableshadows(boolean) : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity."
+	disableshadows(boolean) [ group="Misc" ] : "Disable Shadows" : 0 : "Used to disable dynamic shadows on this entity."
 
 	// Inputs
 	input Skin(integer) : "Changes the model skin to the specified number."
@@ -202,7 +147,7 @@
 
 @BaseClass = RenderFxChoices
 [
-	renderfx(choices) : "Render FX" : "kRenderFxNone" =
+	renderfx(choices) [ group="Render Properties" ] : "Render FX" : "kRenderFxNone" =
 	[
 		"kRenderFxNone" : "Normal"
 		"kRenderFxPulseSlow" : "Slow Pulse"
@@ -232,7 +177,7 @@
 
 @BaseClass = RenderModeChoices
 [
-	rendermode(choices) :"Render Mode" : "kRenderNormal" : "Used to set a non-standard rendering mode on this entity. See also 'FX Amount' and 'FX Color'." =
+	rendermode(choices) [ group="Render Properties" ] :"Render Mode" : "kRenderNormal" : "Used to set a non-standard rendering mode on this entity. See also 'FX Amount' and 'FX Color'." =
 	[
 		"kRenderNormal" : "Normal"
 		"kRenderTransColor" : "Color"
@@ -250,7 +195,7 @@
 
 @BaseClass = Shadow
 [
-	disableshadows(boolean) : "Disable shadows" : 0
+	disableshadows(boolean) [ group="Misc" ] : "Disable shadows" : 0
 
 	input DisableShadow(void) : "Turn shadow off."
 	input EnableShadow(void) : "Turn shadow on."
@@ -259,16 +204,16 @@
 
 @BaseClass = Glow
 [
-	glowstate(choices) : "Glow State" : 0 =
+	glowstate(choices) [ group="Glow Properties" ] : "Glow State" : 0 =
 	[
 		0: "OFF"
 		1: "+use"
 		2: "look-at"
 		3: "ON"
 	]
-	glowrange(integer) : "Glow Range" : 0 : "Range at which the glow becomes visible. (0 = always visible)"
-	glowrangemin(integer) : "Glow Range Min" : 0 : "Range at which the glow stops being visible. (0 = always visible)"
-	glowcolor(color255) : "Glow Color Override (R G B)" : "0 0 0" : "Change the render color of the glow."
+	glowrange(integer) [ group="Glow Properties" ] : "Glow Range" : 0 : "Range at which the glow becomes visible. (0 = always visible)"
+	glowrangemin(integer) [ group="Glow Properties" ] : "Glow Range Min" : 0 : "Range at which the glow stops being visible. (0 = always visible)"
+	glowcolor(color255) [ group="Glow Properties" ] : "Glow Color Override (R G B)" : "0 0 0" : "Change the render color of the glow."
 
 	input StartGlowing(void) : "Turn on a permanent glow effect for this prop."
 	input StopGlowing(void) : "Turn off this prop's glow effect."
@@ -280,21 +225,21 @@
 // BETWEEN SYSTEM LEVELS!!!!
 @BaseClass = SystemLevelChoice
 [ 
-	mincpulevel(choices) : "Minimum CPU Level" : 0 = 
+	mincpulevel(choices) [ group="Render Properties" ] : "Minimum CPU Level" : 0 = 
 	[
 		0 : "default (low)"
 		1 : "low"
 		2 : "medium"
 		3 : "high"
 	]
-	maxcpulevel(choices) : "Maximum CPU Level" : 0 = 
+	maxcpulevel(choices) [ group="Render Properties" ] : "Maximum CPU Level" : 0 = 
 	[
 		0 : "default (high)"
 		1 : "low"
 		2 : "medium"
 		3 : "high"
 	]
-	mingpulevel(choices) : "Minimum GPU Level" : 0 = 
+	mingpulevel(choices) [ group="Render Properties" ] : "Minimum GPU Level" : 0 = 
 	[
 		0 : "default (very low)"
 		1 : "very low"
@@ -302,7 +247,7 @@
 		3 : "medium"
 		4 : "high"
 	]
-	maxgpulevel(choices) : "Maximum GPU Level" : 0 = 
+	maxgpulevel(choices) [ group="Render Properties" ] : "Maximum GPU Level" : 0 = 
 	[
 		0 : "default (high)"
 		1 : "very low"
@@ -310,7 +255,7 @@
 		3 : "medium"
 		4 : "high"
 	]
-	disableX360(choices) : "Disable X360" : 0 =
+	disableX360(choices) [ group="Render Properties" ] : "Disable X360" : 0 =
 	[
 		0 : "No"
 		1 : "Yes"
@@ -320,19 +265,19 @@
 
 @BaseClass base(RenderFxChoices, RenderModeChoices, SystemLevelChoice) = RenderFields 
 [
-	renderamt(integer) : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
-	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
+	renderamt(integer) [ group="Render Properties" ] : "FX Amount (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
+	rendercolor(color255) [ group="Render Properties" ] : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
 
-	disablereceiveshadows(boolean) : "Disable Receiving Shadows" : 0
+	disablereceiveshadows(boolean) [ group="Render Properties" ] : "Disable Receiving Shadows" : 0
 
-	lightgroup(string) : "Light Group" : "" : "Will only be lit by lights affecting this group."
+	lightgroup(string) [ group="Render Properties" ] : "Light Group" : "" : "Will only be lit by lights affecting this group."
 
 	input Alpha(integer) : "Set the sprite's alpha (0 - 255)."
 	input Color(color255) : "Set the sprite's color (R G B)."
 
-	fademindist(float) : "Start Fade Dist" : -1 : "Distance at which the overlay starts to fade (<0 = subtract from fademaxdist)."
-	fademaxdist(float) : "End Fade Dist" : 0 : "Maximum distance at which the overlay is visible (0 = don't fade out)."
-	fadescale(float) : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360," +
+	fademindist(float) [ group="Render Properties" ] : "Start Fade Dist" : -1 : "Distance at which the overlay starts to fade (<0 = subtract from fademaxdist)."
+	fademaxdist(float) [ group="Render Properties" ] : "End Fade Dist" : 0 : "Maximum distance at which the overlay is visible (0 = don't fade out)."
+	fadescale(float) [ group="Render Properties" ] : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360," +
 												 " then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
 												 " This scale factor gives you some control over the fade. Using 0 here turns off the forcible fades." +
 												 " Numbers smaller than 1 cause the prop to fade out at further distances, and greater than 1 cause it to fade out at closer distances."
@@ -352,7 +297,7 @@
 
 @BaseClass = Global 
 [ 
-	globalname(string) : "Global Entity Name" : "" : "Name by which this entity is linked to another entity in a different map. When the player transitions to a new map, entities in the new map with globalnames matching entities in the previous map will have the previous map's state copied over their state."
+	globalname(string) [ group="Misc" ] : "Global Entity Name" : "" : "Name by which this entity is linked to another entity in a different map. When the player transitions to a new map, entities in the new map with globalnames matching entities in the previous map will have the previous map's state copied over their state."
 ]
 
 // Base class for env_global
@@ -388,7 +333,7 @@
 
 @BaseClass = DamageFilter
 [ 
-	damagefilter(target_destination) : "Damage Filter" : "" : "Name of the filter entity that controls which entities can damage us."
+	damagefilter(target_destination) [ group="Misc" ] : "Damage Filter" : "" : "Name of the filter entity that controls which entities can damage us."
 	input SetDamageFilter(string) : "Sets the entity to use as damage filter. Pass in an empty string to clear the damage filter."
 ]
 
@@ -405,9 +350,9 @@
 
 @BaseClass base(Targetname, DamageFilter, Shadow) = Breakable
 [
-	ExplodeDamage(float) : "Explosion Damage" : 0 : "If non-zero, when this entity breaks it will create an explosion that causes the specified amount of damage. See also 'Explosion Radius'."
-	ExplodeRadius(float) : "Explosion Radius" : 0 : "If non-zero, when this entity breaks it will create an explosion with a radius of the specified amount. See also 'Explosion Damage'."
-	PerformanceMode(choices) : "Performance Mode" : "PM_NORMAL" : "Used to limit the amount of gibs produced when this entity breaks, for performance reasons." =
+	ExplodeDamage(float) [ group="Breakable Properties" ] : "Explosion Damage" : 0 : "If non-zero, when this entity breaks it will create an explosion that causes the specified amount of damage. See also 'Explosion Radius'."
+	ExplodeRadius(float) [ group="Breakable Properties" ] : "Explosion Radius" : 0 : "If non-zero, when this entity breaks it will create an explosion with a radius of the specified amount. See also 'Explosion Damage'."
+	PerformanceMode(choices) [ group="Breakable Properties" ] : "Performance Mode" : "PM_NORMAL" : "Used to limit the amount of gibs produced when this entity breaks, for performance reasons." =
 	[
 		"PM_NORMAL" : "Normal"
 		"PM_NO_GIBS" : "No Gibs"
@@ -534,7 +479,7 @@
 
 @BaseClass = CanBeClientOnly
 [
-	clientSideEntity(choices) : "Create Client-Only Entity" : 0 =
+	clientSideEntity(choices) [ group="Misc" ] : "Create Client-Only Entity" : 0 =
 	[
 		0 : "No"
 		1 : "Yes"
@@ -548,7 +493,7 @@
 		16 : "Break on Touch" : 0
 		32 : "Break on Pressure" : 0
 	]
-	pressuredelay(float) : "Pressure Delay" : 0 : "Delay, in seconds, after 'broken' by pressure before breaking apart (allows for sound to play before breaking apart)."
+	pressuredelay(float) [ group="Breakable Properties" ] : "Pressure Delay" : 0 : "Delay, in seconds, after 'broken' by pressure before breaking apart (allows for sound to play before breaking apart)."
 
 	// Inputs
 	input EnablePhyscannonPickup(void) : "Makes the breakable able to picked up by the physcannon."
@@ -565,11 +510,11 @@
 
 @BaseClass base(Targetname, RenderFields, DamageFilter, ResponseContext, Shadow) color(0 200 200) = BaseNPC
 [
-	target(target_destination) : "Target Path Corner" : : "If set, the name of a path corner entity that this NPC will walk to, after spawning."
-	squadname(String) : "Squad Name" : : "NPCs that are in the same squad (i.e. have matching squad names) will share information about enemies, and will take turns attacking and covering each other."
-	hintgroup(String) : "Hint Group" : "" : "Hint groups are used by NPCs to restrict their hint-node searching to a subset of the map's hint nodes. Only hint nodes with matching hint group names will be considered by this NPC."
-	hintlimiting(boolean) : "Hint Limit Nav" : 0 : "Limits NPC to using specified hint group for navigation requests, but does not limit local navigation."
-	allowgenericnodes(boolean) : "If a Hint Group is specified, whether to also allow the use of generic nodes."
+	target(target_destination) [ group="NPC Properties" ] : "Target Path Corner" : : "If set, the name of a path corner entity that this NPC will walk to, after spawning."
+	squadname(String) [ group="NPC Properties" ] : "Squad Name" : : "NPCs that are in the same squad (i.e. have matching squad names) will share information about enemies, and will take turns attacking and covering each other."
+	hintgroup(String) [ group="NPC Properties" ] : "Hint Group" : "" : "Hint groups are used by NPCs to restrict their hint-node searching to a subset of the map's hint nodes. Only hint nodes with matching hint group names will be considered by this NPC."
+	hintlimiting(boolean) [ group="NPC Properties" ] : "Hint Limit Nav" : 0 : "Limits NPC to using specified hint group for navigation requests, but does not limit local navigation."
+	allowgenericnodes(boolean) [ group="NPC Properties" ] : "If a Hint Group is specified, whether to also allow the use of generic nodes."
 
 	spawnflags(Flags) = 
 	[
@@ -588,8 +533,8 @@
 		16384 : "Ignore player push (dont give way to player)" : 0
 	]
 
-	//initialidle(string) : "Initial Idle Activity" :: "Activity the NPC should use to idle until becomes alert"
-	sleepstate(choices) : "Sleep State" : 0 : "Holds the NPC in stasis until specified condition. See also 'Wake Radius' and 'Wake Squad'." =
+	//initialidle(string) [ group="NPC Properties" ] : "Initial Idle Activity" :: "Activity the NPC should use to idle until becomes alert"
+	sleepstate(choices) [ group="NPC Properties" ] : "Sleep State" : 0 : "Holds the NPC in stasis until specified condition. See also 'Wake Radius' and 'Wake Squad'." =
 	[
 		0 : "None"
 		1 : "Waiting for threat"
@@ -599,16 +544,16 @@
 		5 : "Auto PVS after PVS"
 	]
 
-	wakeradius(float) : "Wake Radius" : 0 : "Auto-wake if player within this distance"
-	wakesquad(boolean) : "Wake Squad" : 0 : "Wake all of the NPCs squadmates if the NPC is woken"
+	wakeradius(float) [ group="NPC Properties" ] : "Wake Radius" : 0 : "Auto-wake if player within this distance"
+	wakesquad(boolean) [ group="NPC Properties" ] : "Wake Squad" : 0 : "Wake all of the NPCs squadmates if the NPC is woken"
 
-	enemyfilter(target_destination) : "Enemy Filter" : "" : "Filter by which to filter potential enemies"
+	enemyfilter(target_destination) [ group="NPC Properties" ] : "Enemy Filter" : "" : "Filter by which to filter potential enemies"
 
-	ignoreunseenenemies(boolean) : "Ignore unseen enemies" : 0 : "Prefer visible enemies, regardless of distance or relationship priority"
+	ignoreunseenenemies(boolean) [ group="NPC Properties" ] : "Ignore unseen enemies" : 0 : "Prefer visible enemies, regardless of distance or relationship priority"
 
-	physdamagescale(float) : "Physics Impact Damage Scale" : "1.0" : "Scales damage energy when this character is hit by a physics object. With a value of 0 the NPC will take no damage from physics."
+	physdamagescale(float) [ group="Physics Properties" ] : "Physics Impact Damage Scale" : "1.0" : "Scales damage energy when this character is hit by a physics object. With a value of 0 the NPC will take no damage from physics."
 
-	NavRestrictionVolume(target_destination) : "Nav Restriction Volume" : "" : "Markup volume entity to restrict unit navigation"
+	NavRestrictionVolume(target_destination) [ group="NPC Properties" ] : "Nav Restriction Volume" : "" : "Markup volume entity to restrict unit navigation"
 
 	// Outputs
 	output OnDamaged(void) : "Fired when this NPC takes damage."
@@ -813,7 +758,7 @@
 
 @BaseClass = Node 
 [
-	nodeid(node_id) readonly : "Node ID"
+	nodeid(node_id) [readonly] : "Node ID"
 ]
 
 @BaseClass base(Node) = HintNode 
@@ -1016,7 +961,7 @@
 
 @PointClass base(Targetname, Parentname) iconsprite("editor/ambient_generic.vmat") sphere() = ambient_generic : "Universal ambient sound. Use it to play and control a single sound."
 [
-	message(sound) report : "Sound Name" : "" : "Name of the GameSound entry for the sound to play. Also supports direct .wav filenames."
+	message(sound) [report] : "Sound Name" : "" : "Name of the GameSound entry for the sound to play. Also supports direct .wav filenames."
 	health(integer) : "Volume" : 10 : "Sound volume, expressed as a range from 0 to 10, where 10 is the loudest."
 	preset(choices) :"Dynamic Presets" : 0 =						// NEEDHELP
 	[
@@ -1084,7 +1029,7 @@
 @PointClass base(Targetname, Parentname) iconsprite("editor/ambient_generic.vmat") = point_soundevent :
 	"Plays a sound event from a point. The point can be this entity or a specified entity's position."
 [
-	soundName(string) : "Sound Event Name" : "" : "Name of the sound event to play"
+	soundName(sound) : "Sound Event Name" : "" : "Name of the sound event to play"
 	sourceEntityName(target_destination) : "Source Entity Name" : "" : "Name of the entity the sound should emit from."
 	startOnSpawn(boolean) : "Start On Spawn" : "" : "Play the sound immediately upon spawning"
 	alwaysTransmitToClient(boolean) : "Always Transmit To Client" : "" : "Always transmit this entity to the client. Use when this entity moves around or is parented to an entity that will move."
@@ -1460,7 +1405,7 @@
 	FadeDist(integer) : "Fade End Distance"   : 512 : "When the viewer is at this distance, the portal becomes solid and closes off."
 	TranslucencyLimit(string) : "Translucency limit"  : "0" : "This value limits the translucency of the bmodel and prevents it from becoming invisible when the viewer is right on top of it."
 	BackgroundBModel(string) : "Foreground bmodel"   : "" : "(Optional) brush model that is drawn after the fading brush model. This model should have alpha in its textures so you can see through it."
-	PortalVersion(integer)	readonly	: "Portal Version"      : 1  : "(Don't change). Differentiates between shipping HL2 maps and maps using new engine features."
+	PortalVersion(integer)	[readonly]	: "Portal Version"      : 1  : "(Don't change). Differentiates between shipping HL2 maps and maps using new engine features."
 	
 	// Inputs
 	input SetFadeStartDistance(integer) : "Set fade start distance."
@@ -1611,7 +1556,7 @@
 		1 : "Not Solid" : 0
 	]
 	model(studio) : "Model"
-	skin(choices) : "Skin" : "0" : "Some models have multiple versions of their textures, called skins. This is programmatically populated from the model. The FGD data is unused!" =
+	skin(choices) [ group="Misc" ] : "Skin" : "0" : "Some models have multiple versions of their textures, called skins. This is programmatically populated from the model. The FGD data is unused!" =
 	[
 		"0" : "Ignored by the modelhelper code"
 	]
@@ -2591,7 +2536,7 @@
 		1: "All Players" : 0
 	]
 
-	message(string) report : "Message Text" : "" : "Message to display onscreen."
+	message(string) [report] : "Message Text" : "" : "Message to display onscreen."
 	x(string) : "X (0 - 1.0 = left to right) (-1 centers)" : "-1" : "Horizontal position on the player's screens to draw the text. The value should be between 0 and 1, where 0 is the far left of the screen and 1 is the far right. -1 centers the text."
 	y(string) : "Y (0 - 1.0 = top to bottom) (-1 centers)" : "-1" : "Vertical position on the player's screens to draw the text. The value should be between 0 and 1, where 0 is the top of the screen and 1 is the bottom. -1 centers the text."
 	effect(Choices) : "Text Effect" : 0 =
@@ -2619,19 +2564,6 @@
 	input Display(void) : "Display the message text."
 	input SetText(string) : "Set the text to display."
 ]
-
-
-@pointclass = player_manager
-[
-	name_component(CNameComponent)
-]
-
-
-@pointclass = team_manager
-[
-	name_component(CNameComponent)
-]
-
 
 @PointClass base(Parentname) size(-2 -2 -2, 2 2 2) = point_enable_motion_fixup : 
 	"An entity used to move a motion-disabled prop when it enables motion. Parent this entity to the prop, and when the prop has its motion enabled, it will immediately teleport to the origin of this entity."
@@ -2891,9 +2823,9 @@
 	endv(float) : "V End" : "1.0"
 	centeru(float) : "Center U" : "0.5"
 	centerv(float) : "Center V" : "0.5"
-	fademindist(float) : "Start Fade Dist" : -1 : "Distance at which the overlay starts to fade (<0 = use fademaxdist)."
-	fademaxdist(float) : "End Fade Dist" : 0 : "Maximum distance at which the overlay is visible (0 = don't fade out)."
-	rendercolor(color255) : "Color (R G B)" : "255 255 255"
+	fademindist(float) [ group="Render Properties" ] : "Start Fade Dist" : -1 : "Distance at which the overlay starts to fade (<0 = use fademaxdist)."
+	fademaxdist(float) [ group="Render Properties" ] : "End Fade Dist" : 0 : "Maximum distance at which the overlay is visible (0 = don't fade out)."
+	rendercolor(color255) [ group="Render Properties" ] : "Color (R G B)" : "255 255 255"
 	disablelowviolence(choices) : "Turn Off in Low-Violence" : 0 =
 	[
 		0: "No"
@@ -3593,6 +3525,8 @@
 	output OnUseLocked(void) : "Fired when the button is used while locked."
 	output OnIn(void) : "Fired when the button reaches the in/pressed position."
 	output OnOut(void) : "Fired when the button reaches the out/released position."
+
+    displaytext(string) : "Display Text" : : "Place localization text here and it will be displayed in tooltips, etc."
 ]
 
 @SolidClass base(Targetname, Parentname, RenderFields,DamageFilter, Button) = func_button : 
@@ -3932,9 +3866,9 @@
 
 @BaseClass = BaseFadeProp
 [
-	fademindist(float) : "Start Fade Dist" : -1 : "Distance at which the prop starts to fade (<0 = subtract from fademaxdist)."
-	fademaxdist(float) : "End Fade Dist" : 0 : "Max fade distance at which the prop is visible (0 = don't fade out)"
-	fadescale(float) : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360, then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
+	fademindist(float) [ group="Render Properties" ] : "Start Fade Dist" : -1 : "Distance at which the prop starts to fade (<0 = subtract from fademaxdist)."
+	fademaxdist(float) [ group="Render Properties" ] : "End Fade Dist" : 0 : "Max fade distance at which the prop is visible (0 = don't fade out)"
+	fadescale(float) [ group="Render Properties" ] : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360, then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
 												 " This scale factor gives you some control over the fade. Using 0 here turns off the forcible fades." +
 												 " Numbers smaller than 1 cause the prop to fade out at further distances, and greater than 1 cause it to fade out at closer distances."
 ]
@@ -4399,15 +4333,13 @@
 ]
 
 
-@PointClass base(EnableDisable) iconsprite("editor/logic_relay.vmat") = logic_relay :
+@PointClass base(Targetname, EnableDisable) iconsprite("editor/logic_relay.vmat") = logic_relay :
 	"A message forwarder. Fires an OnTrigger output when triggered, and " +
 	"can be disabled to prevent forwarding outputs.\n\n" +
 	"Useful as an intermediary between one entity and another for turning " +
 	"on or off an I/O connection, or as a container for holding a set of " +
 	"outputs that can be triggered from multiple places."
 [
-	name_component(CNameComponent)
-	
 	TriggerOnce(boolean) : "Trigger Once" : 0 : "Deletes the logic relay after firing an OnTrigger() or a connected OnSpawn() output"
 	FastRetrigger(boolean) : "Fast Retrigger" : 0 : "Without this, the logic_relay will wait until all inputs connected to OnTrigger() have fired before retriggering"
 	PassthroughCaller(boolean) : "Pass through caller" : 0 : "When enabled, this logic_relay will be ignored by !caller in downstream IO connections. Instead, the previous caller in the IO chain will be found by !caller."
@@ -5739,8 +5671,8 @@
 
 @BaseClass base(SystemLevelChoice) = prop_static_base
 [
-	model(studio) report : "World Model"
-	skin(choices) : "Skin" : "0" : "Some models have multiple versions of their textures, called skins. This is programmatically populated from the model. The FGD data is unused!" =
+	model(studio) [report] : "World Model"
+	skin(choices) [ group="Misc" ] : "Skin" : "0" : "Some models have multiple versions of their textures, called skins. This is programmatically populated from the model. The FGD data is unused!" =
 	[
 		"0" : "Ignored by the modelhelper code"
 	]
@@ -5750,18 +5682,18 @@
 		"SOLID_BBOX" : "Use Bounding Box"
 		"SOLID_VPHYSICS" : "Use VPhysics"
 	]
-	disableshadows(boolean) : "Disable Shadows" : 0
-	fademindist(float) : "Start Fade Dist/Pixels" : -1 : "Distance at which the prop starts to fade (<0 = subtract from fademaxdist)."
-	fademaxdist(float) : "End Fade Dist/Pixels" : 0 : "Maximum distance at which the prop is visible (0 = don't fade out)."
-	fadescale(float) : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360, then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable Shadows" : 0
+	fademindist(float) [ group="Render Properties" ] : "Start Fade Dist/Pixels" : -1 : "Distance at which the prop starts to fade (<0 = subtract from fademaxdist)."
+	fademaxdist(float) [ group="Render Properties" ] : "End Fade Dist/Pixels" : 0 : "Maximum distance at which the prop is visible (0 = don't fade out)."
+	fadescale(float) [ group="Render Properties" ] : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under low end/medium end/XBox360, then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
 		 " This scale factor gives you some control over the fade. Using 0 here turns off the forcible fades." +
 		 " Numbers smaller than 1 cause the prop to fade out at further distances," +
 		 " and greater than 1 cause it to fade out at closer distances."
-	detailgeometry(boolean) : "Detail Geometry" : 0 : "If true this geometry is not important for precomputed visibility and indirect lighting"	
-	renderamt(integer) : "Alpha" : 255 : "Alpha of the fade, where 0 = fully transparent and 255 = fully opaque." 
-	rendercolor(color255) : "Color (R G B)" : "255 255 255"
+	detailgeometry(boolean) [ group="Render Properties" ] : "Detail Geometry" : 0 : "If true this geometry is not important for precomputed visibility and indirect lighting"	
+	renderamt(integer) [ group="Render Properties" ] : "Alpha" : 255 : "Alpha of the fade, where 0 = fully transparent and 255 = fully opaque." 
+	rendercolor(color255) [ group="Render Properties" ] : "Color (R G B)" : "255 255 255"
 
-	disablelowviolence(choices) : "Turn Off in Low-Violence" : 0 =
+	disablelowviolence(choices) [ group="Render Properties" ] : "Turn Off in Low-Violence" : 0 =
 	[
 		0: "No"
 		1: "Yes"
@@ -5840,34 +5772,34 @@
 
 @PointClass color(255 255 0) line(255 0 255, targetname, cubemap) sphere(fademindist) sphere(fademaxdist) model(static) = prop_static
 [
-	model(resource:model) report : "World Model"
+	model(resource:model) [report] : "World Model"
 	solid(choices) : "Collisions" : 6 =
 	[
 		0: "Not Solid"
 		2: "Use Bounding Box"
 		6: "Use VPhysics"
 	]
-	disableshadows(boolean) : "Disable Shadows" : 0
-	screenspacefade(boolean) : "Screen Space Fade" : 0 : "The method by which the fading distance should be determined. If 'No', the fade distances is the distance from the player's view to the object, in inches. If 'Yes', the fade distance is the size of the object onscreen, in pixels."
+	disableshadows(boolean) [ group="Render Properties" ] : "Disable Shadows" : 0
+	screenspacefade(boolean) [ group="Render Properties" ] : "Screen Space Fade" : 0 : "The method by which the fading distance should be determined. If 'No', the fade distances is the distance from the player's view to the object, in inches. If 'Yes', the fade distance is the size of the object onscreen, in pixels."
 
-	skin(choices) : "Skin" : "0" : "Some models have multiple versions of their textures, called skins. This is programmatically populated from the model. The FGD data is unused!" =
+	skin(choices) [ group="Misc" ] : "Skin" : "0" : "Some models have multiple versions of their textures, called skins. This is programmatically populated from the model. The FGD data is unused!" =
 	[
 		"0" : "Ignored by the modelhelper code"
 	]
 
-	fademindist(float) : "Start Fade Dist/Pixels" : -1 : "Distance at which the prop starts to fade (<0 = use fademaxdist). If 'Screen Space Fade' is selected, this represents the number of pixels wide covered by the prop when it starts to fade."
-	fademaxdist(float) : "End Fade Dist/Pixels" : 0 : "Maximum distance at which the prop is visible (0 = don't fade out). If 'Screen Space Fade' is selected, this represents the *minimum* number of pixels wide covered by the prop when it fades."
-	fadescale(float) : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under dx7 [hl2/ep1/portal] or dx8 [ep2/tf], then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
+	fademindist(float) [ group="Render Properties" ] : "Start Fade Dist/Pixels" : -1 : "Distance at which the prop starts to fade (<0 = use fademaxdist). If 'Screen Space Fade' is selected, this represents the number of pixels wide covered by the prop when it starts to fade."
+	fademaxdist(float) [ group="Render Properties" ] : "End Fade Dist/Pixels" : 0 : "Maximum distance at which the prop is visible (0 = don't fade out). If 'Screen Space Fade' is selected, this represents the *minimum* number of pixels wide covered by the prop when it fades."
+	fadescale(float) [ group="Render Properties" ] : "Fade Scale" : 1 : "If you specify a fade in the worldspawn, or if the engine is running under dx7 [hl2/ep1/portal] or dx8 [ep2/tf], then the engine will forcibly fade out props even if fademindist/fademaxdist isn't specified." +
 		" This scale factor gives you some control over the fade. Using 0 here turns off the forcible fades." +
 		" Numbers smaller than 1 cause the prop to fade out at further distances," +
 		"and greater than 1 cause it to fade out at closer distances."
 	detailgeometry(boolean) : "Detail Geometry" : 0 : "If true this geometry is not important for precomputed visibility and indirect lighting"	
 	baketoworld(boolean) : "Bake To World" : 0 : "If true this geometry will be baked into the world geometry of the map so that the model is not referenced at runtime."
-	renderamt(integer) : "Alpha" : 255 : "Alpha of the fade, where 0 = fully transparent and 255 = fully opaque." 
-	rendercolor(color255) : "Color (R G B)" : "255 255 255"
-	cubemap(target_destination) : "Cube Map" : ""
-	materialoverride(material) : "Override Material" : ""
-	disableinlowquality(boolean) : "Disable in low quality mode" : "Do not render this prop when using the lowest quality video settings, it is an non-essential detail."
+	renderamt(integer) [ group="Render Properties" ] : "Alpha" : 255 : "Alpha of the fade, where 0 = fully transparent and 255 = fully opaque." 
+	rendercolor(color255) [ group="Render Properties" ] : "Color (R G B)" : "255 255 255"
+	cubemap(target_destination) [ group="Render Properties" ] : "Cube Map" : ""
+	materialoverride(material) [ group="Render Properties" ] : "Override Material" : ""
+	disableinlowquality(boolean) [ group="Render Properties" ] : "Disable in low quality mode" : "Do not render this prop when using the lowest quality video settings, it is an non-essential detail."
 ]
 
 
@@ -5889,7 +5821,7 @@
 
 @BaseClass base(Targetname, Global, CanBeClientOnly, Studiomodel, BreakableProp, SystemLevelChoice, Glow) = BasePropPhysics
 [ 
-	spawnflags(flags) = 
+	spawnflags(flags) [ group="Physics Properties" ] = 
 	[
 		1 : "Start Asleep" : 0
 		2 : "Don't take physics damage" : 0
@@ -5906,31 +5838,31 @@
 		1048576: "Physgun can ALWAYS pick up. No matter what." : 0
 	]
 	
-	minhealthdmg(integer) : "Min Damage to Hurt" : 0 : "The prop will ignore any damage events if the damage is less than this amount."
-	shadowcastdist(integer) : "Shadow Cast Distance" : 0 : "Use this to override how far this object casts shadows. 0 = default distance."
-	physdamagescale(float) : "Physics Impact Damage Scale" : "0.1" : "Scales damage energy when this object is hit by a physics object. NOTE: 0 means this feature is disabled for backwards compatibility.\nSet to 1.0 for materials as strong as flesh, smaller numbers indicate stronger materials."
-	Damagetype(choices) : "Impact damage type" : 0 =
+	minhealthdmg(integer) [ group="Physics Properties" ] : "Min Damage to Hurt" : 0 : "The prop will ignore any damage events if the damage is less than this amount."
+	shadowcastdist(integer) [ group="Physics Properties" ] : "Shadow Cast Distance" : 0 : "Use this to override how far this object casts shadows. 0 = default distance."
+	physdamagescale(float) [ group="Physics Properties" ] : "Physics Impact Damage Scale" : "0.1" : "Scales damage energy when this object is hit by a physics object. NOTE: 0 means this feature is disabled for backwards compatibility.\nSet to 1.0 for materials as strong as flesh, smaller numbers indicate stronger materials."
+	Damagetype(choices) [ group="Physics Properties" ] : "Impact damage type" : 0 =
 	[
 		0: "Blunt"
 		1: "Sharp"
 	]
 
-	nodamageforces(choices) : "Damaging it Doesn't Push It" : 0 : "Used to determine whether or not damage should cause the brush to move." =
+	nodamageforces(choices) [ group="Physics Properties" ] : "Damaging it Doesn't Push It" : 0 : "Used to determine whether or not damage should cause the brush to move." =
 	[
 		0: "No"
 		1: "Yes"
 	]
 
-	inertiaScale(float) : "Scale Factor For Inertia" : "1.0" : "Scales the angular mass of an object. Used to hack angular damage and collision response."
-	massScale(float) : "Mass Scale" : "0" : "A scale multiplier for the object's mass."
-	overridescript(string) : "Override Parameters" : "" : "A list of physics key/value pairs that are usually in a physics prop .qc file. Format is 'key,value,key,value,etc'."
-	damagetoenablemotion(integer) : "Health Level to Override Motion" : 0 : "If specified, this object will start motion disabled. Once its health has dropped below this specified amount, it will enable motion."
-	forcetoenablemotion(float) : "Physics Impact Force to Override Motion" : 0 : "If specified, this object will start motion disabled. Any impact that imparts a force greater than this value on the physbox will enable motion."
+	inertiaScale(float) [ group="Physics Properties" ] : "Scale Factor For Inertia" : "1.0" : "Scales the angular mass of an object. Used to hack angular damage and collision response."
+	massScale(float) [ group="Physics Properties" ] : "Mass Scale" : "0" : "A scale multiplier for the object's mass."
+	overridescript(string) [ group="Physics Properties" ] : "Override Parameters" : "" : "A list of physics key/value pairs that are usually in a physics prop .qc file. Format is 'key,value,key,value,etc'."
+	damagetoenablemotion(integer) [ group="Physics Properties" ] : "Health Level to Override Motion" : 0 : "If specified, this object will start motion disabled. Once its health has dropped below this specified amount, it will enable motion."
+	forcetoenablemotion(float) [ group="Physics Properties" ] : "Physics Impact Force to Override Motion" : 0 : "If specified, this object will start motion disabled. Any impact that imparts a force greater than this value on the physbox will enable motion."
 	
-	puntsound(sound) : "Sound to make when punted"
+	puntsound(sound) [ group="Physics Properties" ] : "Sound to make when punted"
 
-	addon(string) : "AI AddOn" : "" : "If specified this object will use this addon behavior when installed in a composite AI"
-	interactAs(string) : "interactAs" : "" : "comma-separated list of interaction layers"
+	addon(string) [ group="Physics Properties" ] : "AI AddOn" : "" : "If specified this object will use this addon behavior when installed in a composite AI"
+	interactAs(string) [ group="Physics Properties" ] : "interactAs" : "" : "comma-separated list of interaction layers"
 
 	// Inputs
 	input Wake(void) : "Wake up this physics object, if it is sleeping."
@@ -5978,13 +5910,13 @@
 	"used as a prop_physics. Upon level load it will display a warning in the console and remove itself. Use a prop_dynamic instead."
 [
 	// FGDFIXME: this is an Ep3 only feature
-	ExploitableByPlayer(choices) : "Exploitable by Player" : 0 =
+	ExploitableByPlayer(choices) [ group="Misc" ] : "Exploitable by Player" : 0 =
 	[
 		0: "Default"
 		1: "Explosive"
 	]
 
-	CollisionGroupOverride(choices) : "Collsion Group Override" : -1 =
+	CollisionGroupOverride(choices) [ group="Misc" ] : "Collision Group Override" : -1 =
 	[
 		-1: "UNUSED"
 		0: "COLLISION_GROUP_ALWAYS"
@@ -6066,7 +5998,7 @@
 		1 : "Open"
 	]
 
-	PortalVersion(integer)	readonly	: "Portal Version"      : 1  : "(Don't change). Differentiates between shipping HL2 maps and maps using new engine features."
+	PortalVersion(integer)	[readonly]	: "Portal Version"      : 1  : "(Don't change). Differentiates between shipping HL2 maps and maps using new engine features."
 
 	// Inputs
 	input Open(void) : "Open the portal. When the portal is open is can be seen through."
@@ -6078,9 +6010,10 @@
 	"A brush entity that can be broken from damage, or an input." 
 [
 	minhealthdmg(integer) : "Min Damage to Hurt" : 0 : "The prop will ignore any damage events if the damage is less than this amount."
+	gamemass(integer) : "Game Mass Override" : 0 : "Set the game mass by hand instead of using the code defaults."
 
 	_minlight(string) : "Minimum Light Level" : : "The minimum level of ambient light that hits this brush."
-	physdamagescale(float) : "Physics Impact Damage Scale" : "1.0" : "Scales damage energy when this object is hit by a physics object. NOTE: 0 means this feature is disabled for backwards compatibility.\nSet to 1.0 for materials as strong as flesh, smaller numbers indicate stronger materials."
+	physdamagescale(float) [ group="Physics Properties" ] : "Physics Impact Damage Scale" : "1.0" : "Scales damage energy when this object is hit by a physics object. NOTE: 0 means this feature is disabled for backwards compatibility.\nSet to 1.0 for materials as strong as flesh, smaller numbers indicate stronger materials."
 ]
 
 @SolidClass base(Targetname, Parentname, RenderFields, Shadow) = func_conveyor : 
@@ -7504,4 +7437,21 @@
 [
 ]
 
+@PointClass base(Targetname, Parentname) editormodel("models/editor/sky_helper") global( sky ) skybox() = env_sky : 
+	"Controls the sky."
+[
+	skyname(resource:material) [report] : "Sky Material" : "materials/dev/default_sky.vmat"
+	tint_color(color255) : "Skybox Tint Color" : "255 255 255" : "Tint the skybox"
 
+	fog_type(choices) : "Fog Type" : 1 =
+	[
+		0: "None"
+		1: "Distance Based"
+		2: "Angular"
+	]
+
+	angular_fog_min_start( float ) : "Fog Min Angle Start" : "-25.0"
+	angular_fog_min_end( float ) : "Fog Min Angle End" : "-35.0"
+	angular_fog_max_start( float ) : "Fog Max Angle Start" : "25.0"
+	angular_fog_max_end( float ) : "Fog Max Angle End" : "35.0"
+]

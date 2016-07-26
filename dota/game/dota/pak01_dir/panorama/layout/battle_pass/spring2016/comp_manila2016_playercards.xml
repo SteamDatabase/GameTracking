@@ -42,17 +42,34 @@
 	<DOTACompManila2016PlayerCardsPage class="DashboardPage" hittest="false">
 		<Panel id="CompendiumBody" class="CompendiumBody">
 			<Panel id="PlayerCardsHeader">
-				<Panel class="LeftRightFlow LeftAlign MiddleAlign">
+				<DOTAScenePanel id="CardToDust" map="scenes/ui_card_to_dust" camera="camera_1" hittest="false"/>
+				<DOTAScenePanel id="DustButton" map="scenes/ui_dust_button" camera="camera_1" hittest="false"/>
+				<Panel id="Counts" class="LeftRightFlow LeftAlign MiddleAlign">
 					<Button id="OpenPackButton" class="ButtonBevel" onactivate="DOTAOpenPlayerCardPack(14)"><Label text="#DOTA_PlayerCardsOpenPack"/></Button>
-					<Label id="PackCount" text="#DOTA_PlayerCardsPackCount"/>
-				</Panel>
 
+					<Panel id="CountContainer" class="LeftRightFlow">
+						<Label id="PackCount" class="CountLabel MonoNumbersFont" text="#DOTA_PlayerCardsPackCount"/>
+						<Label id="PackCountStale" class="CountLabel MonoNumbersFont" text="#DOTA_PlayerCardsPackCountFrozen"/>
+						<Label class="CountLabel" text="#DOTA_PlayerCardsPackUnopenedPacks"/>
+					</Panel>
+					
+				</Panel>
 				<Panel class="LeftRightFlow RightAlign MiddleAlign">
 					<Label id="DustCount" text="#DOTA_PlayerCardsDustCount"/>
-					<Button id="BuyPackButton" class="ButtonBevel" onactivate="DOTABuyPlayerCardPack(14)"><Label text="#DOTA_PlayerCardsBuyPack"/></Button>
+					<Panel id="DustButtonContainer">
+						<Button id="BuyPackButton" class="ButtonBevel" onactivate="DOTABuyPlayerCardPack(14) DOTAGlobalSceneFireEntityInput( CardToDust, ui_card_to_dust, stop, 0 ); DOTAGlobalSceneFireEntityInput( CardToDust, ui_card_to_dust, start, 1 ) AsyncEvent( 0.1, AddStyle( PlayerCardsHeader,  DustingInProgress ))  AsyncEvent( 1.25, RemoveStyle( PlayerCardsHeader,  DustingInProgress ))"><Label text="#DOTA_PlayerCardsBuyPack"/></Button>
+						<Button id="BuyButtonBlocker" hittest="true"/>
+					</Panel>
 				</Panel>
 			</Panel>
-			<Label id="FantasyLabel" text="#DOTA_PlayerCard_Fantasy" onactivate="DOTAShowCompManila2016FantasyPage( -1 )"/>
+			<Panel id="FantasyLabelContainer" class="">
+				<Panel class="LeftRightFlow">
+					<Label id="FantasyLabel" text="#DOTA_PlayerCard_FantasyLabel"/>
+					<Label id="FantasyLabelLink" text="#DOTA_PlayerCard_Fantasy" onactivate="DOTAShowCompManila2016FantasyPage( -1 )"/>
+				</Panel>
+					<TextButton id="temp" text="Test Dust" class="ButtonBevel" onactivate="DOTAGlobalSceneFireEntityInput( CardToDust, ui_card_to_dust, stop, 0 ); DOTAGlobalSceneFireEntityInput( CardToDust, ui_card_to_dust, start, 1 )  AsyncEvent( 0.1, AddStyle( CompendiumBody,  DustingInProgress ))  AsyncEvent( 1.27, RemoveStyle( CompendiumBody,  DustingInProgress ))"/>
+			</Panel>	
+			
 
 			<!--Button class="PopupButton Red" onactivate="DOTADeleteAllPlayerCards(14)"><Label text="!!! Delete All Player Cards !!!"/></Button-->
 			

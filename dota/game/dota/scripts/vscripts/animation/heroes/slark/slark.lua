@@ -77,7 +77,89 @@ model:CreateSequence(
 		}
 	}
 )
+model:CreateSequence(
+	{
+		name = "run_latch",
+		sequences = {
+			{ "@run_latch" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 10 },
+			{ name = "latch", weight = 1 }
+		}
+	}
+)
 
+model:CreateSequence(
+	{
+		name = "run_latch",
+		sequences = {
+			{ "@run_latch" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 10 },
+			{ name = "latch", weight = 1 }
+		}
+	}
+)
+
+
+
+model:CreateSequence(
+	{
+		name = "run_latch_slash",
+		sequences = {
+			{ "@run_latch_slash" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "latch", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "run_injured_latch",
+		sequences = {
+			{ "@run_injured_latch" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "latch", weight = 1 },
+			{ name = "injured", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "shadow_dance_latch",
+		sequences = {
+			{ "@shadow_dance_latch" }
+		},
+		addlayer = {
+			"turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "shadow_dance", weight = 1 },
+			{ name = "latch", weight = 1 }
+		}
+	}
+)
 
 model:CreateSequence(
 	{

@@ -173,6 +173,22 @@ model:CreateSequence(
 	}
 )
 
+model:CreateSequence(
+	{
+		name = "lotfl_legion_commander_run_overwhelmingodds_anim",
+		sequences = {
+			{ "@legion_commander_run_overwhelmingodds" }
+		},
+		addlayer = {
+			"run_haste_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "overwhelmingodds", weight = 1 },
+			{ name = "fallen_legion", weight = 1 }
+		}
+	}
+)
 
 
 -- AsLookLayer
@@ -357,6 +373,24 @@ model:CreateSequence(
 			{ name = "ACT_DOTA_RUN", weight = 1 },
 			{ name = "dualwield", weight = 1 },
 			{ name = "overwhelmingodds", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "lotfl_dualwield_legion_commander_run_overwhelmingodds",
+		sequences = {
+			{ "@dualwield_legion_commander_run_overwhelmingodds" }
+		},
+		addlayer = {
+			"dualwield_run_haste_turns"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "dualwield", weight = 1 },
+			{ name = "overwhelmingodds", weight = 1 },
+			{ name = "fallen_legion", weight = 1 }
 		}
 	}
 )

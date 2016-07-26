@@ -389,3 +389,83 @@ model:CreateSequence(
 		}
 	}
 )
+
+model:CreateSequence(
+	{
+		name = "ti6_ability_02_roll_end_anim",
+		sequences = {
+			{ "@ti6_ability_02_roll_end" }
+		},
+		weightlist = "full_body",
+		activities = {
+			{ name = "ACT_DOTA_CAST_ABILITY_2_ES_ROLL_END", weight = 1 },
+			{ name = "jade", weight = 1 }
+		}
+	}
+)
+
+
+model:CreateSequence(
+	{
+		name = "ti6_ability_02_roll_start",
+		sequences = {
+			{ "@ti6_ability_02_roll_start" }
+		},
+		weightlist = "full_body",
+		activities = {
+			{ name = "ACT_DOTA_CAST_ABILITY_2_ES_ROLL_START", weight = 1 },
+			{ name = "jade", weight = 1 }
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "ti6_ability_02_roll_endability_02_roll_end_aggro",
+		sequences = {
+			{ "@ti6_ability_02_roll_end_aggro" }
+		},
+		weightlist = "full_body",
+		activities = {
+			{ name = "ACT_DOTA_CAST_ABILITY_2_ES_ROLL_END", weight = 1 },
+			{ name = "aggressive", weight = 1 },
+			{ name = "jade", weight = 1 },
+		}
+	}
+)
+
+model:CreateSequence(
+	{
+		name = "ti6_ability_02_roll_end_injured",
+		sequences = {
+			{ "@ti6_ability_02_roll_end_injured" }
+		},
+		weightlist = "full_body",
+		activities = {
+			{ name = "ACT_DOTA_CAST_ABILITY_2_ES_ROLL_END", weight = 1 },
+			{ name = "injured", weight = 1 },
+			{ name = "jade", weight = 1 },
+		}
+	}
+)
+
+-- AsTurningRun
+
+model:CreateSequence(
+	{
+		name = "ti6_run_aggro_anim",
+		sequences = {
+			{ "@ti6_run_aggro" }
+		},
+		addlayer = {
+			"turns_aggro"
+		},
+		activities = {
+			{ name = "ACT_DOTA_RUN", weight = 1 },
+			{ name = "aggressive", weight = 1 },
+			{ name = "jade", weight = 1 },
+		}
+	}
+)
+
+
