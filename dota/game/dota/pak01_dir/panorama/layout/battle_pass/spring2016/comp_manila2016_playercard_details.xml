@@ -7,6 +7,14 @@
 	</styles>
 
 	<script>
+		$.Schedule( 0.0, function() {
+			$.RegisterEventHandler( 'DOTAPlayerCardDustedCarousel', $.GetContextPanel(), function( DustedPanel ) {
+				var scenePanel = $( '#DustingProgress' );
+				scenePanel.FireEntityInput( 'ui_dustingprogress', 'stop', '0' );
+				scenePanel.FireEntityInput( 'ui_dustingprogress', 'start', '0' );				
+				$.DispatchEvent( 'PlaySoundEffect', 'playercard.card_to_dust' )
+			} );
+		} );
 	</script>
 
 	<DOTACompManila2016PlayerCardDetailsPopup class="PopupPanel" popupbackground="dim">
@@ -15,11 +23,12 @@
 				<Carousel id="CardCarousel" class="SingleItemCarousel" panels-visible="11" focus="center" x-offset="270px">
 				<!-- dynamically filled with cards -->
 				</Carousel>
+				<DOTAScenePanel id="DustingProgress" map="scenes/ui_dustingprogress" camera="camera_1" hittest="false"/>
 				<CarouselNav class="TransportControls" carouselid="CardCarousel" maxpips="30" />
-				<Button id="RecycleButton" class="ButtonBevel" onactivate="DOTAPlayerCardDetailRecyclePlayerCard()"><Label text="#DOTA_PlayerCardsRecycle"/></Button>
+				<Button id="RecycleButton" class="ButtonBevel" onactivate="DOTAPlayerCardDetailRecyclePlayerCard()"><Label text="#DOTA_PlayerCardsRecycleQ" html="true"/></Button>
 				<Label id="DustCount" text="#DOTA_PlayerCardsDustCountCurrent"/>
 			</Panel>
-			<Button id="CloseButton" class="CloseButton" onactivate="UIPopupButtonClicked()"/>
+			<Button id="CloseButton" class="ButtonBevel" onactivate="UIPopupButtonClicked()"><Label text="#DOTA_Close"/></Button>
 		</Panel>		
 	</DOTACompManila2016PlayerCardDetailsPopup>
 </root>

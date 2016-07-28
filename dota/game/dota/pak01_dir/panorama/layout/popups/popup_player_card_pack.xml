@@ -21,6 +21,9 @@
 	<snippets>
 		<snippet name="PlayerCardContainer">
 			<Panel class="PlayerCardContainer">
+				<Panel id="SpecialCardInfoBox">
+					<Label id="SpecialCardInfo" text="!" onmouseout="UIHideTextTooltip();" onmouseover="UIShowTextTooltip( #DOTA_PlayerCard_StatInfo )"/>
+				</Panel>			
 				<Button id="RecycleButton" class="ButtonBevel">
 					<Label text="#DOTA_PlayerCardsRecycleQ" html="true"/>
 				</Button>
@@ -56,7 +59,7 @@
 
 				<Panel id="BottomSection">
 					<Panel id="NextPackSection">
-						<Button id="NextPackButton" class="ButtonBevel" onactivate="DOTAPlayerCardPackOpenNextPack()">
+						<Button id="NextPackButton" class="ButtonBevel" onactivate="DOTAPlayerCardPackOpenNextPack() AddStyle( CardList, OpenNextPack ) AsyncEvent( 1, RemoveStyle( CardList, OpenNextPack ))  DOTAGlobalSceneFireEntityInput( GodRays, ui_burst_red, stop, 0 ); DOTAGlobalSceneFireEntityInput( GodRays, ui_burst_red, start, 1 );">
 							<Label text="#DOTA_PlayerCard_OpenAnother"/>
 						</Button>
 						<Label id="PacksRemaining" text="#DOTA_PlayerCard_PacksRemaining" class="CenterAlign"/>						
@@ -75,7 +78,7 @@
 						</DOTAScenePanel>
 						
 					</Panel>
-					<Label id="LabelClickToOpen" text="#DOTA_Popup_CardPack_ClickToOpen"/>
+					<Label id="LabelClickToOpen" text="#DOTA_Popup_CardPack_ClickToOpen" hittest="false"/>
 					<Label id="LabelOpening" text="#DOTA_Popup_CardPack_Opening"/>
 				</Panel>
 				<Button id="CancelButton" class="ButtonBevel" onactivate="UIPopupButtonClicked()"><Label text="#DOTA_Cancel"/></Button>
