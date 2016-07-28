@@ -131,7 +131,7 @@
 			"proportionaltoparent"	"1"
 			"labeltext"		"#GameUI_GameMenu_Disconnect"
 			"mouseinputenabled"	"1"
-
+			"keyboardinputenabled"	"0"
 
 			"sound_depressed"	"UI/buttonclick.wav"
 			"sound_released"	"UI/buttonclickrelease.wav"

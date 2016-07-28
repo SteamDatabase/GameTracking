@@ -1255,8 +1255,6 @@ $no_fullbright
 %sRecent NPC speech:
 %s_%short
 %s_STAT
-%s__halloween
-%s__mvm
 %s_blue
 %s_blue_crit
 %s_dx80.%short
@@ -2514,6 +2512,7 @@ $no_fullbright
 .@,ss
 .@,t.
 .@,t7
+.@,unsigned short<
 .@,void-
 .@,void[
 .@,wchar_t+
@@ -3373,7 +3372,7 @@ $no_fullbright
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gamestats_shared.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gc_api.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gc_server.o
-/Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gcmessages-9AAEE930CFDDE8E8.o
+/Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gcmessages-D74479C17E6E3D01.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gcmessages.pb.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_generic_bomb.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_glow.o
@@ -5311,6 +5310,7 @@ $no_fullbright
 333?)\
 333?333?
 33750
+33s?(float
 350.0
 3A$3A
 3A43A
@@ -11761,12 +11761,10 @@ CAttributeManager::NetworkStateChanged_m_iReapplyProvisionParity()
 CAttributeManager::NetworkStateChanged_m_iReapplyProvisionParity(void*)
 CAttributeManager::OnAttributeValuesChanged()
 CAttributeManager::ProvideTo(CBaseEntity*)
-CAttributeManager::RegisterGlobalAttributeModifier(bool (*)(), void (*)(char const*, CUtlConstStringBase<char>*))
 CAttributeManager::RemoveProvider(CBaseEntity*)
 CAttributeManager::StopProvidingTo(CBaseEntity*)
 CAttributeManager::TypedAttribHookValueInternal(CAttribute_String&, CAttribute_String const&, string_t, CBaseEntity const*, IHasAttributes*, CUtlVector<CBaseEntity*, CUtlMemory<CBaseEntity*, int> >*)
 CAttributeManager::m_DataMap
-CAttributeManager::s_vecAttrGlobalModifiers
 CAttributeManager::~CAttributeManager()
 CAttributeManager_DataDescInit::g_DataMapHolder
 CAttribute_DynamicRecipeComponent
@@ -14881,7 +14879,7 @@ CCaptureZoneShim::~CCaptureZoneShim()
 CCaptureZone_DataDescInit::g_DataMapHolder
 CCasualMatchGroupDescription
 CCasualMatchGroupDescription::BMatchIsSafeToLeaveForPlayer(CMatchInfo const*, CMatchInfo::PlayerMatchData_t const*) const
-CCasualMatchGroupDescription::CCasualMatchGroupDescription(EMatchGroup, ConVar*)
+CCasualMatchGroupDescription::CCasualMatchGroupDescription(EMatchGroup, ConVar*, ConVar*)
 CCasualMatchGroupDescription::CCasualProgressionDesc
 CCasualMatchGroupDescription::CCasualProgressionDesc::CCasualProgressionDesc(EMatchGroup)
 CCasualMatchGroupDescription::CCasualProgressionDesc::CCasualProgressionDesc(EMatchGroup)::stepInfo
@@ -32680,6 +32678,7 @@ CTFGCServerSystem::LevelInitPreEntity()
 CTFGCServerSystem::LevelShutdownPostEntity()
 CTFGCServerSystem::MMServerModeChanged()
 CTFGCServerSystem::MatchPlayerAbandonThink()
+CTFGCServerSystem::MatchPlayerEjected(CSteamID, TFMatchLeaveReason)
 CTFGCServerSystem::MvMVictory() -- no lobby, so not sending results to GC
 CTFGCServerSystem::PostInitGC()
 CTFGCServerSystem::PostSOUpdate(CSteamID const&, GCSDK::ESOCacheEvent)
@@ -33888,7 +33887,6 @@ CTFPasstimeLogic::BallHistSampleThink()
 CTFPasstimeLogic::BallPower_PackHealThink()
 CTFPasstimeLogic::BallPower_PackThink()
 CTFPasstimeLogic::BallPower_PowerThink()
-CTFPasstimeLogic::CTFPasstimeLogic()
 CTFPasstimeLogic::CalcProgressFrac() const
 CTFPasstimeLogic::EjectBall(CTFPlayer*, CTFPlayer*)
 CTFPasstimeLogic::EndRoundExpiredTimer()
@@ -33920,12 +33918,14 @@ CTFPasstimeLogic::OneSecStatsUpdateThink()
 CTFPasstimeLogic::ParseSetSection(char const*, SetSectionParams&) const
 CTFPasstimeLogic::PostSpawn()
 CTFPasstimeLogic::Precache()
+CTFPasstimeLogic::ReplicatePackMemberBits()
 CTFPasstimeLogic::RespawnBall()
 CTFPasstimeLogic::Score(CTFPlayer*, int, int, bool)
 CTFPasstimeLogic::SecretRoom_Solve()
 CTFPasstimeLogic::SecretRoom_Spawn()
 CTFPasstimeLogic::SecretRoom_UpdateTv(int)
 CTFPasstimeLogic::SetLastPassTime(CTFPlayer*)
+CTFPasstimeLogic::ShouldEndOvertime() const
 CTFPasstimeLogic::Spawn()
 CTFPasstimeLogic::SpawnBallAtRandomSpawnerThink()
 CTFPasstimeLogic::SpawnBallAtSpawner(CPasstimeBallSpawn*)
@@ -39850,8 +39850,6 @@ CUtlVector<CAnimationLayer, CUtlMemory<CAnimationLayer, int> >::GrowVector(int)
 CUtlVector<CAnimationLayer, CUtlMemory<CAnimationLayer, int> >::~CUtlVector()
 CUtlVector<CAssaultPoint*, CUtlMemory<CAssaultPoint*, int> >::AddToTail(CAssaultPoint* const&)
 CUtlVector<CAssaultPoint*, CUtlMemory<CAssaultPoint*, int> >::~CUtlVector()
-CUtlVector<CAttributeManager::attr_global_modifier_t, CUtlMemoryFixedGrowable<CAttributeManager::attr_global_modifier_t, 1ul, int> >::InsertBefore(int, CAttributeManager::attr_global_modifier_t const&)
-CUtlVector<CAttributeManager::attr_global_modifier_t, CUtlMemoryFixedGrowable<CAttributeManager::attr_global_modifier_t, 1ul, int> >::~CUtlVector()
 CUtlVector<CAttributeManager::cached_attribute_t, CUtlMemory<CAttributeManager::cached_attribute_t, int> >::AddToTail()
 CUtlVector<CAttributeManager::cached_attribute_t, CUtlMemory<CAttributeManager::cached_attribute_t, int> >::~CUtlVector()
 CUtlVector<CBaseCombatCharacter*, CUtlMemory<CBaseCombatCharacter*, int> >::AddToTail(CBaseCombatCharacter* const&)
@@ -39958,6 +39956,7 @@ CUtlVector<CFlexTimingTag, CUtlMemory<CFlexTimingTag, int> >::InsertBefore(int, 
 CUtlVector<CFlexTimingTag, CUtlMemory<CFlexTimingTag, int> >::~CUtlVector()
 CUtlVector<CFmtStrN<256, false>, CUtlMemory<CFmtStrN<256, false>, int> >::~CUtlVector()
 CUtlVector<CFuncLadder*, CUtlMemory<CFuncLadder*, int> >::~CUtlVector()
+CUtlVector<CFuncPasstimeGoal*, CUtlMemory<CFuncPasstimeGoal*, int> >::~CUtlVector()
 CUtlVector<CFunctor*, CUtlMemory<CFunctor*, int> >::~CUtlVector()
 CUtlVector<CGameSaveRestoreInfo::CHashElement, CUtlMemory<CGameSaveRestoreInfo::CHashElement, int> >::GrowVector(int)
 CUtlVector<CGameSaveRestoreInfo::CHashElement, CUtlMemory<CGameSaveRestoreInfo::CHashElement, int> >::~CUtlVector()
@@ -40249,7 +40248,6 @@ CUtlVector<IFlagDetectionZoneAutoList*, CUtlMemory<IFlagDetectionZoneAutoList*, 
 CUtlVector<IFuncForceFieldAutoList*, CUtlMemory<IFuncForceFieldAutoList*, int> >::~CUtlVector()
 CUtlVector<IFuncNavPrerequisiteAutoList*, CUtlMemory<IFuncNavPrerequisiteAutoList*, int> >::~CUtlVector()
 CUtlVector<IFuncNoBuildAutoList*, CUtlMemory<IFuncNoBuildAutoList*, int> >::~CUtlVector()
-CUtlVector<IFuncPasstimeGoalAutoList*, CUtlMemory<IFuncPasstimeGoalAutoList*, int> >::~CUtlVector()
 CUtlVector<IFuncPasstimeGoalieZoneAutoList*, CUtlMemory<IFuncPasstimeGoalieZoneAutoList*, int> >::~CUtlVector()
 CUtlVector<IFuncPasstimeNoBallZoneAutoList*, CUtlMemory<IFuncPasstimeNoBallZoneAutoList*, int> >::~CUtlVector()
 CUtlVector<IFuncPowerupVolumeAutoList*, CUtlMemory<IFuncPowerupVolumeAutoList*, int> >::~CUtlVector()
@@ -40622,7 +40620,6 @@ CUtlVectorDataOps<CUtlVector<vehicle_gear_t, CUtlMemory<vehicle_gear_t, int> >, 
 CUtlVectorDataOps<CUtlVector<vehicle_gear_t, CUtlMemory<vehicle_gear_t, int> >, 10>::MakeEmpty(SaveRestoreFieldInfo_t const&)
 CUtlVectorDataOps<CUtlVector<vehicle_gear_t, CUtlMemory<vehicle_gear_t, int> >, 10>::Restore(SaveRestoreFieldInfo_t const&, IRestore*)
 CUtlVectorDataOps<CUtlVector<vehicle_gear_t, CUtlMemory<vehicle_gear_t, int> >, 10>::Save(SaveRestoreFieldInfo_t const&, ISave*)
-CUtlVectorFixedGrowable<CAttributeManager::attr_global_modifier_t, 1ul>::~CUtlVectorFixedGrowable()
 CUtlVectorUltraConservative<HidingSpot*, CUtlVectorUltraConservativeAllocator>::StaticData()::staticData
 CUtlVectorUltraConservative<HidingSpot*, CUtlVectorUltraConservativeAllocator>::~CUtlVectorUltraConservative()
 CUtlVectorUltraConservative<NavConnect, CUtlVectorUltraConservativeAllocator>::EnsureCapacity(int)
@@ -40746,6 +40743,7 @@ CWarDefinition::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlSt
 CWarDefinition::CWarDefinition()
 CWarDefinition::CWarSideDefinition_t::BInitFromKV(char const*, KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
 CWarDefinition::GetSide(unsigned char) const
+CWarDefinition::IsActive() const
 CWarDefinition::IsValidSide(unsigned char) const
 CWatcherList::AddToList(CBaseEntity*)
 CWatcherList::NotifyPositionChanged(CBaseEntity*)
@@ -45679,6 +45677,7 @@ GetTemplateSaveRestoreBlockHandler()
 GetUInt32
 GetUInt64
 GetUniverse()
+GetUniverse()::steamUniverse
 GetUpgradeStepData(CTFPlayer*, int, int, int&, bool&)
 GetValidParamsKeyFromEvent(char const*, char const*, char const*, KeyValues*)
 GetValue
@@ -45712,10 +45711,6 @@ GlassImpact
 Glitched Circuit Board
 Global Entity %short (%short) not in table!!!
 Global entity found %short, wrong class %short [expects class %short]
-GlobalAttrModifier_IsMvMModeActive()
-GlobalAttrModifier_IsTFHalloweenEventActive()
-GlobalAttrModifier_MvMAttribHookMunger(char const*, CUtlConstStringBase<char>*)
-GlobalAttrModifier_TFHalloweenAttribHookMunger(char const*, CUtlConstStringBase<char>*)
 GlobalEntity_Add(char const*, char const*, GLOBALESTATE)
 GlobalEntity_AddToCounter(int, int)
 GlobalEntity_EnableStateUpdates(bool)
@@ -46357,10 +46352,6 @@ IFuncNoBuildAutoList
 IFuncNoBuildAutoList::IFuncNoBuildAutoList(bool)
 IFuncNoBuildAutoList::m_IFuncNoBuildAutoListAutoList
 IFuncNoBuildAutoList::~IFuncNoBuildAutoList()
-IFuncPasstimeGoalAutoList
-IFuncPasstimeGoalAutoList::IFuncPasstimeGoalAutoList(bool)
-IFuncPasstimeGoalAutoList::m_IFuncPasstimeGoalAutoListAutoList
-IFuncPasstimeGoalAutoList::~IFuncPasstimeGoalAutoList()
 IFuncPasstimeGoalieZoneAutoList
 IFuncPasstimeGoalieZoneAutoList::IFuncPasstimeGoalieZoneAutoList(bool)
 IFuncPasstimeGoalieZoneAutoList::m_IFuncPasstimeGoalieZoneAutoListAutoList
@@ -46517,7 +46508,6 @@ ILocomotion::~ILocomotion()
 IMPORTANT
 IMapEntityFilter
 IMatchGroupDescription
-IMatchGroupDescription::GetMatchSize() const
 IMatchGroupDescription::InitServerSettingsForMatch(CTFLobby const*) const
 IMerasmusAutoList
 IMerasmusAutoList::IMerasmusAutoList(bool)
@@ -48505,7 +48495,7 @@ Match Found: %short
 Match Particle Velocities
 Match player %short dropped before going active
 Match player %short has been absent for signed char combined total of %u seconds, dropping from match
-Match player %short reconnected after %u seconds into slot %double, total disconnected accumulation: %u seconds
+Match player %short reconnected into slot %double, last active %u seconds ago.
 Match state is not in sync with GC, remaining out of MM until lobby is cleaned up
 Match type requires signed char complete match, but match players dropped and we are not requesting late join.  Stopping match.
 MatchGroup_Casual_12v12
@@ -52231,6 +52221,7 @@ SpeakThink
 SpeakerName
 Special Attack
 Specifies the item whitelist file to use.
+Specifies the minimum number of players needed to launch signed char 12v12 match. Set to -1 to disable.
 Spectator
 Speed
 Speed %.f  T/S/B (%.0f/%.0f/%.f)
@@ -52726,6 +52717,9 @@ TAUNTATK_SOLDIER_GRENADE_KILL_WORMSIGN
 TAUNTATK_SPY_FENCING_SLASH_A
 TAUNTATK_SPY_FENCING_SLASH_B
 TAUNTATK_SPY_FENCING_STAB
+TAutoList<CFuncPasstimeGoal>
+TAutoList<CFuncPasstimeGoal>::m_autolist
+TAutoList<CFuncPasstimeGoal>::~TAutoList()
 TAutoList<CPasstimeBallController>
 TAutoList<CPasstimeBallController>::m_autolist
 TAutoList<CPasstimeBallController>::~TAutoList()
@@ -52826,6 +52820,7 @@ TFMatchLeaveReason_AWOL
 TFMatchLeaveReason_GC_REMOVED
 TFMatchLeaveReason_IDLE
 TFMatchLeaveReason_NO_SHOW
+TFMatchLeaveReason_UNSPECIFIED
 TFMatchLeaveReason_VOTE_KICK
 TFParticleEffect
 TFPlayer.AirBlastImpact
@@ -55242,7 +55237,9 @@ ___cxx_global_var_init1274
 ___cxx_global_var_init130
 ___cxx_global_var_init16
 ___cxx_global_var_init169
+___cxx_global_var_init170
 ___cxx_global_var_init18
+___cxx_global_var_init23
 ___cxx_global_var_init24
 ___cxx_global_var_init343
 ___cxx_global_var_init37
@@ -56881,11 +56878,13 @@ _tf_merasmus_speed_recovery_rate
 _tf_merasmus_stun_duration
 _tf_minigame_suddendeath_time
 _tf_mm_match_size_ladder_12v12
+_tf_mm_match_size_ladder_12v12_minimum
 _tf_mm_match_size_ladder_6v6
 _tf_mm_match_size_ladder_9v9
 _tf_mm_match_size_mvm
 _tf_mm_player_disconnect_time_before_abandon
 _tf_mm_player_disconnect_time_forgive_ratio
+_tf_mm_player_disconnect_time_minimum_penalty
 _tf_mm_servermode
 _tf_mm_strict
 _tf_mm_trusted
@@ -57722,7 +57721,7 @@ bag of sugar
 ball_spawn_countdown
 ban_list_group_id
 banana
-banid %double %short;
+banid %double "%short"
 base_boss
 base_gcmessages.proto
 base_gcmessages.proto"X
@@ -58186,7 +58185,6 @@ channel_name
 channel_type
 channels
 chaptertitle
-char restrict;??
 char* std::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_construct<char*>(char*, char*, std::allocator<char> const&, std::forward_iterator_tag)
 charge_impact_damage
 charge_meter_on_hit
@@ -62210,6 +62208,7 @@ guard variable for GetMatchGroupDescription(EMatchGroup const&)::descLadder9v9
 guard variable for GetMatchGroupDescription(EMatchGroup const&)::descMannup
 guard variable for GetReplayGameStatsHelper()::s_Instance
 guard variable for GetSceneManager()::s_SceneManager
+guard variable for GetUniverse()::steamUniverse
 guard variable for GetWarTrackerManager()::trackerManager
 guard variable for IBody::GetEyePosition() const::eye
 guard variable for IBody::GetHullMaxs() const::hullMaxs
@@ -62271,6 +62270,7 @@ guard variable for PlayerLocomotion::GetDesiredLean() const::junk
 guard variable for PlayerLocomotion::GetGroundNormal() const::up
 guard variable for QuestObjectiveManager()::g_QuestObjectiveManager
 guard variable for SelectPartnerTaunt(CTFItemDefinition const*, CTFPlayer*, CTFPlayer*, char const**, char const**)::rpsTaunt
+guard variable for TAutoList<CFuncPasstimeGoal>::m_autolist
 guard variable for TAutoList<CPasstimeBallController>::m_autolist
 guard variable for TheNextBots()::manager
 guard variable for TheTacticalMissions()::manager
@@ -65627,6 +65627,7 @@ kick_reason
 kick_successful
 kickall #TF_Competitive_Disconnect
 kickall #TF_PVE_Disconnect
+kickid "%short" %short
 kickid %double
 kickid %double %short
 kickid %double %short;
@@ -67003,6 +67004,7 @@ m_bPlayerAvoidState
 m_bPlayerControlled
 m_bPlayerDominated
 m_bPlayerDominatingMe
+m_bPlayerIsPackMember
 m_bPlayerReady
 m_bPlayerTargetFOVTrueCone
 m_bPlayerUnderwater
@@ -69163,7 +69165,6 @@ m_nOverlayMaterial
 m_nOverlaySequence
 m_nOverlaySize
 m_nPVSSize
-m_nPackMemberBits
 m_nPanelName
 m_nPauseState
 m_nPendingSequence
@@ -73263,7 +73264,6 @@ r$+r
 r$;p$
 r,+r(
 r,321
-r8ffffff.
 rJff.
 rL+rH
 r_AirboatViewDampenDamp
@@ -75475,11 +75475,13 @@ tf_merasmus_stun_duration
 tf_merasmus_trick_or_treat_prop
 tf_minigame_suddendeath_time
 tf_mm_match_size_ladder_12v12
+tf_mm_match_size_ladder_12v12_minimum
 tf_mm_match_size_ladder_6v6
 tf_mm_match_size_ladder_9v9
 tf_mm_match_size_mvm
 tf_mm_player_disconnect_time_before_abandon
 tf_mm_player_disconnect_time_forgive_ratio
+tf_mm_player_disconnect_time_minimum_penalty
 tf_mm_servermode
 tf_mm_strict
 tf_mm_trusted
@@ -78939,7 +78941,6 @@ typeinfo for IForEachNavArea
 typeinfo for IFuncForceFieldAutoList
 typeinfo for IFuncNavPrerequisiteAutoList
 typeinfo for IFuncNoBuildAutoList
-typeinfo for IFuncPasstimeGoalAutoList
 typeinfo for IFuncPasstimeGoalieZoneAutoList
 typeinfo for IFuncPasstimeNoBallZoneAutoList
 typeinfo for IFuncPowerupVolumeAutoList
@@ -79089,6 +79090,7 @@ typeinfo for SendProp
 typeinfo for SmokeTrail
 typeinfo for SporeExplosion
 typeinfo for SporeTrail
+typeinfo for TAutoList<CFuncPasstimeGoal>
 typeinfo for TAutoList<CPasstimeBallController>
 typeinfo for audioparams_t
 typeinfo for condition_source_t
@@ -81891,7 +81893,6 @@ typeinfo name for IForEachNavArea
 typeinfo name for IFuncForceFieldAutoList
 typeinfo name for IFuncNavPrerequisiteAutoList
 typeinfo name for IFuncNoBuildAutoList
-typeinfo name for IFuncPasstimeGoalAutoList
 typeinfo name for IFuncPasstimeGoalieZoneAutoList
 typeinfo name for IFuncPasstimeNoBallZoneAutoList
 typeinfo name for IFuncPowerupVolumeAutoList
@@ -82041,6 +82042,7 @@ typeinfo name for SendProp
 typeinfo name for SmokeTrail
 typeinfo name for SporeExplosion
 typeinfo name for SporeTrail
+typeinfo name for TAutoList<CFuncPasstimeGoal>
 typeinfo name for TAutoList<CPasstimeBallController>
 typeinfo name for audioparams_t
 typeinfo name for condition_source_t
@@ -85109,7 +85111,6 @@ vtable for IFlagDetectionZoneAutoList
 vtable for IFuncForceFieldAutoList
 vtable for IFuncNavPrerequisiteAutoList
 vtable for IFuncNoBuildAutoList
-vtable for IFuncPasstimeGoalAutoList
 vtable for IFuncPasstimeGoalieZoneAutoList
 vtable for IFuncPasstimeNoBallZoneAutoList
 vtable for IFuncPowerupVolumeAutoList
@@ -85170,6 +85171,7 @@ vtable for SendProp
 vtable for SmokeTrail
 vtable for SporeExplosion
 vtable for SporeTrail
+vtable for TAutoList<CFuncPasstimeGoal>
 vtable for TAutoList<CPasstimeBallController>
 vtable for __cxxabiv1::__class_type_info
 vtable for __cxxabiv1::__enum_type_info

@@ -335,7 +335,7 @@
 			"SupportLabel"
 			{
 				"ControlName"	"Label"
-				"fieldName"		"SupportsLabel"
+				"fieldName"		"SupportLabel"
 				"xpos"			"p0.6"
 				"ypos"			"10"
 				"wide"			"f0"

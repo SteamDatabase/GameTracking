@@ -116,7 +116,6 @@
  B CAttributeLineItemLootList::s_pAttrDef_RandomDropLineItemFooterDesc
  B CAttributeLineItemLootList::s_pAttrDef_RandomDropLineItems
  B CAttributeList_DataDescInit::g_DataMapHolder
- B CAttributeManager::s_vecAttrGlobalModifiers
  B CAttributeManager_DataDescInit::g_DataMapHolder
  B CAttribute_DynamicRecipeComponent::_default_attributes_string_
  B CAttribute_DynamicRecipeComponent::default_instance_
@@ -2032,7 +2031,6 @@
  B IFuncForceFieldAutoList::m_IFuncForceFieldAutoListAutoList
  B IFuncNavPrerequisiteAutoList::m_IFuncNavPrerequisiteAutoListAutoList
  B IFuncNoBuildAutoList::m_IFuncNoBuildAutoListAutoList
- B IFuncPasstimeGoalAutoList::m_IFuncPasstimeGoalAutoListAutoList
  B IFuncPasstimeGoalieZoneAutoList::m_IFuncPasstimeGoalieZoneAutoListAutoList
  B IFuncPasstimeNoBallZoneAutoList::m_IFuncPasstimeNoBallZoneAutoListAutoList
  B IFuncPowerupVolumeAutoList::m_IFuncPowerupVolumeAutoListAutoList
@@ -3302,11 +3300,13 @@
  B tf_merasmus_stun_duration
  B tf_minigame_suddendeath_time
  B tf_mm_match_size_ladder_12v12
+ B tf_mm_match_size_ladder_12v12_minimum
  B tf_mm_match_size_ladder_6v6
  B tf_mm_match_size_ladder_9v9
  B tf_mm_match_size_mvm
  B tf_mm_player_disconnect_time_before_abandon
  B tf_mm_player_disconnect_time_forgive_ratio
+ B tf_mm_player_disconnect_time_minimum_penalty
  B tf_mm_servermode
  B tf_mm_strict
  B tf_mm_trusted
@@ -4682,6 +4682,7 @@
  D SoundCommand_t::m_DataMap
  D SporeExplosion::m_DataMap
  D SporeTrail::m_DataMap
+ D TAutoList<CFuncPasstimeGoal>::m_autolist
  D TAutoList<CPasstimeBallController>::m_autolist
  D TemplateEntityData_t::m_DataMap
  D TheNavAttributeTable
@@ -6318,6 +6319,7 @@
  D guard variable for ISaveRestoreOps* CUtlVectorDataopsInstantiator<5>::GetDataOps<CUtlVector<int, CUtlMemory<int, int> > >(CUtlVector<int, CUtlMemory<int, int> >*)::ops
  D guard variable for ISaveRestoreOps* GetBitstringDataOps<CBitVec<32> >(CBitVec<32>*)::ops
  D guard variable for PlayerLocomotion::GetDesiredLean() const::junk
+ D guard variable for TAutoList<CFuncPasstimeGoal>::m_autolist
  D guard variable for TAutoList<CPasstimeBallController>::m_autolist
  D guard variable for bool CNavMesh::ForAllAreasInRadius<NavAreaCollector>(NavAreaCollector&, Vector const&, float)::searchMarker
  D guard variable for bool CNavMesh::ForAllAreasOverlappingExtent<CCollectAndLabelSpawnRoomAreas>(CCollectAndLabelSpawnRoomAreas&, Extent const&)::searchMarker
@@ -11341,7 +11343,6 @@
  D typeinfo for IFuncForceFieldAutoList
  D typeinfo for IFuncNavPrerequisiteAutoList
  D typeinfo for IFuncNoBuildAutoList
- D typeinfo for IFuncPasstimeGoalAutoList
  D typeinfo for IFuncPasstimeGoalieZoneAutoList
  D typeinfo for IFuncPasstimeNoBallZoneAutoList
  D typeinfo for IFuncPowerupVolumeAutoList
@@ -11491,6 +11492,7 @@
  D typeinfo for SmokeTrail
  D typeinfo for SporeExplosion
  D typeinfo for SporeTrail
+ D typeinfo for TAutoList<CFuncPasstimeGoal>
  D typeinfo for TAutoList<CPasstimeBallController>
  D typeinfo for audioparams_t
  D typeinfo for condition_source_t
@@ -14257,7 +14259,6 @@
  D vtable for IFuncForceFieldAutoList
  D vtable for IFuncNavPrerequisiteAutoList
  D vtable for IFuncNoBuildAutoList
- D vtable for IFuncPasstimeGoalAutoList
  D vtable for IFuncPasstimeGoalieZoneAutoList
  D vtable for IFuncPasstimeNoBallZoneAutoList
  D vtable for IFuncPowerupVolumeAutoList
@@ -14318,6 +14319,7 @@
  D vtable for SmokeTrail
  D vtable for SporeExplosion
  D vtable for SporeTrail
+ D vtable for TAutoList<CFuncPasstimeGoal>
  D vtable for TAutoList<CPasstimeBallController>
  D vtable for condition_source_t
  D vtable for fogparams_t
@@ -17257,7 +17259,6 @@
  R typeinfo name for IFuncForceFieldAutoList
  R typeinfo name for IFuncNavPrerequisiteAutoList
  R typeinfo name for IFuncNoBuildAutoList
- R typeinfo name for IFuncPasstimeGoalAutoList
  R typeinfo name for IFuncPasstimeGoalieZoneAutoList
  R typeinfo name for IFuncPasstimeNoBallZoneAutoList
  R typeinfo name for IFuncPowerupVolumeAutoList
@@ -17407,6 +17408,7 @@
  R typeinfo name for SmokeTrail
  R typeinfo name for SporeExplosion
  R typeinfo name for SporeTrail
+ R typeinfo name for TAutoList<CFuncPasstimeGoal>
  R typeinfo name for TAutoList<CPasstimeBallController>
  R typeinfo name for audioparams_t
  R typeinfo name for condition_source_t
@@ -20349,7 +20351,6 @@
  T CAttributeManager::NetworkStateChanged_m_iReapplyProvisionParity(void*)
  T CAttributeManager::OnAttributeValuesChanged()
  T CAttributeManager::ProvideTo(CBaseEntity*)
- T CAttributeManager::RegisterGlobalAttributeModifier(bool (*)(), void (*)(char const*, CUtlConstStringBase<char>*))
  T CAttributeManager::RemoveProvider(CBaseEntity*)
  T CAttributeManager::StopProvidingTo(CBaseEntity*)
  T CAttributeManager::TypedAttribHookValueInternal(CAttribute_String&, CAttribute_String const&, string_t, CBaseEntity const*, IHasAttributes*, CUtlVector<CBaseEntity*, CUtlMemory<CBaseEntity*, int> >*)
@@ -23108,7 +23109,7 @@
  T CCaptureZoneShim::Touch(CBaseEntity*)
  T CCaptureZoneShim::~CCaptureZoneShim()
  T CCasualMatchGroupDescription::BMatchIsSafeToLeaveForPlayer(CMatchInfo const*, CMatchInfo::PlayerMatchData_t const*) const
- T CCasualMatchGroupDescription::CCasualMatchGroupDescription(EMatchGroup, ConVar*)
+ T CCasualMatchGroupDescription::CCasualMatchGroupDescription(EMatchGroup, ConVar*, ConVar*)
  T CCasualMatchGroupDescription::CCasualProgressionDesc::CCasualProgressionDesc(EMatchGroup)
  T CCasualMatchGroupDescription::CCasualProgressionDesc::GetExperienceForSteamID(CSteamID const&) const
  T CCasualMatchGroupDescription::InitGameRulesSettings() const
@@ -37291,6 +37292,7 @@
  T CTFGCServerSystem::LevelShutdownPostEntity()
  T CTFGCServerSystem::MMServerModeChanged()
  T CTFGCServerSystem::MatchPlayerAbandonThink()
+ T CTFGCServerSystem::MatchPlayerEjected(CSteamID, TFMatchLeaveReason)
  T CTFGCServerSystem::PostInitGC()
  T CTFGCServerSystem::PostSOUpdate(CSteamID const&, GCSDK::ESOCacheEvent)
  T CTFGCServerSystem::PreClientUpdate()
@@ -38361,7 +38363,6 @@
  T CTFPasstimeLogic::BallPower_PackHealThink()
  T CTFPasstimeLogic::BallPower_PackThink()
  T CTFPasstimeLogic::BallPower_PowerThink()
- T CTFPasstimeLogic::CTFPasstimeLogic()
  T CTFPasstimeLogic::CalcProgressFrac() const
  T CTFPasstimeLogic::EjectBall(CTFPlayer*, CTFPlayer*)
  T CTFPasstimeLogic::EndRoundExpiredTimer()
@@ -38393,12 +38394,14 @@
  T CTFPasstimeLogic::ParseSetSection(char const*, SetSectionParams&) const
  T CTFPasstimeLogic::PostSpawn()
  T CTFPasstimeLogic::Precache()
+ T CTFPasstimeLogic::ReplicatePackMemberBits()
  T CTFPasstimeLogic::RespawnBall()
  T CTFPasstimeLogic::Score(CTFPlayer*, int, int, bool)
  T CTFPasstimeLogic::SecretRoom_Solve()
  T CTFPasstimeLogic::SecretRoom_Spawn()
  T CTFPasstimeLogic::SecretRoom_UpdateTv(int)
  T CTFPasstimeLogic::SetLastPassTime(CTFPlayer*)
+ T CTFPasstimeLogic::ShouldEndOvertime() const
  T CTFPasstimeLogic::Spawn()
  T CTFPasstimeLogic::SpawnBallAtRandomSpawnerThink()
  T CTFPasstimeLogic::SpawnBallAtSpawner(CPasstimeBallSpawn*)
@@ -43558,8 +43561,6 @@
  T CUtlVector<CAnimationLayer, CUtlMemory<CAnimationLayer, int> >::~CUtlVector()
  T CUtlVector<CAssaultPoint*, CUtlMemory<CAssaultPoint*, int> >::AddToTail(CAssaultPoint* const&)
  T CUtlVector<CAssaultPoint*, CUtlMemory<CAssaultPoint*, int> >::~CUtlVector()
- T CUtlVector<CAttributeManager::attr_global_modifier_t, CUtlMemoryFixedGrowable<CAttributeManager::attr_global_modifier_t, 1ul, int> >::InsertBefore(int, CAttributeManager::attr_global_modifier_t const&)
- T CUtlVector<CAttributeManager::attr_global_modifier_t, CUtlMemoryFixedGrowable<CAttributeManager::attr_global_modifier_t, 1ul, int> >::~CUtlVector()
  T CUtlVector<CAttributeManager::cached_attribute_t, CUtlMemory<CAttributeManager::cached_attribute_t, int> >::AddToTail()
  T CUtlVector<CAttributeManager::cached_attribute_t, CUtlMemory<CAttributeManager::cached_attribute_t, int> >::~CUtlVector()
  T CUtlVector<CBaseCombatCharacter*, CUtlMemory<CBaseCombatCharacter*, int> >::AddToTail(CBaseCombatCharacter* const&)
@@ -43664,6 +43665,7 @@
  T CUtlVector<CFlexTimingTag, CUtlMemory<CFlexTimingTag, int> >::~CUtlVector()
  T CUtlVector<CFmtStrN<256, false>, CUtlMemory<CFmtStrN<256, false>, int> >::~CUtlVector()
  T CUtlVector<CFuncLadder*, CUtlMemory<CFuncLadder*, int> >::~CUtlVector()
+ T CUtlVector<CFuncPasstimeGoal*, CUtlMemory<CFuncPasstimeGoal*, int> >::~CUtlVector()
  T CUtlVector<CFunctor*, CUtlMemory<CFunctor*, int> >::~CUtlVector()
  T CUtlVector<CGameSaveRestoreInfo::CHashElement, CUtlMemory<CGameSaveRestoreInfo::CHashElement, int> >::GrowVector(int)
  T CUtlVector<CGameSaveRestoreInfo::CHashElement, CUtlMemory<CGameSaveRestoreInfo::CHashElement, int> >::~CUtlVector()
@@ -43957,7 +43959,6 @@
  T CUtlVector<IFuncForceFieldAutoList*, CUtlMemory<IFuncForceFieldAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncNavPrerequisiteAutoList*, CUtlMemory<IFuncNavPrerequisiteAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncNoBuildAutoList*, CUtlMemory<IFuncNoBuildAutoList*, int> >::~CUtlVector()
- T CUtlVector<IFuncPasstimeGoalAutoList*, CUtlMemory<IFuncPasstimeGoalAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncPasstimeGoalieZoneAutoList*, CUtlMemory<IFuncPasstimeGoalieZoneAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncPasstimeNoBallZoneAutoList*, CUtlMemory<IFuncPasstimeNoBallZoneAutoList*, int> >::~CUtlVector()
  T CUtlVector<IFuncPowerupVolumeAutoList*, CUtlMemory<IFuncPowerupVolumeAutoList*, int> >::~CUtlVector()
@@ -44298,7 +44299,6 @@
  T CUtlVectorDataOps<CUtlVector<vehicle_gear_t, CUtlMemory<vehicle_gear_t, int> >, 10>::MakeEmpty(SaveRestoreFieldInfo_t const&)
  T CUtlVectorDataOps<CUtlVector<vehicle_gear_t, CUtlMemory<vehicle_gear_t, int> >, 10>::Restore(SaveRestoreFieldInfo_t const&, IRestore*)
  T CUtlVectorDataOps<CUtlVector<vehicle_gear_t, CUtlMemory<vehicle_gear_t, int> >, 10>::Save(SaveRestoreFieldInfo_t const&, ISave*)
- T CUtlVectorFixedGrowable<CAttributeManager::attr_global_modifier_t, 1ul>::~CUtlVectorFixedGrowable()
  T CUtlVectorUltraConservative<HidingSpot*, CUtlVectorUltraConservativeAllocator>::~CUtlVectorUltraConservative()
  T CUtlVectorUltraConservative<NavConnect, CUtlVectorUltraConservativeAllocator>::EnsureCapacity(int)
  T CUtlVectorUltraConservative<NavConnect, CUtlVectorUltraConservativeAllocator>::FindAndRemove(NavConnect const&)
@@ -44389,6 +44389,7 @@
  T CWarDefinition::CWarDefinition()
  T CWarDefinition::CWarSideDefinition_t::BInitFromKV(char const*, KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
  T CWarDefinition::GetSide(unsigned char) const
+ T CWarDefinition::IsActive() const
  T CWarDefinition::IsValidSide(unsigned char) const
  T CWatcherList::AddToList(CBaseEntity*)
  T CWatcherList::NotifyPositionChanged(CBaseEntity*)
@@ -46607,8 +46608,6 @@
  T IFuncNavPrerequisiteAutoList::~IFuncNavPrerequisiteAutoList()
  T IFuncNoBuildAutoList::IFuncNoBuildAutoList(bool)
  T IFuncNoBuildAutoList::~IFuncNoBuildAutoList()
- T IFuncPasstimeGoalAutoList::IFuncPasstimeGoalAutoList(bool)
- T IFuncPasstimeGoalAutoList::~IFuncPasstimeGoalAutoList()
  T IFuncPasstimeGoalieZoneAutoList::IFuncPasstimeGoalieZoneAutoList(bool)
  T IFuncPasstimeGoalieZoneAutoList::~IFuncPasstimeGoalieZoneAutoList()
  T IFuncPasstimeNoBallZoneAutoList::IFuncPasstimeNoBallZoneAutoList(bool)
@@ -46727,7 +46726,6 @@
  T ILocomotion::Update()
  T ILocomotion::Walk()
  T ILocomotion::~ILocomotion()
- T IMatchGroupDescription::GetMatchSize() const
  T IMatchGroupDescription::InitServerSettingsForMatch(CTFLobby const*) const
  T IMerasmusAutoList::IMerasmusAutoList(bool)
  T IMerasmusAutoList::~IMerasmusAutoList()
@@ -47922,6 +47920,7 @@
  T SweepBoxToStudio(IPhysicsSurfaceProps*, Ray_t const&, CStudioHdr*, mstudiohitboxset_t*, matrix3x4_t**, int, CGameTrace&)
  T Sys_LoadLibrary(char const*, Sys_Flags)
  T Sys_LoadModule(char const*, Sys_Flags)
+ T TAutoList<CFuncPasstimeGoal>::~TAutoList()
  T TAutoList<CPasstimeBallController>::~TAutoList()
  T TE_ArmorRicochet(IRecipientFilter&, float, Vector const*, Vector const*)
  T TE_BSPDecal(IRecipientFilter&, float, Vector const*, int, int)
@@ -51385,6 +51384,7 @@
  b GetSceneManager()::s_SceneManager
  b GetSequenceLinearMotion(CStudioHdr*, int, float const*, Vector*)::__executeCount
  b GetServerBrowser()::pServerBrowser
+ b GetUniverse()::steamUniverse
  b GetWarTrackerManager()::trackerManager
  b GetWorkshopUGC()::bInitUGC
  b IBody::GetEyePosition() const::eye
@@ -52449,6 +52449,7 @@
  b guard variable for GetMatchGroupDescription(EMatchGroup const&)::descMannup
  b guard variable for GetReplayGameStatsHelper()::s_Instance
  b guard variable for GetSceneManager()::s_SceneManager
+ b guard variable for GetUniverse()::steamUniverse
  b guard variable for GetWarTrackerManager()::trackerManager
  b guard variable for IBody::GetEyePosition() const::eye
  b guard variable for IBody::GetViewVector() const::view
@@ -54292,10 +54293,6 @@
  t GetAllChildren_r(CBaseEntity*, CUtlVector<CBaseEntity*, CUtlMemory<CBaseEntity*, int> >&)
  t GetFadeParms(CCommand const&, float&, color32_s&)
  t GetWorkshopUGC()
- t GlobalAttrModifier_IsMvMModeActive()
- t GlobalAttrModifier_IsTFHalloweenEventActive()
- t GlobalAttrModifier_MvMAttribHookMunger(char const*, CUtlConstStringBase<char>*)
- t GlobalAttrModifier_TFHalloweenAttribHookMunger(char const*, CUtlConstStringBase<char>*)
  t HandleCoachCommand(CTFPlayer*, eCoachCommand)
  t HookOutput(char const*, string_t, char const*, char const*, char const*, int)
  t InitPerClassRandomChanceStringArray(KeyValues*, CRandomChanceString (&) [11], CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
@@ -54471,7 +54468,9 @@
  t __cxx_global_var_init130
  t __cxx_global_var_init16
  t __cxx_global_var_init169
+ t __cxx_global_var_init170
  t __cxx_global_var_init18
+ t __cxx_global_var_init23
  t __cxx_global_var_init24
  t __cxx_global_var_init343
  t __cxx_global_var_init37
