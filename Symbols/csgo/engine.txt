@@ -738,7 +738,6 @@
  b DownloadCompleteColor
  b DownloadErrorColor
  b DownloadManager::FileReceived(char const*, unsigned int, bool)::gamedir
- b EngineBitBufErrorHandler(BitBufErrorType, char const*)::errorNames
  b Filter_Steam64bitIdToUserID(unsigned long long)::id
  b Filter_StringToUserID(char const*)::id
  b GetConsoleLogManager()::object
@@ -751,7 +750,7 @@
  b Host_Changelevel_f(CCommand const&)::sv_workshop_allow_other_maps
  b Host_CleanupConVarStringValue(char const*)::clean
  b Host_Error(char const*, ...)::inerror
- b Host_PrintStatus(void (*)(char const*, ...), bool)::sv_steamdatagramtransport_port
+ b Host_PrintStatus(cmd_source_t, void (*)(char const*, ...), bool)::sv_steamdatagramtransport_port
  b Host_RunFrame(float)::timecount
  b Host_RunFrame(float)::timestart
  b Host_RunFrame(float)::timetotal
@@ -939,7 +938,6 @@
  b cmd_alias
  b cmd_command
  b cmd_exit
- b cmd_source
  b colorcorrection
  b com_basedir
  b com_character
@@ -1080,9 +1078,10 @@
  b g_ErrorEdges_17x17
  b g_ErrorEdges_5x5
  b g_ErrorEdges_9x9
+ b g_ErrorNames
+ b g_ErrorNamesLock
  b g_ExecutionMarkers
  b g_ExpressionEvaluator
- b g_ExtraClientCmdCanExecuteCvars
  b g_ExtraMasks
  b g_FileSystemError
  b g_FlushMemoryOnNextServerCounter
@@ -1260,8 +1259,6 @@
  b g_flAccumulatedModelLoadTimeVCollideAsync
  b g_flAccumulatedModelLoadTimeVCollideSync
  b g_flAccumulatedModelLoadTimeVirtualModel
- b g_iFilterCommandsByClientCmdCanExecute
- b g_iFilterCommandsByServerCanExecute
  b g_iServerGameClientsVersion
  b g_iVCRPlaybackSleepInterval
  b g_materialEmpty
@@ -1500,11 +1497,10 @@
  b guard variable for DEBUG_THINK_TRACE_COUNTER_ALLOWED()::bIsPublic
  b guard variable for DecompressBZipToDisk(char const*, char const*, char*, int)::s_numMaxFileSizeBytes
  b guard variable for DispInfo_LoadDisplacements(model_t*, bool)::r_dlightsenable
- b guard variable for EngineBitBufErrorHandler(BitBufErrorType, char const*)::errorNames
  b guard variable for GetConsoleLogManager()::object
  b guard variable for GlobalRNGList()::g_tslistPAutoSeededRNG
  b guard variable for Host_Changelevel_f(CCommand const&)::sv_workshop_allow_other_maps
- b guard variable for Host_PrintStatus(void (*)(char const*, ...), bool)::sv_steamdatagramtransport_port
+ b guard variable for Host_PrintStatus(cmd_source_t, void (*)(char const*, ...), bool)::sv_steamdatagramtransport_port
  b guard variable for Host_ShowIPCCallCount()::s_nLastFrame
  b guard variable for Host_ShowIPCCallCount()::s_nLastTick
  b guard variable for MapPropOffsetsToIndices(CBaseEdict const*, CSendTablePrecalc*, unsigned short const*, unsigned short, unsigned short*)::testDict
@@ -2446,6 +2442,7 @@
  d CUtlSymbol::s_bAllowStaticSymbolTable
  d CXboxSystem::GameHasSavegames()::s_bHasSavegames
  d ConVarRef::Init(char const*, bool)::bFirst
+ d ConVarUtilities
  d Con_DebugLog(char const*, ...)::needTimestamp
  d CryptoPP::DEFAULT_CHANNEL
  d CryptoPP::g_cacheLineSize
@@ -2798,7 +2795,6 @@
  d construction vtable for CryptoPP::X509PublicKey-in-CryptoPP::RSAFunction_ISO
  d cplus_demangle_builtin_types
  d cplus_demangle_operators
- d cv
  d datamap_t* DataMapInit<BSPHeader_t>(BSPHeader_t*)::dataDesc
  d datamap_t* DataMapInit<lump_t>(lump_t*)::dataDesc
  d datamap_t* DataMapInit<player_info_s>(player_info_s*)::dataDesc
@@ -4259,7 +4255,7 @@
  r CSWTCH.206
  r CSWTCH.23
  r CSWTCH.258
- r CSWTCH.413
+ r CSWTCH.409
  r CSWTCH.594
  r CSWTCH.619
  r CSWTCH.622
@@ -7565,7 +7561,7 @@
  t CBaseClientState::HandleReserveServerChallengeResponse(int)
  t CBaseClientState::HookClientStringTable(char const*)
  t CBaseClientState::InstallStringTableCallback(char const*)
- t CBaseClientState::InternalProcessStringCmd(CNETMsg_StringCmd const&, bool)
+ t CBaseClientState::InternalProcessStringCmd(CNETMsg_StringCmd const&)
  t CBaseClientState::IsClientStateTv() const
  t CBaseClientState::LinkClasses()
  t CBaseClientState::NETMsg_PlayerAvatarData(CNETMsg_PlayerAvatarData const&)
@@ -8130,23 +8126,22 @@
  t CCollisionBSPData::GetSurfaceAtIndex(unsigned short)
  t CCollisionBSPData::~CCollisionBSPData()
  t CCommand::CCommand()
- t CCommand::CCommand(int, char const**)
+ t CCommand::CCommand(int, char const**, cmd_source_t)
  t CCommand::DefaultBreakSet()
  t CCommand::FindArg(char const*) const
  t CCommand::FindArgInt(char const*, int) const
  t CCommand::Reset()
- t CCommand::Tokenize(char const*, characterset_t*)
- t CCommandBuffer::AddText(char const*, int)
+ t CCommand::Tokenize(char const*, cmd_source_t, characterset_t*)
+ t CCommandBuffer::AddText(char const*, cmd_source_t, int)
  t CCommandBuffer::BeginProcessingCommands(int)
  t CCommandBuffer::CCommandBuffer()
  t CCommandBuffer::Compact()
  t CCommandBuffer::DelayAllQueuedCommands(int)
- t CCommandBuffer::DequeueNextCommand()
- t CCommandBuffer::DequeueNextCommand(char const**&)
+ t CCommandBuffer::DequeueNextCommand(CCommand*)
  t CCommandBuffer::EndProcessingCommands()
  t CCommandBuffer::GetNextCommandHandle()
  t CCommandBuffer::GetNextCommandLength(char const*, int, int*, int*)
- t CCommandBuffer::InsertCommand(char const*, int, int)
+ t CCommandBuffer::InsertCommand(char const*, int, int, cmd_source_t)
  t CCommandBuffer::InsertCommandAtAppropriateTime(int)
  t CCommandBuffer::InsertImmediateCommand(int)
  t CCommandBuffer::IsProcessingCommands()
@@ -13065,7 +13060,7 @@
  t CTestScriptMgr::LoopCount(char const*, int)
  t CTestScriptMgr::LoopForNumSeconds(char const*, double)
  t CTestScriptMgr::RunCommands()
- t CTestScriptMgr::RunCommands() [clone .part.7]
+ t CTestScriptMgr::RunCommands() [clone .part.8]
  t CTestScriptMgr::SetWaitCheckPoint(char const*, bool)
  t CTestScriptMgr::SetWaitTime(float)
  t CTestScriptMgr::StartLoop(char const*)
@@ -13084,6 +13079,7 @@
  t CTextureReference::~CTextureReference()
  t CThreadEvent::~CThreadEvent()
  t CThreadMutex::~CThreadMutex()
+ t CThreadRWLock::~CThreadRWLock()
  t CThreadedSocketQueue::CSocketThread::CallbackThreadProc(void*)
  t CThreadedSocketQueue::CSocketThread::ThreadProc()
  t CThreadedSocketQueue::CSocketThread::~CSocketThread()
@@ -14770,12 +14766,12 @@
  t Catmull_Rom_Spline_NormalizeX(Vector const&, Vector const&, Vector const&, Vector const&, float, Vector&)
  t Catmull_Rom_Spline_Tangent(Vector const&, Vector const&, Vector const&, Vector const&, float, Vector&)
  t Cbuf_AddExecutionMarker(ECommandTarget_t, ECmdExecutionMarker)
- t Cbuf_AddText(ECommandTarget_t, char const*, int)
+ t Cbuf_AddText(ECommandTarget_t, char const*, cmd_source_t, int)
  t Cbuf_Clear(ECommandTarget_t)
  t Cbuf_Execute()
  t Cbuf_GetCurrentPlayer()
  t Cbuf_Init()
- t Cbuf_InsertText(ECommandTarget_t, char const*, int)
+ t Cbuf_InsertText(ECommandTarget_t, char const*, cmd_source_t, int)
  t Cbuf_IsProcessingCommands(ECommandTarget_t)
  t Cbuf_Shutdown()
  t CeilPow2(int)
@@ -14818,12 +14814,11 @@
  t CmdKeyValuesHelper::CLCMsg_SetKeyValues(CCLCMsg_CmdKeyValues&, KeyValues const*)
  t CmdKeyValuesHelper::SVCMsg_GetKeyValues(CSVCMsg_CmdKeyValues const&)
  t CmdKeyValuesHelper::SVCMsg_SetKeyValues(CSVCMsg_CmdKeyValues&, KeyValues const*)
- t Cmd_AddClientCmdCanExecuteVar(char const*)
  t Cmd_Dispatch(ConCommandBase const*, CCommand const&)
  t Cmd_ExecIfExists_f(CCommand const&)
  t Cmd_ExecWithWhiteList_f(CCommand const&)
  t Cmd_Exec_f(CCommand const&)
- t Cmd_ExecuteCommand(ECommandTarget_t, CCommand const&, cmd_source_t, int)
+ t Cmd_ExecuteCommand(ECommandTarget_t, CCommand const&, int)
  t Cmd_ForwardToServer(CCommand const&, bool)
  t Cmd_ForwardToServerWithWhitelist(CCommand const&, bool)
  t Cmd_Init()
@@ -17909,7 +17904,7 @@
  t FillPathEntries_R(CSendTablePrecalc*, CSendNode*, CSendNode*, int&)
  t FillStaticBuffer(CGroupMesh*, CDispInfo*, CCoreDispInfo const*, CDispVert const*, int)
  t Filter_Add_f(CCommand const&)
- t Filter_Add_f(CCommand const&) [clone .part.54]
+ t Filter_Add_f(CCommand const&) [clone .part.55]
  t Filter_ConvertString(char const*, ipfilter_t*)
  t Filter_Init()
  t Filter_IsUserBanned(USERID_s const&)
@@ -18174,7 +18169,7 @@
  t Host_PostFrameRate(float)
  t Host_PostInit()
  t Host_PrintMemoryStatus(char const*)
- t Host_PrintStatus(void (*)(char const*, ...), bool)
+ t Host_PrintStatus(cmd_source_t, void (*)(char const*, ...), bool)
  t Host_Quit_f()
  t Host_ReadPreStartupConfiguration()
  t Host_RecomputeSpeed_f()
@@ -18832,7 +18827,7 @@
  t ParseStringToken(char const*, char const**)
  t PchLanguageICUCodeToELanguage(char const*, ELanguage)
  t PchLanguageToELanguage(char const*, ELanguage)
- t PerformKick(int, char*, bool, char const*)
+ t PerformKick(cmd_source_t, int, char*, bool, char const*)
  t PlaneIntersection(VPlane const&, VPlane const&, VPlane const&, Vector&)
  t PointInQuadFromBarycentric(Vector const&, Vector const&, Vector const&, Vector const&, Vector2D const&, Vector&)
  t PointInQuadToBarycentric(Vector const&, Vector const&, Vector const&, Vector const&, Vector const&, Vector2D&)
@@ -19465,7 +19460,7 @@
  t Test_LoopCount(CCommand const&)
  t Test_LoopForNumSeconds(CCommand const&)
  t Test_RandomChance(CCommand const&)
- t Test_RandomChance(CCommand const&) [clone .part.6]
+ t Test_RandomChance(CCommand const&) [clone .part.7]
  t Test_RunFrame(CCommand const&)
  t Test_SendKey(CCommand const&)
  t Test_StartLoop(CCommand const&)
@@ -19748,6 +19743,7 @@
  t ZipGetMemory(HZIP__*, void**, unsigned long*)
  t _Cmd_Exec_f(CCommand const&, bool, bool)
  t _DTI_HookDeltaBits(CRecvDecoder*, int, int, int)
+ t _GLOBAL__sub_I_ConVarUtilities
  t _GLOBAL__sub_I_DownloadColor
  t _GLOBAL__sub_I_Four_PointFives
  t _GLOBAL__sub_I_LOG_CONSOLE
@@ -19879,7 +19875,6 @@
  t _GLOBAL__sub_I_cl_clock_correction
  t _GLOBAL__sub_I_cl_teammate_color_1
  t _GLOBAL__sub_I_com_ignorecolons
- t _GLOBAL__sub_I_cv
  t _GLOBAL__sub_I_cvar
  t _GLOBAL__sub_I_date
  t _GLOBAL__sub_I_dbg_demofile
@@ -24141,7 +24136,6 @@
  t tv_relay(CCommand const&)
  t tv_retry(CCommand const&)
  t tv_status(CCommand const&)
- t tv_status(CCommand const&) [clone .part.83]
  t tv_stop(CCommand const&)
  t tv_stoprecord(CCommand const&)
  t tv_title_changed_f(IConVar*, char const*, float)
