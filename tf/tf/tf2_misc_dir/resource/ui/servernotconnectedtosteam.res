@@ -1,4 +1,4 @@
-"Resource/UI/ServerNoConnectedToSteam.res"
+"Resource/UI/ServerNotConnectedToSteam.res"
 {
 	"ServerNotConnectedToSteamDialog"
 	{
