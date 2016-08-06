@@ -70,20 +70,30 @@
 						<!-- top section -->
 						<Panel id="OverviewTopSection">
 
-							<Panel id="DurationContainer">
+							<Panel id="DurationContainer" onactivate="DOTAReloadCurrentPage()" >
 								<Label text="DURATION" />
 								<Label class="DurationValue" text="{T:d:duration}" />
 							</Panel>
 
 							<Panel id="RadiantVictoryBanner" class="VictoryBanner">
 								<Panel class="VictoryBannerBackground" />
-								<Label id="RadiantVictoryText" class="VictoryTextLabel" text="RADIANT VICTORY" />
+							</Panel>
+
+							<Panel id="RadiantTeamNameContainer">
+								<DOTAUGCImage id="OverviewRadiantTeamLogo" class="OverviewTeamLogo RadiantTeamLogo"/>
+								<Label id="RadiantVictoryText" class="VictoryTextLabel" text="{s:overview_radiant_team_name}" />
 							</Panel>
 
 							<Panel id="DireVictoryBanner" class="VictoryBanner">
 								<Panel class="VictoryBannerBackground" />
-								<Label id="DireVictoryText" class="VictoryTextLabel" text="DIRE VICTORY" />
 							</Panel>
+
+							<Panel id="DireTeamNameContainer">
+								<DOTAUGCImage id="OverviewDireTeamLogo" class="OverviewTeamLogo DireTeamLogo"/>
+								<Label id="DireVictoryText" class="VictoryTextLabel" text="{s:overview_dire_team_name}" />	
+							</Panel>
+							
+
 							<Label id="RadiantScore" class="TeamScore" text="{d:radiant_team_score}" />
 							<Label id="DireScore" class="TeamScore" text="{d:dire_team_score}" />
 
@@ -91,10 +101,41 @@
 
 						<!-- heroes -->
 						<Panel id="OverviewHeroes">
-							<DOTAPostGameOverviewHeroContainer id="LeftHeroes" class="OverviewHeroTeamContainer" />
-							<DOTAPostGameOverviewHeroContainer id="RightHeroes" class="OverviewHeroTeamContainer" />
+
+							<Image id="LeftLargeTeamLogo" class="HeroContainerTeamLogo" src="" scaling="stretch-to-fit-preserve-aspect" hittest="false"/>
+							<Image id="RightLargeTeamLogo" class="HeroContainerTeamLogo" src="" scaling="stretch-to-fit-preserve-aspect" hittest="false"/>
+
+							<DOTAPostGameOverviewHeroContainer id="LeftHeroes" class="OverviewHeroTeamContainer">
+								<!-- only panels of type DOTAPostGameOverviewHero will be added and deleted automatically -->									
+							</DOTAPostGameOverviewHeroContainer>
+
+							<DOTAPostGameOverviewHeroContainer id="RightHeroes" class="OverviewHeroTeamContainer">					
+															
+							</DOTAPostGameOverviewHeroContainer>
+
+							<DOTAPostGameHeroStats id="LeftHeroStats" class="HeroStats" hittest="false"/>
+							<DOTAPostGameHeroStats id="RightHeroStats" class="HeroStats" hittest="false"/>
+
+							<DOTAPostGameHeroStats id="LeftHeroStats" class="HeroStats"/>
+
+							<DOTAPostGameHeroStats id="RightHeroStats" class="HeroStats"/>
+
+							<Panel id="TopLeft" class="TopBarHeroContainer">
+								<DOTAHeroImage id="HeroIcon0" class="TopBarHero" heroimagestyle="landscape" scaling="stretch-to-cover-preserve-aspect" onactivate="OverviewHeroExpandSlot(0)" />
+								<DOTAHeroImage id="HeroIcon1" class="TopBarHero" heroimagestyle="landscape" scaling="stretch-to-cover-preserve-aspect" onactivate="OverviewHeroExpandSlot(1)" />
+								<DOTAHeroImage id="HeroIcon2" class="TopBarHero" heroimagestyle="landscape" scaling="stretch-to-cover-preserve-aspect" onactivate="OverviewHeroExpandSlot(2)" />
+								<DOTAHeroImage id="HeroIcon3" class="TopBarHero" heroimagestyle="landscape" scaling="stretch-to-cover-preserve-aspect" onactivate="OverviewHeroExpandSlot(3)" />
+								<DOTAHeroImage id="HeroIcon4" class="TopBarHero" heroimagestyle="landscape" scaling="stretch-to-cover-preserve-aspect" onactivate="OverviewHeroExpandSlot(4)" />
+							</Panel>
+							<Panel id="TopRight" class="TopBarHeroContainer">
+								<DOTAHeroImage id="HeroIcon128" class="TopBarHero" heroimagestyle="landscape" scaling="stretch-to-cover-preserve-aspect" onactivate="OverviewHeroExpandSlot(128)" />
+								<DOTAHeroImage id="HeroIcon129" class="TopBarHero" heroimagestyle="landscape" scaling="stretch-to-cover-preserve-aspect" onactivate="OverviewHeroExpandSlot(129)" />
+								<DOTAHeroImage id="HeroIcon130" class="TopBarHero" heroimagestyle="landscape" scaling="stretch-to-cover-preserve-aspect" onactivate="OverviewHeroExpandSlot(130)" />
+								<DOTAHeroImage id="HeroIcon131" class="TopBarHero" heroimagestyle="landscape" scaling="stretch-to-cover-preserve-aspect" onactivate="OverviewHeroExpandSlot(131)" />
+								<DOTAHeroImage id="HeroIcon132" class="TopBarHero" heroimagestyle="landscape" scaling="stretch-to-cover-preserve-aspect" onactivate="OverviewHeroExpandSlot(132)" />
+							</Panel>
 						</Panel>
-						<Panel id="OverviewControls">
+						<Panel id="OverviewControls" hittest="false">
 							<Panel id="MatchDetailsContainer" class="TopBottomFlow">
 
 								<Panel id="ReplayStatuses" class="LeftRightFlow">
@@ -104,7 +145,7 @@
 									</Panel>
 
 									<Panel class="ReplayExistence" id="ReplayExistenceCDNFound">
-										<Button id="DownloadReplayButton" class="PopupButton" onactivate="DOTADownloadReplay()">
+										<Button id="DownloadReplayButton" class="BlueButton" onactivate="DOTADownloadReplay()">
 											<Label text="#dota_page_match_details_replay_existence_cdn_found" />
 										</Button>
 									</Panel>
@@ -130,7 +171,7 @@
 									</Panel>
 
 									<Panel class="ReplayExistence" id="ReplayExistenceDiskFound">
-										<Button id="WatchReplayButton" class="PopupButton" onactivate="DOTAWatchReplay( false )">
+										<Button id="WatchReplayButton" class="BlueButton" onactivate="DOTAWatchReplay( false )">
 											<Label text="#dota_page_match_details_replay_existence_disk_found_replay" />
 										</Button>
 									</Panel>
@@ -165,6 +206,14 @@
 										<Label class="MatchDetailsValue" text="{T:s:timestamp} {T:t:timestamp}" />
 									</Panel>
 								</Panel>
+							</Panel>
+							<Panel id="ScrubberContainer">
+								<Slider id="ItemScrubber" class="HorizontalSlider" direction="horizontal" >
+									<Panel id="SliderThumb" class="TopBottomFlow">
+										<Label id="ScrubberTime" class="MonoNumbersFont" text="{T:d:slider_time}" hittest="false"/>
+										<Label id="PreGameLabel" text="#DOTA_WatchLivePreGame" hittest="false"/>
+									</Panel>
+								</Slider>
 							</Panel>
 						</Panel>
 					</Panel>
@@ -251,7 +300,7 @@
 								<Panel class="AbilityUpgradesRowLegend StatRowHeight" id="AbilitiesRadiantPlayerRowLegend" />
 
 								<!-- Full of dashboard_page_post_game_abilities_row.xml blocks -->
-								<Panel class="AbilitiesPlayerRows" id="AbilitiesRadiantPlayerRows" />
+								<Panel class="AbilitiesPlayerRows" id="AbilitiesRadiantPlayerRows"/>
 
 								<Panel class="TeamIdentificationRow">
 									<Panel id="DireTeamLogoDefault" class="LobbyTeamIconDefault" />

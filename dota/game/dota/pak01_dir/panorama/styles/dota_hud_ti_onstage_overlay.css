@@ -6,7 +6,7 @@ DOTATIOnstageOverlay
 
 	z-index: 1000;
 
-	background-color: #00FF0033;
+	background-color: #0F0;
 	//background-color: #555;
 	//background-color: #5553;
 
@@ -22,10 +22,9 @@ DOTATIOnstageOverlay.OverlayVisible
 
 DOTATIOnstageOverlay Label
 {
-	font-size: 80px;
 	color: white;
-	text-shadow: 4px 4px 8px #000000; 
-	horizontal-align: center;
+	text-shadow: 8px 8px 16px #000000;
+	font-weight: bold;
 }
 
 .TeamLogoModel
@@ -35,107 +34,208 @@ DOTATIOnstageOverlay Label
 	border: 1px solid black;
 }
 
-.GameIsOver .TeamLogosContainer
+.AfterHeroSelect .TeamLogosContainer
 {
 	visibility: collapse;
 }
 
-#HomeTeamLogo
-{
-}
-
+#HomeTeamLogo,
 #AwayTeamLogo
 {
-	margin-top: 0px;
+	opacity: 0;
 }
 
-.PickInfoContainer
+.HomeTeamLogoVisible #HomeTeamLogo,
+.AwayTeamLogoVisible #AwayTeamLogo
+{
+	opacity: 1;
+}
+#RightColumn
+{
+	width: 100%;
+	height: 100%;
+}
+
+.GameIsOver #RightColumn
+{
+	visibility: collapse;
+}
+
+// Pick Text Line
+
+#PickInfoContainer
 {
 	margin-top: 20px;
+	visibility: collapse;
+	width: 100%;
+	border: 1px solid black;
+	margin-bottom: 10px;
+	opacity: 0;
+	animation-duration: 1s;
+	animation-timing-function: ease-in;
+	animation-iteration-count: 1;
+}
+
+.HomeTeamIsActive #PickInfoContainer
+{
+	opacity: 1; 
+	animation-name: fader;	
+	
+}
+
+.AwayTeamIsActive #PickInfoContainer
+{
+	opacity: 1; 
+	animation-name: fader2;	
+}
+
+@keyframes 'fader'
+{
+	0%
+	{
+		opacity: 0;
+		pre-transform-scale2d: .8;
+	}
+
+	100%
+	{
+		opacity: 1;	
+		pre-transform-scale2d: 1;
+	}
+}
+
+
+@keyframes 'fader2'
+{
+	0%
+	{
+		opacity: 0;
+		pre-transform-scale2d: .8;
+	}
+
+	100%
+	{
+		opacity: 1;	
+		pre-transform-scale2d: 1;
+	}
+}
+
+.InPickPhase #PickInfoContainer
+{
 	visibility: visible;
 }
 
-.GameIsOver .PickInfoContainer
+#PickLabel	
 {
-	visibility: collapse;
+	font-size: 170px;
+	text-transform: uppercase;
+	margin-right: 30px;
+	text-align: right;
+
+	width: 400px;
+	
+	transition-property: color;
+	transition-duration: .3s;
 }
-.PickInfo
+
+#PickTimer
 {
-	margin-left: 20px;
+	font-size: 170px;
+	color: #fed48b;
+	margin-right: 30px;
+	margin-left: 430px;
+	width: 400px;
+	font-family: RadianceM;
+	transition-property: color;
+	transition-duration: .3s;
+}
+
+.BonusActive #PickTimer
+{
+	color: #bbb;
+}
+
+#BonusContainer
+{
 	flow-children: down;
-	margin-left: 30px;
-
-	visibility: collapse;
+	margin-top: 33px;
+	horizontal-align: right;
+	margin-right: 355px;
 }
 
-.InPickPhase .PickInfo
+.BonusLabel
 {
-	visibility: visible;
+	font-size: 50px;
+	horizontal-align:center;
+	text-transform: uppercase;
+	color: #bbb;
+	text-shadow: 4px 4px 8px #000000;
+	transition-property: color;
+	transition-duration: .3s;
 }
 
-.PickTimer
+.BonusActive .BonusTitle
 {
-	font-size: 100px;
+	color: white;
+}
+
+.BonusActive .BonusTime
+{
+	color: #fed48b;
 }
 
 .BonusTime
 {
-	font-size: 48px;
-	text-transform: uppercase;
-	visibility: collapse;
+	margin-top: -35px;
+	font-family: RadianceM;
+	font-size: 100px;
 }
 
-.BonusVisible .BonusTime
-{
-	visibility: visible;
-}
+// The Arrow
 
-.PickArrow
+#PickArrow
 {
-	width: 300px;
-	height: 100px;
+	width: 256px;
+	height: 256px;
 
+	background-image: url("s2r://panorama/images/hud/overlay_pick_arrow_psd.vtex");
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	background-size: 100% 100%;
 
+	margin-left: 20px;
+
+	border: 1px solid black;
+
 	visibility: collapse;
+	
+	animation-duration: 1s;
+	animation-timing-function: ease-in;
+	animation-iteration-count: 1;
 }
 
-// share visibility
-.AwayTeamIsActive #StageTopPickArrowLeft,
-.AwayTeamIsActive #StageBottomPickArrowRight
+.InPickPhase #PickArrow
 {
 	visibility: visible;
 }
 
-.HomeTeamIsActive #StageTopPickArrowRight,
-.HomeTeamIsActive #StageBottomPickArrowLeft
+
+.AwayTeamIsActive #PickArrow
 {
-	visibility: visible;
+	animation-name: fader2;
 }
 
+.HomeTeamIsActive #PickArrow
+{
+	transform: rotateZ( 180deg );
+	animation-name: fader;
+}
 
 // home team's pick or ban
 // top right and bottom left visible
 
 // away team's pick or ban
 // top left and bottom right visible
-
-
-// share styling
-#StageTopPickArrowLeft,
-#StageBottomPickArrowLeft
-{
-	background-image: url("s2r://panorama/images/tooltip_arrow_left_png.vtex");
-}
-
-#StageTopPickArrowRight,
-#StageBottomPickArrowRight
-{
-	background-image: url("s2r://panorama/images/tooltip_arrow_right_png.vtex");
-}
-
 
 .DevLabel
 {
@@ -152,29 +252,24 @@ DOTATIOnstageOverlay Label
 
 #WinnerLogo
 {
-	horizontal-align: left;
-	width: 600px;
-	height: 600px;
+	horizontal-align: center;
+	vertical-align: center;
+	width: 1100px;
+	height: 1100px;
 
 	visibility: collapse;
 }
 
-.GameIsOver #WinnerLogo
+.GameIsOver.WinningTeamLogoVisible #WinnerLogo
 {
 	visibility: visible;
-}
-
-#WinnerLogo
-{
-	width: 1000px;
-	height: 1000px;
 }
 
 DOTAHeroImage
 {
 	width: 64px;
 	height: 64px;
-	//border: 1px solid black;
+	border: 1px solid black;
 	margin: 5px;
 	background-color: #00000011;
 }
@@ -184,11 +279,85 @@ DOTAHeroImage
 	flow-children: right-wrap;
 	visibility: collapse;
 	width: 400px;
-
-	margin-top: 500px;
+	margin-top: 10px;
+	margin-left: 10px;
 }
 
 .InPickPhase #SelectedHeroContainer
 {
 	visibility: visible;
+}
+
+#PickCircles
+{
+	flow-children: right-wrap;
+	margin-top: 10px;
+	margin-left: 40px;
+	width: 800px;
+
+	vertical-align: bottom;
+}
+
+.AfterHeroSelect #PickCircles
+{
+	visibility: collapse;
+}
+
+
+.PickCircle
+{
+	width: 100px;
+	height: 100px;
+	border: 5px solid black;
+	border-radius: 50px;
+	background-color: black;
+
+	margin-right: 40px;
+	margin-bottom: 40px;
+	
+	transition-property: background-color;
+	transition-duration: .3s;
+}
+
+.PickCircle.PickCircleFilled
+{
+	border: 5px solid #fed48b;	
+}
+
+.PickCircle.PickCircleActive
+{
+	border: 5px solid #fed48b;	
+	background-color: white;
+	//box-shadow: fill #fed48b -8px -8px 16px 16px;
+
+	animation-name: pickcircleglow;
+	animation-duration: 3.0s;
+	animation-timing-function: ease-in;
+	animation-iteration-count: infinite;
+}
+
+
+@keyframes 'pickcircleglow'
+{
+    0%
+    {
+		box-shadow: fill #fed48b -4px -4px 8px 8px;
+    }
+    60%
+    {
+		box-shadow: fill #fed48b -8px -8px 16px 16px;
+    }		
+    100%
+    {	   
+		box-shadow: fill #fed48b -4px -4px 8px 8px;
+    }
+}
+
+
+
+#HomeLabel
+{
+	font-size: 30px;
+	vertical-align: bottom;
+	horizontal-align: right;
 }
