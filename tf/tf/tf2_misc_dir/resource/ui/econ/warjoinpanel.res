@@ -16,6 +16,18 @@
 		"PaintBackgroundType"	"0"
 		"paintbackground"		"0"
 
+		if_war_active
+		{
+			"scene_anim_name"	"PyroVsHeavyWar_ShowChooseScene"
+		}
+
+		if_war_over
+		{
+			// Sorry Team Heavy.  It looks inevitable at this point
+			"scene_anim_name"	"PyroVsHeavyWar_PyroWinnerScene"
+		}
+
+
 		"Dimmer"
 		{
 			"ControlName"	"EditablePanel"
@@ -241,7 +253,15 @@
 					"default"		"1"
 					"labelText"			"%end_date%" 
 					
-					"fgcolor_override"	"TanLight"
+					if_war_active
+					{
+						"fgcolor_override"	"TanLight"
+					}
+
+					if_war_over
+					{
+						"fgcolor_override"	"TanDarker"
+					}
 				
 					"paintbackground"	"2"
 					"RoundedCorners"	"1"
@@ -249,19 +269,22 @@
 					"proportionaltoparent"	"1"
 				}
 
-				"Frame"
+				if_war_active
 				{
-					"ControlName"	"Panel"
-					"fieldName"		"Frame"
-					"xpos"			"0"
-					"ypos"			"0"
-					"wide"			"f0"
-					"tall"			"f0"
-					"proportionaltoparent"	"1"
-					"zpos"			"1000" // Be on top of everything
+					"Frame"
+					{
+						"ControlName"	"Panel"
+						"fieldName"		"Frame"
+						"xpos"			"0"
+						"ypos"			"0"
+						"wide"			"f0"
+						"tall"			"f0"
+						"proportionaltoparent"	"1"
+						"zpos"			"1000" // Be on top of everything
 
-					"border"		"InnerShadowBorderThin"
-					"mouseinputenabled"	"0"
+						"border"		"InnerShadowBorderThin"
+						"mouseinputenabled"	"0"
+					}
 				}
 
 				"Background"
@@ -276,10 +299,21 @@
 					"visible"		"1"
 					"enabled"		"1"
 					"scaleImage"	"1"
-					"image"			"heavy_pyro_war/war_screen_background"
+
+					if_war_active
+					{
+						"image"			"heavy_pyro_war/war_screen_background"
+					}
+
+					if_war_over
+					{
+						"image"			"heavy_pyro_war/winner_screen_background"
+					}
+
 					"proportionaltoparent" "1"
 				}
 
+			
 				"Heavy"
 				{
 					"ControlName"	"ImagePanel"
@@ -289,13 +323,17 @@
 					"zpos"			"1"
 					"wide"			"p0.4"
 					"tall"			"o2"
-					"visible"		"1"
+					"if_war_over"
+					{
+						"visible"		"0"
+					}
 					"enabled"		"1"
 					"scaleImage"	"1"
 					"image"			"heavy_pyro_war/war_screen_heavy"
 					"proportionaltoparent" "1"
 				}
 
+				
 				"Pyro"
 				{
 					"ControlName"	"ImagePanel"
@@ -305,12 +343,34 @@
 					"zpos"			"1"
 					"wide"			"p0.4"
 					"tall"			"o2"
-					"visible"		"1"
+					"if_war_over"
+					{
+						"visible"		"0"
+					}
 					"enabled"		"1"
 					"scaleImage"	"1"
 					"image"			"heavy_pyro_war/war_screen_pyro"
 					"proportionaltoparent" "1"
 				}
+
+				"if_war_over"
+				{
+					"PyroWinMidground"
+					{
+						"ControlName"	"ImagePanel"
+						"fieldName"		"PyroWinMidground"
+						"xpos"			"cs-0.5"
+						"ypos"			"cs-0.5"
+						"zpos"			"1"
+						"wide"			"p0.80"
+						"tall"			"o1"
+						"visible"		"1"
+						"enabled"		"1"
+						"scaleImage"	"1"
+						"image"			"heavy_pyro_war/winner_screen_pyro"
+						"proportionaltoparent" "1"
+					}
+				}	
 
 				"Foreground"
 				{
@@ -325,35 +385,58 @@
 					"enabled"		"1"
 					"proportionaltoparent" "1"
 
-					"BGPanel"
+					if_war_active
 					{
-						"ControlName"	"EditablePanel"
-						"fieldName"		"BGPanel"
-						"xpos"			"cs-0.5"
-						"ypos"			"p0.25"
-						"zpos"			"2"
-						"wide"			"p1"
-						"tall"			"o1"
-						"bgcolor_override"	"0 0 0 255"
-						"proportionaltoparent" "1"
+						"BGPanel"
+						{
+							"ControlName"	"EditablePanel"
+							"fieldName"		"BGPanel"
+							"xpos"			"cs-0.5"
+							"ypos"			"p0.25"
+							"zpos"			"2"
+							"wide"			"p1"
+							"tall"			"o1"
+							"bgcolor_override"	"0 0 0 255"
+							"proportionaltoparent" "1"
+						}
+
+						"Silhouettes"
+						{
+							"ControlName"	"ImagePanel"
+							"fieldName"		"Silhouettes"
+							"xpos"			"0"
+							"ypos"			"0"
+							"zpos"			"2"
+							"wide"			"p1"
+							"tall"			"o0.25"
+							"visible"		"1"
+							"enabled"		"1"
+							"scaleImage"	"1"
+							"image"			"heavy_pyro_war/war_screen_foreground"
+							"proportionaltoparent" "1"
+						}
+					} // if_war_active
+
+					if_war_over
+					{
+						"Silhouettes"
+						{
+							"ControlName"	"ImagePanel"
+							"fieldName"		"Silhouettes"
+							"xpos"			"0"
+							"ypos"			"0"
+							"zpos"			"2"
+							"wide"			"p1"
+							"tall"			"o0.25"
+							"visible"		"1"
+							"enabled"		"1"
+							"scaleImage"	"1"
+							"image"			"heavy_pyro_war/winner_screen_foreground"
+							"proportionaltoparent" "1"
+						}
 					}
 
-					"Silhouettes"
-					{
-						"ControlName"	"ImagePanel"
-						"fieldName"		"Silhouettes"
-						"xpos"			"0"
-						"ypos"			"0"
-						"zpos"			"2"
-						"wide"			"p1"
-						"tall"			"o0.25"
-						"visible"		"1"
-						"enabled"		"1"
-						"scaleImage"	"1"
-						"image"			"heavy_pyro_war/war_screen_foreground"
-						"proportionaltoparent" "1"
-					}
-				}
+				} // Foreground
 			}
 
 			"AffiliatedContainer"
@@ -440,6 +523,94 @@
 					"fgcolor_override"	"TanLight"
 					"textAlignment"	"north"
 					"labelText"		"#TF_War_HowToPlay"
+					"proportionaltoparent"	"1"
+				}
+			}
+
+			"WarOverContainer"
+			{
+				"ControlName"	"EditablePanel"
+				"fieldName"		"WarOverContainer"
+				"xpos"			"0"
+				"ypos"			"0"
+				"wide"			"f0"
+				"tall"			"f0"
+				"proportionaltoparent"	"1"
+				"mouseinputenabled"	"0"
+
+				"StandingsTitle"
+				{
+					"ControlName"	"Label"
+					"fieldName"		"StandingsTitle"
+					"xpos"			"cs-0.5"
+					"ypos"			"213"
+					"zpos"			"0"
+					"wide"			"270"
+					"tall"			"200"
+					"visible"		"1"
+					"enabled"		"1"
+					"font"			"HudFontMediumBold"
+					"fgcolor_override"	"HUDRedTeamSolid"
+					"textAlignment"	"north"
+					"labelText"		"#TF_War_Winner_PyroTitle"
+					"proportionaltoparent"	"1"
+				}
+
+				"ProgressContainer"
+				{
+					"ControlName"	"EditablePanel"
+					"fieldName"		"ProgressContainer"
+					"xpos"	"cs-0.5"
+					"ypos"	"rs1-30"
+					"wide"	"p0.8"
+					"tall"	"80"
+					"proportionaltoparent"	"1"
+
+					"bgcolor_override"	"0 0 0 100"
+
+					"WarStandingsProgressBar"
+					{
+						"ControlName"	"CWarStandingPanel"
+						"fieldName"		"WarStandingsProgressBar"
+						"xpos"	"cs-0.5"
+						"ypos"	"cs-0.5+5"
+						"wide"	"f0"
+						"tall"	"p0.8"
+						"progress"	"0.5"
+						"proportionaltoparent"	"1"	
+						"war_name"	"Pyro vs Heavy"
+					}
+
+					"Frame"
+					{
+						"ControlName"	"Panel"
+						"fieldName"		"Frame"
+						"xpos"			"0"
+						"ypos"			"0"
+						"wide"			"f0"
+						"tall"			"f0"
+						"proportionaltoparent"	"1"
+						"zpos"			"1000" // Be on top of everything
+
+						"border"		"InnerShadowBorderThin"
+					}
+				}
+
+				"Explanation"
+				{
+					"ControlName"	"Label"
+					"fieldName"		"Explanation"
+					"xpos"			"cs-0.5"
+					"ypos"			"326"
+					"zpos"			"0"
+					"wide"			"f0"
+					"tall"			"200"
+					"visible"		"1"
+					"enabled"		"1"
+					"font"			"HudFontSmall"
+					"fgcolor_override"	"TanLight"
+					"textAlignment"	"north"
+					"labelText"		"#TF_War_Winner_PyroDesc"
 					"proportionaltoparent"	"1"
 				}
 			}
