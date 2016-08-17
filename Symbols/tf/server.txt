@@ -528,6 +528,7 @@
  B CMsgGCHVacVerificationChange::default_instance_
  B CMsgGCIncrementKillCountResponse::default_instance_
  B CMsgGCItemPreviewItemBoughtNotification::default_instance_
+ B CMsgGCMatchHistoryLoad::default_instance_
  B CMsgGCMsgMasterSetClientMsgRouting::default_instance_
  B CMsgGCMsgMasterSetClientMsgRouting_Entry::default_instance_
  B CMsgGCMsgMasterSetClientMsgRouting_Response::default_instance_
@@ -550,6 +551,9 @@
  B CMsgGCMultiplexMessage::default_instance_
  B CMsgGCNameItemNotification::_default_item_name_custom_
  B CMsgGCNameItemNotification::default_instance_
+ B CMsgGCNotification::_default_notification_string_
+ B CMsgGCNotification::default_instance_
+ B CMsgGCNotificationQueue::default_instance_
  B CMsgGCQuestComplete_Request::default_instance_
  B CMsgGCQuestCompleted::default_instance_
  B CMsgGCQuestDiscard_Request::default_instance_
@@ -697,6 +701,8 @@
  B CMsgMvMVictoryInfo_Item::default_instance_
  B CMsgMvMVictoryInfo_Player::default_instance_
  B CMsgMvMVictory_Player::default_instance_
+ B CMsgNotificationAcknowledge::default_instance_
+ B CMsgNotificationAcknowledgeReply::default_instance_
  B CMsgNotificationOfSuspiciousActivity::default_instance_
  B CMsgNotificationOfSuspiciousActivity_MultipleGameInstances::default_instance_
  B CMsgNotifyWatchdog::_default_text_
@@ -2788,10 +2794,10 @@
  B s_pConv
  B s_pCurrentConfirmJob
  B s_pParticleSystemDefinitionUnpack
- B s_pszNextPopfile
  B s_queuePendingConfirmJobs
  B s_selectedSetBorderColor
  B s_selectedSetColor
+ B s_strNextMvMPopFile
  B scene_clientflex
  B scene_flatturn
  B scenefilecache
@@ -9916,6 +9922,7 @@
  D typeinfo for CMsgGCHVacVerificationChange
  D typeinfo for CMsgGCIncrementKillCountResponse
  D typeinfo for CMsgGCItemPreviewItemBoughtNotification
+ D typeinfo for CMsgGCMatchHistoryLoad
  D typeinfo for CMsgGCMsgMasterSetClientMsgRouting
  D typeinfo for CMsgGCMsgMasterSetClientMsgRouting_Entry
  D typeinfo for CMsgGCMsgMasterSetClientMsgRouting_Response
@@ -9930,6 +9937,8 @@
  D typeinfo for CMsgGCMsgWebAPIJobRequestForwardResponse
  D typeinfo for CMsgGCMultiplexMessage
  D typeinfo for CMsgGCNameItemNotification
+ D typeinfo for CMsgGCNotification
+ D typeinfo for CMsgGCNotificationQueue
  D typeinfo for CMsgGCQuestComplete_Request
  D typeinfo for CMsgGCQuestCompleted
  D typeinfo for CMsgGCQuestDiscard_Request
@@ -10044,6 +10053,8 @@
  D typeinfo for CMsgMvMVictoryInfo_Item
  D typeinfo for CMsgMvMVictoryInfo_Player
  D typeinfo for CMsgMvMVictory_Player
+ D typeinfo for CMsgNotificationAcknowledge
+ D typeinfo for CMsgNotificationAcknowledgeReply
  D typeinfo for CMsgNotificationOfSuspiciousActivity
  D typeinfo for CMsgNotificationOfSuspiciousActivity_MultipleGameInstances
  D typeinfo for CMsgNotifyWatchdog
@@ -12953,6 +12964,7 @@
  D vtable for CMsgGCHVacVerificationChange
  D vtable for CMsgGCIncrementKillCountResponse
  D vtable for CMsgGCItemPreviewItemBoughtNotification
+ D vtable for CMsgGCMatchHistoryLoad
  D vtable for CMsgGCMsgMasterSetClientMsgRouting
  D vtable for CMsgGCMsgMasterSetClientMsgRouting_Entry
  D vtable for CMsgGCMsgMasterSetClientMsgRouting_Response
@@ -12967,6 +12979,8 @@
  D vtable for CMsgGCMsgWebAPIJobRequestForwardResponse
  D vtable for CMsgGCMultiplexMessage
  D vtable for CMsgGCNameItemNotification
+ D vtable for CMsgGCNotification
+ D vtable for CMsgGCNotificationQueue
  D vtable for CMsgGCQuestComplete_Request
  D vtable for CMsgGCQuestCompleted
  D vtable for CMsgGCQuestDiscard_Request
@@ -13081,6 +13095,8 @@
  D vtable for CMsgMvMVictoryInfo_Item
  D vtable for CMsgMvMVictoryInfo_Player
  D vtable for CMsgMvMVictory_Player
+ D vtable for CMsgNotificationAcknowledge
+ D vtable for CMsgNotificationAcknowledgeReply
  D vtable for CMsgNotificationOfSuspiciousActivity
  D vtable for CMsgNotificationOfSuspiciousActivity_MultipleGameInstances
  D vtable for CMsgNotifyWatchdog
@@ -15832,6 +15848,7 @@
  R typeinfo name for CMsgGCHVacVerificationChange
  R typeinfo name for CMsgGCIncrementKillCountResponse
  R typeinfo name for CMsgGCItemPreviewItemBoughtNotification
+ R typeinfo name for CMsgGCMatchHistoryLoad
  R typeinfo name for CMsgGCMsgMasterSetClientMsgRouting
  R typeinfo name for CMsgGCMsgMasterSetClientMsgRouting_Entry
  R typeinfo name for CMsgGCMsgMasterSetClientMsgRouting_Response
@@ -15846,6 +15863,8 @@
  R typeinfo name for CMsgGCMsgWebAPIJobRequestForwardResponse
  R typeinfo name for CMsgGCMultiplexMessage
  R typeinfo name for CMsgGCNameItemNotification
+ R typeinfo name for CMsgGCNotification
+ R typeinfo name for CMsgGCNotificationQueue
  R typeinfo name for CMsgGCQuestComplete_Request
  R typeinfo name for CMsgGCQuestCompleted
  R typeinfo name for CMsgGCQuestDiscard_Request
@@ -15960,6 +15979,8 @@
  R typeinfo name for CMsgMvMVictoryInfo_Item
  R typeinfo name for CMsgMvMVictoryInfo_Player
  R typeinfo name for CMsgMvMVictory_Player
+ R typeinfo name for CMsgNotificationAcknowledge
+ R typeinfo name for CMsgNotificationAcknowledgeReply
  R typeinfo name for CMsgNotificationOfSuspiciousActivity
  R typeinfo name for CMsgNotificationOfSuspiciousActivity_MultipleGameInstances
  R typeinfo name for CMsgNotifyWatchdog
@@ -30001,6 +30022,16 @@
  T CMsgGCItemPreviewItemBoughtNotification::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgGCItemPreviewItemBoughtNotification::SetCachedSize(int) const
  T CMsgGCItemPreviewItemBoughtNotification::~CMsgGCItemPreviewItemBoughtNotification()
+ T CMsgGCMatchHistoryLoad::ByteSize() const
+ T CMsgGCMatchHistoryLoad::Clear()
+ T CMsgGCMatchHistoryLoad::GetCachedSize() const
+ T CMsgGCMatchHistoryLoad::GetMetadata() const
+ T CMsgGCMatchHistoryLoad::IsInitialized() const
+ T CMsgGCMatchHistoryLoad::MergeFrom(CMsgGCMatchHistoryLoad const&)
+ T CMsgGCMatchHistoryLoad::New() const
+ T CMsgGCMatchHistoryLoad::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgGCMatchHistoryLoad::SetCachedSize(int) const
+ T CMsgGCMatchHistoryLoad::~CMsgGCMatchHistoryLoad()
  T CMsgGCMsgMasterSetClientMsgRouting::ByteSize() const
  T CMsgGCMsgMasterSetClientMsgRouting::Clear()
  T CMsgGCMsgMasterSetClientMsgRouting::GetCachedSize() const
@@ -30144,6 +30175,26 @@
  T CMsgGCNameItemNotification::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgGCNameItemNotification::SetCachedSize(int) const
  T CMsgGCNameItemNotification::~CMsgGCNameItemNotification()
+ T CMsgGCNotification::ByteSize() const
+ T CMsgGCNotification::Clear()
+ T CMsgGCNotification::GetCachedSize() const
+ T CMsgGCNotification::GetMetadata() const
+ T CMsgGCNotification::IsInitialized() const
+ T CMsgGCNotification::MergeFrom(CMsgGCNotification const&)
+ T CMsgGCNotification::New() const
+ T CMsgGCNotification::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgGCNotification::SetCachedSize(int) const
+ T CMsgGCNotification::~CMsgGCNotification()
+ T CMsgGCNotificationQueue::ByteSize() const
+ T CMsgGCNotificationQueue::Clear()
+ T CMsgGCNotificationQueue::GetCachedSize() const
+ T CMsgGCNotificationQueue::GetMetadata() const
+ T CMsgGCNotificationQueue::IsInitialized() const
+ T CMsgGCNotificationQueue::MergeFrom(CMsgGCNotificationQueue const&)
+ T CMsgGCNotificationQueue::New() const
+ T CMsgGCNotificationQueue::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgGCNotificationQueue::SetCachedSize(int) const
+ T CMsgGCNotificationQueue::~CMsgGCNotificationQueue()
  T CMsgGCQuestComplete_Request::ByteSize() const
  T CMsgGCQuestComplete_Request::Clear()
  T CMsgGCQuestComplete_Request::GetCachedSize() const
@@ -31368,6 +31419,26 @@
  T CMsgMvMVictory_Player::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgMvMVictory_Player::SetCachedSize(int) const
  T CMsgMvMVictory_Player::~CMsgMvMVictory_Player()
+ T CMsgNotificationAcknowledge::ByteSize() const
+ T CMsgNotificationAcknowledge::Clear()
+ T CMsgNotificationAcknowledge::GetCachedSize() const
+ T CMsgNotificationAcknowledge::GetMetadata() const
+ T CMsgNotificationAcknowledge::IsInitialized() const
+ T CMsgNotificationAcknowledge::MergeFrom(CMsgNotificationAcknowledge const&)
+ T CMsgNotificationAcknowledge::New() const
+ T CMsgNotificationAcknowledge::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgNotificationAcknowledge::SetCachedSize(int) const
+ T CMsgNotificationAcknowledge::~CMsgNotificationAcknowledge()
+ T CMsgNotificationAcknowledgeReply::ByteSize() const
+ T CMsgNotificationAcknowledgeReply::Clear()
+ T CMsgNotificationAcknowledgeReply::GetCachedSize() const
+ T CMsgNotificationAcknowledgeReply::GetMetadata() const
+ T CMsgNotificationAcknowledgeReply::IsInitialized() const
+ T CMsgNotificationAcknowledgeReply::MergeFrom(CMsgNotificationAcknowledgeReply const&)
+ T CMsgNotificationAcknowledgeReply::New() const
+ T CMsgNotificationAcknowledgeReply::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgNotificationAcknowledgeReply::SetCachedSize(int) const
+ T CMsgNotificationAcknowledgeReply::~CMsgNotificationAcknowledgeReply()
  T CMsgNotificationOfSuspiciousActivity::ByteSize() const
  T CMsgNotificationOfSuspiciousActivity::Clear()
  T CMsgNotificationOfSuspiciousActivity::GetCachedSize() const
@@ -50608,6 +50679,8 @@
  b (anonymous namespace)::CMsgGCIncrementKillCountResponse_reflection_
  b (anonymous namespace)::CMsgGCItemPreviewItemBoughtNotification_descriptor_
  b (anonymous namespace)::CMsgGCItemPreviewItemBoughtNotification_reflection_
+ b (anonymous namespace)::CMsgGCMatchHistoryLoad_descriptor_
+ b (anonymous namespace)::CMsgGCMatchHistoryLoad_reflection_
  b (anonymous namespace)::CMsgGCMsgMasterSetClientMsgRouting_Entry_descriptor_
  b (anonymous namespace)::CMsgGCMsgMasterSetClientMsgRouting_Entry_reflection_
  b (anonymous namespace)::CMsgGCMsgMasterSetClientMsgRouting_Response_descriptor_
@@ -50638,6 +50711,11 @@
  b (anonymous namespace)::CMsgGCMultiplexMessage_reflection_
  b (anonymous namespace)::CMsgGCNameItemNotification_descriptor_
  b (anonymous namespace)::CMsgGCNameItemNotification_reflection_
+ b (anonymous namespace)::CMsgGCNotificationQueue_descriptor_
+ b (anonymous namespace)::CMsgGCNotificationQueue_reflection_
+ b (anonymous namespace)::CMsgGCNotification_NotificationType_descriptor_
+ b (anonymous namespace)::CMsgGCNotification_descriptor_
+ b (anonymous namespace)::CMsgGCNotification_reflection_
  b (anonymous namespace)::CMsgGCQuestComplete_Request_descriptor_
  b (anonymous namespace)::CMsgGCQuestComplete_Request_reflection_
  b (anonymous namespace)::CMsgGCQuestCompleted_descriptor_
@@ -50797,6 +50875,7 @@
  b (anonymous namespace)::CMsgGC_PickupItemEligibility_QueryResponse_reflection_
  b (anonymous namespace)::CMsgGC_PickupItemEligibility_Query_descriptor_
  b (anonymous namespace)::CMsgGC_PickupItemEligibility_Query_reflection_
+ b (anonymous namespace)::CMsgGC_ReportPlayer_EReason_descriptor_
  b (anonymous namespace)::CMsgGC_ReportPlayer_descriptor_
  b (anonymous namespace)::CMsgGC_ReportPlayer_reflection_
  b (anonymous namespace)::CMsgGC_TFVoteKickPlayerRequest_descriptor_
@@ -50874,6 +50953,10 @@
  b (anonymous namespace)::CMsgMvMVictory_Player_reflection_
  b (anonymous namespace)::CMsgMvMVictory_descriptor_
  b (anonymous namespace)::CMsgMvMVictory_reflection_
+ b (anonymous namespace)::CMsgNotificationAcknowledgeReply_descriptor_
+ b (anonymous namespace)::CMsgNotificationAcknowledgeReply_reflection_
+ b (anonymous namespace)::CMsgNotificationAcknowledge_descriptor_
+ b (anonymous namespace)::CMsgNotificationAcknowledge_reflection_
  b (anonymous namespace)::CMsgNotificationOfSuspiciousActivity_MultipleGameInstances_descriptor_
  b (anonymous namespace)::CMsgNotificationOfSuspiciousActivity_MultipleGameInstances_reflection_
  b (anonymous namespace)::CMsgNotificationOfSuspiciousActivity_descriptor_
@@ -53989,6 +54072,9 @@
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgCreateOrUpdateParty_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgExitMatchmaking_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCCasualCriteriaStatsResponse_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCMatchHistoryLoad_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCNotificationQueue_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCNotification_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCRequestCasualCriteriaStats_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCTFSpecificItemBroadcast_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Client2GCEconPreviewDataBlockRequest_offsets_
@@ -54045,6 +54131,8 @@
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgMvMVictoryInfo_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgMvMVictory_Player_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgMvMVictory_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgNotificationAcknowledgeReply_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgNotificationAcknowledge_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgPlayerLeftMatchResponse_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgPlayerLeftMatch_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgReadyUp_offsets_
@@ -54372,7 +54460,7 @@
  t __cxx_global_array_dtor119
  t __cxx_global_array_dtor121
  t __cxx_global_array_dtor122
- t __cxx_global_array_dtor1253
+ t __cxx_global_array_dtor1254
  t __cxx_global_array_dtor13
  t __cxx_global_array_dtor14
  t __cxx_global_array_dtor140
@@ -54432,7 +54520,7 @@
  t __cxx_global_array_dtor408
  t __cxx_global_array_dtor41
  t __cxx_global_array_dtor412
- t __cxx_global_array_dtor421
+ t __cxx_global_array_dtor422
  t __cxx_global_array_dtor425
  t __cxx_global_array_dtor43
  t __cxx_global_array_dtor45
@@ -54464,7 +54552,7 @@
  t __cxx_global_var_init11
  t __cxx_global_var_init1163
  t __cxx_global_var_init12
- t __cxx_global_var_init1274
+ t __cxx_global_var_init1275
  t __cxx_global_var_init130
  t __cxx_global_var_init16
  t __cxx_global_var_init169
