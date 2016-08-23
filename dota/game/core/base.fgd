@@ -84,11 +84,11 @@
 
 @BaseClass = Parentname
 [ 
-	parentname(target_destination) [ group="Heirarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
-	parentAttachmentName(string) [ group="Heirarchy" ] : "Parent Model Bone/Attachment Name" : : "The name of the bone or attachment to attach to on the entity's parent in the movement hierarchy. Use !bonemerge to use bone-merge style attachment."
-	local.origin(vector) [ group="Heirarchy" ] : "Model Attachment position offset" : : "Offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
-	local.angles(angle) [ group="Heirarchy" ] : "Model Attachment angular offset" : : "Angular offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
-	useLocalOffset(boolean) [ group="Heirarchy" ] : "Use Model Attachment Offset" : 0 : "Whether to respect the specified local offset when doing the initial hierarchical attachment to its parent."
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	parentAttachmentName(string) [ group="Hierarchy" ] : "Parent Model Bone/Attachment Name" : : "The name of the bone or attachment to attach to on the entity's parent in the movement hierarchy. Use !bonemerge to use bone-merge style attachment."
+	local.origin(vector) [ group="Hierarchy" ] : "Model Attachment position offset" : : "Offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+	local.angles(angle) [ group="Hierarchy" ] : "Model Attachment angular offset" : : "Angular offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+	useLocalOffset(boolean) [ group="Hierarchy" ] : "Use Model Attachment Offset" : 0 : "Whether to respect the specified local offset when doing the initial hierarchical attachment to its parent."
 
 	// Inputs
 	input SetParent(target_destination) : "Changes the entity's parent in the movement hierarchy."
@@ -1453,7 +1453,7 @@
 		1 : "Yes"
 	]	
 
-	solidbsp(boolean) : "Solid BSP" : 0 : "Set this if this brush is in heirarchy with a moving object of some kind, and the player can stand on this brush."
+	solidbsp(boolean) : "Solid BSP" : 0 : "Set this if this brush is in hierarchy with a moving object of some kind, and the player can stand on this brush."
 	ScriptedMovement(boolean) : "Scripted Movement" : 0 : "Set this to allow vscript code to move the brush via SetVelocity() calls."
 	vrad_brush_cast_shadows(boolean) : "Shadows" : 0 : "Set this if this brush casts lightmap shadows."
 	
@@ -3596,6 +3596,7 @@
 		1024: "Use Activates" : 1
 		2048: "Starts locked" : 0
 		4096: "Sparks" : 0
+		16384: "Non-solid" : 0
 	]
 	locked_sound(choices) : "Locked Sound" : 0 : "Sound played when the player tries to use the button, and fails because it's locked." = 
 	[
@@ -5536,6 +5537,64 @@
 	zfriction(float) : "Z axis friction" : "0"
 ]
 
+@PointClass base(TwoObjectPhysics) editormodel("models/editor/axis_helper.vmdl") = phys_genericconstraint : 
+	"A configurable constraint between two objects."
+[
+	linear_motion_x(choices) : "Linear Motion X" : "JOINT_MOTION_FREE" =
+	[
+		"JOINT_MOTION_FREE" : "Free motion"
+		"JOINT_MOTION_LOCKED" : "Locked motion"
+	]
+
+	linear_frequency_x(float) : "Spring frequency (stiffness)" : "0"
+	linear_damping_ratio_x(float) : "Spring damping ratio" : "0" : "0 for no damping and 1 for critical damping"
+
+	linear_motion_y(choices) : "Linear Motion Y" : "JOINT_MOTION_FREE" =
+	[
+		"JOINT_MOTION_FREE" : "Free motion"
+		"JOINT_MOTION_LOCKED" : "Locked motion"
+	]
+
+	linear_frequency_y(float) : "Spring frequency (stiffness)" : "0"
+	linear_damping_ratio_y(float) : "Spring damping ratio" : "0" : "0 for no damping and 1 for critical damping"
+
+	linear_motion_z(choices) : "Linear Motion Z" : "JOINT_MOTION_FREE" =
+	[
+		"JOINT_MOTION_FREE" : "Free motion"
+		"JOINT_MOTION_LOCKED" : "Locked motion"
+	]
+
+	linear_frequency_z(float) : "Spring frequency (stiffness)" : "0"
+	linear_damping_ratio_z(float) : "Spring damping ratio" : "0" : "0 for no damping and 1 for critical damping"
+
+	angular_motion_x(choices) : "Angular Motion X" : "JOINT_MOTION_FREE" =
+	[
+		"JOINT_MOTION_FREE" : "Free motion"
+		"JOINT_MOTION_LOCKED" : "Locked motion"
+	]
+
+	angular_frequency_x(float) : "Spring frequency (stiffness)" : "0"
+	angular_damping_ratio_x(float) : "Spring damping ratio" : "0" : "0 for no damping and 1 for critical damping"
+
+	angular_motion_y(choices) : "Angular Motion Y" : "JOINT_MOTION_FREE" =
+	[
+		"JOINT_MOTION_FREE" : "Free motion"
+		"JOINT_MOTION_LOCKED" : "Locked motion"
+	]
+
+	angular_frequency_y(float) : "Spring frequency (stiffness)" : "0"
+	angular_damping_ratio_y(float) : "Spring damping ratio" : "0" : "0 for no damping and 1 for critical damping"
+
+	angular_motion_z(choices) : "Angular Motion Z" : "JOINT_MOTION_FREE" =
+	[
+		"JOINT_MOTION_FREE" : "Free motion"
+		"JOINT_MOTION_LOCKED" : "Locked motion"
+	]
+
+	angular_frequency_z(float) : "Spring frequency (stiffness)" : "0"
+	angular_damping_ratio_z(float) : "Spring damping ratio" : "0" : "0 for no damping and 1 for critical damping"
+]
+
 @PointClass base(Targetname) size(-8 -8 -8, 8 8 8) color(0 0 255) = phys_convert : 
 	"Turns an arbitrary entity into a physically simulated entity. i.e. brush entities will behave like func_physbox, model entities behave like prop_physics."
 [
@@ -5770,7 +5829,7 @@
 ]
 
 
-@PointClass color(255 255 0) line(255 0 255, targetname, cubemap) sphere(fademindist) sphere(fademaxdist) model(static) = prop_static
+@PointClass color(255 255 0) line(255 0 255, targetname, cubemap) sphere(fademindist, 200 200 200, singleSelect) sphere(fademaxdist, 200, 200, 200, singleSelect) model(static) = prop_static
 [
 	model(resource:model) [report] : "World Model"
 	solid(choices) : "Collisions" : 6 =
@@ -5863,6 +5922,7 @@
 
 	addon(string) [ group="Physics Properties" ] : "AI AddOn" : "" : "If specified this object will use this addon behavior when installed in a composite AI"
 	interactAs(string) [ group="Physics Properties" ] : "interactAs" : "" : "comma-separated list of interaction layers"
+	forcenavignore(boolean) [ group="Physics Properties" ] : "Force Nav Ignore" : "0" : "If set, NPCs will ignore this prop when navigating."
 
 	// Inputs
 	input Wake(void) : "Wake up this physics object, if it is sleeping."

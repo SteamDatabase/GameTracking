@@ -80,6 +80,56 @@
 			$.DispatchEvent.apply( $, arguments );
 		};
 		
+		var ActivateFeedTab = function()
+		{
+			SetEnabledTab( '#ProfileContentRightContents', '#SocialFeed' ); 
+			SetRecentGamesOptionsVisible( false );
+		};
+		
+		var ActivateRecentGamesTab = function()
+		{
+			SetEnabledTab( '#ProfileContentRightContents', '#RecentGames' ); 
+			OnRecentGamesEnabled();
+		};
+				
+		var ActivateAllHeroChallengeTab = function()
+		{
+			SetEnabledTab( '#ProfileContentRightContents', '#AllHeroChallenge' ); 
+			OnAllHeroChallengeEnabled(); 
+			SetRecentGamesOptionsVisible( false );
+		};
+		
+		var ActivateTeammateStatsTab = function()
+		{
+			SetEnabledTab( '#ProfileContentRightContents', '#TeammateStats' ); 
+			OnTeammateStatsEnabled(); 
+			SetRecentGamesOptionsVisible( false );
+		};
+						
+		$.RegisterEventHandler( 'DOTAProfileActivateTab', $.GetContextPanel(), function( eTab ) 
+			{
+				if ( eTab == 0 )
+				{
+					$( "#ActivityFeedOption" ).checked = true;
+					ActivateFeedTab();
+				}
+				else if ( eTab == 1 )
+				{
+					$( "#RecentGamesOption" ).checked = true;
+					ActivateRecentGamesTab();
+				}
+				else if ( eTab == 2 )
+				{
+					$( "#AllHeroChallengeOption" ).checked = true;
+					ActivateAllHeroChallengeTab();
+				}
+				else if ( eTab == 3 )
+				{
+					$( "#TeammateStatsOption" ).checked = true;
+					ActivateTeammateStatsTab();
+				}					
+			} );
+		
 	</script>
 
 
@@ -232,13 +282,13 @@
 					</Panel>
 					<Panel id="ProfileContentRight" class="TopBottomFlow">
 						<Panel id="ProfileContentRightTabs" class="LeftRightFlow">
-							<RadioButton class="ProfileContentRightTabOption" group="ProfileContentRightTabOptions" selected="true" text="#dota_profile_content_tab_activity_feed" id="ActivityFeedOption" onactivate="SetEnabledTab( '#ProfileContentRightContents', '#SocialFeed' ); SetRecentGamesOptionsVisible( false );" />
+							<RadioButton class="ProfileContentRightTabOption" group="ProfileContentRightTabOptions" selected="true" text="#dota_profile_content_tab_activity_feed" id="ActivityFeedOption" onactivate="ActivateFeedTab();" />
 							<Label class="ProfileContentRightTabOptionSeparator" text="/" />
-							<RadioButton class="ProfileContentRightTabOption" group="ProfileContentRightTabOptions" text="#dota_profile_content_tab_recent_games" id="RecentGamesOption" onactivate="SetEnabledTab( '#ProfileContentRightContents', '#RecentGames' ); OnRecentGamesEnabled();" />
+							<RadioButton class="ProfileContentRightTabOption" group="ProfileContentRightTabOptions" text="#dota_profile_content_tab_recent_games" id="RecentGamesOption" onactivate="ActivateRecentGamesTab();" />
 							<Label class="ProfileContentRightTabOptionSeparator" text="/" />
-							<RadioButton class="ProfileContentRightTabOption" group="ProfileContentRightTabOptions" text="#dota_profile_content_tab_all_hero_challenge" id="AllHeroChallengeOption" onactivate="SetEnabledTab( '#ProfileContentRightContents', '#AllHeroChallenge' ); OnAllHeroChallengeEnabled(); SetRecentGamesOptionsVisible( false );" />
-<!--					<Label class="ProfileContentRightTabOptionSeparator SelfOnly" text="/" />
-							<RadioButton class="ProfileContentRightTabOption SelfOnly" group="ProfileContentRightTabOptions" text="#dota_profile_content_tab_teammate_stats" id="TeammateStatsOption" onactivate="SetEnabledTab( '#ProfileContentRightContents', '#TeammateStats' ); OnTeammateStatsEnabled(); SetRecentGamesOptionsVisible( false );" />-->
+							<RadioButton class="ProfileContentRightTabOption" group="ProfileContentRightTabOptions" text="#dota_profile_content_tab_all_hero_challenge" id="AllHeroChallengeOption" onactivate="ActivateAllHeroChallengeTab();" />
+					        <Label class="ProfileContentRightTabOptionSeparator SelfOnly" text="/" />
+							<RadioButton class="ProfileContentRightTabOption SelfOnly" group="ProfileContentRightTabOptions" text="#dota_profile_content_tab_teammate_stats" id="TeammateStatsOption" onactivate="ActivateTeammateStatsTab();" />
 						</Panel>
 						<Panel id="ProfileContentRightContents">
 							<Panel id="SocialFeed" class="TabEnabled" />

@@ -53,15 +53,66 @@
 	weight(float) : "Weight" : "1.0"
 ]
 
+@BaseClass = BaseLightProbeVolume
+[
+	lightprobetexture(resource:texture) : "Light Probe Texture" : "" : "Name of the light probe texture"
+	box_mins(vector) : "Box Mins" : "-72 -72 -72"
+	box_maxs(vector) : "Box Maxs" : "72 72 72"
+	voxel_size(choices) : "Voxel Size" : "12.0" : "" = 
+	[
+		"12.0" : "Very High Resolution"
+		"24.0" : "High Resolution"
+		"48.0" : "Medium Resolution"
+		"108.0" : "Low Resolution"
+	]
+	flood_fill(boolean) : "Capture Interior Lighting" : 1
+	lightgroup(string) : "Light Group" : "" : "Semicolon-delimited list of light groups to affect"
+]
+
+@BaseClass = BaseCubemap
+[
+	cubemaptexture(resource:texture) : "Cubemap Texture" : "" : "Name of the cubemap texture"
+	bakenearz(float) : "Bake Near Z" : "2.0" : "Near clip plane used for the camera when baking the cube map"
+	bakefarz(float) : "Bake Far Z" : "4096.0" : "Far clip plane used for the camera when baking the cube map"
+	lightgroup(string) : "Light Group" : "" : "Semicolon-delimited list of light groups to affect"
+]
+
 @PointClass
-	base( Targetname, Parentname, EnableDisable )
+	base( Targetname, Parentname, EnableDisable, BaseLightProbeVolume )
 	editormodel( "models/editor/iv_helper" )
 	orientedwirebox( box_mins, box_maxs )
 	bakeresource( lightprobetexture, vtex, env_light_probe_volume, "ToolObjects/LightProbeVolume" )
 = env_light_probe_volume : "A grid of precomputed light probes."
 [
-	lightprobetexture(resource:texture) : "Light Probe Texture" : "" : "Name of the light probe texture"
+]
+
+@PointClass
+	base( Targetname, Parentname, EnableDisable, BaseCubemap )
+	editormodel( "models/editor/env_cubemap" )
+	leansphere( influenceradius, 128, 128, 255 )
+	bakeresource( cubemaptexture, vtex, env_cubemap, "ToolObjects/CubeMap" )
+= env_cubemap :	"Cubemap for sampling indirect specular reflection."
+[
+	influenceradius(float) : "Influence Radius" : "512.0" : "The radius of influence for this cubemap"
+]
+
+@PointClass
+	base( Targetname, Parentname, EnableDisable, BaseCubemap )
+	editormodel( "models/editor/env_cubemap" )
+	orientedwirebox( box_mins, box_maxs )
+	bakeresource( cubemaptexture, vtex, env_cubemap, "ToolObjects/CubeMap" )
+= env_cubemap_box : "An env_cubemap with box projection."
+[
 	box_mins(vector) : "Box Projection Mins" : "-72 -72 -72"
 	box_maxs(vector) : "Box Projection Maxs" : "72 72 72"
-	lightgroup(string) : "Light Group" : "" : "Semicolon-delimited list of light groups to affect"
+]
+
+@PointClass
+	base( Targetname, Parentname, EnableDisable, BaseCubemap, BaseLightProbeVolume )
+	editormodel( "models/editor/env_cubemap" )
+	orientedwirebox( box_mins, box_maxs )
+	bakeresource( lightprobetexture, vtex, env_light_probe_volume, "ToolObjects/LightProbeVolume" )
+	bakeresource( cubemaptexture, vtex, env_cubemap, "ToolObjects/CubeMap" )
+= env_combined_light_probe_volume : "Combination of an env_cubemap_box and an env_light_probe_volume"
+[
 ]

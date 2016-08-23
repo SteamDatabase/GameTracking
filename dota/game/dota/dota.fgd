@@ -56,6 +56,7 @@
 	HeightFogScrollDir2(vector) : "Height Fog Scroll Dir 2" : "-0.114 0.02 0"
 	HeightFogTexture(resource:texture) : "Height Fog Texture" : ""
 	HeightFogMaskTexture(resource:texture) : "Height Fog Mask Texture" : ""
+	AllowTreeWind(boolean) : "Allow Tree Wind" : "0"
 ]
 
 @PointClass base(Targetname) = ent_dota_game_events : 
@@ -134,6 +135,8 @@
 	ambient_direction_night(vector) : "Ambient Direction - Night" : "0 0 0" : "Ambient Nighttime direction."
 	fog_color_day(color255) : "Fog Color - Day" : "0 0 0" : "Fog Daytime color."
 	fog_color_night(color255) : "Fog Color - Night" : "0 0 0" : "Fog Nighttime color."
+	inspector_view_fog_color_day(color255) : "Inspector View Fog Color - Day" : "0 0 0 0" : "Fog color for inspector view - day"
+	inspector_view_fog_color_night(color255) : "Inspector View Fog Color - Night" : "0 0 0 0" : "Fog color for inspector view - night"
 	fog_start_day(float) : "Fog Start - Day" : "0" : "Daytime Fog Start distance."
 	fog_start_night(float) : "Fog Start - Night" : "0" : "Night Fog Start distance."
 	fog_end_day(float) : "Fog End - Day" : "0" : "Daytime Fog Start distance."
@@ -150,9 +153,6 @@
 	fow_color_r_night(float) : "FoW Color R - Night" : "0" : "Night FoW Color R"
 	fow_color_g_night(float) : "FoW Color G - Night" : "0" : "Night FoW Color G"
 	fow_color_b_night(float) : "FoW Color B - Night" : "0" : "Night FoW Color B"
-	skybox_name(string) : "Skybox Name" : "" : "Name of the skybox material to use."
-	skybox_tint_day(color255) : "Skybox Tint - Day" : "0" : "Tint to apply to the skybox during the day."
-	skybox_tint_night(color255) : "Skybox Tint - Night" : "0" : "Tint to apply to the skybox during the night."
 
 	inner_radius(float) : "Inner Radius" : "0" : "Radius inside which the global light is exactly the specified color."
 	outer_radius(float) : "Outer Radius" : "0" : "Radius inside which the global light is partially the specified color."
@@ -181,12 +181,47 @@
 	lightning_fluctuation_min(float) : "Lightning Fluctuation Minimum" : "0" : "The minimum number of fluctuations in a single lightning event."
 	lightning_fluctuation_max(float) : "Lightning Fluctuation Maximum" : "0" : "The maximum number of fluctuations in a single lightning event."
 	lightning_sound(sound) : "Thunder Sound Effect" : "" : "During lightning events, this sound will be played."
+
+	// Wind-related params
+	wind_angle(angle) [ group="Wind Params" ] : "Wind Angle" : "0 45 0" : "Wind Angles"
+	wind_amount_day(float) [ group="Wind Params" ] : "Wind Amount - Day" : "1.0" : "Wind Amount - day"
+	wind_amount_night(float) [ group="Wind Params" ] : "Wind Amount - Night" : "1.0" : "Wind Amount - night"
+	min_wind(float) [ group="Wind Params" ] : "Min Wind" : "25.0" : "Min normal wind speed"
+	max_wind(float) [ group="Wind Params" ] : "Max Wind" : "50.0" : "Max normal wind speed"
+	min_gust(float) [ group="Wind Params" ] : "Min Gust" : "60.0" : "Min gust speed"
+	max_gust(float) [ group="Wind Params" ] : "Min Gust" : "90.0" : "Max gust speed"
+	min_gust_delay(float) [ group="Wind Params" ] : "Min Gust Delay" : "10.0" : "Min gust delay"
+	max_gust_delay(float) [ group="Wind Params" ] : "Max Gust Delay" : "10.0" : "Max gust delay"
+	gust_duration(float) [ group="Wind Params" ] : "Gust Duration" : "10.0" : "Gust duration"
+	gust_dir_change(float) [ group="Wind Params" ] : "Gust Direction Change" : "20.0" : "Gust direction change degrees"
+	
+	// Skybox related params
+	skybox_angle_day(angle) [ group="Skybox Params" ] : "Skybox Angles - Day" : "0 0 0" : "Skybox angles - day"
+	skybox_angle_night(angle) [ group="Skybox Params" ] : "Skybox Angles - Night" : "0 0 0" : "Skybox angles - night"
+	skybox_material_day(resource:material) [ group="Skybox Params" ] : "Skybox Material - Day" : "materials/skybox/sky_dota_000.vmat"
+	skybox_material_night(resource:material) [ group="Skybox Params" ] : "Skybox Material - Night" : "materials/skybox/sky_dota_000.vmat"
+	skybox_tint_color_day(color255) [ group="Skybox Params" ] : "Skybox Tint - Day" : "255 255 255 0"
+	skybox_tint_color_night(color255) [ group="Skybox Params" ] : "Skybox Tint - Night" : "255 255 255 0"
+
+	skybox_fog_type(choices) [ group="Skybox Params" ] : "Fog Type" : 2 =
+	[
+		0: "None"
+		1: "Distance Based"
+		2: "Angular"
+	]
+
+	skybox_angular_fog_max_end(float) [ group="Skybox Params" ] : "Skybox Angular Fog Max End" : "12.0"
+	skybox_angular_fog_max_start(float) [ group="Skybox Params" ] : "Skybox Angular Fog Max Start" : "0.0"
+	skybox_angular_fog_min_start(float) [ group="Skybox Params" ] : "Skybox Angular Fog Min Start" : "0.0"
+	skybox_angular_fog_min_end(float) [ group="Skybox Params" ] : "Skybox Angular Fog Min End" : "-95.0"
 	
 	preview_day_or_night(choices) :"Preview" : 0 =
 	[
 		0: "Day"
 		1: "Night"
 	]
+
+	preview_inspector_view(boolean) : "Inspector View" : "0" : "Inspector View Preview"
 
 	SkyboxSlot(string) : "SkyboxSlot" : "" : "Name of the skybox this camera belongs to. Leave blank for non-skybox lights."
 ]	
