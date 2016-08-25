@@ -95,7 +95,7 @@
 		// converting that to streaming.
 		"AllocWarnMB_osx64" "200"
 		"AllocWarnMB_pc64" "200"
-		"AllocWarnMB" "64"
+		"AllocWarnMB" "100"
 		// There are some known large virtual reservations, such as the SBH, which
 		// bypass this limit so we can be fairly conservative.
 		"ReserveWarnMB" "32"
