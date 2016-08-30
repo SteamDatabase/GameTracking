@@ -13247,6 +13247,7 @@ If set to 1, does an optimization to prevent extra SendTable_Encode calls.
 If set to 1, the server calculates data and fills packets to bots. Used for perf testing.
 If set to 1, the server will kick clients with mismatching files. Otherwise, it will issue signed char warning to the client.
 If set to 1, the server will print signed char message whenever signed char client is verifying signed char CRC for signed char file.
+If set, attempt to keep signed char persistent buffer for the LZMA decoder dictionary. This avoids long double restrict-allocating signed char ~16-64meg buffer for each operation, at the expensive of keeping extra memory around when it is not in-use.
 If set, server only simulates entities on even numbered ticks.
 If set, whenever signed char game ends, if the server uptime exceeds this number of hours, the server will exit.
 If set, whenever signed char game ends, if the server uptime is less than this number of hours, the server will continue running regardless of sv_memlimit.
@@ -18961,6 +18962,7 @@ _localtime
 _log10
 _longjmp
 _lseek
+_lzma_persistent_buffer
 _m_szErrors
 _malloc
 _mat_bumpbasis
@@ -21178,6 +21180,7 @@ g_pServerDTIFilename
 g_pServerPluginHandler->ClientActive
 g_pServerPluginHandler->ClientPutInServer
 g_pServerPluginHandler->ClientSettingsChanged
+g_pStaticLZMABuf
 g_pStatsFile
 g_pTextureBudgetPanel
 g_pTextureListPanel
@@ -21204,6 +21207,8 @@ g_timedemo_CompletionFunc(char const*, char (*) [64])
 g_timedemo_CompletionFunc(char const*, char (*) [64])::timedemoComplete
 g_timedemoquit_CompletionFunc(char const*, char (*) [64])
 g_timedemoquit_CompletionFunc(char const*, char (*) [64])::timedemoquitComplete
+g_unStaticLZMABufRef
+g_unStaticLZMABufSize
 g_viewSetup
 g_vox_isector
 g_vox_lastsectorupdate
@@ -22009,6 +22014,7 @@ lump_t
 lump_t::m_DataMap
 lump_t_DataDescInit::g_DataMapHolder
 lumps
+lzma_persistent_buffer
 m_FullSendTables
 m_Signon
 m_StringTableContainer is NULL in CBaseClientState::ProcessUpdateStringTable
