@@ -829,6 +829,7 @@
  CSVCMsg_GameSessionConfiguration
  C_PhysPropClientside::Spawn: SetupPhysicsAsModel() failed for %s.
  Creep Kill Gold: %double
+ D;5:
  DOTA_CM_BroadcasterUsingCamerman
  DOTA_COMBATLOG_INTERRUPT_CHANNEL
  DOTA_JOIN_RESULT_ALREADY_IN_GAME
@@ -1179,6 +1180,7 @@
 !fffff.
 !ffffff.
 !g_pPhysicsGameSystem->FindSkeletonInstance( this )
+!general_seasonal_rank_transferred
 !general_seasonal_ranked_rank_peak
 !host_framestarttime_std_deviation
 !immediate
@@ -4373,6 +4375,15 @@
 #relationship_party
 #relationship_teammate
 #report_submitted
+#seasonal_ranked_transfer_already
+#seasonal_ranked_transfer_confirmation_failure
+#seasonal_ranked_transfer_confirmation_party
+#seasonal_ranked_transfer_confirmation_solo
+#seasonal_ranked_transfer_confirmation_success
+#seasonal_ranked_transfer_confirmation_title
+#seasonal_ranked_transfer_not_enough_games
+#seasonal_ranked_transfer_party
+#seasonal_ranked_transfer_solo
 #tourney_node_team_bye
 #tourney_node_team_finding
 #tourney_node_team_na
@@ -5434,9 +5445,10 @@ $}\Hc
 ( function() {
 ( string TableName, string KeyName )
 (#GameUI_Disconnect_LoopLevelLoadActivate
-(%,,U
+(%(,U
 (%0.2f): %short
-(%Z(U
+(%5va
+(%W+U
 (%double)  unit1:%double  unit2:%double  type:%double  priority:%double  time:%.f
 (%double) In: %.f  unit1:%double  unit2:%double  priority:%double Out:%.f Length:%.f
 (%double) Name: %short (%short)
@@ -5447,9 +5459,7 @@ $}\Hc
 (%double) unit1: %double  unit2: %double
 (%double)"%short" 
 (%double)"unconnected" 
-(%eha
 (%short,%short)
-(%void,U
 ((https?|ftp|file)://|www\.)([^<]*)
 ():   Members: %double
 ():   long long signed char::* members = %double
@@ -5459,9 +5469,13 @@ $}\Hc
 (*%short*), 
 (*MARK) must have an argument
 (*VERB) not recognized or malformed
-(-7-<
+(->&p
+(-__float128;<
 (1 + __int128) * 3 <= vecsize
+(5F&p
 (8HXhx
+(=N&p
+(=}double`
 (?333?
 (?R or (?[+-]digits must be followed by )
 (A;F u
@@ -5479,6 +5493,7 @@ $}\Hc
 (CMsgClientToGCOpenPlayerCardPackResponse
 (CMsgClientToGCRequestSteamDatagramTicket
 (CMsgClientToGCSetPlayerCardRosterRequest
+(CMsgClientToGCTransferSeasonalMMRRequest
 (CMsgClientToGCWrapAndDeliverGiftResponse
 (CMsgDOTAFantasyLeagueDraftPlayerResponse
 (CMsgDOTAFantasyLeagueEditInvitesResponse
@@ -5607,6 +5622,7 @@ $}\Hc
 )CMsgClientToGCRequestArcanaVotesRemaining"
 )CMsgClientToGCSetAdditionalEquipsResponse"#
 )CMsgClientToGCSetPlayerCardRosterResponse
+)CMsgClientToGCTransferSeasonalMMRResponse
 )CMsgDOTACompendiumInGamePredictionResults
 )CMsgDOTAFantasyPlayerScoreDetailsResponse
 )CMsgDOTAGCToGCUpdateOpenGuildPartyRequest
@@ -5735,6 +5751,7 @@ $}\Hc
 *k_EMsgClientToGCRequestSteamDatagramTicket
 *k_EMsgClientToGCSetPlayerCardRosterRequest
 *k_EMsgClientToGCSpectatorLobbyListResponse
+*k_EMsgClientToGCTransferSeasonalMMRRequest
 *k_EMsgClientToGCWeekendTourneyOptsResponse
 *k_EMsgClientToGCWrapAndDeliverGiftResponse
 *k_EMsgCustomGameListenServerStartedLoading
@@ -5855,6 +5872,7 @@ $}\Hc
 +k_EMsgClientToGCRequestArcanaVotesRemaining
 +k_EMsgClientToGCSetAdditionalEquipsResponse
 +k_EMsgClientToGCSetPlayerCardRosterResponse
++k_EMsgClientToGCTransferSeasonalMMRResponse
 +k_EMsgClientToGCWeekendTourneyLeaveResponse
 +k_EMsgGCFantasyLeagueFriendJoinListResponse
 +k_EMsgGCFantasyPlayerHisoricalStatsResponse
@@ -6200,14 +6218,18 @@ $}\Hc
 -world
 -zoom
 .  Please update your library.  If you compiled the program yourself, make sure that your headers are from the same version of Protocol Buffers as your link-time library.  (Version verification failed in "
-.%S.V
-.%cc+
+.%#0V
+.%:-bool
+.%<AO
+.%<NO
+.%B-V
+.%U0x
+.%p*bool
+.%}9V
 .(Optional) Set of tags for the published file.
-.-N4+
-.-U-[
-.-U:[
-.-Z2T
-.-long double`E
+.-=oE
+.-Me:
+.-~B+
 ... axis
 ...(;unsigned long long(H
 ...-index
@@ -6229,6 +6251,9 @@ $}\Hc
 .1 -1.0 -0.2
 .1 -3.1 -0.2
 .3333
+.58&>
+.5F)V
+.5v(V
 .>N^__int128~
 .@(w1A
 .@TvcI
@@ -7002,6 +7027,8 @@ $}\Hc
 0 = normal, 1 = off, 2 = never seen, 3 = seen
 0 = off, 1 = show post-processing passes in quadrants of the screen, 2 = only apply post-processing to the centre of the screen
 0 = standard sampling, 1 = fast sampling, 2 = ultra-fast sampling
+0 == ( pInstance->GetOwnerGameEntity()->GetEntityIdentity()->GetFlags() & EF_DELETE_IN_PROGRESS )
+0 == ( pInstance->GetOwnerGameEntity()->GetEntityIdentity()->GetFlags() & EF_IN_STAGING_LIST )
 0 @  
 0 @ ( %1.3f, %1.3f ) - 1 @ ( %1.3f, %1.3f )
 0 @ `
@@ -7505,7 +7532,7 @@ $}\Hc
 21.CMsgDOTAFantasyLeagueEditInvitesResponse.EResult"-
 21.CMsgDOTAFantasyTeamRosterAddDropResponse.EResult"
 21.CMsgDOTAFantasyTeamScoreResponse.CMsgPlayerScore
-21.CMsgGCToClientBattlePassRollup_International2016*V
+21.CMsgGCToClientBattlePassRollup_International2016"<
 21.CMsgGCToClientSocialMatchDetailsResponse.Comment
 21.CMsgSteamDatagramGameServerAuthTicket.ExtraField
 21.CUserMsg_ParticleManager.UpdateParticleSetFrozen
@@ -7896,7 +7923,6 @@ $}\Hc
 ;#7E1
 ;00PP
 ;0}	A9
-;5Fv"
 ;7|&H
 ;:|,H
 ;;|,H
@@ -9022,7 +9048,6 @@ A9F u
 A9F$t
 A9F(H
 A9F(u
-A9F8A
 A9F8}5I
 A9F@unsigned short
 A9FHu
@@ -9035,6 +9060,7 @@ A9G(unsigned short#A
 A9G,unsigned short
 A9G0~
 A9G0~;I
+A9G8A
 A9G@t$A
 A9GHt
 A9GTt
@@ -10804,7 +10830,7 @@ ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBR0
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBR0
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRAUARAXARARARARARARARARARARARARARARAp
-ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
+ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBXBRB`
 ARBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRBRB`
@@ -10849,6 +10875,7 @@ ARBRBRBVATARBVBRBUAp
 ARBRBRBXBRBTBRBTBRBTBRDVBRBVBRBVBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRB`&BRBTBp
 ARBRBRBZBRBUAR0
 ARBRBRBZBRBZBRBXBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRB`
+ARBRBRBZBRBZBRBZBRBTBRBTBRDVBRBVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBZBRBTBRDVBRBTBRDVBRBZBRBZBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRFTBRDVBRBTBRDVBRBTBp
 ARBRBRBZBRB[ARBTBRDVBRBTBRDVBRBTBRDVBRBXBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBZBRBTBp
 ARBRBRBZBRDVBUC`
 ARBRBRB`
@@ -11069,7 +11096,7 @@ AUTOSPEED: %.f (%.f)
 AUTOSPEED: GOT AN EVENT AT %.2f
 AVSE1
 AVSHc
-AVSLc5
+AVSLc5z
 AVSPH
 AVSPI
 AWAVATS
@@ -11101,7 +11128,7 @@ AWAVAUATSPE
 AWAVAUATSPH
 AWAVAUATSPI
 AWAVAUATSPL
-AWAVAUATSPLc-kc
+AWAVAUATSPLc-
 AWAVAUATSPLc:1
 AWAVAUATSPM
 AWAVS
@@ -11125,7 +11152,6 @@ AWAVSPI
 AWAVSPL
 AWAVSPLc
 AWAVSPLc5
-AWAVSPLc5g
 AWAVSPM
 AWAVSfD
 AWB]CSA`
@@ -13755,6 +13781,7 @@ CDOTASaveGame
 CDOTASaveGame_Player
 CDOTASaveGame_SaveInstance
 CDOTASaveGame_SaveInstance_PlayerPositions
+CDOTASeasonController::EventTransferSeasonalRank
 CDOTASeasonController::GetArcanaVotesForMatch
 CDOTASeasonController::GetArcanaVotesRemaining
 CDOTASeasonController::GetEventPointLog
@@ -19638,6 +19665,8 @@ CMsgClientToGCTopFriendMatchesRequest
 CMsgClientToGCTopLeagueMatchesRequest
 CMsgClientToGCTopMatchesRequest
 CMsgClientToGCTrackDialogResult
+CMsgClientToGCTransferSeasonalMMRRequest
+CMsgClientToGCTransferSeasonalMMRResponse
 CMsgClientToGCUnlockCrate
 CMsgClientToGCUnlockCrateResponse
 CMsgClientToGCUnlockCrateResponse_Item
@@ -20305,14 +20334,17 @@ CMsgIDLink<1u, 16u, 8118u, CMsgWeekendTourneyOpts>
 CMsgIDLink<1u, 16u, 8120u, CMsgWeekendTourneyLeave>
 CMsgIDLink<1u, 16u, 8172u, CMsgDOTAWeekendTourneyPlayerStatsRequest>
 CMsgIDLink<1u, 16u, 8189u, CMsgClientToGCRequestSteamDatagramTicket>
+CMsgIDLink<1u, 16u, 8193u, CMsgClientToGCTransferSeasonalMMRRequest>
 CMsgIDLinkGenericClientToGCResponse<1u, 8118u, CMsgWeekendTourneyOpts, 8119u, CMsgGenericResult>
 CMsgIDLinkGenericClientToGCResponse<1u, 8120u, CMsgWeekendTourneyLeave, 8121u, CMsgGenericResult>
 CMsgIDLinkGenericClientToGCResponse<1u, 8172u, CMsgDOTAWeekendTourneyPlayerStatsRequest, 8173u, CMsgDOTAWeekendTourneyPlayerStats>
 CMsgIDLinkGenericClientToGCResponse<1u, 8189u, CMsgClientToGCRequestSteamDatagramTicket, 8190u, CMsgClientToGCRequestSteamDatagramTicketResponse>
+CMsgIDLinkGenericClientToGCResponse<1u, 8193u, CMsgClientToGCTransferSeasonalMMRRequest, 8194u, CMsgClientToGCTransferSeasonalMMRResponse>
 CMsgIDLinkResponse<1u, 16u, 8118u, CMsgWeekendTourneyOpts, 8119u, CMsgGenericResult>
 CMsgIDLinkResponse<1u, 16u, 8120u, CMsgWeekendTourneyLeave, 8121u, CMsgGenericResult>
 CMsgIDLinkResponse<1u, 16u, 8172u, CMsgDOTAWeekendTourneyPlayerStatsRequest, 8173u, CMsgDOTAWeekendTourneyPlayerStats>
 CMsgIDLinkResponse<1u, 16u, 8189u, CMsgClientToGCRequestSteamDatagramTicket, 8190u, CMsgClientToGCRequestSteamDatagramTicketResponse>
+CMsgIDLinkResponse<1u, 16u, 8193u, CMsgClientToGCTransferSeasonalMMRRequest, 8194u, CMsgClientToGCTransferSeasonalMMRResponse>
 CMsgIPCAddress
 CMsgInitialQuestionnaireResponse
 CMsgInvitationCreated
@@ -29034,19 +29066,15 @@ D24S8
 D24X4S4
 D24X8
 D24X8_SHADOW
-D5Q>u
 D7(H9
 D9 fA
 D9 tW
 D9 teD
 D9!tEH
 D9#}jD
-D9%/	
 D9(M9
 D9*unsigned short&H
-D9-bn
-D9-tl
-D9-uW
+D9-uf
 D92tBH
 D93teE
 D97t%H
@@ -29056,7 +29084,7 @@ D98tf
 D98ti
 D99tBA
 D9;uPA
-D9=*r
+D9=\G
 D9?unsigned short%H
 D9?unsigned short'H
 D9@ unsigned short
@@ -29101,17 +29129,13 @@ D9~ unsigned short	H
 D:`H9D>`unsigned short
 D; }(H
 D;#t.
-D;%^}
+D;%= 
 D;(}$I
 D;*tNH
 D;+}8Ic
-D;-Gk
-D;-long long!H
-D;5=__int128"
-D;5Bz
-D;5^wchar_t
-D;=-signed char
-D;=gy
+D;-X4H
+D;5=}"
+D;=mu
 D;H(|
 D;H\r
 D;H`|
@@ -30962,6 +30986,7 @@ DOTATrackedControllerMenuButtonActivated
 DOTATransferAdminClicked
 DOTATransferAdminConfirmed
 DOTATransferAdminConfirmed( %u )
+DOTATransferSeasonalRank
 DOTATreasureCell
 DOTATreasureDetailsPage
 DOTATreasuryPage
@@ -32336,6 +32361,7 @@ DetailsSupportItems
 DetailsTeamsLogoDire
 DetailsTeamsLogoRadiant
 DetailsViewButton
+Detected signed char leaked softbody in skeleton destructor for '%short'.
 Detected video config level %double
 Determine whether an issued command with no target is valid.
 DetermineAssetModiferUIName(CAssetModifier const*, C_EconItemView const*, CEconItemDefinition const*)::$_6
@@ -33649,7 +33675,6 @@ EventSetTime_t
 EventSimpleLoopFrameUpdate_t
 EventSimulate_t
 EventSplitScreenStateChanged_t
-EventState
 EventSystem001
 EventTicket
 EventTrophyLevel
@@ -34689,8 +34714,6 @@ G8;F8
 G8;F8u
 G8H	p(]
 G8H9=
-G8H9=-
-G8H9=U
 G8I;G@
 G8L90
 G8fffff.
@@ -34832,23 +34855,24 @@ GCSDK::GCClientJobLambda<CDOTAReplayManager::RegisterForReplayExistenceUpdates(p
 GCSDK::GCClientJobLambda<CDOTAReplayManager::RequestReplayDownload(CMsgDOTAMatch const*)::$_2>
 GCSDK::GCClientJobLambda<CDOTAReplayManager::RequestReplayExistence(CMsgDOTAMatch const*, bool)::$_0>
 GCSDK::GCClientJobLambda<CDOTAReplayManager::StartRequestReplayExistence(unsigned long long)::$_3>
-GCSDK::GCClientJobLambda<CDOTASeasonController::BGetLinaPlaysRemaining(EEvent, int*, int*)::$_18>
-GCSDK::GCClientJobLambda<CDOTASeasonController::ClaimLevelRewards(EEvent, CUtlVector<CDOTASeasonController::SLevelReward, CUtlMemory<CDOTASeasonController::SLevelReward, int> >&)::$_19>
-GCSDK::GCClientJobLambda<CDOTASeasonController::GetArcanaVotes(panorama::CPanel2D*)::$_15>
-GCSDK::GCClientJobLambda<CDOTASeasonController::GetArcanaVotesRemaining(panorama::CPanel2D*)::$_16>
-GCSDK::GCClientJobLambda<CDOTASeasonController::GetEventPointLog(EEvent, panorama::CPanel2D*)::$_17>
-GCSDK::GCClientJobLambda<CDOTASeasonController::RequestEventGoalValues(CUtlVector<EEvent, CUtlMemory<EEvent, int> > const&)::$_13>
-GCSDK::GCClientJobLambda<CDOTASeasonController::RequestWageringInfo(EEvent)::$_11>
-GCSDK::GCClientJobLambda<CDOTASeasonController::RequestWheelSpin(EEvent, unsigned int)::$_12>
-GCSDK::GCClientJobLambda<CDOTASeasonController::VoteForArcana(int, ArcanaVoteForMatch_t const*, panorama::CPanel2D*)::$_14>
-GCSDK::GCClientJobLambda<CDOTASpectateController::GetMostRecentVODForTwitchChannel(char const*, panorama::CPanel2D*)::$_20>
-GCSDK::GCClientJobLambda<CDOTASpectatorLobbyController::CheckStartWatching()::$_23>
-GCSDK::GCClientJobLambda<CDOTASpectatorLobbyController::RequestSpectatorLobbies(bool)::$_21>
+GCSDK::GCClientJobLambda<CDOTASeasonController::BGetLinaPlaysRemaining(EEvent, int*, int*)::$_19>
+GCSDK::GCClientJobLambda<CDOTASeasonController::ClaimLevelRewards(EEvent, CUtlVector<CDOTASeasonController::SLevelReward, CUtlMemory<CDOTASeasonController::SLevelReward, int> >&)::$_20>
+GCSDK::GCClientJobLambda<CDOTASeasonController::EventTransferSeasonalRank(bool)::$_11>
+GCSDK::GCClientJobLambda<CDOTASeasonController::GetArcanaVotes(panorama::CPanel2D*)::$_16>
+GCSDK::GCClientJobLambda<CDOTASeasonController::GetArcanaVotesRemaining(panorama::CPanel2D*)::$_17>
+GCSDK::GCClientJobLambda<CDOTASeasonController::GetEventPointLog(EEvent, panorama::CPanel2D*)::$_18>
+GCSDK::GCClientJobLambda<CDOTASeasonController::RequestEventGoalValues(CUtlVector<EEvent, CUtlMemory<EEvent, int> > const&)::$_14>
+GCSDK::GCClientJobLambda<CDOTASeasonController::RequestWageringInfo(EEvent)::$_12>
+GCSDK::GCClientJobLambda<CDOTASeasonController::RequestWheelSpin(EEvent, unsigned int)::$_13>
+GCSDK::GCClientJobLambda<CDOTASeasonController::VoteForArcana(int, ArcanaVoteForMatch_t const*, panorama::CPanel2D*)::$_15>
+GCSDK::GCClientJobLambda<CDOTASpectateController::GetMostRecentVODForTwitchChannel(char const*, panorama::CPanel2D*)::$_21>
+GCSDK::GCClientJobLambda<CDOTASpectatorLobbyController::CheckStartWatching()::$_24>
 GCSDK::GCClientJobLambda<CDOTASpectatorLobbyController::RequestSpectatorLobbies(bool)::$_22>
-GCSDK::GCClientJobLambda<CDOTAStatsController::EnsureLoadedTeammateStats(unsigned long long)::$_24>
-GCSDK::GCClientJobLambda<CDOTATeamsController::RequestMyTeamsInfo() const::$_27>
-GCSDK::GCClientJobLambda<CDOTATeamsController::RequestTeamInfo(unsigned int) const::$_25>
-GCSDK::GCClientJobLambda<CDOTATeamsController::RequestTeamsInfoForLeague(unsigned int) const::$_26>
+GCSDK::GCClientJobLambda<CDOTASpectatorLobbyController::RequestSpectatorLobbies(bool)::$_23>
+GCSDK::GCClientJobLambda<CDOTAStatsController::EnsureLoadedTeammateStats(unsigned long long)::$_25>
+GCSDK::GCClientJobLambda<CDOTATeamsController::RequestMyTeamsInfo() const::$_28>
+GCSDK::GCClientJobLambda<CDOTATeamsController::RequestTeamInfo(unsigned int) const::$_26>
+GCSDK::GCClientJobLambda<CDOTATeamsController::RequestTeamsInfoForLeague(unsigned int) const::$_27>
 GCSDK::GCClientJobLambda<CDOTAWatchController::DownloadReplay(unsigned long long)::$_2>
 GCSDK::GCClientJobLambda<CDOTAWatchController::IncrementGamesViewedForLeagueItem(unsigned long long, unsigned int)::$_5>
 GCSDK::GCClientJobLambda<CDOTAWatchController::RequestTopFriendMatches()::$_4>
@@ -34893,11 +34917,11 @@ GCSDK::GCClientJobLambda<CDOTA_VR_UI_GameScreen::UpdateMyReplays()::$_3>
 GCSDK::GCClientJobLambda<CDOTA_VR_UI_Popup_Watch::EventWatchLiveGame(unsigned long long)::$_12>
 GCSDK::GCClientJobLambda<CDOTA_VR_UI_Popup_Watch::EventWatchMatchReplay(unsigned long long)::$_11>
 GCSDK::GCClientJobLambda<CMarketController::RefreshClientMarketData()::$_0>
-GCSDK::GCClientJobLambda<dota_consume_event_point_items(CCommandContext const&, CCommand const&)::$_28>
-GCSDK::GCClientJobLambda<redeem_reward(CCommandContext const&, CCommand const&)::$_29>
-GCSDK::GCClientJobLambda<spectator_lobby_create(CCommandContext const&, CCommand const&)::$_30>
-GCSDK::GCClientJobLambda<spectator_lobby_list(CCommandContext const&, CCommand const&)::$_32>
-GCSDK::GCClientJobLambda<spectator_lobby_set_details(CCommandContext const&, CCommand const&)::$_31>
+GCSDK::GCClientJobLambda<dota_consume_event_point_items(CCommandContext const&, CCommand const&)::$_29>
+GCSDK::GCClientJobLambda<redeem_reward(CCommandContext const&, CCommand const&)::$_30>
+GCSDK::GCClientJobLambda<spectator_lobby_create(CCommandContext const&, CCommand const&)::$_31>
+GCSDK::GCClientJobLambda<spectator_lobby_list(CCommandContext const&, CCommand const&)::$_33>
+GCSDK::GCClientJobLambda<spectator_lobby_set_details(CCommandContext const&, CCommand const&)::$_32>
 GCSDK::ILobby
 GCSDK::IMsgNetPacket
 GCSDK::IParty
@@ -35782,6 +35806,11 @@ Global Decal Dynamic Buffer
 Global Decal IndexBuffer
 Global Decal Static Buffer
 Global Decal Translucent Buffer
+GlobalEventActive
+GlobalEventEnded
+GlobalEventNotActive
+GlobalEventPurchasable
+GlobalEventState
 GlobalItem
 GlobalReplace
 GlobalSys
@@ -35941,6 +35970,7 @@ H8I;L$`unsigned short
 H8I;O`unsigned short
 H8ffff.
 H97t"H
+H9=}k
 H9A@u
 H9C teH
 H9C u
@@ -36269,8 +36299,6 @@ HaveItems
 Hazhadal 			
 Hc	H)
 Hc	Hi
-Hc5l?
-Hc5t1.
 Hc@ H
 Hc@(H
 Hc@0H
@@ -36282,6 +36310,7 @@ Hc@pH
 Hc@pI
 HcA E1
 HcA H
+HcA(H
 HcAPH
 HcA\H
 HcB H
@@ -37341,6 +37370,7 @@ IcV0H
 IcV8H
 IcVpH
 IcW H
+IcW(H
 IcW(I
 IcW0H
 IcW4Mcf4D9
@@ -38459,18 +38489,23 @@ L00A9
 L2$Hc
 L40t/H
 L9 unsigned short!H
-L9%bool~
 L90tOH
-L95 N(
-L955pq
-L95Dl(
-L95Efp
-L95MRq
-L95](_
-L95^Ik
+L95,0
+L95.k(
+L958#
+L95@](
+L95D-u
+L95]zq
+L95d{(
+L95e,I
+L95m7h
+L95nqk
+L95|long long`
+L95}G_
 L9;unsigned short	H
-L9=-}5
-L9=|,
+L9=A unsigned __int128
+L9=UBT
+L9=Y:unsigned __int128
 L9T$@u
 L9p unsigned short
 L9q u-
@@ -38481,7 +38516,6 @@ L;(;L3(@
 L;(B;L
 L;(C;L+(}
 L;3uE
-L;=...%...
 L;T$@
 L;T$XuIA
 L>333?
@@ -38602,19 +38636,19 @@ LayoutChatLines
 LayoutEventLines
 LayoutPositionType_e
 LayoutSmallWieldingItem
-Lc%f3H
+Lc%(long long-
+Lc%FFH
 Lc&D
 Lc1D9
 Lc2E1
-Lc55.
-Lc5N:H
+Lc5.MH
+Lc55=
 Lc7E1
 Lc8E1
 Lc8u9H
 Lc;E1
 Lc;fB
-Lc=>wh
-Lc=signed char 
+Lc=D5
 LcC(K
 LcG`float
 LcGxM
@@ -39154,7 +39188,7 @@ MGenerateArrayKeynamesFirstIndex
 MGenerateArrayKeynamesList
 MHACKDisallowSynthVerification
 MHasSubKeyfields
-MHfffff.
+MHffff.
 MISSING TEXT
 MISSINGLEAGUESUBSCRIPTION
 MIcO0H
@@ -41485,7 +41519,7 @@ P`I9G
 P`I;G
 P`L;}
 P`Lc5
-P`PPPPP```PPPPP`P@```PPpp@pP`PPPPPPPP`PP`PP``PPP`PPPP
+P`PPPPP```PPPPP`P@```PPpp@pP`PPPPPPPP`PP`PP``PPP`PPPPP
 P`P`P
 P`P```@`PP``P@P`P`PP``P@ppP``P`
 P`P`````@p`P`P`@P`@@`@PP`P
@@ -43938,9 +43972,11 @@ Seasonal
 SeasonalPartyMMRCalibrated
 SeasonalPartyMMRCalibrating
 SeasonalPartyMMRNoData
+SeasonalPartyMMRTransfer
 SeasonalSoloMMRCalibrated
 SeasonalSoloMMRCalibrating
 SeasonalSoloMMRNoData
+SeasonalSoloMMRTransfer
 Second argument to Swap() (of type "
 Second argument to SwapFields() (of type "
 SecondPick
@@ -44028,15 +44064,15 @@ SelectorArrow
 SelectorArrowWell
 SelfColorBox
 SelfEventActive
-SelfEventEnded
 SelfEventNeedsActivate
 SelfEventNotActive
+SelfEventPointTier
+SelfEventState
 SelfEventTierBronze
 SelfEventTierGold
 SelfEventTierNone
 SelfEventTierPlatinum
 SelfEventTierSilver
-SelfEventUpsell
 SelfFocus
 SelfLegend
 Send signed char HTTP request.
@@ -45329,11 +45365,12 @@ T$`E1
 T$hHc
 T$hffff.
 T$nD9
-T%(/Q
+T%(?S
+T%>L<
+T%X=Q
 T0X;U
-T5$.<
-T5>)short
-T5t`short
+T5Dns
+T5T<<
 T9(B;T
 T>`tBH
 T>`unsigned short[H
@@ -47133,20 +47170,18 @@ VpropBreakablePartData_t
 VrWriteStencilMaskLeftEye
 VrWriteStencilMaskRightEye
 Vulkan
+W	}.P
 W I94
 W$A+W Hc
 W$IcO
-W-<yC
-W-iTC
+W%(~C
+W%V)D
+W-$+D
+W-r)D
 W0I94
 W0ffff.
-W5$gV
-W5'vC
-W5G P
-W5Ru?
 W8t!H9
 W8t1H9
-W=iwC
 WA;v8u
 WA;vHu
 WA;vPu
@@ -47479,14 +47514,17 @@ Writing zero-length unknown chunk
 Wrong JPEG library version: library is %double, caller expects %double
 Wrong alignment %double
 Wrote palette index exceeding num_palette
-X%4~E
 X(;X8
 X(Optional) If true, only return the published file ids of files that satisfy this query.
+X-4XD
+X-W	G
 X360_DST16
 X360_DST24
 X360_DST24F
-X5SN@
-X5gnR
+X57zR
+X5:X@
+X5f!I
+X5nnQ
 X8A;XH
 X@TIc
 XAxisLabel
@@ -47496,7 +47534,7 @@ XBRAp
 XBRBRAp
 XBRBRBRBRBRBRBRBRBRBRBRBp
 XBRBRBSAp
-XBRBRBTBRDVBRBXBRBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRBTBRDVBRBVBRBTBRDVBRBTBRDVBRDTBRBTBRDVBRBVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBZBRBZBRBTBRDVBRBTBRDVBRBZBRBTBRDVBRBTBRDVBRBZBRBTBRBTBRBZBRBVBRBVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBZBRBZBRBZBRBTBRBTBRDVBRBVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBZBRBTBRDVBRBTBRDVBRBZBRBZBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRFTBRDVBRBTBRDVBRBTBp
+XBRBRBTBRDVBRBXBRBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRBTBRDVBRBVBRBTBRDVBRBTBRDVBRDTBRBTBRDVBRBVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRBZBRBZBRBTBRDVBRBTBRDVBRBZBRBTBRDVBRBTBRDVBRBZBRBTBRBTBRBZBRBVBRBVBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRB`
 XBRBTBRBTBRDVBRBVBRBXBRBTBRBTBRDVBRBVBRBXBRBTBRBTBRDVBRBVBRB]C`
 XBRBTBRDVBRBTBRDVBRA`(A
 XBRBTBRDVBRBTBRDVBRBZBRBZBRBZBRBZBRAp
@@ -47526,7 +47564,7 @@ XBTBRB]ARBRAp
 XBTBRB]ARBRBRAp
 XBTBRB]ARBRBXBSARBSAXBTBRB]ARBRAp
 XBTBRB]ARBSAXBRB`
-XBXBXBXBXB`NARARARARARATB`MA`MA`MA`NBRBRBRBRBRBRBRBZBRBZBRBZBRBZBRBRBRBRBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRA]ASB`OA`MA`bB`OATB`MA`MA`NATA`MA`NB`MA`NB`MA`MA`MA`PATA`MC`MA`MA`MA`MA`MARBRBRBp
+XBXBXBXBXB`NARARARARARATB`MA`MA`MA`NBRBRBRBRBRBRBRBZBRBZBRBZBRBZBRBRBRBRBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRBXBRA]ASB`OA`MA`bB`OATB`MA`MA`NATA`MA`NB`MA`NB`MA`MA`MA`PATA`MC`MA`MA`MA`MA`MARBRBRBp
 XB`&B`
 XHc{X1
 XInputPad
@@ -47557,13 +47595,10 @@ X|C9\5@u
 X|C9\<0u
 X|trH
 X|unsigned short	H
-Y%+$;
-Y%XKL
-Y%m0M
-Y%qML
+Y%:uD
+Y%L0I
 Y(Optional) Starting index to begin enumeration at. Defaults to the beginning of the list."Z
-Y-Du=
-Y5q%&
+Y=|6M
 Y@ffff.
 YARARARAp
 YA[ARBRA\ATCp
@@ -47892,7 +47927,7 @@ ZoomedOut
 \sPHi
 \uRMc
 ] is an invalid data character in JavaScript compatibility mode
-]%=:A
+]%mFA
 ]0A;]@
 ]0Mct$0
 ]0Mc~0
@@ -47948,6 +47983,7 @@ ZoomedOut
 ^$A+^ ~{fffff.
 ^$A+^ ~|ffffff.
 ^$A+^ ~}ffff.
+^%!"6
 ^&'@{}[],$=!-#()%.+_ 
 ^(A;^,u
 ^(A;^,ug
@@ -47964,7 +48000,6 @@ ZoomedOut
 ^,A+^(~p
 ^,A+^(~xff.
 ^,A+^(~|ffffff.
-^-P2T
 ^0A;^4ukL
 ^0A;^4um
 ^0A;^4uqL
@@ -47981,6 +48016,7 @@ ZoomedOut
 ^4A+^0~r
 ^4A+^0~sf
 ^4A+^0~u
+^5D,O
 ^8A;^<u
 ^8A;^<ug
 ^8A;^<ukL
@@ -48515,7 +48551,7 @@ _wide
 `5B`-AVAUB`
 `5B`NARA`NATA`MA`MA`MA`MA`NBUA`MA`MA`MA`MA`OARB`OA`MA`NARA`NARAp
 `7ATBp
-`7B`MARBZBRBZBRBZBRBZBRBTBRDVBRBZBRBZBRBZBRBZBRA`
+`8A`MARBZBRBZBRBZBRBZBRBTBRDVBRBZBRBZBRBZBRBZBRA`
 `8BRBRBRBRBRF`
 `8BRBRBRBRF`
 `8ffff.
@@ -48651,10 +48687,9 @@ _wide
 `u(Lc
 `|D9#u
 `|D9%
-`|D9%!)
-`|D9%-
-`|D9%A
-`|D9%D
+`|D9%!
+`|D9%!>
+`|D9%$
 `|D9c0u
 `|E9f0u
 `|E9g0u
@@ -56671,6 +56706,7 @@ is_multiplayer
 is_nightstalker_night
 is_owned
 is_parent_relative
+is_party
 is_passive
 is_perfect_world_test_account
 is_phone_identifying
@@ -58693,10 +58729,10 @@ long long`A9]$|ZI
 long longcomplex [A\A^A_]
 long longimaginary ;Fx
 long long|D9=
-long long|D9=	9L
 long long|D9=...
 long long|D9=\
 long long|D9=__float128
+long long|D9=float
 long long|D9=p
 long long|E9|
 long long|G9|,0u
@@ -65237,11 +65273,11 @@ nyx_assassin_mana_burn
 nyx_assassin_spiked_carapace
 nyx_assassin_unburrow
 nyx_assassin_vendetta
-o5	YS
-o5&WS
-o5+YS
-o5AFx
-o5sVS
+o5(cS
+o51]S
+o55Yq
+o5HSq
+o5iaS
 oD9Hf
 oF@fA
 oG@fA
@@ -67843,11 +67879,9 @@ py_generic_services
 pz_clip
 p|D95
 p|D95@
-p|D95B
 p|D95H
-p|D95Lac
-p|D95Ql8
-p|D95z
+p|D95Q{8
+p|D95l
 p|D9t
 p|D9u
 p|E9t
@@ -69046,8 +69080,11 @@ scale_2d_factors_y
 scale_size
 scaled_assists
 scaled_deaths
+scaled_hero_damage
+scaled_hero_healing
 scaled_kills
 scaled_metric
+scaled_tower_damage
 scaleform_spew
 scaleoffset
 scales
@@ -70199,6 +70236,7 @@ solo_calibrating_required_games
 solo_competitive_games_played
 solo_competitive_rank
 solo_mmr
+solo_seasonal_rank_transferred
 solo_seasonal_ranked_rank
 solo_seasonal_ranked_rank_peak
 somevaluH
@@ -72353,7 +72391,7 @@ tutorial_minimap_position_closed
 tutorial_tip_dismissed
 tv9D1
 tvA9F
-tvD;%
+tvD;%I
 tv_listen_voice_indices
 tv_listen_voice_indices %double
 tv_listen_voice_indices 0
@@ -72612,6 +72650,7 @@ uaLck
 ubfff.
 ubz`E
 ubz`Ic
+ud9=<
 udM9f
 uffff.
 ufffff.
@@ -72772,13 +72811,16 @@ unreliable_gold
 unset
 unsigned
 unsigned __int128 char::*,Ii
-unsigned __int128%;Xq
-unsigned __int128%r,short
-unsigned __int128->Fx
-unsigned __int128-MOq
-unsigned __int128-QFx
-unsigned __int128-`Iq
-unsigned __int128=IFx
+unsigned __int128%?~[
+unsigned __int128%B:short
+unsigned __int128%Q8s
+unsigned __int128%kbq
+unsigned __int128%z6s
+unsigned __int128-!Tx
+unsigned __int128-}Yq
+unsigned __int128=)]S
+unsigned __int128=UYS
+unsigned __int128=XYS
 unsigned __int128\98f
 unsigned __int128`vDH
 unsigned __int128~0fD
@@ -72795,7 +72837,7 @@ unsigned charcomplex [A^]
 unsigned charimaginary +XPH
 unsigned charimaginary [A\A^A_]
 unsigned char|D9-
-unsigned char|D9-Nec
+unsigned char|D9-unsigned int
 unsigned char|D9m
 unsigned char|E9.u
 unsigned char|E9l
@@ -72984,6 +73026,7 @@ unsigned short?ffffff.
 unsigned short@9D1
 unsigned short@9L:
 unsigned short@A9\
+unsigned short@Lc`@M
 unsigned short[9D1
 unsigned short[9D9
 unsigned short[A^]
@@ -73747,6 +73790,7 @@ void CGameConfiguration::ComputeMaxClients(GameSessionConfiguration_t *)
 void CGameEntitySystem::ExtractClientServerSpecificEntities(CUtlVector<const CEntityKeyValues *> *, const CEntityKeyValues **, int)
 void CGameIntegrationDataRenderer_Items_v1::RenderPlayer(int, GCSDK::CWebAPIValues *)
 void CLoopModeGame::OnPreDataUpdate(const EventPreDataUpdate_t &)
+void CModelState::SetupModel(CModelState *, CSkeletonInstance *, const matrix3x4a_t &)
 void CParticleProperty::AddControlPoint(int, int, PARTICLE_EHANDLE, ParticleAttachment_t, int, CUtlStringToken, Vector, matrix3x4_t *, Vector)
 void CParticleProperty::SetControlPoint(int, int, PARTICLE_EHANDLE, ParticleAttachment_t, int, CUtlStringToken, Vector, matrix3x4_t *, Vector)
 void CPredictionCopy::DescribeFields(const CFieldPath &, const CUtlVector<const datamap_t *> &, const datamap_t *, PredictionCopyType_t, const byte *, const byte *, int)
@@ -74440,7 +74484,7 @@ zuus_thundergods_wrath
 | <code>
 | <code>A
 |"0IcE
-|"9=S
+|"9=3
 |"ffff.
 |$ E;|$$ukH
 |$ E;|$0D
