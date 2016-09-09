@@ -829,7 +829,6 @@
  CSVCMsg_GameSessionConfiguration
  C_PhysPropClientside::Spawn: SetupPhysicsAsModel() failed for %s.
  Creep Kill Gold: %double
- D;5j
  DOTA_CM_BroadcasterUsingCamerman
  DOTA_COMBATLOG_INTERRUPT_CHANNEL
  DOTA_JOIN_RESULT_ALREADY_IN_GAME
@@ -2926,6 +2925,7 @@
 #DOTA_PlayerContextMenu_CoachParty
 #DOTA_PlayerContextMenu_Ignore
 #DOTA_PlayerContextMenu_IgnoreFriendRequest
+#DOTA_PlayerContextMenu_IgnoreSpam
 #DOTA_PlayerContextMenu_InviteToLobby
 #DOTA_PlayerContextMenu_InviteToParty
 #DOTA_PlayerContextMenu_KickFromLobby
@@ -2991,6 +2991,8 @@
 #DOTA_Profile_LeaguePassesPage
 #DOTA_Profile_ProfilePage
 #DOTA_Profile_TrophyPage
+#DOTA_PublicTextBanned_Reports
+#DOTA_PublicTextBanned_Reports_Avoid_Overflow
 #DOTA_PurchaseAndEquip
 #DOTA_PurchaseBattlePassLevels
 #DOTA_PurchaseEventRewardLevel
@@ -4373,6 +4375,7 @@
 #player_info_standin
 #player_report_fail_generic
 #player_report_fail_too_late
+#prevent_public_text_chat_until_date
 #relationship_chatchannel
 #relationship_clan
 #relationship_friend
@@ -5326,6 +5329,8 @@ $}\Hc
 &k_EMsgGCToGCGetServerForClientResponse
 &k_EMsgGCToGCGrantSelfMadeItemToAccount
 &k_EMsgGCToGCLoadSessionSOCacheResponse
+&k_EMsgGCToGCPublicChatCommunicationBan
+&k_EMsgGCToGCUpdateAccountPublicChatBan
 &k_EMsgGCToGCUpdateMatchManagementStats
 &k_EMsgGCToServerRealtimeStatsStartStop
 &k_EMsgServerToGCGetProfileCardResponse
@@ -5451,9 +5456,7 @@ $}\Hc
 ( string TableName, string KeyName )
 (#GameUI_Disconnect_LoopLevelLoadActivate
 (%0.2f): %short
-(%80U
-(%__float128/U
-(%`__int128*
+(%J6U
 (%double)  unit1:%double  unit2:%double  type:%double  priority:%double  time:%.f
 (%double) In: %.f  unit1:%double  unit2:%double  priority:%double Out:%.f Length:%.f
 (%double) Name: %short (%short)
@@ -5464,7 +5467,9 @@ $}\Hc
 (%double) unit1: %double  unit2: %double
 (%double)"%short" 
 (%double)"unconnected" 
+(%float:U
 (%short,%short)
+(%y9U
 ((https?|ftp|file)://|www\.)([^<]*)
 ():   Members: %double
 ():   long long signed char::* members = %double
@@ -5474,15 +5479,13 @@ $}\Hc
 (*%short*), 
 (*MARK) must have an argument
 (*VERB) not recognized or malformed
-(-$-p
-(-K3p
-(-O-!
+(-`/p
 (1 + __int128) * 3 <= vecsize
-(5<-p
-(5S3p
+(5&0p
+(5h/p
 (8HXhx
-(=T-p
-(=[3p
+(=.0p
+(=p/p
 (?333?
 (?R or (?[+-]digits must be followed by )
 (A;F u
@@ -5823,6 +5826,7 @@ $}\Hc
 +Q$Hc
 +Updates information about signed char published file.
 +[A\A^A_]
++`wd?$
 +alt1
 +alt2
 +attack
@@ -6225,20 +6229,20 @@ $}\Hc
 -world
 -zoom
 .  Please update your library.  If you compiled the program yourself, make sure that your headers are from the same version of Protocol Buffers as your link-time library.  (Version verification failed in "
-.%3;V
-.%5(>
-.%6UT
-.%`(bool
-.%iW
-.%y9[
-.%yF[
+.%C9V
+.%\JO
+.%\WO
+.%b6V
+.%eMx
 .(Optional) Set of tags for the published file.
-.-5:[
-.-5G[
-.-vFO
-.-vSO
-.-y.]
-.-~=D
+.-&/V
+.-)?]
+.-L0G
+.-NOD
+.-U?[
+.-UL[
+.-long double#bool
+.-~!S
 ... axis
 ...(;unsigned long long(H
 ...-index
@@ -6260,9 +6264,12 @@ $}\Hc
 .1 -1.0 -0.2
 .1 -3.1 -0.2
 .3333
-.5&,V
-.5V+V
-.5X"bool
+.55$b
+.593V
+.5f2V
+.5x'bool
+.5xD>
+.=short	F
 .>N^__int128~
 .@(w1A
 .@TvcI
@@ -8104,7 +8111,7 @@ $}\Hc
 <signed char href="event:DOTAShowProfilePage( %llu )">%short</signed char>
 <signed char href="event:signed char%u">%short</signed char>
 <signed char href=H
-<signed char oncontextmenu="event:DOTAShowChannelUserMenu( %u )">%short</signed char>
+<signed char oncontextmenu="event:DOTAShowChannelUserMenu( %u, %llu )">%short</signed char>
 <span class="%short"> %short="</span>
 <span class="%short"> address="</span>
 <span class="%short"> styleflags="</span>
@@ -11108,7 +11115,7 @@ AUTOSPEED: %.f (%.f)
 AUTOSPEED: GOT AN EVENT AT %.2f
 AVSE1
 AVSHc
-AVSLc5
+AVSLc5J
 AVSPH
 AVSPI
 AWAVATS
@@ -20124,6 +20131,7 @@ CMsgGCAddGiftItem
 CMsgGCBannedWord
 CMsgGCBannedWordListRequest
 CMsgGCBannedWordListResponse
+CMsgGCChatReportPublicSpam
 CMsgGCCheckFriendship
 CMsgGCCheckFriendship_Response
 CMsgGCClientDisplayNotification
@@ -28997,6 +29005,7 @@ D$@L9
 D$@L;unsigned long
 D$@fA
 D$DA;F
+D$DD)
 D$DIcD$@
 D$Du	A
 D$HB9
@@ -29009,6 +29018,7 @@ D$HLch@M
 D$HfF
 D$HtGH
 D$HtGI
+D$LD)
 D$LIcD$H
 D$PA9
 D$PE1
@@ -29079,6 +29089,7 @@ D24S8
 D24X4S4
 D24X8
 D24X8_SHADOW
+D5Qou
 D7(H9
 D9 fA
 D9 tW
@@ -29087,10 +29098,10 @@ D9!tEH
 D9#}jD
 D9(M9
 D9*unsigned short&H
-D9-El
+D9-Eu
 D92tBH
 D93teE
-D95I^9
+D95Ig9
 D97t%H
 D98t2
 D98tc
@@ -29143,13 +29154,11 @@ D9~ unsigned short	H
 D:`H9D>`unsigned short
 D; }(H
 D;#t.
-D;%=.
+D;%mD
 D;(}$I
 D;*tNH
 D;+}8Ic
-D;=!TH
-D;=Eu
-D;=ex
+D;=!]H
 D;H(|
 D;H\r
 D;H`|
@@ -29271,7 +29280,6 @@ D;|$P|
 D;~,|
 D<PfA
 D<^Mk
-D=7bu
 D>0fB
 DA A)
 DAJA)
@@ -32849,6 +32857,7 @@ E9wHt@H
 E9wdr
 E9|$(u
 E9|$P
+E9|$p
 E9|<X
 E9|unsigned short*|D
 E9} unsigned short
@@ -33392,6 +33401,7 @@ EffigyGroundOffset
 EffigyPreview
 EffigyZoomOut
 EhHc@(H
+EhLcpXM
 Ekaterina Frolova
 Ek~(	A
 Ek~8	A
@@ -33785,6 +33795,7 @@ ExtraItems
 ExtraLabel
 ExtraSmallVoteCapsule
 ExtraVideoOptionsSection
+ExtraWide
 ExtractERKNS_11StringPieceES3_PNSt3__112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEE
 ExtractGem
 ExtractGemShort
@@ -34731,6 +34742,7 @@ G8;F8u
 G8H	p(]
 G8H9=
 G8H9=5
+G8H9=long double
 G8I;G@
 G8L90
 G8fffff.
@@ -35987,7 +35999,6 @@ H8I;L$`unsigned short
 H8I;O`unsigned short
 H8ffff.
 H97t"H
-H9=My
 H9A@u
 H9C teH
 H9C u
@@ -36039,6 +36050,7 @@ H;8tmH
 H;8t|H
 H;8u(
 H;;tfL
+H;=A:/
 H;>tjL
 H;>tvI
 H;A0A
@@ -36316,6 +36328,7 @@ HaveItems
 Hazhadal 			
 Hc	H)
 Hc	Hi
+Hc5%wchar_t
 Hc@ H
 Hc@(H
 Hc@0H
@@ -38506,20 +38519,22 @@ L00A9
 L2$Hc
 L40t/H
 L9 unsigned short!H
+L9-78
 L90tOH
-L95(B
-L95U,r
-L95U9|
-L95YR(
-L95eqq
-L95mU_
-L95t=
-L95uZq
-L95}7q
+L95	"~
+L95%Lr
+L95%mr
+L9558r
+L95=0N
+L95=OI
+L95W	)
+L95Y[(
+L95l[u
+L95mt_
 L9;unsigned short	H
-L9=	.unsigned __int128
-L9=!Ho
-L9=|O
+L9=-eT
+L9=04I
+L9=iNo
 L9T$@u
 L9p unsigned short
 L9q u-
@@ -38659,7 +38674,7 @@ Lc8E1
 Lc8u9H
 Lc;E1
 Lc;fB
-Lc=DC
+Lc=tY
 LcC(K
 LcG`float
 LcGxM
@@ -41530,7 +41545,7 @@ P`I9F
 P`I9G
 P`I;G
 P`L;}
-P`Lc5
+P`Lc5B
 P`PPPPP```PPPPP`P@```PPpp@pP`PPPPPPPP`PP`PP``PPP`PPPPP
 P`P`P
 P`P```@`PP``P@P`P`PP``P@ppP``P`
@@ -42132,6 +42147,7 @@ PpH9C
 PpH9E
 PpI9GXt
 PpI;F u
+PpL;unsigned long
 PpPpp
 Pp```P
 Ppp@PP
@@ -42528,7 +42544,7 @@ RADIANT
 RADIATION
 RANDOM
 RARARARARARARAp
-RARARARARA`)B`OA`OA`MA`OA`MA`OA`OA`OARBRBRBRBRBRBRBRBXBRBTBRDVBRBZBRBTBRBTBRDVBRBVBRBXBRBTBRDVBRBZBRBZBRB[ARBXBRB`&BRAWA`/A
+RARARARARA`)B`OA`OA`MA`OA`MA`OA`OA`OARBRBRBRBRBRBRBRBXBRBTBRDVBRBZBRBTBRBTBRDVBRBVBRBXBRBTBRDVBRBZBRBZBRB[ARBZBRBXBRB`&BRAWA`/A
 RARASARARARARARARARARARAp
 RARASARAp
 RARAp
@@ -45380,10 +45396,10 @@ T$`E1
 T$hHc
 T$hffff.
 T$nD9
-T%xIQ
-T%xJS
+T%H[Q
+T%H\S
+T%~unsigned int<
 T0X;U
-T5NBs
 T9(B;T
 T>`tBH
 T>`unsigned short[H
@@ -47186,10 +47202,10 @@ Vulkan
 W I94
 W$A+W Hc
 W$IcO
-W%float-D
-W-4/D
+W-YbC
 W0I94
 W0ffff.
+W57.P
 W8t!H9
 W8t1H9
 WA;v8u
@@ -47524,17 +47540,16 @@ Writing zero-length unknown chunk
 Wrong JPEG library version: library is %double, caller expects %double
 Wrong alignment %double
 Wrote palette index exceeding num_palette
-X%>(>
-X%W*>
 X(;X8
 X(Optional) If true, only return the published file ids of files that satisfy this query.
+X-tvD
 X360_DST16
 X360_DST24
 X360_DST24F
-X5#"u
-X5#\@
-X5P]@
-X5aRO
+X56	@
+X5Jb@
+X5l G
+X5l(G
 X8A;XH
 X@TIc
 XAxisLabel
@@ -47548,7 +47563,7 @@ XBRBRBTBRDVBRBXBRBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRBTBRDVBRBVBRBTBRDVBRBTBRDVBRDTBRB
 XBRBTBRBTBRDVBRBVBRBXBRBTBRBTBRDVBRBVBRBXBRBTBRBTBRDVBRBVBRB]C`
 XBRBTBRDVBRBTBRDVBRA`(A
 XBRBTBRDVBRBTBRDVBRBZBRBZBRBZBRBZBRAp
-XBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBXBRBTBRDVBRAp
+XBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBTBRDVBRBXBRBXBRBTBRDVBRBTBRDVBRAp
 XBRBTBRDVBRBXBRBTBRDVBRBZBRBTBRBTBp
 XBRBXBRA`5B`MA`MA`MA`MA`NARA`MA`MA`UAUATA\ATBTBTBVBRBRBRBRBp
 XBRBXBRBTBRBTAp
@@ -47605,11 +47620,13 @@ X|C9\5@u
 X|C9\<0u
 X|trH
 X|unsigned short	H
-Y%:;M
-Y%G[=
+Y%Z~D
+Y%]>M
+Y%xwL
+Y%{LI
 Y(Optional) Starting index to begin enumeration at. Defaults to the beginning of the list."Z
-Y-7*H
-Y-gEI
+Y-7WI
+Y5QN&
 Y@ffff.
 YARARARAp
 YA[ARBRA\ATCp
@@ -47669,7 +47686,7 @@ ZBRBZBRBZBRBXBRBTBRBTBRDVBRBVBRBYARBZBRB`hA`
 ZBRBZBRBZBRBZBRBZBRBZBRBZBRBZBRBZBRBZBRBZBRBZBRBTBp
 ZBRBZBRBZBRBZBRBZBRB`MARBXBRBTBRDVBRBZBRA`
 ZBRBZBRBZBRBZBUAp
-ZBRBZBRB\BZBRBZBRBZBRBZBRBVBRBVBRBZBRBZBRBVBRBXBRBTBRBTBRDVBRBVBRBVBRBXBRBTBRDVBRBVBRBXBRBTBRDVBRBVBRBXBRBTBRDVBRBVBRBVBRBVBRBYATBp
+ZBRBZBRB\BZBRBZBRBZBRBZBRBZBRBVBRBVBRBZBRBZBRBVBRBXBRBTBRBTBRDVBRBVBRBVBRBXBRBTBRDVBRBVBRBXBRBTBRDVBRBVBRBXBRBTBRDVBRBVBRBVBRBVBRBYATBp
 ZBRBZBRB]ARB]ARBZBRBXBRBRBTBRDVBRBTBRDVBRBTBRDVBRBTBRDVBRCp
 ZBRBZBRDZBRBZBRBZBRBZBRA`CB`MA`MA`MA`MA`MA`MA`MA`MARB`MARBRBRBRBRBRBRBRBRBRBRBRBTBRDVBRBTBRDVBRBTBRBTBRDVBRBVBRBTBRBTBRDVBRBVBRAp
 ZBRBZB`/A`MA`MARBRBTBp
@@ -47938,7 +47955,6 @@ ZoomedOut
 \sPHi
 \uRMc
 ] is an invalid data character in JavaScript compatibility mode
-]%mRA
 ]0A;]@
 ]0Mct$0
 ]0Mc~0
@@ -47994,7 +48010,8 @@ ZoomedOut
 ^$A+^ ~{fffff.
 ^$A+^ ~|ffffff.
 ^$A+^ ~}ffff.
-^%uu
+^%":T
+^%signed char@6
 ^&'@{}[],$=!-#()%.+_ 
 ^(A;^,u
 ^(A;^,ug
@@ -48027,7 +48044,7 @@ ZoomedOut
 ^4A+^0~r
 ^4A+^0~sf
 ^4A+^0~u
-^5d8O
+^54JO
 ^8A;^<u
 ^8A;^<u_
 ^8A;^<ug
@@ -48648,7 +48665,7 @@ _wide
 ``````
 `````` 
 ``````@P@P
-``````PP`P
+``````PPP`P
 ```````
 ```````P
 ````````
@@ -48699,9 +48716,8 @@ _wide
 `u(Lc
 `|D9#u
 `|D9%
-`|D9%<AK
-`|D9%q
-`|D9%unsigned short
+`|D9%<JK
+`|D9%X
 `|D9c0u
 `|E9f0u
 `|E9g0u
@@ -57682,6 +57698,7 @@ k_EMsgGCCancelWatchGame
 k_EMsgGCChangeTeamSub
 k_EMsgGCChangeTeamSubResponse
 k_EMsgGCChatMessage
+k_EMsgGCChatReportPublicSpam
 k_EMsgGCClearPracticeLobbyTeam
 k_EMsgGCClientConnectToServer
 k_EMsgGCClientConnectionStatus
@@ -58748,8 +58765,6 @@ long long|D9=<
 long long|D9=G
 long long|D9=P
 long long|D9=Z
-long long|D9=float
-long long|D9=k
 long long|E9|
 long long|G9|,0u
 long!0E1
@@ -65289,8 +65304,10 @@ nyx_assassin_mana_burn
 nyx_assassin_spiked_carapace
 nyx_assassin_unburrow
 nyx_assassin_vendetta
-o5Q_x
-o5ScS
+o5!qx
+o5(]q
+o5HlS
+o5QfS
 oD9Hf
 oF@fA
 oG@fA
@@ -66172,6 +66189,7 @@ panorama::CUIEvent3<unsigned int, int, unsigned int>
 panorama::CUIEvent3<unsigned int, unsigned int, bool>
 panorama::CUIEvent3<unsigned int, unsigned int, char const*>
 panorama::CUIEvent3<unsigned int, unsigned int, float>
+panorama::CUIEvent3<unsigned int, unsigned long long, bool>
 panorama::CUIEvent3<unsigned int, unsigned long long, char const*>
 panorama::CUIEvent3<unsigned long long, EconItemPreviewInfo_t const*, int>
 panorama::CUIEvent3<unsigned long long, char const*, bool>
@@ -66222,6 +66240,7 @@ panorama::CUIPanelEvent2<int, int>
 panorama::CUIPanelEvent2<panorama::HtmlFormHasFocus_t, char const*>
 panorama::CUIPanelEvent2<panorama::MouseCode, unsigned int>
 panorama::CUIPanelEvent2<panorama::ScrollBehavior_t, bool>
+panorama::CUIPanelEvent2<unsigned int, unsigned long long>
 panorama::CUIPanelEvent2<unsigned long long, bool>
 panorama::CUIPanelEvent3<C_EconItemView const*, int, int>
 panorama::CUIPanelEvent3<char const*, bool, int>
@@ -67892,9 +67911,11 @@ py_generic_services
 pz_clip
 p|D95
 p|D95!
+p|D95"
 p|D95(
-p|D95*
-p|D95]
+p|D95,
+p|D95Z
+p|D95m
 p|D9t
 p|D9u
 p|E9t
@@ -71379,7 +71400,7 @@ t89D1
 t8E9u4u2D;}
 t8Hc{HH
 t8Hc{\H
-t8Hc{xH
+t8Hc{|H
 t8IcV,L
 t8Ic~lH
 t8fffff.
@@ -71393,7 +71414,7 @@ tAfff.
 tAffff.
 tAfffff.
 tB9D1
-tBD95a^9
+tBD95ag9
 tBfff.
 tBfffff.
 tBffffff.
@@ -71883,7 +71904,7 @@ throw_snowball
 ti9|1
 tiHcX
 tiIcT$
-tiLc5l=
+tiLc5
 ti_onstage_frame_short
 ti_onstage_frame_tall
 ti_onstage_frame_wide
@@ -72407,7 +72428,7 @@ tutorial_minimap_position_closed
 tutorial_tip_dismissed
 tv9D1
 tvA9F
-tvD;%int
+tvD;%
 tv_listen_voice_indices
 tv_listen_voice_indices %double
 tv_listen_voice_indices 0
@@ -72827,9 +72848,16 @@ unreliable_gold
 unset
 unsigned
 unsigned __int128 char::*,Ii
-unsigned __int128-N_x
-unsigned __int128-a_x
-unsigned __int128=Y_x
+unsigned __int128%Klq
+unsigned __int128%RWs
+unsigned __int128%aUs
+unsigned __int128-1qx
+unsigned __int128-]cq
+unsigned __int128-p]q
+unsigned __int128=)qx
+unsigned __int128=IfS
+unsigned __int128=ubS
+unsigned __int128=xbS
 unsigned __int128\98f
 unsigned __int128`vDH
 unsigned __int128~0fD
@@ -72846,7 +72874,7 @@ unsigned charcomplex [A^]
 unsigned charimaginary +XPH
 unsigned charimaginary [A\A^A_]
 unsigned char|D9-
-unsigned char|D9-W
+unsigned char|D9-.
 unsigned char|D9m
 unsigned char|E9.u
 unsigned char|E9l
@@ -74494,6 +74522,7 @@ zuus_thundergods_wrath
 | <code>
 | <code>A
 |"0IcE
+|"9=3
 |"ffff.
 |$ E;|$$ukH
 |$ E;|$0D
