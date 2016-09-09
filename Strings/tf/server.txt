@@ -1945,6 +1945,8 @@ $no_fullbright
 (anonymous namespace)::CMsgGC_Halloween_ItemClaimed_reflection_
 (anonymous namespace)::CMsgGC_Halloween_ReservedItem_descriptor_
 (anonymous namespace)::CMsgGC_Halloween_ReservedItem_reflection_
+(anonymous namespace)::CMsgGC_KickPlayerFromLobby_descriptor_
+(anonymous namespace)::CMsgGC_KickPlayerFromLobby_reflection_
 (anonymous namespace)::CMsgGC_Match_ResultResponse_descriptor_
 (anonymous namespace)::CMsgGC_Match_ResultResponse_reflection_
 (anonymous namespace)::CMsgGC_Match_Result_Player_descriptor_
@@ -2604,7 +2606,7 @@ $no_fullbright
 .CSOItemCriteria"G
 .CSOItemCriteriaCondition
 .CSOTFLobby.LobbyType
-.CSOTFLobby.State
+.CSOTFLobby.State:
 .CSOTFLobby.WarMatch:
 .CSOTFParty.State
 .CSOTFPartyInvite.PartyMember
@@ -3392,7 +3394,7 @@ $no_fullbright
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gamestats_shared.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gc_api.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gc_server.o
-/Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gcmessages-EF7095C3988226EF.o
+/Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gcmessages-A6E9377E28242A06.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gcmessages.pb.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_generic_bomb.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_glow.o
@@ -5332,6 +5334,7 @@ $no_fullbright
 333?)\
 333?333?
 33750
+33s?(
 350.0
 3A$3A
 3A43A
@@ -20533,6 +20536,9 @@ CGCCompetitiveDailyStatsRollupJob::~CGCCompetitiveDailyStatsRollupJob()
 CGCDev_NewItemRequestResponse
 CGCDev_NewItemRequestResponse::BYieldingRunGCJob(GCSDK::IMsgNetPacket*)
 CGCDev_NewItemRequestResponse::~CGCDev_NewItemRequestResponse()
+CGCKickPlayerFromLobbyJob
+CGCKickPlayerFromLobbyJob::BYieldingRunGCJob(GCSDK::IMsgNetPacket*)
+CGCKickPlayerFromLobbyJob::~CGCKickPlayerFromLobbyJob()
 CGCMsgGC_PlayerDuckLeaderboard_IndividualUpdate
 CGCMsgGC_PlayerDuckLeaderboard_IndividualUpdate::ByteSize() const
 CGCMsgGC_PlayerDuckLeaderboard_IndividualUpdate::Clear()
@@ -23786,7 +23792,7 @@ CMsgGCItemPreviewItemBoughtNotification::SetCachedSize(int) const
 CMsgGCItemPreviewItemBoughtNotification::default_instance_
 CMsgGCItemPreviewItemBoughtNotification::~CMsgGCItemPreviewItemBoughtNotification()
 CMsgGCMatchHistoryLoad
-CMsgGCMatchHistoryLoad*
+CMsgGCMatchHistoryLoad".
 CMsgGCMatchHistoryLoad::ByteSize() const
 CMsgGCMatchHistoryLoad::Clear()
 CMsgGCMatchHistoryLoad::GetCachedSize() const
@@ -24919,6 +24925,21 @@ CMsgGC_Halloween_ReservedItem::SerializeWithCachedSizesToArray(unsigned char*) c
 CMsgGC_Halloween_ReservedItem::SetCachedSize(int) const
 CMsgGC_Halloween_ReservedItem::default_instance_
 CMsgGC_Halloween_ReservedItem::~CMsgGC_Halloween_ReservedItem()
+CMsgGC_KickPlayerFromLobby
+CMsgGC_KickPlayerFromLobby::ByteSize() const
+CMsgGC_KickPlayerFromLobby::CMsgGC_KickPlayerFromLobby()
+CMsgGC_KickPlayerFromLobby::Clear()
+CMsgGC_KickPlayerFromLobby::GetCachedSize() const
+CMsgGC_KickPlayerFromLobby::GetMetadata() const
+CMsgGC_KickPlayerFromLobby::IsInitialized() const
+CMsgGC_KickPlayerFromLobby::MergeFrom(CMsgGC_KickPlayerFromLobby const&)
+CMsgGC_KickPlayerFromLobby::New() const
+CMsgGC_KickPlayerFromLobby::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGC_KickPlayerFromLobby::SetCachedSize(int) const
+CMsgGC_KickPlayerFromLobby::default_instance()
+CMsgGC_KickPlayerFromLobby::default_instance_
+CMsgGC_KickPlayerFromLobby::descriptor()
+CMsgGC_KickPlayerFromLobby::~CMsgGC_KickPlayerFromLobby()
 CMsgGC_Match_Result
 CMsgGC_Match_Result::ByteSize() const
 CMsgGC_Match_Result::CMsgGC_Match_Result()
@@ -34986,6 +35007,7 @@ CTFProjectile_EnergyRing::IsDeflectable()
 CTFProjectile_EnergyRing::PlayImpactEffects(Vector const&, bool)
 CTFProjectile_EnergyRing::Precache()
 CTFProjectile_EnergyRing::ProjectileTouch(CBaseEntity*)
+CTFProjectile_EnergyRing::ResolveFlyCollisionCustom(CGameTrace&, Vector&)
 CTFProjectile_EnergyRing::Spawn()
 CTFProjectile_EnergyRing::YouForgotToImplementOrDeclareServerClass()
 CTFProjectile_EnergyRing::~CTFProjectile_EnergyRing()
@@ -41894,6 +41916,7 @@ CreateJob_CGCCoaching_CoachJoining(GCSDK::CGCClient*, void*)
 CreateJob_CGCCoaching_RemoveCurrentCoach(GCSDK::CGCClient*, void*)
 CreateJob_CGCCompetitiveDailyStatsRollupJob(GCSDK::CGCClient*, void*)
 CreateJob_CGCDev_NewItemRequestResponse(GCSDK::CGCClient*, void*)
+CreateJob_CGCKickPlayerFromLobbyJob(GCSDK::CGCClient*, void*)
 CreateJob_CGCQuestObjective_PointsChangeResponse(GCSDK::CGCClient*, void*)
 CreateJob_CGCReplicateConVars(GCSDK::CGCClient*, void*)
 CreateJob_CGCTFItemAcknowledged(GCSDK::CGCClient*, void*)
@@ -45254,6 +45277,7 @@ GAMEEVENTSMANAGER002
 GC is requesting us to reserve %double slots.
 GC kicked player %short, but player not present
 GC kicking player %short
+GC refreshed lobby for match ID [ %llu ]
 GC sent malformed CGCUpdateItemSchema message: No schema data, no URL
 GC told us to expect %08X, we got %08X
 GCClientSystem()
@@ -48974,14 +48998,13 @@ NERVEGAS
 NEVERGIB
 NFIRE
 NO HOSTAGES 
-NOPE"O
+NOPE".
 NOTIFICATION_CUSTOM_STRING
 NOTIFICATION_NUM_TYPES
 NOTIFY_ACHIEVEMENTS
 NOTIFY_SERVER_SESSIONS
 NOTIFY_USER_SESSIONS
 NOTIFY_VAC_ACTION
-NOTREADY
 NO_HOSTAGES
 NO_JUMP
 NO_JUMP 
@@ -50016,7 +50039,6 @@ PM  Got signed char NaN velocity %short
 PM  Got signed char velocity too high on %short
 PM  Got signed char velocity too low on %short
 POISON
-POSTGAME
 PP   
 PP 00
 PP P`
@@ -51361,7 +51383,6 @@ SENTENCEG_PlayRndSz(edict_t*, char const*, float, soundlevel_t, int, int)
 SENTENCEG_PlaySequentialSz(edict_t*, char const*, float, soundlevel_t, int, int, int, int)
 SENTRY_SPOT
 SERVER
-SERVERASSIGN
 SERVERSETUP
 SH+S@
 SHA-256
@@ -54090,6 +54111,7 @@ Type is already registered:
 UN-STUCK
 UNBLOCKABLE
 UNDERWATER 
+UNKNOWN
 UNUSED_job_name
 UTIL_AddDebugLine(Vector const&, Vector const&, bool, bool)
 UTIL_BloodDecalTrace(CGameTrace*, int)
@@ -57300,7 +57322,7 @@ _xc_crouch_debounce
 `P0@0@@
 `P0P0
 `P@`P@
-`PPp@
+`PPp`@
 `P` p 
 ``000000
 ``0@``0 
@@ -60464,7 +60486,6 @@ doomsday.warhead
 doomsday_rocket_open
 door_name
 door_options
-double		@long double	
 double_shot
 double_shot_npc
 double_value
@@ -61718,6 +61739,7 @@ g_JobType_CGCCoaching_CoachJoining
 g_JobType_CGCCoaching_RemoveCurrentCoach
 g_JobType_CGCCompetitiveDailyStatsRollupJob
 g_JobType_CGCDev_NewItemRequestResponse
+g_JobType_CGCKickPlayerFromLobbyJob
 g_JobType_CGCQuestObjective_PointsChangeResponse
 g_JobType_CGCReplicateConVars
 g_JobType_CGCTFItemAcknowledged
@@ -65683,6 +65705,7 @@ k_EMsgGC_GameServer_List
 k_EMsgGC_Halloween_GrantItem
 k_EMsgGC_Halloween_Merasmus2012
 k_EMsgGC_Halloween_ReservedItem
+k_EMsgGC_KickPlayerFromLobby
 k_EMsgGC_Match_Result
 k_EMsgGC_Match_ResultResponse
 k_EMsgGC_QP_PlayerJoining
@@ -74982,6 +75005,7 @@ target5
 target6
 target7
 target8
+targetID
 targetMoveTolerance
 target_attachment
 target_base_name
@@ -77441,6 +77465,7 @@ typeinfo for CGCCoaching_CoachJoining
 typeinfo for CGCCoaching_RemoveCurrentCoach
 typeinfo for CGCCompetitiveDailyStatsRollupJob
 typeinfo for CGCDev_NewItemRequestResponse
+typeinfo for CGCKickPlayerFromLobbyJob
 typeinfo for CGCMsgGC_PlayerDuckLeaderboard_IndividualUpdate
 typeinfo for CGCMsgGC_War_GlobalStatsResponse
 typeinfo for CGCMsgGC_War_GlobalStatsResponse_SideScore
@@ -77816,6 +77841,7 @@ typeinfo for CMsgGC_Halloween_GrantItem
 typeinfo for CMsgGC_Halloween_GrantItemResponse
 typeinfo for CMsgGC_Halloween_ItemClaimed
 typeinfo for CMsgGC_Halloween_ReservedItem
+typeinfo for CMsgGC_KickPlayerFromLobby
 typeinfo for CMsgGC_Match_Result
 typeinfo for CMsgGC_Match_ResultResponse
 typeinfo for CMsgGC_Match_Result_Player
@@ -80399,6 +80425,7 @@ typeinfo name for CGCCoaching_CoachJoining
 typeinfo name for CGCCoaching_RemoveCurrentCoach
 typeinfo name for CGCCompetitiveDailyStatsRollupJob
 typeinfo name for CGCDev_NewItemRequestResponse
+typeinfo name for CGCKickPlayerFromLobbyJob
 typeinfo name for CGCMsgGC_PlayerDuckLeaderboard_IndividualUpdate
 typeinfo name for CGCMsgGC_War_GlobalStatsResponse
 typeinfo name for CGCMsgGC_War_GlobalStatsResponse_SideScore
@@ -80774,6 +80801,7 @@ typeinfo name for CMsgGC_Halloween_GrantItem
 typeinfo name for CMsgGC_Halloween_GrantItemResponse
 typeinfo name for CMsgGC_Halloween_ItemClaimed
 typeinfo name for CMsgGC_Halloween_ReservedItem
+typeinfo name for CMsgGC_KickPlayerFromLobby
 typeinfo name for CMsgGC_Match_Result
 typeinfo name for CMsgGC_Match_ResultResponse
 typeinfo name for CMsgGC_Match_Result_Player
@@ -82251,7 +82279,6 @@ unsigned int GetAttributeTypeUniqueIdentifier<float>()::s_unUniqueCounter
 unsigned int GetAttributeTypeUniqueIdentifier<unsigned int>()::s_unUniqueCounter
 unsigned int GetAttributeTypeUniqueIdentifier<unsigned long long>()::s_unUniqueCounter
 unsigned int* std::fill_n<unsigned int*, unsigned long, unsigned int>(unsigned int*, unsigned long, unsigned int const&)
-unsigned long		`__int128	
 unsigned long long signed char::* not have cleaned up on NPC death
 unsigned long long@"ty
 unsigned short	#F$
@@ -83741,6 +83768,7 @@ vtable for CGCCoaching_CoachJoining
 vtable for CGCCoaching_RemoveCurrentCoach
 vtable for CGCCompetitiveDailyStatsRollupJob
 vtable for CGCDev_NewItemRequestResponse
+vtable for CGCKickPlayerFromLobbyJob
 vtable for CGCMsgGC_PlayerDuckLeaderboard_IndividualUpdate
 vtable for CGCMsgGC_War_GlobalStatsResponse
 vtable for CGCMsgGC_War_GlobalStatsResponse_SideScore
@@ -84113,6 +84141,7 @@ vtable for CMsgGC_Halloween_GrantItem
 vtable for CMsgGC_Halloween_GrantItemResponse
 vtable for CMsgGC_Halloween_ItemClaimed
 vtable for CMsgGC_Halloween_ReservedItem
+vtable for CMsgGC_KickPlayerFromLobby
 vtable for CMsgGC_Match_Result
 vtable for CMsgGC_Match_ResultResponse
 vtable for CMsgGC_Match_Result_Player
