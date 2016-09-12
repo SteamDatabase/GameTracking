@@ -13730,6 +13730,7 @@ CBasePlayer::IsFiringWeapon() const
 CBasePlayer::IsFollowingPhysics()
 CBasePlayer::IsIlluminatedByFlashlight(CBaseEntity*, float*)
 CBasePlayer::IsInAVehicle() const
+CBasePlayer::IsLerpingFOV() const
 CBasePlayer::IsNetClient() const
 CBasePlayer::IsOnLadder()
 CBasePlayer::IsPlayer() const
@@ -15486,7 +15487,6 @@ CDefOps<CChoreoActor*>::LessFunc(CChoreoActor* const&, CChoreoActor* const&)
 CDefOps<CPhysCollide const*>::LessFunc(CPhysCollide const* const&, CPhysCollide const* const&)
 CDefOps<CSteamID>::LessFunc(CSteamID const&, CSteamID const&)
 CDefOps<CUtlConstStringBase<char> >::LessFunc(CUtlConstStringBase<char> const&, CUtlConstStringBase<char> const&)
-CDefOps<CUtlString>::LessFunc(CUtlString const&, CUtlString const&)
 CDefOps<EGameCategory>::LessFunc(EGameCategory const&, EGameCategory const&)
 CDefOps<EMatchmakingGroupType>::LessFunc(EMatchmakingGroupType const&, EMatchmakingGroupType const&)
 CDefOps<IPhysicsObject*>::LessFunc(IPhysicsObject* const&, IPhysicsObject* const&)
@@ -34349,8 +34349,6 @@ CTFPlayer::ItemTesting_UpdateBots(KeyValues*)
 CTFPlayer::ItemsMatch(TFPlayerClassData_t*, CEconItemView*, CEconItemView*, CTFWeaponBase*)
 CTFPlayer::ManageBuilderWeapons(TFPlayerClassData_t*)
 CTFPlayer::ManageRegularWeapons(TFPlayerClassData_t*)
-CTFPlayer::MatchMakingMatchPreRoundThink()
-CTFPlayer::MatchMakingMatchStartThink()
 CTFPlayer::MaybeDrawRailgunBeam(IRecipientFilter*, CTFWeaponBase*, Vector const&, Vector const&)
 CTFPlayer::MedicGetChargeLevel(CTFWeaponBase**)
 CTFPlayer::MedicGetHealTarget()
@@ -34511,7 +34509,7 @@ CTFPlayer::StunSound(CTFPlayer*, int, int)
 CTFPlayer::TFPlayerThink()
 CTFPlayer::TakeHealth(float, int)
 CTFPlayer::Taunt(taunts_t, int)
-CTFPlayer::TeamFortress_CalculateMaxSpeed() const
+CTFPlayer::TeamFortress_CalculateMaxSpeed(bool) const
 CTFPlayer::TeamFortress_ClientDisconnected()
 CTFPlayer::TeamFortress_GetDisguiseTarget(int, int)
 CTFPlayer::TeamFortress_SetSpeed()
@@ -48635,8 +48633,6 @@ MatchMaking.RoundEndRedWinMusic
 MatchMaking.RoundEndStalemateMusic
 MatchMaking.RoundStart
 MatchMaking.RoundStartCasual
-MatchMakingMatchPreRoundThink
-MatchMakingMatchStartThink
 MatchSummary
 Match_Result
 Matched rule '%short', 
@@ -54442,6 +54438,7 @@ Using map cycle file '%short'.
 Using map cycle file '%short'.  ('%short' was not found.)
 Using nearby teleporter
 UsingVRHeadset
+UtlStringCaseInsensitiveLessFunc(CUtlString const&, CUtlString const&)
 UtlStringLessFunc(CUtlString const&, CUtlString const&)
 UtlVectorTemplate<CAnimationLayer, CUtlMemory<CAnimationLayer, int> >::EnsureCapacity(void*, int, int)
 UtlVectorTemplate<CEconItemAttribute, CUtlMemory<CEconItemAttribute, int> >::EnsureCapacity(void*, int, int)
@@ -55255,7 +55252,7 @@ ___cxx_global_array_dtor118
 ___cxx_global_array_dtor119
 ___cxx_global_array_dtor121
 ___cxx_global_array_dtor122
-___cxx_global_array_dtor1254
+___cxx_global_array_dtor1252
 ___cxx_global_array_dtor13
 ___cxx_global_array_dtor14
 ___cxx_global_array_dtor140
@@ -55347,7 +55344,7 @@ ___cxx_global_array_dtor96
 ___cxx_global_var_init11
 ___cxx_global_var_init1163
 ___cxx_global_var_init12
-___cxx_global_var_init1275
+___cxx_global_var_init1273
 ___cxx_global_var_init130
 ___cxx_global_var_init16
 ___cxx_global_var_init169
@@ -82293,11 +82290,11 @@ unsigned short%93u
 unsigned short%ff.
 unsigned short&9Fdt!
 unsigned short&fffff.
+unsigned short'fff.
 unsigned short'~>1
 unsigned short(fff.
 unsigned short(fffff.
 unsigned short)fffff.
-unsigned short*fff.
 unsigned short+ff.
 unsigned short+fffff.
 unsigned short-ffffff.
