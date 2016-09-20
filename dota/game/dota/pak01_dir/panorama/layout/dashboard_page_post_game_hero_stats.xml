@@ -25,7 +25,9 @@
 				<Image id="PlayerPic" scaling="stretch-to-fit-preserve-aspect" src="s2r://panorama/images/players/portrait_png.vtex"/>			
 				<Panel id="AvatarNameContainer">
 					<DOTAAvatarImage id="PlayerAvatarImage" />
+					<Panel class="BotIcon" />
 					<DOTAUserName id="PlayerName" class="OverviewHeroPlayerNameExpanded"/>
+					<Label id="BotPlayerName" class="OverviewHeroPlayerNameExpanded" text="{s:bot_player_name}" />
 				</Panel>
 				<Panel id="LvlHero" class="LeftRightFlow">
 					<Label id="HeroLevel" text="#dota_page_post_game_stat_player_level"/>
@@ -87,19 +89,20 @@
 					<Label class="PlayStyleValueLabel MonoNumbersFont" text="{s:farming_score}"/>
 				</Panel>
 				<Panel id="PerformancePanel">
-					<Label class="IndividualStatsTitle StatsTitleLowerCase" text="#dota_page_post_game_vs_previous"/>
+					<Label class="IndividualStatsTitle StatsTitleLowerCase IsLocalPlayer" text="#dota_page_post_game_vs_previous_local"/>
+					<Label class="IndividualStatsTitle StatsTitleLowerCase NotLocalPlayer" text="#dota_page_post_game_vs_previous"/>
 					<Panel id="VersusAverages">
 						<Panel id="AveragesContainer" class="">
 							<Panel id="LeftAverageColumn" class="AveragesColumn LeftRightFlow">
 								<Panel class="LeftAverages AveragesLabelColumn TopBottomFlow">
-									<Label class="AveragesLabel" text="GPM:"/>
-									<Label class="AveragesLabel" text="XPM:"/>
-									<Label class="AveragesLabel" text="Kills:"/>
+									<Label class="AveragesLabel" text="#dota_post_game_stats_gpm"/>
+									<Label class="AveragesLabel" text="#dota_post_game_stats_xpm"/>
+									<Label class="AveragesLabel" text="#dota_post_game_stats_kills"/>
 								</Panel>
 								<Panel class="RightAverages AveragesLabelColumn TopBottomFlow">
 									<Label class="AveragesValue GPMAvgValues" text="{i:gpm} ({s:gpm_diff})"/>
 									<Label class="AveragesValue XPMAvgValues" text="{i:xpm} ({s:xpm_diff})"/>
-									<Label class="AveragesValue KillsAvgValues" text="{i:kills} ({s:kills_diff})"/>
+									<Label class="AveragesValue KillsAvgValues" text="{i:final_kills} ({s:kills_diff})"/>
 								</Panel>							
 								<Panel id="AverageGPMContainer" class="AveragesContainer">
 								</Panel>
@@ -113,12 +116,12 @@
 							</Panel>
 							<Panel id="RightAverageColumn" class="AveragesColumn LeftRightFlow">
 								<Panel class="LeftAverages AveragesLabelColumn TopBottomFlow">
-									<Label class="AveragesLabel" text="Deaths:"/>
-									<Label class="AveragesLabel" text="Assists:"/>
+									<Label class="AveragesLabel" text="#dota_post_game_stats_deaths"/>
+									<Label class="AveragesLabel" text="#dota_post_game_stats_assists"/>
 								</Panel>
 								<Panel class="RightAverages AveragesLabelColumn TopBottomFlow">
-									<Label class="AveragesValue DeathsAvgValues" text="{i:deaths} ({s:deaths_diff})"/>
-									<Label class="AveragesValue AssistsAvgValues" text="{i:assists} ({s:assists_diff})"/>
+									<Label class="AveragesValue DeathsAvgValues" text="{i:final_deaths} ({s:deaths_diff})"/>
+									<Label class="AveragesValue AssistsAvgValues" text="{i:final_assists} ({s:assists_diff})"/>
 								</Panel>													
 								<Panel class="AveragesContainer">
 								</Panel>							
@@ -134,6 +137,14 @@
 					</Panel>
 					
 				</Panel>
+
+
+				<Label text="#dota_post_game_stats_bot_difficulty_passive" class="BotDifficultyLabel BotDifficultyPassive"/>
+				<Label text="#dota_post_game_stats_bot_difficulty_easy" class="BotDifficultyLabel BotDifficultyEasy"/>
+				<Label text="#dota_post_game_stats_bot_difficulty_medium" class="BotDifficultyLabel BotDifficultyMedium"/>
+				<Label text="#dota_post_game_stats_bot_difficulty_hard" class="BotDifficultyLabel BotDifficultyHard"/>
+				<Label text="#dota_post_game_stats_bot_difficulty_unfair" class="BotDifficultyLabel BotDifficultyUnfair"/>
+
 			</Panel>
 		</Panel>
 

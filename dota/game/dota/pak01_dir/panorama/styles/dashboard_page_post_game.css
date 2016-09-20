@@ -284,10 +284,13 @@ DOTAPostGame.MatchDataLoaded #ContainerLoaded
 {
 	flow-children: right;
 	vertical-align: middle;
-	//horizontal-align: right;
 	margin-right: 32px;
 }
 
+.HideMatchID .MatchDetailsPairContainer
+{
+	visibility: collapse;
+}
 
 #ReplayStatuses
 {
@@ -518,14 +521,22 @@ DOTAPostGame.CustomGame #CustomGameOverview
 #NormalMatchPlayers
 {
 	flow-children: down;
-	width: 1680px;
 	horizontal-align: center;
 }
 
-.ShowMMRLegend #NormalMatchPlayers
-{
-	width: 1820px;
-}
+#NormalMatchPlayers					{ width: 1680px; }
+#NormalMatchPlayers.PermanentBuffs1 { width: 1788px; }
+#NormalMatchPlayers.PermanentBuffs2 { width: 1788px; }
+#NormalMatchPlayers.PermanentBuffs3 { width: 1838px; }
+#NormalMatchPlayers.PermanentBuffs4 { width: 1888px; }
+#NormalMatchPlayers.PermanentBuffs5 { width: 1938px; }
+
+.ShowMMRLegend #NormalMatchPlayers					{ width: 1820px; }
+.ShowMMRLegend #NormalMatchPlayers.PermanentBuffs1	{ width: 1928px; }
+.ShowMMRLegend #NormalMatchPlayers.PermanentBuffs2	{ width: 1928px; }
+.ShowMMRLegend #NormalMatchPlayers.PermanentBuffs3	{ width: 1978px; }
+.ShowMMRLegend #NormalMatchPlayers.PermanentBuffs4	{ width: 2028px; }
+.ShowMMRLegend #NormalMatchPlayers.PermanentBuffs5	{ width: 2078px; }
 
 #RightColumn
 {
@@ -658,6 +669,15 @@ Panel.TeamIdentificationRow Label
 	transition-duration: .4s;
 }
 
+.RadiantHasCustomLogo .OverviewUGCTeamLogo
+{
+	visibility: visible;
+	width: 60px;
+	height: 60px;
+	margin-right: 5px;
+	margin-left: 5px;
+}
+
 .TeamName.StatRowHeight
 {
 	padding-top: 1px;
@@ -668,8 +688,10 @@ Panel.TeamIdentificationRow Label
 {
 	margin-left: 6px;
 	margin-top: 8px;
-	width: 60px;
-	height: 37px;
+	width: 44px;
+	height: 44px;
+	margin-top: 10px;
+	margin-left: 15px;
 	margin-right: 10px;
 	opacity: 1;
 	transition-property: opacity, wash-color;
@@ -2640,7 +2662,7 @@ Label.CommentText
 .AspectRatio5x4 #Hero3 { transform:  translateX( 394px ); }
 .AspectRatio5x4 #Hero4 { transform:  translateX( 522px ); }
 
-.AspectRatio16x10 #Hero128 { transform:  transslateX( 48px ); }
+.AspectRatio16x10 #Hero128 { transform:  translateX( 48px ); }
 .AspectRatio16x10 #Hero129 { transform:  translateX( 176px ); }
 .AspectRatio16x10 #Hero130 { transform:  translateX( 304px ); }
 .AspectRatio16x10 #Hero131 { transform:  translateX( 432px ); }
@@ -2832,8 +2854,8 @@ Label.CommentText
 	horizontal-align: right;
 }
 
-.LeftExpanded.RadiantHasCustomLogo #LeftLargeTeamLogo,
-.RightExpanded.DireHasCustomLogo #RightLargeTeamLogo
+.LeftExpanded.RadiantHasCustomLogo.LargeRadiantTeamIcons #LeftLargeTeamLogo,
+.RightExpanded.DireHasCustomLogo.LargeDireTeamIcons #RightLargeTeamLogo
 {
 	opacity: 0.05;
 	blur: gaussian( 2, 2, 2);
@@ -3279,7 +3301,8 @@ DOTAPostGameOverviewHero.OverviewHeroContainer
 }
 
 
-.OverviewHeroPlayerNameExpanded Label
+.OverviewHeroPlayerNameExpanded Label,
+#BotPlayerName
 {
 	horizontal-align: left;
 
@@ -3289,6 +3312,17 @@ DOTAPostGameOverviewHero.OverviewHeroContainer
 	text-shadow: 1px 1px 3px 3.0 #000000;	
 	text-overflow: shrink;
 	margin-right: 4px;
+}
+
+
+.IndividualStatsContainer #BotPlayerName
+{
+	font-size: 38px;
+}
+
+.OverviewHeroContainer #BotPlayerName
+{
+	horizontal-align: center;
 }
 
 .LocalPlayer .OverviewHeroPlayerNameExpanded Label
@@ -3304,7 +3338,8 @@ DOTAPostGameOverviewHero.OverviewHeroContainer
 	transform:  scaleX(1) scaleY(1) translateX( 0px) translateY(0px);
 }
 
-.OverviewHeroPlayerName Label 
+.OverviewHeroPlayerName Label,
+#BotPlayerName
 {
 	font-size: 18px;
 	font-weight: thin;
@@ -3333,7 +3368,8 @@ DOTAUserName.OverviewHeroPlayerNameExpanded Label .PersonaName
 	brightness: 1;
 }
 
-.HeroCenterContent:hover DOTAUserName.OverviewHeroPlayerName Label .PersonaName
+.HeroCenterContent:hover DOTAUserName.OverviewHeroPlayerName Label .PersonaName,
+#BotPlayerName
 {
 	color: white;
 }
@@ -3600,6 +3636,18 @@ DOTAPostGameOverviewHero.Expanded #HeroBackground
 	opacity:0;
 }
 
+.GameMode1v1.RightExpanded .TeamScore,
+.GameMode1v1.LeftExpanded .TeamScore,
+.GameMode1v1.LeftExpanded #DurationContainer,
+.GameMode1v1.RightExpanded #DurationContainer,
+.GameMode1v1.RightExpanded #DireVictoryBanner,
+.GameMode1v1.LeftExpanded #RadiantVictoryBanner,
+.GameMode1v1.LeftExpanded #RadiantTeamNameContainer,
+.GameMode1v1.RightExpanded #DireTeamNameContainer
+{
+	opacity:1;
+}
+
 .RadiantVictory #RadiantVictoryBanner
 {
 	visibility: visible;
@@ -3677,26 +3725,6 @@ DOTAPostGameOverviewHero.Expanded #HeroBackground
 	visibility: collapse;
 	width: 60px;
 	height: 60px;
-}
-
-#OverviewRadiantTeamLogo
-{
-	margin-right: 5px;
-}
-
-#OverviewDireTeamLogo
-{
-	margin-left: 5px;
-}
-
-.RadiantHasCustomLogo #OverviewRadiantTeamLogo
-{
-	visibility: visible;
-}
-
-.DireHasCustomLogo #OverviewDireTeamLogo
-{
-	visibility: visible;
 }
 
 .LocalPlayerIsDire #RadiantVictoryText
@@ -4125,13 +4153,23 @@ DOTAPostGameOverviewHero.CanSuggestInvite .OverviewHeroInviteButton
 	margin-right: 0px;
 }
 
-.OverviewHeroContainer.Collapsed #OverviewHeroContractButton,
+
 .OverviewHeroContainer.Expanded #OverviewHeroContractButton
 {
 	opacity: 1;
 	transition-duration: 0.0s;      
 	transition-delay: 0.0s;     
 }
+
+.GameMode1v1 .OverviewHeroContainer.Expanded #OverviewHeroContractButton
+{
+	opacity: 0;
+	transition-duration: 0.0s;      
+	transition-delay: 0.0s;     
+}
+
+
+
 
 #DetailsDraft
 {
@@ -4833,6 +4871,29 @@ ProgressBar.PlayStyleBar
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #35424854 ), to( #3542482a ) );
 }
 
+.IsBot #PerformancePanel
+{
+	visibility: collapse;
+}
+
+.BotDifficultyLabel
+{
+	horizontal-align: center;
+	color: #aaa;
+	font-size: 18px;
+	margin-top: 10px;
+	visibility: collapse;
+}
+
+.IsBot.BotDifficulty_Passive .BotDifficultyPassive,
+.IsBot.BotDifficulty_Easy .BotDifficultyEasy,
+.IsBot.BotDifficulty_Medium .BotDifficultyMedium,
+.IsBot.BotDifficulty_Hard .BotDifficultyHard,
+.IsBot.BotDifficulty_Unfair .BotDifficultyUnfair
+{
+	visibility: visible;
+}
+
 #VersusAverages
 {
 	width: 100%;
@@ -5027,6 +5088,86 @@ ProgressBar.PlayStyleBar
 	transition-property: opacity, transform, pre-transform-scale2d;
 	transition-duration: 0.25s;     
 	transition-delay: 0.4s, 0s, 0.4s;
+}
+
+DOTAPostGameHeroStats.IsBot #PlayerAvatarImage
+{
+	visibility: collapse;
+}
+
+DOTAPostGameHeroStats .BotIcon
+{
+	width: 64px;
+	height: 64px;
+
+	margin: 8px;
+	
+	border: 1px solid #222222;
+	border-bottom-left-radius: 8px;
+	
+	background-image: url("s2r://panorama/images/bot_icon_easy_png.vtex");
+	background-size: contain;
+
+	horizontal-align: center;
+	transform: translateX(0px);
+	margin-right: 12px;
+	opacity: 1;
+	pre-transform-scale2d: 1;
+	transition-property: opacity, transform, pre-transform-scale2d;
+	transition-duration: 0.25s;     
+	transition-delay: 0.4s, 0s, 0.4s;
+
+	visibility: collapse;
+}
+
+.PinnedPlayerRow .BotIcon
+{
+	width: 36px;
+	height: 36px;
+	vertical-align: middle;
+	horizontal-align: center;
+	
+	border: 1px solid #222222;
+	border-bottom-left-radius: 8px;
+	
+	background-image: url("s2r://panorama/images/bot_icon_easy_png.vtex");
+	background-size: contain;
+
+	visibility: collapse;
+}
+
+.BotDifficulty_Passive.IsBot .BotIcon,
+.BotDifficulty_Easy.IsBot .BotIcon,
+.BotDifficulty_Medium.IsBot .BotIcon,
+.BotDifficulty_Hard.IsBot .BotIcon,
+.BotDifficulty_Unfair.IsBot .BotIcon
+{
+	visibility: visible;
+}
+
+.BotDifficulty_Passive .BotIcon
+{
+	background-image: url("s2r://panorama/images/bot_icon_passive_png.vtex");
+}
+
+.BotDifficulty_Easy .BotIcon
+{
+	background-image: url("s2r://panorama/images/bot_icon_easy_png.vtex");
+}
+
+.BotDifficulty_Medium .BotIcon
+{
+	background-image: url("s2r://panorama/images/bot_icon_medium_png.vtex");
+}
+
+.BotDifficulty_Hard .BotIcon
+{
+	background-image: url("s2r://panorama/images/bot_icon_hard_png.vtex");
+}
+
+.BotDifficulty_Unfair .BotIcon
+{
+	background-image: url("s2r://panorama/images/bot_icon_unfair_png.vtex");
 }
 
 #EconItemContainer
@@ -5458,7 +5599,13 @@ DOTAPostGameOverviewHero.Expanded #MainHeroImage
 	
 	transition-property: width, wash-color;
 	transition-duration: .4s;
-}   
+}
+
+.PinnedPlayerRow.IsBot .BotIcon
+{
+	visibility: visible;
+}
+
 
 .GraphCheckboxContainer
 {
@@ -5654,6 +5801,21 @@ DOTAPostGameOverviewHero.Expanded #MainHeroImage
 	width: 170px;
 	height: 30px;
 	wash-color: #b9d3d3;
+}
+
+.IsBot #PlayerNameScoreboard
+{
+	visibility: collapse;
+}
+
+#BotPlayerNameScoreboard
+{
+	visibility: collapse;
+}
+
+.IsBot #BotPlayerNameScoreboard
+{
+	visibility: visible;
 }
 
 #PlayerNameScoreboard Label
@@ -5972,10 +6134,21 @@ DOTAPostGameOverviewHero.Expanded #MainHeroImage
 	tooltip-body-position: 50% 50%;
 }
 
+.PermanentBuffsColumn
+{
+	margin-left: 32px;
+}
+
+				 .PermanentBuffsColumn { width: 0px;	margin-right: 0px; }
+.PermanentBuffs1 .PermanentBuffsColumn { width: 100px;	margin-right: 8px; }
+.PermanentBuffs2 .PermanentBuffsColumn { width: 100px;	margin-right: 8px; }
+.PermanentBuffs3 .PermanentBuffsColumn { width: 150px;	margin-right: 8px; }
+.PermanentBuffs4 .PermanentBuffsColumn { width: 200px;	margin-right: 8px; }
+.PermanentBuffs5 .PermanentBuffsColumn { width: 250px;	margin-right: 8px; }
+
 .LastHitsColumn
 {
 	width: 42px;
-	margin-left: 32px;
 	margin-right: 4px;
 }
 
@@ -6141,6 +6314,21 @@ DOTAPostGameOverviewHero:hover #ButtonDrawer
 	vertical-align: center;
 }
 
+.OverviewHeroContainer.IsBot #PlayerName
+{
+	visibility: collapse;
+}
+
+#BotPlayerName
+{
+	visibility: collapse;
+}
+
+.OverviewHeroContainer.IsBot #BotPlayerName
+{
+	visibility: visible;
+}
+
 #HeroItemsContainer
 {
 	width: 266px;
@@ -6302,6 +6490,38 @@ DOTAPostGameOverviewHero.Expanded #HeroItemsContainer
 	opacity: 1;
 }
 
+.PermanentBuffs
+{
+	flow-children: right;
+	vertical-align: middle;
+}
+
+.PermanentBuff
+{
+	tooltip-position: right;
+	tooltip-body-position: 3%;
+}
+
+#PermanentBuffIcon
+{
+	vertical-align: middle;
+	width: 38px;
+	height: 38px;
+	margin-right: 12px;
+	border: 1px solid #000000;
+}
+
+#PermanentBuffStackCount
+{
+	padding-top: 19px;
+	padding-right: 3px;
+	width: 38px;
+	text-align: right;
+	font-size: 18px;
+	text-shadow: 1px 1px 3px 3.0 #000000;
+	brightness: 2.0;
+}
+
 .TopBarHero
 {
 	background-color: #000000de;
@@ -6350,6 +6570,12 @@ DOTAPostGameOverviewHero.Expanded #HeroItemsContainer
 	opacity: 0;
 	transition-property: opacity, transform;
 	transition-duration: 0.3s;  
+}
+
+.GameMode1v1.RightExpanded #TopRight,
+.GameMode1v1.LeftExpanded #TopLeft
+{
+	opacity: 0;
 }
 
 .RightExpanded #TopRight,
@@ -6421,7 +6647,7 @@ DOTAPostGameOverviewHero.Expanded #HeroItemsContainer
 {
 	width: 32px;
 	height: 32px;
-	border: blue;
+	border-color: blue;
 	background-color: red;
 }
 
@@ -6522,4 +6748,39 @@ DOTAPostGameOverviewHero.Expanded #HeroItemsContainer
 {
 	opacity: 1;
 	pre-transform-scale2d: 1;	
+}
+
+.IsLocalPlayer
+{
+	visibility: collapse;
+}
+
+.LocalPlayer .IsLocalPlayer
+{
+	visibility: visible;
+}
+
+.NotLocalPlayer
+{
+	visibility: visible;
+}
+
+.LocalPlayer .NotLocalPlayer
+{
+	visibility: collapse;
+}
+
+.IsBot .IndividualStatsContainer #PlayerName
+{
+	visibility: collapse;
+}
+
+.IndividualStatsContainer #BotPlayerName
+{
+	visibility: collapse;
+}
+
+.IsBot .IndividualStatsContainer #BotPlayerName
+{
+	visibility: visible;
 }
