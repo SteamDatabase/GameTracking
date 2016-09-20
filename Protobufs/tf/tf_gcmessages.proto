@@ -126,6 +126,7 @@ enum ETFGCMsg {
 	k_EMsgGCRequestCasualCriteriaStats = 6524;
 	k_EMsgGCCasualCriteriaStatsResponse = 6525;
 	k_EMsgGCMatchHistoryLoad = 6526;
+	k_EMsgGCDataCenterPing_Update = 6528;
 	k_EMsgGC_NotificationAcknowledge = 6529;
 	k_EMsgGC_NotificationAcknowledgeReply = 6530;
 	k_EMsgGC_KickPlayerFromLobby = 6531;
@@ -1291,6 +1292,23 @@ message CMsgGCCasualCriteriaStatsResponse {
 }
 
 message CMsgGCMatchHistoryLoad {
+}
+
+message CMsgGCDataCenterPing_Update {
+	message PingEntry {
+		optional string name = 1;
+		optional uint32 ping = 2;
+		optional .CMsgGCDataCenterPing_Update.Status ping_status = 3 [default = Normal];
+	}
+
+	enum Status {
+		Invalid = 0;
+		Normal = 1;
+		Unreachable = 2;
+		FallbackToDCPing = 3;
+	}
+
+	repeated .CMsgGCDataCenterPing_Update.PingEntry pingdata = 1;
 }
 
 message CMsgGC_KickPlayerFromLobby {
