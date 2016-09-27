@@ -22,6 +22,21 @@
 		"mouseinputenabled"	"0"
 
 		"matchgroup"	"MatchGroup_Casual_12v12"
+		"xp_source_notification_center_x"	"350"
+	}
+
+	"SearchStatus"
+	{
+		"ControlName"	"CTFMatchMakingSearchStatusPanel"
+		"FieldName"		"SearchStatus"
+		"xpos"			"cs-0.5"
+		"ypos"			"-5"
+		"zpos"			"10000"
+		"wide"			"150"
+		"tall"			"65"
+		"visible"		"1"
+		"enabled"		"1"
+		"mouseinputenabled" "1"
 	}
 
 	"ShowExplanationsButton"

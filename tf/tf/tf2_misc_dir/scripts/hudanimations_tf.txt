@@ -1557,16 +1557,6 @@ event HudTournament_HideTimer
 	SetVisible CountdownLabelShadow 0 0
 }
 
-event CompetitiveGame_HideDisconnectButton
-{
-	Animate DisconnectButton ypos r-100 Accel 0 0
-}
-
-event CompetitiveGame_ShowDisconnectButton
-{
-	Animate DisconnectButton ypos r30 Accel 0 0.4
-}
-
 event HudTournament_ShowRoundSign
 {
 	SetVisible RoundSignModel 1 0
@@ -1723,13 +1713,14 @@ event PvPRankLevelDownModel
 event CompetitiveGame_ShowPvPRankPanel
 {
 	Animate RankPanel ypos r0 Linear 0 0
-	Animate RankPanel ypos r295 Bias 0.90 0.2 0.3
-	RunEventChild RankPanel PvPRankPanelShowXPChange 1
+	Animate RankPanel ypos r285 Bias 0.90 0.2 0.3
+	RunEventChild RankPanel PvPRankPanelShowXPChange 0
 }
 
 event PvPRankPanelShowXPChange
 {
-	FireCommand 0 "begin_xp_lerp"
+	FireCommand 0 "update_base_state"
+	FireCommand 1 "begin_xp_lerp"
 }
 
 event PyroVsHeavyWar_ShowChooseScene
@@ -1834,6 +1825,39 @@ event MMenu_UpdateButton_SubtleGlow
 	Animate ViewWarButtonGlow BgColor "178 83 22 255" Linear 0.2 1.0
 
 	RunEvent MMenu_UpdateButton_SubtleGlow 5
+}
+
+event XPSourceShow_Positive
+{
+	Animate SourceLabel		Alpha		0				Linear 0 0
+	Animate SourceLabelGlow Alpha		0				Linear 0 0
+
+	Animate SourceLabel		Alpha		255				Linear 0.1 0.3
+	Animate SourceLabel FgColor		"100 255 100 255"	Linear	0.1 0
+	Animate SourceLabel FgColor		CreditsGreen		Linear	0.5 1
+	Animate SourceLabel ypos		-25					Deaccel  0 3.0
+	Animate SourceLabel Alpha		0					Linear 2.9 0.3
+
+	Animate SourceLabelGlow Alpha		255					Linear	0.0 0.1
+	Animate SourceLabelGlow FgColor		"100 255 100 255"	Linear	0.1 0
+	Animate SourceLabelGlow FgColor		CreditsGreen		Linear	0.5 1
+	Animate SourceLabelGlow Alpha		200					Linear	0.5 1
+	Animate SourceLabelGlow ypos		-25					Deaccel  0 3.0
+	Animate SourceLabelGlow Alpha		0					Linear 2.9 0.3
+}
+
+event XPSourceShow_Negative
+{
+	Animate SourceLabel		Alpha		0				Linear 0 0
+	Animate SourceLabelGlow Alpha		0				Linear 0 0
+
+	Animate SourceLabel	Alpha		255					Linear	0.1 0.3
+	Animate SourceLabel FgColor		"255 100 100 255"	Linear	0.1 0
+	Animate SourceLabel FgColor		RedSolid			Linear	0.5 1
+	Animate SourceLabel Alpha		0					Linear	2.9 0.1
+	Animate SourceLabel ypos		-15					Linear 0 0.4
+
+	Animate SourceLabelGlow Alpha		0					Linear	0	0
 }
 
 //

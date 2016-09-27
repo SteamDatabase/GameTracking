@@ -2248,6 +2248,7 @@
 			"default"		"1"
 			"sound_depressed"	"UI/buttonclick.wav"
 			"sound_released"	"UI/buttonclickrelease.wav"
+			"stay_armed_on_click"	"1"
 			
 			"border_default"	"MainMenuButtonDefault"
 			"border_armed"		"MainMenuButtonArmed"
@@ -2287,6 +2288,7 @@
 		"tall"			"26"
 		"visible"		"0"
 		"PaintBackgroundType"	"0"
+		"stay_armed_on_click"	"1"
 
 		"navUp"			"ServerBrowserButton"
 		"navDown"		"QuickplayChangeButton"

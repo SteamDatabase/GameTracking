@@ -77,6 +77,8 @@
 			"font"	"MMenuPlayListDesc"
 			"textinsetx"	"40"
 
+			"stay_armed_on_click"	"1"
+
 			"border_default"	"NoBorder"
 			"defaultBgColor_override"	"235 226 202 20"
 

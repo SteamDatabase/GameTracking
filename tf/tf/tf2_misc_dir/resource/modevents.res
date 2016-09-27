@@ -1807,5 +1807,16 @@
 
 	"casual_criteria_updated"
 	{}
+
+	"rematch_vote_period_over"
+	{
+		"success"	"bool"
+	}
+
+	"rematch_failed_to_create"
+	{}
+
+	"player_rematch_change"
+	{}
 }
 

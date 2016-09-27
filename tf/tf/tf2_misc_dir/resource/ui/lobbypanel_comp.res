@@ -136,7 +136,7 @@
 				"fieldName"		"MatchHistoryCategories"
 				"xpos"			"cs-0.5"
 				"ypos"			"25"
-				"zpos"		"0"
+				"zpos"		"10"
 				"wide"			"p0.95"
 				"tall"			"20"
 				"visible"		"1"
