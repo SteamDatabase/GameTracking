@@ -12,6 +12,7 @@
 		"visible"		"1"
 		"proportionaltoparent"	"1"
 		"keyboardinputenabled"	"0"
+		"mouseinputenabled"		"1"
 
 		"collapsed_height"	"0"
 		"expanded_height"	"70"
@@ -64,6 +65,7 @@
 			"tall"			"f4"
 			"visible"		"0"
 			"proportionaltoparent"	"1"
+			"mouseinputenabled"		"1"
 
 			"pinCorner"		"2"
 			"autoResize"	"1"
@@ -94,6 +96,7 @@
 				"tall"			"f0"
 				"visible"		"1"
 				"proportionaltoparent"	"1"
+				"mouseinputenabled"		"1"
 
 				"RematchButton"
 				{
@@ -165,6 +168,7 @@
 				"tall"			"f0"
 				"visible"		"0"
 				"proportionaltoparent"	"1"
+				"mouseinputenabled"		"1"
 
 				"NonLeaderDesc"
 				{
@@ -293,6 +297,7 @@
 			"tall"			"f4"
 			"visible"		"0"
 			"proportionaltoparent"	"1"
+			"mouseinputenabled"		"1"
 
 			"pinCorner"		"2"
 			"autoResize"	"1"
@@ -403,6 +408,7 @@
 			"tall"			"f4"
 			"visible"		"0"
 			"proportionaltoparent"	"1"
+			"mouseinputenabled"		"1"
 
 			"pinCorner"		"2"
 			"autoResize"	"1"
@@ -470,6 +476,7 @@
 				"tall"			"f0"
 				"visible"		"0"
 				"proportionaltoparent"	"1"
+				"mouseinputenabled"		"1"
 
 				"LeaveQueueButton"
 				{
@@ -514,6 +521,7 @@
 			"tall"			"f4"
 			"visible"		"0"
 			"proportionaltoparent"	"1"
+			"mouseinputenabled"		"1"
 
 			"pinCorner"		"2"
 			"autoResize"	"1"
@@ -643,6 +651,7 @@
 			"tall"			"f4"
 			"visible"		"0"
 			"proportionaltoparent"	"1"
+			"mouseinputenabled"		"1"
 
 			"pinCorner"		"2"
 			"autoResize"	"1"
