@@ -67,9 +67,9 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run",
+		name = "run_anim",
 		sequences = {
-			{ "@run" }
+			{ "@run_anim" }
 		},
 		addlayer = {
 			"turns"
@@ -140,9 +140,9 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "surge_run",
+		name = "surge_run_anim",
 		sequences = {
-			{ "@surge_run" }
+			{ "@surge_run_anim" }
 		},
 		addlayer = {
 			"surge_turns"

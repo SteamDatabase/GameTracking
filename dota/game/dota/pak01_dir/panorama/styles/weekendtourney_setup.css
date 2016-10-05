@@ -33,7 +33,7 @@ DOTAWeekendTourneySetup
 	height: fit-children;
 }
 
-.Spinner
+#ContainerPendingJoinRequest .Spinner
 {
 	horizontal-align: center;
 	margin-top: 200px;
@@ -69,7 +69,7 @@ DOTAWeekendTourneySetup
 	margin-top: 6px;
 	margin-left: 10px;
 	margin-bottom: 10px; 
-	font-weight: regular;
+	font-weight: normal;
 	color: #555;
 	visibility: collapse;
 }
@@ -124,6 +124,7 @@ VerticalScrollBar
 	flow-children:right;
 	margin-bottom: 8px;
 }
+
 
 .SetupSectionHeader
 {
@@ -318,7 +319,7 @@ VerticalScrollBar
 
 #PartyMemberSkillLevelContainer
 {
-	margin: 2px;
+	margin-top: 2px;
 	flow-children: right;
 	
 }
@@ -346,7 +347,7 @@ VerticalScrollBar
 	background-color: #000000;
 	margin-bottom: 0px;
 	height: 108px;
-	background-image: url("s2r://panorama/images/weekend_tourney/division_americas_header_image_psd.vtex");
+	background-image: url("s2r://panorama/images/weekend_tourney/bc_header_image_fall2016_psd.vtex");
 	background-size: 100% 100%;
 	width: 100%;
 	box-shadow: none;
@@ -523,11 +524,17 @@ VerticalScrollBar
 	color: white;
 	font-weight: bold;
 	padding-top: 3px;
-	margin-right: 14px;
-	margin-left: 0px;
+	margin-right: 13px;
+	margin-left: 2px;
 	margin-top: 1px;
 	transition-property: background-color;
 	transition-duration: .3s;
+}
+
+.AspectRatio16x9 .PartyMemberSkillLevel,
+.AspectRatio4x3 .PartyMemberSkillLevel
+{
+	margin-right: 12px;
 }
 
 .PartyMemberSkillLevel.Ineligible
@@ -1389,23 +1396,260 @@ VerticalScrollBar
 	wash-color: none;
 }
 
+#PartyUpButtonContainer
+{
+	flow-children: right;
+}
+
+
+#PartyBuilderToggleButton
+{
+	margin-top: 5px;
+	horizontal-align: left;
+	margin-left: 12px;	
+	margin-right: 0px;
+	flow-children: right;
+	transition-duration: .2s;
+	transition-property: brightness;
+	border: 1px solid #66666644;
+	padding-top: 2px;
+	min-width: 115px;
+	height: 22px;
+}
+
+#PartyBuilderMessageBusySpinner
+{
+	visibility: collapse;
+}
+
+.PartyBuilderMsgInFlight #PartyBuilderMessageBusySpinner
+{
+	visibility: visible;
+}
+.PartyBuilderMsgInFlight #FindTeamIcon
+{
+	visibility: collapse;
+}
+
+.LocalPlayerIsNotPartyLeader #PartyBuilderToggleButton,
+.PartyBuilderNotActive.AnyTeamMemberIneligible #PartyBuilderToggleButton,
+.PartyBuilderNotActive.AnyTeamMemberPlayedTooRecently #PartyBuilderToggleButton
+{
+	visibility: collapse;
+}
+
+
+//#PartyBuilderToggleButton .TickBox
+//{
+//	visibility: collapse;
+//}
+
+
+#PartyBuilderToggleButton Label
+{
+	padding-left: 0px;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 12px;
+	text-transform: uppercase;
+	color: #666;
+	font-size: 14px;
+	padding-bottom: -1px;
+	transition-property: color;
+	transition-duration: .2s;
+	visibility: collapse;
+}
+
+.PartyBuilderNotActive.PartyHasOneMember #PartyBuilderStartSoloLabel,
+.PartyBuilderNotActive.PartyHasMultipleMembers #PartyBuilderStartPartyLabel,
+.PartyBuilderActive #PartyBuilderSearchingLabel
+{
+	visibility: visible;
+}
+
+#PartyBuilderToggleButton:hover
+{
+	brightness: 2;
+}
+
+#PartyBuilderToggleButton:selected
+{
+	//background-color: gradient( linear, 0% 0%, 100% 0%, from( #2b4c1b ), color-stop( 0.07, #366220 ), color-stop( 0.1, #366220 ), color-stop( 0.7, #0e0e0e ), to( #0e0e0e ) );
+	animation-name: FindingTeamThrobber;
+	animation-duration: 3s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;	
+}
+
+@keyframes 'FindingTeamThrobber'
+{
+	0%
+	{
+		background-color: gradient( linear, 0% 0%, 100% 0%, from( #1f3216 ), color-stop( 0.03, #1f3216 ), color-stop( 0.08, #1f3216 ), color-stop( 0.5, #0e0e0e ), to( #0e0e0e ) );
+	}
+	50%
+	{
+		background-color: gradient( linear, 0% 0%, 100% 0%, from( #467e2a ), color-stop( 0.03, #467e2a ), color-stop( 0.08, #467e2a ), color-stop( 1, #0e0e0e ), to( #0e0e0e ) );
+	}
+	100%
+	{
+		background-color: gradient( linear, 0% 0%, 100% 0%, from( #1f3216 ), color-stop( 0.03, #1f3216 ), color-stop( 0.08, #1f3216 ), color-stop( 0.5, #0e0e0e ), to( #0e0e0e ) );
+	}
+}
+
+
+#PartyBuilderToggleButton Label:hover
+{
+	brightness: 1;
+}
+
+#PartyBuilderToggleButton:selected #JoinText
+{
+	visibility: collapse; 
+}
+
+#PartyBuilderToggleButton:selected #FindTeamIcon
+{
+	wash-color: #6eff3c;
+	animation-name: FindingTeamIconThrobber;
+	animation-duration: 3s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+@keyframes 'FindingTeamIconThrobber'
+{
+	0%
+	{
+		wash-color: #6eff3c;
+	}
+	50%
+	{
+		wash-color: #99ff99;
+	}
+	100%
+	{
+		wash-color: #6eff3c;
+	}
+}
+
+#PartyBuilderToggleButton:selected Label
+{
+	color: #ccc;
+}
+
+#PartyBuilderMessageBusySpinner,
+#FindTeamIcon
+{
+	width: 15px;
+	height: 15px;
+	//margin-top: 3px;
+	margin-left: 8px;
+	margin-right: 10px;
+}
+
+#FindTeamIcon
+{
+	background-image: url("s2r://panorama/images/control_icons/party_open_yes_png.vtex");
+	wash-color: #888;
+	background-size: 100%;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	transition-property: wash-color;
+	transition-duration: .2s;
+}
+
+#PartyBuilderAddMoreButton
+{
+	margin-top: 5px;
+	horizontal-align: left;
+	margin-right: 0px;
+	transition-duration: .2s;
+	transition-property: brightness, background-color, background-image, width;
+	border-top: 1px solid #66666644;
+	border-right: 1px solid #66666644;
+	border-bottom: 1px solid #66666644;
+	width: 0px;
+	height: 22px;
+	background-image: url("s2r://panorama/images/control_icons/plus_thin_png.vtex");
+	background-size: 58%;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+}
+
+.LocalPlayerIsPartyLeader.PartyBuilderActive.PartyBuilderCanAddMore #PartyBuilderAddMoreButton
+{
+	width: 22px;
+}
+
+#PartyBuilderAddMoreButton:hover
+{
+	//background-color: gradient( linear, 0% 0%, 100% 0%, from( #6c2113 ), color-stop( 0.3, #6c2113 ), color-stop( 0.7, #6c2113 ), to( #6c2113 ) );
+	background-color: gradient( radial, 50% 50%, 0% 0%,100% 100%, from( #00c009 ), to( #023a05 ) );
+}
+
+/* Finding team member throbber, should only show when 'add player to team' button has been pressed */
+.PartyMemberSkillLevel.PartyBuilderToFillSlot
+{
+	background-color: gradient( linear, 0% 0%, 100% 0%, from( #29481a ), color-stop( 0.3, #396921 ), color-stop( 0.7, #396921 ), to( #29481a ) );
+	color: #00000000;
+	background-image: url("s2r://panorama/images/control_icons/party_open_yes_png.vtex");
+	wash-color: #99ff99;
+	background-size: 18px 18px;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	transition-property: wash-color;
+	transition-duration: .2s;
+	animation-name: FindingTeamMemberThrobber;
+	animation-duration: 3s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+@keyframes 'FindingTeamMemberThrobber'
+{
+	0%
+	{
+		background-color: gradient( linear, 0% 0%, 100% 0%, from( #29481a ), color-stop( 0.3, #46a218 ), color-stop( 0.7, #46a218 ), to( #29481a ) );
+	}
+	50%
+	{
+		background-color: gradient( linear, 0% 0%, 100% 0%, from( #29481a ), color-stop( 0.3, #396921 ), color-stop( 0.7, #396921 ), to( #29481a ) );
+	}
+	100%
+	{
+		background-color: gradient( linear, 0% 0%, 100% 0%, from( #29481a ), color-stop( 0.3, #46a218 ), color-stop( 0.7, #46a218 ), to( #29481a ) );
+	}
+}
+
+
+/* Join division chat Button */
+
 #JoinDivisionChatButton
 {
 	margin-top: 5px;
 	horizontal-align: left;
 	margin-left: 12px;
 	margin-right: 5px;
+	transition-property: brightness;
+	transition-duration: .2s;
+	height: 22px;
 }
 
 #JoinDivisionChatButton Label
 {
-	padding-left: 11px;
-	padding-right: 4px;
-}
+	padding-left: 14px;
+	padding-right: 6px;
+}	
 
 .LocalPlayerIsIneligible #JoinDivisionChatButton
 {
-	visibility:collapse;
+	visibility: collapse;
+}
+
+#JoinDivisionChatButton:active
+{
+	brightness: 12;
 }
 
 #CancelSetupButton

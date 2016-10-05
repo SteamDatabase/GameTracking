@@ -14,6 +14,7 @@
 			minimapPanel.SetHasClass( "UseHeroIcons", $("#dota_minimap_show_hero_icon").checked );
 			minimapPanel.SetHasClass( "SwapToggle", $("#dota_minimap_always_draw_hero_icons").checked );
 			minimapPanel.SetHasClass( "NoBackground", $("#dota_minimap_hide_background").checked );
+			minimapPanel.SetHasClass( "SimpleBackground", $("#dota_minimap_simple_background").checked );
 
 			var heroSizePanel = $( "#dota_minimap_hero_size" );
 			var iconValue = heroSizePanel.value;
@@ -840,6 +841,8 @@
 							
 							<DOTASettingsCheckbox id="dota_minimap_simple_colors" convar="dota_minimap_simple_colors" text="#dota_settings_minimapsimplecolors" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_MinimapSimple, OptionsTooltip)" onmouseout="UIHideTextTooltip()" onactivate="updateMinimapPreview()" />
 							<DOTASettingsCheckbox id="dota_minimap_hide_background" convar="dota_minimap_hide_background" text="#dota_settings_minimaphidebackground" onactivate="updateMinimapPreview()" />
+							<DOTASettingsCheckbox id="dota_minimap_simple_background" convar="dota_minimap_simple_background" text="#dota_settings_minimapsimplebackground" onactivate="updateMinimapPreview()" />
+
 							<DOTASettingsCheckbox id="dota_minimap_show_hero_icon" convar="dota_minimap_show_hero_icon" text="#dota_settings_minimapshowheroicon" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_MinimapDrawHeroes, OptionsTooltip)" onmouseout="UIHideTextTooltip()" onactivate="updateMinimapPreview()" />
 							<DOTASettingsCheckbox id="dota_minimap_always_draw_hero_icons" convar="dota_minimap_always_draw_hero_icons" text="#dota_settings_minimapalwaysshowname" onactivate="updateMinimapPreview()"  onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_InvertToggle, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
 							<DOTASettingsCheckbox convar="dota_hud_flip" text="#dota_settings_minimapflip" />
@@ -862,7 +865,11 @@
 						<DOTASettingsCheckbox convar="dota_alt_shows_neutral_spawn_boxes" text="#dota_alt_shows_neutral_spawn_boxes" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_ALTNeutral, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
 						<DOTASettingsCheckbox convar="dota_alt_shows_tower_attack_range" text="#dota_alt_shows_tower_attack_range" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_ALTTower, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
 						<DOTASettingsCheckbox convar="dota_enable_range_finder" text="#dota_settings_rangefinder" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_RangeFinder, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />
-						<DOTASettingsCheckbox convar="dota_always_show_player_names" text="#dota_settings_alwaysshownames" />
+						<DOTASettingsEnum convar="dota_hero_overhead_names" text="#dota_settings_name_over_healthbar">
+							<RadioButton text="#dota_settings_showheronames" value="0" class="EnumButton" group="overhead_names"/>
+							<RadioButton text="#dota_settings_alwaysshownames" value="1" class="EnumButton" group="overhead_names"/>
+							<RadioButton text="#dota_settings_dontshownames" value="2" class="EnumButton" group="overhead_names"/>
+						</DOTASettingsEnum>
 						<DOTASettingsCheckbox convar="dota_hud_healthbar_number" text="#dota_settings_showhitpoints" />						
 						<ToggleButton id="dota_hud_colorblind" text="#dota_settings_hud_color_colorblind" onactivate="DOTAUpdateColorblindSetting();"/>
 						<ToggleButton id="SelfFocus" text="#dota_settings_hud_color_selffocus" onactivate="DOTAUpdateColorblindSetting();" onmouseover="UIShowTextTooltipStyled( #DOTA_Settings_Tooltip_Differentiate, OptionsTooltip)" onmouseout="UIHideTextTooltip()">
@@ -1052,9 +1059,11 @@
 									<DOTASettingsCheckbox convar="r_deferred_additive_pass" text="#dota_settings_additivelight" />
 									<DOTASettingsCheckbox convar="r_deferred_simple_light" text="#dota_settings_worldlight" />
 									<DOTASettingsCheckbox convar="r_ssao" text="#dota_settings_ambientocclusion" />
-									<DOTASettingsCheckbox convar="r_dota_normal_maps" text="#dota_settings_normal_maps" />
+                  							<ToggleButton class="CheckBox" id="NormalMapToggle" text="#dota_settings_normal_maps" onactivate="DOTASetNormalMaps();" />
+                  							<DOTASettingsCheckbox id="ParallaxMapToggle" convar="r_dota_allow_parallax_mapping" text="#dota_settings_parallax_mapping" />
 									<DOTASettingsCheckbox convar="dota_ambient_creatures" text="#dota_settings_ambientcreatures" />
-									<DOTASettingsCheckbox convar="dota_ambient_cloth" text="#dota_settings_ambient_cloth" />
+					        <DOTASettingsCheckbox convar="dota_ambient_cloth" text="#dota_settings_ambient_cloth" />
+                  <ToggleButton class="CheckBox" id="GrassToggle" text="#dota_settings_grassquality"	onactivate="DOTASetGrass();" />
 								</Panel>
 								<Panel class="advancedvideo">
 									<DOTASettingsCheckbox convar="r_dota_fxaa" text="#dota_settings_antialiasing" />
@@ -1064,6 +1073,7 @@
 									<DOTASettingsCheckbox convar="r_deferred_height_fog" text="#dota_settings_fog" />
 									<DOTASettingsCheckbox convar="r_dashboard_render_quality" text="#dota_settings_dashboard_renderquality" />
 									<ToggleButton class="CheckBox" id="VSyncToggle" text="#dota_settings_vsync"	onactivate="DOTASetVSync();" />
+                  <DOTASettingsCheckbox id="TreeWindToggle" convar="r_dota_allow_wind_on_trees" text="#dota_settings_tree_wind" />
 								</Panel>
 							</Panel>
 							<DOTASettingsEnum class="HorizontalEnum" convar="r_texture_stream_mip_bias" text="#dota_settings_texturequality" id="TextureEnum" >
@@ -1075,7 +1085,7 @@
 								<RadioButton text="#dota_settings_shadowquality_off" value="0" class="EnumButton" id="ShadowQualityLow" group="shadowquality" />
 								<RadioButton text="#dota_settings_texturequality_med" value="1" class="EnumButton" id="ShadowQualityMed" group="shadowquality" />
 								<RadioButton text="#dota_settings_texturequality_high" value="2" class="EnumButton" id="ShadowQualityHigh" group="shadowquality" />
-                						<RadioButton text="#dota_settings_shadowquality_ultra" value="3" class="EnumButton" id="ShadowQualityUltra" group="shadowquality" />
+                <RadioButton text="#dota_settings_shadowquality_ultra" value="3" class="EnumButton" id="ShadowQualityUltra" group="shadowquality" />
 							</DOTASettingsEnum>
 							<DOTASettingsSlider id="RenderQuality" convar="mat_viewportscale" min="0.4" max="1.0" percentage="true" text="#dota_settings_renderquality" />
 							<DOTASettingsSlider id="FpsMaxSlider" convar="fps_max" min="60" max="240" disableifoutofrange="true" text="#dota_settings_fps_max" onmouseover="UIShowTextTooltipStyled( #dota_settings_fps_max_tip, OptionsTooltip)" onmouseout="UIHideTextTooltip()" />

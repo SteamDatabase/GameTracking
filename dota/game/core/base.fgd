@@ -382,6 +382,7 @@
 		512: "Break immediately on Physics" : 0
 		1024: "Don't take physics damage" : 0
 		2048: "Don't allow bullet penetration": 0
+		4096: "Don't allow hand physics damage" : 0
 	]
 
 	propdata(choices) : "Prop Data" : 0 : "Set to the best approximation of the size and material of this entity's brushes. If set, it will override this entity's health and damage taken from various weapons. See the propdata.txt file in the scripts directory of your MOD to get a detailed list of what each entry specifies." =
@@ -555,6 +556,8 @@
 
 	NavRestrictionVolume(target_destination) [ group="NPC Properties" ] : "Nav Restriction Volume" : "" : "Markup volume entity to restrict unit navigation"
 
+	spawnasragdoll(boolean) [ group="NPC Properties" ] : "Spawn as ragdoll" : 0 : "This NPC will spawn as a ragdoll and will unragdoll when it settles."
+
 	// Outputs
 	output OnDamaged(void) : "Fired when this NPC takes damage."
 	output OnDeath(void) : "Fired when this NPC is killed." 
@@ -603,6 +606,8 @@
 	input ForceInteractionWithNPC(string) : "Force the NPC to use a dynamic interaction with another NPC. Parameter format: <target NPC name> <dynamic interaction name>"
 	input UpdateEnemyMemory(string) : "Update (or Create) this NPC's memory of an enemy and its location"
 	input BecomeRagdoll(void) : "This NPC will instantly become a ragdoll with ZERO force (just go limp). OnDeath, OnHalfHealth, etc. Outputs will **NOT** BE FIRED."
+	input BecomeTemporaryRagdoll(float) : "Become a temporary ragdoll that then can be later unrgadolled."
+	input StopTemporaryRagdoll(void) : "Rise from your grave."
 ]
 
 @PointClass base(Targetname, Parentname) iconsprite("editor/info_target.vmat") = info_npc_spawn_destination : 
@@ -1037,6 +1042,8 @@
 	// Inputs
 	input SetSoundEventName(string) : "Set the name of the sound event to play"
 	input StartSound(void) : "Start the sound event. If an entity name is provided, the sound will originate from that entity"
+	input PauseSound(void) : "Pause the sound event."
+	input UnPauseSound(void) : "UnPause the sound event."
 	input StopSound(void) : "Stop the sound event"
 ]
 
@@ -4488,6 +4495,7 @@
 	spawnflags(flags) = 
 	[
 		1 : "Ignore out of range input values" : 1
+		2 : "Clamp out of range output values" : 1
 	]
 
 	in1(integer) : "Minimum Valid Input Value" : 0 : "Input values below this value will be ignored."
@@ -4500,6 +4508,10 @@
 	
 	// Outputs
 	output OutValue(float) : "Fired when the InValue input is received, with the remapped input value as the parameter."
+	output OnRoseAboveMin(void) : "Fired when the InValue input rises above the minimum legal value."
+	output OnRoseAboveMax(void) : "Fired when the InValue input rises above the maximum legal value."
+	output OnFellBelowMin(void) : "Fired when the InValue input falls below the minimum legal value."
+	output OnFellBelowMax(void) : "Fired when the InValue input falls below the maximum legal value."
 ]
 
 @PointClass base(Targetname) = math_colorblend :
@@ -5061,6 +5073,7 @@
 	target(target_destination) : "Target Entity Name" : : "Name of the entity whose velocity will be sensed."
 	axis(vecline) : "Measurement Axis"
 	enabled(boolean) : "Start Enabled" : 1 : "Whether or not to start enabled and active."
+	avginterval(float) : "Averaging interval" : 0 : "Amount of time in seconds over which to average the measured velocity, 0=instantaneous."
 
 	// Outputs
 	output Velocity(float) : "Fired when the Target's Velocity changes, passing the new magnitude of the velocity."
@@ -5098,6 +5111,7 @@
 		1 : "Teleport Home" : 0
 		2 : "Into Duck (episodic)" : 0
 	]
+	teleport_parented_entities(boolean) : "Teleport Parented Ents" : "0"
 
 	// Inputs
 	input Teleport(void) : "Teleport the target entity."
@@ -5195,7 +5209,6 @@
 	]
 	
 	massScale(float) : "Mass Scale" : "0" : "A scale multiplier for the object's mass."
-	overridescript(string) : "Override Parameters" : "" : "A list of physics key/value pairs that are usually in a physics prop .qc file. Format is 'key,value,key,value,etc'."
 	damagetoenablemotion(integer) : "Health Level to Override Motion" : 0 : "If specified, this object will start motion disabled. Once its health has dropped below this specified amount, it will enable motion."
 	forcetoenablemotion(float) : "Physics Impact Force to Override Motion" : 0 : "If specified, this object will start motion disabled. Any impact that imparts a force greater than this value on the physbox will enable motion."
 	health(integer) : "Strength" : 0 : "Number of points of damage to take before breaking.  0 means don't break."
@@ -5371,6 +5384,8 @@
 	"A physically simulated hinge. Use the helper to define the axis of rotation."
 [
 	hingefriction(float) : "Friction" : "0" : "Resistance/friction in the hinge"
+	min_rotation(float) : "Min Rotation Limit" : "0" : "Minimum rotation limit around hinge axis"
+	max_rotation(float) : "Max Rotation Limit" : "0" : "Maximum rotation limit around hinge axis"
 	hingeaxis(vecline) : "Hinge Axis"
 	SystemLoadScale(float) : "Load Scale" : "1" : "Scale of the load connected to this hinge (1=just the objects directly connected)"
 	
@@ -5548,6 +5563,10 @@
 
 	linear_frequency_x(float) : "Spring frequency (stiffness)" : "0"
 	linear_damping_ratio_x(float) : "Spring damping ratio" : "0" : "0 for no damping and 1 for critical damping"
+	forcelimit_x(float) : "Impulse Limit to Break (kg)" : "0" : "The amount of impulse an impact must apply to the constraint to break it. A way of calculating this is to set it to the mass of an object that would break this constraint if it were resting on the constrainted objects."
+
+	notifyforce_x(float) : "Notify when X force reaches" : "0"
+	notifyforcemintime_x(float) : "Minimum time between event firing X event (0 disables firing)" : "0"
 
 	linear_motion_y(choices) : "Linear Motion Y" : "JOINT_MOTION_FREE" =
 	[
@@ -5557,6 +5576,10 @@
 
 	linear_frequency_y(float) : "Spring frequency (stiffness)" : "0"
 	linear_damping_ratio_y(float) : "Spring damping ratio" : "0" : "0 for no damping and 1 for critical damping"
+	forcelimit_y(float) : "Impulse Limit to Break (kg)" : "0" : "The amount of impulse an impact must apply to the constraint to break it. A way of calculating this is to set it to the mass of an object that would break this constraint if it were resting on the constrainted objects."
+
+	notifyforce_y(float) : "Notify when Y force reaches" : "0"
+	notifyforcemintime_y(float) : "Minimum time between event firing Y event (0 disables firing)" : "0"
 
 	linear_motion_z(choices) : "Linear Motion Z" : "JOINT_MOTION_FREE" =
 	[
@@ -5566,6 +5589,10 @@
 
 	linear_frequency_z(float) : "Spring frequency (stiffness)" : "0"
 	linear_damping_ratio_z(float) : "Spring damping ratio" : "0" : "0 for no damping and 1 for critical damping"
+	forcelimit_z(float) : "Impulse Limit to Break (kg)" : "0" : "The amount of impulse an impact must apply to the constraint to break it. A way of calculating this is to set it to the mass of an object that would break this constraint if it were resting on the constrainted objects."
+
+	notifyforce_z(float) : "Notify when Z force reaches" : "0"
+	notifyforcemintime_z(float) : "Minimum time between event firing Z event (0 disables firing)" : "0"
 
 	angular_motion_x(choices) : "Angular Motion X" : "JOINT_MOTION_FREE" =
 	[
@@ -5575,6 +5602,7 @@
 
 	angular_frequency_x(float) : "Spring frequency (stiffness)" : "0"
 	angular_damping_ratio_x(float) : "Spring damping ratio" : "0" : "0 for no damping and 1 for critical damping"
+	torquelimit_x(float) : "Angular Impulse Limit to Break (kg * distance)" : "0" : "The amount of angular impulse required to break the constraint. A way of calculating this is to multiply any reference mass by the resting distance (from the center of mass of the object) needed to break the constraint."
 
 	angular_motion_y(choices) : "Angular Motion Y" : "JOINT_MOTION_FREE" =
 	[
@@ -5584,6 +5612,7 @@
 
 	angular_frequency_y(float) : "Spring frequency (stiffness)" : "0"
 	angular_damping_ratio_y(float) : "Spring damping ratio" : "0" : "0 for no damping and 1 for critical damping"
+	torquelimit_y(float) : "Angular Impulse Limit to Break (kg * distance)" : "0" : "The amount of angular impulse required to break the constraint. A way of calculating this is to multiply any reference mass by the resting distance (from the center of mass of the object) needed to break the constraint."
 
 	angular_motion_z(choices) : "Angular Motion Z" : "JOINT_MOTION_FREE" =
 	[
@@ -5593,6 +5622,12 @@
 
 	angular_frequency_z(float) : "Spring frequency (stiffness)" : "0"
 	angular_damping_ratio_z(float) : "Spring damping ratio" : "0" : "0 for no damping and 1 for critical damping"
+	torquelimit_z(float) : "Angular Impulse Limit to Break (kg * distance)" : "0" : "The amount of angular impulse required to break the constraint. A way of calculating this is to multiply any reference mass by the resting distance (from the center of mass of the object) needed to break the constraint."
+
+	// Outputs
+	output NotifyForceReachedX(void) : "The requested force has been reached on the X axis.  Won't fire if force min time is zero."
+	output NotifyForceReachedY(void) : "The requested force has been reached on the Y axis.  Won't fire if force min time is zero."
+	output NotifyForceReachedZ(void) : "The requested force has been reached on the Z axis.  Won't fire if force min time is zero."
 ]
 
 @PointClass base(Targetname) size(-8 -8 -8, 8 8 8) color(0 0 255) = phys_convert : 
@@ -5704,7 +5739,6 @@
 	torquelimit(float) : "Angular Impulse Limit to Break (kg * distance)" : "0" : "The amount of angular impulse necessary to break a stuck object off the magnet. A way of calculating this is to multiply any reference mass by the resting distance (from the center of mass of the object) needed to break the constraint."
 
 	massScale(float) : "Mass Scale" : "0" : "A scale multiplier for the object's mass."
-	overridescript(string) : "Override parameters" : "" : "A list of physics key/value pairs that are usually in a physics prop .qc file. Format is 'key,value,key,value,etc'."
 	maxobjects(integer) : "Maximum Attached Objects" : 0 : "The maximum number of physics objects that can be stuck to the magnet at once. 0 = no limit."
 
 	// Inputs
@@ -5829,7 +5863,7 @@
 ]
 
 
-@PointClass color(255 255 0) line(255 0 255, targetname, cubemap) sphere(fademindist, 200 200 200, singleSelect) sphere(fademaxdist, 200, 200, 200, singleSelect) model(static) = prop_static
+@PointClass color(255 255 0) line(255 0 255, targetname, cubemap) sphere(fademindist, 200 200 200, singleSelect) sphere(fademaxdist, 200, 200, 200, singleSelect) sphere(grass_exclusion_radius, 100 200 100, singleSelect) model(static) = prop_static
 [
 	model(resource:model) [report] : "World Model"
 	solid(choices) : "Collisions" : 6 =
@@ -5914,7 +5948,6 @@
 
 	inertiaScale(float) [ group="Physics Properties" ] : "Scale Factor For Inertia" : "1.0" : "Scales the angular mass of an object. Used to hack angular damage and collision response."
 	massScale(float) [ group="Physics Properties" ] : "Mass Scale" : "0" : "A scale multiplier for the object's mass."
-	overridescript(string) [ group="Physics Properties" ] : "Override Parameters" : "" : "A list of physics key/value pairs that are usually in a physics prop .qc file. Format is 'key,value,key,value,etc'."
 	damagetoenablemotion(integer) [ group="Physics Properties" ] : "Health Level to Override Motion" : 0 : "If specified, this object will start motion disabled. Once its health has dropped below this specified amount, it will enable motion."
 	forcetoenablemotion(float) [ group="Physics Properties" ] : "Physics Impact Force to Override Motion" : 0 : "If specified, this object will start motion disabled. Any impact that imparts a force greater than this value on the physbox will enable motion."
 	
@@ -7243,6 +7276,7 @@
 [
 	message(string) : "Message"
 	enabled(boolean) : "Start Enabled" : "1"
+	fullbright(boolean) : "Draw Fullbright" : "0"
 	color(color255) : "Color" : "0 0 0 255"
 	world_units_per_pixel(float) : "World Units Per Pixel" : "0.25"
 	font_size(float) : "Font Size" : "20"
@@ -7514,4 +7548,27 @@
 	angular_fog_max_start( float ) : "Fog Max Angle Start" : "25.0"
 	angular_fog_min_start( float ) : "Fog Min Angle Start" : "-25.0"
 	angular_fog_min_end( float ) : "Fog Min Angle End" : "-35.0"
+]
+
+@SolidClass base(PhysicsTypeOverride_Mesh, Targetname, Parentname, Global, EnableDisable, Shadow) = func_shatterglass : "A procedurally-shattering glass panel." 
+[
+	input Hit(void) : "Damages the panel"
+	input Shatter(void) : "Completely breaks the panel"
+	input Restore(void) : "Restore the panel instantly"
+	input RestoreSlow(void) : "Visibly restore the panel by rebuilding it out of the broken pieces"
+	GlassNavIgnore(boolean) : "Nav Ignore" : "0" : "Nav Ignore"
+	GlassThickness(float) : "Thickness" : "0.6"
+	GlassInFrame(boolean) : "Is in a frame" : "1" : "In in a frame"
+	SpawnInvulnerability(float) : "Spawn Invulnerability" : "3"
+	StartBroken(boolean) : "Start Broken" : "0" : "Spawn in a broken state"
+	DamagePositioningEntity(target_destination) : "Damage Position" : : "If set, this helper position is used for Hit input damage."
+	output OnBroken(void) : "Fires when the panel first breaks."
+]
+
+@PointClass base(Targetname, Parentname) = point_player_speak : "Used to force the HLVR player to speak"
+[
+	input SpeakConcept(string) : "Speak the desired concept. Optional string can be used to specify temp contexts for this speak (context1:value1)"
+	input AddContext(string) : "Adds context (context1:value1,context2:value2)."
+	input RemoveContext(string) : "Remove context (contextname)."
+	input ClearContext(void) : "Clear all context."
 ]

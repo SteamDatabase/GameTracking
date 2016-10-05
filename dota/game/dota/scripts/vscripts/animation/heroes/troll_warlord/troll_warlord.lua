@@ -83,7 +83,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "tw_run_melee",
+		name = "tw_run_melee_anim",
 		sequences = {
 			{ "@tw_run_melee" }
 		},
@@ -102,7 +102,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "tw_run_melee_haste",
+		name = "tw_run_melee_haste_anim",
 		sequences = {
 			{ "@tw_run_melee_haste" }
 		},
@@ -122,7 +122,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "tw_run_melee_injured",
+		name = "tw_run_melee_injured_anim",
 		sequences = {
 			{ "@tw_run_melee_injured" }
 		},
@@ -227,7 +227,7 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "tw_run_ranged",
+		name = "tw_run_ranged_anim",
 		sequences = {
 			{ "@tw_run_ranged" }
 		},

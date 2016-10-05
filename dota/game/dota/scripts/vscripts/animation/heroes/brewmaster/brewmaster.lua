@@ -200,9 +200,9 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "run_aggressive",
+		name = "run_aggressive_anim",
 		sequences = {
-			{ "@run_aggressive" }
+			{ "@run_aggressive_anim" }
 		},
 		addlayer = {
 			"turns",
@@ -218,9 +218,9 @@ model:CreateSequence(
 
 model:CreateSequence(
 	{
-		name = "Run",
+		name = "Run_anim",
 		sequences = {
-			{ "@Run" }
+			{ "@Run_anim" }
 		},
 		addlayer = {
 			"turns",
@@ -231,3 +231,4 @@ model:CreateSequence(
 		}
 	}
 )
+

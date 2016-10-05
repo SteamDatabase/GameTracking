@@ -56,7 +56,9 @@
 
 	"dota_barracks_kill"
 	{
-		"barracks_id"	"short"
+		"barracks_id"		"short"
+		"killer_playerid"	"short"
+		"killer_team"		"short"
 	}
 
 	"dota_tower_kill"

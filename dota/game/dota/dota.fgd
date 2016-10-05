@@ -129,6 +129,8 @@
 	specular_independence_night(float) : "Specular Independence - Night" : "0" : "Night specular light independence from diffuse."
 	specular_direction_day(vector) : "Specular Direction - Day" : "90 0 0" : "Daytime specular light direction."
 	specular_direction_night(vector) : "Specular Direction - Night" : "90 0 0" : "Nighttime specular light direction."
+	inspector_specular_direction_day(vector) : "Inspector View Specular Direction - Day" : "90 0 0" : "Inspector View daytime specular light direction."
+	inspector_specular_direction_night(vector) : "Inspector View Specular Direction - Night" : "90 0 0" : "Inspector View nighttime specular light direction."
 	light_direction_day(vector) : "Light Direction - Day" : "0 0 0" : "Light Daytime direction."
 	light_direction_night(vector) : "Light Direction - Night" : "0 0 0" : "Light Nighttime direction."
 	ambient_direction_day(vector) : "Ambient Direction - Day" : "0 0 0" : "Ambient Daytime direction."
@@ -389,7 +391,7 @@
 	radius(float) : "Radius" : 256 : "The radius around this viewer."
 ]
 
-@PointClass base(Studiomodel,Targetname) dota_obstruction() = ent_dota_tree :
+@PointClass base(Studiomodel,Targetname) dota_obstruction() sphere(grass_exclusion_radius, 100 200 100, singleSelect) = ent_dota_tree :
 	"Creates a Dota tree.  Trees have collision, block fog of war visibility, and can be destroyed.  Note: it's far faster to place trees via the Tile Editor tool."
 [
 	rendercolor(color255) : "FX Color (R G B)" : "255 255 255" : "The FX color is used by the selected Render Mode."
@@ -397,6 +399,8 @@
 	particle_tint_color(color255) : "Particle Tint Color" : "255 255 255"
 	body(integer) : "bodygroup" : 1 : "Show tree in Hammer"
 		
+	grass_exclusion_radius(float) : "Grass Exclusion Radius" : 0 : "Don't grow grass within this radius."
+	
 	input CutDown(void) : "Cut down the tree."
 	input CutDownForever(void) : "Cut down the tree and don't grow back."
 	input GrowBack(void) : "Force the tree to regrow."
@@ -1046,4 +1050,9 @@
 	"Default room anchor location"
 [
 	
+]
+
+@OverrideClass = prop_static
+[
+	grass_exclusion_radius(float) : "Grass Exclusion Radius" : 0 : "Don't grow grass within this radius."
 ]
