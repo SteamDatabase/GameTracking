@@ -134,6 +134,35 @@
 		}
 	}
 	
+	"spray_tool"
+	{
+		"rule"
+		{
+			"type" "spray_tool"
+		}
+		"config"
+		{
+			"light_directional_clearall" 	"1"
+			"light_ambient"				"[.05 .05 .05]"
+			"light_directional_add" 		"rgb[15 34 62] dir[0 -1 -0.2]"
+			"root_mdl"					"models/sprays/pedestal_sprays.mdl"
+			"root_anim"					"ACT_IDLE_INSPECT_START"		
+			"root_anim_loop"				"ACT_IDLE_INSPECT_LOOP"
+			"shadow_light"				"cam_inspect_light"						// Which attachment specifies light to render shadows from
+			"shadow_light_znear"			"4.0"									// Shadow light near Z
+			"shadow_light_zfar"			"512.0"									// Shadow light far Z
+			"shadow_light_hfov"			"54.0"									// Shadow light horizontal FOV
+			"shadow_light_vfov"			"54.0"									// Shadow light vertical FOV
+			"shadow_light_atten_quadratic"	"0.0"									// Shadow light quadratic attenuation
+			"shadow_light_atten_linear"	"512.0"									// Shadow light linear attenuation
+			"shadow_light_atten_constant"	"0.0"									// Shadow light constant attenuation
+			"shadow_light_atten_farz"		"512.0"									// Shadow light far Z attenuation
+			"shadow_light_brightness"		"2.0"									// Shadow light color brightness multiplier
+			"shadow_light_color"			"[1.2 1.16 .93]"								// Shadow light color
+			"shadow_light_texture"			"effects/flashlight_inspect"					// Shadow light texture cookie
+		}
+	}
+	
 	"stickerpreview_lightfarz"
 	{
 		"rule"
