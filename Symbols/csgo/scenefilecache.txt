@@ -198,7 +198,11 @@
  pthread_once@@GLIBC_2.0
  r V_LogMultiline(bool, char const*, char const*, unsigned int, CUtlString&)::HEX
  r __FRAME_END__
+ r g_BasicHTMLEntities
+ r g_Tier1_FullHTMLEntities
+ r g_WhitespaceEntities
  r g_pInterfaceGlobals
+ r g_pszSimpleBBCodeReplacements
  r pCRC64Table
  r pulCRCTable
  r s_hex
@@ -273,6 +277,8 @@
  strtol@@GLIBC_2.0
  strtoll@@GLIBC_2.0
  strtoul@@GLIBC_2.0
+ strtoull@@GLIBC_2.0
+ t (anonymous namespace)::Q_UTF32ToUChar32(wchar_t const*, wchar_t&, bool&)
  t .L12
  t .L155
  t .L156
@@ -566,6 +572,7 @@
  t CUtlInplaceBuffer::InplaceGetLinePtr()
  t CUtlInplaceBuffer::InplaceGetLinePtr(char**, int*)
  t CUtlMemory<CUtlString, int>::Grow(int)
+ t CUtlMemory<char const*, int>::Grow(int)
  t CUtlMemory<char*, int>::Grow(int)
  t CUtlMemory<unsigned char, int>::ConvertToGrowableMemory(int) [clone .part.32]
  t CUtlMemory<unsigned char, int>::Grow(int)
@@ -615,6 +622,8 @@
  t CUtlString::operator==(CUtlString const&) const
  t CUtlString::operator==(char const*) const
  t CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >::InsertBefore(int, CUtlString const&)
+ t CUtlVector<char const*, CUtlMemory<char const*, int> >::InsertBefore(int, char const* const&)
+ t CUtlVector<char const*, CUtlMemory<char const*, int> >::Remove(int)
  t CUtlVector<char*, CUtlMemory<char*, int> >::InsertBefore(int, char* const&)
  t CUtlVector<void (*)(IConVar*, char const*, float), CUtlMemory<void (*)(IConVar*, char const*, float), int> >::InsertBefore(int, void (* const&)(IConVar*, char const*, float))
  t CUtlVector<void (*)(IConVar*, char const*, float), CUtlMemory<void (*)(IConVar*, char const*, float), int> >::~CUtlVector()
@@ -715,12 +724,44 @@
  t LzmaDecode(_CLzmaDecoderState*, unsigned char const*, unsigned int, unsigned int*, unsigned char*, unsigned int, unsigned int*, void (*)())
  t LzmaDecodeProperties(_CLzmaProperties*, unsigned char const*, int)
  t LzmaDecodeWithCallback(_CLzmaDecoderState*, unsigned char const*, unsigned int, unsigned int*, unsigned char*, unsigned int, unsigned int*, void (*)())
+ t Q_IsValidUChar32(wchar_t)
+ t Q_UChar32ToUTF16(wchar_t, unsigned short*)
+ t Q_UChar32ToUTF16Len(wchar_t)
+ t Q_UChar32ToUTF8(wchar_t, char*)
+ t Q_UChar32ToUTF8Len(wchar_t)
  t Q_URLDecode(char*, int, char const*, int)
  t Q_URLDecodeInternal(char*, int, char const*, int, bool)
  t Q_URLDecodeRaw(char*, int, char const*, int)
  t Q_URLEncode(char*, int, char const*, int)
  t Q_URLEncodeInternal(char*, int, char const*, int, bool)
  t Q_URLEncodeRaw(char*, int, char const*, int)
+ t Q_UTF16CharsToUTF32(unsigned short const*, int, wchar_t*, int, EStringConvertErrorPolicy)
+ t Q_UTF16CharsToUTF8(unsigned short const*, int, char*, int, EStringConvertErrorPolicy)
+ t Q_UTF16ToUChar32(unsigned short const*, wchar_t&, bool&)
+ t Q_UTF16ToUTF32(unsigned short const*, wchar_t*, int, EStringConvertErrorPolicy)
+ t Q_UTF16ToUTF8(unsigned short const*, char*, int, EStringConvertErrorPolicy)
+ t Q_UTF32CharsToUTF16(wchar_t const*, int, unsigned short*, int, EStringConvertErrorPolicy)
+ t Q_UTF32CharsToUTF8(wchar_t const*, int, char*, int, EStringConvertErrorPolicy)
+ t Q_UTF32ToUTF16(wchar_t const*, unsigned short*, int, EStringConvertErrorPolicy)
+ t Q_UTF32ToUTF32(wchar_t const*, wchar_t*, int, EStringConvertErrorPolicy)
+ t Q_UTF32ToUTF8(wchar_t const*, char*, int, EStringConvertErrorPolicy)
+ t Q_UTF8CharsToUTF16(char const*, int, unsigned short*, int, EStringConvertErrorPolicy)
+ t Q_UTF8CharsToUTF32(char const*, int, wchar_t*, int, EStringConvertErrorPolicy)
+ t Q_UTF8ToUChar32(char const*, wchar_t&, bool&)
+ t Q_UTF8ToUTF16(char const*, unsigned short*, int, EStringConvertErrorPolicy)
+ t Q_UTF8ToUTF32(char const*, wchar_t*, int, EStringConvertErrorPolicy)
+ t Q_UnicodeAdvance(char*, int)
+ t Q_UnicodeAdvance(unsigned short*, int)
+ t Q_UnicodeAdvance(wchar_t*, int)
+ t Q_UnicodeLength(char const*)
+ t Q_UnicodeLength(unsigned short const*)
+ t Q_UnicodeLength(wchar_t const*)
+ t Q_UnicodeRepair(char*, EStringConvertErrorPolicy)
+ t Q_UnicodeRepair(unsigned short*, EStringConvertErrorPolicy)
+ t Q_UnicodeRepair(wchar_t*, EStringConvertErrorPolicy)
+ t Q_UnicodeValidate(char const*)
+ t Q_UnicodeValidate(unsigned short const*)
+ t Q_UnicodeValidate(wchar_t const*)
  t ReconnectInterface(void* (*)(char const*, int*), char const*)
  t ReconnectInterface(void* (*)(char const*, int*), char const*, void**)
  t RegisterInterface(void* (*)(char const*, int*), char const*, void**)
@@ -743,10 +784,13 @@
  t Sys_UnloadModule(CSysModule*)
  t V_AddBackSlashesToSpecialChars(char const*)
  t V_AppendSlash(char*, int, char)
+ t V_BBCodeToHTML(char*, int, char const*, int)
+ t V_BasicHtmlEntityEncode(char*, int, char const*, int, bool)
  t V_BinToString(char*, void*, unsigned int)
  t V_BoyerMooreSearch(unsigned char const*, int, unsigned char const*, int)
  t V_ComposeFileName(char const*, char const*, char*, int)
  t V_DefaultExtension(char*, char const*, int)
+ t V_ExtractDomainFromURL(char const*, char*, int)
  t V_ExtractFileExtension(char const*, char*, int)
  t V_ExtractFilePath(char const*, char*, int)
  t V_FileBase(char const*, char*, int)
@@ -757,7 +801,13 @@
  t V_GetCurrentDirectory(char*, int)
  t V_GetFileExtension(char const*)
  t V_GetFileExtensionSafe(char const*)
+ t V_HtmlEntityDecodeToUTF8(char*, int, char const*, int)
  t V_IsAbsolutePath(char const*)
+ t V_IsDeprecatedW(wchar_t)
+ t V_IsMeanSpaceW(wchar_t)
+ t V_IsMeanUnderscoreW(wchar_t)
+ t V_IsValidDomainNameCharacter(char const*, int*)
+ t V_IsValidURLCharacter(char const*, int*)
  t V_LogMultiline(bool, char const*, char const*, unsigned int, CUtlString&)
  t V_MakeAbsolutePath(char*, int, char const*, char const*)
  t V_MakeRelativePath(char const*, char const*, char*, int)
@@ -776,12 +826,15 @@
  t V_StrRight(char const*, int, char*, int)
  t V_StrSlice(char const*, int, int, char*, int)
  t V_StrSubst(char const*, char const*, char const*, char*, int, bool)
+ t V_StrTrim(char*)
  t V_StringMatchesPattern(char const*, char const*, int)
  t V_StringToBin(char const*, void*, unsigned int)
  t V_StringToColor32(color32_s*, char const*)
  t V_StringToFloatArray(float*, int, char const*)
  t V_StringToIntArray(int*, int, char const*)
  t V_StringToVector(float*, char const*)
+ t V_StripAndPreserveHTML(CUtlBuffer*, char const*, char const**, unsigned int, unsigned int)
+ t V_StripAndPreserveHTMLCore(CUtlBuffer*, char const*, char const**, unsigned int, char const**, unsigned int, unsigned int)
  t V_StripExtension(char const*, char*, int)
  t V_StripFilename(char*)
  t V_StripLastDir(char*, int)
@@ -791,6 +844,7 @@
  t V_StripTrailingWhitespace(char*)
  t V_TokenWaiting(char const*)
  t V_TranslateLineFeedsToUnix(char*)
+ t V_URLContainsDomain(char const*, char const*)
  t V_UnqualifiedFileName(char const*)
  t V_atod(char const*)
  t V_atof(char const*)
@@ -817,6 +871,8 @@
  t V_strnicmp(char const*, char const*, int)
  t V_strnistr(char const*, char const*, int)
  t V_strnlwr(char*, unsigned int)
+ t V_strtoi64(char const*, char**, int)
+ t V_strtoui64(char const*, char**, int)
  t V_strtowcs(char const*, int, wchar_t*, int)
  t V_vsnprintf(char*, int, char const*, char*)
  t V_vsnprintfRet(char*, int, char const*, char*, bool*)
@@ -826,6 +882,7 @@
  t V_wcsncat(wchar_t*, wchar_t const*, int, int)
  t V_wcsncpy(wchar_t*, wchar_t const*, int)
  t V_wcstostr(wchar_t const*, int, char*, int)
+ t _GLOBAL__sub_I__Z16Q_IsValidUChar32w
  t _GLOBAL__sub_I__Z20LzmaDecodePropertiesP16_CLzmaPropertiesPKhi
  t _GLOBAL__sub_I__Z9_V_memsetPvii
  t _GLOBAL__sub_I__ZN14ConCommandBase18s_pConCommandBasesE
@@ -1000,6 +1057,7 @@
  t get_ttype_entry(lsda_header_info*, unsigned long) [clone .constprop.6]
  t iHexCharToInt(char)
  t init_dwarf_reg_size_table
+ t int (anonymous namespace)::Q_UnicodeConvertT<wchar_t, wchar_t, true, (anonymous namespace)::Q_UTF32ToUChar32(wchar_t const*, wchar_t&, bool&), (anonymous namespace)::Q_UChar32ToUTF32Len(wchar_t), (anonymous namespace)::Q_UChar32ToUTF32(wchar_t, wchar_t*)>(wchar_t const*, int, wchar_t*, int, EStringConvertErrorPolicy) [clone .isra.4]
  t isbreakablewspace(wchar_t)
  t linear_search_fdes
  t nexttoken(char*, char const*, char)

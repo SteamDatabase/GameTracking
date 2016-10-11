@@ -790,6 +790,7 @@
  r V_LogMultiline(bool, char const*, char const*, unsigned int, CUtlString&)::HEX
  r __FRAME_END__
  r axisMap
+ r g_BasicHTMLEntities
  r g_SIMD_0123
  r g_SIMD_AllOnesMask
  r g_SIMD_ComponentMask
@@ -801,8 +802,11 @@
  r g_SIMD_clear_wmask
  r g_SIMD_lsbmask
  r g_SIMD_signmask
+ r g_Tier1_FullHTMLEntities
+ r g_WhitespaceEntities
  r g_nRandomValues
  r g_pInterfaceGlobals
+ r g_pszSimpleBBCodeReplacements
  r g_scalar4_hk_epsilon
  r ivp_uqr_mod_table
  r nanmask
@@ -1426,8 +1430,10 @@
  strtol@@GLIBC_2.0
  strtoll@@GLIBC_2.0
  strtoul@@GLIBC_2.0
+ strtoull@@GLIBC_2.0
  symlink@@GLIBC_2.0
  syscall@@GLIBC_2.0
+ t (anonymous namespace)::Q_UTF32ToUChar32(wchar_t const*, wchar_t&, bool&)
  t .L12
  t .L155
  t .L156
@@ -2781,6 +2787,7 @@
  t CUtlMemory<UtlRBTreeNode_t<CUtlMap<void*, void*, unsigned short, bool (*)(void* const&, void* const&)>::Node_t, unsigned short>, unsigned short>::Grow(int)
  t CUtlMemory<UtlRBTreeNode_t<CUtlSymbolTable::CStringPoolIndex, unsigned short>, unsigned short>::Grow(int)
  t CUtlMemory<bboxcache_t, int>::Grow(int)
+ t CUtlMemory<char const*, int>::Grow(int)
  t CUtlMemory<char*, int>::Grow(int)
  t CUtlMemory<char, int>::Grow(int)
  t CUtlMemory<int, int>::Grow(int)
@@ -2945,6 +2952,8 @@
  t CUtlVector<IVP_Core*, CUtlMemory<IVP_Core*, int> >::Remove(int)
  t CUtlVector<IVP_Real_Object*, CUtlMemory<IVP_Real_Object*, int> >::InsertBefore(int, IVP_Real_Object* const&)
  t CUtlVector<Vector, CUtlMemoryFixed<Vector, 8u, 0> >::ShiftElementsRight(int, int)
+ t CUtlVector<char const*, CUtlMemory<char const*, int> >::InsertBefore(int, char const* const&)
+ t CUtlVector<char const*, CUtlMemory<char const*, int> >::Remove(int)
  t CUtlVector<char*, CUtlMemory<char*, int> >::InsertBefore(int, char* const&)
  t CUtlVector<int, CUtlMemory<int, int> >::EnsureCount(int) [clone .part.23]
  t CUtlVector<int, CUtlMemory<int, int> >::GrowVector(int)
@@ -5785,12 +5794,44 @@
  t PolyFromPlane_SIMD(float __vector*, float __vector const&, float)
  t PostRestorePhysicsConstraintGroup()
  t PostRestorePhysicsObject()
+ t Q_IsValidUChar32(wchar_t)
+ t Q_UChar32ToUTF16(wchar_t, unsigned short*)
+ t Q_UChar32ToUTF16Len(wchar_t)
+ t Q_UChar32ToUTF8(wchar_t, char*)
+ t Q_UChar32ToUTF8Len(wchar_t)
  t Q_URLDecode(char*, int, char const*, int)
  t Q_URLDecodeInternal(char*, int, char const*, int, bool)
  t Q_URLDecodeRaw(char*, int, char const*, int)
  t Q_URLEncode(char*, int, char const*, int)
  t Q_URLEncodeInternal(char*, int, char const*, int, bool)
  t Q_URLEncodeRaw(char*, int, char const*, int)
+ t Q_UTF16CharsToUTF32(unsigned short const*, int, wchar_t*, int, EStringConvertErrorPolicy)
+ t Q_UTF16CharsToUTF8(unsigned short const*, int, char*, int, EStringConvertErrorPolicy)
+ t Q_UTF16ToUChar32(unsigned short const*, wchar_t&, bool&)
+ t Q_UTF16ToUTF32(unsigned short const*, wchar_t*, int, EStringConvertErrorPolicy)
+ t Q_UTF16ToUTF8(unsigned short const*, char*, int, EStringConvertErrorPolicy)
+ t Q_UTF32CharsToUTF16(wchar_t const*, int, unsigned short*, int, EStringConvertErrorPolicy)
+ t Q_UTF32CharsToUTF8(wchar_t const*, int, char*, int, EStringConvertErrorPolicy)
+ t Q_UTF32ToUTF16(wchar_t const*, unsigned short*, int, EStringConvertErrorPolicy)
+ t Q_UTF32ToUTF32(wchar_t const*, wchar_t*, int, EStringConvertErrorPolicy)
+ t Q_UTF32ToUTF8(wchar_t const*, char*, int, EStringConvertErrorPolicy)
+ t Q_UTF8CharsToUTF16(char const*, int, unsigned short*, int, EStringConvertErrorPolicy)
+ t Q_UTF8CharsToUTF32(char const*, int, wchar_t*, int, EStringConvertErrorPolicy)
+ t Q_UTF8ToUChar32(char const*, wchar_t&, bool&)
+ t Q_UTF8ToUTF16(char const*, unsigned short*, int, EStringConvertErrorPolicy)
+ t Q_UTF8ToUTF32(char const*, wchar_t*, int, EStringConvertErrorPolicy)
+ t Q_UnicodeAdvance(char*, int)
+ t Q_UnicodeAdvance(unsigned short*, int)
+ t Q_UnicodeAdvance(wchar_t*, int)
+ t Q_UnicodeLength(char const*)
+ t Q_UnicodeLength(unsigned short const*)
+ t Q_UnicodeLength(wchar_t const*)
+ t Q_UnicodeRepair(char*, EStringConvertErrorPolicy)
+ t Q_UnicodeRepair(unsigned short*, EStringConvertErrorPolicy)
+ t Q_UnicodeRepair(wchar_t*, EStringConvertErrorPolicy)
+ t Q_UnicodeValidate(char const*)
+ t Q_UnicodeValidate(unsigned short const*)
+ t Q_UnicodeValidate(wchar_t const*)
  t Q_log2(unsigned int)
  t QuadWithParallelEdges(Vector const&, Vector const&, float, Vector const&, float, Vector const&, Vector2D&)
  t Quaternion::GetForward() const
@@ -5965,10 +6006,13 @@
  t VMatrix::operator==(VMatrix const&) const
  t V_AddBackSlashesToSpecialChars(char const*)
  t V_AppendSlash(char*, int, char)
+ t V_BBCodeToHTML(char*, int, char const*, int)
+ t V_BasicHtmlEntityEncode(char*, int, char const*, int, bool)
  t V_BinToString(char*, void*, unsigned int)
  t V_BoyerMooreSearch(unsigned char const*, int, unsigned char const*, int)
  t V_ComposeFileName(char const*, char const*, char*, int)
  t V_DefaultExtension(char*, char const*, int)
+ t V_ExtractDomainFromURL(char const*, char*, int)
  t V_ExtractFileExtension(char const*, char*, int)
  t V_ExtractFilePath(char const*, char*, int)
  t V_FileBase(char const*, char*, int)
@@ -5979,7 +6023,13 @@
  t V_GetCurrentDirectory(char*, int)
  t V_GetFileExtension(char const*)
  t V_GetFileExtensionSafe(char const*)
+ t V_HtmlEntityDecodeToUTF8(char*, int, char const*, int)
  t V_IsAbsolutePath(char const*)
+ t V_IsDeprecatedW(wchar_t)
+ t V_IsMeanSpaceW(wchar_t)
+ t V_IsMeanUnderscoreW(wchar_t)
+ t V_IsValidDomainNameCharacter(char const*, int*)
+ t V_IsValidURLCharacter(char const*, int*)
  t V_LogMultiline(bool, char const*, char const*, unsigned int, CUtlString&)
  t V_MakeAbsolutePath(char*, int, char const*, char const*)
  t V_MakeRelativePath(char const*, char const*, char*, int)
@@ -5998,12 +6048,15 @@
  t V_StrRight(char const*, int, char*, int)
  t V_StrSlice(char const*, int, int, char*, int)
  t V_StrSubst(char const*, char const*, char const*, char*, int, bool)
+ t V_StrTrim(char*)
  t V_StringMatchesPattern(char const*, char const*, int)
  t V_StringToBin(char const*, void*, unsigned int)
  t V_StringToColor32(color32_s*, char const*)
  t V_StringToFloatArray(float*, int, char const*)
  t V_StringToIntArray(int*, int, char const*)
  t V_StringToVector(float*, char const*)
+ t V_StripAndPreserveHTML(CUtlBuffer*, char const*, char const**, unsigned int, unsigned int)
+ t V_StripAndPreserveHTMLCore(CUtlBuffer*, char const*, char const**, unsigned int, char const**, unsigned int, unsigned int)
  t V_StripExtension(char const*, char*, int)
  t V_StripFilename(char*)
  t V_StripLastDir(char*, int)
@@ -6013,6 +6066,7 @@
  t V_StripTrailingWhitespace(char*)
  t V_TokenWaiting(char const*)
  t V_TranslateLineFeedsToUnix(char*)
+ t V_URLContainsDomain(char const*, char const*)
  t V_UnqualifiedFileName(char const*)
  t V_atod(char const*)
  t V_atof(char const*)
@@ -6039,6 +6093,8 @@
  t V_strnicmp(char const*, char const*, int)
  t V_strnistr(char const*, char const*, int)
  t V_strnlwr(char*, unsigned int)
+ t V_strtoi64(char const*, char**, int)
+ t V_strtoui64(char const*, char**, int)
  t V_strtowcs(char const*, int, wchar_t*, int)
  t V_vsnprintf(char*, int, char const*, char*)
  t V_vsnprintfRet(char*, int, char const*, char*, bool*)
@@ -6084,6 +6140,7 @@
  t _GLOBAL__sub_I__Z12SeedRandSIMDj
  t _GLOBAL__sub_I__Z13qh_backnormalPPdiijS_Pj
  t _GLOBAL__sub_I__Z13vphysics_initv
+ t _GLOBAL__sub_I__Z16Q_IsValidUChar32w
  t _GLOBAL__sub_I__Z17qh_produce_outputv
  t _GLOBAL__sub_I__Z18GetOppositeSynapseP20IVP_Synapse_Friction
  t _GLOBAL__sub_I__Z19PackLedgeIntoBufferP12packedhull_tR10CUtlBufferPK17IVP_Compact_LedgeRK17virtualmeshlist_t
@@ -6711,6 +6768,7 @@
  t hk_precache_invert_5x5()
  t iHexCharToInt(char)
  t init_dwarf_reg_size_table
+ t int (anonymous namespace)::Q_UnicodeConvertT<wchar_t, wchar_t, true, (anonymous namespace)::Q_UTF32ToUChar32(wchar_t const*, wchar_t&, bool&), (anonymous namespace)::Q_UChar32ToUTF32Len(wchar_t), (anonymous namespace)::Q_UChar32ToUTF32(wchar_t, wchar_t*)>(wchar_t const*, int, wchar_t*, int, EStringConvertErrorPolicy) [clone .isra.4]
  t isbreakablewspace(wchar_t)
  t ivp_byte_swap2(unsigned short&)
  t ivp_byte_swap4(unsigned int&)
