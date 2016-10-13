@@ -1860,4 +1860,39 @@ event XPSourceShow_Negative
 	Animate SourceLabelGlow Alpha		0					Linear	0	0
 }
 
+event SurveyShowSequence
+{
+	Animate Survey		ypos	480		Linear 0 0
+	Animate Survey		ypos	150		Linear 1 0.3
+	Animate Survey		ypos	130		Deaccel 1.3 0.1
+	Animate Survey		ypos	150		Accel 1.4 0.1
+}
+
+event SurveySubmitSequence
+{
+	// Show submitting
+	SetVisible	QuestionContainer	0	0
+	SetVisible	SubmittingContainer	1	0
+
+	// Show thanks
+	SetVisible	SubmittingContainer	0	2
+	SetVisible	ThanksContainer		1	2
+
+	RunEvent SurveyHideSequence 6
+}
+
+event SurveyDelete
+{
+	FireCommand 0 "delete"
+}
+
+event SurveyHideSequence
+{
+	SetVisible CloseButton 0 0 
+
+	Animate Survey		ypos	130		Deaccel 0 0.3
+	Animate Survey		ypos	480		Accel	0.3 0.2
+	RunEventChild Survey SurveyDelete 0.6
+}
+
 //

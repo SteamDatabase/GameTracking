@@ -190,6 +190,7 @@
 	sort_type
 	source_gc
 	spy_count
+	target_id
 	timestamp
 	tour_name
 	type_name
@@ -1876,6 +1877,10 @@ $no_fullbright
 (anonymous namespace)::CMsgGCStorePurchaseInitResponse_reflection_
 (anonymous namespace)::CMsgGCStorePurchaseInit_descriptor_
 (anonymous namespace)::CMsgGCStorePurchaseInit_reflection_
+(anonymous namespace)::CMsgGCSurveyRequest_descriptor_
+(anonymous namespace)::CMsgGCSurveyRequest_reflection_
+(anonymous namespace)::CMsgGCSurveyResponse_descriptor_
+(anonymous namespace)::CMsgGCSurveyResponse_reflection_
 (anonymous namespace)::CMsgGCTFSpecificItemBroadcast_descriptor_
 (anonymous namespace)::CMsgGCTFSpecificItemBroadcast_reflection_
 (anonymous namespace)::CMsgGCToGCGetUserServerMembersResponse_descriptor_
@@ -2346,6 +2351,7 @@ $no_fullbright
 (anonymous namespace)::PartnerAccountType_descriptor_
 (anonymous namespace)::ServerMatchmakingState_descriptor_
 (anonymous namespace)::SortDescendingPriority(CPasstimeBallController* const*, CPasstimeBallController* const*)
+(anonymous namespace)::SurveyQuestionType_descriptor_
 (anonymous namespace)::TFLobbyReadyState_descriptor_
 (anonymous namespace)::TFMatchLeaveReason_descriptor_
 (anonymous namespace)::TF_GC_GameState_descriptor_
@@ -2441,7 +2447,6 @@ $no_fullbright
 *k_ItemPurgatoryResponse_Finalize_Succeeded
 *matchmaking_casual_low_priority_expiration
 *matchmaking_ranked_low_priority_expiration
-+@@@@
 +CMsgGCMsgMasterSetClientMsgRouting_Response
 +CMsgGCRequestStoreSalesDataUpToDateResponse
 +CMsgGC_Client2GCEconPreviewDataBlockRequest
@@ -2457,6 +2462,7 @@ $no_fullbright
 , relative to sequence start: %float %float
 , score %4.2f
 , trusted=true
+,@@@@
 ,CMsgGC_Client2GCEconPreviewDataBlockResponse
 ,GCConnectionStatus_NO_SESSION_IN_LOGON_QUEUE
 ,NOTIFICATION_MM_BAN_DUE_TO_EXCESSIVE_REPORTS
@@ -2665,7 +2671,6 @@ $no_fullbright
 .F@sY
 .F@vi
 .FDv"
-.FHv?
 .FLt5
 .FLv)
 .FPsO
@@ -2693,6 +2698,7 @@ $no_fullbright
 .P0v"
 .PLACEHOLDER_VALUE
 .ServerMatchmakingState:
+.SurveyQuestionType
 .TFLobbyReadyState
 .TFLobbyReadyState"#
 .TFMatchLeaveReason
@@ -3422,7 +3428,7 @@ $no_fullbright
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gamestats_shared.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gc_api.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gc_server.o
-/Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gcmessages-A8C7FC43E9ECEDE9.o
+/Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gcmessages-9AD0215F001616F7.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gcmessages.pb.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_generic_bomb.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_glow.o
@@ -5234,7 +5240,7 @@ $no_fullbright
 0^_[]
 0`00p
 0`Pp@
-0```00@
+0```00@@
 0`````
 0``p 
 0ffff.
@@ -5369,6 +5375,7 @@ $no_fullbright
 333?)\
 333?333?
 33750
+33s?X
 350.0
 3A$3A
 3A43A
@@ -5434,12 +5441,13 @@ $no_fullbright
 9C,tJ9C tE9C$t@9C(unsigned short;G9
 9C<to
 9Cdt 
-9Cdt.
+9Cdt+
 9Cdt/
 9Cdt3
 9Cdt6
 9CdtB
-9Cdtn
+9CdtF
+9Cdtd
 9F(vq9FD|long
 9F<};
 9Fdt 
@@ -12225,6 +12233,7 @@ CBaseCombatCharacter::GetActiveWeapon() const
 CBaseCombatCharacter::GetAliveDuration() const
 CBaseCombatCharacter::GetAmmoCount(int) const
 CBaseCombatCharacter::GetAttackSpread(CBaseCombatWeapon*, CBaseEntity*)
+CBaseCombatCharacter::GetBossType() const
 CBaseCombatCharacter::GetDataDescMap()
 CBaseCombatCharacter::GetDeathActivity()
 CBaseCombatCharacter::GetDefaultRelationshipDisposition(Class_T)
@@ -21664,7 +21673,7 @@ CHalloweenBaseBoss::GetLevel() const
 CHalloweenBaseBoss::OnTakeDamage_Alive(CTakeDamageInfo const&)
 CHalloweenBaseBoss::RememberAttacker(CTFPlayer*, bool, float)
 CHalloweenBaseBoss::Spawn()
-CHalloweenBaseBoss::SpawnBossAtPos(CHalloweenBaseBoss::HalloweenBossType, Vector const&, int, CBaseEntity*)
+CHalloweenBaseBoss::SpawnBossAtPos(HalloweenBossType, Vector const&, int, CBaseEntity*)
 CHalloweenBaseBoss::Update()
 CHalloweenBaseBoss::UpdateOnRemove()
 CHalloweenBaseBoss::~CHalloweenBaseBoss()
@@ -24506,6 +24515,30 @@ CMsgGCStorePurchaseInitResponse::SerializeWithCachedSizesToArray(unsigned char*)
 CMsgGCStorePurchaseInitResponse::SetCachedSize(int) const
 CMsgGCStorePurchaseInitResponse::default_instance_
 CMsgGCStorePurchaseInitResponse::~CMsgGCStorePurchaseInitResponse()
+CMsgGCSurveyRequest
+CMsgGCSurveyRequest::ByteSize() const
+CMsgGCSurveyRequest::Clear()
+CMsgGCSurveyRequest::GetCachedSize() const
+CMsgGCSurveyRequest::GetMetadata() const
+CMsgGCSurveyRequest::IsInitialized() const
+CMsgGCSurveyRequest::MergeFrom(CMsgGCSurveyRequest const&)
+CMsgGCSurveyRequest::New() const
+CMsgGCSurveyRequest::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGCSurveyRequest::SetCachedSize(int) const
+CMsgGCSurveyRequest::default_instance_
+CMsgGCSurveyRequest::~CMsgGCSurveyRequest()
+CMsgGCSurveyResponse
+CMsgGCSurveyResponse::ByteSize() const
+CMsgGCSurveyResponse::Clear()
+CMsgGCSurveyResponse::GetCachedSize() const
+CMsgGCSurveyResponse::GetMetadata() const
+CMsgGCSurveyResponse::IsInitialized() const
+CMsgGCSurveyResponse::MergeFrom(CMsgGCSurveyResponse const&)
+CMsgGCSurveyResponse::New() const
+CMsgGCSurveyResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+CMsgGCSurveyResponse::SetCachedSize(int) const
+CMsgGCSurveyResponse::default_instance_
+CMsgGCSurveyResponse::~CMsgGCSurveyResponse()
 CMsgGCTFSpecificItemBroadcast
 CMsgGCTFSpecificItemBroadcast::ByteSize() const
 CMsgGCTFSpecificItemBroadcast::Clear()
@@ -33365,6 +33398,7 @@ CTFGameRulesProxy::InputSetBlueTeamRespawnWaveTime(inputdata_t&)
 CTFGameRulesProxy::InputSetBlueTeamRole(inputdata_t&)
 CTFGameRulesProxy::InputSetCTFCaptureBonusTime(inputdata_t&)
 CTFGameRulesProxy::InputSetCustomUpgradesFile(inputdata_t&)
+CTFGameRulesProxy::InputSetMapForcedTruceDuringBossFight(inputdata_t&)
 CTFGameRulesProxy::InputSetRedKothClockActive(inputdata_t&)
 CTFGameRulesProxy::InputSetRedTeamGoalString(inputdata_t&)
 CTFGameRulesProxy::InputSetRedTeamRespawnWaveTime(inputdata_t&)
@@ -34672,6 +34706,7 @@ CTFPlayer::ShouldAnnounceAchievement()
 CTFPlayer::ShouldCollide(int, int) const
 CTFPlayer::ShouldForceTransmitsForTeam(int)
 CTFPlayer::ShouldGainInstantSpawn()
+CTFPlayer::ShouldGetBonusPointsForExtinguishEvent(int)
 CTFPlayer::ShouldGib(CTakeDamageInfo const&)
 CTFPlayer::ShouldShowVoiceSubtitleToEnemy()
 CTFPlayer::ShouldStopTaunting()
@@ -35470,6 +35505,7 @@ CTFProjectile_SpellTransposeTeleport::GetExplodeEffectSound() const
 CTFProjectile_SpellTransposeTeleport::GetServerClass()
 CTFProjectile_SpellTransposeTeleport::GetWeaponID() const
 CTFProjectile_SpellTransposeTeleport::InitialExplodeEffects(CTFPlayer*, CGameTrace const*)
+CTFProjectile_SpellTransposeTeleport::PhysicsSolidMaskForEntity() const
 CTFProjectile_SpellTransposeTeleport::RecordPosThink()
 CTFProjectile_SpellTransposeTeleport::Spawn()
 CTFProjectile_SpellTransposeTeleport::YouForgotToImplementOrDeclareServerClass()
@@ -45671,7 +45707,7 @@ GCSDK::CStructNetPacket::SetSteamID(CSteamID)
 GCSDK::CStructNetPacket::SetTargetJobID(unsigned long long)
 GCSDK::CStructNetPacket::~CStructNetPacket()
 GCSDK::CWorkThreadPool
-GCSDK::CWorkThreadPool::BDispatchCompletedWorkItems(CLimitTimer&, GCSDK::CJobMgr*)
+GCSDK::CWorkThreadPool::BDispatchCompletedWorkItems(CLimitTimer const&, GCSDK::CJobMgr*)
 GCSDK::CWorkThreadPool::BTryDeleteExitedWorkerThreads()
 GCSDK::CWorkThreadPool::CWorkThreadPool(char const*)
 GCSDK::CWorkThreadPool::OnWorkItemCompleted(GCSDK::CWorkItem*)
@@ -46026,6 +46062,7 @@ GlobalEntity_SetCounter(int, int)
 GlobalEntity_SetMap(int, string_t)
 GlobalEntity_SetState(int, GLOBALESTATE)
 Globalname: %short
+Glorified Toaster with Legs
 GlowColor
 GlowProxySize
 GlowSprite
@@ -47807,6 +47844,7 @@ InputSetLightingOriginRelative
 InputSetLocked
 InputSetLogoLength
 InputSetMagnitude
+InputSetMapForcedTruceDuringBossFight
 InputSetMass
 InputSetMaxActiveZombies
 InputSetMaxChildren
@@ -51006,6 +51044,7 @@ QP+QT
 QTF;7|
 QTG;~
 QTtbf
+QUESTION_MATCH_QUALITY
 QUICK_SIMPLIFY_TIME_DELAY
 QXG;~ |
 Q\+QL
@@ -52144,6 +52183,7 @@ SetLinearForceAngles
 SetLocked
 SetLogoLength
 SetMagnitude
+SetMapForcedTruceDuringBossFight
 SetMass
 SetMaterialVar
 SetMaterialVarToCurrentTime
@@ -52833,6 +52873,7 @@ Surface Shatter
 SurfaceTouch
 Surplus %short removed
 Surrender
+SurveyQuestionType
 Suspicious navigation goal tolerance specified
 SweepBoxToStudio(IPhysicsSurfaceProps*, Ray_t const&, CStudioHdr*, mstudiohitboxset_t*, matrix3x4_t**, int, CGameTrace&)
 Switch teams and restart the game
@@ -55460,7 +55501,7 @@ ___cxx_global_array_dtor106
 ___cxx_global_array_dtor118
 ___cxx_global_array_dtor119
 ___cxx_global_array_dtor121
-___cxx_global_array_dtor1246
+___cxx_global_array_dtor1248
 ___cxx_global_array_dtor125
 ___cxx_global_array_dtor13
 ___cxx_global_array_dtor14
@@ -55552,7 +55593,7 @@ ___cxx_global_array_dtor96
 ___cxx_global_var_init11
 ___cxx_global_var_init1165
 ___cxx_global_var_init12
-___cxx_global_var_init1267
+___cxx_global_var_init1269
 ___cxx_global_var_init133
 ___cxx_global_var_init16
 ___cxx_global_var_init169
@@ -58509,6 +58550,7 @@ channel_name
 channel_type
 channels
 chaptertitle
+char		 double	
 char* std::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_construct<char*>(char*, char*, std::allocator<char> const&, std::forward_iterator_tag)
 charge_impact_damage
 charge_meter_on_hit
@@ -65931,6 +65973,8 @@ k_EMsgGC_RematchRequestResponse
 k_EMsgGC_ReportAbuse
 k_EMsgGC_ReportAbuseResponse
 k_EMsgGC_ReportPlayer
+k_EMsgGC_SurveyQuestionRequest
+k_EMsgGC_SurveyQuestionResponse
 k_EMsgGC_UpdatePeriodicEvent
 k_EMsgGC_War_IndividualUpdate
 k_EMsgGC_War_JoinWar
@@ -73618,6 +73662,7 @@ quest_list_res_file
 quest_log_res_file
 quest_objective_conditions
 quest_themes
+question_type
 queue.cpp
 queue.h
 queue_position
@@ -78050,6 +78095,8 @@ typeinfo for CMsgGCStorePurchaseFinalize
 typeinfo for CMsgGCStorePurchaseFinalizeResponse
 typeinfo for CMsgGCStorePurchaseInit
 typeinfo for CMsgGCStorePurchaseInitResponse
+typeinfo for CMsgGCSurveyRequest
+typeinfo for CMsgGCSurveyResponse
 typeinfo for CMsgGCTFSpecificItemBroadcast
 typeinfo for CMsgGCToGCGetUserServerMembers
 typeinfo for CMsgGCToGCGetUserServerMembersResponse
@@ -81023,6 +81070,8 @@ typeinfo name for CMsgGCStorePurchaseFinalize
 typeinfo name for CMsgGCStorePurchaseFinalizeResponse
 typeinfo name for CMsgGCStorePurchaseInit
 typeinfo name for CMsgGCStorePurchaseInitResponse
+typeinfo name for CMsgGCSurveyRequest
+typeinfo name for CMsgGCSurveyResponse
 typeinfo name for CMsgGCTFSpecificItemBroadcast
 typeinfo name for CMsgGCToGCGetUserServerMembers
 typeinfo name for CMsgGCToGCGetUserServerMembersResponse
@@ -84376,6 +84425,8 @@ vtable for CMsgGCStorePurchaseFinalize
 vtable for CMsgGCStorePurchaseFinalizeResponse
 vtable for CMsgGCStorePurchaseInit
 vtable for CMsgGCStorePurchaseInitResponse
+vtable for CMsgGCSurveyRequest
+vtable for CMsgGCSurveyResponse
 vtable for CMsgGCTFSpecificItemBroadcast
 vtable for CMsgGCToGCGetUserServerMembers
 vtable for CMsgGCToGCGetUserServerMembersResponse

@@ -133,6 +133,8 @@ enum ETFGCMsg {
 	k_EMsgGC_KickPlayerFromLobby = 6531;
 	k_EMsgGC_RematchRequest = 6532;
 	k_EMsgGC_RematchRequestResponse = 6533;
+	k_EMsgGC_SurveyQuestionRequest = 6534;
+	k_EMsgGC_SurveyQuestionResponse = 6535;
 	k_EMsgGCDev_GrantWarKill = 10001;
 }
 
@@ -205,6 +207,10 @@ enum ServerMatchmakingState {
 	ServerMatchmakingState_EMPTY = 2;
 	ServerMatchmakingState_ACTIVE_MATCH_REQUESTING_LATE_JOIN = 3;
 	ServerMatchmakingState_ACTIVE_MATCH = 4;
+}
+
+enum SurveyQuestionType {
+	QUESTION_MATCH_QUALITY = 0;
 }
 
 message CMsgTFGoldenWrenchBroadcast {
@@ -1250,6 +1256,7 @@ message CSOTFLadderPlayerStats {
 
 message CMsgGC_TFVoteKickPlayerRequest {
 	optional uint32 account_id = 1;
+	optional uint64 target_id = 2;
 }
 
 message CMsgGC_VoteKickPlayerRequestResponse {
@@ -1366,5 +1373,16 @@ message CMsgGCRematchRequest {
 
 message CMsgGCRematchRequestResponse {
 	optional bool success = 1;
+}
+
+message CMsgGCSurveyRequest {
+	optional .SurveyQuestionType question_type = 1 [default = QUESTION_MATCH_QUALITY];
+	optional uint64 match_id = 2;
+}
+
+message CMsgGCSurveyResponse {
+	optional .SurveyQuestionType question_type = 1 [default = QUESTION_MATCH_QUALITY];
+	optional uint64 match_id = 2;
+	optional uint32 response = 3;
 }
 

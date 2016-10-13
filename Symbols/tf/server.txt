@@ -595,6 +595,8 @@
  B CMsgGCStorePurchaseInit::_default_country_
  B CMsgGCStorePurchaseInit::default_instance_
  B CMsgGCStorePurchaseInitResponse::default_instance_
+ B CMsgGCSurveyRequest::default_instance_
+ B CMsgGCSurveyResponse::default_instance_
  B CMsgGCTFSpecificItemBroadcast::_default_user_name_
  B CMsgGCTFSpecificItemBroadcast::default_instance_
  B CMsgGCToGCGetUserServerMembers::default_instance_
@@ -9996,6 +9998,8 @@
  D typeinfo for CMsgGCStorePurchaseFinalizeResponse
  D typeinfo for CMsgGCStorePurchaseInit
  D typeinfo for CMsgGCStorePurchaseInitResponse
+ D typeinfo for CMsgGCSurveyRequest
+ D typeinfo for CMsgGCSurveyResponse
  D typeinfo for CMsgGCTFSpecificItemBroadcast
  D typeinfo for CMsgGCToGCGetUserServerMembers
  D typeinfo for CMsgGCToGCGetUserServerMembersResponse
@@ -13060,6 +13064,8 @@
  D vtable for CMsgGCStorePurchaseFinalizeResponse
  D vtable for CMsgGCStorePurchaseInit
  D vtable for CMsgGCStorePurchaseInitResponse
+ D vtable for CMsgGCSurveyRequest
+ D vtable for CMsgGCSurveyResponse
  D vtable for CMsgGCTFSpecificItemBroadcast
  D vtable for CMsgGCToGCGetUserServerMembers
  D vtable for CMsgGCToGCGetUserServerMembersResponse
@@ -15965,6 +15971,8 @@
  R typeinfo name for CMsgGCStorePurchaseFinalizeResponse
  R typeinfo name for CMsgGCStorePurchaseInit
  R typeinfo name for CMsgGCStorePurchaseInitResponse
+ R typeinfo name for CMsgGCSurveyRequest
+ R typeinfo name for CMsgGCSurveyResponse
  R typeinfo name for CMsgGCTFSpecificItemBroadcast
  R typeinfo name for CMsgGCToGCGetUserServerMembers
  R typeinfo name for CMsgGCToGCGetUserServerMembersResponse
@@ -20813,6 +20821,7 @@
  T CBaseCombatCharacter::GetAliveDuration() const
  T CBaseCombatCharacter::GetAmmoCount(int) const
  T CBaseCombatCharacter::GetAttackSpread(CBaseCombatWeapon*, CBaseEntity*)
+ T CBaseCombatCharacter::GetBossType() const
  T CBaseCombatCharacter::GetDataDescMap()
  T CBaseCombatCharacter::GetDeathActivity()
  T CBaseCombatCharacter::GetDefaultRelationshipDisposition(Class_T)
@@ -28354,7 +28363,7 @@
  T CHalloweenBaseBoss::OnTakeDamage_Alive(CTakeDamageInfo const&)
  T CHalloweenBaseBoss::RememberAttacker(CTFPlayer*, bool, float)
  T CHalloweenBaseBoss::Spawn()
- T CHalloweenBaseBoss::SpawnBossAtPos(CHalloweenBaseBoss::HalloweenBossType, Vector const&, int, CBaseEntity*)
+ T CHalloweenBaseBoss::SpawnBossAtPos(HalloweenBossType, Vector const&, int, CBaseEntity*)
  T CHalloweenBaseBoss::Update()
  T CHalloweenBaseBoss::UpdateOnRemove()
  T CHalloweenBaseBoss::~CHalloweenBaseBoss()
@@ -30666,6 +30675,26 @@
  T CMsgGCStorePurchaseInitResponse::SerializeWithCachedSizesToArray(unsigned char*) const
  T CMsgGCStorePurchaseInitResponse::SetCachedSize(int) const
  T CMsgGCStorePurchaseInitResponse::~CMsgGCStorePurchaseInitResponse()
+ T CMsgGCSurveyRequest::ByteSize() const
+ T CMsgGCSurveyRequest::Clear()
+ T CMsgGCSurveyRequest::GetCachedSize() const
+ T CMsgGCSurveyRequest::GetMetadata() const
+ T CMsgGCSurveyRequest::IsInitialized() const
+ T CMsgGCSurveyRequest::MergeFrom(CMsgGCSurveyRequest const&)
+ T CMsgGCSurveyRequest::New() const
+ T CMsgGCSurveyRequest::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgGCSurveyRequest::SetCachedSize(int) const
+ T CMsgGCSurveyRequest::~CMsgGCSurveyRequest()
+ T CMsgGCSurveyResponse::ByteSize() const
+ T CMsgGCSurveyResponse::Clear()
+ T CMsgGCSurveyResponse::GetCachedSize() const
+ T CMsgGCSurveyResponse::GetMetadata() const
+ T CMsgGCSurveyResponse::IsInitialized() const
+ T CMsgGCSurveyResponse::MergeFrom(CMsgGCSurveyResponse const&)
+ T CMsgGCSurveyResponse::New() const
+ T CMsgGCSurveyResponse::SerializeWithCachedSizesToArray(unsigned char*) const
+ T CMsgGCSurveyResponse::SetCachedSize(int) const
+ T CMsgGCSurveyResponse::~CMsgGCSurveyResponse()
  T CMsgGCTFSpecificItemBroadcast::ByteSize() const
  T CMsgGCTFSpecificItemBroadcast::Clear()
  T CMsgGCTFSpecificItemBroadcast::GetCachedSize() const
@@ -37968,6 +37997,7 @@
  T CTFGameRulesProxy::InputSetBlueTeamRole(inputdata_t&)
  T CTFGameRulesProxy::InputSetCTFCaptureBonusTime(inputdata_t&)
  T CTFGameRulesProxy::InputSetCustomUpgradesFile(inputdata_t&)
+ T CTFGameRulesProxy::InputSetMapForcedTruceDuringBossFight(inputdata_t&)
  T CTFGameRulesProxy::InputSetRedKothClockActive(inputdata_t&)
  T CTFGameRulesProxy::InputSetRedTeamGoalString(inputdata_t&)
  T CTFGameRulesProxy::InputSetRedTeamRespawnWaveTime(inputdata_t&)
@@ -39098,6 +39128,7 @@
  T CTFPlayer::ShouldCollide(int, int) const
  T CTFPlayer::ShouldForceTransmitsForTeam(int)
  T CTFPlayer::ShouldGainInstantSpawn()
+ T CTFPlayer::ShouldGetBonusPointsForExtinguishEvent(int)
  T CTFPlayer::ShouldGib(CTakeDamageInfo const&)
  T CTFPlayer::ShouldShowVoiceSubtitleToEnemy()
  T CTFPlayer::ShouldStopTaunting()
@@ -39805,6 +39836,7 @@
  T CTFProjectile_SpellTransposeTeleport::GetServerClass()
  T CTFProjectile_SpellTransposeTeleport::GetWeaponID() const
  T CTFProjectile_SpellTransposeTeleport::InitialExplodeEffects(CTFPlayer*, CGameTrace const*)
+ T CTFProjectile_SpellTransposeTeleport::PhysicsSolidMaskForEntity() const
  T CTFProjectile_SpellTransposeTeleport::RecordPosThink()
  T CTFProjectile_SpellTransposeTeleport::Spawn()
  T CTFProjectile_SpellTransposeTeleport::YouForgotToImplementOrDeclareServerClass()
@@ -46642,7 +46674,7 @@
  T GCSDK::CStructNetPacket::SetSteamID(CSteamID)
  T GCSDK::CStructNetPacket::SetTargetJobID(unsigned long long)
  T GCSDK::CStructNetPacket::~CStructNetPacket()
- T GCSDK::CWorkThreadPool::BDispatchCompletedWorkItems(CLimitTimer&, GCSDK::CJobMgr*)
+ T GCSDK::CWorkThreadPool::BDispatchCompletedWorkItems(CLimitTimer const&, GCSDK::CJobMgr*)
  T GCSDK::CWorkThreadPool::BTryDeleteExitedWorkerThreads()
  T GCSDK::CWorkThreadPool::CWorkThreadPool(char const*)
  T GCSDK::CWorkThreadPool::OnWorkItemCompleted(GCSDK::CWorkItem*)
@@ -51045,6 +51077,10 @@
  b (anonymous namespace)::CMsgGCStorePurchaseInitResponse_reflection_
  b (anonymous namespace)::CMsgGCStorePurchaseInit_descriptor_
  b (anonymous namespace)::CMsgGCStorePurchaseInit_reflection_
+ b (anonymous namespace)::CMsgGCSurveyRequest_descriptor_
+ b (anonymous namespace)::CMsgGCSurveyRequest_reflection_
+ b (anonymous namespace)::CMsgGCSurveyResponse_descriptor_
+ b (anonymous namespace)::CMsgGCSurveyResponse_reflection_
  b (anonymous namespace)::CMsgGCTFSpecificItemBroadcast_descriptor_
  b (anonymous namespace)::CMsgGCTFSpecificItemBroadcast_reflection_
  b (anonymous namespace)::CMsgGCToGCGetUserServerMembersResponse_descriptor_
@@ -51514,6 +51550,7 @@
  b (anonymous namespace)::GCProtoBufMsgSrc_descriptor_
  b (anonymous namespace)::PartnerAccountType_descriptor_
  b (anonymous namespace)::ServerMatchmakingState_descriptor_
+ b (anonymous namespace)::SurveyQuestionType_descriptor_
  b (anonymous namespace)::TFLobbyReadyState_descriptor_
  b (anonymous namespace)::TFMatchLeaveReason_descriptor_
  b (anonymous namespace)::TF_GC_GameState_descriptor_
@@ -54370,6 +54407,8 @@
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCRematchRequest_PartyEntry_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCRematchRequest_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCRequestCasualCriteriaStats_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCSurveyRequest_offsets_
+ r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCSurveyResponse_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGCTFSpecificItemBroadcast_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Client2GCEconPreviewDataBlockRequest_offsets_
  r protobuf_AssignDesc_tf_5fgcmessages_2eproto()::CMsgGC_Client2GCEconPreviewDataBlockResponse_offsets_
@@ -54758,7 +54797,7 @@
  t __cxx_global_array_dtor118
  t __cxx_global_array_dtor119
  t __cxx_global_array_dtor121
- t __cxx_global_array_dtor1246
+ t __cxx_global_array_dtor1248
  t __cxx_global_array_dtor125
  t __cxx_global_array_dtor13
  t __cxx_global_array_dtor14
@@ -54850,7 +54889,7 @@
  t __cxx_global_var_init11
  t __cxx_global_var_init1165
  t __cxx_global_var_init12
- t __cxx_global_var_init1267
+ t __cxx_global_var_init1269
  t __cxx_global_var_init133
  t __cxx_global_var_init16
  t __cxx_global_var_init169
