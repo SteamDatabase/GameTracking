@@ -93,6 +93,7 @@ function CHeroDemo:InitGameMode()
 	SendToServerConsole( "dota_hero_god_mode 0" )
 	SendToServerConsole( "dota_ability_debug 0" )
 	SendToServerConsole( "dota_creeps_no_spawning 0" )
+	SendToServerConsole( "dota_easybuy 1" )
 	--SendToServerConsole( "dota_bot_mode 1" )
 
 	self.m_sHeroSelection = sHeroSelection -- this seems redundant, but events.lua doesn't seem to know about sHeroSelection
