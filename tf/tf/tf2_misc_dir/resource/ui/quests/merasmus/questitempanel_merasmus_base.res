@@ -158,11 +158,13 @@
 					"visible"		"0"
 				}
 
-				"QuickplayButton"
+				"FindServerButton"
 				{
 					"xpos"			"25"
 					"ypos"			"52"
-					"wide"			"200"
+					"wide"			"100"
+					"autoResize"	"0"
+					"pinCorner"		"0"
 
 					"SubButton"
 					{

@@ -2304,11 +2304,11 @@ $vertexcolor
 1 CPU, Frequency: %.f %short,  Features: %short
 1.0.1.0
 1.0.2, 30-Dec-2001
-11:50:29
 1234567890123
 127.0.0.1
 131072
 1440.0
+14:07:33
 16.6666666667
 1750.0f
 1: draw light cache entries
@@ -2537,7 +2537,6 @@ $vertexcolor
 @loader_path/libsteam_api.dylib
 @loader_path/libtier0.dylib
 @loader_path/libvstdlib.dylib
-@q		pq	
 @u	kE
 A Source engine game is required to run mods
 A!;I2
@@ -12308,6 +12307,7 @@ Enable/disable rcon logging.
 Enable/disable using Steam Voice instead of the old voice codec (if enabled, voice_inputfromfile will no longer function).
 EnableColorCorrection
 EnableEntities
+EnableHDR(bool)
 EnableParallaxMapping
 EnableSaveButton
 Enables generating minidumps on long ticks.
@@ -13259,6 +13259,7 @@ If set to 1, does an optimization to prevent extra SendTable_Encode calls.
 If set to 1, the server calculates data and fills packets to bots. Used for perf testing.
 If set to 1, the server will kick clients with mismatching files. Otherwise, it will issue signed char warning to the client.
 If set to 1, the server will print signed char message whenever signed char client is verifying signed char CRC for signed char file.
+If set, always flush models between map loads.  Useful on systems under memory pressure.
 If set, attempt to keep signed char persistent buffer for the LZMA decoder dictionary. This avoids long double restrict-allocating signed char ~16-64meg buffer for each operation, at the expensive of keeping extra memory around when it is not in-use.
 If set, server only simulates entities on even numbered ticks.
 If set, whenever signed char game ends, if the server uptime exceeds this number of hours, the server will exit.
@@ -13658,6 +13659,7 @@ KilobytesSortFunc(vgui::ListPanel*, vgui::ListPanelItem const&, vgui::ListPanelI
 L %02i/%02i/%04i - %02i:%02i:%02i: %short
 L%02i%02i
 L2Miss
+L=dx@
 L?fff?
 L@CEngineTool
 LB;PH|
@@ -14468,7 +14470,7 @@ Occl %.2f (%double/%double)
 Occlusion
 Occlusion Tool
 OcclusionSystem()
-Oct 12 2016
+Oct 19 2016
 Offf.
 Offfff.
 Offffff.
@@ -19814,6 +19816,7 @@ cl:  create '%short'
 cl_LocalNetworkBackdoor
 cl_allowdownload
 cl_allowupload
+cl_always_flush_models
 cl_autoreload
 cl_autorezoom
 cl_buy_favorite
@@ -21994,6 +21997,7 @@ logaddress_list: %int entries
 logaddress_list: %int entry
 logaddress_list_command
 logs/%short/%04i
+long double&-order the HDR/LDR mode switch to do most of the material system reloading with the device offline. This reduces unnecessary device resource uploads and may drastically reduce load time and memory pressure on certain drivers, but may trigger bugs in some very old source engine pathways.
 long long "%float"
 long long signed char::* # of seconds we can wait for next packets to be sent based on rate setting (0 == no limit).
 long long signed char::* %int demos in demoloop
@@ -22341,6 +22345,7 @@ mod_dynamicunloadtextures
 mod_dynamicunloadtime
 mod_forcetouchdata
 mod_load_showstall
+mod_offline_hdr_switch
 mod_touchalldata
 mod_write
 mode label

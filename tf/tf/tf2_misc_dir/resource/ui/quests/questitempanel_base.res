@@ -578,7 +578,7 @@
 					"defaultFgColor_override"	"TanLight"
 					"armedFgColor_override"		"Orange"
 
-					"command"	"quickplay"
+					"command"	"mm_casual_open"
 				}
 
 				"LoanerContainerPanel"

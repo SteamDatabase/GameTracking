@@ -597,7 +597,7 @@
 				"brighttext"	"0"
 				"Command"		"abandon_match"
 				"proportionaltoparent"	"1"
-				"labeltext"		"#TF_MM_Rejoin_Abandon"
+				"labeltext"		"#TF_MM_Rejoin_Leave"
 				"mouseinputenabled"	"1"
 				"keyboardinputenabled"	"0"
 				"actionsignallevel"	"2"
