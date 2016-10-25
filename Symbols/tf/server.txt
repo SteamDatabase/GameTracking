@@ -2477,6 +2477,7 @@
  B g_iszPhysicsPropClassname
  B g_nAITasksRun
  B g_nInsideDispatchUpdateTransmitState
+ B g_nQuestSpewFlags
  B g_pAINetworkManager
  B g_pAttributeTypeName
  B g_pBigAINet
@@ -3519,6 +3520,7 @@
  B tf_show_train_path
  B tf_showspeed
  B tf_skillrating_update_interval
+ B tf_so_tracker_spew_type_toggle
  B tf_soccer_ball_min_speed
  B tf_soccer_ball_multiplier
  B tf_soccer_ball_up_max
@@ -22451,6 +22453,7 @@
  T CBaseQuestObjectiveTracker::ResetCondition()
  T CBaseQuestObjectiveTracker::~CBaseQuestObjectiveTracker()
  T CBaseSOTracker::CBaseSOTracker(GCSDK::CSharedObject const*, CSteamID, CSOTrackerManager*)
+ T CBaseSOTracker::Spew() const
  T CBaseSOTracker::~CBaseSOTracker()
  T CBaseServerVehicle::CBaseServerVehicle()
  T CBaseServerVehicle::CacheEntryExitPoints()
@@ -34685,6 +34688,7 @@
  T CQuestItemTracker::OnRemove()
  T CQuestItemTracker::OnUpdate()
  T CQuestItemTracker::SendUpdateToClient(CQuestObjectiveDefinition const*)
+ T CQuestItemTracker::Spew() const
  T CQuestItemTracker::UpdatePointsFromSOItem()
  T CQuestItemTracker::~CQuestItemTracker()
  T CQuestObjectiveDefinition::BInitFromKV(KeyValues*, CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >*)
@@ -35354,7 +35358,10 @@
  T CSOTFPlayerInfo::~CSOTFPlayerInfo()
  T CSOTrackerManager::CSOTrackerManager()
  T CSOTrackerManager::CommitAllChanges()
+ T CSOTrackerManager::CommitRecord(CommitRecord_t*) const
+ T CSOTrackerManager::CreateAndAddTracker(GCSDK::CSharedObject const*, CSteamID)
  T CSOTrackerManager::EnsureTrackersForPlayer(CSteamID const&)
+ T CSOTrackerManager::EnsureTrackersForPlayer(CTFPlayer*)
  T CSOTrackerManager::FireGameEvent(IGameEvent*)
  T CSOTrackerManager::FrameUpdatePreEntityThink()
  T CSOTrackerManager::GetCommitRecord(unsigned long long)
@@ -35362,6 +35369,7 @@
  T CSOTrackerManager::Initialize()
  T CSOTrackerManager::PostSOUpdate(CSteamID const&, GCSDK::ESOCacheEvent)
  T CSOTrackerManager::PreSOUpdate(CSteamID const&, GCSDK::ESOCacheEvent)
+ T CSOTrackerManager::RemoveAndDeleteTrackerAtIndex(unsigned short)
  T CSOTrackerManager::RemoveTrackersForSteamID(CSteamID const&)
  T CSOTrackerManager::SOCacheSubscribed(CSteamID const&, GCSDK::ESOCacheEvent)
  T CSOTrackerManager::SOCacheUnsubscribed(CSteamID const&, GCSDK::ESOCacheEvent)
@@ -35369,7 +35377,7 @@
  T CSOTrackerManager::SODestroyed(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
  T CSOTrackerManager::SOUpdated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
  T CSOTrackerManager::Shutdown()
- T CSOTrackerManager::UpdateTrackerForItem(GCSDK::CSharedObject const*, CSOTrackerManager::ETrackerHandling_t, CSteamID)
+ T CSOTrackerManager::Spew()
  T CSOTrackerManager::~CSOTrackerManager()
  T CSOWarData::ByteSize() const
  T CSOWarData::CSOWarData()
@@ -43587,11 +43595,13 @@
  T CUtlRBTree<CUtlMap<unsigned int, unsigned int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, unsigned int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, unsigned int, unsigned short>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
  T CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t const&) const
  T CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t const&, unsigned short&, bool&)
+ T CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FirstInorder() const
  T CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t const&)
  T CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
  T CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsLeftChild(unsigned short) const
  T CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsRightChild(unsigned short) const
  T CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::NewNode()
+ T CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::NextInorder(unsigned short) const
  T CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
  T CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveRebalance(unsigned short)
  T CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
@@ -46146,6 +46156,7 @@
  T GCSDK::CGCClient::BSendMessage(GCSDK::CMsgBase_t<GCSDK::GCMsgHdrEx_t> const&)
  T GCSDK::CGCClient::BSendMessage(GCSDK::CProtoBufMsgBase const&)
  T GCSDK::CGCClient::CGCClient(ISteamGameCoordinator*, bool)
+ T GCSDK::CGCClient::Dump()
  T GCSDK::CGCClient::FindSOCache(CSteamID const&, bool)
  T GCSDK::CGCClient::NotifySOCacheUnsubscribed(CSteamID const&)
  T GCSDK::CGCClient::OnGCMessageAvailable(GCMessageAvailable_t*)
@@ -47031,6 +47042,7 @@
  T IKeyValuesDumpContextAsText::KvEndKey(KeyValues*, int)
  T IKeyValuesDumpContextAsText::KvWriteIndent(int)
  T IKeyValuesDumpContextAsText::KvWriteValue(KeyValues*, int)
+ T ILocalize::ConstructStringVArgsInternal(wchar_t*, int, wchar_t const*, int, char*)
  T ILocalize::ConvertUnicodeToANSI(wchar_t const*, char*, int)
  T ILocomotion::AdjustPosture(Vector const&)
  T ILocomotion::Approach(Vector const&, float)
@@ -48088,6 +48100,8 @@
  T SENTENCEG_PlayRndI(edict_t*, int, float, soundlevel_t, int, int)
  T SENTENCEG_PlayRndSz(edict_t*, char const*, float, soundlevel_t, int, int)
  T SENTENCEG_PlaySequentialSz(edict_t*, char const*, float, soundlevel_t, int, int, int, int)
+ T SOTrackerSpew(char const*, int)
+ T SOTrackerSpewTypeToggle(CCommand const&)
  T SaveGlobalState(CSaveRestoreData*)
  T SaveInit(int)
  T ScaleBones(CStudioHdr const*, Quaternion*, Vector*, int, float, int)
@@ -48579,6 +48593,8 @@
  T V_strnistr(char const*, char const*, int)
  T V_vsnprintf(char*, int, char const*, char*)
  T V_vsnprintfRet(char*, int, char const*, char*, bool*)
+ T V_vsnwprintf(wchar_t*, int, wchar_t const*, char*)
+ T V_wcsncpy(wchar_t*, wchar_t const*, int)
  T ValidateCapturesPerRound(IConVar*, char const*, float)
  T VecCheckToss(CBaseEntity*, ITraceFilter*, Vector, Vector, float, float, bool, Vector*, Vector*)
  T VecCheckToss(CBaseEntity*, Vector, Vector, float, float, bool, Vector*, Vector*)
@@ -49433,6 +49449,7 @@
  T int V_sprintf_safe<260ul>(char (&) [260ul], char const*, ...)
  T int V_sprintf_safe<32ul>(char (&) [32ul], char const*, ...)
  T int V_sprintf_safe<64ul>(char (&) [64ul], char const*, ...)
+ T int V_swprintf_safe<128ul>(wchar_t (&) [128ul], wchar_t const*, ...)
  T int const& CNetworkVarBase<int, CBaseAnimating::NetworkVar_m_nBody>::operator=<int>(int const&)
  T int const& CNetworkVarBase<int, CBaseAnimating::NetworkVar_m_nSkin>::operator=<int>(int const&)
  T int const& CNetworkVarBase<int, CBaseCombatWeapon::NetworkVar_m_iState>::operator=<int>(int const&)
@@ -50646,9 +50663,11 @@
  T void CNavMesh::CollectAreasOverlappingExtent<CTFNavArea>(Extent const&, CUtlVector<CTFNavArea*, CUtlMemory<CTFNavArea*, int> >*)
  T void CNavMesh::StitchAreaIntoMesh<AreaSet>(CNavArea*, NavDirType, AreaSet&)
  T void CNavMesh::StitchAreaIntoMesh<IncrementallyGeneratedAreas>(CNavArea*, NavDirType, IncrementallyGeneratedAreas&)
+ T void ConstructStringVArgsInternal_Impl<wchar_t>(wchar_t*, int, wchar_t const*, int, char*)
  T void CryptoPP::ByteReverse<unsigned int>(unsigned int*, unsigned int const*, unsigned long)
  T void DeepCopyMap<char const*, codecontrolledbodygroupdata_t, unsigned short>(CUtlMap<char const*, codecontrolledbodygroupdata_t, unsigned short> const&, CUtlMap<char const*, codecontrolledbodygroupdata_t, unsigned short>*)
  T void DeepCopyMap<char const*, int, unsigned short>(CUtlMap<char const*, int, unsigned short> const&, CUtlMap<char const*, int, unsigned short>*)
+ T void ILocalize::ConstructString<wchar_t>(wchar_t*, int, wchar_t const*, int, ...)
  T void SearchSurroundingAreas<DrawIncursionFlow>(CNavArea*, Vector const&, DrawIncursionFlow&, float, unsigned int, int)
  T void SearchSurroundingAreas<DrawSelectedSet>(CNavArea*, Vector const&, DrawSelectedSet&, float, unsigned int, int)
  T void SearchSurroundingAreas<PlaceFloodFillFunctor>(CNavArea*, Vector const&, PlaceFloodFillFunctor&, float, unsigned int, int)
@@ -51979,12 +51998,14 @@
  b drawcross
  b drawline
  b dropitem
+ b dump_all_caches_command
  b dump_entity_sizes_command
  b dump_globals_command
  b dumpentityfactories
  b dumpeventqueue
  b dumpgamestringtable
  b dynamic_prop
+ b ensure_so_trackers_for_steamid_command
  b ent_absbox
  b ent_attachments
  b ent_autoaim
@@ -53644,6 +53665,7 @@
  b tf_projectile_throwable_brick
  b tf_projectile_throwable_repel
  b tf_pumpkin_bomb
+ b tf_quests_spew_trackers_command
  b tf_ragdoll
  b tf_robot_destruction_robot
  b tf_robot_destruction_robot_spawn
@@ -54955,8 +54977,10 @@
  t cc_spawn_merasmus_at_level(CCommand const&)
  t clear_debug_overlays(CCommand const&)
  t currency_give(CCommand const&)
+ t dump_all_caches(CCommand const&)
  t dump_entity_sizes(CCommand const&)
  t dump_globals(CCommand const&)
+ t ensure_so_trackers_for_steamid(CCommand const&)
  t explode(CCommand const&)
  t explodevector(CCommand const&)
  t fov(CCommand const&)
@@ -55050,6 +55074,7 @@
  t tf_mvm_jump_to_wave(CCommand const&)
  t tf_mvm_nextmission(CCommand const&)
  t tf_mvm_popfile(CCommand const&)
+ t tf_quests_spew_trackers(CCommand const&)
  t tf_server_lobby_debug(CCommand const&)
  t tf_workshop_map_status(CCommand const&)
  t tf_workshop_map_sync(CCommand const&)
@@ -55068,6 +55093,7 @@
  typeinfo for unsigned int
  typeinfo for unsigned long long
  vsnprintf
+ vswprintf
  vtable for __cxxabiv1::__class_type_info
  vtable for __cxxabiv1::__enum_type_info
  vtable for __cxxabiv1::__pointer_type_info
@@ -55076,5 +55102,6 @@
  vtable for std::bad_alloc
  vtune
  wcslen
+ wcsncpy
  wcstol
  wcstoll

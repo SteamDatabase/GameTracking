@@ -131,6 +131,7 @@
 	SideScore
 	TYPE_BOOL
 	TYPE_ENUM
+	Trackers for %short:
 	TypeCache for %double (%double objects):
 	Usage: test_dispatcheffect <effect name> <distance away> <flags> <magnitude> <scale>
 	```P
@@ -2486,6 +2487,7 @@ $no_fullbright
 -- Globals --
 --- %int links
 --- End Vote commands---
+--- Spewing all trackers for %short ---
 ------- SERVER SOUNDSCAPES -------
 -------- SOUNDSCAPE ENTITIES -----
 -------------%short: frame %double -----------------
@@ -2510,6 +2512,7 @@ $no_fullbright
 -class
 -count
 -damage
+-fff.
 -ffff.
 -fffff.
 -ffffff.
@@ -5081,6 +5084,7 @@ $no_fullbright
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/public/tier1/fmtstr.h
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/public/tier1/functors.h
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/public/tier1/generichash.h
+/Users/buildbot/buildslave/rel_hl2_osx/build/src/public/tier1/ilocalize.h
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/public/tier1/mempool.h
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/public/tier1/memstack.h
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/public/tier1/refcount.h
@@ -5341,7 +5345,7 @@ $no_fullbright
 2015-12-01
 2016-01-05
 2016-10-19
-2016-11-09
+2016-11-16
 21.CMsgGC_GameServer_CreateIdentityResponse.EStatus"void
 21.CMsgTFRequestChatChannelListResponse.ChatChannel
 22.CMsgAMGetUserGameStatsResponse.Achievement_Blocks
@@ -5670,8 +5674,8 @@ $no_fullbright
 @@@@ @
 @@@@@@
 @@@@`P
+@@@PP@`p
 @@F;u
-@@P@`p
 @@PPPPPP``PP@P@@@00 
 @@PP`
 @B11CBaseEntity
@@ -7718,6 +7722,7 @@ AVOID
 AVelocity: %.2f %.2f %.2f
 AbandonIfEnemyHides
 Aborting map_edit
+Accepting item %llu with defindex %d.
 Account
 Account class index must be greater than 'last_valid_class'
 AccountID
@@ -9295,6 +9300,7 @@ Bad SetLocalOrigin(%float,%float,%float) on %short
 Bad activity
 Bad field in entity!!
 Bad field type
+Bad format string in CLocalizeStringTable::ConstructString
 Bad location input for catapult!
 Bad node type!
 Bad position to Target
@@ -14042,6 +14048,7 @@ CBaseQuestObjectiveTracker::ResetCondition()
 CBaseQuestObjectiveTracker::~CBaseQuestObjectiveTracker()
 CBaseSOTracker
 CBaseSOTracker::CBaseSOTracker(GCSDK::CSharedObject const*, CSteamID, CSOTrackerManager*)
+CBaseSOTracker::Spew() const
 CBaseSOTracker::~CBaseSOTracker()
 CBaseServerVehicle
 CBaseServerVehicle::CBaseServerVehicle()
@@ -29431,6 +29438,7 @@ CQuestItemTracker::IncrementCount(unsigned int, CQuestObjectiveDefinition const*
 CQuestItemTracker::OnRemove()
 CQuestItemTracker::OnUpdate()
 CQuestItemTracker::SendUpdateToClient(CQuestObjectiveDefinition const*)
+CQuestItemTracker::Spew() const
 CQuestItemTracker::UpdatePointsFromSOItem()
 CQuestItemTracker::UpdatePointsFromSOItem()::pAttribDef_EarnedBonusPoints
 CQuestItemTracker::UpdatePointsFromSOItem()::pAttribDef_EarnedStandardPoints
@@ -30286,7 +30294,10 @@ CSOTFPlayerInfo::~CSOTFPlayerInfo()
 CSOTrackerManager
 CSOTrackerManager::CSOTrackerManager()
 CSOTrackerManager::CommitAllChanges()
+CSOTrackerManager::CommitRecord(CommitRecord_t*) const
+CSOTrackerManager::CreateAndAddTracker(GCSDK::CSharedObject const*, CSteamID)
 CSOTrackerManager::EnsureTrackersForPlayer(CSteamID const&)
+CSOTrackerManager::EnsureTrackersForPlayer(CTFPlayer*)
 CSOTrackerManager::FireGameEvent(IGameEvent*)
 CSOTrackerManager::FrameUpdatePreEntityThink()
 CSOTrackerManager::GetCommitRecord(unsigned long long)
@@ -30294,6 +30305,7 @@ CSOTrackerManager::GetTracker(unsigned long long) const
 CSOTrackerManager::Initialize()
 CSOTrackerManager::PostSOUpdate(CSteamID const&, GCSDK::ESOCacheEvent)
 CSOTrackerManager::PreSOUpdate(CSteamID const&, GCSDK::ESOCacheEvent)
+CSOTrackerManager::RemoveAndDeleteTrackerAtIndex(unsigned short)
 CSOTrackerManager::RemoveTrackersForSteamID(CSteamID const&)
 CSOTrackerManager::SOCacheSubscribed(CSteamID const&, GCSDK::ESOCacheEvent)
 CSOTrackerManager::SOCacheUnsubscribed(CSteamID const&, GCSDK::ESOCacheEvent)
@@ -30301,7 +30313,7 @@ CSOTrackerManager::SOCreated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK
 CSOTrackerManager::SODestroyed(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
 CSOTrackerManager::SOUpdated(CSteamID const&, GCSDK::CSharedObject const*, GCSDK::ESOCacheEvent)
 CSOTrackerManager::Shutdown()
-CSOTrackerManager::UpdateTrackerForItem(GCSDK::CSharedObject const*, CSOTrackerManager::ETrackerHandling_t, CSteamID)
+CSOTrackerManager::Spew()
 CSOTrackerManager::~CSOTrackerManager()
 CSOWarData
 CSOWarData::ByteSize() const
@@ -39848,12 +39860,14 @@ CUtlRBTree<CUtlMap<unsigned int, unsigned int, unsigned short>::Node_t, unsigned
 CUtlRBTree<CUtlMap<unsigned int, unsigned int, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned int, unsigned int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned int, unsigned int, unsigned short>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
 CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t const&) const
 CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t const&, unsigned short&, bool&)
+CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FirstInorder() const
 CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t const&)
 CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
 CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsLeftChild(unsigned short) const
 CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::IsRightChild(unsigned short) const
 CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
 CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::NewNode()
+CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::NextInorder(unsigned short) const
 CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
 CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveRebalance(unsigned short)
 CUtlRBTree<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned long long, CBaseSOTracker*, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
@@ -41965,6 +41979,7 @@ Commentary: Failed to spawn commentary entity, type: '%short'
 Commentary: Loading commentary data from %s. 
 CommentarySystem_PePlayerRunCommand(CBasePlayer*, CUserCmd*)
 CommentaryUpdateViewThink
+CommitChangesToDB: %llu S:%double B:%double
 Companion Cube
 Compare
 CompareRangeToPoint(CTFNavArea* const*, CTFNavArea* const*)
@@ -42191,10 +42206,14 @@ CreateVGuiScreen(char const*, char const*, CBaseEntity*, CBaseEntity*, int)
 CreateWeaponInfo()
 Created EHANDLE test entity. Run this command again to transmit the second ent.
 Created new fencetop area %double(%long long) between %double(%long long) and %double(%long long)
+Created tracker for object: %short
 Creates an entity of the given type where the player is looking.  Additional parameters can be passed in in the form: ent_create <entity name> <param 1 name> <param 1> <param 2 name> <param 2>...<param N name> <param N>
 Creates signed char dynamic prop with signed char specific .mdl aimed away from where the player is looking.
 Creates signed char physics prop with signed char specific .mdl aimed away from where the player is looking.
 Creating navigation areas from sampled data...
+Creating new commit record for SObject: %short
+Creating objective tracker def %double for quest def %double on item %llu for user %short
+Creating tracker for quest %double on item %llu for user %short with %dsp and %dbp
 CreditToTeam
 Credits: %double
 CreditsDone_f()
@@ -44348,8 +44367,10 @@ Delete
 Delete all non-player NextBot entities.
 DeleteAll(AI_Waypoint_t*)
 Deleted %double areas
+Deleted tracker for object: %short
 Deletes the currently highlighted Area.
 Deletes the currently marked Area (if any).
+Deleting tracker for quest %double on item %llu with %dsp %dssp %dbp %dsbp
 Delicious Cake
 Deliver lethal damage from player to specified bot. Usage: bot_whack <bot name>
 DeliverFlag
@@ -44387,6 +44408,7 @@ DestroyItem
 DestroySentries
 DestroyThink
 DestroyVGuiScreen(CVGuiScreen*)
+Destroying CQuestObjectiveManager
 Destroying sentry with opportunistic sticky shot
 Destroying sentry with stickies
 Detach
@@ -44412,6 +44434,7 @@ DevWarning(char const*, ...)
 Devshots: Loading point_devshot_camera positions from %s. 
 Devshots: No point_devshot_camera in %s. Moving to next map.
 Dfffff.
+Did not create any objective trackers for quest %double on item %llu for user %short with %dsp and %dbp
 Didn'unsigned short find particle function %short
 DieContext
 DieThink
@@ -44599,6 +44622,7 @@ DuelMiniGame_NotifyPlayerChangedTeam(CTFPlayer*, int, bool)
 DuelMiniGame_NotifyPlayerDisconnect(CTFPlayer*, bool)
 Dump all global entities/states
 Dump all response_rules.txt and rules (requires restart)
+Dump the contents all subsribed SOCaches
 Dump the contents of the Entity I/O event queue to the console.
 Dump the contents of the game string table to the console.
 Dump the debug history to the console. Format: <category id>
@@ -44687,6 +44711,7 @@ EGCToGCMsg
 EItemPurgatoryResponse_Finalize
 EItemPurgatoryResponse_Refund
 EMSA-PKCS1-v1_5
+ENABLED
 ENEMY
 ENEMY_LKP
 ENERGYBEAM
@@ -44908,6 +44933,8 @@ EngineerBuildTeleportEntrance
 EngineerBuildTeleportExit
 EngineerBuilding
 EngineerMoveToBuild
+EnsureTrackersForPlayer
+Ensures signed char steamID has all the trackers it should have, with extra spew along the way
 EntSelectSpawnPoint(): No valid spawns for class %short on team %int found, even though at least one spawn entity exists.
 Enter Panic
 Entering lobby-based matchmaking mode
@@ -45010,6 +45037,7 @@ Executing dedicated server config file %short
 Executing listen server config file %short
 Executing server arena config file
 Exhausted bomb target areas
+Existing commit record for SObject is more up to date: %short
 Exit animation %short failed to cache target points properly!
 Exiting Competitive Mode!
 ExpandThink
@@ -45488,6 +45516,7 @@ G;~$|
 G;~(|
 G;~,|
 G;~0|
+G;~4|
 G;~8|
 G;~<|
 G;~@|
@@ -45529,6 +45558,7 @@ GCSDK::CGCClient::BInit(ISteamGameCoordinator*)
 GCSDK::CGCClient::BMainLoop(unsigned long long, unsigned long long)
 GCSDK::CGCClient::BSendMessage(GCSDK::CMsgBase_t<GCSDK::GCMsgHdrEx_t> const&)
 GCSDK::CGCClient::CGCClient(ISteamGameCoordinator*, bool)
+GCSDK::CGCClient::Dump()
 GCSDK::CGCClient::FindSOCache(CSteamID const&, bool)
 GCSDK::CGCClient::NotifySOCacheUnsubscribed(CSteamID const&)
 GCSDK::CGCClient::OnGCMessageAvailable(GCMessageAvailable_t*)
@@ -46084,6 +46114,7 @@ Going back to my existing sentry nest
 Going back to my existing sentry nest and reusing signed char sentry hint
 Gold Rush
 Gorge
+Got matched response for with record: %short
 Got signed char NaN origin on %short
 Got signed char NaN velocity on %short
 Got version %double
@@ -46788,6 +46819,7 @@ IKeyValuesDumpContextAsText::KvEndKey(KeyValues*, int)
 IKeyValuesDumpContextAsText::KvWriteIndent(int)
 IKeyValuesDumpContextAsText::KvWriteValue(KeyValues*, int)
 ILagCompensationManager
+ILocalize::ConstructStringVArgsInternal(wchar_t*, int, wchar_t const*, int, char*)
 ILocalize::ConvertUnicodeToANSI(wchar_t const*, char*, int)
 ILocomotion
 ILocomotion::AdjustPosture(Vector const&)
@@ -47397,6 +47429,7 @@ IgnoredName15
 IgnoredName16
 Ignoring %double specified targetnames.
 Ignoring bogus angles (%float,%float,%float) from vphysics! (entity %short)
+Ignoring stale response with record: %short
 Ignoring unreasonable position (%float,%float,%float) from vphysics! (entity %short)
 Immediately changes to the next map in the map rotation for the server.
 Impact
@@ -47430,7 +47463,9 @@ InTeleport
 InValue
 Incorrect parameters. Format: <category id>
 Incorrect parameters. Format: <category id> <line>
+Incorrect parameters. Format: command_toggle_SO_TRACKER_SPEW_type <type>
 Increment
+Increment for quest: %llu Objective: "%short" %double->%double (+%double)
 IncrementTextureIndex
 Incrementing %short by %float at pos (%double, %double, %double)
 Index must be -1 for non-repeated fields
@@ -48177,6 +48212,7 @@ Invalid symbol name:
 Invalid team '%short'
 Invalid time value
 Invalid trigger
+Invalid type.  Valid types are: objectives, itemtrackers, objectivetrackers, commits, or all for everything
 Invalid value for boolean field "
 Invalid wave number
 Invalid weapon restriction '%short' for quest objective
@@ -49333,6 +49369,7 @@ Need more metal to build my Sentry
 Need more metal to build my Teleporter Exit
 Need space between identifier and decimal point.
 Need space between number and identifier.
+Need the 64bit representation of signed char steamID as well
 Need to repair my Sentry
 Needs signed char model with collision info. Map change required.
 Needs signed char radius
@@ -49546,6 +49583,7 @@ No Map Name
 No Nav Mesh CPopulationManager::Initialize for %short
 No Population Manager found in the map
 No RunTask entry for %short
+No SOCache for %short in %short!
 No Schedule, 
 No Sentry
 No Server Address
@@ -49664,6 +49702,8 @@ NorthEast
 NorthWest
 Not Found!
 Not Playing sentence %short
+Not accepting item %llu with defindex %d.  It doesn'unsigned short have signed char quest def.
+Not accepting item %llu with defindex %d.  It'short not identified.
 Not allowed to vote for signed char nextlevel if one has already been set.
 Not enough data to describe component
 Not enough resources.
@@ -49714,7 +49754,7 @@ OBSTACLE
 OBSTACLE_TOP
 OBSTRUCTED 
 OFFGROUND!
-ONfffff.
+ONff.
 OS_Rng: 
 O\+wP
 Object %double (of %double) =========================
@@ -51225,6 +51265,7 @@ Recipe definition index %double must be greater than or equal to zero
 RecomputeBlockers
 Recomputes lighting values
 ReconnectMergedArea(CUtlDict<CNavArea*, int>&, KeyValues*, NavDirType, char const*)
+Record is %fs old.  Abandoning. %short
 RecordThink
 RecursiveInheritKeyValues(KeyValues*, KeyValues*)
 RecursiveLoadFromBuffer:  got EOF instead of keyname
@@ -51666,7 +51707,11 @@ SNDLVL_NORM
 SNDLVL_STATIC
 SNDLVL_TALKING
 SNIPER_SPOT
+SOCacheSubscribed recieved for user %short
+SOCacheUnsubscribed recieved for user %short
 SONIC
+SOTrackerSpew(char const*, int)
+SOTrackerSpewTypeToggle(CCommand const&)
 SOUND
 SOURCE_COMPETITIVE_ABANDON
 SOURCE_COMPETITIVE_LOSS
@@ -51970,6 +52015,7 @@ SendTable::SendTable()
 SendTable::SendTable(SendProp*, int, char const*)
 SendTable::~SendTable()
 SendVoteResponseToGC(bool)
+Sending %fs old record to GC for SObject. %short
 Sending CMsgGameServerKickingLobby to reject stale lobby
 Sending CMsgGameServerKickingLobby, not requesting party
 Sending CMsgGameServerKickingLobby, requesting party with %double connected players
@@ -52598,6 +52644,7 @@ SpellTransposeTeleport::g_SendTable
 SpellTransposeTeleport::g_SendTableInit
 Spew touch link activity
 SpewFileInfo(IBaseFileSystem*, char const*, char const*, KeyValues*)
+Spews all currently active quest trackers
 SpinDownMove
 SpinThink
 SpinUpMove
@@ -52744,6 +52791,7 @@ SteamGameCoordinator001
 SteamGameServer012
 SteamGameServerStats001
 SteamGameStats001
+SteamID is not valid!
 SteamMatchMaking009
 SteamMatchMakingServers002
 SteamNetworking005
@@ -52858,6 +52906,7 @@ Subdivider::SubdivideX(CNavArea*, bool, bool, int)
 Subdivider::SubdivideY(CNavArea*, bool, bool, int)
 Subdivides all selected areas.
 SubscribedType
+Subscribing to SOCache for user %short
 Subtract
 SubtractFromTimer
 Success!
@@ -54306,7 +54355,9 @@ Tracer
 TracerEffect
 TracerThink
 TrackTrain %short arrived at %short, speed to %4.2f
+Tracker for object type %double
 Tracking %u new workshop maps from map cycle (%u already tracked)
+Tracking objective: %double
 Trail Length Random
 TrailLength
 Train
@@ -54599,6 +54650,7 @@ Unserialize(CUtlBuffer&, float&)
 Unserialize(CUtlBuffer&, int&)
 UnserializeDMX(CUtlBuffer&, CDmxElement**, char const*)
 UnserializeTextDMX(char const*, CUtlBuffer&, CDmxElement**)
+Unsubscribing from SOCache for user %short
 Update
 Update the nav mesh STAIRS attribute
 Update(%short)
@@ -54619,9 +54671,11 @@ UpdateTonemapScaleBlend
 UpdateViewPostThink
 UpdateViewThink
 Updated %double entities.
+Updated points from item.  CS:%double S:%double  CB:%double B:%double
 Updates entities in the map that can safely be updated (don'unsigned short have parents or are affected by constraints). Also excludes entities mentioned in any hammer_updateignorelist objects in this map.
 Updates the blocked/unblocked status for every nav area.
 Updates the entity'short position/angles when in edit mode
+Updating existing commit record for SObject: %short
 Updating goal pos
 Updating goal pos while jumping!
 Updating physics on object in hierarchy %short!
@@ -54783,6 +54837,8 @@ V_strnicmp(char const*, char const*, int)
 V_strnistr(char const*, char const*, int)
 V_vsnprintf(char*, int, char const*, char*)
 V_vsnprintfRet(char*, int, char const*, char*, bool*)
+V_vsnwprintf(wchar_t*, int, wchar_t const*, char*)
+V_wcsncpy(wchar_t*, wchar_t const*, int)
 Vaccinator uber charge rate.
 VaccinatorBlast
 VaccinatorBullets
@@ -55244,6 +55300,7 @@ Zrange
 [NPCState::%short]
 [Nav] %short
 [P:%u:%u]
+[SVTrackers]: %short
 [SendMsgUntilConfirmed] %short queued for %short
 [SendMsgUntilConfirmed] %short send FAILED for %short -- retrying
 [SendMsgUntilConfirmed] %short send TIMEOUT for %short -- retrying
@@ -56144,6 +56201,7 @@ _g_nActivityListVersion
 _g_nEventListVersion
 _g_nInsideDispatchUpdateTransmitState
 _g_nParticle_Multiplier
+_g_nQuestSpewFlags
 _g_p4factory
 _g_pAINetworkManager
 _g_pAttributeTypeName
@@ -57449,6 +57507,7 @@ _tf_show_sniper_areas_safety_range
 _tf_show_train_path
 _tf_showspeed
 _tf_skillrating_update_interval
+_tf_so_tracker_spew_type_toggle
 _tf_soccer_ball_min_speed
 _tf_soccer_ball_multiplier
 _tf_soccer_ball_up_max
@@ -57548,8 +57607,10 @@ _vortex_float_osc_speed
 _vprof_scope_entity_gamephys
 _vprof_scope_entity_thinks
 _vsnprintf
+_vswprintf
 _vtune
 _wcslen
+_wcsncpy
 _wcstol
 _wcstoll
 _weapon_medigun_charge_rate
@@ -58559,7 +58620,6 @@ channel_name
 channel_type
 channels
 chaptertitle
-char		 double	
 char* std::basic_string<char, std::char_traits<char>, std::allocator<char> >::_S_construct<char*>(char*, char*, std::allocator<char> const&, std::forward_iterator_tag)
 charge_impact_damage
 charge_meter_on_hit
@@ -58703,6 +58763,7 @@ commentary_finishnode
 commentary_semaphore
 commentaryfile
 commentaryfile_nohdr
+commits
 common
 commonitem
 community
@@ -60819,6 +60880,9 @@ duel_minigame
 duel_status
 duel_wins
 duelinitiatorclass:%short,dueltargetclass:%short
+dump_all_caches
+dump_all_caches(CCommand const&)
+dump_all_caches_command
 dump_entity_sizes
 dump_entity_sizes(CCommand const&)
 dump_entity_sizes_command
@@ -60926,6 +60990,9 @@ enginesound
 english
 english_name
 engy_disposable_sentries
+ensure_so_trackers_for_steamid
+ensure_so_trackers_for_steamid(CCommand const&)
+ensure_so_trackers_for_steamid_command
 ent_absbox
 ent_attachments
 ent_autoaim
@@ -65468,6 +65535,7 @@ int V_sprintf_safe<25ul>(char (&) [25ul], char const*, ...)
 int V_sprintf_safe<260ul>(char (&) [260ul], char const*, ...)
 int V_sprintf_safe<32ul>(char (&) [32ul], char const*, ...)
 int V_sprintf_safe<64ul>(char (&) [64ul], char const*, ...)
+int V_swprintf_safe<128ul>(wchar_t (&) [128ul], wchar_t const*, ...)
 int const& CNetworkVarBase<int, CBaseAnimating::NetworkVar_m_nBody>::operator=<int>(int const&)
 int const& CNetworkVarBase<int, CBaseAnimating::NetworkVar_m_nSkin>::operator=<int>(int const&)
 int const& CNetworkVarBase<int, CBaseCombatWeapon::NetworkVar_m_iState>::operator=<int>(int const&)
@@ -65685,6 +65753,7 @@ items_fulfilled
 items_game
 items_game_url
 itemslot
+itemtrackers
 iterhash.cpp
 iterhash.h
 jarate_attack
@@ -72819,6 +72888,7 @@ object_type
 object_verbose
 objectives
 objectives_to_roll
+objectivetrackers
 objects
 objecttype
 objtype:dispenser
@@ -72940,6 +73010,7 @@ pWorldObject
 p`0 P
 p`00`
 p`@0  
+p`@@ p
 p`P``
 package
 package_id
@@ -74545,6 +74616,7 @@ sniper_penetrate_players_when_charged
 sniperrifle
 sniperzoomed
 snowflake
+socache
 socaches
 socaches_loading
 socaches_to_unload
@@ -76118,6 +76190,9 @@ tf_projectile_throwable_brick
 tf_projectile_throwable_repel
 tf_pumpkin_bomb
 tf_pve_mode
+tf_quests_spew_trackers
+tf_quests_spew_trackers(CCommand const&)
+tf_quests_spew_trackers_command
 tf_ragdoll
 tf_raid_engineer_infinte_metal
 tf_rd_max_points_override
@@ -76189,6 +76264,7 @@ tf_show_sniper_areas_safety_range
 tf_show_train_path
 tf_showspeed
 tf_skillrating_update_interval
+tf_so_tracker_spew_type_toggle
 tf_soccer_ball_min_speed
 tf_soccer_ball_multiplier
 tf_soccer_ball_up_max
@@ -82912,9 +82988,11 @@ void CNavMesh::CollectAreasOverlappingExtent<CTFNavArea>(Extent const&, CUtlVect
 void CNavMesh::CollectAreasOverlappingExtent<CTFNavArea>(Extent const&, CUtlVector<CTFNavArea*, CUtlMemory<CTFNavArea*, int> >*)::searchMarker
 void CNavMesh::StitchAreaIntoMesh<AreaSet>(CNavArea*, NavDirType, AreaSet&)
 void CNavMesh::StitchAreaIntoMesh<IncrementallyGeneratedAreas>(CNavArea*, NavDirType, IncrementallyGeneratedAreas&)
+void ConstructStringVArgsInternal_Impl<wchar_t>(wchar_t*, int, wchar_t const*, int, char*)
 void CryptoPP::ByteReverse<unsigned int>(unsigned int*, unsigned int const*, unsigned long)
 void DeepCopyMap<char const*, codecontrolledbodygroupdata_t, unsigned short>(CUtlMap<char const*, codecontrolledbodygroupdata_t, unsigned short> const&, CUtlMap<char const*, codecontrolledbodygroupdata_t, unsigned short>*)
 void DeepCopyMap<char const*, int, unsigned short>(CUtlMap<char const*, int, unsigned short> const&, CUtlMap<char const*, int, unsigned short>*)
+void ILocalize::ConstructString<wchar_t>(wchar_t*, int, wchar_t const*, int, ...)
 void SearchSurroundingAreas<DrawIncursionFlow>(CNavArea*, Vector const&, DrawIncursionFlow&, float, unsigned int, int)
 void SearchSurroundingAreas<DrawSelectedSet>(CNavArea*, Vector const&, DrawSelectedSet&, float, unsigned int, int)
 void SearchSurroundingAreas<PlaceFloodFillFunctor>(CNavArea*, Vector const&, PlaceFloodFillFunctor&, float, unsigned int, int)

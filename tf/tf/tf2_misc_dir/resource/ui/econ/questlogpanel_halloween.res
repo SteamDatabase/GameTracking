@@ -35,4 +35,17 @@
 			"not_possible"	"#QuestLog_NoContractsPossible_Halloween"
 		}
 	}
+
+	"ProgressPanel"
+	{
+		"ContractMeterContainer"
+		{
+			"bgcolor_override"	"0 0 0 0"
+
+			"ContractsCompletedProgressMeter"
+			{	
+				"visible"		"0"
+			}
+		}
+	}
 }
