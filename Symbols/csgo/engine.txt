@@ -281,6 +281,10 @@
  b (anonymous namespace)::CMsgSteamDatagramLinkLifetimeStats_reflection_
  b (anonymous namespace)::CMsgSteamDatagramNoSession_descriptor_
  b (anonymous namespace)::CMsgSteamDatagramNoSession_reflection_
+ b (anonymous namespace)::CMsgSteamDatagramRouterHealth_DataCenter_descriptor_
+ b (anonymous namespace)::CMsgSteamDatagramRouterHealth_DataCenter_reflection_
+ b (anonymous namespace)::CMsgSteamDatagramRouterHealth_descriptor_
+ b (anonymous namespace)::CMsgSteamDatagramRouterHealth_reflection_
  b (anonymous namespace)::CMsgSteamDatagramRouterPingReply_descriptor_
  b (anonymous namespace)::CMsgSteamDatagramRouterPingReply_reflection_
  b (anonymous namespace)::CMsgVector2D_descriptor_
@@ -532,6 +536,8 @@
  b CMsgSteamDatagramLinkInstantaneousStats::default_instance_
  b CMsgSteamDatagramLinkLifetimeStats::default_instance_
  b CMsgSteamDatagramNoSession::default_instance_
+ b CMsgSteamDatagramRouterHealth::default_instance_
+ b CMsgSteamDatagramRouterHealth_DataCenter::default_instance_
  b CMsgSteamDatagramRouterPingReply::default_instance_
  b CMsgVector2D::default_instance_
  b CMsgVector::default_instance_
@@ -3985,6 +3991,8 @@
  r CMsgSteamDatagramConnectionStatsRouterToClient::kClientCookieFieldNumber
  r CMsgSteamDatagramConnectionStatsRouterToClient::kClientTimestampFromRouterFieldNumber
  r CMsgSteamDatagramConnectionStatsRouterToClient::kClientTimestampFromServerFieldNumber
+ r CMsgSteamDatagramConnectionStatsRouterToClient::kMigrateRequestIpFieldNumber
+ r CMsgSteamDatagramConnectionStatsRouterToClient::kMigrateRequestPortFieldNumber
  r CMsgSteamDatagramConnectionStatsRouterToClient::kR2CFieldNumber
  r CMsgSteamDatagramConnectionStatsRouterToClient::kRouterGameserverLatencyFieldNumber
  r CMsgSteamDatagramConnectionStatsRouterToClient::kS2CFieldNumber
@@ -4095,11 +4103,23 @@
  r CMsgSteamDatagramNoSession::kSecondsUntilShutdownFieldNumber
  r CMsgSteamDatagramNoSession::kServerTimeFieldNumber
  r CMsgSteamDatagramNoSession::kYourPublicIpFieldNumber
+ r CMsgSteamDatagramRouterHealth::kActiveSessionsFieldNumber
+ r CMsgSteamDatagramRouterHealth::kCpuLoadFieldNumber
+ r CMsgSteamDatagramRouterHealth::kDataCentersFieldNumber
+ r CMsgSteamDatagramRouterHealth::kDataPktsSecFieldNumber
+ r CMsgSteamDatagramRouterHealth::kMagicFieldNumber
+ r CMsgSteamDatagramRouterHealth::kOtherPktsSecFieldNumber
+ r CMsgSteamDatagramRouterHealth::kSecondsUntilShutdownFieldNumber
+ r CMsgSteamDatagramRouterHealth_DataCenter::kDatacenterIdFieldNumber
+ r CMsgSteamDatagramRouterHealth_DataCenter::kStateFieldNumber
  r CMsgSteamDatagramRouterPingReply::kChallengeFieldNumber
  r CMsgSteamDatagramRouterPingReply::kClientCookieFieldNumber
  r CMsgSteamDatagramRouterPingReply::kClientTimestampFieldNumber
  r CMsgSteamDatagramRouterPingReply::kLatencyDatacenterIdsFieldNumber
  r CMsgSteamDatagramRouterPingReply::kLatencyPingMsFieldNumber
+ r CMsgSteamDatagramRouterPingReply::kRelayScoringPenaltyFieldNumber
+ r CMsgSteamDatagramRouterPingReply::kScoringPenaltyDatacenterIdsFieldNumber
+ r CMsgSteamDatagramRouterPingReply::kScoringPenaltyValuesFieldNumber
  r CMsgSteamDatagramRouterPingReply::kSecondsUntilShutdownFieldNumber
  r CMsgSteamDatagramRouterPingReply::kServerTimeFieldNumber
  r CMsgSteamDatagramRouterPingReply::kYourPublicIpFieldNumber
@@ -4551,6 +4571,8 @@
  r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramLinkInstantaneousStats_offsets_
  r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramLinkLifetimeStats_offsets_
  r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramNoSession_offsets_
+ r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramRouterHealth_DataCenter_offsets_
+ r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramRouterHealth_offsets_
  r protobuf_AssignDesc_steamdatagram_5fmessages_2eproto()::CMsgSteamDatagramRouterPingReply_offsets_
  r pulCRCTable
  r s_ExtIndices
@@ -4793,6 +4815,8 @@
  r typeinfo for CMsgSteamDatagramLinkInstantaneousStats
  r typeinfo for CMsgSteamDatagramLinkLifetimeStats
  r typeinfo for CMsgSteamDatagramNoSession
+ r typeinfo for CMsgSteamDatagramRouterHealth
+ r typeinfo for CMsgSteamDatagramRouterHealth_DataCenter
  r typeinfo for CMsgSteamDatagramRouterPingReply
  r typeinfo for CMsgVector
  r typeinfo for CMsgVector2D
@@ -5438,6 +5462,8 @@
  r typeinfo name for CMsgSteamDatagramLinkInstantaneousStats
  r typeinfo name for CMsgSteamDatagramLinkLifetimeStats
  r typeinfo name for CMsgSteamDatagramNoSession
+ r typeinfo name for CMsgSteamDatagramRouterHealth
+ r typeinfo name for CMsgSteamDatagramRouterHealth_DataCenter
  r typeinfo name for CMsgSteamDatagramRouterPingReply
  r typeinfo name for CMsgVector
  r typeinfo name for CMsgVector2D
@@ -6536,6 +6562,8 @@
  r vtable for CMsgSteamDatagramLinkInstantaneousStats
  r vtable for CMsgSteamDatagramLinkLifetimeStats
  r vtable for CMsgSteamDatagramNoSession
+ r vtable for CMsgSteamDatagramRouterHealth
+ r vtable for CMsgSteamDatagramRouterHealth_DataCenter
  r vtable for CMsgSteamDatagramRouterPingReply
  r vtable for CMsgVector
  r vtable for CMsgVector2D
@@ -10379,6 +10407,44 @@
  t CMsgSteamDatagramNoSession::default_instance()
  t CMsgSteamDatagramNoSession::descriptor()
  t CMsgSteamDatagramNoSession::~CMsgSteamDatagramNoSession()
+ t CMsgSteamDatagramRouterHealth::ByteSize() const
+ t CMsgSteamDatagramRouterHealth::CMsgSteamDatagramRouterHealth()
+ t CMsgSteamDatagramRouterHealth::CMsgSteamDatagramRouterHealth(CMsgSteamDatagramRouterHealth const&)
+ t CMsgSteamDatagramRouterHealth::Clear()
+ t CMsgSteamDatagramRouterHealth::CopyFrom(CMsgSteamDatagramRouterHealth const&)
+ t CMsgSteamDatagramRouterHealth::GetCachedSize() const
+ t CMsgSteamDatagramRouterHealth::GetMetadata() const
+ t CMsgSteamDatagramRouterHealth::InitAsDefaultInstance()
+ t CMsgSteamDatagramRouterHealth::IsInitialized() const
+ t CMsgSteamDatagramRouterHealth::MergeFrom(CMsgSteamDatagramRouterHealth const&)
+ t CMsgSteamDatagramRouterHealth::New() const
+ t CMsgSteamDatagramRouterHealth::SerializeWithCachedSizesToArray(unsigned char*) const
+ t CMsgSteamDatagramRouterHealth::SetCachedSize(int) const
+ t CMsgSteamDatagramRouterHealth::SharedCtor()
+ t CMsgSteamDatagramRouterHealth::SharedDtor()
+ t CMsgSteamDatagramRouterHealth::Swap(CMsgSteamDatagramRouterHealth*)
+ t CMsgSteamDatagramRouterHealth::default_instance()
+ t CMsgSteamDatagramRouterHealth::descriptor()
+ t CMsgSteamDatagramRouterHealth::~CMsgSteamDatagramRouterHealth()
+ t CMsgSteamDatagramRouterHealth_DataCenter::ByteSize() const
+ t CMsgSteamDatagramRouterHealth_DataCenter::CMsgSteamDatagramRouterHealth_DataCenter()
+ t CMsgSteamDatagramRouterHealth_DataCenter::CMsgSteamDatagramRouterHealth_DataCenter(CMsgSteamDatagramRouterHealth_DataCenter const&)
+ t CMsgSteamDatagramRouterHealth_DataCenter::Clear()
+ t CMsgSteamDatagramRouterHealth_DataCenter::CopyFrom(CMsgSteamDatagramRouterHealth_DataCenter const&)
+ t CMsgSteamDatagramRouterHealth_DataCenter::GetCachedSize() const
+ t CMsgSteamDatagramRouterHealth_DataCenter::GetMetadata() const
+ t CMsgSteamDatagramRouterHealth_DataCenter::InitAsDefaultInstance()
+ t CMsgSteamDatagramRouterHealth_DataCenter::IsInitialized() const
+ t CMsgSteamDatagramRouterHealth_DataCenter::MergeFrom(CMsgSteamDatagramRouterHealth_DataCenter const&)
+ t CMsgSteamDatagramRouterHealth_DataCenter::New() const
+ t CMsgSteamDatagramRouterHealth_DataCenter::SerializeWithCachedSizesToArray(unsigned char*) const
+ t CMsgSteamDatagramRouterHealth_DataCenter::SetCachedSize(int) const
+ t CMsgSteamDatagramRouterHealth_DataCenter::SharedCtor()
+ t CMsgSteamDatagramRouterHealth_DataCenter::SharedDtor()
+ t CMsgSteamDatagramRouterHealth_DataCenter::Swap(CMsgSteamDatagramRouterHealth_DataCenter*)
+ t CMsgSteamDatagramRouterHealth_DataCenter::default_instance()
+ t CMsgSteamDatagramRouterHealth_DataCenter::descriptor()
+ t CMsgSteamDatagramRouterHealth_DataCenter::~CMsgSteamDatagramRouterHealth_DataCenter()
  t CMsgSteamDatagramRouterPingReply::ByteSize() const
  t CMsgSteamDatagramRouterPingReply::CMsgSteamDatagramRouterPingReply()
  t CMsgSteamDatagramRouterPingReply::CMsgSteamDatagramRouterPingReply(CMsgSteamDatagramRouterPingReply const&)
