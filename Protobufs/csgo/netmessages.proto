@@ -1,4 +1,5 @@
 import "google/protobuf/descriptor.proto";
+import "network_connection.proto";
 
 option cc_generic_services = false;
 
@@ -26,6 +27,7 @@ enum CLC_Messages {
 	clc_SplitPlayerConnect = 16;
 	clc_ClientMessage = 17;
 	clc_CmdKeyValues = 18;
+	clc_MusicOptions = 19;
 	clc_HltvReplay = 20;
 }
 
@@ -70,6 +72,7 @@ enum SVC_Messages {
 	svc_CmdKeyValues = 34;
 	svc_EncryptedData = 35;
 	svc_HltvReplay = 36;
+	svc_FullFrameSplit = 37;
 	svc_Broadcast_Command = 38;
 }
 
@@ -142,7 +145,7 @@ message CNETMsg_NOP {
 }
 
 message CNETMsg_Disconnect {
-	optional string text = 1;
+	optional .ENetworkDisconnectionReason reason = 2 [default = NETWORK_DISCONNECT_INVALID];
 }
 
 message CNETMsg_File {
@@ -426,6 +429,7 @@ message CSVCMsg_PacketEntities {
 	optional int32 baseline = 5;
 	optional int32 delta_from = 6;
 	optional bytes entity_data = 7;
+	optional bool pending_full_frame = 8;
 }
 
 message CSVCMsg_Sounds {
@@ -466,6 +470,31 @@ message CSVCMsg_CmdKeyValues {
 message CSVCMsg_EncryptedData {
 	optional bytes encrypted = 1;
 	optional int32 key_type = 2;
+}
+
+message CSVCMsg_FullFrameSplit {
+	optional int32 tick = 1;
+	optional int32 section = 2;
+	optional int32 total = 3;
+	optional bytes data = 4;
+}
+
+message CSVCMsgList_GameEvents {
+	message event_t {
+		optional int32 tick = 1;
+		optional .CSVCMsg_GameEvent event = 2;
+	}
+
+	repeated .CSVCMsgList_GameEvents.event_t events = 1;
+}
+
+message CSVCMsgList_UserMessages {
+	message usermsg_t {
+		optional int32 tick = 1;
+		optional .CSVCMsg_UserMessage msg = 2;
+	}
+
+	repeated .CSVCMsgList_UserMessages.usermsg_t usermsgs = 1;
 }
 
 message CSVCMsg_HltvReplay {
