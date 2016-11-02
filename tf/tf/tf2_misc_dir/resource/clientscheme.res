@@ -2361,7 +2361,6 @@ Scheme
 				"blur"		"3"
 				"additive"	"1"
 				"antialias" 	"1"
-				"custom"	"1"
 			}
 		}
 		"AchievementTracker_Desc"
@@ -2406,7 +2405,6 @@ Scheme
 				"blur"		"3"
 				"additive"	"1"
 				"antialias" 	"1"
-				"custom"	"1"
 			}
 		}
 		"ItemTrackerScore_InGame"
@@ -2917,7 +2915,6 @@ Scheme
 				"tall"		"11"
 				"weight"	"500"
 				"antialias" 	"1"
-				"custom"	"1"
 			}
 		}
 
@@ -2931,7 +2928,6 @@ Scheme
 				"blur"		"3"
 				"additive"	"1"
 				"antialias" 	"1"
-				"custom"	"1"
 			}
 		}
 

@@ -2449,6 +2449,7 @@ $no_fullbright
 *k_ItemPurgatoryResponse_Finalize_Succeeded
 *matchmaking_casual_low_priority_expiration
 *matchmaking_ranked_low_priority_expiration
++		 ,	
 +CMsgGCMsgMasterSetClientMsgRouting_Response
 +CMsgGCRequestStoreSalesDataUpToDateResponse
 +CMsgGC_Client2GCEconPreviewDataBlockRequest
@@ -5380,6 +5381,7 @@ $no_fullbright
 333?)\
 333?333?
 33750
+33s?8
 350.0
 3A$3A
 3A43A
@@ -8910,6 +8912,7 @@ Allow players to refund credits spent on player and item upgrades.
 Allow spectators to vote?
 Allow the local player to move freely in the benchmark. Only used for debugging. Don'unsigned short use for real benchmarks because it will make the timing inconsistent.
 Allow the match to end when mp_timelimit hits instead of waiting for the end of the current round.
+Allow the server to hibernate when empty.
 Allow use of point_servercommand entities in map. Potentially dangerous for untrusted maps.
 Allow voting?
 AllowDispenser
@@ -11562,6 +11565,7 @@ CAchievementZone::GetDataDescMap()
 CAchievementZone::InputDisable(inputdata_t&)
 CAchievementZone::InputEnable(inputdata_t&)
 CAchievementZone::InputToggle(inputdata_t&)
+CAchievementZone::IsTouching(CBaseEntity const*) const
 CAchievementZone::Precache()
 CAchievementZone::Spawn()
 CAchievementZone::m_DataMap
@@ -12740,7 +12744,7 @@ CBaseEntity::HeadTarget(Vector const&)
 CBaseEntity::HealthFraction() const
 CBaseEntity::ImpactTrace
 CBaseEntity::ImpactTrace(CGameTrace*, int, char const*)
-CBaseEntity::InSameTeam(CBaseEntity*) const
+CBaseEntity::InSameTeam(CBaseEntity const*) const
 CBaseEntity::IncrementInterpolationFrame()
 CBaseEntity::InputAddContext(inputdata_t&)
 CBaseEntity::InputAddOutput(inputdata_t&)
@@ -12793,6 +12797,7 @@ CBaseEntity::IsSimulatingOnAlternateTicks()
 CBaseEntity::IsStandable() const
 CBaseEntity::IsTemplate()
 CBaseEntity::IsTriggered(CBaseEntity*)
+CBaseEntity::IsTruceValidForEnt() const
 CBaseEntity::IsViewable()
 CBaseEntity::IsWearable() const
 CBaseEntity::KeyValue(char const*, Vector const&)
@@ -14245,7 +14250,7 @@ CBaseTrigger::InputEndTouch(inputdata_t&)
 CBaseTrigger::InputStartTouch(inputdata_t&)
 CBaseTrigger::InputToggle(inputdata_t&)
 CBaseTrigger::InputTouchTest(inputdata_t&)
-CBaseTrigger::IsTouching(CBaseEntity*)
+CBaseTrigger::IsTouching(CBaseEntity const*) const
 CBaseTrigger::PassesTriggerFilters(CBaseEntity*)
 CBaseTrigger::PointIsWithin(Vector const&)
 CBaseTrigger::PostClientActive()
@@ -27653,6 +27658,7 @@ CNoGrenadesZone
 CNoGrenadesZone::InputDisable(inputdata_t&)
 CNoGrenadesZone::InputEnable(inputdata_t&)
 CNoGrenadesZone::InputToggle(inputdata_t&)
+CNoGrenadesZone::IsTouching(CBaseEntity const*) const
 CNoGrenadesZone::Precache()
 CNoGrenadesZone::Spawn()
 CNoGrenadesZone::~CNoGrenadesZone()
@@ -27890,6 +27896,7 @@ CObjectSentrygun::GetTimeSinceLastFired() const
 CObjectSentrygun::GetTracerAttachment()
 CObjectSentrygun::GetTurretAngles() const
 CObjectSentrygun::GetUpgradeMetalRequired()
+CObjectSentrygun::IsTruceValidForEnt() const
 CObjectSentrygun::IsUpgrading() const
 CObjectSentrygun::Killed(CTakeDamageInfo const&)
 CObjectSentrygun::MakeCarriedObject(CTFPlayer*)
@@ -34578,6 +34585,7 @@ CTFPlayer::IsRobotCostumeEquipped() const
 CTFPlayer::IsRobotCostumeEquipped() const::ppItemDefWearables
 CTFPlayer::IsThreatAimingTowardMe(CBaseEntity*, float) const
 CTFPlayer::IsThreatFiringAtMe(CBaseEntity*) const
+CTFPlayer::IsTruceValidForEnt() const
 CTFPlayer::IsValidObserverTarget(CBaseEntity*)
 CTFPlayer::IsWormsGearEquipped() const
 CTFPlayer::IsWormsGearEquipped() const::ppItemDefWearables
@@ -50904,7 +50912,7 @@ PointAtEntity
 PointCamera
 PointInNoBuild(Vector const&, CBaseObject const*)
 PointInRespawnFlagZone(Vector const&)
-PointInRespawnRoom(CBaseEntity*, Vector const&)
+PointInRespawnRoom(CBaseEntity const*, Vector const&, bool)
 PointOnLineNearestPoint(Vector const&, Vector const&, Vector const&)
 PointValue
 Points
@@ -51079,6 +51087,7 @@ Q C;^0|
 Q C;_@
 Q F9u
 Q G;~
+Q ff.
 Q$C;^
 Q&A: '%short' answered the Hello from '%short'
 Q&A: '%short' answered the Question from '%short'
@@ -55567,8 +55576,8 @@ ___cxx_global_array_dtor106
 ___cxx_global_array_dtor118
 ___cxx_global_array_dtor119
 ___cxx_global_array_dtor121
-___cxx_global_array_dtor1249
 ___cxx_global_array_dtor125
+___cxx_global_array_dtor1250
 ___cxx_global_array_dtor13
 ___cxx_global_array_dtor14
 ___cxx_global_array_dtor140
@@ -55659,7 +55668,7 @@ ___cxx_global_array_dtor96
 ___cxx_global_var_init11
 ___cxx_global_var_init1165
 ___cxx_global_var_init12
-___cxx_global_var_init1270
+___cxx_global_var_init1271
 ___cxx_global_var_init133
 ___cxx_global_var_init16
 ___cxx_global_var_init169
@@ -56952,6 +56961,7 @@ _template_debug
 _test_it
 _tf_allow_all_team_partner_taunt
 _tf_allow_player_use
+_tf_allow_server_hibernation
 _tf_allow_sliding_taunt
 _tf_allow_taunt_switch
 _tf_always_loser
@@ -75547,6 +75557,7 @@ tf2_ladder_9v9
 tf2_ladder_public
 tf_allow_all_team_partner_taunt
 tf_allow_player_use
+tf_allow_server_hibernation
 tf_allow_sliding_taunt
 tf_allow_taunt_switch
 tf_always_loser
@@ -85999,11 +86010,11 @@ zz_teamplay_waiting_timer
 ~4^_]
 ~9ffff.
 ~;FLu
+~;ff.
 ~;fff.
 ~;fffff.
 ~<dt	
 ~?fff.
-~?ffffff.
 ~@(ud
 ~@(u{
 ~Afff.
