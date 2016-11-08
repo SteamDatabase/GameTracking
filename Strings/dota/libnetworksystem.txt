@@ -56,14 +56,17 @@
    Cannot communicate with gameservers when routers are not accessible.
    Cannot communicate with routers or gameservers without network config.
    Must be able to access %short
+  +%double load balance penalty.
   Comment started here.
   Connection gap %.0fms.
   Field       : 
   Message type: 
+  Migration target.
   Offline in %ds.
   Problem     : 
   Problem     : Enum value did not match field type:
   Problem     : Field is not the right type for this message:
+  Requested migration.
   at depth %double items %double
   possible match %double of %double:  %short %s.%short
  #GameUI_Disconnect_ExitingEngine
@@ -137,6 +140,7 @@
 !NETWORK_DISCONNECT_HLTVRESTRICTED
 !NETWORK_DISCONNECT_LOOPDEACTIVATE
 !eQueryCvarValueStatus_ValueIntact
+!ffff.
 !fffff.
 !ffffff.
 !host_framestarttime_std_deviation
@@ -553,7 +557,6 @@ $ffff.
 (%double) is > avg (%.2f) with stddev*scale (%.2f * %.2f) and threshold (%.2f)
 (%short)%short
 (%u %u %u %u)
-(A9t$
 (A;\$ |
 (CMsgSteamDatagramClientPingSampleRequest
 (IcD$0A
@@ -607,7 +610,6 @@ $ffff.
 ,NETWORK_DISCONNECT_SPLITPACKET_SEND_OVERFLOW
 ,NETWORK_DISCONNECT_STEAM_DENY_BAD_ANTI_CHEAT
 ,NETWORK_DISCONNECT_STEAM_LOGGED_IN_ELSEWHERE
-,fff.
 ,ffff.
 ,ffffff.
 ,k_ESteamDatagramMsg_GameserverSessionRequest
@@ -790,15 +792,14 @@ $ffff.
 9A;>u
 9W(}!H
 9ffff.
+9t;0u
 : Protocol message serialized to signed char size different from what was originally expected.  Perhaps it was modified by another thread during serialization?
 : Tried to copy from signed char message with signed char different type. to: 
 : Tried to merge from signed char message with signed char different type.  to: 
-:-|rKcT20H
 :88888888
 :L9'unsigned short
 :tFL9
 ;0}:H
-;<3t)I
 ;A }(
 ;C ~^
 ;C(u	I
@@ -819,7 +820,6 @@ $ffff.
 <$L9?u
 <-- [%short] split packet seq #%double packet %4i/%4i size %4i mtu %4i from %short%short
 <33s?H
-<@ffff.
 <EOF>
 <fff.
 <fffff.
@@ -1104,7 +1104,7 @@ A+F`~
 A+void(~	I
 A+vp~
 A,;A0~
-A9E0|
+A9D$,}
 A9E<r0
 A9F8}5I
 A9\$0
@@ -1115,7 +1115,7 @@ A;E(u
 A;F |
 A;F8|
 A;F8}
-A;Fx|
+A;Fp|
 A;G ~
 A;G ~|A
 A;G0}
@@ -1160,11 +1160,10 @@ A;_@|
 A;_H|
 A;_P|
 A;_X|
-A;long long|
+A;_p|
 A;long long}
 A;t$0u
 A;u@u
-A;unsigned char|
 A;v0u
 A;vPu
 A;void(u
@@ -1218,6 +1217,8 @@ AWAVSPM
 AZBS0
 Abandoning attempt to contact %s.  %short
 Abandoning attempt to establish session on %s.  %short
+Abandoning attempt to migrate to %short, relay is shutting down soon.
+Abandoning migration to %s.  We obtained signed char session on this relay, but decided to use %short as the primary instead.
 Activates/deactivates net message validation
 AddBool
 AddDouble
@@ -1277,11 +1278,10 @@ BuildDeltaProperties fieldDataBuf
 Builtin
 Byte size calculation and serialization were inconsistent.  This may indicate signed char bug in protocol buffers or it may be caused by concurrent modification of the message.
 C ;B 
+C A;F ~
 C [A^]
 C#@t8L
 C$;CXuSL
-C$???
-C$A;F$~
 C$t.I
 C(A9G
 C(A;F(
@@ -1291,14 +1291,14 @@ C(IcO,I
 C,A;F,uH
 C,[A^]
 C0+K,9
-C09CX|
 C0H;B0t
 C0HcK
 C0[A\A^A_]
 C8A;F8
 C9D'(
 C;<u
-C;D. 
+C;D% u
+C;D5 
 C<;C,
 C@H+X0H
 C@L+X0L
@@ -1767,7 +1767,6 @@ CUtlSymbolLarge
 CVProfNode::EnterScope()
 CVProfNode::ExitScope()
 CVProfNode::GetSubNode(char const*, int, char const*, int)
-CXA9G
 Can'unsigned short 
 Can'unsigned short EnableLoopbackBetweenSockets between socket %double and %double, not enough slots
 Can'unsigned short delay send signed char packet larger than maxroutable size %double/%double
@@ -1791,6 +1790,9 @@ ClearField
 Client %short on same router %short, session ID changed.
 Client Messages
 Cluster %short has invalid router address '%short'
+Cluster '%short' has signed char selection penalty of %dms for load balancing purposes.  (As per %short).
+Cluster '%short' no longer has signed char selection penalty for load balancing purposes.  (As per %short).
+Cluster '%short' selection penalty for load balancing purposes changed from %dms to %dms.  (As per %short).
 CmdLinkAH
 Code of relay cluster to use.  If not empty, we will only use relays in that cluster.  E.g. 'iad'
 Color
@@ -1818,7 +1820,6 @@ Couldn'unsigned short parse default value "
 Couldn'unsigned short resolve offset %double in %short at path %short
 Couldn'unsigned short resolve offset %double in %short at path (%double = '%short')
 Count
-Cp[A^]
 CreateInterface
 CreateSimpleThread failed
 Creating channel for %short:%double as NET_CATEGORY_PEER_TO_PEER
@@ -1838,13 +1839,9 @@ D$XA9
 D$`Lc
 D$lIcD$h
 D$pD9h0t\I
-D9=S)
 D9Q(}
 D9sXu
-D9|30u
-D9|:0t
-D9|>0u
-D;-FV
+D9t:0t
 D;H(|
 D;I(|9L9
 D;`,|
@@ -1893,10 +1890,10 @@ Drops next __int128 packets on client
 Dump UDP packets summary to console
 Dump non-loopback udp only
 Duplicate entry %short already exists in field dict!
+E A9G
 E$IcE 
 E(IcL$,H
 E,IcE(
-E0A9EX|
 E9l$(
 E9w0M
 E9|$$
@@ -1921,7 +1918,6 @@ E;~ A
 E;~8A
 E;~HA
 E;~hu
-E<A;E
 E<IcE8
 E@F;|
 E@L+h0
@@ -1933,17 +1929,15 @@ ERROR! SendData reliable data too big (%int)
 ERROR: Field %short::%short unable to deduce unserializer for type (%short)!
 ESplitScreenMessageType
 ESteamDatagramMsgID
-EXA9F
 E\IcEX
 E`H9B
 EconItemToolModel_001
-EdA;E<
 Encountered 2 fields "%short" and "%short" in struct "%short" using the same change callback with different change callback types!
 Encountered message on net channel %short with an invalid network category! [net message %short]
 End of input was reached and '[' was not matched by ']'
 End of input was reached and '{' was not matched by '}'
 End-of-file inside block comment.
-End-to-end connection: %short
+End-to-end connection to data center '%short': %short
 EngineServiceMgr001
 Entities
 Enum type "
@@ -1999,6 +1993,7 @@ F(@t3H
 F(L;long double
 F(L;unsigned long
 F,IcF(
+F09C0|
 F0D9k(
 F0Ic^
 F3,0I
@@ -2181,12 +2176,14 @@ HasField
 Hc>Hi
 Hc@XHi
 Hc@pH
+Hc@pI
 HcC H
 HcC(I9
 HcCPH
 HcCdH=
 HcG,H
 HcG0H
+HcN(M
 HcN01
 HcO(H
 HcO,I
@@ -2270,7 +2267,6 @@ IcG(H9
 IcG,I
 IcG,L
 IcG8A
-IcL$ M
 IcL$(H9
 IcL$(L
 IcL$,H
@@ -2308,6 +2304,14 @@ Ifffff.
 Ignoring %short, was in previous state only, now outside of valid range for field
 Ignoring packet from %short:%double as it is not from Steam Channel P2P
 Ignoring packet from %short:%double as remote is from signed char game server
+Ignoring request by %short to migrate to %s.  Failed to allocate resources to talk to that relay.
+Ignoring request by %short to migrate to %s.  Target address appears to be in signed char different relay cluster?  (%short)
+Ignoring request by %short to migrate to %s.  We already know that relay is shutting down very soon.
+Ignoring request by %short to migrate to %s.  We don'unsigned short recognize that target address in the network config.
+Ignoring request by %short to migrate to %s.  We had problems communicating with that relay %.1fs ago.
+Ignoring/abandoning migration request.  Current primary %short is requesting to send us to %short, but our migration target is %short?
+Ignoring/abandoning migration request.  Current primary %short no longer has signed char request active
+Ignoring/abandoning migration request.  SDR client deactivated, or no primary selected
 Import "
 Incorrect client challenge in GameserverSessionEstablished from %s.  Reply could be spoofed, ignoring.
 Incorrect client challenge in RouterPingReply from %s.  Reply could be spoofed, ignoring.
@@ -2353,9 +2357,10 @@ Invalid wire type for CPPTYPE_MESSAGE:
 Invalid wire type for CPPTYPE_UINT32: 
 Invalid wire type for CPPTYPE_UINT64: 
 Jc<	H
-JcD20H
 Jfffff.
 Jitter fakelag packet time
+K A9L$ |
+K A9M |
 K [A^]
 K(Ict$,L
 K([A^]
@@ -2370,6 +2375,7 @@ K8;C<}}
 KHIcT$,L
 KH[A^]
 KcD'0H
+KcD,0H
 KcD=0H
 KeyValueCache001
 Kfff.
@@ -2382,10 +2388,11 @@ L$3$?
 L$8A;D$<
 L$@L+a0I
 L$`I;L$ht
-L.0Hc
-L95k*
-L95m|
+L50Mc
+L95Hi%
+L95aG$
 L9v@u
+L= A9M }
 L?333?
 LABEL_OPTIONAL
 LABEL_REPEATED
@@ -2396,6 +2403,7 @@ Label
 Lag all incoming network data (including loopback) by this many milliseconds.
 LcO,D
 Lco(M
+Lc{ I
 Leaked channel %short remote %short
 LightingBuilderMgr001
 Like net_showmsg, but only spew reliable messages
@@ -2479,7 +2487,6 @@ Mc4$A9
 Mc4$D
 Mc4$M
 McG,M
-Mct$ I
 Mcu I
 Mcu M
 Mc|$ M
@@ -2502,6 +2509,7 @@ ModelDocCommandSystem001
 Multiple extension registrations for type "
 MutableRawRepeatedField
 MutableRepeatedMessage
+N 9J |
 N Hc<
 N ffff.
 N@H+q0H
@@ -2596,6 +2604,8 @@ Number of fragments for signed char splitpacket that can be sent per frame
 Number of packets per second that threaded socket pump algorithm allows from client.
 Number of seconds over which the threaded socket pump algorithm will fully recover client ratelimit.
 Numbers starting with leading zero must be in octal.
+O 9N |
+O A9L$ 
 O Hc4
 O Hc<
 O Lc,
@@ -2614,6 +2624,8 @@ Option must not use reserved name "uninterpreted_option".
 Order,'From','To',Bits
 Other Players
 Overrides IP for multihomed hosts
+P A9U 
+P A9U |
 P(;Q(}_H
 P(;Q(}pI
 P@P@@
@@ -2717,6 +2729,7 @@ PushTwoLeftDeltaZero
 PushTwoPack5LeftDeltaN
 PushTwoPack5LeftDeltaOne
 PushTwoPack5LeftDeltaZero
+Q A9W |
 QAngle
 Quaternion
 QueuedLoaderVersion001
@@ -2760,6 +2773,7 @@ Received malformed CMsgSteamDatagramPingReply from %short
 Received malformed GameserverPingReply from %short
 Received packet from non-internet address
 Received packet of invalid size %double from %short
+Received request to migrate to %short from %s.
 Received successful communication from Steam Datagram routing cluster.
 Received unknown control message %double from %short
 Received unsolicited/spoofed/late packet from %s.  Ignored.
@@ -2795,6 +2809,7 @@ RouterPingReply from %short, %dms
 RouterQuality
 Routing cluster %short has missing or invalid 'addresses' list
 RoutingCluster
+S A9U |
 S$HcK
 S(A;W(uhH
 S(Ict$,L
@@ -2911,6 +2926,7 @@ Spew serializer counts
 Spew serializer info
 Spew signed char warning if packet loss percentage is above this threshold
 SplitPacket
+Started migration to %short at request of current primary %short
 Starting ping measurement
 Stats
 StatsService_001
@@ -2948,6 +2964,9 @@ T *CUtlLeanVectorImpl<CUtlLeanVectorFixedGrowableBase<CEncodeInfo, 6, short>, CE
 T *CUtlLeanVectorImpl<CUtlLeanVectorFixedGrowableBase<CFieldListEncoderIterator::CSerializerLookup, 6, short>, CFieldListEncoderIterator::CSerializerLookup, short>::AddToTailGetPtr() [B = CUtlLeanVectorFixedGrowableBase<CFieldListEncoderIterator::CSerializerLookup, 6, short>, T = CFieldListEncoderIterator::CSerializerLookup, I = short]
 T *CUtlLeanVectorImpl<CUtlLeanVectorFixedGrowableBase<CFieldPathReconstruct_t, 3, short>, CFieldPathReconstruct_t, short>::AddToTailGetPtr() [B = CUtlLeanVectorFixedGrowableBase<CFieldPathReconstruct_t, 3, short>, T = CFieldPathReconstruct_t, I = short]
 T *CUtlLeanVectorImpl<CUtlLeanVectorFixedGrowableBase<unsigned int, 3, short>, unsigned int, short>::AddToTailGetPtr() [B = CUtlLeanVectorFixedGrowableBase<unsigned int, 3, short>, T = unsigned int, I = short]
+T$ 9Q
+T$ 9S |
+T$ A9W |
 T$ Hc
 T$0E1
 TBRAp
@@ -3036,6 +3055,7 @@ Use network sockets layer even for listen server local player'short packets (mul
 Use signed char high priority thread to send queued packets out instead of sending them each frame.
 User Messages
 UserInfoChangeService_001
+V A9W |
 V$A+V Hc
 V8ffffff.
 VATAp
@@ -3095,7 +3115,9 @@ Vector4D
 VisBuilder_001
 Voice
 VoiceDataFormat_t
-V|A+VxHc
+VtA+VpHc
+W 9S |
+W A9T$ |
 W$A+W Hc
 W$IcO
 WA;v8u
@@ -3176,18 +3198,15 @@ Z0;Z@
 \uRMc
 ] A;]0
 ]ffffff.
-^ A;^$um
+^ A;^$uj
 ^(A;^,ug
 ^(HcC
 ^,A+^(I
-^@A;^Du
 ^LA+^H~jI
 ^V_TY
 ^\A+^X~fI
 ^fffff.
-^hA;^lum
-^lA+^unsigned char~__int128
-^xA;^|um
+^pA;^tuj
 _ I;_(tG1
 _AssertMsg_ConditionFailed
 _BinaryProperties_GetValue
@@ -3498,7 +3517,6 @@ cull rule %double:  %short
 cull rule %double:  %short -> %short
 culling for client %double of %double rules
 cvars
-d0$Hc
 data_centers
 data_compressed
 data_pkts_sec
@@ -3523,7 +3541,6 @@ discarded packet, invalid header
 discarding packet due to reliable payload issue
 double
 double_value
-doublecomplex ;C<
 double|,Hc
 double|5Hc
 down_cast
@@ -3585,6 +3602,7 @@ float
 float == NULL || dynamic_cast<To>(float) != NULL
 float32
 float64
+float@E;fDu
 float@LcV(H
 format
 fp_trace
@@ -3913,7 +3931,6 @@ outgoing
 outgoing_acknowledged
 output specified is NULL
 output_type
-p L;long double
 p RBRBRAp
 p ^BRB`
 p `RARAp
@@ -4014,6 +4031,7 @@ quality_ntile_2nd
 quality_ntile_50th
 quality_ntile_5th
 queued
+r A9t$ |
 r ffffff.
 r4we1
 r8wa1
@@ -4027,7 +4045,6 @@ receivingclients
 recipientList
 registered: 
 relative
-relay_scoring_penalty
 reliable
 reliable_sound
 remote_addr
@@ -4048,6 +4065,7 @@ savegamename
 schemasystem
 score
 scoring_penalty_datacenter_ids
+scoring_penalty_relay_cluster
 scoring_penalty_values
 sdpiD
 sdt_server_fakeloss_recv
@@ -4256,6 +4274,7 @@ tMff.
 tSfff.
 tVfff.
 tXffff.
+t_KcT/0H
 table_id
 text format contains deprecated field "
 tfI9D$Xt_H
@@ -4447,8 +4466,8 @@ yxxxxxxxI
 |$0L9
 |$8H9
 |$@H9
-|B~3L
 |CnfE
+|Nfffff.
 |fff.
 |hfffff.
 }	[A\A^A_]
@@ -4464,7 +4483,7 @@ yxxxxxxxI
 ~!ff.
 ~"A9\$$|
 ~$fffff.
-~(Hc<
+~)Hc<
 ~)ff.
 ~+D;}
 ~-ffff.
@@ -4478,7 +4497,6 @@ yxxxxxxxI
 ~Jffff.
 ~Offf.
 ~Uffffff.
-~afff.
 ~cff.
 ~fIcM(D
 ~nHcCdH
