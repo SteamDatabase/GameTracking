@@ -40,12 +40,12 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"image"			""
-		"scaleImage"	"1"	
+		"scaleImage"	"1"
 		"color_outline"	"52 48 45 255"
 	}
 
 	"AvatarTextLabel"
-	{	
+	{
 		"ControlName"	"CExLabel"
 		"fieldName"		"AvatarTextLabel"
 		"fgcolor"		"56 47 29 255"
@@ -66,11 +66,17 @@
 	}
 
 	"TextLabel"
-	{	
+	{
 		"ControlName"	"CExLabel"
 		"fieldName"		"TextLabel"
 		"fgcolor"		"56 47 29 255"
 		"fgcolor_override" "56 47 29 255"
+		"if_high_priority"
+		{
+			"fgcolor"			"BrightYellow"
+			"fgcolor_override"	"BrightYellow"
+			"font"				"StorePromotionsTitle"
+		}
 		"xpos"			"7"
 		"ypos"			"7"
 		"zpos"			"2"

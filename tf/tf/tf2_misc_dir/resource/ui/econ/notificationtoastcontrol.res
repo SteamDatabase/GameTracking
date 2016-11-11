@@ -12,10 +12,14 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"border"		"NotificationDefault"
+		"if_high_priority"
+		{
+			"border"		"NotificationHighPriority"
+		}
 		"paintborder"			"1"
 		"paintbackground"		"0"
 		"PaintBackgroundType"	"0"
-		"bgcolor_override"		"208 193 162 255"
+		"defaultbgcolor_override"		"208 193 162 255"
 	}
 
 	"DeleteButton"
@@ -29,7 +33,7 @@
 		"tall"			"20"
 		"autoResize"	"0"
 		"pinCorner"		"0"
-		"visible"		"1"
+		"visible"		"0"
 		"enabled"		"1"
 		"tabPosition"	"0"
 		"labeltext"		""
@@ -41,16 +45,16 @@
 		"sound_depressed"	"UI/buttonclick.wav"
 		"sound_released"	"UI/buttonclickrelease.wav"
 		"Command"		"delete"
-		
+
 		"border_default"	"MainMenuMiniButtonDefault"
 		"border_armed"		"MainMenuMiniButtonArmed"
 		"paintbackground"	"0"
-		
-		"defaultBgColor_override"	"100 90 85 255"		
+
+		"defaultBgColor_override"	"100 90 85 255"
 		"defaultFgColor_override" "46 43 42 255"
 		"armedFgColor_override" "235 226 202 255"
 		"depressedFgColor_override" "46 43 42 255"
-		
+
 		"image_drawcolor"	"238 54 36 255"
 		"image_armedcolor"	"200 80 60 255"
 		"SubImage"
@@ -66,7 +70,7 @@
 			"enabled"		"1"
 			"image"			"glyph_close_X"
 			"scaleImage"	"1"
-		}				
+		}
 	}
 
 	"TriggerButton"
@@ -74,6 +78,10 @@
 		"ControlName"	"CExImageButton"
 		"fieldName"		"TriggerButton"
 		"xpos"			"144"
+		"if_one_button"
+		{
+			"xpos"	"165"
+		}
 		"ypos"			"5"
 		"zpos"			"10"
 		"wide"			"20"
@@ -96,12 +104,12 @@
 		"border_default"	"MainMenuMiniButtonDefault"
 		"border_armed"		"MainMenuMiniButtonArmed"
 		"paintbackground"	"0"
-		
+
 		"defaultBgColor_override"	"0 90 85 255"
 		"defaultFgColor_override"	"255 255 255 255"
 		"armedFgColor_override"		"235 226 202 255"
 		"depressedFgColor_override" "46 43 42 255"
-		
+
 		"image_drawcolor"	"255 255 255 255"
 		"image_armedcolor"	"200 80 60 255"
 		"SubImage"
@@ -117,14 +125,18 @@
 			"enabled"		"1"
 			"image"			"glyph_view"
 			"scaleImage"	"1"
-		}				
-	}		
+		}
+	}
 
 	"AcceptButton"
 	{
 		"ControlName"	"CExImageButton"
 		"fieldName"		"AcceptButton"
 		"xpos"			"144"
+		"if_one_button"
+		{
+			"xpos"	"165"
+		}
 		"ypos"			"5"
 		"zpos"			"10"
 		"wide"			"20"
@@ -147,12 +159,12 @@
 		"border_default"	"MainMenuMiniButtonDefault"
 		"border_armed"		"MainMenuMiniButtonArmed"
 		"paintbackground"	"0"
-		
+
 		"defaultBgColor_override"	"100 90 85 255"
 		"defaultFgColor_override"	"255 255 255 255"
 		"armedFgColor_override" "235 226 202 255"
 		"depressedFgColor_override" "46 43 42 255"
-		
+
 		"image_drawcolor"	"255 255 255 255"
 		"image_armedcolor"	"200 80 60 255"
 		"SubImage"
@@ -168,8 +180,8 @@
 			"enabled"		"1"
 			"image"			"glyph_view"
 			"scaleImage"	"1"
-		}	
-	}		
+		}
+	}
 
 	"DeclineButton"
 	{
@@ -198,12 +210,12 @@
 		"border_default"	"MainMenuMiniButtonDefault"
 		"border_armed"		"MainMenuMiniButtonArmed"
 		"paintbackground"	"0"
-		
-		"defaultBgColor_override"	"100 90 85 255"		
+
+		"defaultBgColor_override"	"100 90 85 255"
 		"defaultFgColor_override" "46 43 42 255"
 		"armedFgColor_override" "235 226 202 255"
 		"depressedFgColor_override" "46 43 42 255"
-		
+
 		"image_drawcolor"	"238 54 36 255"
 		"image_armedcolor"	"200 80 60 255"
 		"SubImage"
@@ -219,6 +231,6 @@
 			"enabled"		"1"
 			"image"			"glyph_close_X"
 			"scaleImage"	"1"
-		}				
+		}
 	}
 }

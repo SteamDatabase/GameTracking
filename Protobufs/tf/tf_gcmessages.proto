@@ -135,6 +135,7 @@ enum ETFGCMsg {
 	k_EMsgGC_RematchRequestResponse = 6533;
 	k_EMsgGC_SurveyQuestionRequest = 6534;
 	k_EMsgGC_SurveyQuestionResponse = 6535;
+	k_EMsgGC_TFClientInit = 6536;
 	k_EMsgGCDev_GrantWarKill = 10001;
 }
 
@@ -1117,19 +1118,25 @@ message CMsgTFXPSourceBreakdown {
 	repeated .CMsgTFXPSource sources = 1;
 }
 
+message CMsgTFClientInit {
+	optional uint32 client_version = 1;
+	optional int32 language = 2;
+}
+
 message CMsgGCNotification {
 	enum NotificationType {
 		NOTIFICATION_REPORTED_PLAYER_BANNED = 0;
 		NOTIFICATION_CUSTOM_STRING = 1;
 		NOTIFICATION_MM_BAN_DUE_TO_EXCESSIVE_REPORTS = 2;
 		NOTIFICATION_REPORTED_PLAYER_WAS_BANNED = 3;
-		NOTIFICATION_NUM_TYPES = 4;
+		NOTIFICATION_SUPPORT_MESSAGE = 4;
+		NOTIFICATION_NUM_TYPES = 5;
 	}
 
 	optional uint64 notification_id = 1 [(key_field) = true];
 	optional uint32 account_id = 2;
 	optional fixed32 expiration_time = 3;
-	optional .CMsgGCNotification.NotificationType type = 4 [default = NOTIFICATION_REPORTED_PLAYER_BANNED];
+	optional .CMsgGCNotification.NotificationType type = 4 [default = NOTIFICATION_CUSTOM_STRING];
 	optional string notification_string = 5;
 }
 

@@ -250,6 +250,7 @@
  @CHLTVClientState
  @P000p p
  ALLREADY
+ B		PB	
  BL update,
  CBaseClient::ProcessClassInfo
  CBaseClient::ProcessClassInfo(done)
@@ -2307,7 +2308,7 @@ $vertexcolor
 1234567890123
 127.0.0.1
 131072
-13:26:11
+13:03:34
 1440.0
 16.6666666667
 1750.0f
@@ -6488,7 +6489,7 @@ CL_CopyNewEntity->fromBuf
 CL_CopyNewEntity->newBuf
 CL_CopyNewEntity: GetClassBaseline(%double) failed.
 CL_CopyNewEntity: invalid class index (%double).
-CL_CopyNewEntity: m_nNewEntity >= MAX_EDICTS
+CL_CopyNewEntity: u.m_nNewEntity < 0 || m_nNewEntity >= MAX_EDICTS
 CL_CreateEntityReportPanel(vgui::Panel*)
 CL_CreateTextureListPanel(vgui::Panel*)
 CL_DecayLights()
@@ -6558,7 +6559,8 @@ CL_QueueEvent: missing client receive table for %s.
 CL_QueueEvent: missing server class info for %i.
 CL_ReadPackets
 CL_ReadPackets(bool)
-CL_ReadPreserveEnt: u.m_nNewEntity == MAX_EDICTS
+CL_ReadPreserveEnt: u.m_nNewEntity < 0 || u.m_nNewEntity == MAX_EDICTS
+CL_ReadPreserveEnt: u.m_nNewEntity == MAX_EDICTS || u.m_nNewEntity < 0
 CL_ReallocateDynamicData(int)
 CL_RecordAddEntity(int)
 CL_RecordDeleteEntity(int, ClientClass*)
@@ -13949,6 +13951,7 @@ Make Target
 Make sure entities correctly report whether or not their network data has changed.
 MakeSkyVec(float, float, int, float, Vector&, Vector2D&)
 Malformed fragment ofs %int len %double, buffer size %double from %short
+Malformed message in CBaseClientState::ProcessCreateStringTable
 Map "%short" does not have cubemaps!
 Map '%short'
 Map '%short' missing or invalid
@@ -14431,7 +14434,7 @@ Not writing any more minidumps for this tick.
 Note that having this enabled, even if never triggered, impacts performance.  Set to zero when not in use.
 Note: Waiting for the next changelevel to apply the current value.
 Note: should use "addip" instead of "banip".
-Nov  2 2016
+Nov 10 2016
 Null client pointer in ClientDropped!
 NumEdicts: %double
 Number of console lines to overlay for debugging.
@@ -17013,7 +17016,7 @@ VL;WLu.9
 VLV_INTERNAL
 VLV_INTERNAL                    
 VMDLLIB001
-VMaterialSystem080
+VMaterialSystem081
 VMatrix::SetupMatrixOrgAngles(Vector const&, QAngle const&)
 VMatrix::operator=(VMatrix const&)
 VModelInfoClient006
