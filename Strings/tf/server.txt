@@ -98,6 +98,7 @@
 	(unsigned long long=up=green, ...=forward=blue, long long=left=red). 
 	0  0
 	;H r4;H$w/
+	;H r6;H$w1
 	@@ @P
 	Arguments:	full - enables all debug information
 	Arguments:   	{entity_name} / {class_name}
@@ -1089,7 +1090,6 @@ $POSIX
 $WIN32
 $WINDOWS
 $X360
-$X9< 
 $^_[]
 $alphatest
 $crackmaterial
@@ -3436,7 +3436,7 @@ $no_fullbright
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gamestats_shared.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gc_api.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gc_server.o
-/Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gcmessages-9AD0215F001616F7.o
+/Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gcmessages-EB73BBFAB8A8620C.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_gcmessages.pb.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_generic_bomb.o
 /Users/buildbot/buildslave/rel_hl2_osx/build/src/build/buildbot_osx.build/Release/server (tf).build/Objects-normal/i386/tf_glow.o
@@ -5164,6 +5164,7 @@ $no_fullbright
 /usr/lib/libgcc_s.1.dylib
 /usr/lib/libiconv.2.dylib
 /usr/lib/libstdc++..dylib
+0		01	
 0   00   0000@0@0
 0  0   0P
 0  0p 
@@ -5531,6 +5532,7 @@ $no_fullbright
 :::::::::::::8::::Btt
 :ffff.
 :fffff.
+;*XA= 
 ;48t,
 ;9tTJ
 ;;unsigned short)9
@@ -9261,15 +9263,10 @@ BADGE_LEVELED
 BEHAVIOR
 BER decode error
 BIgnoreConvarChangeInPVEMode()
-BInitGameModes(): map %short in category %short does not exist in the master maps list!
-BInitGameModes(): missing map name for game type '%short' slot %s.
 BInitGameModes(): unable to find map stamp definition '%short' for map '%short'.
-BInitGameModes(): unknown quickplay match type '%short' for map '%short'.
 BInitMMCategories: missing 'max_excludes' for mm category type '%short'
 BInitMMCategories: unknown mm category type '%short'
 BInitMaps(): ERROR!! No valid maps for game type %short (at least one must be "enabled" in _maps.txt).
-BInitMaps(): duplicate map name '%short' with quickplay_type enabled.
-BInitMaps(): maps '%short' and '%short' have the same identifier: 0x%08x.
 BInitMaps(): missing map name for master map entry %s.
 BInitMaps(): unknown game type '%short'
 BLAST
@@ -14964,8 +14961,11 @@ CCaptureZoneShim::Touch
 CCaptureZoneShim::Touch(CBaseEntity*)
 CCaptureZoneShim::~CCaptureZoneShim()
 CCaptureZone_DataDescInit::g_DataMapHolder
+CCasualCriteriaHelper: Attempting to set map %short as selected, but not in any valid game modes!
+CCasualCriteriaHelper: Map %short is selected, but not in any valid game modes!
 CCasualCriteriaHelper::CCasualCriteriaHelper(CMsgCasualMatchmakingSearchCriteria const&)
 CCasualCriteriaHelper::GetCasualCriteria() const
+CCasualCriteriaHelper::IsMapInValidCategory(unsigned int) const
 CCasualCriteriaHelper::SetMapSelected(unsigned int, bool)
 CCasualMatchGroupDescription
 CCasualMatchGroupDescription::BMatchIsSafeToLeaveForPlayer(CMatchInfo const*, CMatchInfo::PlayerMatchData_t const*) const
@@ -33823,7 +33823,8 @@ CTFItemSchema::CreateEconToolImpl(char const*, char const*, char const*, item_ca
 CTFItemSchema::CreateQuestDefinition()
 CTFItemSchema::FindMvmMissionByName(char const*) const
 CTFItemSchema::GetCustomExpirationDate(char const*) const
-CTFItemSchema::GetMapForName(char const*) const
+CTFItemSchema::GetGameCategory(EGameCategory) const
+CTFItemSchema::GetMasterMapDefByIndex(unsigned int) const
 CTFItemSchema::GetMasterMapDefByName(char const*) const
 CTFItemSchema::GetWarDefinitionByIndex(unsigned char) const
 CTFItemSchema::Reset()
@@ -39020,6 +39021,7 @@ CUtlRBTree<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short, C
 CUtlRBTree<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlString, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
 CUtlRBTree<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlString, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::Unlink(unsigned short)
 CUtlRBTree<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlString, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
+CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t const&) const
 CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t const&, unsigned short&, bool&)
 CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t const&)
 CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
@@ -40597,6 +40599,7 @@ CUtlVector<CWheelOfDoom::WOD_BaseEffect*, CUtlMemory<CWheelOfDoom::WOD_BaseEffec
 CUtlVector<CWheelOfDoom::WOD_Dance::MerasmusCreateInfo_t, CUtlMemory<CWheelOfDoom::WOD_Dance::MerasmusCreateInfo_t, int> >::AddToTail(CWheelOfDoom::WOD_Dance::MerasmusCreateInfo_t const&)
 CUtlVector<Color, CUtlMemory<Color, int> >::GrowVector(int)
 CUtlVector<Color, CUtlMemory<Color, int> >::~CUtlVector()
+CUtlVector<EGameCategory, CUtlMemory<EGameCategory, int> >::~CUtlVector()
 CUtlVector<EntityDamageHistory_t, CUtlMemory<EntityDamageHistory_t, int> >::~CUtlVector()
 CUtlVector<EntityHistory_t, CUtlMemory<EntityHistory_t, int> >::~CUtlVector()
 CUtlVector<GCSDK::CJobMgr::JobSleeping_t, CUtlMemory<GCSDK::CJobMgr::JobSleeping_t, int> >::InsertBefore(int)
@@ -40678,6 +40681,9 @@ CUtlVector<LeaderboardEntry_t*, CUtlMemory<LeaderboardEntry_t*, int> >::GrowVect
 CUtlVector<LeaderboardEntry_t*, CUtlMemory<LeaderboardEntry_t*, int> >::~CUtlVector()
 CUtlVector<LevelInfo_t, CUtlMemory<LevelInfo_t, int> >::GrowVector(int)
 CUtlVector<LevelInfo_t, CUtlMemory<LevelInfo_t, int> >::~CUtlVector()
+CUtlVector<MapDef_t const*, CUtlMemory<MapDef_t const*, int> >::AddToTail(MapDef_t const* const&)
+CUtlVector<MapDef_t const*, CUtlMemory<MapDef_t const*, int> >::~CUtlVector()
+CUtlVector<MapDef_t*, CUtlMemory<MapDef_t*, int> >::PurgeAndDeleteElements()
 CUtlVector<MapDef_t*, CUtlMemory<MapDef_t*, int> >::~CUtlVector()
 CUtlVector<MapNameAndPlaytime_t, CUtlMemory<MapNameAndPlaytime_t, int> >::~CUtlVector()
 CUtlVector<MvMMap_t, CUtlMemory<MvMMap_t, int> >::Purge()
@@ -40710,12 +40716,8 @@ CUtlVector<ResponseContext_t, CUtlMemory<ResponseContext_t, int> >::GrowVector(i
 CUtlVector<ResponseContext_t, CUtlMemory<ResponseContext_t, int> >::~CUtlVector()
 CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> >::InsertMultipleBefore(int, int)
 CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> >::~CUtlVector()
-CUtlVector<SchemaGameCategory_t const*, CUtlMemory<SchemaGameCategory_t const*, int> >::AddToTail(SchemaGameCategory_t const* const&)
 CUtlVector<SchemaGameCategory_t const*, CUtlMemory<SchemaGameCategory_t const*, int> >::~CUtlVector()
 CUtlVector<SchemaMMGameModeRestriction_t, CUtlMemory<SchemaMMGameModeRestriction_t, int> >::~CUtlVector()
-CUtlVector<SchemaMap_t const*, CUtlMemory<SchemaMap_t const*, int> >::AddToTail(SchemaMap_t const* const&)
-CUtlVector<SchemaMap_t const*, CUtlMemory<SchemaMap_t const*, int> >::~CUtlVector()
-CUtlVector<SchemaMap_t*, CUtlMemory<SchemaMap_t*, int> >::~CUtlVector()
 CUtlVector<ScriptedNPCInteraction_t, CUtlMemory<ScriptedNPCInteraction_t, int> >::GrowVector(int)
 CUtlVector<ScriptedNPCInteraction_t, CUtlMemory<ScriptedNPCInteraction_t, int> >::InsertBefore(int)
 CUtlVector<ScriptedNPCInteraction_t, CUtlMemory<ScriptedNPCInteraction_t, int> >::InsertMultipleBefore(int, int)
@@ -48864,6 +48866,7 @@ MannVsMachineStats_SetPopulationFile(char const*)
 ManualAccelSpeed
 ManualDecelSpeed
 ManualSpeedChanges
+Map %short listed in game mode %short doesn'unsigned short exist!
 Map Name
 Map cycle file "%short" contains no valid maps or cannot be read. Cannot pick signed char random map.
 Map cycle file '%short' was not found.
@@ -51860,6 +51863,7 @@ Schedule not found
 Schedule: %short (time: %.2f)
 ScheduledFollowPath to goal entity %short failed
 ScheduledMoveToGoalEntity to goal entity %short failed
+SchemaGameCategory_t::PassesRestrictions() const
 Scorch
 Score
 Score difference between teams before server changes maps
@@ -52424,7 +52428,6 @@ SetupMatrixAxisRot(Vector const&, float)
 SetupMatrixIdentity()
 SetupMatrixOrgAngles(Vector const&, QAngle const&)
 SetupParentsForSpawnList(int, HierarchicalSpawn_t*)
-Sffff.
 Sffffff.
 Sh;Slu}
 ShadowCastDistThink
@@ -54158,6 +54161,7 @@ Texture: %short
 TextureScale
 TextureScroll
 Tfff.
+Tfffff.
 Tffffff.
 ThatGuy
 The Administrator
@@ -57787,7 +57791,6 @@ adjustment
 adult male human
 advanced
 advanced_map_complete
-advanced_only
 affiliation
 afterburn_immunity
 ai_LOS_mode
@@ -57944,7 +57947,6 @@ alive_state
 all_class
 all_same_class
 all_same_slot
-all_users
 allangles
 allowClassChanges
 allowDemoman
@@ -73789,7 +73791,6 @@ queue_position
 queue_size
 quickplay_game_type
 quickplay_map
-quickplay_type
 r$+r 
 r$;p$
 r,+r(
@@ -74205,7 +74206,6 @@ s_possibleBot
 s_possibleFrame
 s_possibleHealth
 s_pszDisguiseProps
-s_pszQuickplayMatchTypes
 s_pszRuneIcons
 s_pszStrangeRestrictionTypes
 s_pszTauntRPSParticleNames
@@ -74894,6 +74894,7 @@ stats
 stats.txt
 stats_kv
 stats_resetround
+statsidentifier
 status
 status_code
 stay_time
@@ -86027,7 +86028,6 @@ zz_teamplay_waiting_timer
 ~!ffff.
 ~$?unsigned short	
 ~&fffff.
-~'ffffff.
 ~,2t	
 ~/ffffff.
 ~2fff.

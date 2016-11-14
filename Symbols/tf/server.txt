@@ -23242,6 +23242,7 @@
  T CCaptureZoneShim::~CCaptureZoneShim()
  T CCasualCriteriaHelper::CCasualCriteriaHelper(CMsgCasualMatchmakingSearchCriteria const&)
  T CCasualCriteriaHelper::GetCasualCriteria() const
+ T CCasualCriteriaHelper::IsMapInValidCategory(unsigned int) const
  T CCasualCriteriaHelper::SetMapSelected(unsigned int, bool)
  T CCasualMatchGroupDescription::BMatchIsSafeToLeaveForPlayer(CMatchInfo const*, CMatchInfo::PlayerMatchData_t const*) const
  T CCasualMatchGroupDescription::BPlayWinMusic(int, bool) const
@@ -38357,7 +38358,8 @@
  T CTFItemSchema::CreateQuestDefinition()
  T CTFItemSchema::FindMvmMissionByName(char const*) const
  T CTFItemSchema::GetCustomExpirationDate(char const*) const
- T CTFItemSchema::GetMapForName(char const*) const
+ T CTFItemSchema::GetGameCategory(EGameCategory) const
+ T CTFItemSchema::GetMasterMapDefByIndex(unsigned int) const
  T CTFItemSchema::GetMasterMapDefByName(char const*) const
  T CTFItemSchema::GetWarDefinitionByIndex(unsigned char) const
  T CTFItemSchema::Reset()
@@ -42820,6 +42822,7 @@
  T CUtlRBTree<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlString, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
  T CUtlRBTree<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlString, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::Unlink(unsigned short)
  T CUtlRBTree<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlString, float, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, float, unsigned short>::Node_t, unsigned short>, unsigned short> >::~CUtlRBTree()
+ T CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t const&) const
  T CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t const&, unsigned short&, bool&)
  T CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Insert(CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t const&)
  T CUtlRBTree<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short, CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<EGameCategory, SchemaGameCategory_t*, unsigned short>::Node_t, unsigned short>, unsigned short> >::InsertRebalance(unsigned short)
@@ -44303,6 +44306,7 @@
  T CUtlVector<CWheelOfDoom::WOD_Dance::MerasmusCreateInfo_t, CUtlMemory<CWheelOfDoom::WOD_Dance::MerasmusCreateInfo_t, int> >::AddToTail(CWheelOfDoom::WOD_Dance::MerasmusCreateInfo_t const&)
  T CUtlVector<Color, CUtlMemory<Color, int> >::GrowVector(int)
  T CUtlVector<Color, CUtlMemory<Color, int> >::~CUtlVector()
+ T CUtlVector<EGameCategory, CUtlMemory<EGameCategory, int> >::~CUtlVector()
  T CUtlVector<EntityDamageHistory_t, CUtlMemory<EntityDamageHistory_t, int> >::~CUtlVector()
  T CUtlVector<EntityHistory_t, CUtlMemory<EntityHistory_t, int> >::~CUtlVector()
  T CUtlVector<GCSDK::CJobMgr::JobSleeping_t, CUtlMemory<GCSDK::CJobMgr::JobSleeping_t, int> >::InsertBefore(int)
@@ -44386,6 +44390,9 @@
  T CUtlVector<LeaderboardEntry_t*, CUtlMemory<LeaderboardEntry_t*, int> >::~CUtlVector()
  T CUtlVector<LevelInfo_t, CUtlMemory<LevelInfo_t, int> >::GrowVector(int)
  T CUtlVector<LevelInfo_t, CUtlMemory<LevelInfo_t, int> >::~CUtlVector()
+ T CUtlVector<MapDef_t const*, CUtlMemory<MapDef_t const*, int> >::AddToTail(MapDef_t const* const&)
+ T CUtlVector<MapDef_t const*, CUtlMemory<MapDef_t const*, int> >::~CUtlVector()
+ T CUtlVector<MapDef_t*, CUtlMemory<MapDef_t*, int> >::PurgeAndDeleteElements()
  T CUtlVector<MapDef_t*, CUtlMemory<MapDef_t*, int> >::~CUtlVector()
  T CUtlVector<MapNameAndPlaytime_t, CUtlMemory<MapNameAndPlaytime_t, int> >::~CUtlVector()
  T CUtlVector<MvMMap_t, CUtlMemory<MvMMap_t, int> >::Purge()
@@ -44417,12 +44424,8 @@
  T CUtlVector<ResponseContext_t, CUtlMemory<ResponseContext_t, int> >::~CUtlVector()
  T CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> >::InsertMultipleBefore(int, int)
  T CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> >::~CUtlVector()
- T CUtlVector<SchemaGameCategory_t const*, CUtlMemory<SchemaGameCategory_t const*, int> >::AddToTail(SchemaGameCategory_t const* const&)
  T CUtlVector<SchemaGameCategory_t const*, CUtlMemory<SchemaGameCategory_t const*, int> >::~CUtlVector()
  T CUtlVector<SchemaMMGameModeRestriction_t, CUtlMemory<SchemaMMGameModeRestriction_t, int> >::~CUtlVector()
- T CUtlVector<SchemaMap_t const*, CUtlMemory<SchemaMap_t const*, int> >::AddToTail(SchemaMap_t const* const&)
- T CUtlVector<SchemaMap_t const*, CUtlMemory<SchemaMap_t const*, int> >::~CUtlVector()
- T CUtlVector<SchemaMap_t*, CUtlMemory<SchemaMap_t*, int> >::~CUtlVector()
  T CUtlVector<ScriptedNPCInteraction_t, CUtlMemory<ScriptedNPCInteraction_t, int> >::GrowVector(int)
  T CUtlVector<ScriptedNPCInteraction_t, CUtlMemory<ScriptedNPCInteraction_t, int> >::InsertBefore(int)
  T CUtlVector<ScriptedNPCInteraction_t, CUtlMemory<ScriptedNPCInteraction_t, int> >::InsertMultipleBefore(int, int)
@@ -48129,6 +48132,7 @@
  T ScanSelectAmbushAreas::operator()(CNavArea*)
  T SceneManager_ClientActive(CBasePlayer*)
  T Scene_Printf(char const*, ...)
+ T SchemaGameCategory_t::PassesRestrictions() const
  T ScramblePlayersSort(CTFPlayer* const*, CTFPlayer* const*)
  T SeatPrioritySort(CPassengerSeatTransition const*, CPassengerSeatTransition const*)
  T SeedRandSIMD(unsigned int)
@@ -54067,7 +54071,6 @@
  d s_pThrowArcConvars
  d s_pThrowSpeedConvars
  d s_pszDisguiseProps
- d s_pszQuickplayMatchTypes
  d s_pszRuneIcons
  d s_pszStrangeRestrictionTypes
  d s_pszTauntRPSParticleNames
