@@ -250,7 +250,6 @@
  @CHLTVClientState
  @P000p p
  ALLREADY
- B		PB	
  BL update,
  CBaseClient::ProcessClassInfo
  CBaseClient::ProcessClassInfo(done)
@@ -2514,7 +2513,6 @@ $vertexcolor
 @6ffffff.
 @8 t0
 @8;unsigned char*
-@@ p@0
 @@0@P 
 @@;JH
 @@@@ 
@@ -6559,8 +6557,7 @@ CL_QueueEvent: missing client receive table for %s.
 CL_QueueEvent: missing server class info for %i.
 CL_ReadPackets
 CL_ReadPackets(bool)
-CL_ReadPreserveEnt: u.m_nNewEntity < 0 || u.m_nNewEntity == MAX_EDICTS
-CL_ReadPreserveEnt: u.m_nNewEntity == MAX_EDICTS || u.m_nNewEntity < 0
+CL_ReadPreserveEnt: Entity out of bounds. Old: %int, New: %int
 CL_ReallocateDynamicData(int)
 CL_RecordAddEntity(int)
 CL_RecordDeleteEntity(int, ClientClass*)
@@ -13051,6 +13048,7 @@ Host_WriteConfiguration: Wrote %short
 Hostname for server.
 Hotkey
 How long to display recent console text to the upper part of the game window
+How many milliseconds of voice to buffer to avoid dropouts due to jitter and frame time differences.
 How many seconds it takes to get to full FF speed.
 How much origin velocity before it'short considered to have 'teleported' causing interpolation to reset.
 How often to flash demo recording/playback overlay (0 - disable overlay, -1 - show always)
@@ -16326,6 +16324,7 @@ Spawn Server: %short
 Spawn Server: %short: [%short]
 SpawnCount %double MapLoad Count %double
 SpecialTx
+Specifies which voice codec DLL to use in signed char game. Set to the name of the DLL without the extension.
 SpeedScale
 Spew CPU timer jitter for the last 128 frames in microseconds (dedicated only)
 Spew TabContainer dimensions.
@@ -18171,6 +18170,7 @@ _alcCreateContext
 _alcDestroyContext
 _alcGetContextsDevice
 _alcGetCurrentContext
+_alcGetError
 _alcGetIntegerv
 _alcMakeContextCurrent
 _alcOpenDevice
@@ -19361,6 +19361,7 @@ _sv_tags
 _sv_unlockedchapters
 _sv_use_steam_voice
 _sv_visiblemaxplayers
+_sv_voicecodec
 _swprintf
 _sysctl
 _system$UNIX2003
@@ -19406,6 +19407,7 @@ _vgui_nav_lock
 _vgui_nav_lock_default_button
 _videomode
 _voice_avggain
+_voice_buffer_ms
 _voice_debugfeedback
 _voice_debugfeedbackfrom
 _voice_enable
@@ -24329,6 +24331,7 @@ sv_unlockedchapters
 sv_use_steam_voice
 sv_useexplicitdelete
 sv_visiblemaxplayers
+sv_voicecodec
 sv_voiceenable
 svc_BSPDecal
 svc_ClassInfo
@@ -25984,6 +25987,7 @@ valuetype
 valve
 valve.
 variable
+vaudio_celt
 vaudio_miles
 vaudio_speex
 vb9H |]
@@ -28739,6 +28743,7 @@ vmf file maps/%s.vmf
 vmffff.
 voice debug.
 voice_avggain
+voice_buffer_ms
 voice_debugfeedback
 voice_debugfeedbackfrom
 voice_decompressed.wav
