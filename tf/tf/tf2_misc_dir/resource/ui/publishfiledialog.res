@@ -1142,6 +1142,26 @@
 			"brighttext"	"0"
 			"disabledfgcolor2_override"	"117 107 94 255"
 		}
+		"MapsCheckbox_Jungle"
+		{
+			"ControlName"	"CheckButton"
+			"fieldName"		"MapsCheckbox_Jungle"
+			"labelText"		"#TF_SteamWorkshop_Tag_Jungle"
+			"Font"			"ItemFontAttribSmall"
+			"textAlignment"	"west"
+			"xpos"			"85"
+			"ypos"			"185"
+			"zpos"			"1"
+			"wide"			"80"
+			"tall"			"20"
+			"autoResize"	"0"
+			"pinCorner"		"0"
+			"visible"		"1"
+			"enabled"		"1"
+			"dulltext"		"0"
+			"brighttext"	"0"
+			"disabledfgcolor2_override"	"117 107 94 255"
+		}
 	}
 
 	"ButtonClose"
