@@ -533,6 +533,33 @@
 			"shadow_light"	"cam_inspect_light_near"
 		}
 	}
+	
+	"workshop_greenscreen_ump45"
+	{
+		"rule"
+		{
+			"workshop_greenscreen"	"1"
+			"model"	"v_smg_ump45"
+		}
+		"config"
+		{
+			"shadow_light"	"cam_inspect_light_near"
+		}
+	}
+	
+	"workshop_greenscreen_bizon"
+	{
+		"rule"
+		{
+			"workshop_greenscreen"	"1"
+			"model"	"v_smg_bizon"
+		}
+		"config"
+		{
+			"shadow_light"	"cam_inspect_light_near"
+		}
+	}
+	
 
 	"workshop_arms"
 	{

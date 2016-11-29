@@ -113,6 +113,25 @@
 		}
 	}
 	
+	"gloves"
+	{
+		"rule"
+		{
+			"model_partial" "v_glove"
+		}
+		"config"
+		{
+			"light_directional_clearall" 	"1"
+			"light_ambient"				"[.12 .12 .12]"
+			"light_directional_add" 		"rgb[50 50 60] dir[0 -1 -0.2]"
+			"light_directional_add" 		"rgb[120 100 100] dir[0 -0.2 -1]"
+			"light_directional_add" 		"rgb[100 100 100] attach[cam_inspect]"
+			"light_directional_add" 		"rgb[18 18 20] dir[0 0 1]"
+			"root_mdl"					"models/weapons/pedestal_gloves.mdl"
+			"root_anim"					"ACT_IDLE_INSPECT_START"		
+			"root_anim_loop"				"ACT_IDLE_INSPECT_LOOP"
+		}
+	}
 	"sticker_tool"
 	{
 		"rule"
