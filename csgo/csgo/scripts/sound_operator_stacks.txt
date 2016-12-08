@@ -1306,6 +1306,60 @@
 		}
 	}	
 
+	"CS_update_hrtf"
+	{
+		//////////////////////
+		// POSITION
+		"source_info"
+		{
+			"operator" "get_source_info"
+			// "source"   "entity"
+			"source"   "emitter"
+		}
+
+        // NOTE: uses player data, ie: SS, returns minimum distance
+		"source_distance"
+		{
+			"operator" "calc_source_distance"
+			"input_position"   "@source_info.output_position"
+		}
+
+		// Phonon calculation -- xfade phonon effects once the player
+		// is very close to the emitter.
+		"phonon_xfade_start_dist"
+		{
+			"operator" "math_float"
+			"apply" "add"
+			"input1" "0.0"
+			"input2" "50"
+		}	
+		"phonon_xfade_end_dist"
+		{
+			"operator" "math_float"
+			"apply" "add"
+			"input1" "0.0"
+			"input2" "180"
+		}	
+		"phonon_distance_xfade"
+		{
+			"operator" "math_remap_float"
+			"input" "@source_distance.output"
+			"input_min" "@phonon_xfade_start_dist.output"
+			"input_max" "@phonon_xfade_end_dist.output"
+			"input_map_min" "0.0"
+			"input_map_max" "1.0"
+			"default_to_max" "true"	
+		}
+
+		"phonon_output"
+		{
+			"operator" "sys_output"
+			"input_float" "@phonon_distance_xfade.output"
+			"output" "phonon_xfade"
+		}
+
+	}
+
 	"CS_update_weapon"
 	{
 
@@ -1340,6 +1394,40 @@
 		{
 			"operator" "calc_source_distance"
 			"input_position"   "@source_info.output_position"
+		}
+
+		// Phonon calculation -- xfade phonon effects once the player
+		// is very close to the emitter.
+		"phonon_xfade_start_dist"
+		{
+			"operator" "math_float"
+			"apply" "add"
+			"input1" "0.0"
+			"input2" "50"
+		}	
+		"phonon_xfade_end_dist"
+		{
+			"operator" "math_float"
+			"apply" "add"
+			"input1" "0.0"
+			"input2" "180"
+		}	
+		"phonon_distance_xfade"
+		{
+			"operator" "math_remap_float"
+			"input" "@source_distance.output"
+			"input_min" "@phonon_xfade_start_dist.output"
+			"input_max" "@phonon_xfade_end_dist.output"
+			"input_map_min" "0.0"
+			"input_map_max" "1.0"
+			"default_to_max" "true"	
+		}
+
+		"phonon_output"
+		{
+			"operator" "sys_output"
+			"input_float" "@phonon_distance_xfade.output"
+			"output" "phonon_xfade"
 		}
 
 		////////////////////
@@ -2185,6 +2273,40 @@
 		{
 			"operator" "calc_source_distance"
 			"input_position"   "@source_info.output_position"
+		}
+
+		// Phonon calculation -- xfade phonon effects once the player
+		// is very close to the emitter.
+		"phonon_xfade_start_dist"
+		{
+			"operator" "math_float"
+			"apply" "add"
+			"input1" "0.0"
+			"input2" "50"
+		}	
+		"phonon_xfade_end_dist"
+		{
+			"operator" "math_float"
+			"apply" "add"
+			"input1" "0.0"
+			"input2" "180"
+		}	
+		"phonon_distance_xfade"
+		{
+			"operator" "math_remap_float"
+			"input" "@source_distance.output"
+			"input_min" "@phonon_xfade_start_dist.output"
+			"input_max" "@phonon_xfade_end_dist.output"
+			"input_map_min" "0.0"
+			"input_map_max" "1.0"
+			"default_to_max" "true"	
+		}
+
+		"phonon_output"
+		{
+			"operator" "sys_output"
+			"input_float" "@phonon_distance_xfade.output"
+			"output" "phonon_xfade"
 		}
 
 		////////////////////
