@@ -224,6 +224,15 @@ case $1 in
 	ProcessDepot "steamvr" ".dylib"
 	;;
 
+# Destinations
+453171)
+	ProcessVPK "destinations"
+	;;
+
+453174)
+	ProcessVPK "destinations"
+	;;
+
 esac
 
 if ! [[ $2 = "no-git" ]]; then
