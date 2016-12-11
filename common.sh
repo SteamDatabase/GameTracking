@@ -46,3 +46,10 @@ ProcessVPK ()
 		../.support/vpktool "$file" > "$baseFile"
 	done <   <(find . -type f -name "*_dir.vpk" -print0)
 }
+
+CreateCommit ()
+{
+	git add -A
+	git commit -S -a -m "$(git status --porcelain | wc -l) files changed | $(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g' | cut -c 1-1024)"
+	git push
+}
