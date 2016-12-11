@@ -50,6 +50,6 @@ ProcessVPK ()
 CreateCommit ()
 {
 	git add -A
-	git commit -S -a -m "$(git status --porcelain | wc -l) files changed | $(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g' | cut -c 1-1024)"
+	git commit -S -a -m "$1 | $(git status --porcelain | wc -l) files | $(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g' | cut -c 1-1024)"
 	git push
 }
