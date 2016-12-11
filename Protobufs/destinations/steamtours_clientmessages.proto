@@ -1,0 +1,71 @@
+import "networkbasetypes.proto";
+
+option optimize_for = SPEED;
+option cc_generic_services = false;
+
+enum ESteamToursClientMessages {
+	CM_SpawnDynamicProp = 501;
+	CM_SpawnPhysicsProp = 502;
+	CM_PickupObject = 503;
+	CM_ReleaseObject = 504;
+	CM_SetModel = 505;
+	CM_SetSequence = 506;
+	CM_CustomizeAvatarModel = 507;
+	CM_NotifyLoadingDestination = 509;
+}
+
+enum EAvatarComponent {
+	AVATAR_HEAD = 0;
+	AVATAR_HANDS = 1;
+}
+
+message CClientMsg_SpawnDynamicProp {
+	optional string model = 1;
+	optional float scale = 2 [default = 1];
+}
+
+message CClientMsg_SpawnPhysicsProp {
+	optional string model = 1;
+	optional float scale = 2 [default = 1];
+	optional uint32 handid = 3;
+}
+
+message CClientMsg_PickupObject {
+	optional uint32 ent_ehandle = 1;
+	optional uint32 handid = 2;
+	optional uint32 tick = 3;
+	optional .CMsgVector position = 4;
+	optional .CMsgQAngle angles = 5;
+	optional .CMsgVector scale = 6;
+}
+
+message CClientMsg_ReleaseObject {
+	optional uint32 ent_ehandle = 1;
+	optional uint32 handid = 2;
+	optional uint32 tick = 3;
+	optional .CMsgVector position = 4;
+	optional .CMsgQAngle angles = 5;
+	optional .CMsgVector velocity = 6;
+}
+
+message CClientMsg_SetModel {
+	optional uint32 ent_ehandle = 1;
+	optional string model = 2;
+}
+
+message CClientMsg_SetSequence {
+	optional uint32 ent_ehandle = 1;
+	optional string sequence = 2;
+}
+
+message CClientMsg_CustomizeAvatarModel {
+	optional .EAvatarComponent component = 1 [default = AVATAR_HEAD];
+	optional fixed32 color = 2;
+}
+
+message CClientMsg_NotifyLoadingDestination {
+	optional string map_name = 1;
+	optional string addon_name = 2;
+	optional string display_name = 3;
+}
+

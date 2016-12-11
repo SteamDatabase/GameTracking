@@ -173,6 +173,10 @@ case $1 in
 	ProcessVPK "destinations"
 	;;
 
+453172)
+	ProcessDepot "destinations" ".dll"
+	;;
+
 453174)
 	ProcessVPK "destinations"
 	;;
