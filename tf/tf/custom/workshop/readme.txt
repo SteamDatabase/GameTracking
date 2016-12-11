@@ -1,1 +1,0 @@
-This folder is for workshop import tool to output files that need to override existing in-game content.

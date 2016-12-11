@@ -84,53 +84,6 @@ echo "Processing depot $1..."
 # Do stuff based on the depotid
 case $1 in
 
-# Team Fortress 2
-441)
-	ProcessVPK "tf"
-	mono ./.support/SourceDecompiler/Decompiler.exe -i "tf/tf/tf2_misc_dir.vpk" -o "tf/tf/tf2_misc_dir/"
-	
-	iconv -t UTF-8 -f UCS-2 -o "tf/tf/resource/tf_english_utf8.txt" "tf/tf/resource/tf_english.txt"
-	;;
-
-232252)
-	ProcessDepot "tf" ".dylib"
-	;;
-
-# Counter-Strike: Global Offensive
-731)
-	ProcessVPK "csgo"
-	mono ./.support/SourceDecompiler/Decompiler.exe -i "csgo/csgo/pak01_dir.vpk" -o "csgo/csgo/pak01_dir/"
-	
-	iconv -t UTF-8 -f UCS-2 -o "csgo/csgo/resource/csgo_english_utf8.txt" "csgo/csgo/resource/csgo_english.txt"
-	;;
-
-733)
-	ProcessDepot "csgo" ".dylib"
-	;;
-
-740)
-	ProcessDepot "csgo" ".so"
-	;;
-
-# Dota 2
-373301)
-	ProcessVPK "dota"
-	mono ./.support/SourceDecompiler/Decompiler.exe -i "dota/game/dota/pak01_dir.vpk" -o "dota/game/dota/pak01_dir/"
-	
-	while IFS= read -r -d '' file
-	do
-		baseFile="${file%.*}.txt"
-		
-		echo "> VPK $baseFile"
-		
-		./.support/vpktool "$file" > "$baseFile"
-	done <   <(find "dota/game/dota/maps/" -type f -name "*.vpk" -print0)
-	;;
-
-373304)
-	ProcessDepot "dota" ".dylib"
-	;;
-
 # Half-Life 2
 221)
 	ProcessVPK "hl2"
