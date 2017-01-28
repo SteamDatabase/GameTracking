@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export LC_ALL=C
+
 ProcessDepot ()
 {
 	mkdir -p "BuildbotPaths" "Protobufs" "Symbols" "Strings"

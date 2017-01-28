@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export LC_ALL=C
+
 # Set working directory where this file is located
 cd "${0%/*}"
 
