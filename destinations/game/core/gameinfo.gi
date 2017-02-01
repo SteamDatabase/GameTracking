@@ -73,6 +73,11 @@
 		"NavMarkupEntity"		"func_nav_markup"
 	}
 
+	SoundTool
+	{
+		"DefaultSoundEventType" "core_simple_3d"
+	}
+
 	RenderPipelineAliases
 	{
 		"Tools"			"Forward"

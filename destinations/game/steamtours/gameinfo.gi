@@ -104,6 +104,7 @@
 		"NavMarkupEntity"		"func_nav_markup"
 		"AddonMapCommand"		"destinations_load_addon"
 		"UseUncompressedVertices"	"1"
+		"UsesBakedLighting"		"1"
 	}
 
 	RenderPipelineAliases
@@ -133,8 +134,10 @@
 		"EnvironmentMapCacheSize" "16"
 		"EnvironmentMapFormat" "DXT5"
 		"EnvironmentMapColorSpace" "srgb"
-		"EnvironmentMapMipProcessor" "RGBM"
+		"EnvironmentMapMipProcessor" "GGXCubeMapBlur_RGBM"
 		"EnvironmentMapEntities" "1"
+		"PerVertexLightingTexturePageSize" "512"
+		"PerVertexLightingTexturePageCountMax" "2048"
 	}
 	
 	Source1Import

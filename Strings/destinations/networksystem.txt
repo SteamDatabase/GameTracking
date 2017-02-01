@@ -7,7 +7,6 @@
 																																
 																																																																																				
 																																																																																																				
-																																																																																																																																																																																																																																																
 	AssumeFieldsNotNetworked = %short
 	CODE_SIZE
 	CannotBeNetworked        = %short
@@ -61,13 +60,17 @@
    Cannot communicate with gameservers when routers are not accessible.
    Cannot communicate with routers or gameservers without network config.
    Must be able to access %short
+  +%double load balance penalty.
   Comment started here.
+  Connection gap %.0fms.
   Field       : 
   Message type: 
+  Migration target.
   Offline in %ds.
   Problem     : 
   Problem     : Enum value did not match field type:
   Problem     : Field is not the right type for this message:
+  Requested migration.
   at depth %double items %double
   description  : %short
   possible match %double of %double:  %short %s.%short
@@ -82,6 +85,10 @@
  #GameUI_Disconnect_SoundsMessage
  #GameUI_Disconnect_SteamIDBanned
  %short cat(%short) schematype(%short)
+ %short=%double
+ %short=%llu
+ %short=%short
+ %short=%u
  'L>[
  (gap of %double chunks)
  (procedural)
@@ -95,7 +102,6 @@
  A^A]A\_^
  A^^[
  A^^]
- A^_[H
  A^_^
  A_A\[
  A_A\]
@@ -160,6 +166,7 @@
  tQD8c:u0M
  unsigned short?D9
  vJH+
+ {%short}
 !#GameUI_Disconnect_ConnectionLost
 !#GameUI_Disconnect_HLTVRestricted
 !#GameUI_Disconnect_LoopDeactivate
@@ -486,6 +493,7 @@ $u2I;
 %short:  Invalid split packet message type %u, expected %u
 %short:  Invalid split packet protocol got %u, current protocol is %u
 %short:  NetChan QoS flow %short: %4dms latency, %5d/%5d dropped (%.f%%)
+%short:  NetChan Setting Timeout to %4.2f seconds
 %short:  compressing reliable (%u -> %u bytes)
 %short:  corrupted packet %int at %int
 %short:  couldn'unsigned short find serializer %short
@@ -586,7 +594,6 @@ $u2I;
 ((((((((((
 (;^,|
 (;short,|
-(A^A]A\]H
 (A_A\_^
 (A_A]A\[
 (A_A]_^
@@ -601,7 +608,6 @@ $u2I;
 (D$@H
 (D$`H
 (D$`float
-(D$pHcE
 (D;void,}}
 (D;}8
 (HcE0H
@@ -687,7 +693,9 @@ $u2I;
 *StO9>T
 +C$xiHc
 +C,+C
-+D$dD
++D$DH
++G$Hc
++L$dHc
 +M<7>
 +NETWORK_DISCONNECT_CLIENT_UNABLE_TO_CRC_MAP
 +NETWORK_DISCONNECT_CONNECT_REQUEST_TIMEDOUT
@@ -947,6 +955,7 @@ $u2I;
 .?AVCSerializerStack@@
 .?AVCSteamDatagramTransportClient@SteamDatagramTransport@@
 .?AVCSteamDatagramTransportGameserver@SteamDatagramTransport@@
+.?AVCSteamNetworkingUtils@@
 .?AVCThread@@
 .?AVCUtlSlot@@
 .?AVConCommand@@
@@ -975,6 +984,7 @@ $u2I;
 .?AVISchemaManipulator@@
 .?AVISteamDatagramTransportClient@@
 .?AVISteamDatagramTransportGameserver@@
+.?AVISteamNetworkingUtils@@
 .?AVIVConCommDataReceived@@
 .?AVInternalNode@CFieldPathHuffmanEncoder@@
 .?AVLeafNode@CFieldPathHuffmanEncoder@@
@@ -1177,6 +1187,7 @@ $u2I;
 700PP
 700WP
 7H9u@unsigned short	H
+7HcD$DHcL$4H+
 7T	 /4
 8"u	H
 8*u	H
@@ -1188,6 +1199,7 @@ $u2I;
 8:u	H
 8;;void"
 8A\_^]
+8A^A]A\]H
 8A^A]_[
 8A^^][
 8A^_^[
@@ -1196,6 +1208,7 @@ $u2I;
 8A_A^_^][
 8A__][
 8Bu	H
+8D;d$`
 8E;~X|
 8H)unsigned short,E
 8HcE0H
@@ -1207,7 +1220,7 @@ $u2I;
 8\$xt
 8_^][
 9/~.L
-99~CH
+99~EH
 9;~)H
 9>~)float
 9A|6H
@@ -1216,6 +1229,7 @@ $u2I;
 9F,tp
 9H ~L
 9H(|)A
+9HcL$4HcD$DH+
 9X@u4
 9Y ~'
 9Y ~5H
@@ -1262,10 +1276,10 @@ $u2I;
 9s(~-L
 9s(~HL
 9s0~)H
-9s0~7H
-9s0~7L
 9s0~SH
 9s8~)L
+9s8~7H
+9s8~7L
 9s8~AH
 9s8~ZL
 9s@~,L
@@ -1275,26 +1289,23 @@ $u2I;
 9sH~L
 9sH~[H
 9sX~)L
-9sh~(L
 9sp~IH
-9sx~$L
 9t$Xt
-9w@~LL
-9wh~4L
+9w@~ML
 9x upH
 9y(~'H
 9y(~(H
 9y(~)H
 9y(~*H
-9y0~/H
 9y4~9H
+9y8~'H
 9yH~%H
 9z,~23
 9{ ~ 
 9{ ~/H
 9{ ~0H
 9{ ~6L
-9{ ~=L
+9{ ~BL
 9{ ~RH
 9{ ~YH
 9{$~4H
@@ -1321,7 +1332,6 @@ $u2I;
 9{@~ 
 9{@~#L
 9{@~%H
-9{@~,H
 9{D~0L
 9{D~4H
 9{H~43
@@ -1330,12 +1340,12 @@ $u2I;
 9{X~)L
 9{X~63
 9{\~0L
-9{long long~=L
 9{long long~?3
 9{long~)L
+9{p~ 
 9{p~)L
+9{p~CL
 9{unsigned char~)L
-9{unsigned char~BL
 9{unsigned short~'L
 : Protocol message serialized to signed char size different from what was originally expected.  Perhaps it was modified by another thread during serialization?
 : Tried to copy from signed char message with signed char different type. to: 
@@ -1350,7 +1360,7 @@ $u2I;
 ;C ~M
 ;D$@@
 ;D$Xu
-;D$xu
+;D$pu
 ;D38u
 ;H9>&X
 ;HX}2L
@@ -1385,6 +1395,7 @@ $u2I;
 <CLcF
 <EOF>
 <Eu1H
+<HcL$4HcD$DH+
 <^w$E
 <^w.H
 <^wchar_t&E
@@ -1452,6 +1463,7 @@ $u2I;
 @.data
 @.gfids
 @.tls
+@8-pm
 @80u#H
 @8k unsigned short
 @8k4t
@@ -1480,7 +1492,6 @@ $u2I;
 @A^_[
 @A^_]
 @A^_^
-@A_A\_^[
 @A_A]^
 @A_A^A\
 @A_A^A]A\_
@@ -1512,7 +1523,6 @@ $u2I;
 @SUVWH
 @SUWATAVAWH
 @SUWATAVH
-@SUWAVH
 @SUWAWH
 @SUWH
 @SVAUH
@@ -1530,10 +1540,10 @@ $u2I;
 @UATAVAWH
 @UATAVH
 @UAUAVAWH
+@UAUH
 @UAVAWH
 @UAWH
 @USATH
-@USAVH
 @USVWATAUAVAWH
 @USVWATAUAVH
 @USVWATAVAWH
@@ -1582,6 +1592,7 @@ A8H	P(
 A9/~#E3
 A9<2t&A
 A9B(|
+A9E,}
 A9P }
 A9Q }
 A9R }
@@ -1622,7 +1633,6 @@ APA;F
 APPSYSTEM: In ConnectInterfaces(), s_nRegistrationCount is %double!
 ATAUAVH
 ATAVAWH
-ATAVH
 AUAVAWH
 AUAWH
 AVAWH
@@ -1645,14 +1655,13 @@ A^A]A\_^[]
 A^A][
 A^A]_^[]
 A^A]_^]
-A^_][
 A^_^[]
 A^_^][
 A_A\]
 A_A]A\^]
 A_A]A\_]
-A_A]^[]
-A_A]^[]H
+A_A]_^]
+A_A]_^]H
 A_A^A\
 A_A^A\]
 A_A^A\^
@@ -1676,10 +1685,12 @@ A_A^^
 A_A^_
 A_A^_^]
 A_A^_^][
+A_^[]
 A__[]
-A__^]
 Abandoning attempt to contact %s.  %short
 Abandoning attempt to establish session on %s.  %short
+Abandoning attempt to migrate to %short, relay is shutting down soon.
+Abandoning migration to %s.  We obtained signed char session on this relay, but decided to use %short as the primary instead.
 Access violation - no RTTI data!
 AcquireSRWLockExclusive
 Activates/deactivates net message validation
@@ -1713,9 +1724,8 @@ AssociateNetMessageWithChannelCategoryAbstract: Passed in an invalid net message
 AssociateNetMessageWithChannelCategoryAbstract: Trying to use an unregistered netchannel category!
 Atomic
 Attempt to compress out of band voice payloads (360 only).
-Attempt to send to proxied gameserver %short via steam datagram, but we don'unsigned short have an authorization ticket!
 Attempting connection to service in data center '%short'
-Attempting to connect via steam datagram using unsigned ticket, as per cl_steamdatagramtransport_debugticket_address
+Attempting to connect via steam datagram using unsigned ticket, as per steamdatagram_client_debugticket_address
 Attempting to negotiate session.
 Attempting to restore session.
 August
@@ -1762,6 +1772,7 @@ C L9|
 C McC
 C(9G(u
 C(9~(~FL
+C(HcC$H
 C(L9<
 C(L9|
 C,9G,u
@@ -2047,10 +2058,15 @@ CT$xD
 CTENA
 CTSListBase: Misaligned list
 CTSListBase::CTSListBase
+CTSQueue corruption
 CTSQueue: Misaligned queue
+CTSQueue<struct CNetworkFieldChangedEventQueueChangeInfo_t,0>::Push
 CTSQueue<struct CNetworkMessageSignalQueue<class CEventIDManager_NetChan,struct BogusType_t>::QueuedMessage_t,0>::CTSQueue
+CTSQueue<struct CNetworkMessageSignalQueue<class CEventIDManager_NetChan,struct BogusType_t>::QueuedMessage_t,0>::Push
 CTSQueue<struct ReceivedData_t *,0>::CTSQueue
+CTSQueue<struct ReceivedData_t *,0>::Push
 CTSQueue<struct loopback_t *,0>::CTSQueue
+CTSQueue<struct loopback_t *,0>::Push
 CThreadedSocketQueue::CSocketThread::CSocketThread
 CTransform
 CType
@@ -2072,7 +2088,9 @@ CUtlLeanVectorImpl<class CUtlLeanVectorFixedGrowableBase<unsigned int,3,short>,u
 CUtlLinkedList overflow! (exhausted index range)
 CUtlLinkedList overflow! (exhausted memory allocator)
 CUtlLinkedList<class CUtlKeyValuePair<class CFieldPath,struct empty_t>,unsigned int,0,unsigned int,class CUtlMemory<struct UtlLinkedListElem_t<class CUtlKeyValuePair<class CFieldPath,struct empty_t>,unsigned int>,unsigned int> >::AllocInternal
+CUtlLinkedList<class SteamDatagramTransport::CSteamDatagramTransportClient *,unsigned short,0,unsigned short,class CUtlMemory<struct UtlLinkedListElem_t<class SteamDatagramTransport::CSteamDatagramTransportClient *,unsigned short>,unsigned short> >::AllocInternal
 CUtlLinkedList<struct NetPacket_t *,unsigned short,0,unsigned short,class CUtlMemory<struct UtlLinkedListElem_t<struct NetPacket_t *,unsigned short>,unsigned short> >::AllocInternal
+CUtlLinkedList<struct SteamDatagramTransport::CSteamDatagramTransportGameserver::Client *,int,0,int,class CUtlMemory<struct UtlLinkedListElem_t<struct SteamDatagramTransport::CSteamDatagramTransportGameserver::Client *,int>,int> >::AllocInternal
 CUtlMemoryPoolBase: Cannot specify 0 elements to grow each time!
 CUtlMemoryPoolBase::CUtlMemoryPoolBase
 CUtlSortVector<int,class CNetworkMessages::CPriorityLess,class CUtlVector<int,class CUtlMemory<int,int> > >::Find
@@ -2083,14 +2101,13 @@ CUtlString
 CUtlSymbolLarge
 C\HcKXH
 C`9C(uq
-C`9D$ht
-C`9E,unsigned short
-C`A9E
+C`9D$Xt
 C`H9F
 C`H;Chu	H
 C`toH
 Can'unsigned short 
 Can'unsigned short EnableLoopbackBetweenSockets between socket %double and %double, not enough slots
+Can'unsigned short crate client.  %short
 Can'unsigned short delay send signed char packet larger than maxroutable size %double/%double
 Can'unsigned short get here.
 Can'unsigned short get here: failed to get default value as string
@@ -2100,6 +2117,8 @@ Can'unsigned short make WebAPI flood report; No ISteamHTTP
 Can'unsigned short make WebAPI flood report; SendHTTPRequest failed
 Can'unsigned short make WebAPI flood report; request already active?
 Cannot allocate buffer larger than kint32max for 
+Cannot connect to proxied gameserver %short via steam datagram.  Library has not been initialized yet (or it failed).
+Cannot connect to proxied gameserver %short via steam datagram.  We don'unsigned short have an authorization ticket!
 Cannot find service ID in network.  We don'unsigned short know what data center we'long double restrict trying to connect to!
 Cannot listen on steam datagram.  No SteamGameServerUtils!
 Cannot register change callback priorities at this stage! Must do it earlier!
@@ -2111,13 +2130,15 @@ ChangeAccessorFieldPathIndex_t
 Check your Internet connection, and make sure your browser can access the following URL:
 ClHcKhH
 ClearField
-Client %short on same router %short, session ID changed.
 Client Messages
 CloseHandle
 CloseThreadpoolTimer
 CloseThreadpoolWait
 CloseThreadpoolWork
 Cluster %short has invalid router address '%short'
+Cluster '%short' has signed char selection penalty of %dms for load balancing purposes.  (As per %short).
+Cluster '%short' no longer has signed char selection penalty for load balancing purposes.  (As per %short).
+Cluster '%short' selection penalty for load balancing purposes changed from %dms to %dms.  (As per %short).
 CmdLinkAH
 CmdLinkAL
 Code of relay cluster to use.  If not empty, we will only use relays in that cluster.  E.g. 'iad'
@@ -2131,6 +2152,7 @@ CompareStringEx
 ComputeDepth
 ConVar(%short) defined with infinite float value (%short)
 ConVarRef %short doesn'unsigned short point to an existing ConVar
+Config file '%short' not present; not loaded.
 ConfigurationSystem_001
 ConnectInterfaces
 Connectionless rate limited: %llu packets from %u.%u.%u.%u
@@ -2164,6 +2186,7 @@ CreateThreadpoolWork
 Creating channel for %short:%double as NET_CATEGORY_PEER_TO_PEER
 Ct$0H
 CtHcKpH
+D	 A;
 D$ ,0<	wchar_t#H
 D$ 8T$`
 D$ 9D$ H
@@ -2172,6 +2195,7 @@ D$ C_
 D$ E3
 D$ H;
 D$ I;
+D$ L;
 D$ fA
 D$ float;
 D$ tX
@@ -2199,8 +2223,8 @@ D$0L+
 D$0L;
 D$0Lc
 D$0f;
+D$4+D$DLc
 D$49C
-D$8+C$A
 D$88X4tJ
 D$8A;
 D$8D8
@@ -2224,6 +2248,7 @@ D$@H;G
 D$@I;
 D$@Ic
 D$@L;D$Hu
+D$@long long"H
 D$HE3
 D$HH+
 D$HH;C
@@ -2254,6 +2279,7 @@ D$`E3
 D$`H;
 D$`Hc
 D$`L;
+D$`Mk
 D$h;X(|
 D$h;X@|
 D$h;XX|
@@ -2262,6 +2288,7 @@ D$h;p,|
 D$h;xx|
 D$h@2
 D$hA+
+D$hH+
 D$hH;
 D$hHc
 D$hHcA,H
@@ -2279,7 +2306,6 @@ D$pH+
 D$pHc@pH
 D$pHcL$xA
 D$pLc
-D$pfA
 D$pfA;
 D$tA;
 D$tE3
@@ -2289,19 +2315,21 @@ D$xF9d
 D$xHc
 D$xIc
 D$xfD
-D&09F
+D' 9C(unsigned short
+D'09G
 D(8Ht}
 D08@unsigned short	
 D18 unsigned short
 D3(Hc
 D34(H
-D7 A9
 D8(t$I
 D8(t5I
+D8-^)
 D82u&H
 D88Ht!
 D88Hte
 D8<8u
+D8=5^
 D8D$9t$
 D8D$hH
 D8Y:uEH
@@ -2315,16 +2343,15 @@ D8d$ht
 D8h)unsigned short
 D8l$ht
 D8s4t
-D8sdtxH
 D8t$Ht
 D8t$zH
 D8x)unsigned short!E3
-D8yPt-H
+D8xPt3H
 D8{4t
 D8|unsigned short*
+D9%m.
 D9+~#I
 D9+~mH
-D9-0~
 D98Ht;H
 D99~zH
 D9:~(A
@@ -2336,6 +2363,7 @@ D9M8~%E
 D9Q(~,M
 D9S,~XA
 D9`Xt
+D9d$`
 D9g@~LE
 D9p,~9I
 D9pXD
@@ -2346,8 +2374,10 @@ D9yXt"I
 D9{H~7I
 D9{X~7I
 D9|$ 
-D9|$ ~-A
+D9|$ ~3A
 D9|$@~eH
+D; A9
+D;-bp
 D;@ }
 D;B }
 D;Bx}
@@ -2356,6 +2386,7 @@ D;C }
 D;C }JH
 D;C0|
 D;C8|
+D;Cp|
 D;E8|
 D;I |
 D;I(|
@@ -2363,11 +2394,11 @@ D;K,|
 D;S,|
 D;__float128@|
 D;l$0}A
-D;long longcomplex |
 D;r8|
 D;unsigned char&&}#
 D;vh|
 D;w8|
+D;wchar_t u
 D;wchar_t@|
 D;{ |
 D;|$0u
@@ -2409,6 +2440,7 @@ DigiCert Inc1
 Discarding inactive session on %s.  %short
 Display info about signed char message (by classname or id)
 Don'unsigned short bother compressing packets below this size.
+Don'unsigned short know how else to talk to %s.  Destroying client session.
 Don'unsigned short poke net_flood_report_url more often than once per N seconds
 DotaCardGameClient_001
 Drops next __int128 packets on client
@@ -2426,7 +2458,7 @@ E0HcH
 E0Lc$
 E0Lcx
 E9't4Lc
-E9,$~zL
+E9,$~wL
 E97~H
 E9>~2I
 E9A(|
@@ -2460,7 +2492,7 @@ Encountered message on net channel %short with an invalid network category! [net
 End of input was reached and '[' was not matched by ']'
 End of input was reached and '{' was not matched by '}'
 End-of-file inside block comment.
-End-to-end connection: %short
+End-to-end connection to data center '%short': %short
 EngineServiceMgr001
 EnterCriticalSection
 Entities
@@ -2537,6 +2569,7 @@ FX@8h(unsigned short
 FX@8h)u
 F`@8h)u
 Failed
+Failed to allocate client to take ping measurements.  %short
 Failed to bind socket.  Error code 0x%08X.
 Failed to communicate with routing cluster '%short'.
 Failed to complete WSACleanup = 0x%x.
@@ -2548,7 +2581,7 @@ Failed to save steam datagram ticket cache.  We might not be able to reconnect i
 Failed to set socket nonblocking mode.  Error code 0x%08x.
 Failed to set socket recv buffer size.  Error code 0x%08x.
 Failed to set socket send buffer size.  Error code 0x%08x.
-Failed to set steam datagram ticket.  Result code %d.  %short
+Failed to set steam datagram ticket.  %short
 Failed to unserialize message %short: expected message ID %u, encountered %u!
 False
 February
@@ -2610,9 +2643,9 @@ FlushProcessWriteBuffers
 FmtStrVSNPrintf truncated to %double without QUIET_TRUNCATION specified! String: "%short"
 FontManager_001
 For debugging, generate our own (unsigned) ticket, using the specified gameserver address.  Router must be configured to accept unsigned tickets.
+For debugging.  Override list of relays from the config with this set (maybe just one).  Comma-separated list.
 For network encoding stats, provide signed char notes field if field change count is above this many standard deviations for the average field change counts for the serializer.
 For servers behind NAT/DHCP meant to be exposed to the public internet, this is the public facing ip address string: ("x.x.x.x" )
-Force the use of signed char particular set of proxy servers.  Comma-separated list.
 Forces larger payloads.
 Forgetting client %s.  Last communication was %.f seconds ago
 Found -NoQueuedPacketThread, so no queued packet thread will be created.
@@ -2702,7 +2735,7 @@ GetTickCount64
 GetUInt32
 GetUInt64
 Got network config from CDN.  %short
-GpD;@X|
+GxD;@X|
 GxiV@
 H SVWH
 H UATAVAWH
@@ -2718,6 +2751,7 @@ H(9K(}
 H(A9H
 H(A9H(}
 H(A9K(}
+H)t$h
 H+EoH
 H+H@H
 H+H@I
@@ -2725,12 +2759,10 @@ H+L$HH
 H+Q0H
 H+Q@H
 H+Q@HcO,H
-H+SPH
+H+UPH
 H+q@HcO,H
 H0Ic@,Hc
 H9)u 
-H9-D`
-H9-signed char*
 H91u 
 H92u&
 H92u,
@@ -2738,7 +2770,7 @@ H97t<
 H9;t9H
 H9;tKH
 H9;uAA
-H9=!__int128
+H9=q}
 H9A u
 H9A u&
 H9A u6
@@ -2746,6 +2778,7 @@ H9A(u$
 H9A(u&
 H9A(u6
 H9A(unsigned short
+H9A(unsigned short'H
 H9A0u$
 H9A0u&
 H9A0u6
@@ -2757,6 +2790,7 @@ H9APu6
 H9AXu&
 H9AXu6
 H9C short(H
+H9C(unsigned short
 H9D$PuIH
 H9D$h
 H9G u6
@@ -2770,7 +2804,6 @@ H9HXt
 H9I8u
 H9L$pt|H
 H9P A
-H9P(unsigned short
 H9PXt
 H9Q short
 H9UXs
@@ -2809,7 +2842,6 @@ H;xXu9
 H;|$@|
 H;|$p
 H@L+A0
-HA^A\
 HA_A]A\_^[
 HA_A^
 HA_A^][
@@ -2819,14 +2851,17 @@ HX9Nx|int
 H_^][
 HammerMapLoader001
 HasField
+Hc-'4
 Hc/;unsigned __int128
 Hc3;short
 Hc7;wchar_t
 Hc7Hc
 Hc;;{
 Hc>;~
+HcA$3
 HcA$H
 HcA$L
+HcA(Hi
 HcA,H
 HcA,L
 HcA0H
@@ -2844,17 +2879,16 @@ HcC0H
 HcC0I
 HcC@E3
 HcCPHi
-HcD$HLk
+HcD$HH
 HcD$L
 HcD$PA
 HcD$PH;
-HcD$hH
+HcD$`L
 HcD$pD
 HcD7,A
 HcE,H
 HcE`L
-HcEhH
-HcEpH
+HcEpL
 HcExL
 HcF,A
 HcF,H
@@ -2862,7 +2896,7 @@ HcF8H
 HcF<L
 HcF@A
 HcF@H
-HcG$HcO
+HcG$I
 HcG(H
 HcG,A
 HcG,H
@@ -2881,10 +2915,10 @@ HcKHH
 HcKXH
 HcL$4
 HcL$@H
+HcL/0H
 HcMhH
 HcN(L
 HcN,H
-HcN0H
 HcN0L
 HcN4E
 HcN4H
@@ -2894,7 +2928,6 @@ HcO,A
 HcO,H
 HcO,I
 HcO,L
-HcO0H
 HcO4D
 HcO4E
 HcO4H
@@ -2913,7 +2946,6 @@ Hc^@;^Pu	H
 Hci@L
 Hct$0
 HcwX;whu	H
-Hc|$HL
 HelpSystem_001
 Hex and octal numbers must be integers.
 Hit end of input before closing quote (%char)
@@ -2946,12 +2978,17 @@ Ic/A;unsigned __int128
 Ic@,A
 Ic@,I
 IcA,H
+IcD$(M
 IcE4J
 IcE8;
+IcFHH
+IcG(E3
 IcL$,
 IcM8L
 IcN,H
-Ic} A;}0u
+IcN0H
+IcO0M
+Ic|$ A;|$0u
 If N consecutive pings to signed char port fail, after having received successful communication, mark that port as unavailable for signed char while, and try signed char different one.
 If non zero, listen for proxied traffic on the specified port
 If set, only net_showmsg spew for data inbound on this socket name e.g. client, server, etc.
@@ -2966,10 +3003,17 @@ IfG9|
 Ignoring %short, was in previous state only, now outside of valid range for field
 Ignoring packet from %short:%double as it is not from Steam Channel P2P
 Ignoring packet from %short:%double as remote is from signed char game server
+Ignoring request by %short to migrate to %s.  Failed to allocate resources to talk to that relay.
+Ignoring request by %short to migrate to %s.  Target address appears to be in signed char different relay cluster?  (%short)
+Ignoring request by %short to migrate to %s.  We already know that relay is shutting down very soon.
+Ignoring request by %short to migrate to %s.  We don'unsigned short recognize that target address in the network config.
+Ignoring request by %short to migrate to %s.  We had problems communicating with that relay %.1fs ago.
+Ignoring/abandoning migration request.  Current primary %short is requesting to send us to %short, but our migration target is %short?
+Ignoring/abandoning migration request.  Current primary %short no longer has signed char request active
+Ignoring/abandoning migration request.  SDR client deactivated, or no primary selected
 Import "
 Incorrect client challenge in GameserverSessionEstablished from %s.  Reply could be spoofed, ignoring.
 Incorrect client challenge in RouterPingReply from %s.  Reply could be spoofed, ignoring.
-Incorrect client challenge in S2A_PING2REPLY from %s.  Reply could be spoofed, ignoring.
 Incorrect client cookie in NoSession from %s.  Could be spoofed, ignoring.
 Index out-of-bounds (field is empty).
 InitFakeField:  Couldn'unsigned short find schema lookup for '%short' of type '%short'
@@ -2993,10 +3037,11 @@ Interpreting non ascii codepoint %d.
 Invalid
 Invalid JSON data on line %double: %short
 Invalid address range '%short' in data center '%short'
-Invalid cluster name '%short'; must be exactly 3 characters
+Invalid channel number %double
+Invalid cluster name '%short'; must be exactly 3 or 4 characters
 Invalid combination of steam datagram config and gameserver sample.  %short
 Invalid control characters encountered in text.
-Invalid data center name '%short'; must be exactly 3 characters
+Invalid data center name '%short'; must be exactly 3 or 4 characters
 Invalid escape sequence in string literal.
 Invalid file descriptor data passed to EncodedDescriptorDatabase::Add().
 Invalid float number: 
@@ -3022,14 +3067,13 @@ J0HcB
 J;D10t	H
 January
 Jitter fakelag packet time
-Jx8Jdu
 K&>.yC
 K(9J(}
 K@H+K8H
 K@H+Y0I
 KERNEL32.dll
-K`D9L$pt
-KcL&0H
+K`D9L$`unsigned short
+KcL'0H
 KeyValueCache001
 KeyValuesSystem
 KpLcW4
@@ -3052,6 +3096,7 @@ L$ @2
 L$ ATAUAWH
 L$ AVH
 L$ D8I	tR
+L$ E3
 L$ H+
 L$ H;
 L$ Hc
@@ -3079,6 +3124,7 @@ L$(I+
 L$(L+
 L$(fH
 L$(float;
+L$0 H
 L$0)unsigned long long
 L$0;T$`u
 L$0D#
@@ -3092,6 +3138,7 @@ L$0I9H@unsigned short
 L$0Lc
 L$0Lk
 L$0M;
+L$0fI
 L$4D;
 L$4E3
 L$8;D$x
@@ -3107,12 +3154,12 @@ L$8Lc
 L$8f9p 
 L$@;|
 L$@A;
-L$@E3
 L$@E;
 L$@H+
 L$@H3
 L$@H;
 L$@L#
+L$@M;
 L$D;L$T
 L$DE3
 L$HE3
@@ -3130,6 +3177,7 @@ L$X@8
 L$XE3
 L$XH3
 L$XH;D$p
+L$XHc
 L$XHcS
 L$XLc
 L$XfA;
@@ -3144,7 +3192,6 @@ L$hE3
 L$hH3
 L$hH;
 L$hfA;
-L$pD+
 L$pD;unsigned __int128 
 L$pE3
 L$pH3
@@ -3169,7 +3216,6 @@ L+H@H
 L+H@I
 L+P@H
 L+Q@I
-L3 9H
 L9&u"
 L90t7A
 L90t8A
@@ -3186,7 +3232,7 @@ L9`8tA
 L9e unsigned short	H
 L9g A
 L9l$0tl
-L9l$`unsigned short
+L9l$@unsigned short
 L9{(tZI
 L9|$X
 L9|$p
@@ -3233,7 +3279,6 @@ LcN,L
 LcO,H+H@I
 LcQ(I
 Lc]LL
-Lcd$0M
 Lcg`L
 LcmpD
 Lcv8D;vHu
@@ -3303,6 +3348,7 @@ MNetworkUserGroupSendProxyRecipientsFilter
 MNetworkVarNames
 MNetworkVarsAtomic
 MNetworkVarsDisable
+MODEL_PROCESSING_SCRIPT_INTERFACE_001
 MODEL_PROCESSING_SERVICES_INTERFACE_001
 MResourceTypeForInfoType
 MSG_SPLITSCREEN_ADDUSER
@@ -3311,19 +3357,31 @@ Main Invoked.
 Main Returned.
 MakeSerializersMatch failed for %short
 MakeSerializersMatchByMeta failed for %short
-Malformed MsgSteamDatagramDataRouterToClient from %short: Failed to varint decode size of stats message
-Malformed MsgSteamDatagramDataRouterToClient from %short: Flags indicate presence of TimeSincePrev, but no room for it.  Header size %double, stats message size %double
-Malformed MsgSteamDatagramDataRouterToClient from %short: header size is %double, packet size is %double
 Malformed MsgSteamDatagramDataRouterToClient from %short: packet too small
-Malformed MsgSteamDatagramDataRouterToClient from %short: stats message size doesn'unsigned short make sense.  Header size %double, stats message size %double
+Malformed MsgSteamDatagramDataRouterToClientV1 from %short: Failed to varint decode size of stats message
+Malformed MsgSteamDatagramDataRouterToClientV1 from %short: Flags indicate presence of TimeSincePrev, but no room for it.  Header size %double, stats message size %double
+Malformed MsgSteamDatagramDataRouterToClientV1 from %short: Flags indicate presence of TimeSincePrev, but no room for it.  Stats message size %double, packet size %double
+Malformed MsgSteamDatagramDataRouterToClientV1 from %short: header size is %double, packet size is %double
+Malformed MsgSteamDatagramDataRouterToClientV1 from %short: packet too small
+Malformed MsgSteamDatagramDataRouterToClientV1 from %short: stats message size doesn'unsigned short make sense.  Header size %double, stats message size %double
+Malformed MsgSteamDatagramDataRouterToClientV1 from %short: stats message size doesn'unsigned short make sense.  Stats message size %double, packet size %double
 Malformed MsgSteamDatagramDataRouterToServer from %short: Failed to varint decode size of stats message
-Malformed MsgSteamDatagramDataRouterToServer from %short: Flags indicate presence of TimeSincePrev, but no room for it.  Header size %double, stats message size %double
-Malformed MsgSteamDatagramDataRouterToServer from %short: Invalid steam ID 0x%016llx
-Malformed MsgSteamDatagramDataRouterToServer from %short: header size is %double, packet size is %double
+Malformed MsgSteamDatagramDataRouterToServer from %short: Flags indicate presence of TimeSincePrev, but no room for it.  Stats message size %double, packet size %double
+Malformed MsgSteamDatagramDataRouterToServer from %short: Hit end of packet trying to read 16-bit channel ID
+Malformed MsgSteamDatagramDataRouterToServer from %short: Hit end of packet trying to read 8-bit channel ID
+Malformed MsgSteamDatagramDataRouterToServer from %short: Invalid payload lead byte 0x%02x, unknown encoding of channel type
+Malformed MsgSteamDatagramDataRouterToServer from %short: Invalid payload lead byte 0x%x.  Currently only signed char single unreliable payload supported.
 Malformed MsgSteamDatagramDataRouterToServer from %short: packet too small
-Malformed MsgSteamDatagramDataRouterToServer from %short: reserved flags not set properly
-Malformed MsgSteamDatagramDataRouterToServer from %short: stats message size doesn'unsigned short make sense.  Header size %double, stats message size %double
+Malformed MsgSteamDatagramDataRouterToServer from %short: stats message size %double doesn'unsigned short make sense.
 Malformed MsgSteamDatagramDataRouterToServer from %short: varint-encoded channel numbers not yet supported
+Malformed MsgSteamDatagramDataRouterToServerV1 from %short: Failed to varint decode size of stats message
+Malformed MsgSteamDatagramDataRouterToServerV1 from %short: Flags indicate presence of TimeSincePrev, but no room for it.  Header size %double, stats message size %double
+Malformed MsgSteamDatagramDataRouterToServerV1 from %short: Invalid steam ID 0x%016llx
+Malformed MsgSteamDatagramDataRouterToServerV1 from %short: header size is %double, packet size is %double
+Malformed MsgSteamDatagramDataRouterToServerV1 from %short: packet too small
+Malformed MsgSteamDatagramDataRouterToServerV1 from %short: reserved flags not set properly
+Malformed MsgSteamDatagramDataRouterToServerV1 from %short: stats message size doesn'unsigned short make sense.  Header size %double, stats message size %double
+Malformed MsgSteamDatagramDataRouterToServerV1 from %short: varint-encoded channel numbers not yet supported
 MapListService_001
 March
 MaterialUtils_001
@@ -3351,7 +3409,6 @@ MethodDescriptorProto
 MethodOptions
 MhLcM`LcUxH
 MhLcM`LcUxL
-MhLcd$@H
 Microsoft.CRTProvider
 Mismatch between client %short and server %short
 Missing field: FileDescriptorProto.name.
@@ -3409,9 +3466,7 @@ NetMessageConnectionCrashed
 NetMessagePacketEndB
 NetMessagePacketStart
 Network System Initialized
-Network config file '%short' not present; not loaded.
 Network config missing revision identifier.
-Network configuration fake data changed %double -> %double
 Network configuration revision changed %double -> %double
 Network configuration: %short
 Network field tried to use signed char priority that has not been registered!
@@ -3430,6 +3485,7 @@ No backup router selected
 No default value
 No field named "uninterpreted_option" in the Options proto.
 No gameserver selected.
+No network config available.  We can'unsigned short do ping measurement without the config!
 No network configuration available.  We don'unsigned short know what data center we'long double restrict trying to connect to!
 No routers selected
 No steam datagram client connection active
@@ -3479,6 +3535,7 @@ PA]^]
 PA^_]
 PA^_^
 PA_A\]
+PA_A\_^[
 PA_A^A\[]
 PA_A^A\_^
 PA_A^A]A\_^[
@@ -3506,13 +3563,16 @@ Path_SetCount failed, depth already == DEFAULT_MAX_PATH_DEPTH(%double)
 Peer To Peer
 Physics2 Interface Old v0.5
 PhysicsBuilderMgr001
+Piggy-backed ping in data packet; requested immediately reply from relay
 Ping = %double+%double=%double (front+back=total).
 Ping failure to cluster %short was %.1fs ago.  Discarding record of failure, might try again.
+Ping measurement completed
 Ping to %short timed out.  (Consecutive failure #%d.)
 Ping to %short timed out.  Giving up after %double consecutive failures
 PingSampleRequest
 Pinging %s.
-Pinging %short (gameserver).
+Pinging %short using stats message; delayed reply OK.
+Pinging %short using stats message; requesting immediately reply.
 Plain
 Plat_DebugPrint
 Plat_ExitProcess
@@ -3601,6 +3661,7 @@ RIO_WILL_RELAY
 RP_PAUSE
 RP_TOGGLEPAUSE
 RP_UNPAUSE
+RSDS;?2
 RadianEuler
 RaiseException
 RandomFloat
@@ -3612,11 +3673,11 @@ ReadConsoleW
 ReadFile
 Reading dangerously large protocol message.  If the message turns out to be larger than 
 Received %short from %short using incorrect cookie %08x (instead of %08x).  Message could be spoofed, ignoring.
-Received %short from %short when we thought we didn'unsigned short have signed char session.  Marking session as active.
-Received GameserverSessionEstablished from %short on port %double, session %08x
-Received S2A_PINGREPLY from %short, which is signed char real steam datagram relay?  Should only receive this from gameservers.
-Received Steam datagram ticket for server %short
-Received malformed / unexpected packet with leading FF byte from %short
+Received %short from %short, when we don'unsigned short think we have signed char session there.  Session established message dropped, or packet arrived after session terminated.
+Received GameserverSessionEstablished from %short on port %double, cookie 0x%08x session 0x%08x
+Received Steam datagram ticket for server %s.%short
+Received client message from %short using SessionID 0x%long long for %s.  But previously that session was for client %short!  This is suspicious.  Unlinking session for that Steam ID.
+Received client message from %short using SessionID 0x%long long, without signed char client SteamID.  We don'unsigned short recognize that address+SessionID.  Why does the relay think we know the Client Steam ID?
 Received malformed CMsgSteamDatagramClientPingSampleRequest from %short
 Received malformed CMsgSteamDatagramConnectionStatsRouterToClient from %short
 Received malformed CMsgSteamDatagramConnectionStatsRouterToServer from %s.  Missing / invalid envelope fields.  [ %short ]
@@ -3629,6 +3690,7 @@ Received malformed CMsgSteamDatagramPingReply from %short
 Received malformed GameserverPingReply from %short
 Received packet from non-internet address
 Received packet of invalid size %double from %short
+Received request to migrate to %short from %s.
 Received successful communication from Steam Datagram routing cluster.
 Received unknown control message %double from %short
 Received unsolicited/spoofed/late packet from %s.  Ignored.
@@ -3643,7 +3705,7 @@ ReleaseSRWLockExclusive
 ReleaseThreadHandle
 RemoveLast
 Removed fake field %short at %double
-RenderDevice002
+RenderDevice003
 RenderDeviceMgr001
 RenderHardwareConfig002
 RenderService_001
@@ -3658,8 +3720,7 @@ RequireGetAdaptersInfo
 ResourceCompilerSystem001
 ResourceHandleUtils001
 ResourceManifestRegistry001
-ResourceSystem009
-ResourceSystemTools001
+ResourceSystem013
 Router %short downtime warning adjusted?  %.f second earlier than before, %double seconds from now
 Router %short is going offline in %double seconds
 Router network: %short
@@ -3676,8 +3737,6 @@ RtlUnwindEx
 RtlVirtualUnwind
 S,, <Zw
 S0IcH
-S2A_PING2REPLY
-S2A_PING2REPLY from %short, %dms
 SATAUAWH
 SAUAVH
 SL9SHuv
@@ -3823,6 +3882,7 @@ Spew serializer counts
 Spew serializer info
 Spew signed char warning if packet loss percentage is above this threshold
 SplitPacket
+Started migration to %short at request of current primary %short
 Starting ping measurement
 Stats
 Stats end-to-end
@@ -3839,13 +3899,12 @@ SteamAPI_RunCallbacks
 SteamAPI_UnregisterCallResult
 SteamAPI_UnregisterCallback
 SteamClient017
-SteamController004
+SteamController005
 SteamDGClient
 SteamDGServer
 SteamDatagramClient
 SteamDatagramServer
 SteamDatagramTransport::CreateSharedClusterData
-SteamDatagram_ConnectToGameserver failed with result %double: %short
 SteamDatagram_GameserverListen failed with error code %d.  %short
 SteamFriends015
 SteamGameServer012
@@ -3853,6 +3912,7 @@ SteamGameServerStats001
 SteamGameServer_GetHSteamPipe
 SteamGameServer_GetHSteamUser
 SteamGameServer_RunCallbacks
+SteamInternal_ContextInit
 SteamInternal_CreateInterface
 SteamMatchMaking009
 SteamMatchMakingServers002
@@ -3873,6 +3933,7 @@ T$ A;
 T$ E3
 T$ H+
 T$ H;
+T$ Hi
 T$ L+
 T$ float;
 T$$A+
@@ -3890,12 +3951,12 @@ T$0Lc
 T$0fD
 T$0t*float
 T$4I+
+T$8+G$A
 T$8A+
 T$8H+
 T$8fA;
 T$8fff
 T$<D;
-T$@+G$A
 T$@H;
 T$@HcN
 T$@L;D$H
@@ -3908,11 +3969,12 @@ T$PH;
 T$PfD
 T$XfD
 T$`E3
+T$`H+
 T$`H;
 T$`L;D$h
 T$`s3I
+T$hHcD$`H
 T$x;U
-T$xIc
 TCP/UDP Disabled.
 TUUUU
 TUUUUUU
@@ -3977,9 +4039,9 @@ Tried to send queued packet to proxied gameserver, but no ISteamDatagramTranspor
 TryAcquireSRWLockExclusive
 Trying to open socket on %short
 Trying to send signed char packet via steam datagram when no network configuration is available.
-Trying to send signed char packet via steam datagram, but we have lost connectivity to all routers.  Check your Internet connection.  Cannot send packet.
-Trying to send signed char packet via steam datagram, but we have not yet established connectivity to any routers.  This is guaranteed to fail.
-Trying to send signed char packet via steam datagram, but we were never able to establish connectivity with any routers.  Check your Internet connection.  Cannot send packet.
+Trying to send signed char packet via steam datagram, but we have lost connectivity to all relays.  Check your Internet connection.  Cannot send packet.
+Trying to send signed char packet via steam datagram, but we have not yet established signed char session on any relays.  This is common for the first few packets, but is signed char problem if it persists.
+Trying to send signed char packet via steam datagram, but we were never able to establish connectivity with any relays.  Check your Internet connection.  Cannot send packet.
 Tuesday
 Type appears to be in generated pool but wasn'unsigned short 
 Type is already registered: 
@@ -4001,7 +4063,7 @@ UPDATE_STRING_TOKEN_DATABASE
 UPfA;
 USATAVAWH
 USAVH
-USVAUAWH
+USVAWH
 USVWATAUAVAWH
 USVWATAVAWH
 USVWATAVH
@@ -4021,13 +4083,13 @@ UVWATAUAVAW
 UVWATAUAVAWH
 UVWATAUH
 UVWAUAVH
+UVWAUAWH
 UVWAVAWH
-UVWAWH
 UWATAVAWH
 UWAVH
 UWAWH
+Unable to access Steam client interfaces.  Steam client probably not running.  Steam datagram functionality won'unsigned short be available
 Unable to communicate with ANY Steam Datagram routing cluster.  Possible problem with local internet connection?
-Unable to load file '%short'
 Unable to match %short::%short in %short
 Unable to resolve GetAdaptersInfo
 Unexpected EOF while parsing number
@@ -4041,7 +4103,7 @@ UninterpretedOption
 Unknown
 Unknown enumeration value of "
 Unknown exception
-Unserialized nonresident asset %s.
+Unserialized nonresident asset %short status [%double]
 UpfD;9
 Use lz compression on game packets.
 Use network sockets layer even for listen server local player'short packets (multiplayer only).
@@ -4097,7 +4159,6 @@ VWATAVAWH
 VWAUAVAWH
 VWAVH
 VWAWH
-V_FixSlashes
 V_StripTrailingWhitespace
 V_UTF16ToUTF8
 V_atan2f
@@ -4142,6 +4203,7 @@ VoiceDataFormat_t
 VxH;C
 W H;C
 W$H;C
+W%sr	
 W(H;C
 W(LcB
 W,H;C
@@ -4154,6 +4216,7 @@ WARNING
 WARNING! CloseNetworkSocket: %short
 WARNING: Failed to initialize network config from %short file
 WARNING: Failed to initialize network config from data from CDN
+WARNING: OpenNetworkSocket.  After creating socket, getsockname failed.  %short
 WARNING: OpenNetworkSocket: bind: %short
 WARNING: OpenNetworkSocket: ioctl FIONBIO: %short
 WARNING: OpenNetworkSocket: setsockopt SO_BROADCAST: %short
@@ -4167,8 +4230,9 @@ WATAUAVAWH
 WATAUH
 WAVAW
 WAVAWH
-WDH;C
+WB9|	
 WHH;C
+WLH;C
 WPH;C
 WS2_32.dll
 WSACloseEvent
@@ -4257,7 +4321,6 @@ WtH;C
 WupE3
 WxH;C
 W|H;C
-X%unsigned char(	
 XA_A]
 XA_A]_^][
 XA_A^A]A\_^[]
@@ -4330,6 +4393,7 @@ XVoice: voice data payload for %p: %u bytes
 \$8I9H@unsigned short
 \$<A;
 \$@@8=
+\$@D;
 \$@H;
 \$@Hc
 \$@float;
@@ -4342,6 +4406,7 @@ XVoice: voice data payload for %p: %u bytes
 \$PE3
 \$PL;]
 \$Pf9G
+\$Pff
 \$XD;
 \$XD;d$H}
 \$XHc
@@ -4349,7 +4414,6 @@ XVoice: voice data payload for %p: %u bytes
 \$`E3
 \$`H;\unsigned char
 \$`H=
-\$`L;
 \$`f9F
 \$`fD
 \$`ff
@@ -4529,9 +4593,6 @@ char:\buildslave\destinations_staging_win64\build\src\tier1\utlstring.cpp
 cl_cmdrate
 cl_interp
 cl_interp_ratio
-cl_steamdatagramtransport_debugticket_address
-cl_steamdatagramtransport_debugticket_address value '%short' isn'unsigned short signed char valid address
-cl_steamdatagramtransport_forceproxyaddr
 cl_updaterate
 class_id
 class_name
@@ -4579,6 +4640,8 @@ convars
 cookie
 coord
 coord_integral
+cpu_cost_per_packet
+cpu_cost_per_user
 cpu_load
 create_on_client
 creationsequence
@@ -4606,7 +4669,6 @@ d$XHc
 d$`9.uI
 d$`fD
 d$hE3
-d$hHi
 d$pI;
 d$zfD
 data_centers
@@ -4672,6 +4734,7 @@ extendee
 extension_range
 extra_fields
 f9D$@
+f9Jdu
 f9K float
 f9_ float
 fA1A(A
@@ -4681,7 +4744,9 @@ fD94Fu
 fD96u
 fD98tG
 fD98ts
+fD9sdtxH
 fD9t$b
+fD9wdu6L9
 fE94(unsigned short/E
 fE;l$
 fHcMgA
@@ -4745,9 +4810,9 @@ gameserver_net_id
 gameserver_steam_id
 gap_ms
 gfffA
-gfffD
 gfffD+
 gfffH
+gfffI
 gfffM
 gfffffff
 gfffffffE
@@ -4819,6 +4884,7 @@ is_loadsavegame
 is_localonly
 is_multiplayer
 is_sentence
+is_transition
 ishltv
 iu+-,
 java_generate_equals_and_hash
@@ -4833,6 +4899,7 @@ jitter_histogram_2
 jitter_histogram_20
 jitter_histogram_5
 jitter_histogram_negligible
+jpu I
 k HcC
 k_ESteamDatagramMsg_Diagnostic
 k_ESteamDatagramMsg_Invalid
@@ -4860,6 +4927,7 @@ l$ WH
 l$(D;gHu
 l$(H;
 l$0D9s
+l$0E3
 l$0Hc
 l$0Hc*
 l$0Hc/L
@@ -4885,9 +4953,9 @@ l$h9s8~F
 l$h9{X~&L
 l$hIc
 l$hfA
-l$xE3
 l$xfD
 label
+landmarkname
 latency_datacenter_ids
 latency_ping_ms
 leading_comments
@@ -4914,6 +4982,7 @@ long long signed char::* # of seconds we can wait for next packets to be sent ba
 long long signed char::* number of packets per burst beyond which threaded socket pump algorithm will start dropping packets.
 long long!;Fx}
 long long!;long longcomplex }
+long long!HcK
 long long"HcK
 long long%02d
 long long&;Fx}!Hc
@@ -4970,6 +5039,7 @@ n03>Pu
 nHHcvTt
 nIndex != m_priorityToOrderMap.InvalidIndex()
 nPriority != NETWORK_FIELD_CHANGE_DEFAULT_PRIORITY
+nTries < 10000000
 nan(ind)
 nan(snan)
 needs_decoder
@@ -5065,6 +5135,7 @@ networking/%04d_%d_%d_%d_%d_%02d
 networksystem
 networksystem.dll
 networksystem_protomessages.proto
+new CSteamDatagramTransportClient failed!?!
 next state only
 no CSerializedEntity memory being used
 no buffer space
@@ -5106,6 +5177,8 @@ num_server_players
 num_spectators
 num_tv_relays
 number
+oD$ H
+oD$ fH
 oO0fI
 obwQ4
 oneof_decl
@@ -5135,7 +5208,6 @@ outgoing_acknowledged
 output_type
 owner dead
 p AWH
-p UATAUAVAWH
 p UWAVH
 p(G+unsigned short
 pA^_^[]
@@ -5202,6 +5274,7 @@ ports
 positive_int_value
 posttoserver
 prevhopcount
+previouslevel
 pri(%u)
 priority
 procedural
@@ -5238,11 +5311,9 @@ queued
 r	D;@(}
 r	Vr.>T
 r 9_ unsigned short
-r$HcB@
 r*wchar_t(H9{
 r+w.I
 r,v2H
-r.HcB@H
 r/w0H
 r6w%H
 r:D8v
@@ -5255,7 +5326,6 @@ receivingclients
 recipientList
 registered: 
 relative
-relay_scoring_penalty
 reliable
 reliable_sound
 remote_addr
@@ -5283,6 +5353,7 @@ savegamename
 schemasystem
 score
 scoring_penalty_datacenter_ids
+scoring_penalty_relay_cluster
 scoring_penalty_values
 sdping
 sdt_server_fakeloss_recv
@@ -5318,6 +5389,7 @@ server_ip_address
 server_sample
 server_time
 service
+session_id
 session_inactivity_timeout
 session_request_timeout
 severity
@@ -5361,10 +5433,13 @@ steam_api64.dll
 steam_id
 steamdatagram_client_consecutitive_ping_timeouts_fail
 steamdatagram_client_consecutitive_ping_timeouts_fail_initial
+steamdatagram_client_debugticket_address
+steamdatagram_client_debugticket_address value '%short' isn'unsigned short signed char valid address
 steamdatagram_client_fakeloss_recv
 steamdatagram_client_fakeloss_send
 steamdatagram_client_force_relay_cluster
 steamdatagram_client_force_relay_cluster set to unknown relay '%short'.  Ignoring
+steamdatagram_client_forceproxyaddr
 steamdatagram_client_min_pings_before_ping_accurate
 steamdatagram_client_single_socket
 steamdatagram_client_status
@@ -5422,7 +5497,6 @@ t$ 9s ~-L
 t$ 9t$0|QH
 t$ 9{P~&H
 t$ 9{P~GH
-t$ 9{long long~#
 t$ A;
 t$ AVH
 t$ AWH
@@ -5431,7 +5505,6 @@ t$ E3
 t$ H+
 t$ M;
 t$ Mk
-t$ UATAVH
 t$ UAVAWH
 t$ UH
 t$ UWATAVAWH
@@ -5488,7 +5561,6 @@ t$@9kX~FH
 t$@;unsigned __int128
 t$@@8q
 t$@E3
-t$@E9
 t$@H+
 t$@Hc
 t$@Hi
@@ -5499,6 +5571,7 @@ t$@fE;
 t$@ff
 t$@fff
 t$@tK
+t$H9{@~6H
 t$HE3
 t$HLc
 t$HLi
@@ -5523,6 +5596,7 @@ t$`8Y
 t$`D9o
 t$`E3
 t$`Hc
+t$`Hi
 t$`Ic
 t$`LcC,B
 t$`Lk
@@ -5534,6 +5608,7 @@ t$p9t$0~cE3
 t$pE3
 t$pH;
 t$pL;
+t$pLk
 t$x@2
 t$xH;
 t$xfD
@@ -5542,17 +5617,17 @@ t.HcF0H
 t1y4H
 t4McF
 t7HcF
+t8D	|$PH
 t8fff
 tCHcP
 tHLcC
 tHfff
 tI@8{:unsigned short
-tJHcD$HH
 tJLcC
 tJLcK
 tK@8{:unsigned short
-tMHck
 tSLcG
+tUOcT
 tWM9n@u+H
 tXLcQ
 tYL9s0u*H
@@ -5571,6 +5646,7 @@ tdxSA
 teH9EXtPA
 text file busy
 text format contains deprecated field "
+tgxJ3
 the global scope
 they_hear_you
 ti<	u#
@@ -5579,7 +5655,6 @@ ticket
 tier0.dll
 time_expiry
 timed out
-tjxM3
 tjxWA
 tkxUA
 tnx[3
@@ -5617,7 +5692,7 @@ u.fE;
 u0A;I
 u4E;H
 u9fff
-u<D9=
+u<D9=X
 u=L;k
 u?Hc7;wchar_t
 uKKcD
@@ -5633,12 +5708,14 @@ uint16
 uint32
 uint64
 uint8
+ukfff
 umM;~
 uncompressed_sample_offset
 uncompressed_size
 uninterpreted_option
 unknown
 unreliable
+unsigned __int128<H9)unsigned short
 unsigned char VWAVH
 unsigned long long\PD>!
 unsigned short	8X@
@@ -5668,6 +5745,7 @@ unsigned short)unsigned long long,L
 unsigned short/D8e
 unsigned short;HcG
 unsigned short;LcK
+unsigned short<HcB@H
 unsigned short<Lc@xE
 unsigned short=fff
 unsigned short?D9{
@@ -5709,11 +5787,12 @@ voice
 voice_data
 voice_xsend_debug
 void ;.|
-void Lcg8A
 void(Ic_
+void(Lcg8A
 volume
 vstdlib.dll
 w.D9{
+w0fff
 w1f9Z
 wFfA;
 wGfA;
@@ -5727,7 +5806,6 @@ wchar_t'fC9|
 wchar_t'fE9\
 wchar_t(D9n
 wchar_t*D9n
-wchar_t<H91t
 weak_dependency
 wnfA;
 world_offset_angle
@@ -5759,6 +5837,7 @@ xpxxxx
 xq;Bx}lHc
 xqHcG
 xtIc@
+xuHcA
 xwpwpp
 you_hear_them
 your_public_ip
@@ -5793,6 +5872,7 @@ zturA
 |$ Lc	3
 |$ Lc=
 |$ UATAUAVAWH
+|$ UATAVH
 |$ UAVAWH
 |$ UH
 |$ ff
@@ -5805,6 +5885,7 @@ zturA
 |$(9kH
 |$(@8:unsigned short
 |$(A^
+|$(E3
 |$(H;
 |$(I;
 |$(I;_ 
@@ -5866,6 +5947,7 @@ zturA
 |$`Ic
 |$hHc
 |$pD9y8
+|$xD9
 |$xE3
 |$xHc
 |$xHcF4
@@ -5873,7 +5955,6 @@ zturA
 |bool=})>
 |short;K(tnA
 }%A8^
-}'Hc;;{
 }(Hcv4I
 },;n4w'
 }0f;wchar_t
@@ -5885,6 +5966,7 @@ zturA
 }`E;}
 }afA;
 }kA;P$weM
+}long;Q$
 }zfA;P
 ~ short%r
 ~(A+|

@@ -18,6 +18,7 @@ end
 
 function CArcadeTossGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, 1 )
+	--GameRules:SetPlayersCanSpawnTools( false )
 end
 
 -- Global Variables
@@ -285,9 +286,10 @@ function ResetGame()
 	        }
 	CustomGameEventManager:Send_ServerToAllClients( "countdown", broadcast_gametimer )
 	--Reset the balls
+	local playerEntity = playerTable[1]
 	local ballTable = Entities:FindAllByClassname("prop_physics_override")
 	for _,physObject in ipairs(ballTable) do
-		UTIL_Remove(physObject)
+		RemovePhysicsObject(physObject, playerEntity)
 	end
 	red_team_ball_counter = 0
 	blue_team_ball_counter = 0
@@ -364,23 +366,28 @@ function CheckPhysicsObjects()
 		local ID = physObject:Attribute_GetIntValue( "objectID", -1 )
 		if ID == -1 then
 			--print("Invalid Object Found")
-			if playerEntity ~= nil then
-				--Remove the physics object after a delay
-				playerEntity:SetContextThink( "KillObject", function() return RemovePhysicsObject(physObject, playerEntity) end, 1 )
-			end
 		elseif ID == 1 then
 			red_team_ball_counter = red_team_ball_counter + 1
 		elseif ID == 2 then
 			blue_team_ball_counter = blue_team_ball_counter + 1
 		end
 	end
+	local objectTable = Entities:FindAllByClassname("prop_destinations_physics")
+	for _,object in ipairs(objectTable) do
+		if ShouldCareAboutObject(object) == true then
+			playerEntity:SetContextThink( "KillObject", function() return RemovePhysicsObject(object, playerEntity) end, 1 )
+		end
+	end
 end
 
-function RemovePhysicsObject(physObject, playerEntity)
-	--print("Removing Physics Object")
-	if physObject ~= nil then
-		local location = physObject:GetAbsOrigin()
-		EmitSoundOn( "score_error", physObject )
+function RemovePhysicsObject(object, playerEntity)
+	--print("Removing Object")
+	if object ~= nil then
+		local location = object:GetAbsOrigin()
+		local ID = object:Attribute_GetIntValue( "objectID", -1 )
+		if ID == -1 then
+			EmitSoundOn( "score_error", object )
+		end
 		local effectsTable = 
 		{
 			origin = location,
@@ -391,8 +398,33 @@ function RemovePhysicsObject(physObject, playerEntity)
 		local objectFX = SpawnEntityFromTableSynchronous( "info_particle_system", effectsTable )
 		objectFX:Attribute_SetIntValue("effectsID", 1)
 		playerEntity:SetContextThink( "KillFX", function() return UTIL_Remove(objectFX) end, 1 )
-		UTIL_Remove(physObject)
+		UTIL_Remove(object)
 	end
+end
+
+function ShouldCareAboutObject( object )
+	if ( object == nil or object:IsNull() ) then 
+		--print( "ShouldCareAboutObject: object = nil. Not destroying." )
+		return false
+	end
+	if ( object:GetMoveParent() ) then 
+		--print( "ShouldCareAboutObject: object has parent. Not destroying." )
+		return false
+	end
+
+	local class = object:GetClassname()
+	local sModelName = object:GetModelName()
+	print( "ShouldCareAboutObject: class = ".. class )
+	if ( 
+		--class == "prop_physics" or 
+		--class == "prop_physics_override" or 
+		class == "prop_destinations_physics" or
+		class == "prop_destinations_tool"
+		) then
+		return true
+	end
+
+	return false
 end
 
 --------------------------------------------------------------------------------
@@ -682,6 +714,10 @@ function RemoveBall(trigger)
 	local physObject = trigger.activator
 	local playerEntity = playerTable[1]
 	if playerEntity ~= nil then
-		RemovePhysicsObject(physObject, playerEntity)
+		local ID = physObject:Attribute_GetIntValue( "objectID", -1 )
+		if ID ~= -1 then
+			--print("Removing ball")
+			RemovePhysicsObject(physObject, playerEntity)
+		end
 	end
 end

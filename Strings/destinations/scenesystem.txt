@@ -54,6 +54,7 @@
 	val_float
 	val_short
 	worldname
+ 	5 double
                           
                 AAAAAAAAAAAAAAAAZZZZZZZZZZZZZZZZUPDATE_STRING_TOKEN_DATABASE
       Dir %double:
@@ -88,10 +89,10 @@
  9(X`
  = { <proto text format> }". To set fields within it, use syntax like "
  A]A\]
- A^A\]
  A^A\^
- A^A\_
+ A^A\_^]
  A^A]^
+ A^][
  A^^[
  A^^]
  A^_[
@@ -101,6 +102,7 @@
  A_A\[
  A_A\^
  A_A\^][
+ A_A\_
  A_A]A\^]
  A_A]^
  A_A^A\
@@ -113,7 +115,6 @@
  A_A^_
  A_A^_H
  A_^]
- A__[
  A__^
  Base Class Array'
  Base Class Descriptor at (
@@ -286,6 +287,8 @@
 #%short/RenderAView/RenderAView
 #%short/SetupLightingForView/SetupLightingForView
 #%short/SetupLightingForViewVr/SetupLightingForViewVr
+#%short/UpdatePerViewConstantBuffers
+#%short/UpdatePerViewConstantBuffers%double
 #3CScs
 #D$(t$
 #GameUI_ClientConsistencyFail
@@ -317,12 +320,12 @@
 #GameUI_Disconnect_UserCmd
 #GameUI_ServerRequireSteams
 #Hc;;{
-#Hc|$0;|$@u
 #NETWORK_DISCONNECT_BADRELAYPASSWORD
 #NETWORK_DISCONNECT_REJECTED_BY_GAME
 #NETWORK_DISCONNECT_RELIABLEOVERFLOW
 #NETWORK_DISCONNECT_SNAPSHOTOVERFLOW
 #NETWORK_DISCONNECT_TICKMSG_OVERFLOW
+#Qi*H
 #SPAWN_GROUP_LOAD_ENTITIES_FROM_SAVE
 #base
 #base is NULL 
@@ -341,6 +344,7 @@ $0$1 = $2
 $0$1$2 $3 = $4
 $0enum $1 {
 $0option $1;
+$E;WH
 $E;hx
 $Ib?short
 $NETWORK_DISCONNECT_STEAM_AUTHINVALID
@@ -367,7 +371,9 @@ $u2I;
 %d.%d.%double
 %double %double
 %double (%double depth-only, %double depth-only alpha-tested)
+%double draw calls for particles
 %double kb
+%double material binds for particles
 %double particle systems rendered
 %dx%dTriStrippedVB
 %float %float %float
@@ -383,7 +389,7 @@ $u2I;
 &#GameUI_Disconnect_NoPeerGroupHandlers
 &#GameUI_Disconnect_PureServer_Mismatch
 &6FVfv
-&9E8F
+&9D8C
 &?PPPPPPP?
 &NETWORK_DISCONNECT_BAD_SERVER_PASSWORD
 &NETWORK_DISCONNECT_MESSAGE_PARSE_ERROR
@@ -417,6 +423,7 @@ $u2I;
 (;short,|
 (A\_^]
 (A]A\^]
+(A^A]A\]
 (A^A]^]
 (A_A\_^
 (A_A]][
@@ -441,6 +448,7 @@ $u2I;
 (D$PD
 (D$PH
 (D$PL
+(D$Pf
 (D$`float
 (D$pH
 (D$pL
@@ -567,16 +575,15 @@ $u2I;
 )D$PH
 )D$PM
 )D$`A
-)D$`I
 )D$pD
 )D$pH
+)D$pI
 )E Mc
-)E@fff
-)EPfff
-)E`fff
 )L$ D
 )L$0E
 )L$@A
+)L$Pu
+)L$`A
 )L$pA
 )L$pD
 )NETWORK_DISCONNECT_NO_PEER_GROUP_HANDLERS
@@ -598,6 +605,7 @@ $u2I;
 )l$@D
 )l$PD
 )l$PL
+)l$`A
 )l$`E
 )l$pA
 )l$pD
@@ -618,7 +626,9 @@ $u2I;
 )t$PH
 )t$PI
 )t$PL
+)t$PM
 )t$`D
+)t$`E
 )t$`H
 )t$`I
 )t$`L
@@ -626,17 +636,18 @@ $u2I;
 )t$pD
 )t$pE
 )t$pH
+)t$pI
 )t$pr
 )|$ A
 )|$ D
 )|$ H
 )|$ I;
+)|$ M
 )|$0D
 )|$0f
 )|$@D
 )|$@I
 )|$PA
-)|$PD
 )|$PE
 )|$PH
 )|$`D
@@ -650,6 +661,7 @@ $u2I;
 *StO9>T
 +... up
 +;K[k{
++C tHH
 +C$Hc
 +C$xiHc
 +C,+C
@@ -657,7 +669,6 @@ $u2I;
 +NETWORK_DISCONNECT_CLIENT_UNABLE_TO_CRC_MAP
 +NETWORK_DISCONNECT_CONNECT_REQUEST_TIMEDOUT
 +NETWORK_DISCONNECT_STEAM_VAC_CHECK_TIMEDOUT
-+T$hH
 +float)>0'
 +long long east
 +unsigned char->|
@@ -675,8 +686,8 @@ $u2I;
 ,NETWORK_DISCONNECT_SPLITPACKET_SEND_OVERFLOW
 ,NETWORK_DISCONNECT_STEAM_DENY_BAD_ANTI_CHEAT
 ,NETWORK_DISCONNECT_STEAM_LOGGED_IN_ELSEWHERE
-,T$tH
-,\$pf
+,T$|H
+,\$xf
 -- %double Scene Worlds: --
 -- Dumping Scene World %double: 0x%p '%short': %double objects --
 ------ 
@@ -712,14 +723,21 @@ $u2I;
 .?AU?$CAtomicManipulator@V?$CResourceArray@M@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@UAttachmentData_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@UBaseConstraint_t@@@@@@
+.?AU?$CAtomicManipulator@V?$CResourceArray@UBundleData_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@UConstraintSlave_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@UConstraintTarget_t@@@@@@
+.?AU?$CAtomicManipulator@V?$CResourceArray@UFlexController_t@@@@@@
+.?AU?$CAtomicManipulator@V?$CResourceArray@UFlexDesc_t@@@@@@
+.?AU?$CAtomicManipulator@V?$CResourceArray@UFlexOp_t@@@@@@
+.?AU?$CAtomicManipulator@V?$CResourceArray@UFlexRule_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@UHitBoxSet_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@UHitBox_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@UMaterialDrawDescriptor_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@UMaterialGroup_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@UModelBoneFlexDriverControl_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@UModelBoneFlexDriver_t@@@@@@
+.?AU?$CAtomicManipulator@V?$CResourceArray@UMorphData_t@@@@@@
+.?AU?$CAtomicManipulator@V?$CResourceArray@UMorphRectData_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@UOnDiskBufferData_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@UPermModelExtPart_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@URenderBufferBinding_t@@@@@@
@@ -738,52 +756,51 @@ $u2I;
 .?AU?$CAtomicManipulator@V?$CResourceArray@UVPhysXConstraint2_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@UVPhysXJoint_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@V?$CResourceArray@E@@@@@@
-.?AU?$CAtomicManipulator@V?$CResourceArray@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCAnimationGroupResource@@@@@@@@@@
+.?AU?$CAtomicManipulator@V?$CResourceArray@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeAnimationGroupResourceData_t@@@@@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCPhysAggregateData@@@@@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCRenderMesh@@@@@@@@@@
-.?AU?$CAtomicManipulator@V?$CResourceArray@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCSequenceGroupResource@@@@@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeIMaterial2@@@@@@@@@@
+.?AU?$CAtomicManipulator@V?$CResourceArray@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeSequenceGroupResourceData_t@@@@@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@VCResourceString@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@VCTransform@@@@@@
-.?AU?$CAtomicManipulator@V?$CResourceArray@VCVPhysXMesh@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@VQuaternion@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@VVector@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@Vmatrix3x4a_t@@@@@@
+.?AU?$CAtomicManipulator@V?$CResourceArray@W4BundleType_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceArray@_K@@@@
-.?AU?$CAtomicManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCAnimationGroupResource@@@@@@@@
+.?AU?$CAtomicManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeAnimationGroupResourceData_t@@@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCModel@@@@@@@@
-.?AU?$CAtomicManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCMorphSet@@@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCPhysAggregateData@@@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCRenderMesh@@@@@@@@
-.?AU?$CAtomicManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCSequenceGroupResource@@@@@@@@
+.?AU?$CAtomicManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCTextureBase@@@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeIMaterial2@@@@@@@@
+.?AU?$CAtomicManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeMorphSetData_t@@@@@@@@
+.?AU?$CAtomicManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeSequenceGroupResourceData_t@@@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourcePointer@UPhysFeModelDesc_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourcePointer@URenderSkeletonData_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CResourcePointer@VVpropBreakablePartData_t@@@@@@
-.?AU?$CAtomicManipulator@V?$CStrongHandle@UInfoForResourceTypeCMorphSet@@@@@@
 .?AU?$CAtomicManipulator@V?$CStrongHandle@UInfoForResourceTypeIMaterial2@@@@@@
 .?AU?$CAtomicManipulator@V?$CUtlVector@HV?$CUtlMemory@HH@@@@@@
 .?AU?$CAtomicManipulator@V?$CUtlVector@MV?$CUtlMemory@MH@@@@@@
 .?AU?$CAtomicManipulator@V?$CUtlVector@PEAVCBaseConstraint@@V?$CUtlMemory@PEAVCBaseConstraint@@H@@@@@@
 .?AU?$CAtomicManipulator@V?$CUtlVector@PEAVCPhysSurfaceProperties@@V?$CUtlMemory@PEAVCPhysSurfaceProperties@@H@@@@@@
-.?AU?$CAtomicManipulator@V?$CUtlVector@UBuilderModelBoneFlexDriverControl_t@@V?$CUtlMemory@UBuilderModelBoneFlexDriverControl_t@@H@@@@@@
-.?AU?$CAtomicManipulator@V?$CUtlVector@UBuilderModelBoneFlexDriver_t@@V?$CUtlMemory@UBuilderModelBoneFlexDriver_t@@H@@@@@@
+.?AU?$CAtomicManipulator@V?$CUtlVector@UCConstraintSlave@@V?$CUtlMemory@UCConstraintSlave@@H@@@@@@
+.?AU?$CAtomicManipulator@V?$CUtlVector@UCConstraintTarget@@V?$CUtlMemory@UCConstraintTarget@@H@@@@@@
 .?AU?$CAtomicManipulator@V?$CUtlVector@UCSSDSMsg_ViewTarget@@V?$CUtlMemory@UCSSDSMsg_ViewTarget@@H@@@@@@
-.?AU?$CAtomicManipulator@V?$CUtlVector@UConstraintSlave_t@@V?$CUtlMemory@UConstraintSlave_t@@H@@@@@@
-.?AU?$CAtomicManipulator@V?$CUtlVector@UConstraintTarget_t@@V?$CUtlMemory@UConstraintTarget_t@@H@@@@@@
 .?AU?$CAtomicManipulator@V?$CUtlVector@URenderSkeletonBone_t@@V?$CUtlMemory@URenderSkeletonBone_t@@H@@@@@@
 .?AU?$CAtomicManipulator@V?$CUtlVector@VCHitBox@@V?$CUtlMemory@VCHitBox@@H@@@@@@
 .?AU?$CAtomicManipulator@V?$CUtlVector@VCHitBoxSet@@V?$CUtlMemory@VCHitBoxSet@@H@@@@@@
 .?AU?$CAtomicManipulator@V?$CUtlVector@VCMaterialDrawDescriptor@@V?$CUtlMemory@VCMaterialDrawDescriptor@@H@@@@@@
 .?AU?$CAtomicManipulator@V?$CUtlVector@VCSSDSEndFrameViewInfo@@V?$CUtlMemory@VCSSDSEndFrameViewInfo@@H@@@@@@
 .?AU?$CAtomicManipulator@V?$CUtlVectorFixedGrowable@VCSceneObjectData@@$00@@@@
-.?AU?$CAtomicManipulator@V?$CWeakHandle@UInfoForResourceTypeCAnimationGroupResource@@@@@@
+.?AU?$CAtomicManipulator@V?$CWeakHandle@UInfoForResourceTypeAnimationGroupResourceData_t@@@@@@
 .?AU?$CAtomicManipulator@V?$CWeakHandle@UInfoForResourceTypeCModel@@@@@@
-.?AU?$CAtomicManipulator@V?$CWeakHandle@UInfoForResourceTypeCMorphSet@@@@@@
 .?AU?$CAtomicManipulator@V?$CWeakHandle@UInfoForResourceTypeCPhysAggregateData@@@@@@
 .?AU?$CAtomicManipulator@V?$CWeakHandle@UInfoForResourceTypeCRenderMesh@@@@@@
-.?AU?$CAtomicManipulator@V?$CWeakHandle@UInfoForResourceTypeCSequenceGroupResource@@@@@@
+.?AU?$CAtomicManipulator@V?$CWeakHandle@UInfoForResourceTypeCTextureBase@@@@@@
 .?AU?$CAtomicManipulator@V?$CWeakHandle@UInfoForResourceTypeIMaterial2@@@@@@
+.?AU?$CAtomicManipulator@V?$CWeakHandle@UInfoForResourceTypeMorphSetData_t@@@@@@
+.?AU?$CAtomicManipulator@V?$CWeakHandle@UInfoForResourceTypeSequenceGroupResourceData_t@@@@@@
 .?AU?$CAtomicManipulator@VCResourceString@@@@
 .?AU?$CAtomicManipulator@VCTransform@@@@
 .?AU?$CAtomicManipulator@VCUtlString@@@@
@@ -797,7 +814,8 @@ $u2I;
 .?AU?$CAtomicManipulator@Vmatrix3x4a_t@@@@
 .?AU_Crt_new_delete@std@@
 .?AUctype_base@std@@
-.?AV<lambda_008c0f976b3759e918791a9c611aa53d>@@
+.?AV<lambda_615ca625ac2256a2ff7cf187b76c96e9>@@
+.?AV<lambda_ff6f1b20e3265a60845fa993038cc3b5>@@
 .?AV?$CBaseAppSystem@VISceneSystem@@@@
 .?AV?$CBaseAppSystem@VISceneUtils@@@@
 .?AV?$CBaseNonPooledSceneObjectDesc@VC6FaceSkyboxObject@@@@
@@ -811,15 +829,16 @@ $u2I;
 .?AV?$CMemberFunctor1@PEAV?$CParallelProcessorAbstract@V?$CParallelProcessor@UPerTaskData2@DepthBufferRasterizerSSEMT@@V?$CMemberFuncJobItemProcessor@UPerTaskData2@DepthBufferRasterizerSSEMT@@V2@V2@@@$00@@@@P81@EAAXH@ZHV?$CRefCounted1@VCFunctor@@V?$CRefCountServiceBase@$00VCRefMT@@@@@@VCFuncMemPolicyNone@@@@
 .?AV?$CMemberFunctor1@PEAVCSceneSystem@@P81@EAAXPEAVCSceneView@@@ZPEAV2@V?$CRefCounted1@VCFunctor@@V?$CRefCountServiceBase@$00VCRefMT@@@@@@VCFuncMemPolicyNone@@@@
 .?AV?$CMemberFunctor5@PEAVCSceneSystem@@P81@EAAXPEAVCSceneView@@HH_K1@ZPEAV2@HHHHV?$CRefCounted1@VCFunctor@@V?$CRefCountServiceBase@$00VCRefMT@@@@@@VCFuncMemPolicyNone@@@@
-.?AV?$CMemberFunctor6@PEAVCSOAContainer@@P81@EAAXHHHHHM@ZHHHHHMV?$CRefCounted1@VCFunctor@@V?$CRefCountServiceBase@$00VCRefMT@@@@@@VCFuncMemPolicyNone@@@@
+.?AV?$CMemberFunctor6@PEAVCSOAContainer@@P81@EAAXHHHHHT__m128@@@ZHHHHHT2@V?$CRefCounted1@VCFunctor@@V?$CRefCountServiceBase@$00VCRefMT@@@@@@VCFuncMemPolicyNone@@@@
 .?AV?$CMemberFunctor6@PEAVCSceneSystem@@P81@EAAXPEAVCSceneView@@PEAVCSceneLayer@@PEAVCSceneDrawList@@PEAVCRenderBatchList@@_N4@ZPEAV2@PEAV3@PEAV4@PEAV5@_N_NV?$CRefCounted1@VCFunctor@@V?$CRefCountServiceBase@$00VCRefMT@@@@@@VCFuncMemPolicyNone@@@@
 .?AV?$CRefCountServiceBase@$00VCRefMT@@@@
 .?AV?$CRefCounted1@VCFunctor@@V?$CRefCountServiceBase@$00VCRefMT@@@@@@
 .?AV?$CSchemaClassBinding@UAttachmentData_t@@@@
 .?AV?$CSchemaClassBinding@UBaseConstraint_t@@@@
-.?AV?$CSchemaClassBinding@UBuilderModelBoneFlexDriverControl_t@@@@
-.?AV?$CSchemaClassBinding@UBuilderModelBoneFlexDriverList_t@@@@
-.?AV?$CSchemaClassBinding@UBuilderModelBoneFlexDriver_t@@@@
+.?AV?$CSchemaClassBinding@UBundleData_t@@@@
+.?AV?$CSchemaClassBinding@UCConstraintSlave@@@@
+.?AV?$CSchemaClassBinding@UCConstraintTarget@@@@
+.?AV?$CSchemaClassBinding@UCRenderBufferBinding@@@@
 .?AV?$CSchemaClassBinding@UCSSDSMsg_LayerBase@@@@
 .?AV?$CSchemaClassBinding@UCSSDSMsg_PostLayer@@@@
 .?AV?$CSchemaClassBinding@UCSSDSMsg_PreLayer@@@@
@@ -828,6 +847,10 @@ $u2I;
 .?AV?$CSchemaClassBinding@UCSSDSMsg_ViewTargetList@@@@
 .?AV?$CSchemaClassBinding@UConstraintSlave_t@@@@
 .?AV?$CSchemaClassBinding@UConstraintTarget_t@@@@
+.?AV?$CSchemaClassBinding@UFlexController_t@@@@
+.?AV?$CSchemaClassBinding@UFlexDesc_t@@@@
+.?AV?$CSchemaClassBinding@UFlexOp_t@@@@
+.?AV?$CSchemaClassBinding@UFlexRule_t@@@@
 .?AV?$CSchemaClassBinding@UHitBoxSet_t@@@@
 .?AV?$CSchemaClassBinding@UHitBox_t@@@@
 .?AV?$CSchemaClassBinding@UMaterialDrawDescriptor_t@@@@
@@ -835,6 +858,9 @@ $u2I;
 .?AV?$CSchemaClassBinding@UModelBoneFlexDriverControl_t@@@@
 .?AV?$CSchemaClassBinding@UModelBoneFlexDriver_t@@@@
 .?AV?$CSchemaClassBinding@UModelSkeletonData_t@@@@
+.?AV?$CSchemaClassBinding@UMorphData_t@@@@
+.?AV?$CSchemaClassBinding@UMorphRectData_t@@@@
+.?AV?$CSchemaClassBinding@UMorphSetData_t@@@@
 .?AV?$CSchemaClassBinding@UOnDiskBufferData_t@@@@
 .?AV?$CSchemaClassBinding@UPermModelData_t@@@@
 .?AV?$CSchemaClassBinding@UPermModelExtPart_t@@@@
@@ -847,6 +873,7 @@ $u2I;
 .?AV?$CSchemaClassBinding@USceneObjectData_t@@@@
 .?AV?$CSchemaClassBinding@USceneViewId_t@@@@
 .?AV?$CSchemaClassBinding@USkeletonBoneBbox_t@@@@
+.?AV?$CSchemaClassBinding@USkeletonBoneBounds_t@@@@
 .?AV?$CSchemaClassBinding@UVPhysXAggregateData_t@@@@
 .?AV?$CSchemaClassBinding@UVPhysXBodyPart_t@@@@
 .?AV?$CSchemaClassBinding@UVPhysXCollisionAttributes_t@@@@
@@ -862,7 +889,6 @@ $u2I;
 .?AV?$CSchemaClassBinding@Upvsmask_t@CPVSData@@@@
 .?AV?$CSchemaClassBinding@VCAimConstraint@@@@
 .?AV?$CSchemaClassBinding@VCAttachment@@@@
-.?AV?$CSchemaClassBinding@VCBuilderModelInfo@@@@
 .?AV?$CSchemaClassBinding@VCHitBox@@@@
 .?AV?$CSchemaClassBinding@VCHitBoxSet@@@@
 .?AV?$CSchemaClassBinding@VCHitBoxSetList@@@@
@@ -886,23 +912,26 @@ $u2I;
 .?AV?$CSchemaClassBinding@VCSceneObjectReference_t@@@@
 .?AV?$CSchemaClassBinding@VCTiltTwistConstraint@@@@
 .?AV?$CSchemaClassBinding@VCTwistConstraint@@@@
-.?AV?$CSchemaClassBinding@VCVPhysXLevelData@@@@
-.?AV?$CSchemaClassBinding@VCVPhysXMesh@@@@
 .?AV?$CSchemaClassBinding@VCVPhysXSurfacePropertiesList@@@@
 .?AV?$CSchemaClassBinding@VVpropBreakablePartData_t@@@@
 .?AV?$CSchemaEnumBinding@W4AttachmentInfluenceFlags_t@@@@
 .?AV?$CSchemaEnumBinding@W4BoneFlags_t@ModelSkeletonData_t@@@@
+.?AV?$CSchemaEnumBinding@W4BundleType_t@@@@
 .?AV?$CSchemaEnumBinding@W4ConstraintType_t@@@@
+.?AV?$CSchemaEnumBinding@W4EncodingType_t@MorphSetData_t@@@@
 .?AV?$CSchemaEnumBinding@W4EnumFlags0_t@VPhysXConstraintParams_t@@@@
 .?AV?$CSchemaEnumBinding@W4FlagEnum@PermModelInfo_t@@@@
 .?AV?$CSchemaEnumBinding@W4FlagEnum_t@RenderSkeletonData_t@@@@
+.?AV?$CSchemaEnumBinding@W4LookupType_t@MorphSetData_t@@@@
 .?AV?$CSchemaEnumBinding@W4MeshDrawPrimitiveFlags_t@@@@
 .?AV?$CSchemaEnumBinding@W4MeshTranslucencyType_t@@@@
 .?AV?$CSchemaEnumBinding@W4ModelBoneFlexComponent_t@@@@
+.?AV?$CSchemaEnumBinding@W4RenderMeshFlexControllerRemapType_t@@@@
 .?AV?$CSchemaEnumBinding@W4VPhysXFlagEnum_t@VPhysXAggregateData_t@@@@
 .?AV?$CSchemaEnumBinding@W4VPhysXFlagEnum_t@VPhysXBodyPart_t@@@@
 .?AV?$CSchemaEnumBinding@W4VersinEnum_t@VPhysXDiskShapeHeader_t@@@@
 .?AV?$CSchemaEnumBinding@W4multiplayerBreak_t@@@@
+.?AV?$CSchemaFieldVisitorInfoMap@VCExtrefTraversal@@@@
 .?AV?$CSchemaManipulator@Umatrix3x4_t@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@E@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@F@@@@
@@ -911,14 +940,21 @@ $u2I;
 .?AV?$CSchemaManipulator@V?$CResourceArray@M@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@UAttachmentData_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@UBaseConstraint_t@@@@@@
+.?AV?$CSchemaManipulator@V?$CResourceArray@UBundleData_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@UConstraintSlave_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@UConstraintTarget_t@@@@@@
+.?AV?$CSchemaManipulator@V?$CResourceArray@UFlexController_t@@@@@@
+.?AV?$CSchemaManipulator@V?$CResourceArray@UFlexDesc_t@@@@@@
+.?AV?$CSchemaManipulator@V?$CResourceArray@UFlexOp_t@@@@@@
+.?AV?$CSchemaManipulator@V?$CResourceArray@UFlexRule_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@UHitBoxSet_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@UHitBox_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@UMaterialDrawDescriptor_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@UMaterialGroup_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@UModelBoneFlexDriverControl_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@UModelBoneFlexDriver_t@@@@@@
+.?AV?$CSchemaManipulator@V?$CResourceArray@UMorphData_t@@@@@@
+.?AV?$CSchemaManipulator@V?$CResourceArray@UMorphRectData_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@UOnDiskBufferData_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@UPermModelExtPart_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@URenderBufferBinding_t@@@@@@
@@ -937,52 +973,51 @@ $u2I;
 .?AV?$CSchemaManipulator@V?$CResourceArray@UVPhysXConstraint2_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@UVPhysXJoint_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@V?$CResourceArray@E@@@@@@
-.?AV?$CSchemaManipulator@V?$CResourceArray@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCAnimationGroupResource@@@@@@@@@@
+.?AV?$CSchemaManipulator@V?$CResourceArray@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeAnimationGroupResourceData_t@@@@@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCPhysAggregateData@@@@@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCRenderMesh@@@@@@@@@@
-.?AV?$CSchemaManipulator@V?$CResourceArray@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCSequenceGroupResource@@@@@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeIMaterial2@@@@@@@@@@
+.?AV?$CSchemaManipulator@V?$CResourceArray@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeSequenceGroupResourceData_t@@@@@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@VCResourceString@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@VCTransform@@@@@@
-.?AV?$CSchemaManipulator@V?$CResourceArray@VCVPhysXMesh@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@VQuaternion@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@VVector@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@Vmatrix3x4a_t@@@@@@
+.?AV?$CSchemaManipulator@V?$CResourceArray@W4BundleType_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceArray@_K@@@@
-.?AV?$CSchemaManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCAnimationGroupResource@@@@@@@@
+.?AV?$CSchemaManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeAnimationGroupResourceData_t@@@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCModel@@@@@@@@
-.?AV?$CSchemaManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCMorphSet@@@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCPhysAggregateData@@@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCRenderMesh@@@@@@@@
-.?AV?$CSchemaManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCSequenceGroupResource@@@@@@@@
+.?AV?$CSchemaManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeCTextureBase@@@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeIMaterial2@@@@@@@@
+.?AV?$CSchemaManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeMorphSetData_t@@@@@@@@
+.?AV?$CSchemaManipulator@V?$CResourceExtReference@V?$CWeakHandle@UInfoForResourceTypeSequenceGroupResourceData_t@@@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourcePointer@UPhysFeModelDesc_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourcePointer@URenderSkeletonData_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CResourcePointer@VVpropBreakablePartData_t@@@@@@
-.?AV?$CSchemaManipulator@V?$CStrongHandle@UInfoForResourceTypeCMorphSet@@@@@@
 .?AV?$CSchemaManipulator@V?$CStrongHandle@UInfoForResourceTypeIMaterial2@@@@@@
 .?AV?$CSchemaManipulator@V?$CUtlVector@HV?$CUtlMemory@HH@@@@@@
 .?AV?$CSchemaManipulator@V?$CUtlVector@MV?$CUtlMemory@MH@@@@@@
 .?AV?$CSchemaManipulator@V?$CUtlVector@PEAVCBaseConstraint@@V?$CUtlMemory@PEAVCBaseConstraint@@H@@@@@@
 .?AV?$CSchemaManipulator@V?$CUtlVector@PEAVCPhysSurfaceProperties@@V?$CUtlMemory@PEAVCPhysSurfaceProperties@@H@@@@@@
-.?AV?$CSchemaManipulator@V?$CUtlVector@UBuilderModelBoneFlexDriverControl_t@@V?$CUtlMemory@UBuilderModelBoneFlexDriverControl_t@@H@@@@@@
-.?AV?$CSchemaManipulator@V?$CUtlVector@UBuilderModelBoneFlexDriver_t@@V?$CUtlMemory@UBuilderModelBoneFlexDriver_t@@H@@@@@@
+.?AV?$CSchemaManipulator@V?$CUtlVector@UCConstraintSlave@@V?$CUtlMemory@UCConstraintSlave@@H@@@@@@
+.?AV?$CSchemaManipulator@V?$CUtlVector@UCConstraintTarget@@V?$CUtlMemory@UCConstraintTarget@@H@@@@@@
 .?AV?$CSchemaManipulator@V?$CUtlVector@UCSSDSMsg_ViewTarget@@V?$CUtlMemory@UCSSDSMsg_ViewTarget@@H@@@@@@
-.?AV?$CSchemaManipulator@V?$CUtlVector@UConstraintSlave_t@@V?$CUtlMemory@UConstraintSlave_t@@H@@@@@@
-.?AV?$CSchemaManipulator@V?$CUtlVector@UConstraintTarget_t@@V?$CUtlMemory@UConstraintTarget_t@@H@@@@@@
 .?AV?$CSchemaManipulator@V?$CUtlVector@URenderSkeletonBone_t@@V?$CUtlMemory@URenderSkeletonBone_t@@H@@@@@@
 .?AV?$CSchemaManipulator@V?$CUtlVector@VCHitBox@@V?$CUtlMemory@VCHitBox@@H@@@@@@
 .?AV?$CSchemaManipulator@V?$CUtlVector@VCHitBoxSet@@V?$CUtlMemory@VCHitBoxSet@@H@@@@@@
 .?AV?$CSchemaManipulator@V?$CUtlVector@VCMaterialDrawDescriptor@@V?$CUtlMemory@VCMaterialDrawDescriptor@@H@@@@@@
 .?AV?$CSchemaManipulator@V?$CUtlVector@VCSSDSEndFrameViewInfo@@V?$CUtlMemory@VCSSDSEndFrameViewInfo@@H@@@@@@
 .?AV?$CSchemaManipulator@V?$CUtlVectorFixedGrowable@VCSceneObjectData@@$00@@@@
-.?AV?$CSchemaManipulator@V?$CWeakHandle@UInfoForResourceTypeCAnimationGroupResource@@@@@@
+.?AV?$CSchemaManipulator@V?$CWeakHandle@UInfoForResourceTypeAnimationGroupResourceData_t@@@@@@
 .?AV?$CSchemaManipulator@V?$CWeakHandle@UInfoForResourceTypeCModel@@@@@@
-.?AV?$CSchemaManipulator@V?$CWeakHandle@UInfoForResourceTypeCMorphSet@@@@@@
 .?AV?$CSchemaManipulator@V?$CWeakHandle@UInfoForResourceTypeCPhysAggregateData@@@@@@
 .?AV?$CSchemaManipulator@V?$CWeakHandle@UInfoForResourceTypeCRenderMesh@@@@@@
-.?AV?$CSchemaManipulator@V?$CWeakHandle@UInfoForResourceTypeCSequenceGroupResource@@@@@@
+.?AV?$CSchemaManipulator@V?$CWeakHandle@UInfoForResourceTypeCTextureBase@@@@@@
 .?AV?$CSchemaManipulator@V?$CWeakHandle@UInfoForResourceTypeIMaterial2@@@@@@
+.?AV?$CSchemaManipulator@V?$CWeakHandle@UInfoForResourceTypeMorphSetData_t@@@@@@
+.?AV?$CSchemaManipulator@V?$CWeakHandle@UInfoForResourceTypeSequenceGroupResourceData_t@@@@@@
 .?AV?$CSchemaManipulator@VCResourceString@@@@
 .?AV?$CSchemaManipulator@VCTransform@@@@
 .?AV?$CSchemaManipulator@VCUtlString@@@@
@@ -995,30 +1030,28 @@ $u2I;
 .?AV?$CSchemaManipulator@VVectorAligned@@@@
 .?AV?$CSchemaManipulator@Vmatrix3x4a_t@@@@
 .?AV?$CSchemaNonConstructibleClassBinding@VCBaseConstraint@@@@
-.?AV?$CSchemaStrongHandleInspectionManipulator@UInfoForResourceTypeCMorphSet@@@@
 .?AV?$CSchemaStrongHandleInspectionManipulator@UInfoForResourceTypeIMaterial2@@@@
 .?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@HV?$CUtlMemory@HH@@@@H@@
 .?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@MV?$CUtlMemory@MH@@@@M@@
 .?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@PEAVCBaseConstraint@@V?$CUtlMemory@PEAVCBaseConstraint@@H@@@@PEAVCBaseConstraint@@@@
 .?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@PEAVCPhysSurfaceProperties@@V?$CUtlMemory@PEAVCPhysSurfaceProperties@@H@@@@PEAVCPhysSurfaceProperties@@@@
-.?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@UBuilderModelBoneFlexDriverControl_t@@V?$CUtlMemory@UBuilderModelBoneFlexDriverControl_t@@H@@@@UBuilderModelBoneFlexDriverControl_t@@@@
-.?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@UBuilderModelBoneFlexDriver_t@@V?$CUtlMemory@UBuilderModelBoneFlexDriver_t@@H@@@@UBuilderModelBoneFlexDriver_t@@@@
+.?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@UCConstraintSlave@@V?$CUtlMemory@UCConstraintSlave@@H@@@@UCConstraintSlave@@@@
+.?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@UCConstraintTarget@@V?$CUtlMemory@UCConstraintTarget@@H@@@@UCConstraintTarget@@@@
 .?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@UCSSDSMsg_ViewTarget@@V?$CUtlMemory@UCSSDSMsg_ViewTarget@@H@@@@UCSSDSMsg_ViewTarget@@@@
-.?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@UConstraintSlave_t@@V?$CUtlMemory@UConstraintSlave_t@@H@@@@UConstraintSlave_t@@@@
-.?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@UConstraintTarget_t@@V?$CUtlMemory@UConstraintTarget_t@@H@@@@UConstraintTarget_t@@@@
 .?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@URenderSkeletonBone_t@@V?$CUtlMemory@URenderSkeletonBone_t@@H@@@@URenderSkeletonBone_t@@@@
 .?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@VCHitBox@@V?$CUtlMemory@VCHitBox@@H@@@@VCHitBox@@@@
 .?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@VCHitBoxSet@@V?$CUtlMemory@VCHitBoxSet@@H@@@@VCHitBoxSet@@@@
 .?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@VCMaterialDrawDescriptor@@V?$CUtlMemory@VCMaterialDrawDescriptor@@H@@@@VCMaterialDrawDescriptor@@@@
 .?AV?$CSchemaUtlVectorManipulator@V?$CUtlVector@VCSSDSEndFrameViewInfo@@V?$CUtlMemory@VCSSDSEndFrameViewInfo@@H@@@@VCSSDSEndFrameViewInfo@@@@
 .?AV?$CSchemaUtlVectorManipulator@V?$CUtlVectorFixedGrowable@VCSceneObjectData@@$00@@VCSceneObjectData@@@@
-.?AV?$CSchemaWeakHandleInspectionManipulator@UInfoForResourceTypeCAnimationGroupResource@@@@
+.?AV?$CSchemaWeakHandleInspectionManipulator@UInfoForResourceTypeAnimationGroupResourceData_t@@@@
 .?AV?$CSchemaWeakHandleInspectionManipulator@UInfoForResourceTypeCModel@@@@
-.?AV?$CSchemaWeakHandleInspectionManipulator@UInfoForResourceTypeCMorphSet@@@@
 .?AV?$CSchemaWeakHandleInspectionManipulator@UInfoForResourceTypeCPhysAggregateData@@@@
 .?AV?$CSchemaWeakHandleInspectionManipulator@UInfoForResourceTypeCRenderMesh@@@@
-.?AV?$CSchemaWeakHandleInspectionManipulator@UInfoForResourceTypeCSequenceGroupResource@@@@
+.?AV?$CSchemaWeakHandleInspectionManipulator@UInfoForResourceTypeCTextureBase@@@@
 .?AV?$CSchemaWeakHandleInspectionManipulator@UInfoForResourceTypeIMaterial2@@@@
+.?AV?$CSchemaWeakHandleInspectionManipulator@UInfoForResourceTypeMorphSetData_t@@@@
+.?AV?$CSchemaWeakHandleInspectionManipulator@UInfoForResourceTypeSequenceGroupResourceData_t@@@@
 .?AV?$CTier0AppSystem@VISceneSystem@@@@
 .?AV?$CTier0AppSystem@VISceneUtils@@@@
 .?AV?$CTier1AppSystem@VISceneSystem@@$0A@@@
@@ -1033,9 +1066,11 @@ $u2I;
 .?AV?$ISceneObjectDescBase@VCSceneLightProbeVolumeObject@@@@
 .?AV?$ISceneObjectDescBase@VCSceneSunLightObject@@@@
 .?AV?$_Func_base@XPEAVCEnvMapSceneObject@@@std@@
+.?AV?$_Func_base@XPEAVCSceneLightProbeVolumeObject@@@std@@
 .?AV?$_Func_base@XPEAVCSceneObject@@@std@@
 .?AV?$_Func_impl@P6AXPEAVCSceneObject@@@ZV?$allocator@H@std@@XPEAV1@@std@@
-.?AV?$_Func_impl@V<lambda_008c0f976b3759e918791a9c611aa53d>@@V?$allocator@H@std@@XPEAVCEnvMapSceneObject@@@std@@
+.?AV?$_Func_impl@V<lambda_615ca625ac2256a2ff7cf187b76c96e9>@@V?$allocator@H@std@@XPEAVCSceneLightProbeVolumeObject@@@std@@
+.?AV?$_Func_impl@V<lambda_ff6f1b20e3265a60845fa993038cc3b5>@@V?$allocator@H@std@@XPEAVCEnvMapSceneObject@@@std@@
 .?AV?$_Iosb@H@std@@
 .?AV?$basic_ios@DU?$char_traits@D@std@@@std@@
 .?AV?$basic_ostream@DU?$char_traits@D@std@@@std@@
@@ -1144,6 +1179,7 @@ $u2I;
 .?AVCSchemaRegistration@@
 .?AVCSchemaRegistration_modellib@@
 .?AVCSchemaRegistration_scenesystem@@
+.?AVCSchemaVisitorInfoMapBase@@
 .?AVCSimplePostProcessingLayerRenderer@@
 .?AVCSkyBoxObjectDesc@@
 .?AVCSplatGeometryLayerRenderer@@
@@ -1158,6 +1194,8 @@ $u2I;
 .?AVCTwistConstraint@@
 .?AVCUtlMultiJobProcessor@@
 .?AVCVConCommandMessageScene@@
+.?AVCVolumetricFog@@
+.?AVCVolumetricFogRenderer@@
 .?AVConCommand@@
 .?AVConCommandBase@@
 .?AVConVar@@
@@ -1199,6 +1237,7 @@ $u2I;
 .?AVITonemapSystem@@
 .?AVIVConCommDataReceived@@
 .?AVIVSSequence@@
+.?AVIVolumetricFog@@
 .?AV_Facet_base@std@@
 .?AV_Generic_error_category@std@@
 .?AV_Iostream_error_category@std@@
@@ -1325,7 +1364,6 @@ $u2I;
 0><[cZUg^>
 0A;nh|
 0A]^[
-0A^A\]
 0A^A\^
 0A^][
 0A^^]
@@ -1349,6 +1387,8 @@ $u2I;
 0A__[
 0A__^H
 0L97t
+0L9c unsigned short	H
+0L9c(unsigned short	H
 0X8b?~
 0_^[H
 0_^]H
@@ -1380,8 +1420,7 @@ $u2I;
 42HcF,
 4HfA;
 4HfE;
-5CTransform
-6+FXg
+5CResourceString
 6UKG&
 700PP
 700WP
@@ -1418,13 +1457,12 @@ $u2I;
 8_^][
 8ke?;
 9)~SL
+90~R3
 91~bH
-98~Y3
 99C }
 99~-H
 99~7H
 99~BH
-9=96"
 9>powf
 9>~EH
 9A|6H
@@ -1434,6 +1472,7 @@ $u2I;
 9D$4u:
 9D$`~
 9H(|)A
+9PXuvH
 9S void"
 9X@u4
 9Y ~5H
@@ -1522,7 +1561,6 @@ $u2I;
 :>)*	void
 :>t6k'
 ;.L
-;7}JM
 ;<$uDB
 ;A ~W
 ;C ~M
@@ -1530,22 +1568,24 @@ $u2I;
 ;D$@@
 ;D$`|
 ;H9>&X
-;HX}J
+;HX}K
 ;K(tMH
 ;L$8u
-;L$hu
+;L$Xu
 ;S }EH
 ;S8}_
 ;T08u?H
 ;UNKNOWN
 ;W,}#
+;\$T|
 ;\$p|
+;]Pu0
 ;^,}	
 ;_D}DH
 ;k }Z
+;t$Pu
 ;unsigned charcomplex }#
 ;{(} H
-;|$0|
 ;|$H|
 <	vzH
 <	wchar_t	@
@@ -1615,8 +1655,8 @@ $u2I;
 <td>IS_LIGHT_VOLUME</td>
 <td>IS_LOADED</td>
 <td>IS_OCCLUDER</td>
-<td>IS_OPAQUE</td>
 <td>IS_STATIC_DECAL</td>
+<td>IS_SUN_LIGHT</td>
 <td>IS_TRANSLUCENT</td>
 <td>LAYERFLAGS_COMPLETE_ALL_APP_TILES</td>
 <td>LAYERFLAGS_DEBUGDRAW</td>
@@ -1699,13 +1739,13 @@ $u2I;
 =9x$b
 =imb;D
 >-ufH
+>RegisterConfigValue: Unknown error constructing config value "%short"!
 >ffffff
 >jtm}S
-?	C4H
-?	CLH
-?	CLL
-?	G$H
-?	G<L
+?	C,H
+?	CDH
+?	CDL
+?	G4L
 ?!5WOo
 ?!7#unsigned char
 ?"P@;
@@ -1732,7 +1772,7 @@ $u2I;
 ?8o,3
 ?:)F<
 ?:kP<
-?<td>IS_SUN_LIGHT</td>
+?<td>IS_OPAQUE</td>
 ??0CThreadEvent@@QEAA@_N@Z
 ??0CThreadLocalBase@GenericThreadLocals@@QEAA@XZ
 ??0CThreadMutex@@QEAA@XZ
@@ -1765,7 +1805,6 @@ $u2I;
 ?Ji@9
 ?LOuU
 ?LQiP
-?Lcu 
 ?Lock@CThreadFastMutex@@AECAXII@Z
 ?Lock@CThreadMutex@@QEAAXXZ
 ?LockForRead@CThreadSpinRWLock@@QEAAXXZ
@@ -1774,6 +1813,7 @@ $u2I;
 ?LoggingSystem_Log@@YA?AW4LoggingResponse_t@@HW4LoggingSeverity_t@@PEBULoggingMetaData_t@@PEBDZZ
 ?LoggingSystem_Log@@YA?AW4LoggingResponse_t@@HW4LoggingSeverity_t@@PEBULoggingMetaData_t@@VColor@@PEBDZZ
 ?LoggingSystem_Log@@YA?AW4LoggingResponse_t@@HW4LoggingSeverity_t@@VColor@@PEBDZZ
+?Mc~ 
 ?QY^&
 ?R0I?
 ?Release@CThreadSemaphore@@QEAA_NHPEAH@Z
@@ -1825,18 +1865,21 @@ $u2I;
 @.reloc
 @.tls
 @80u#H
-@85L,
+@85*#
+@856{
 @8k unsigned short
 @8k4t
-@8k<unsigned short
+@8kDt
 @8l$8t
 @8nxt:E3
 @8o4t
 @8oxt
 @8p)u]
 @8s$t
-@8t$@tvH
+@8sMtCH
+@8t$Q
 @8ugtS
+@8w=unsigned short:H
 @8y:unsigned short
 @8|$PtN
 @8|$PtP
@@ -1849,8 +1892,6 @@ $u2I;
 @@L+@0
 @@L+@0I
 @A]_[
-@A^A\_^]
-@A^A]A\
 @A^A]A\_^
 @A^][
 @A^^]
@@ -1868,19 +1909,19 @@ $u2I;
 @A_A^A]A\_^]
 @A_A^^
 @A_A^_
+@A__^
 @Hc9H
 @HcC(H
 @HcD$LI
 @HcEo
 @HcGpH
-@JH9X
-@L unsigned short+H
 @Lc:E3
 @SATAWH
 @SAUH
 @SAVAWH
 @SAWH
 @SUATAUAWH
+@SUATAWH
 @SUAUAWH
 @SUAVAWH
 @SUAVH
@@ -1911,31 +1952,32 @@ $u2I;
 @SWAVH
 @SWAWH
 @UATAUAVAWH
+@UATAUAVH
 @UATAUH
-@UATAVH
 @UAUAVAWH
 @UAUAWH
 @UAVAWH
-@USATAUH
 @USAVH
 @USVWATAUAVAWH
 @USVWATAUAVH
 @USVWATAVAWH
+@USVWATAVH
 @USVWAVH
 @USVWH
 @USWH
 @UVATAUH
 @UVATAVAWH
 @UVATH
-@UVAUH
 @UVAVH
 @UVAWH
 @UVWATAUAVAWH
+@UVWATAVH
 @UVWATH
 @UVWAVAWH
 @UVWH
 @UWATAUAWH
 @UWAUAVH
+@UWAUH
 @UWAVH
 @VATAVAWH
 @VATAWH
@@ -1951,13 +1993,14 @@ $u2I;
 @WAVAWH
 @WAVH
 @WAWH
+@\ unsigned short+H
 @^8U)zj
 @bool;zO]
 @fE9|
 @fff>fff>fff>fff>
 @ffffff
 @u1E3
-@unsigned short/H9w0t)H
+@unsigned short/H9w8t)H
 A file with this name is already in the pool.
 A protocol message was rejected because it was too big (more than 
 A sceneobject (perhaps signed char decal) is still in the world that needs to be deleted before deleting the world.
@@ -1966,9 +2009,11 @@ A(9C(}
 A(A9@
 A(A9@(}
 A(A9C(}
+A(H9A
 A+H,A
 A02B0$
 A03>A|
+A0H9A
 A2H0A
 A81t@@8r
 A84.u
@@ -1976,10 +2021,11 @@ A86taH
 A8@nu
 A8H	P(
 A8Hcj@
+A8MZvw
 A8f9B8u(
 A96~FH
-A96~h3
 A9@HuA;int
+A9@hu#
 A9B(|
 A9P }
 A9Q }
@@ -1989,6 +2035,7 @@ A9^long long~93
 A9_@~ I
 A9nh~}E3
 A9q }EI
+A:]Zr
 A:f9B:u
 A;>~TH
 A;@0}
@@ -2017,12 +2064,12 @@ AA<Fu
 ABCDEFGHIJKLMNOPQRSTUVWXYZ
 ABGR8888
 ABfA;
-ACAnimationDecodeContext::AddAnimationDecodeDesc ran out of allocator memory (1)
+ADouble-save to Member '%short'
 AHcD$@I
 AK>(void
+AP9A@}]HcA@Hk
 APPSYSTEM: In ConnectInterfaces(), s_nRegistrationCount is %double!
 ARGB8888
-ATAUAVH
 ATAUH
 ATAVAWH
 ATAVH
@@ -2037,40 +2084,43 @@ ATTEMPTED TO DECOMMIT OWNED MEMORY STACK SPACE
 AUAVAWH
 AUUUUUU
 AVAWH
-AX9A@}]HcA@Hk
 AX9BXu
 A\_[]
 A\_^]
-A]A\[]
 A]A\]
-A]A\^]
 A]A\_[]
+A]A\_]
+A]A\_^]
 A]_^[
 A]_^][
 A]_^][H
 A^A\[]
 A^A\]
 A^A\_[]
-A^A\_]
 A^A\_^[
 A^A\_^[]
+A^A\_^]
 A^A]A\_^[]
 A^A][
 A^A]]
-A^A]^]
 A^A]_]
 A^A]_^[
 A^_]H
 A^_^[
 A^_^[]
+A^_^]
 A^_^][
-A_A\_
+A_A\^[]
+A_A\^]
 A_A\_[
 A_A\_[H
+A_A\_[]
 A_A\_]
+A_A\_^[]
 A_A]A\[]
 A_A]A\][
 A_A]A\^]
+A_A]A\_[I
 A_A]A\_^[]
 A_A]]
 A_A]^[
@@ -2080,12 +2130,11 @@ A_A]_^[]
 A_A^A\
 A_A^A\H
 A_A^A\[]
+A_A^A\]
 A_A^A\^
-A_A^A\^[]
 A_A^A\^]
 A_A^A\_]
 A_A^A\_^
-A_A^A\_^[
 A_A^A\_^[]
 A_A^A\_^][
 A_A^A]
@@ -2101,21 +2150,18 @@ A_A^A]]
 A_A^A]^[]
 A_A^A]^][
 A_A^A]_[
-A_A^A]_]
 A_A^A]_^H
 A_A^[
 A_A^]
 A_A^]H
 A_A^^
-A_A^^]
 A_A^_
 A_A^_H
 A_A^_[]
-A_A^_]
+A_A^_^[]
 A_A^_^]
 A_A^_^][
 A__[]
-A__^]
 Access violation - no RTTI data!
 AcquireSRWLockExclusive
 AddBool
@@ -2158,12 +2204,14 @@ AuthA
 Available
 B(A9C
 B(I9A(
-B(fA9@Pu%
-B*fA9@Ru
-B89B }4HcB H
+B(fA9@Pu/
+B*fA9@Ru$H
+B09B }4HcB H
+B0I9@Xu
 B8<2u
 B8|09
 B:f9F
+B@9B0}\HcB0H
 B@H+P0
 B@H+P0I
 BC1%M
@@ -2180,9 +2228,12 @@ BGRA8888_LINEAR
 BGRX5551
 BGRX8888
 BGRX8888_LINEAR
-BH9B0}\HcB0H
 BHcD$HH
 BRz1&
+BUNDLE_TYPE_COUNT
+BUNDLE_TYPE_NONE
+BUNDLE_TYPE_NORMAL_WRINKLE
+BUNDLE_TYPE_POSITION_SPEED
 BXL9BPu#M
 BackUp() can only be called after signed char successful Next().
 Bad dynamic_cast!
@@ -2194,14 +2245,14 @@ BakedLODBuilderMgr001
 BaseConstraint_t
 BaseSceneObjectDesc
 Begin has already been called without an intervening render
+Begin to finish rendering views : %float
 BenchmarkService001
 BinMeshes
 BinaryProperties_GetValue
 Boolean default must be true or false.
 Breakpoint on delete
-BuilderModelBoneFlexDriverControl_t
-BuilderModelBoneFlexDriverList_t
-BuilderModelBoneFlexDriver_t
+BundleData_t
+BundleType_t
 Burst Randomize
 Burst Scale
 Byte size calculation and serialization were inconsistent.  This may indicate signed char bug in protocol buffers or it may be caused by concurrent modification of the message.
@@ -2213,6 +2264,7 @@ C(H9k0t	H
 C(HcC$H
 C,HcK(H
 C09w(~:L
+C0L9}ht(H
 C0u!H
 C4LcC0H
 C5R?	
@@ -2228,16 +2280,17 @@ C@H98t%H
 C@L90t%H
 CA< unsigned short(<#unsigned short
 CAimConstraint
+CAnimationDecodeContext::AddAnimationDecodeDesc ran out of allocator memory (1)
 CAnimationDecodeContext::AddAnimationDecodeDesc ran out of allocator memory (2)
 CAnimationDecodeContext::AddAnimationDecodeDesc ran out of allocator memory (3)
 CAtomicManipulator<class CResourceArray<class CResourceArray<unsigned char> > >::Allocate
 CAtomicManipulator<class CResourceArray<class CResourceArray<unsigned char> > >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<class CResourceArray<unsigned char> > >::Copy
 CAtomicManipulator<class CResourceArray<class CResourceArray<unsigned char> > >::Deallocate
-CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeCAnimationGroupResource> > > >::Allocate
-CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeCAnimationGroupResource> > > >::AllocateAndCopy
-CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeCAnimationGroupResource> > > >::Copy
-CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeCAnimationGroupResource> > > >::Deallocate
+CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeAnimationGroupResourceData_t> > > >::Allocate
+CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeAnimationGroupResourceData_t> > > >::AllocateAndCopy
+CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeAnimationGroupResourceData_t> > > >::Copy
+CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeAnimationGroupResourceData_t> > > >::Deallocate
 CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeCPhysAggregateData> > > >::Allocate
 CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeCPhysAggregateData> > > >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeCPhysAggregateData> > > >::Copy
@@ -2246,14 +2299,14 @@ CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakH
 CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeCRenderMesh> > > >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeCRenderMesh> > > >::Copy
 CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeCRenderMesh> > > >::Deallocate
-CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeCSequenceGroupResource> > > >::Allocate
-CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeCSequenceGroupResource> > > >::AllocateAndCopy
-CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeCSequenceGroupResource> > > >::Copy
-CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeCSequenceGroupResource> > > >::Deallocate
 CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeIMaterial2> > > >::Allocate
 CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeIMaterial2> > > >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeIMaterial2> > > >::Copy
 CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeIMaterial2> > > >::Deallocate
+CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeSequenceGroupResourceData_t> > > >::Allocate
+CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeSequenceGroupResourceData_t> > > >::AllocateAndCopy
+CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeSequenceGroupResourceData_t> > > >::Copy
+CAtomicManipulator<class CResourceArray<class CResourceExtReference<class CWeakHandle<struct InfoForResourceTypeSequenceGroupResourceData_t> > > >::Deallocate
 CAtomicManipulator<class CResourceArray<class CResourceString> >::Allocate
 CAtomicManipulator<class CResourceArray<class CResourceString> >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<class CResourceString> >::Copy
@@ -2262,10 +2315,6 @@ CAtomicManipulator<class CResourceArray<class CTransform> >::Allocate
 CAtomicManipulator<class CResourceArray<class CTransform> >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<class CTransform> >::Copy
 CAtomicManipulator<class CResourceArray<class CTransform> >::Deallocate
-CAtomicManipulator<class CResourceArray<class CVPhysXMesh> >::Allocate
-CAtomicManipulator<class CResourceArray<class CVPhysXMesh> >::AllocateAndCopy
-CAtomicManipulator<class CResourceArray<class CVPhysXMesh> >::Copy
-CAtomicManipulator<class CResourceArray<class CVPhysXMesh> >::Deallocate
 CAtomicManipulator<class CResourceArray<class Quaternion> >::Allocate
 CAtomicManipulator<class CResourceArray<class Quaternion> >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<class Quaternion> >::Copy
@@ -2278,6 +2327,10 @@ CAtomicManipulator<class CResourceArray<class matrix3x4a_t> >::Allocate
 CAtomicManipulator<class CResourceArray<class matrix3x4a_t> >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<class matrix3x4a_t> >::Copy
 CAtomicManipulator<class CResourceArray<class matrix3x4a_t> >::Deallocate
+CAtomicManipulator<class CResourceArray<enum BundleType_t> >::Allocate
+CAtomicManipulator<class CResourceArray<enum BundleType_t> >::AllocateAndCopy
+CAtomicManipulator<class CResourceArray<enum BundleType_t> >::Copy
+CAtomicManipulator<class CResourceArray<enum BundleType_t> >::Deallocate
 CAtomicManipulator<class CResourceArray<float> >::Allocate
 CAtomicManipulator<class CResourceArray<float> >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<float> >::Copy
@@ -2294,6 +2347,10 @@ CAtomicManipulator<class CResourceArray<struct BaseConstraint_t> >::Allocate
 CAtomicManipulator<class CResourceArray<struct BaseConstraint_t> >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<struct BaseConstraint_t> >::Copy
 CAtomicManipulator<class CResourceArray<struct BaseConstraint_t> >::Deallocate
+CAtomicManipulator<class CResourceArray<struct BundleData_t> >::Allocate
+CAtomicManipulator<class CResourceArray<struct BundleData_t> >::AllocateAndCopy
+CAtomicManipulator<class CResourceArray<struct BundleData_t> >::Copy
+CAtomicManipulator<class CResourceArray<struct BundleData_t> >::Deallocate
 CAtomicManipulator<class CResourceArray<struct ConstraintSlave_t> >::Allocate
 CAtomicManipulator<class CResourceArray<struct ConstraintSlave_t> >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<struct ConstraintSlave_t> >::Copy
@@ -2302,6 +2359,22 @@ CAtomicManipulator<class CResourceArray<struct ConstraintTarget_t> >::Allocate
 CAtomicManipulator<class CResourceArray<struct ConstraintTarget_t> >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<struct ConstraintTarget_t> >::Copy
 CAtomicManipulator<class CResourceArray<struct ConstraintTarget_t> >::Deallocate
+CAtomicManipulator<class CResourceArray<struct FlexController_t> >::Allocate
+CAtomicManipulator<class CResourceArray<struct FlexController_t> >::AllocateAndCopy
+CAtomicManipulator<class CResourceArray<struct FlexController_t> >::Copy
+CAtomicManipulator<class CResourceArray<struct FlexController_t> >::Deallocate
+CAtomicManipulator<class CResourceArray<struct FlexDesc_t> >::Allocate
+CAtomicManipulator<class CResourceArray<struct FlexDesc_t> >::AllocateAndCopy
+CAtomicManipulator<class CResourceArray<struct FlexDesc_t> >::Copy
+CAtomicManipulator<class CResourceArray<struct FlexDesc_t> >::Deallocate
+CAtomicManipulator<class CResourceArray<struct FlexOp_t> >::Allocate
+CAtomicManipulator<class CResourceArray<struct FlexOp_t> >::AllocateAndCopy
+CAtomicManipulator<class CResourceArray<struct FlexOp_t> >::Copy
+CAtomicManipulator<class CResourceArray<struct FlexOp_t> >::Deallocate
+CAtomicManipulator<class CResourceArray<struct FlexRule_t> >::Allocate
+CAtomicManipulator<class CResourceArray<struct FlexRule_t> >::AllocateAndCopy
+CAtomicManipulator<class CResourceArray<struct FlexRule_t> >::Copy
+CAtomicManipulator<class CResourceArray<struct FlexRule_t> >::Deallocate
 CAtomicManipulator<class CResourceArray<struct HitBoxSet_t> >::Allocate
 CAtomicManipulator<class CResourceArray<struct HitBoxSet_t> >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<struct HitBoxSet_t> >::Copy
@@ -2326,6 +2399,14 @@ CAtomicManipulator<class CResourceArray<struct ModelBoneFlexDriver_t> >::Allocat
 CAtomicManipulator<class CResourceArray<struct ModelBoneFlexDriver_t> >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<struct ModelBoneFlexDriver_t> >::Copy
 CAtomicManipulator<class CResourceArray<struct ModelBoneFlexDriver_t> >::Deallocate
+CAtomicManipulator<class CResourceArray<struct MorphData_t> >::Allocate
+CAtomicManipulator<class CResourceArray<struct MorphData_t> >::AllocateAndCopy
+CAtomicManipulator<class CResourceArray<struct MorphData_t> >::Copy
+CAtomicManipulator<class CResourceArray<struct MorphData_t> >::Deallocate
+CAtomicManipulator<class CResourceArray<struct MorphRectData_t> >::Allocate
+CAtomicManipulator<class CResourceArray<struct MorphRectData_t> >::AllocateAndCopy
+CAtomicManipulator<class CResourceArray<struct MorphRectData_t> >::Copy
+CAtomicManipulator<class CResourceArray<struct MorphRectData_t> >::Deallocate
 CAtomicManipulator<class CResourceArray<struct OnDiskBufferData_t> >::Allocate
 CAtomicManipulator<class CResourceArray<struct OnDiskBufferData_t> >::AllocateAndCopy
 CAtomicManipulator<class CResourceArray<struct OnDiskBufferData_t> >::Copy
@@ -2418,7 +2499,8 @@ CAttachment
 CB9C0~%H
 CBaseConstraint
 CBlitTextureToBackBufferLayer
-CBuilderModelInfo
+CConstraintSlave
+CConstraintTarget
 CD$8D
 CD$h@
 CD$hH
@@ -2531,13 +2613,13 @@ CPhysSurfacePropertiesGame
 CPhysSurfacePropertiesPhysics
 CPhysSurfacePropertiesSoundNames
 CPointConstraint
+CRenderBufferBinding
 CRenderMesh
 CRenderSkeleton
 CResourceArray
 CResourceExtReference
 CResourcePointer
 CResourceStream::Align
-CResourceString
 CSOAContainer::SetAttributeType - ERROR, trying to change type of previously-defined attribute %double!
 CSSDSEndFrameViewInfo
 CSSDSMsg_EndFrame
@@ -2555,20 +2637,20 @@ CSceneObject
 CSceneObjectData
 CSceneObjectExtraData_t
 CSceneObjectReference_t
-CSceneSystem::AllocateScratchRenderTargets(1117): 
-CSceneSystem::BakeData(1931): 
+CSceneSystem::AllocateScratchRenderTargets(1118): 
+CSceneSystem::BakeData(1796): 
 CSceneSystem::BeginRenderingViews
 CSceneSystem::ChangeObjectPartition
-CSceneSystem::CompletionWaitJob(6141): Waited 500 ms for jobs to complete. Attempt to drain windows message queue. Jobs in queue = %double
+CSceneSystem::CompletionWaitJob(6261): Waited 500 ms for jobs to complete. Attempt to drain windows message queue. Jobs in queue = %double
 CSceneSystem::CreateStaticShape(309): 
 CSceneSystem::DeleteObjectForReal
 CSceneSystem::DeleteSceneObject
 CSceneSystem::FindRefInfo
 CSceneSystem::FinishRenderingViews
-CSceneSystem::GenerateCompositeMorphTextureAtlas(5042): Expecting 1 renderable pass for material "%short" but found %double!
+CSceneSystem::GenerateCompositeMorphTextureAtlas(5104): Expecting 1 renderable pass for material "%short" but found %double!
 CSceneSystem::InitGfxObjects(703): 
 CSceneSystem::InitGfxObjects(810): 
-CSceneSystem::InitializeRenderAttributes(3675): 
+CSceneSystem::InitializeRenderAttributes(3701): 
 CSceneSystem::InstallTemplateViewFactory
 CSceneSystem::SetLightCookieTexture, trying to set texture %short that has no sheet data!
 CSceneSystem::Thread_RenderOccludersAndQueueRenderPartitions
@@ -2594,14 +2676,18 @@ CT$XH
 CT$xD
 CTSListBase: Misaligned list
 CTSListBase::CTSListBase
+CTSQueue corruption
 CTSQueue: Misaligned queue
 CTSQueue<class CFunctor *,0>::CTSQueue
+CTSQueue<class CFunctor *,0>::Push
 CTSQueue<class CSceneObject *,0>::CTSQueue
+CTSQueue<class CSceneObject *,0>::Push
 CTextureDisplayer
 CTiltTwistConstraint
 CTonemapRenderer is trying to render with an invalid occlusion query handle. Are we rendering while the screen isn'unsigned short visible? Look for signed char previous warning saying we ran out of buckets.
 CTonemapRenderer needs to use signed char layer which has had signed char render attribute called "ColorBuffer" set!
 CTonemapSystem::GenerateRendererData ran out of buckets!!
+CTransform
 CTwistConstraint
 CType
 CUUUU
@@ -2625,9 +2711,9 @@ CUtlStringToken
 CUtlVector
 CUtlVectorFixedGrowable
 CVConCommandMessageScene::MessageData
-CVPhysXLevelData
-CVPhysXMesh
 CVPhysXSurfacePropertiesList
+CVolumetricFogRenderer needs to use signed char layer which has had signed char render attribute called "ColorBuffer" set!
+CVolumetricFogRenderer needs to use signed char layer which has had signed char render attribute called "DepthBuffer" set!
 CWD>~3
 CWeakHandle
 CXHc8H
@@ -2703,7 +2789,6 @@ CreateThreadpoolWork
 Ct$0H
 CtHcKpH
 D W?{W
-D$  `
 D$ 9D$ H
 D$ 9F
 D$ ;V
@@ -2725,10 +2810,10 @@ D$(HcA
 D$(I;G
 D$(L9
 D$(M;
-D$(fA
 D$(fH
 D$(fI
 D$(fff?
+D$,;D$0
 D$,fff?H
 D$0D;
 D$0E+
@@ -2740,6 +2825,7 @@ D$0I;
 D$0L+
 D$0L;
 D$0Lc
+D$0fA
 D$0fD
 D$0fH
 D$1uJH
@@ -2772,19 +2858,20 @@ D$@I;
 D$@L;D$Hu
 D$@fD
 D$@fff
+D$BE3
+D$DE3
 D$H;F
 D$HE3
 D$HH+
 D$HH;
 D$HH;C
-D$HHP
 D$HL+
 D$Hff
 D$H~P
 D$P I
+D$P `
 D$P9A
 D$P;C
-D$PD8t$R
 D$PE9H@~;A
 D$PH+
 D$PH;
@@ -2792,31 +2879,29 @@ D$PHi
 D$PI;
 D$PL;
 D$PL;D$Xu
-D$PfA
-D$P|"
-D$TH9r
-D$T|"
-D$UE3
+D$THP
 D$X;C
 D$XD8p
 D$XD90}
 D$XD;C
 D$XE3
+D$XH;
 D$XHc
 D$XIc
-D$`72G
+D$YE3
+D$\=8
 D$`A9B
 D$`A;B
-D$`Ak
 D$`D9
 D$`E3
 D$`H;
-D$`H;E
 D$`Hc
 D$`L;
+D$`_.
 D$`fA
 D$`fD
 D$`fE
+D$d_.
 D$h;X(|
 D$h;X@|
 D$h;XX|
@@ -2833,20 +2918,24 @@ D$hLc
 D$hM+
 D$hfff
 D$p(;M8
+D$pAk
 D$pD;
+D$pE2
 D$pE3
 D$pH+
-D$pH;
 D$pIc
 D$xD;unsigned charimaginary 
 D$xE3
 D$xE;
 D$xHc
+D$xfA
 D$xfD
+D$xud
+D$|72G
 D+d$@D
+D+d$XD
 D+l$DD
 D+l$HD
-D+l$LD
 D08@unsigned short	
 D15S1
 D16_SHADOW
@@ -2856,22 +2945,26 @@ D24S8
 D24X4S4
 D24X8
 D24X8_SHADOW
-D8%J@"
-D8%hw
-D8%ox
+D6@E3
+D8%B#
+D8%Q0"
+D8%Z1"
+D8%oA
 D8&t4H
 D8&unsigned short!
-D8-Gp
+D8-3I
 D82u&H
+D85>}
+D8=char($
 D8D$9t$
-D8D$SH
-D8D$UH
+D8D$YH
 D8D$hH
 D8J<A
 D8Y:uEH
 D8`)unsigned short#E
 D8a:uDH
 D8c:u
+D8cetHH
 D8d$8t
 D8d$H
 D8d$Ht
@@ -2884,13 +2977,11 @@ D8m0u=H
 D8s4t
 D8t$8t
 D8t$Ht
-D8t$Pt
-D8t$PtXA
-D8t$Pt[A
-D8t$Q
 D8uPt
+D8wUtDH
 D8x)unsigned short!E3
 D8{4t
+D8|$@tiH
 D8|unsigned short*
 D9.tUH
 D91uDH
@@ -2907,20 +2998,17 @@ D9S,~XA
 D9`Xu
 D9c(unsigned short
 D9d$h
-D9hXupH
 D9p,~9I
-D9pXD
 D9pXtsH
 D9pXu
-D9t$0~6A
+D9qXA
 D9xXt
 D9xXt)H
 D9{H~7I
 D9{X~7I
 D9|$ 
-D9|$H~II
+D9|$H~EI
 D;@ }
-D;A@}
 D;B }
 D;C A
 D;C tM
@@ -2939,7 +3027,6 @@ D;t$T
 D;u u	H
 D;unsigned char&&}#
 D;vh|
-D;wchar_t(u	H
 D;{ |
 D;|$X
 D<P0I
@@ -2974,11 +3061,8 @@ Disable drawing
 DmeSurfaceAudioParams
 DmeSurfaceAudioSounds
 DmeSurfacePhysicsParams
-DmeVPhysXLevel
-DmeVPhysXMesh
 Do Not Cast Shadows
 DotaCardGameClient_001
-Double-save to Member '%short'
 Downsample2x
 Downsample4x
 Draw Calls: 
@@ -2986,20 +3070,21 @@ Draw Proxy: qh:%p org:<%double,%double,%double> (frame:%double)
 Draw everything normal and ignore the source for rendering
 DrawDepthSq
 DrawList : 
-DrawMaterialQuad(2463): Material %short cannot render in mode %short but is being asked to
+DrawMaterialQuad(2537): Material %short cannot render in mode %short but is being asked to
 DrawSpotLightShadow
 Dump debug info
 Dump signed char list of the objects in signed char sceneworld (Usage: sc_dumpworld <world_index>)
 Dump the objects in signed char sceneworld into signed char 3d geoview buffer (Usage: sc_dumpworld3d <world_index>)
 Durbanville1
+E H_	
+E KcT
 E$HcM H
 E+BHI
-E,eCP
+E0-%unsigned long
 E0HcH
 E0Lc$
 E0Lcx
-E4xiF
-E8HcD$PL
+E4-%unsigned long
 E9.tVH
 E9A(|
 E9C@~?I
@@ -3011,8 +3096,10 @@ E@A;F
 E@H+h0H
 ED$(H
 ED$4H
-EJH9h
+EHHcD$`L
+EHeCP
 ENetworkDisconnectionReason
+EPxiF
 ERROR
 ERROR: CAtomicManipulator::Allocate() Cannot allocate CResourceArray
 ERROR: CAtomicManipulator::Allocate() Cannot allocate ISceneObjectDesc
@@ -3022,13 +3109,14 @@ ERROR: CAtomicManipulator::Copy() Cannot copy CResourceArray(FIXME: maybe you ca
 ERROR: CAtomicManipulator::Copy() Cannot copy ISceneObjectDesc(FIXME: maybe you can?)
 ERROR: CAtomicManipulator::Deallocate() Cannot deallocate CResourceArray
 ERROR: CAtomicManipulator::Deallocate() Cannot deallocate ISceneObjectDesc
-E]XLc
-E`long long%~
-E`u	H
+E\#Qi*
+E\$pLc
+E`9Ep|KH
 EarlyInit_Tier0
 EconItemToolModel_001
 EgE;__float128@
 EgH+E
+Ehx%~
 Enable breakpoint
 Enable display of console messages on screen. 1 = Enabled, 0 = Disabled, -1 = Enabled if vgui is not present
 Enable drawing
@@ -3060,6 +3148,7 @@ EventSetInformation
 EventSystem001
 EventUnregister
 EventWriteTransfer
+Ex#Qi*
 Exact
 ExitMainViaCRT
 ExitProcess
@@ -3086,10 +3175,10 @@ Extension range end number must be greater than start number.
 ExtensionRange
 Extensions of MessageSets must be optional messages.
 Extensions to non-lite types can only be declared in non-lite files.  Note that you cannot extend signed char non-lite type to contain signed char lite type, but the reverse is allowed.
-F 0u$H
 F 9C@|
 F @8p)u]
 F$HcN H
+F-Hc]
 F>qUxv
 F@9G |	@2
 F@@8h)u
@@ -3098,6 +3187,10 @@ FCVAR_NEVER_AS_STRING
 FDSSH
 FHAiUh
 FHcC,
+FLEXCONTROLLER_REMAP_2WAY
+FLEXCONTROLLER_REMAP_EYELID
+FLEXCONTROLLER_REMAP_NWAY
+FLEXCONTROLLER_REMAP_PASSTHRU
 FX@8h(unsigned short
 FX@8h)u
 F`@8h)u
@@ -3141,10 +3234,15 @@ FillPreTessPatchIB
 FillPreTessPatchVB
 FilterFrom
 FindOrCreateRenderTarget: Does not work to pass pOtherView == this!
+Finish to complete : %float
 FinishRenderingViews has been called without signed char call to begin!!!
 First argument to Swap() (of type "
 First argument to SwapFields() (of type "
 FlattenedSerializersVersion001
+FlexController_t
+FlexDesc_t
+FlexOp_t
+FlexRule_t
 FloatBitMap_t::ConvertGammaToLinear
 FloatBitMap_t::LoadFromBuffer: Received improper buffer size, skipping!
 FloatBitMap_t::LoadFromBuffer: Unsupported color format, skipping!
@@ -3165,13 +3263,13 @@ From Enum Binding
 G 8X@unsigned short:H
 G 9C@|
 G A9F@|
-G IcT
 G*Uz]
 G,HcO(H
 G,iV(
+G09G }6HcG H
 G0Hc	H
-G89G }6HcG H
 G8@8n4t{H
+G8@8w
 G8D8t$8t/A
 G@fA;
 GAMECONSOLE
@@ -3180,7 +3278,6 @@ GEOVH
 GGXc=
 GHiVX
 GXkVp8H
-G`KcD
 GameResourceServiceClientV001
 GameResourceServiceServerV001
 GameStartup
@@ -3275,13 +3372,16 @@ H+q@HcO,H
 H0Ic@,Hc
 H9)u 
 H90t%H
+H90t&
 H91u 
 H92u&
 H92u,
-H97t6H
+H951T
+H95SW
 H97t<
 H98t%H
 H9;uAA
+H9;void#H
 H9A u
 H9A u&
 H9A u6
@@ -3318,7 +3418,6 @@ H9Qhv
 H9Z short
 H9\$X
 H9o(H
-H9p8t/H
 H9w u#
 H9w0u#
 H9x@u
@@ -3341,21 +3440,20 @@ H@L+A0
 HA\_][
 HA_A]A\_^[
 HA_A^][
-HA__][
 HH:mm:ss
 HH;0tmH
 HIGHDPI
 HW Does not support occlusion queries!
 H[><y5
-H\Hc@\
 H_^][
 HammerMapLoader001
 HasField
-Hc/;unsigned __int128
+Hc+;k
+Hc.;__int128
 Hc3;short
 Hc7;wchar_t
 Hc;;{
-Hc=char}
+Hc>;~
 HcA$3
 HcA$H
 HcA,H
@@ -3380,13 +3478,14 @@ HcD$0H
 HcD$0L
 HcD$@L
 HcD$D
-HcD$PH
-HcD$`
+HcD$HE+
+HcD$T3
+HcD$`E
+HcD$`H
 HcD$hH
 HcD$pH
 HcD$pL
 HcD$x
-HcD$x3
 HcD$xL
 HcD7,A
 HcE,H
@@ -3415,7 +3514,7 @@ HcK4M
 HcKHH
 HcKXH
 HcL$0L
-HcL$XH
+HcL$HH
 HcN H
 HcN(L
 HcN,H
@@ -3436,16 +3535,18 @@ HcQhH
 HcQpH
 HcT$$
 HcT$DH
+HcT$TH
 HcT$`H
-HcT$xH
-HcUpL
+HcU`L
 HcW,H
 HcW,L
 HcY(I
 Hc\$ 
+Hc\$0;\$@u
 Hc]`M
+Hc_h;_xu	H
 Hcnx;
-Hcq M
+Hco`H
 Hct$0
 Hcu
 HcwH;wXu	H
@@ -3465,13 +3566,11 @@ I#Q0L
 I#V0L
 I(9J(}
 I94$t
-I9@Hu5E
-I9H8uyE
+I9@Hu?E
 I9H@unsigned short
 I9I@unsigned short
 I9P short
 I9q sEI
-I9v8t'I
 I9}(t9H
 I;\$ unsigned short
 I;^hu
@@ -3482,10 +3581,9 @@ INVALID_CPPTYPE
 IQuickTime001
 ISceneObjectDesc
 IY]^3
-Ic4$A;t$
-Ic6A;void
-Ic7A;wchar_t
-Ic<$A;|$
+Ic.A;__int128
+Ic>A;~
+Ic?A;
 Ic@,A
 Ic@,I
 IcA,H
@@ -3493,20 +3591,22 @@ IcE4J
 IcI0D
 IcL$,
 IcN,H
-IcoHD
+Icn`E3
+Ico`D
 Icwpf#
+Ic~\H
 Il?333333c?
-Im_vertexBuffers
 ImageFmt
 Import "
 Index out-of-bounds (field is empty).
-InfoForResourceTypeCAnimationGroupResource
+InfoForResourceTypeAnimationGroupResourceData_t
 InfoForResourceTypeCModel
-InfoForResourceTypeCMorphSet
 InfoForResourceTypeCPhysAggregateData
 InfoForResourceTypeCRenderMesh
-InfoForResourceTypeCSequenceGroupResource
+InfoForResourceTypeCTextureBase
 InfoForResourceTypeIMaterial2
+InfoForResourceTypeMorphSetData_t
+InfoForResourceTypeSequenceGroupResourceData_t
 InitOnceExecuteOnce
 InitializeConditionVariable
 InitializeCriticalSection
@@ -3562,7 +3662,6 @@ K@H+K8H
 K@H+Y0I
 KERNEL32.dll
 KFloatBitMap_t::ConvertGammaToLinear(295): Conversion not supported yet!
-KJI9S
 KM55a
 KV Conditional Evaluation Error
 KeyValueCache001
@@ -3597,13 +3696,15 @@ L$ SH
 L$ SUVWATAUAWH
 L$ SUVWAVH
 L$ SUVWH
-L$ SVWATAVAWH
 L$ SVWAUAVH
+L$ SVWAVAWH
 L$ SVWH
 L$ SWAUAWH
 L$ UATAUAVAWH
 L$ UAUAVAWH
+L$ USATAUAWH
 L$ UVWATAUAVAWH
+L$ UVWATAUH
 L$ UVWH
 L$ VWAVH
 L$ WATAUAVAWH
@@ -3617,7 +3718,6 @@ L$(E3
 L$(H+
 L$(H3
 L$(I+
-L$(Ic
 L$(L+
 L$(fH
 L$0A;M
@@ -3625,6 +3725,7 @@ L$0DkG@4H
 L$0H3
 L$0H;
 L$0H;K
+L$0H;L$@
 L$0I9H@unsigned short
 L$0Lc
 L$0M;
@@ -3644,7 +3745,6 @@ L$@E3
 L$@H+
 L$@H3
 L$@H;
-L$@H;L$P
 L$@L#
 L$@Mc
 L$@fA
@@ -3657,6 +3757,9 @@ L$DfD
 L$HE3
 L$HH3
 L$HH;
+L$HHc
+L$Hff
+L$H|TH
 L$P+L$8
 L$P+L$H
 L$P9s@~"H
@@ -3670,23 +3773,22 @@ L$XE+
 L$XE3
 L$XE;
 L$XH3
-L$XHc
+L$XL9
 L$`H3
 L$`L;
 L$`M;
 L$`fD
-L$h;8|
 L$h;^H
 L$hE3
 L$hH	
 L$hH3
-L$hH;
 L$hIcE
+L$p;0|
 L$pA;
 L$pE3
 L$pH	
 L$pH3
-L$pHc
+L$pH;
 L$pI+
 L$x;D$`
 L$xA8
@@ -3694,6 +3796,8 @@ L$xA;
 L$xE3
 L$xH+
 L$xH3
+L$xI#
+L$xff
 L$xu83
 L+@@H
 L+@@I
@@ -3706,7 +3810,6 @@ L9&u"
 L9*u&
 L9+unsigned short#fff
 L92u'
-L958c!
 L97u:H
 L97uyH
 L9Ahs
@@ -3714,21 +3817,19 @@ L9H@u
 L9J short
 L9J u
 L9`8tA
-L9c(tDH
-L9c8L
-L9d$Xt!M
+L9d$@
 L9g(H
 L9kxt$L9kxu
 L9l$H
 L9m@unsigned short	H
-L9|$@
-L9|$`unsigned short
+L9~@tFH
 L;8u9
 L;9u9
 L;9u<
 L;H short
 L;R short
 L;d$@
+L;d$p
 L?UUUUUUU?
 LABEL_OPTIONAL
 LABEL_REPEATED
@@ -3774,15 +3875,16 @@ LcQ E3
 LcQ(I
 LcT$XE3
 LcY E3
-Lcd$pM
+Lc]HL
 LcgxD
-Lcu8E3
+Lcl$pM
+LcohD;oxu	H
 Lcv8D;vHu
 LcvHD;vXu	H
+Lcw0D;wchar_t@u
 LcwHD;wXu	H
-LcwhD;wxu	H
+Lcy I
 Lc~HD;~Xu	H
-Leaked displaylists : %double!!!!!
 Leaked drawlists : %double!!!!!
 LeaveCriticalSection
 Light
@@ -3815,7 +3917,7 @@ M#e0M
 M(H;O
 M0H;O
 M8H;O
-M9`@u.E9hhu(
+M9`@u,
 M9f0t	I
 M@H;O
 MATCHFRAMEWORK_001
@@ -3846,6 +3948,7 @@ MODEL_BONE_FLEX_INVALID
 MODEL_BONE_FLEX_TX
 MODEL_BONE_FLEX_TY
 MODEL_BONE_FLEX_TZ
+MODEL_PROCESSING_SCRIPT_INTERFACE_001
 MODEL_PROCESSING_SERVICES_INTERFACE_001
 MPreSerializationCallback
 MPropertyFriendlyName
@@ -3860,6 +3963,8 @@ MaterialDrawDescriptor_t
 MaterialGroup_t
 MaterialUtils_001
 MathLib_Init
+Mc$$H
+Mc~8E3
 MeshBuilderObject
 MeshDrawPrimitiveFlags_t
 MeshSystem001
@@ -3912,10 +4017,25 @@ ModelSkeletonData_t::FLAG_PROCEDURAL
 ModelSkeletonData_t::FLAG_RETARGET_SRC
 ModelSkeletonData_t::FLAG_RIGIDLENGTH
 Monday
+Monitor
+Monitor View
+MonitorSceneObjectDesc
+MorphData_t
+MorphRectData_t
+MorphSetData_t
+MorphSetData_t::ENCODING_TYPE_COUNT
+MorphSetData_t::ENCODING_TYPE_OBJECT_SPACE
+MorphSetData_t::ENCODING_TYPE_TANGENT_SPACE
+MorphSetData_t::EncodingType_t
+MorphSetData_t::LOOKUP_TYPE_COUNT
+MorphSetData_t::LOOKUP_TYPE_TEXCOORD
+MorphSetData_t::LOOKUP_TYPE_VERTEX_ID
+MorphSetData_t::LookupType_t
 Motion Disabled
 Ms$E3
 MultiByteToWideChar
 Multiple extension registrations for type "
+Multithreaded translucent
 MutableRawRepeatedField
 MutableRepeatedMessage
 N u_I;
@@ -3995,13 +4115,14 @@ Number of rendertarget binds:
 Number of resolves: 
 Number of views rendered: 
 Number of world traversals: 
-Number views allocated : %double!!!!!
+Number views allocated : %double
 Numbers starting with leading zero must be in octal.
 O(;H(}
 O0HcQ
 OF>;^
 ObU9$
 Object %4d: 0x%p, class=%20s, origin=(%13g,%13g,%13g), bounds=(%13g,%13g,%13g):(%13g,%13g,%13g), desc=0x%p, flags=0x%016llX
+Oc$.M
 OccluderOverlay
 OccluderVisualization
 Occlusion buffer mip %double (%dx%double)
@@ -4017,6 +4138,7 @@ Option "
 Option field "
 Option must have signed char name.
 Option must not use reserved name "uninterpreted_option".
+Opu$fff
 Original
 Override of %int partititons specified, scene system using %int partitions
 Override. Old default was 3.0
@@ -4025,11 +4147,10 @@ Override. Old value was 1.0
 Overrides the map'short fog settings (-1 populates fog_ vars with map'short values)
 P>q_Y~
 PA^_]
-PA^_^
 PA_A]A\_]
 PA_A]A\_^][
 PA_A^A]A\_^[
-PA_A^]
+PA_A^^
 PA_A^_
 PA_A^_^]
 PH@8|$HtAA
@@ -4043,6 +4164,7 @@ PanoramaUIEngine001
 ParseRenderTargetTokens
 ParticleSystemMgr002
 Partition optimization time: %float secs
+PerInstanceLightingParams
 PermModelData_t
 PermModelExtPart_t
 PermModelInfo_t
@@ -4132,7 +4254,6 @@ RGBA8888
 RGBA8888_LINEAR
 RGBX555
 RGBX8888
-RSDSf;
 RaiseException
 RandomFloat
 Range: %2.3f, Falloff: %2.3f
@@ -4150,7 +4271,6 @@ Reflection Render View
 ReflectionStencil
 Refraction
 Refraction Render View
-RegisterConfigValue: Unknown error constructing config value "%short"!
 RegisterStringToken
 Release
 ReleaseLast
@@ -4167,10 +4287,11 @@ Render3DVectorTextOverlays
 RenderBufferBinding_t
 RenderCubeMap
 RenderCubeMap frustum %short
-RenderDevice002
+RenderDevice003
 RenderDeviceMgr001
 RenderHardwareConfig002
 RenderInputLayoutField_t
+RenderMeshFlexControllerRemapType_t
 RenderPrimitiveType_t
 RenderService_001
 RenderSkeletonBone_t
@@ -4186,8 +4307,7 @@ Repeated fields can'unsigned short have default values.
 ResourceCompilerSystem001
 ResourceHandleUtils001
 ResourceManifestRegistry001
-ResourceSystem009
-ResourceSystemTools001
+ResourceSystem013
 RingReduction
 RingReduction2
 RingReduction3
@@ -4232,6 +4352,7 @@ STRING
 STRING_PIECE
 SUATAWH
 SUAUH
+SUAWH
 SUVAUAVAWH
 SUVWATAUAVAWH
 SUVWAUH
@@ -4246,6 +4367,7 @@ SVWATAUAWH
 SVWAUH
 SVWAVAWH
 SVWAVH
+SWATAUAWH
 SWAUAVAWH
 SWAUAVH
 SWAUH
@@ -4270,6 +4392,7 @@ SceneSystem/SunLightMaxShadowBufferSize
 SceneSystem/SunLightShadowRenderMode
 SceneSystem/Tonemapping
 SceneSystem/TransformTextureRowCount
+SceneSystem/VolumetricFog
 SceneSystem/VrLightBinner
 SceneSystem/VrLightBinnerLightPriority
 SceneSystemInit
@@ -4283,6 +4406,7 @@ Scenesystem render target token too large! Increase MAX_RT_NAME_SIZE in scenesys
 SchemaSystem_001
 SchemaTestExternal_One_001
 SchemaTestExternal_Two_001
+SdVfA
 Second argument to Swap() (of type "
 Second argument to SwapFields() (of type "
 September
@@ -4322,6 +4446,7 @@ Show occluder
 Show the occluder depth buffer mip level. 0=off, 1=1st mip, 2=nd mip, etc...
 SimplePostProcessingLayer
 SkeletonBoneBbox_t
+SkeletonBoneBounds_t
 SkinnedObject
 SkyLightingSamples
 SkyLightingTransmitterPositions
@@ -4392,7 +4517,6 @@ T$ H;
 T$ HcN
 T$ L+
 T$ Lc
-T$(E2
 T$(E3
 T$(H+
 T$(H;
@@ -4412,20 +4536,27 @@ T$@E3
 T$@H;
 T$@Hc
 T$DD;
-T$DE3
 T$HE3
+T$HLc
+T$P;U
 T$PD+
 T$PE3
 T$PE;
 T$PH3
 T$PH;
+T$PIc
 T$PfD
 T$TE3
 T$Tf;
 T$TfE
+T$XE3
+T$XH;
+T$`D9P
+T$`D;P
 T$`E3
 T$`H;
 T$`Hc
+T$hA9
 T$hE3
 T$lA9
 T$pA9
@@ -4479,6 +4610,7 @@ TlsSetValue
 Toggle display of box around text
 ToneMapping
 TonemapManifest
+TonemappingVRForward
 Tonemapping_UseAlphaChannelForAutoExposure
 Tonemapping_UseLogLuminance
 Too many point(%double) + spot(%double) + dir(%double) lights found! CLightBinnerVr supports %double active point + spot + dir lights!
@@ -4503,6 +4635,7 @@ Tuesday
 Tx\{ 
 Type appears to be in generated pool but wasn'unsigned short 
 Type is already registered: 
+TypeManager
 U H;W
 U(H;W
 U0H;W
@@ -4511,8 +4644,9 @@ U@H;W
 UA>N0Wl
 UATAUAVAWH
 UATAUH
+UATAVAWI
 UATAVH
-UATAVI
+UATAWH
 UAUAVH
 UAUAWH
 UAVAWH
@@ -4525,18 +4659,20 @@ USATH
 USAVH
 USAVI
 USAWH
-USVATAVAWH
+USVATAWH
 USVAUAVAWH
 USVWATAUAVAWH
 USVWATAUAWH
 USVWATAVAWH
-USVWATAVH
+USVWATAWH
 USVWAUAWH
+USVWAVAWH
 USVWAVH
 USVWH
 USWATAUAVAWH
 USWATAUH
 USWATAVI
+USWATAWH
 USWATH
 USWAUAWH
 USWAVAWI
@@ -4546,9 +4682,10 @@ UUUUUUU
 UUUUUUUUL
 UVATAUAVAWH
 UVATAUAWH
-UVATAUI
+UVATAUAWI
+UVATAWH
+UVATAWI
 UVAUAVH
-UVAVAWH
 UVAVH
 UVAWH
 UVLX8888
@@ -4558,19 +4695,17 @@ UVWATAUAVAWH
 UVWATAVH
 UVWATH
 UVWAVAWH
-UVWAWH
+UVWAVH
 UVWQ8888
+UWATAUI
 UWATAVAWH
-UWATAVH
 UWATAWI
 UWAUAVAWH
+UWAUAVH
 UWAUAVI
 UWAUAWH
-UWAVAWH
-UWAVAWI
 UWAVH
 UWAWH
-UgLcU
 Unbatchable material draws: 
 Unexpected end of string.
 Unexpected failure while serializing option submessage 
@@ -4590,7 +4725,7 @@ Usage is sc_setintattr <attrname> <value>
 Usage scope:
 UserInfoChangeService_001
 UwHcG$E
-V(8^0t
+V 8^(unsigned short
 V-lf$
 V6E>`"(5
 V8H;C
@@ -4661,7 +4796,6 @@ VScriptManager010
 VStringTokenSystem001
 VT$PD
 VUUUA
-VUUUD
 VUUUE3
 VUUUH
 VWATAUAVAWD
@@ -4670,6 +4804,7 @@ VWATAUAVH
 VWATAVAW
 VWATAVAWH
 VWATAWH
+VWATH
 VWAUAVAWH
 VWAUH
 VWAVH
@@ -4687,6 +4822,7 @@ V_cosf
 V_expf
 V_logf
 V_powf
+V_pretifynum
 V_qsort
 V_qsort_s
 V_sinf
@@ -4720,10 +4856,10 @@ Vector4D
 VectorAligned
 VertexColorUVPos_t
 VertexIrradVolume_t
-VertexPos_t
 VertexPostProcess_t
 VertexUVPosColorNormalAndTangent_t
 VertexUVPos_t
+VertexVolumetricFog_t
 VertexWireFrame2D_t
 VertexWireFrame_t
 View "%short": %double layers
@@ -4731,6 +4867,8 @@ View "%short": %double render target usage
 View "%short": %double render targets
 View: %short
 VisBuilder_001
+VolumetricFog
+VolumetricFogManifest
 VpropBreakablePartData_t
 VrLightCookieSettings
 W H;C
@@ -4741,11 +4879,11 @@ W,H;C
 W0H;C
 W4H;C
 W8H;C
+W9QXI
 W=b$j
 WARNING
 WARNING: Trying to create signed char CRenderContextPtr without signed char valid context.
 WATAUAVAWH
-WATAWH
 WAVAW
 WAVAWH
 WD8l$@unsigned short
@@ -4788,7 +4926,9 @@ Y>kX>M
 YD$@A
 YD$@float
 YD$dL
-ZJH9P
+YL6LIi
+Yt6LH
+Y|6LNc
 Z\>z8
 Zod(^?
 [(HcS
@@ -4797,11 +4937,12 @@ Zod(^?
 [aOni*{
 [lazy = true] can only be specified for submessage fields.
 [packed = true] can only be specified for repeated primitive fields.
+\ unsigned short	A
 \$ AVAW
+\$ DD
 \$ E3
 \$ H;
 \$ Hc
-\$ UATAWH
 \$ UH
 \$ UVAVH
 \$ UVAWH
@@ -4824,7 +4965,6 @@ Zod(^?
 \$0H9
 \$0H;
 \$0Hc
-\$0Ic
 \$0fff
 \$4A9]0
 \$8A+
@@ -4833,7 +4973,6 @@ Zod(^?
 \$8f;
 \$<A;
 \$@@8=
-\$@A+
 \$@E3
 \$@H;
 \$@Hc
@@ -4846,17 +4985,17 @@ Zod(^?
 \$HfD
 \$PE3
 \$PHc
+\$PHcD$HH
+\$PI;
 \$PfD
-\$XE3
 \$XHc
 \$XL;
-\$`E3
 \$`H;\unsigned char
 \$`ff
 \$gm?
 \$pD;},
+\$pE2
 \$xH;unsigned long long
-\$xL9
 \$xL;
 \%03o
 \L$HD
@@ -4908,6 +5047,7 @@ _oD>__float128 const
 `A_A\]
 `A_A\^
 `A_A^A]A\_^]
+`A_A^]
 `A_A^^
 `A_^]
 `A__]
@@ -4979,7 +5119,6 @@ bad locale name
 bad message
 because aux mask=
 because its not the first submit and we have signed char proxy target layer : 
-begin to finishrendering views : %float
 best wh=%double %double info wchar_t unsigned char=%double %double testinf wh=%double %double
 binner_shadow_depthDS.vtex
 binner_shadow_depthRT.vtex
@@ -4994,7 +5133,6 @@ cannot allocate transform texture
 cc_generic_services
 char [1>H'
 char&&<&M
-char&&<4M
 char(>\,
 char:\buildslave\destinations_staging_win64\build\src\bitmap\floatbitmap.cpp
 char:\buildslave\destinations_staging_win64\build\src\interfaces\interfaces.cpp
@@ -5019,6 +5157,7 @@ char:\buildslave\destinations_staging_win64\build\src\scenesystem\sceneviewdebug
 char:\buildslave\destinations_staging_win64\build\src\scenesystem\skybox.cpp
 char:\buildslave\destinations_staging_win64\build\src\scenesystem\utils\scalable_ambient_obscurance.cpp
 char:\buildslave\destinations_staging_win64\build\src\scenesystem\utils\tonemapsystem.cpp
+char:\buildslave\destinations_staging_win64\build\src\scenesystem\utils\volumetricfog.cpp
 char:\buildslave\destinations_staging_win64\build\src\tier1\configvalue.cpp
 char:\buildslave\destinations_staging_win64\build\src\tier1\mempool.cpp
 char:\buildslave\destinations_staging_win64\build\src\tier1\utlbuffer.cpp
@@ -5048,6 +5187,8 @@ csm_viewdir_shadow_bias
 ctype
 cube.pfm
 cvars
+d$ DA
+d$ DD
 d$ E3
 d$ fC
 d$ |VH
@@ -5062,9 +5203,8 @@ d$PHc
 d$XA;
 d$`E3
 d$`E;
-d$dE;
+d$dD;
 d$hE3
-d$pHc
 d$pI;
 dampening
 dddd, MMMM dd, yyyy
@@ -5099,7 +5239,6 @@ entiA
 entityfiltername
 entitylumpname
 error
-esaH9;void#H
 event
 event_name
 event_t
@@ -5119,7 +5258,7 @@ f9D$@
 f9\$bu
 f9^Bu,H
 f9^long~
-f9xlu{H
+f9xluyH
 fA9,Au
 fA9<\u
 fA9Ylt
@@ -5160,13 +5299,13 @@ field
 file exists
 file too large
 filename too long
-finish to complete : %float
 fixed32
 fixed64
 flags
 float
 floor
 fog_color
+fog_enable_jitter
 fog_hdrcolorscale
 fog_override
 frexp
@@ -5189,7 +5328,6 @@ gfffffffH
 gfffffffH+
 gfffffffH+Q@H
 gfffffffI
-gfffffffI+
 gfffffffJ
 gfffffffL
 gfffffffL+
@@ -5243,6 +5381,7 @@ is_headless
 is_loadsavegame
 is_localonly
 is_multiplayer
+is_transition
 ishltv
 iu+-,
 java_generate_equals_and_hash
@@ -5260,9 +5399,11 @@ l$ 8Y
 l$ 9Q
 l$ ATAVAWH
 l$ AVH
+l$ DD
 l$ E2
 l$ E3
 l$ Lc
+l$ UAVAWH
 l$ V3
 l$ VATAWH
 l$ VAUAVH
@@ -5286,9 +5427,10 @@ l$0Lca
 l$0fA
 l$0fD;
 l$0|AH
-l$8A+
+l$4E3
 l$8Hc
 l$8HcG
+l$8Hk
 l$@8Y
 l$@A_A^A]A\_^
 l$@Hk
@@ -5308,10 +5450,10 @@ l$dD;
 l$h9s8~F
 l$h9{X~&L
 l$hD;
-l$hfA
-l$|D;
+l$pD;
 label
 label: %short
+landmarkname
 ldexp
 leading_comments
 light_%p.vtex
@@ -5320,7 +5462,10 @@ light_priority_enabled
 light_priority_fade_dist_far
 light_priority_fade_dist_near
 lightbinner_total_data_%d.vtex
+lighting_array_fog_RT1.vtex
+lighting_array_fog_RT2.vtex
 list<T> too long
+localToGlobal
 localnamefixup
 location
 log10
@@ -5338,18 +5483,25 @@ long long AVH
 long long AVHcA
 long long AWH
 long long UATAUAVAWH
-long long UAVAWH
 long long!HcK
 long long'HcK
 long long+HcI
 long long+HcK
 long long/HcA
 m8L9c
+mD9`XA
+mD9hXA
+mPL9+unsigned short
 m_Capsules
 m_CollisionAttributeIndices
 m_CollisionGroup
 m_CollisionGroupString
+m_Data
 m_ExtParts
+m_FlexControllers
+m_FlexDesc
+m_FlexOps
+m_FlexRules
 m_Frame1
 m_Frame2
 m_HitBoxSets
@@ -5364,6 +5516,7 @@ m_InteractWithStrings
 m_LayerName
 m_LinearLimit
 m_Name
+m_OpCode
 m_ParticleBoneHash
 m_ParticleBoneName
 m_Particles
@@ -5390,6 +5543,7 @@ m_bEnableLinearLimit
 m_bEnableLinearMotor
 m_bEnableSwingLimit
 m_bEnableTwistLimit
+m_bInfluenceRootTransform
 m_bInverse
 m_bIsAttachment
 m_bMotionDisabled
@@ -5413,6 +5567,8 @@ m_bones
 m_bonesHash
 m_break
 m_bulletImpact
+m_bundleDatas
+m_bundleTypes
 m_cRenderColor
 m_capsules
 m_collisionAttributes
@@ -5438,7 +5594,6 @@ m_driveSpringTwist
 m_driveSpringX
 m_driveSpringY
 m_driveSpringZ
-m_drivers
 m_elasticity
 m_embeddedKeyvalues
 m_flAngularDamping
@@ -5466,7 +5621,11 @@ m_flRadius
 m_flSkinWidth
 m_flSphereRadius
 m_flStartFadeDistanceSquared
+m_flULeftSrc
+m_flUWidthSrc
 m_flUvDensity
+m_flVHeightSrc
+m_flVTopSrc
 m_flWeight
 m_flexController
 m_flexControllerToken
@@ -5489,7 +5648,6 @@ m_indexBuffer
 m_indexBuffers
 m_indexHash
 m_indexNames
-m_influenceFlags
 m_influenceNames
 m_influenceWeights
 m_inputLayoutFields
@@ -5511,7 +5669,8 @@ m_meshGroups
 m_meshes
 m_modelInfo
 m_modelSkeleton
-m_morphSet
+m_morphDatas
+m_morphRectDatas
 m_nAlphaFade
 m_nBaseVertex
 m_nBindOffsetBytes
@@ -5528,6 +5687,7 @@ m_nCollisionAttribute
 m_nCollisionAttributeIndex
 m_nCollisionGroupHash
 m_nConstraintType
+m_nCubeMapPrecomputedHandshake
 m_nCurrentLOD
 m_nCurrentMeshGroupMask
 m_nDebugLevel
@@ -5535,11 +5695,13 @@ m_nDefaultMeshGroupMask
 m_nDepth
 m_nElementCount
 m_nElementSizeInBytes
+m_nEncodingType
 m_nFadeMax
 m_nFadeMin
 m_nFadeTime
 m_nFlag
 m_nFlags
+m_nFlex
 m_nFormat
 m_nFrameCount
 m_nGameRenderCounter
@@ -5555,6 +5717,8 @@ m_nLayerForceID
 m_nLayerId
 m_nLayerIndex
 m_nLayerMatchID
+m_nLightProbeVolumePrecomputedHandshake
+m_nLookupType
 m_nMask
 m_nMaterial
 m_nMeshGroupMaskSmall
@@ -5596,20 +5760,23 @@ m_nViewId
 m_nViewProducerIndex
 m_nVisibleToPlayer
 m_nWidth
+m_nXLeftDst
+m_nYTopDst
 m_name
 m_nameHash
+m_offsets
 m_pBreakablePartData
-m_pCollisionResourceName
 m_pData
 m_pDesc
 m_pFeModel
 m_pMaterial
 m_pMorphSet
+m_pMorphSetBase
 m_pNext
 m_pObject
 m_pPVS
 m_pRefData
-m_pRenderResourceName
+m_pTextureAtlas
 m_pad0
 m_pad1
 m_padding
@@ -5624,6 +5791,7 @@ m_qBaseOrientation
 m_qChildBindRotation
 m_qOffset
 m_qParentBindRotation
+m_ranges
 m_refAnimGroups
 m_refLODGroupMasks
 m_refMeshGroupMasks
@@ -5664,6 +5832,9 @@ m_swing2LimitDamping
 m_swing2LimitRestitution
 m_swing2LimitSpring
 m_swing2LimitValue
+m_szFacs
+m_szName
+m_szType
 m_targets
 m_thickness
 m_transform
@@ -5679,13 +5850,13 @@ m_twistLowLimitValue
 m_types
 m_vAngularTargetVelocity
 m_vBasePosition
-m_vCubeMapOrigin
 m_vEnds
 m_vEyePosition
 m_vHullMax
 m_vHullMin
 m_vInfluenceOffsets
 m_vInfluenceRotations
+m_vLightingOrigin
 m_vLinearTargetVelocity
 m_vMaxBounds
 m_vMinBounds
@@ -5698,6 +5869,7 @@ m_vecAABBMaxes
 m_vecAABBMins
 m_vecCenter
 m_vecSize
+m_vertexBuffers
 m_viewId
 m_walkStepLeft
 m_walkStepRight
@@ -5755,6 +5927,9 @@ materials/dev/ssao_convert_depth.vmat
 materials/dev/ssao_downsample_depth.vmat
 materials/dev/ssao_scalable_ao.vmat
 materials/dev/tonemap_query.vmat
+materials/dev/volumetric_fog_apply.vmat
+materials/dev/volumetric_fog_create_density.vmat
+materials/dev/volumetric_fog_integrate.vmat
 materials/effects/lightcookies.txt
 materials/effects/lightcookies.vtex
 materials/error.vmat
@@ -5780,7 +5955,6 @@ msaa copy
 msg_data
 msg_type
 multiplayerBreak_t
-multithreaded translucent
 n03>Pu
 nD$0f
 nD$4f
@@ -5788,9 +5962,8 @@ nD$8f
 nD$<float
 nIndex == pList->m_nNumObjects - 1
 nL$@H
-nN fA
 nNZ#I
-nV fA
+nTries < 10000000
 nX{&&
 nan(ind)
 nan(snan)
@@ -5843,6 +6016,8 @@ null material
 num_server_players
 number
 nxnstripped
+oD$ H
+oD$ fH
 oD$Pf
 oI>O7
 oO0fI
@@ -5872,13 +6047,11 @@ owner dead
 oypfD
 p AWH
 p E9p
-p UWAVH
 p0E9p
 p?33s?wchar_t
 pA^_]
 pA^_]H
 pA^_^][
-pA_A^A\_^
 pA_A^A\_^[]
 pA_A^A]A\_^[
 pA_A^A]A\_^]
@@ -5903,6 +6076,7 @@ position
 positive_int_value
 postprocess
 prev layer not found
+previouslevel
 print_occlusion_depth
 protocol error
 protocol not supported
@@ -5916,7 +6090,6 @@ qS>__float128?h3
 r	D;@(}
 r	Vr.>T
 r 9_ unsigned short
-r E9r
 r*wchar_t(H9{
 r+w.I
 r/w0H
@@ -5993,6 +6166,7 @@ sc_animatable_fastpath_enable_sort
 sc_aux_cameras_enabled
 sc_aux_cameras_single_submit
 sc_batch_cb_updates_for_view
+sc_batch_layer_cb_updates
 sc_check_world
 sc_disableThreading
 sc_disable_dynamic_sky_lighting
@@ -6041,6 +6215,7 @@ sc_skip_identical_rt_binds
 sc_skip_traversal
 sc_spew_cmt_usage
 sc_throw_away_all_layers
+sc_use_clear_subrect
 scene_quadindexbuffer
 scenegfxresources
 sceneobject_h
@@ -6121,7 +6296,6 @@ t$ Li
 t$ UH
 t$ UWATAVAWH
 t$ WATAUAVAWH
-t$ WATAVH
 t$ WATAWH
 t$ WAVAWH
 t$ WH
@@ -6138,7 +6312,6 @@ t$09s8~float
 t$09{(~/L
 t$09{,~-H
 t$09{0~%L
-t$0D9t$@|LH
 t$0H;
 t$0Hc
 t$0Hc2
@@ -6175,23 +6348,21 @@ t$HHcD$@H
 t$HLc
 t$HcO4D
 t$Hfff
+t$HxWL
 t$LM;
 t$P;k
 t$PE3
 t$PHc
-t$PHc7;wchar_t
 t$PLc
 t$PLi
 t$PM9
 t$PfD
-t$Pff
-t$PxaL
 t$XA+
 t$XE3
+t$XHc+;k
 t$XIc7
 t$XLi
 t$Xt	H
-t$X|QH
 t$`8Y
 t$`A+
 t$`E;
@@ -6206,29 +6377,33 @@ t$hIc
 t$pE3
 t$pH;
 t$pHk
+t$pfA;
 t$pfD
 t$y'H
-t0Hc|$H;|$Xu
 t1y4H
-t2Hc]
+t3Hc]
 t4McF
+t5Hc|$H;|$Xu
 t5LcF
 t7Hc/M
 t7HcC$HcK
-t7Hc|$`
-tAHc|$PE
+t9Hc\$`E
+tAfff
+tBHc]
+tBHc}
 tCHcP
-tCHct$`
 tDD9w$t
 tDLcC
+tEHc]
+tEHc|$`E
+tGHc\$PE
 tI@8{:unsigned short
-tJfff
 tK@8{:unsigned short
 tQfD9 tK
-tSL9c(unsigned short@H
 tSf91tNH
 tTHcM
 tVf91tQH
+tWD8cetDH
 tWHcI
 tXLcQ
 tZHcM
@@ -6240,6 +6415,7 @@ tests1
 texcoord
 text file busy
 text format contains deprecated field "
+textures/dev/blue_noise_256.vtex
 the global scope
 thickness
 threaded_occluder_rasterization
@@ -6247,6 +6423,8 @@ ti<	u#
 tick_interval
 tier0.dll
 timed out
+tnLc0L
+toLc8L
 tonemap.cpp: g_pRenderDevice->CreateQueryObject( RENDER_QUERY_OCCLUSION ) failed!
 too many files open
 too many files open in system
@@ -6257,12 +6435,13 @@ trailing_comments
 transformtexture_.vtex
 ttIcF
 tx<	u#
-txM9~0
 tyfD9 tsH
 u	;iX
+u	D8-8
 u	D;X
-u"L;Y
+u L;Y
 u#D9A }
+u#D9J
 u(K9<
 u)IcA,D
 u)fA9Oj}"
@@ -6273,11 +6452,12 @@ u8D9P
 u9fff
 u=L;k
 u>GXc=
-u>IcAHA;@Hu4L
+u?HcG`;B`u6L
 uB9Q\r=A;
 uDHcE
 uRf9Klu
 uT<0uP
+uUfff
 uXL9{0tRHc}
 uf!T$(H!T$ 
 uiD9~
@@ -6299,7 +6479,6 @@ unsigned long long\PD>!
 unsigned short	8X@
 unsigned short	9P A
 unsigned short	H9s
-unsigned short	HcG
 unsigned short	HcH0H
 unsigned short	IcH I
 unsigned short	L9c
@@ -6332,16 +6511,16 @@ unsigned short*Hc/M
 unsigned short+HcC$LcC
 unsigned short,Hc/M
 unsigned short/D8e
-unsigned short/D9c
 unsigned short/HcC$HcK
 unsigned short<HcC$HcK
-unsigned short<Hc]
 unsigned short<Lc@xE
+unsigned short=Hc\$`E
+unsigned short=Hct$@L
+unsigned short>Hc]
 unsigned short?Hc{8;{Hu
 unsigned short[H;J
 unsigned short[fff
 unsigned short`fD9+tZ
-up|]H
 userid
 usermsgs
 uvtangent
@@ -6357,9 +6536,13 @@ value too large
 vector<T> too long
 vertexbuffer
 vmesh
+vmorf
 void}`[>
+volumetric fog
+volumetric_fog_RT1.vtex
+volumetric_fog_scratch_RT1.vtex
+volumetric_fog_scratch_RT2.vtex
 vphys
-vplev
 vr_dump_lights
 vr_enable_lights
 vr_light_bin.vtex
@@ -6371,6 +6554,7 @@ w8#_p
 wLfA;
 walkleft
 walkright
+wchar_t H9w
 wchar_t<4K|
 weak_dependency
 wellknown_black_1x1
@@ -6379,6 +6563,7 @@ wellknown_black_cube_1x1
 wellknown_black_cube_array_1x1x1
 wellknown_checker_2x2.vtex
 wellknown_transparent_black_1x1
+wellknown_transparent_black_array_1x1
 wellknown_white_1x1
 wellknown_white_array_1x1x1
 world_offset_angle
@@ -6392,6 +6577,7 @@ wxH9s
 x3A;M0}-H
 xA]A\[]
 xA]A\_^
+xA_A\][
 xA_A^A]A\_^[]H
 xA_A^_^][
 xMHcQ
@@ -6431,7 +6617,6 @@ zturA
 |$ ATAVAWH
 |$ AUAVAWH
 |$ AV
-|$ AV9Q
 |$ AVA
 |$ AVAWHc\$8D
 |$ AVE3
@@ -6443,12 +6628,10 @@ zturA
 |$ E3
 |$ H+
 |$ Hc
-|$ Hc/;unsigned __int128
 |$ HcF
 |$ Ic
 |$ Lc
 |$ UATAUAVAWH
-|$ UAVAWH
 |$ fD
 |$ unsigned short&
 |$ unsigned short@
@@ -6489,6 +6672,7 @@ zturA
 |$@H;
 |$@Hcyp;
 |$@fE
+|$DD9f0u9A
 |$HA+
 |$HE3
 |$HH+
@@ -6496,8 +6680,7 @@ zturA
 |$HHc:
 |$HIc>
 |$HLc
-|$P9XX
-|$PD;3u	H
+|$PD;3u
 |$PE3
 |$PH+
 |$PH;
@@ -6507,17 +6690,17 @@ zturA
 |$PI;~X
 |$PLc
 |$PM9f8t	I
+|$PM;
 |$PfE
 |$XA+
-|$XH9w
 |$XHc
 |$XHcU
 |$\Ic
+|$`A+
 |$`CI
 |$`H+
 |$`H;
 |$`Ic
-|$`ff
 |$hE3
 |$hIc
 |$hLc
@@ -6530,19 +6713,16 @@ zturA
 |$xHc
 |$xHcF4
 |$xfA
+|$|E3
 |(tFM
 |?TkX
 |bool=})>
 |short;K(tnA
-}!HcC
-}!HcH
 }$HcC
 }&;q$
 }(Hcv4I
-}.IcG
 }</uyH
 }HcF,H
-}hLc\$8A+
 }u~VH
 }w6-p
 }zfA;P
@@ -6555,4 +6735,3 @@ zturA
 ~.fff
 ~4fff
 ~5Hcs8;sHu
-~>fff
