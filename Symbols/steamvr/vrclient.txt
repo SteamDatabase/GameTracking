@@ -8,6 +8,7 @@
  .objc_class_name_NSString
  .objc_class_name_NSURL
  .objc_class_name_NSWorkspace
+ B CDriverManager::m_vecResourceDrivers
  B CVRMsg_AbortApplicationTransition::default_instance_
  B CVRMsg_AcknowledgeQuit_Exiting::default_instance_
  B CVRMsg_AcknowledgeQuit_UserPrompt::default_instance_
@@ -185,7 +186,6 @@
  B g_nCurThreadSuspendCount
  B g_pCurThread
  B hid_logfile
- B s_pSharedResourceDriverManager
  B vortex::CVortexThread::HighPriority
  B vortex::CVortexThread::LowPriority
  B vortex::CVortexThread::NormalPriority
@@ -203,6 +203,7 @@
  B vroverlay011_FnTable
  B vroverlay012_FnTable
  B vroverlay013_FnTable
+ B vroverlay014_FnTable
  B vrrendermodels004_FnTable
  B vrsettings001_FnTable
  B vrsystem011_FnTable
@@ -265,7 +266,6 @@
  D typeinfo for CPropertyManager
  D typeinfo for CRenderModelLoadThread
  D typeinfo for CRenderModelManager
- D typeinfo for CResourceDriverManager
  D typeinfo for CServerDriverHost_002
  D typeinfo for CServerDriverHost_003
  D typeinfo for CServerTrackedDeviceProvider
@@ -487,6 +487,7 @@
  D typeinfo for CVROverlay_011
  D typeinfo for CVROverlay_012
  D typeinfo for CVROverlay_013
+ D typeinfo for CVROverlay_014
  D typeinfo for CVRRenderModels_001
  D typeinfo for CVRRenderModels_002
  D typeinfo for CVRRenderModels_003
@@ -514,6 +515,7 @@
  D typeinfo for CVRTrackedCamera_002
  D typeinfo for CVRTrackedDevice_004
  D typeinfo for CVRTrackedDevice_Latest
+ D typeinfo for CVirtualDisplayClient
  D typeinfo for CWatchdogDriverContext
  D typeinfo for CWatchdogTrackedDeviceProvider
  D typeinfo for CWatchdogTrackedDeviceProvider_Latest
@@ -597,6 +599,7 @@
  D typeinfo for OverlayInterfaceRegistration<CVROverlay_011>
  D typeinfo for OverlayInterfaceRegistration<CVROverlay_012>
  D typeinfo for OverlayInterfaceRegistration<CVROverlay_013>
+ D typeinfo for OverlayInterfaceRegistration<CVROverlay_014>
  D typeinfo for RenderModelsInterfaceRegistration<CVRRenderModels_001>
  D typeinfo for RenderModelsInterfaceRegistration<CVRRenderModels_002>
  D typeinfo for RenderModelsInterfaceRegistration<CVRRenderModels_003>
@@ -654,6 +657,7 @@
  D typeinfo for vr::IVRSystem
  D typeinfo for vr::IVRTrackedCamera
  D typeinfo for vr::IVRTrackedCameraInternal
+ D typeinfo for vr::IVRVirtualDisplay
  D typeinfo for vr::IVRWatchdogHost
  D typeinfo for vr::IVRWatchdogProvider
  D vtable for ApplicationsInterfaceRegistration<CVRApplications_001>
@@ -676,7 +680,6 @@
  D vtable for CPropertyManager
  D vtable for CRenderModelLoadThread
  D vtable for CRenderModelManager
- D vtable for CResourceDriverManager
  D vtable for CServerDriverHost_002
  D vtable for CServerDriverHost_003
  D vtable for CServerTrackedDeviceProvider
@@ -891,6 +894,7 @@
  D vtable for CVROverlay_011
  D vtable for CVROverlay_012
  D vtable for CVROverlay_013
+ D vtable for CVROverlay_014
  D vtable for CVRRenderModels_001
  D vtable for CVRRenderModels_002
  D vtable for CVRRenderModels_003
@@ -918,6 +922,7 @@
  D vtable for CVRTrackedCamera_002
  D vtable for CVRTrackedDevice_004
  D vtable for CVRTrackedDevice_Latest
+ D vtable for CVirtualDisplayClient
  D vtable for CWatchdogDriverContext
  D vtable for CWatchdogTrackedDeviceProvider_Latest
  D vtable for ChaperoneInterfaceRegistration<CVRChaperone_001>
@@ -992,6 +997,7 @@
  D vtable for OverlayInterfaceRegistration<CVROverlay_011>
  D vtable for OverlayInterfaceRegistration<CVROverlay_012>
  D vtable for OverlayInterfaceRegistration<CVROverlay_013>
+ D vtable for OverlayInterfaceRegistration<CVROverlay_014>
  D vtable for RenderModelsInterfaceRegistration<CVRRenderModels_001>
  D vtable for RenderModelsInterfaceRegistration<CVRRenderModels_002>
  D vtable for RenderModelsInterfaceRegistration<CVRRenderModels_003>
@@ -1064,7 +1070,6 @@
  R typeinfo name for CPropertyManager
  R typeinfo name for CRenderModelLoadThread
  R typeinfo name for CRenderModelManager
- R typeinfo name for CResourceDriverManager
  R typeinfo name for CServerDriverHost_002
  R typeinfo name for CServerDriverHost_003
  R typeinfo name for CServerTrackedDeviceProvider
@@ -1286,6 +1291,7 @@
  R typeinfo name for CVROverlay_011
  R typeinfo name for CVROverlay_012
  R typeinfo name for CVROverlay_013
+ R typeinfo name for CVROverlay_014
  R typeinfo name for CVRRenderModels_001
  R typeinfo name for CVRRenderModels_002
  R typeinfo name for CVRRenderModels_003
@@ -1313,6 +1319,7 @@
  R typeinfo name for CVRTrackedCamera_002
  R typeinfo name for CVRTrackedDevice_004
  R typeinfo name for CVRTrackedDevice_Latest
+ R typeinfo name for CVirtualDisplayClient
  R typeinfo name for CWatchdogDriverContext
  R typeinfo name for CWatchdogTrackedDeviceProvider
  R typeinfo name for CWatchdogTrackedDeviceProvider_Latest
@@ -1396,6 +1403,7 @@
  R typeinfo name for OverlayInterfaceRegistration<CVROverlay_011>
  R typeinfo name for OverlayInterfaceRegistration<CVROverlay_012>
  R typeinfo name for OverlayInterfaceRegistration<CVROverlay_013>
+ R typeinfo name for OverlayInterfaceRegistration<CVROverlay_014>
  R typeinfo name for RenderModelsInterfaceRegistration<CVRRenderModels_001>
  R typeinfo name for RenderModelsInterfaceRegistration<CVRRenderModels_002>
  R typeinfo name for RenderModelsInterfaceRegistration<CVRRenderModels_003>
@@ -1453,6 +1461,7 @@
  R typeinfo name for vr::IVRSystem
  R typeinfo name for vr::IVRTrackedCamera
  R typeinfo name for vr::IVRTrackedCameraInternal
+ R typeinfo name for vr::IVRVirtualDisplay
  R typeinfo name for vr::IVRWatchdogHost
  R typeinfo name for vr::IVRWatchdogProvider
  T ApplicationsInterfaceRegistration<CVRApplications_001>::GetInterface()
@@ -1480,19 +1489,31 @@
  T CDirIterator::CurrentFileName()
  T CDirIterator::~CDirIterator()
  T CDriverLog::Log(char const*)
- T CDriverManager::AddDriverToVector(bool, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::vector<CDriverManager::HmdDriver_t, std::__1::allocator<CDriverManager::HmdDriver_t> >&)
+ T CDriverManager::AddDriver(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T CDriverManager::BHmdDeviceMightBePresent(unsigned int)
  T CDriverManager::CDriverManager()
  T CDriverManager::Cleanup()
- T CDriverManager::CollectAllDriverDirectories(std::__1::vector<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >&)
  T CDriverManager::DeactivateAll()
  T CDriverManager::GetDriverName(unsigned int)
  T CDriverManager::GetDriverPath(unsigned int)
+ T CDriverManager::GetPropertyValueFromResourcesManifestJson(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, Json::Value const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&, int)
+ T CDriverManager::GetResourceDriverManifestByIndex(unsigned long)
  T CDriverManager::InitFromPathRegistry(CPropertyManager*)
  T CDriverManager::LoadDriver(unsigned int, CDriverManager::HmdDriverContext, vr::IVRDriverContext*)
+ T CDriverManager::PopulateResourceProperties(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, Json::Value const&)
+ T CDriverManager::PopulateSystemResourceProperties(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T CDriverManager::~CDriverManager()
+ T CDriverManifest::AddResourceIconsFromJson(Json::Value const&)
+ T CDriverManifest::CDriverManifest()
+ T CDriverManifest::InitializeFromDriverPath(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T CDriverManifest::InitializeFromFile(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T CDriverManifest::InitializeFromJson(Json::Value const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T CDriverManifest::ReadPresenceEntries(Json::Value const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::vector<DriverPresenceEntry_t, std::__1::allocator<DriverPresenceEntry_t> >&)
+ T CDriverManifest::ReadResourceManifestFromFile(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T CDriverManifest::operator=(CDriverManifest&&)
  T CGLCreateOrGetCurrentContext()
  T CGpuTiming::BeginFrame(void*)
+ T CGpuTiming::CGpuTiming()
  T CGpuTiming::EndFrame()
  T CGpuTiming::GetDeltas(void*, float*, unsigned int, bool)
  T CGpuTiming::MarkEvent(unsigned int, wchar_t const*)
@@ -1702,6 +1723,7 @@
  T CPropertyContainer::UnsetProperty(unsigned int, bool*)
  T CPropertyContainer::~CPropertyContainer()
  T CPropertyManager::CPropertyManager()
+ T CPropertyManager::CreatePropertyContainer(unsigned long long)
  T CPropertyManager::FindOrAddContainer(unsigned long long)
  T CPropertyManager::GetPropErrorNameFromEnum(vr::ETrackedPropertyError)
  T CPropertyManager::ReadPropertyBatch(unsigned long long, vr::PropertyRead_t*, unsigned int)
@@ -1743,10 +1765,6 @@
  T CRenderModelManager::RegisterTextureFilePath(char const*)
  T CRenderModelManager::RenderModelHasComponent(char const*, char const*)
  T CRenderModelManager::~CRenderModelManager()
- T CResourceDriverManager::GetResourceDriverCount() const
- T CResourceDriverManager::GetResourceDriverManifest(unsigned long)
- T CResourceDriverManager::SharedInstance()
- T CResourceDriverManager::~CResourceDriverManager()
  T CServerDriverHost_002::GetDeviceFromIndex(unsigned int)
  T CServerDriverHost_002::GetSettings(char const*)
  T CServerDriverHost_002::IsExiting()
@@ -2150,6 +2168,7 @@
  T CVRCompositorSharedTextures::CSharedTextureSetIOSurface<CVRCompositorSharedTextures::SharedTextureDataIOSurface_t, 3u>::ResizeTexture(CVRCompositorSharedTextures*, CVRCompositorSharedTextures::SharedTextureData_t::CreateStruct_t const*, unsigned int)
  T CVRCompositorSharedTextures::CSharedTextureSetIOSurface<CVRCompositorSharedTextures::SharedTextureDataIOSurface_t, 3u>::~CSharedTextureSetIOSurface()
  T CVRCompositorSharedTextures::CTextureCacheKey::~CTextureCacheKey()
+ T CVRCompositorSharedTextures::CVRCompositorSharedTextures()
  T CVRCompositorSharedTextures::EndFrameTiming()
  T CVRCompositorSharedTextures::FindInTextureCache(CVRCompositorSharedTextures::CTextureCacheKey const&)
  T CVRCompositorSharedTextures::Flush()
@@ -2161,6 +2180,8 @@
  T CVRCompositorSharedTextures::GetSharedTextureSize(unsigned long long, unsigned int*, unsigned int*)
  T CVRCompositorSharedTextures::GetVulkanDeviceExtensionsRequired(VkPhysicalDevice_T*, char*, unsigned int)
  T CVRCompositorSharedTextures::GetVulkanInstanceExtensionsRequired(char*, unsigned int)
+ T CVRCompositorSharedTextures::GetVulkanSemaphoreClientToCompositor() const
+ T CVRCompositorSharedTextures::GetVulkanSemaphoreCompositorToClient() const
  T CVRCompositorSharedTextures::Init(int, vr::IVROculusDirect*)
  T CVRCompositorSharedTextures::LockGLSharedTextureForAccess(void*)
  T CVRCompositorSharedTextures::MarkTimingEvent(unsigned int, wchar_t const*)
@@ -2171,7 +2192,7 @@
  T CVRCompositorSharedTextures::ReleaseSharedTextureD3D11(void*)
  T CVRCompositorSharedTextures::ReleaseSync()
  T CVRCompositorSharedTextures::SharedTextureDataGL_t::Release(CVRCompositorSharedTextures*)
- T CVRCompositorSharedTextures::SharedTextureDataGL_t::Update(void*, vr::VRTextureBounds_t const*)
+ T CVRCompositorSharedTextures::SharedTextureDataGL_t::Update(void*, vr::VRTextureBounds_t*)
  T CVRCompositorSharedTextures::SharedTextureDataIOSurface_t::Release(CVRCompositorSharedTextures*)
  T CVRCompositorSharedTextures::UnlockGLSharedTextureForAccess(void*)
  T CVRCompositorSharedTextures::UpdateSceneTextureData(unsigned int, unsigned int, vr::HmdMatrix34_t const*, vr::VRTextureBounds_t const*)
@@ -4471,6 +4492,7 @@
  T CVROverlayLatest::SetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod)
  T CVROverlayLatest::SetOverlayIntersectionMask(unsigned long long, vr::VROverlayIntersectionMaskPrimitive_t*, unsigned int, unsigned int)
  T CVROverlayLatest::SetOverlayMouseScale(unsigned long long, vr::HmdVector2_t const*)
+ T CVROverlayLatest::SetOverlayName(unsigned long long, char const*)
  T CVROverlayLatest::SetOverlayNeighbor(vr::EOverlayDirection, unsigned long long, unsigned long long)
  T CVROverlayLatest::SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
  T CVROverlayLatest::SetOverlayRenderingPid(unsigned long long, unsigned int)
@@ -5230,6 +5252,81 @@
  T CVROverlay_013::ShowKeyboardForOverlay(unsigned long long, vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
  T CVROverlay_013::ShowMessageOverlay(char const*, char const*, char const*, char const*, char const*, char const*)
  T CVROverlay_013::ShowOverlay(unsigned long long)
+ T CVROverlay_014::ClearOverlayTexture(unsigned long long)
+ T CVROverlay_014::ComputeOverlayIntersection(unsigned long long, vr::VROverlayIntersectionParams_t const*, vr::VROverlayIntersectionResults_t*)
+ T CVROverlay_014::CreateDashboardOverlay(char const*, char const*, unsigned long long*, unsigned long long*)
+ T CVROverlay_014::CreateOverlay(char const*, char const*, unsigned long long*)
+ T CVROverlay_014::DestroyOverlay(unsigned long long)
+ T CVROverlay_014::FindOverlay(char const*, unsigned long long*)
+ T CVROverlay_014::GetDashboardOverlaySceneProcess(unsigned long long, unsigned int*)
+ T CVROverlay_014::GetGamepadFocusOverlay()
+ T CVROverlay_014::GetHighQualityOverlay()
+ T CVROverlay_014::GetKeyboardText(char*, unsigned int)
+ T CVROverlay_014::GetOverlayAlpha(unsigned long long, float*)
+ T CVROverlay_014::GetOverlayAutoCurveDistanceRangeInMeters(unsigned long long, float*, float*)
+ T CVROverlay_014::GetOverlayColor(unsigned long long, float*, float*, float*)
+ T CVROverlay_014::GetOverlayErrorNameFromEnum(vr::EVROverlayError)
+ T CVROverlay_014::GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
+ T CVROverlay_014::GetOverlayFlags(unsigned long long, unsigned int*)
+ T CVROverlay_014::GetOverlayImageData(unsigned long long, void*, unsigned int, unsigned int*, unsigned int*)
+ T CVROverlay_014::GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
+ T CVROverlay_014::GetOverlayKey(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
+ T CVROverlay_014::GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
+ T CVROverlay_014::GetOverlayName(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
+ T CVROverlay_014::GetOverlayRenderingPid(unsigned long long)
+ T CVROverlay_014::GetOverlaySortOrder(unsigned long long, unsigned int*)
+ T CVROverlay_014::GetOverlayTexelAspect(unsigned long long, float*)
+ T CVROverlay_014::GetOverlayTexture(unsigned long long, void**, void*, unsigned int*, unsigned int*, unsigned int*, vr::ETextureType*, vr::EColorSpace*, vr::VRTextureBounds_t*)
+ T CVROverlay_014::GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
+ T CVROverlay_014::GetOverlayTextureColorSpace(unsigned long long, vr::EColorSpace*)
+ T CVROverlay_014::GetOverlayTextureSize(unsigned long long, unsigned int*, unsigned int*)
+ T CVROverlay_014::GetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin*, vr::HmdMatrix34_t*)
+ T CVROverlay_014::GetOverlayTransformTrackedDeviceComponent(unsigned long long, unsigned int*, char*, unsigned int)
+ T CVROverlay_014::GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
+ T CVROverlay_014::GetOverlayTransformType(unsigned long long, vr::VROverlayTransformType*)
+ T CVROverlay_014::GetOverlayWidthInMeters(unsigned long long, float*)
+ T CVROverlay_014::GetPrimaryDashboardDevice()
+ T CVROverlay_014::GetTransformForOverlayCoordinates(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdVector2_t, vr::HmdMatrix34_t*)
+ T CVROverlay_014::HandleControllerOverlayInteractionAsMouse(unsigned long long, unsigned int)
+ T CVROverlay_014::HideKeyboard()
+ T CVROverlay_014::HideOverlay(unsigned long long)
+ T CVROverlay_014::IsActiveDashboardOverlay(unsigned long long)
+ T CVROverlay_014::IsDashboardVisible()
+ T CVROverlay_014::IsHoverTargetOverlay(unsigned long long)
+ T CVROverlay_014::IsOverlayVisible(unsigned long long)
+ T CVROverlay_014::MoveGamepadFocusToNeighbor(vr::EOverlayDirection, unsigned long long)
+ T CVROverlay_014::PollNextOverlayEvent(unsigned long long, vr::VREvent_t*, unsigned int)
+ T CVROverlay_014::ReleaseNativeOverlayHandle(unsigned long long, void*)
+ T CVROverlay_014::SetDashboardOverlaySceneProcess(unsigned long long, unsigned int)
+ T CVROverlay_014::SetGamepadFocusOverlay(unsigned long long)
+ T CVROverlay_014::SetHighQualityOverlay(unsigned long long)
+ T CVROverlay_014::SetKeyboardPositionForOverlay(unsigned long long, vr::HmdRect2_t)
+ T CVROverlay_014::SetKeyboardTransformAbsolute(vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ T CVROverlay_014::SetOverlayAlpha(unsigned long long, float)
+ T CVROverlay_014::SetOverlayAutoCurveDistanceRangeInMeters(unsigned long long, float, float)
+ T CVROverlay_014::SetOverlayColor(unsigned long long, float, float, float)
+ T CVROverlay_014::SetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool)
+ T CVROverlay_014::SetOverlayFromFile(unsigned long long, char const*)
+ T CVROverlay_014::SetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod)
+ T CVROverlay_014::SetOverlayIntersectionMask(unsigned long long, vr::VROverlayIntersectionMaskPrimitive_t*, unsigned int, unsigned int)
+ T CVROverlay_014::SetOverlayMouseScale(unsigned long long, vr::HmdVector2_t const*)
+ T CVROverlay_014::SetOverlayNeighbor(vr::EOverlayDirection, unsigned long long, unsigned long long)
+ T CVROverlay_014::SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
+ T CVROverlay_014::SetOverlayRenderingPid(unsigned long long, unsigned int)
+ T CVROverlay_014::SetOverlaySortOrder(unsigned long long, unsigned int)
+ T CVROverlay_014::SetOverlayTexelAspect(unsigned long long, float)
+ T CVROverlay_014::SetOverlayTexture(unsigned long long, vr::Texture_t const*)
+ T CVROverlay_014::SetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t const*)
+ T CVROverlay_014::SetOverlayTextureColorSpace(unsigned long long, vr::EColorSpace)
+ T CVROverlay_014::SetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ T CVROverlay_014::SetOverlayTransformTrackedDeviceComponent(unsigned long long, unsigned int, char const*)
+ T CVROverlay_014::SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
+ T CVROverlay_014::SetOverlayWidthInMeters(unsigned long long, float)
+ T CVROverlay_014::ShowDashboard(char const*)
+ T CVROverlay_014::ShowKeyboard(vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
+ T CVROverlay_014::ShowKeyboardForOverlay(unsigned long long, vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
+ T CVROverlay_014::ShowMessageOverlay(char const*, char const*, char const*, char const*, char const*, char const*)
+ T CVROverlay_014::ShowOverlay(unsigned long long)
  T CVRPathRegistry::CVRPathRegistry()
  T CVRPathRegistry::SetConfigPath(char const*)
  T CVRPathRegistry::SetLogPath(char const*)
@@ -5326,7 +5423,7 @@
  T CVRSharedGLTexture::CVRSharedGLTexture(unsigned int, unsigned int)
  T CVRSharedGLTexture::GetHandle()
  T CVRSharedGLTexture::GetSize(unsigned int&, unsigned int&)
- T CVRSharedGLTexture::Update(void*, vr::VRTextureBounds_t const*)
+ T CVRSharedGLTexture::Update(void*, vr::VRTextureBounds_t*)
  T CVRSharedGLTexture::~CVRSharedGLTexture()
  T CVRSharedState::BInit(CVRSharedState::SharedStateRole, unsigned int, char const*, char const*)
  T CVRSharedState::Cleanup()
@@ -6021,6 +6118,11 @@
  T CVRTrackedDevice_Latest::GetPose()
  T CVRTrackedDevice_Latest::LegacyGetDeviceInfo(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, vr::ETrackedDeviceClass*)
  T CVRTrackedDevice_Latest::~CVRTrackedDevice_Latest()
+ T CVirtualDisplayClient::Cleanup()
+ T CVirtualDisplayClient::GetTimeSinceLastVsync(float*, unsigned long long*)
+ T CVirtualDisplayClient::Init(CVRClient*)
+ T CVirtualDisplayClient::Present(unsigned long long)
+ T CVirtualDisplayClient::WaitForPresent()
  T CWatchdogDriverContext::GetDriverHandle()
  T CWatchdogDriverContext::GetGenericInterface(char const*, vr::EVRInitError*)
  T CWatchdogTrackedDeviceProvider_Latest::Cleanup()
@@ -6087,12 +6189,7 @@
  T CreateServerDriverProviderAdapter(void* (*)(char const*, int*), vr::IVRDriverContext*, int*)
  T CreateWatchdogDriverProviderAdapter(void* (*)(char const*, int*), vr::IVRDriverContext*, int*)
  T DXGI2::GetDisplayVisibility(int)
- T DriverManifest_t::AddIconsFromJson(Json::Value const&)
- T DriverManifest_t::DriverManifest_t()
- T DriverManifest_t::FromJson(Json::Value const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
- T DriverManifest_t::ReadPresenceEntries(Json::Value const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::vector<DriverPresenceEntry_t, std::__1::allocator<DriverPresenceEntry_t> >&)
- T DriverManifest_t::SetAlwaysPresent(std::__1::vector<DriverPresenceEntry_t, std::__1::allocator<DriverPresenceEntry_t> >&)
- T DriverNameCompare(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T DriverCompare(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&)
  T EventWriteString(wchar_t const*)
  T FillDataStruct(_finddata_t*)
  T FindAppByKey(VRApplicationsState_t const*, char const*)
@@ -6118,6 +6215,7 @@
  T GetStringForCompositorError(vr::EVRCompositorError)
  T GetStringForPropertyError(vr::ETrackedPropertyError)
  T GetStringForRenderModelError(vr::EVRRenderModelError)
+ T GetStringForTrackedDeviceProperty(vr::ETrackedDeviceProperty)
  T GetStringForVRApplicationTransitionState(vr::EVRApplicationTransitionState)
  T GetStringForVRApplicationType(vr::EVRApplicationType)
  T GetStringForVRApplicationsError(vr::EVRApplicationError)
@@ -6261,6 +6359,7 @@
  T Json::Value::CZString::CZString(Json::Value::CZString const&)
  T Json::Value::CommentInfo::setComment(char const*, unsigned long)
  T Json::Value::Value(Json::Value const&)
+ T Json::Value::Value(Json::Value&&)
  T Json::Value::Value(Json::ValueType)
  T Json::Value::Value(bool)
  T Json::Value::Value(char const*)
@@ -6281,6 +6380,7 @@
  T Json::Value::asUInt() const
  T Json::Value::asUInt64() const
  T Json::Value::begin() const
+ T Json::Value::clear()
  T Json::Value::end() const
  T Json::Value::find(char const*, char const*) const
  T Json::Value::get(char const*, Json::Value const&) const
@@ -6334,8 +6434,6 @@
  T MergeJsonValues(Json::Value&, Json::Value&)
  T NotificationsInterfaceRegistration<CVRNotifications_001>::GetInterface()
  T NotificationsInterfaceRegistration<CVRNotifications_001>::~NotificationsInterfaceRegistration()
- T NotifyVR_InitSuccess()
- T NotifyVR_Shutdown()
  T NvAPI::DeclareVRProcess(bool)
  T NvAPI::GetDisplayVisibility(int)
  T OverlayInterfaceRegistration<CVROverlay_001>::GetInterface()
@@ -6364,6 +6462,8 @@
  T OverlayInterfaceRegistration<CVROverlay_012>::~OverlayInterfaceRegistration()
  T OverlayInterfaceRegistration<CVROverlay_013>::GetInterface()
  T OverlayInterfaceRegistration<CVROverlay_013>::~OverlayInterfaceRegistration()
+ T OverlayInterfaceRegistration<CVROverlay_014>::GetInterface()
+ T OverlayInterfaceRegistration<CVROverlay_014>::~OverlayInterfaceRegistration()
  T Path_Compact(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char)
  T Path_Exists(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T Path_FilePathToUrl(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
@@ -6390,8 +6490,6 @@
  T Path_WriteStringToTextFile(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char const*)
  T Plat_IsInDebugSession
  T PointMaskIntersectionTest(float, float, vr::VROverlayIntersectionMaskPrimitive_t const*, unsigned int)
- T ReadDriverIconManifestFromFile(DriverManifest_t&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
- T ReadDriverManifestFromFile(DriverManifest_t&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T ReadJsonFile(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, Json::Value&)
  T RegisterInterface(char const*, void*)
  T RemoveNotificationsOwnedByOverlay(VRCompositorState_t*, unsigned long long)
@@ -6613,7 +6711,7 @@
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_SetVideoStreamFormat, CVRMsg_TrackedCamera_SetVideoStreamFormatResponse>(unsigned int, CVRMsg_TrackedCamera_SetVideoStreamFormat const&, unsigned int, CVRMsg_TrackedCamera_SetVideoStreamFormatResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_StartVideoStream, CVRMsg_TrackedCamera_StartVideoStreamResponse>(unsigned int, CVRMsg_TrackedCamera_StartVideoStream const&, unsigned int, CVRMsg_TrackedCamera_StartVideoStreamResponse&, unsigned int)
  T bool CIPCPipe::SendProtobufMessageAndWaitForResponse<CVRMsg_TrackedCamera_StopVideoStream, CVRMsg_TrackedCamera_StopVideoStreamResponse>(unsigned int, CVRMsg_TrackedCamera_StopVideoStream const&, unsigned int, CVRMsg_TrackedCamera_StopVideoStreamResponse&, unsigned int)
- T bool std::__1::__insertion_sort_incomplete<bool (*&)(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&), std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*>(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, bool (*&)(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&))
+ T bool std::__1::__insertion_sort_incomplete<bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&), CDriverManager::HmdDriver_t*>(CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&))
  T hid_enumerate
  T hid_free_enumeration
  T non-virtual thunk to CHmdSystemLatest::AbortTransition()
@@ -6730,6 +6828,13 @@
  T std::__1::__deque_base<CRenderModelLoadThread::TextureEntry_t, std::__1::allocator<CRenderModelLoadThread::TextureEntry_t> >::clear()
  T std::__1::__deque_base<Json::Reader::ErrorInfo, std::__1::allocator<Json::Reader::ErrorInfo> >::clear()
  T std::__1::__deque_base<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >::clear()
+ T std::__1::__hash_iterator<std::__1::__hash_node<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long>, void*>*> std::__1::__hash_table<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long>, std::__1::__unordered_map_hasher<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long>, std::__1::hash<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::__unordered_map_equal<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long>, std::__1::equal_to<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long> > >::find<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+ T std::__1::__hash_table<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long>, std::__1::__unordered_map_hasher<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long>, std::__1::hash<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::__unordered_map_equal<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long>, std::__1::equal_to<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long> > >::__node_insert_unique(std::__1::__hash_node<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long>, void*>*)
+ T std::__1::__hash_table<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long>, std::__1::__unordered_map_hasher<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long>, std::__1::hash<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::__unordered_map_equal<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long>, std::__1::equal_to<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long> > >::__rehash(unsigned long)
+ T std::__1::__hash_table<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long>, std::__1::__unordered_map_hasher<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long>, std::__1::hash<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::__unordered_map_equal<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long>, std::__1::equal_to<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned long long> > >::rehash(unsigned long)
+ T std::__1::__murmur2_or_cityhash<unsigned long, 64ul>::__hash_len_0_to_16(char const*, unsigned long)
+ T std::__1::__murmur2_or_cityhash<unsigned long, 64ul>::__hash_len_33_to_64(char const*, unsigned long)
+ T std::__1::__murmur2_or_cityhash<unsigned long, 64ul>::operator()(void const*, unsigned long)
  T std::__1::__split_buffer<CDriverManager::HmdDriver_t, std::__1::allocator<CDriverManager::HmdDriver_t>&>::~__split_buffer()
  T std::__1::__split_buffer<CRenderModelLoadThread::TextureEntry_t*, std::__1::allocator<CRenderModelLoadThread::TextureEntry_t*> >::push_back(CRenderModelLoadThread::TextureEntry_t*&&)
  T std::__1::__split_buffer<CRenderModelLoadThread::TextureEntry_t*, std::__1::allocator<CRenderModelLoadThread::TextureEntry_t*> >::push_front(CRenderModelLoadThread::TextureEntry_t*&&)
@@ -6912,6 +7017,7 @@
  T std::__1::deque<Json::Reader::ErrorInfo, std::__1::allocator<Json::Reader::ErrorInfo> >::resize(unsigned long)
  T std::__1::deque<Json::Value*, std::__1::allocator<Json::Value*> >::__add_back_capacity()
  T std::__1::deque<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >::__add_back_capacity()
+ T std::__1::hash<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >::operator()(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) const
  T std::__1::map<int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<int>, std::__1::allocator<std::__1::pair<int const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >::__find_equal_key(std::__1::__tree_node_base<void*>*&, int const&)
  T std::__1::map<int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<int>, std::__1::allocator<std::__1::pair<int const, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > > >::operator[](int&&)
  T std::__1::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, CRenderModelManager::ModelInfo_t*, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, CRenderModelManager::ModelInfo_t*> > >::__find_equal_key(std::__1::__tree_node_base<void*>*&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
@@ -6960,6 +7066,7 @@
  T std::__1::unique_ptr<std::__1::__tree_node<std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::pair<void const*, int> >, void*>, std::__1::__tree_node_destructor<std::__1::allocator<std::__1::__tree_node<std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::pair<void const*, int> >, void*> > > > std::__1::__tree<std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::pair<void const*, int> >, std::__1::__map_value_compare<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::pair<void const*, int> >, std::__1::less<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int> >, true>, std::__1::allocator<std::__1::__value_type<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int>, std::__1::pair<void const*, int> > > >::__construct_node<std::__1::pair<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int> const, std::__1::pair<void const*, int> > const&>(std::__1::pair<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, int> const, std::__1::pair<void const*, int> > const&)
  T std::__1::unique_ptr<std::__1::__tree_node<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, void*>, std::__1::__tree_node_destructor<std::__1::allocator<std::__1::__tree_node<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, void*> > > > std::__1::__tree<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >::__construct_node<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&>(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
  T std::__1::vector<CDriverManager::HmdDriver_t, std::__1::allocator<CDriverManager::HmdDriver_t> >::__swap_out_circular_buffer(std::__1::__split_buffer<CDriverManager::HmdDriver_t, std::__1::allocator<CDriverManager::HmdDriver_t>&>&)
+ T std::__1::vector<CDriverManager::HmdDriver_t, std::__1::allocator<CDriverManager::HmdDriver_t> >::~vector()
  T std::__1::vector<CRenderModelManager::DeviceTexturePair_t, std::__1::allocator<CRenderModelManager::DeviceTexturePair_t> >::vector(std::__1::vector<CRenderModelManager::DeviceTexturePair_t, std::__1::allocator<CRenderModelManager::DeviceTexturePair_t> > const&)
  T std::__1::vector<DriverPresenceEntry_t, std::__1::allocator<DriverPresenceEntry_t> >::vector(std::__1::vector<DriverPresenceEntry_t, std::__1::allocator<DriverPresenceEntry_t> > const&)
  T std::__1::vector<char const*, std::__1::allocator<char const*> >::__append(unsigned long)
@@ -6989,14 +7096,15 @@
  T tinyobj::material_t::material_t(tinyobj::material_t const&)
  T tinyobj::mesh_t::mesh_t(tinyobj::mesh_t const&)
  T tinyobj::mesh_t::operator=(tinyobj::mesh_t&&)
- T unsigned int std::__1::__sort4<bool (*&)(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&), std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*>(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, bool (*&)(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&))
- T unsigned int std::__1::__sort5<bool (*&)(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&), std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*>(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, bool (*&)(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&))
+ T unsigned int std::__1::__sort3<bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&), CDriverManager::HmdDriver_t*>(CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&))
+ T unsigned int std::__1::__sort4<bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&), CDriverManager::HmdDriver_t*>(CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&))
+ T unsigned int std::__1::__sort5<bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&), CDriverManager::HmdDriver_t*>(CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&))
  T virtual thunk to std::__1::basic_ifstream<char, std::__1::char_traits<char> >::~basic_ifstream()
  T virtual thunk to std::__1::basic_istringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_istringstream()
  T virtual thunk to std::__1::basic_ostringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_ostringstream()
  T virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream()
- T void std::__1::__insertion_sort_3<bool (*&)(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&), std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*>(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, bool (*&)(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&))
- T void std::__1::__sort<bool (*&)(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&), std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*>(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, bool (*&)(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&))
+ T void std::__1::__insertion_sort_3<bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&), CDriverManager::HmdDriver_t*>(CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&))
+ T void std::__1::__sort<bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&), CDriverManager::HmdDriver_t*>(CDriverManager::HmdDriver_t*, CDriverManager::HmdDriver_t*, bool (*&)(CDriverManager::HmdDriver_t const&, CDriverManager::HmdDriver_t const&))
  T void std::__1::__tree_balance_after_insert<std::__1::__tree_node_base<void*>*>(std::__1::__tree_node_base<void*>*, std::__1::__tree_node_base<void*>*)
  T void std::__1::__tree_remove<std::__1::__tree_node_base<void*>*>(std::__1::__tree_node_base<void*>*, std::__1::__tree_node_base<void*>*)
  T void std::__1::vector<CDriverManager::DriverDevice_t, std::__1::allocator<CDriverManager::DriverDevice_t> >::__push_back_slow_path<CDriverManager::DriverDevice_t>(CDriverManager::DriverDevice_t&&)
@@ -7574,6 +7682,7 @@
  b GetStringForCompositorError(vr::EVRCompositorError)::buf
  b GetStringForPropertyError(vr::ETrackedPropertyError)::buf
  b GetStringForRenderModelError(vr::EVRRenderModelError)::buf
+ b GetStringForTrackedDeviceProperty(vr::ETrackedDeviceProperty)::buf
  b GetStringForVRApplicationTransitionState(vr::EVRApplicationTransitionState)::buf
  b GetStringForVRApplicationType(vr::EVRApplicationType)::buf
  b GetStringForVRApplicationsError(vr::EVRApplicationError)::buf
@@ -7727,6 +7836,7 @@
  b vroverlay011
  b vroverlay012
  b vroverlay013
+ b vroverlay014
  b vrrendermodels001
  b vrrendermodels002
  b vrrendermodels003
@@ -7791,6 +7901,7 @@
  d g_IVROverlay_011_FnTable
  d g_IVROverlay_012_FnTable
  d g_IVROverlay_013_FnTable
+ d g_IVROverlay_014_FnTable
  d g_IVRRenderModels_004_FnTable
  d g_IVRSettings_001_FnTable
  d g_IVRSystem_011_FnTable
@@ -8851,6 +8962,81 @@
  t IVROverlay_013_FnTable_ShowKeyboardForOverlay(unsigned long long, vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
  t IVROverlay_013_FnTable_ShowMessageOverlay(char const*, char const*, char const*, char const*, char const*, char const*)
  t IVROverlay_013_FnTable_ShowOverlay(unsigned long long)
+ t IVROverlay_014_FnTable_ClearOverlayTexture(unsigned long long)
+ t IVROverlay_014_FnTable_ComputeOverlayIntersection(unsigned long long, vr::VROverlayIntersectionParams_t const*, vr::VROverlayIntersectionResults_t*)
+ t IVROverlay_014_FnTable_CreateDashboardOverlay(char const*, char const*, unsigned long long*, unsigned long long*)
+ t IVROverlay_014_FnTable_CreateOverlay(char const*, char const*, unsigned long long*)
+ t IVROverlay_014_FnTable_DestroyOverlay(unsigned long long)
+ t IVROverlay_014_FnTable_FindOverlay(char const*, unsigned long long*)
+ t IVROverlay_014_FnTable_GetDashboardOverlaySceneProcess(unsigned long long, unsigned int*)
+ t IVROverlay_014_FnTable_GetGamepadFocusOverlay()
+ t IVROverlay_014_FnTable_GetHighQualityOverlay()
+ t IVROverlay_014_FnTable_GetKeyboardText(char*, unsigned int)
+ t IVROverlay_014_FnTable_GetOverlayAlpha(unsigned long long, float*)
+ t IVROverlay_014_FnTable_GetOverlayAutoCurveDistanceRangeInMeters(unsigned long long, float*, float*)
+ t IVROverlay_014_FnTable_GetOverlayColor(unsigned long long, float*, float*, float*)
+ t IVROverlay_014_FnTable_GetOverlayErrorNameFromEnum(vr::EVROverlayError)
+ t IVROverlay_014_FnTable_GetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool*)
+ t IVROverlay_014_FnTable_GetOverlayFlags(unsigned long long, unsigned int*)
+ t IVROverlay_014_FnTable_GetOverlayImageData(unsigned long long, void*, unsigned int, unsigned int*, unsigned int*)
+ t IVROverlay_014_FnTable_GetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod*)
+ t IVROverlay_014_FnTable_GetOverlayKey(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
+ t IVROverlay_014_FnTable_GetOverlayMouseScale(unsigned long long, vr::HmdVector2_t*)
+ t IVROverlay_014_FnTable_GetOverlayName(unsigned long long, char*, unsigned int, vr::EVROverlayError*)
+ t IVROverlay_014_FnTable_GetOverlayRenderingPid(unsigned long long)
+ t IVROverlay_014_FnTable_GetOverlaySortOrder(unsigned long long, unsigned int*)
+ t IVROverlay_014_FnTable_GetOverlayTexelAspect(unsigned long long, float*)
+ t IVROverlay_014_FnTable_GetOverlayTexture(unsigned long long, void**, void*, unsigned int*, unsigned int*, unsigned int*, vr::ETextureType*, vr::EColorSpace*, vr::VRTextureBounds_t*)
+ t IVROverlay_014_FnTable_GetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t*)
+ t IVROverlay_014_FnTable_GetOverlayTextureColorSpace(unsigned long long, vr::EColorSpace*)
+ t IVROverlay_014_FnTable_GetOverlayTextureSize(unsigned long long, unsigned int*, unsigned int*)
+ t IVROverlay_014_FnTable_GetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin*, vr::HmdMatrix34_t*)
+ t IVROverlay_014_FnTable_GetOverlayTransformTrackedDeviceComponent(unsigned long long, unsigned int*, char*, unsigned int)
+ t IVROverlay_014_FnTable_GetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int*, vr::HmdMatrix34_t*)
+ t IVROverlay_014_FnTable_GetOverlayTransformType(unsigned long long, vr::VROverlayTransformType*)
+ t IVROverlay_014_FnTable_GetOverlayWidthInMeters(unsigned long long, float*)
+ t IVROverlay_014_FnTable_GetPrimaryDashboardDevice()
+ t IVROverlay_014_FnTable_GetTransformForOverlayCoordinates(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdVector2_t, vr::HmdMatrix34_t*)
+ t IVROverlay_014_FnTable_HandleControllerOverlayInteractionAsMouse(unsigned long long, unsigned int)
+ t IVROverlay_014_FnTable_HideKeyboard()
+ t IVROverlay_014_FnTable_HideOverlay(unsigned long long)
+ t IVROverlay_014_FnTable_IsActiveDashboardOverlay(unsigned long long)
+ t IVROverlay_014_FnTable_IsDashboardVisible()
+ t IVROverlay_014_FnTable_IsHoverTargetOverlay(unsigned long long)
+ t IVROverlay_014_FnTable_IsOverlayVisible(unsigned long long)
+ t IVROverlay_014_FnTable_MoveGamepadFocusToNeighbor(vr::EOverlayDirection, unsigned long long)
+ t IVROverlay_014_FnTable_PollNextOverlayEvent(unsigned long long, vr::VREvent_t*, unsigned int)
+ t IVROverlay_014_FnTable_ReleaseNativeOverlayHandle(unsigned long long, void*)
+ t IVROverlay_014_FnTable_SetDashboardOverlaySceneProcess(unsigned long long, unsigned int)
+ t IVROverlay_014_FnTable_SetGamepadFocusOverlay(unsigned long long)
+ t IVROverlay_014_FnTable_SetHighQualityOverlay(unsigned long long)
+ t IVROverlay_014_FnTable_SetKeyboardPositionForOverlay(unsigned long long, vr::HmdRect2_t)
+ t IVROverlay_014_FnTable_SetKeyboardTransformAbsolute(vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ t IVROverlay_014_FnTable_SetOverlayAlpha(unsigned long long, float)
+ t IVROverlay_014_FnTable_SetOverlayAutoCurveDistanceRangeInMeters(unsigned long long, float, float)
+ t IVROverlay_014_FnTable_SetOverlayColor(unsigned long long, float, float, float)
+ t IVROverlay_014_FnTable_SetOverlayFlag(unsigned long long, vr::VROverlayFlags, bool)
+ t IVROverlay_014_FnTable_SetOverlayFromFile(unsigned long long, char const*)
+ t IVROverlay_014_FnTable_SetOverlayInputMethod(unsigned long long, vr::VROverlayInputMethod)
+ t IVROverlay_014_FnTable_SetOverlayIntersectionMask(unsigned long long, vr::VROverlayIntersectionMaskPrimitive_t*, unsigned int, unsigned int)
+ t IVROverlay_014_FnTable_SetOverlayMouseScale(unsigned long long, vr::HmdVector2_t const*)
+ t IVROverlay_014_FnTable_SetOverlayNeighbor(vr::EOverlayDirection, unsigned long long, unsigned long long)
+ t IVROverlay_014_FnTable_SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
+ t IVROverlay_014_FnTable_SetOverlayRenderingPid(unsigned long long, unsigned int)
+ t IVROverlay_014_FnTable_SetOverlaySortOrder(unsigned long long, unsigned int)
+ t IVROverlay_014_FnTable_SetOverlayTexelAspect(unsigned long long, float)
+ t IVROverlay_014_FnTable_SetOverlayTexture(unsigned long long, vr::Texture_t const*)
+ t IVROverlay_014_FnTable_SetOverlayTextureBounds(unsigned long long, vr::VRTextureBounds_t const*)
+ t IVROverlay_014_FnTable_SetOverlayTextureColorSpace(unsigned long long, vr::EColorSpace)
+ t IVROverlay_014_FnTable_SetOverlayTransformAbsolute(unsigned long long, vr::ETrackingUniverseOrigin, vr::HmdMatrix34_t const*)
+ t IVROverlay_014_FnTable_SetOverlayTransformTrackedDeviceComponent(unsigned long long, unsigned int, char const*)
+ t IVROverlay_014_FnTable_SetOverlayTransformTrackedDeviceRelative(unsigned long long, unsigned int, vr::HmdMatrix34_t const*)
+ t IVROverlay_014_FnTable_SetOverlayWidthInMeters(unsigned long long, float)
+ t IVROverlay_014_FnTable_ShowDashboard(char const*)
+ t IVROverlay_014_FnTable_ShowKeyboard(vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
+ t IVROverlay_014_FnTable_ShowKeyboardForOverlay(unsigned long long, vr::EGamepadTextInputMode, vr::EGamepadTextInputLineMode, char const*, unsigned int, char const*, bool, unsigned long long)
+ t IVROverlay_014_FnTable_ShowMessageOverlay(char const*, char const*, char const*, char const*, char const*, char const*)
+ t IVROverlay_014_FnTable_ShowOverlay(unsigned long long)
  t IVRRenderModels_004_FnTable_FreeRenderModel(vr::RenderModel_t*)
  t IVRRenderModels_004_FnTable_FreeTexture(vr::RenderModel_TextureMap_t*)
  t IVRRenderModels_004_FnTable_FreeTextureD3D11(void*)
@@ -9234,6 +9420,7 @@
  t VR_IVROverlay_FnTable_SetOverlayInputMethod(unsigned long long, VROverlayInputMethod)
  t VR_IVROverlay_FnTable_SetOverlayIntersectionMask(unsigned long long, VROverlayIntersectionMaskPrimitive_t*, unsigned int, unsigned int)
  t VR_IVROverlay_FnTable_SetOverlayMouseScale(unsigned long long, HmdVector2_t*)
+ t VR_IVROverlay_FnTable_SetOverlayName(unsigned long long, char*)
  t VR_IVROverlay_FnTable_SetOverlayNeighbor(EOverlayDirection, unsigned long long, unsigned long long)
  t VR_IVROverlay_FnTable_SetOverlayRaw(unsigned long long, void*, unsigned int, unsigned int, unsigned int)
  t VR_IVROverlay_FnTable_SetOverlayRenderingPid(unsigned long long, unsigned int)
@@ -9346,29 +9533,31 @@
  t VR_IVRTrackedCamera_FnTable_HasCamera(unsigned int, bool*)
  t VR_IVRTrackedCamera_FnTable_ReleaseVideoStreamTextureGL(unsigned long long, unsigned int)
  t VR_IVRTrackedCamera_FnTable_ReleaseVideoStreamingService(unsigned long long)
- t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.2519.ii
- t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.2639.ii
+ t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.23523.ii
+ t _GLOBAL__sub_I__dynamic_o.tmp.steamvr_rel_osx_builder.23649.ii
  t _GLOBAL__sub_I_descriptor.cc
  t _GLOBAL__sub_I_descriptor.pb.cc
+ t _GLOBAL__sub_I_drivermana.tmp.steamvr_rel_osx_builder.22439.ii
+ t _GLOBAL__sub_I_drivermana.tmp.steamvr_rel_osx_builder.22551.ii
  t _GLOBAL__sub_I_extension_set.cc
  t _GLOBAL__sub_I_hid.tmp.steamvr_rel_osx_builder.36427.ii
  t _GLOBAL__sub_I_hid.tmp.steamvr_rel_osx_builder.36578.ii
- t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.87278.ii
- t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.87391.ii
- t _GLOBAL__sub_I_ipcposix2.tmp.steamvr_rel_osx_builder.49524.ii
- t _GLOBAL__sub_I_ipcposix2.tmp.steamvr_rel_osx_builder.49906.ii
- t _GLOBAL__sub_I_thread.tmp.steamvr_rel_osx_builder.50710.ii
- t _GLOBAL__sub_I_thread.tmp.steamvr_rel_osx_builder.50936.ii
+ t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.23526.ii
+ t _GLOBAL__sub_I_interface_.tmp.steamvr_rel_osx_builder.23665.ii
+ t _GLOBAL__sub_I_ipcposix2.tmp.steamvr_rel_osx_builder.66787.ii
+ t _GLOBAL__sub_I_ipcposix2.tmp.steamvr_rel_osx_builder.67141.ii
+ t _GLOBAL__sub_I_thread.tmp.steamvr_rel_osx_builder.88366.ii
+ t _GLOBAL__sub_I_thread.tmp.steamvr_rel_osx_builder.88368.ii
  t _GLOBAL__sub_I_threadtool.tmp.steamvr_rel_osx_builder.49622.ii
  t _GLOBAL__sub_I_threadtool.tmp.steamvr_rel_osx_builder.50005.ii
  t _GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.49378.ii
  t _GLOBAL__sub_I_vr_message.tmp.steamvr_rel_osx_builder.49762.ii
- t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.87311.ii
- t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.87419.ii
+ t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.23589.ii
+ t _GLOBAL__sub_I_vrclientco.tmp.steamvr_rel_osx_builder.23715.ii
  t _GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.7306.ii
  t _GLOBAL__sub_I_vrlog.tmp.steamvr_rel_osx_builder.7486.ii
- t _GLOBAL__sub_I_vroverlay.tmp.steamvr_rel_osx_builder.87351.ii
- t _GLOBAL__sub_I_vroverlay.tmp.steamvr_rel_osx_builder.87455.ii
+ t _GLOBAL__sub_I_vroverlay.tmp.steamvr_rel_osx_builder.23623.ii
+ t _GLOBAL__sub_I_vroverlay.tmp.steamvr_rel_osx_builder.23747.ii
  t __ARCLite__load()
  t __arclite_NSArray_objectAtIndexedSubscript(NSArray*, objc_selector*, unsigned long)
  t __arclite_NSDictionary_objectForKeyedSubscript(NSDictionary*, objc_selector*, objc_object*)
