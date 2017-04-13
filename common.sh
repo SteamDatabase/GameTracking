@@ -49,6 +49,23 @@ ProcessVPK ()
 	done <   <(find . -type f -name "*_dir.vpk" -print0)
 }
 
+FixUCS2 ()
+{
+	echo "Fixing UCS-2"
+
+	while IFS= read -r -d '' file
+	do
+			if ! file --mime "$file" | grep "charset=utf-16le"
+			then
+					continue
+			fi
+
+			temp_file=$(mktemp)
+			iconv -t UTF-8 -f UCS-2 -o "$temp_file" "$file" &&
+			mv -f "$temp_file" "$file"
+	done <   <(find . -name "*.txt" -type f -print0)
+}
+
 CreateCommit ()
 {
 	git add -A
