@@ -5,6 +5,8 @@ export LC_ALL=C
 # Set working directory where this file is located
 cd "${0%/*}"
 
+. ./common.sh
+
 if [[ $1 = "all" ]]; then
 	echo "Going to process all folders"
 	
@@ -89,8 +91,6 @@ case $1 in
 # Half-Life 2
 221)
 	ProcessVPK "hl2"
-	
-	iconv -t UTF-8 -f UCS-2 -o "hl2/hl2/resource/hl2_english_utf8.txt" "hl2/hl2/resource/hl2_english.txt"
 	;;
 
 223)
@@ -119,8 +119,6 @@ case $1 in
 # Portal
 401)
 	ProcessVPK "portal"
-	
-	iconv -t UTF-8 -f UCS-2 -o "portal/portal/resource/portal_english_utf8.txt" "portal/portal/resource/portal_english.txt"
 	;;
 
 403)
@@ -130,8 +128,6 @@ case $1 in
 # Portal 2
 621)
 	ProcessVPK "portal2"
-	
-	iconv -t UTF-8 -f UCS-2 -o "portal2/portal2/resource/portal2_english_utf8.txt" "portal2/portal2/resource/portal2_english.txt"
 	;;
 
 624)
@@ -159,9 +155,6 @@ case $1 in
 # Alien Swarm
 631)
 	ProcessVPK "alienswarm"
-	
-	iconv -t UTF-8 -f UCS-2 -o "alienswarm/swarm/resource/swarm_english_utf8.txt" "alienswarm/swarm/resource/swarm_english.txt"
-	
 	ProcessDepot "alienswarm" ".dll"
 	;;
 
@@ -185,8 +178,8 @@ case $1 in
 
 esac
 
+FixUCS2
+
 if ! [[ $2 = "no-git" ]]; then
-	git add -A
-	git commit -S -a -m "$(git status --porcelain | wc -l) files | $(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g')"
-	git push
+	CreateCommit "↑"
 fi
