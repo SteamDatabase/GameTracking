@@ -91,6 +91,7 @@ case $1 in
 # Half-Life 2
 221)
 	ProcessVPK "hl2"
+	FixUCS2
 	;;
 
 223)
@@ -100,16 +101,19 @@ case $1 in
 # Half-Life 2: Episode One
 389)
 	ProcessVPK "hl2ep1"
+	FixUCS2
 	;;
 
 # Half-Life 2: Episode Two
 420)
 	ProcessVPK "hl2ep2"
+	FixUCS2
 	;;
 
 # Half-Life 2: Death Match
 321)
 	ProcessVPK "hl2dm"
+	FixUCS2
 	;;
 
 232372)
@@ -119,6 +123,7 @@ case $1 in
 # Portal
 401)
 	ProcessVPK "portal"
+	FixUCS2
 	;;
 
 403)
@@ -128,6 +133,7 @@ case $1 in
 # Portal 2
 621)
 	ProcessVPK "portal2"
+	FixUCS2
 	;;
 
 624)
@@ -137,6 +143,7 @@ case $1 in
 # Left 4 Dead
 502)
 	ProcessVPK "l4d"
+	FixUCS2
 	;;
 
 515)
@@ -146,6 +153,7 @@ case $1 in
 # Left 4 Dead 2
 551)
 	ProcessVPK "l4d2"
+	FixUCS2
 	;;
 
 553)
@@ -156,6 +164,7 @@ case $1 in
 631)
 	ProcessVPK "alienswarm"
 	ProcessDepot "alienswarm" ".dll"
+	FixUCS2
 	;;
 
 # OpenVR
@@ -166,6 +175,7 @@ case $1 in
 # Destinations
 453171)
 	ProcessVPK "destinations"
+	FixUCS2
 	;;
 
 453172)
@@ -174,11 +184,10 @@ case $1 in
 
 453174)
 	ProcessVPK "destinations"
+	FixUCS2
 	;;
 
 esac
-
-FixUCS2
 
 if ! [[ $2 = "no-git" ]]; then
 	CreateCommit "↑"

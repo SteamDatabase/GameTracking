@@ -60,9 +60,8 @@ FixUCS2 ()
 					continue
 			fi
 
-			temp_file=$(mktemp)
-			iconv -t UTF-8 -f UCS-2 -o "$temp_file" "$file" &&
-			mv -f "$temp_file" "$file"
+			recode UTF16LE..UTF8 "$file"
+
 	done <   <(find . -name "*.txt" -type f -print0)
 }
 
