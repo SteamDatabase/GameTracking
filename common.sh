@@ -46,6 +46,8 @@ ProcessVPK ()
 		echo "> VPK $baseFile"
 		
 		../.support/vpktool "$file" > "$baseFile"
+		
+		mono ../.support/SourceDecompiler/Decompiler.exe -i "$file" -o "$(echo "$file" | sed -e 's/\.vpk$/\//g')"
 	done <   <(find . -type f -name "*_dir.vpk" -print0)
 }
 
