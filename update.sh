@@ -167,26 +167,6 @@ case $1 in
 	FixUCS2
 	;;
 
-# OpenVR
-250822)
-	ProcessDepot "steamvr" ".dylib"
-	;;
-
-# Destinations
-453171)
-	ProcessVPK "destinations"
-	FixUCS2
-	;;
-
-453172)
-	ProcessDepot "destinations" ".dll"
-	;;
-
-453174)
-	ProcessVPK "destinations"
-	FixUCS2
-	;;
-
 esac
 
 if ! [[ $2 = "no-git" ]]; then
