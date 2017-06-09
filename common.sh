@@ -4,22 +4,20 @@ export LC_ALL=C
 
 ProcessDepot ()
 {
-	mkdir -p "BuildbotPaths" "Protobufs" "Symbols" "Strings"
+	echo "> Processing binaries"
+	
+	mkdir -p "Protobufs"
 	
 	while IFS= read -r -d '' file
 	do
-		baseFile=$(basename "$file" "$1")
-		
-		if [ "$baseFile" = "steamclient" ]
+		if [ "$(basename "$file" "$1")" = "steamclient" ]
 		then
 			continue
 		fi
 		
-		echo "> $baseFile"
+		echo " > $file"
 		
 		mono ../.support/ProtobufDumper.exe "$file" "Protobufs/" > /dev/null
-		
-		strings "$file" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/$baseFile.txt"
 		
 		nmBinary=nm
 		
@@ -30,22 +28,22 @@ ProcessDepot ()
 		
 		if [ "$1" = ".dylib" ] || [ "$1" = ".so" ]
 		then
-			$nmBinary -C -p "$file" | grep -Evi "GCC_except_table|google::protobuf" | awk '{$1=""; print $0}' | sort -u > "Symbols/$baseFile.txt"
+			$nmBinary -C -p "$file" | grep -Evi "GCC_except_table|google::protobuf" | awk '{$1=""; print $0}' | sort -u > "$(echo "$file" | sed -e "s/$1$/.txt/g")"
 		fi
 		
-		strings "$file" -n 5 | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -t_ | sort -u > "Strings/$baseFile.txt"
+		strings "$file" -n 5 | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -t_ | sort -u > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
 	done <   <(find . -type f -name "*$1" -print0)
 }
 
 ProcessVPK ()
 {
+	echo "> Processing VPKs"
+	
 	while IFS= read -r -d '' file
 	do
-		baseFile="${file%.*}.txt"
+		echo " > $file"
 		
-		echo "> VPK $baseFile"
-		
-		../.support/vpktool "$file" > "$baseFile"
+		../.support/vpktool "$file" > "${file%.*}.txt"
 		
 		mono ../.support/SourceDecompiler/Decompiler.exe -i "$file" -o "$(echo "$file" | sed -e 's/\.vpk$/\//g')"
 	done <   <(find . -type f -name "*_dir.vpk" -print0)
@@ -53,18 +51,17 @@ ProcessVPK ()
 
 FixUCS2 ()
 {
-	echo "Fixing UCS-2"
+	echo "> Fixing UCS-2"
 
 	while IFS= read -r -d '' file
 	do
-			if ! file --mime "$file" | grep "charset=utf-16le"
-			then
-					continue
-			fi
+		if ! file --mime "$file" | grep "charset=utf-16le"
+		then
+				continue
+		fi
 
-			recode UTF16LE..UTF8 "$file"
-
-	done <   <(find . -name "*.txt" -type f -print0)
+		recode UTF16LE..UTF8 "$file"
+	done <   <(find . -type f -name "*.txt" -print0)
 }
 
 CreateCommit ()
@@ -73,3 +70,4 @@ CreateCommit ()
 	git commit -S -a -m "$1 | $(git status --porcelain | wc -l) files | $(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g' | cut -c 1-1024)"
 	git push
 }
+
