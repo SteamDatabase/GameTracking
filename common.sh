@@ -55,12 +55,7 @@ FixUCS2 ()
 
 	while IFS= read -r -d '' file
 	do
-		if ! file --mime "$file" | grep "charset=utf-16le"
-		then
-				continue
-		fi
-
-		recode UTF16LE..UTF8 "$file"
+		../fix_encoding "$file"
 	done <   <(find . -type f -name "*.txt" -print0)
 }
 
