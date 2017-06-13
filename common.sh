@@ -66,8 +66,15 @@ FixUCS2 ()
 
 CreateCommit ()
 {
+	message="$1 | $(git status --porcelain | wc -l) files | $(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g' | cut -c 1-1024)"
+
+	if [ "$2" -gt "0" ]; then
+		bashpls=$'\n\n'
+		message="${message}${bashpls}https://steamdb.info/patchnotes/$2/"
+	fi
+
 	git add -A
-	git commit -S -a -m "$1 | $(git status --porcelain | wc -l) files | $(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g' | cut -c 1-1024)"
+	git commit -S -a -m "$message"
 	git push
 }
 
