@@ -31,7 +31,7 @@ ProcessDepot ()
 			$nmBinary -C -p "$file" | grep -Evi "GCC_except_table|google::protobuf" | awk '{$1=""; print $0}' | sort -u > "$(echo "$file" | sed -e "s/$1$/.txt/g")"
 		fi
 		
-		strings "$file" -n 5 | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -t_ | sort -u > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
+		#strings "$file" -n 5 | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -t_ | sort -u > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
 	done <   <(find . -type f -name "*$1" -print0)
 }
 
@@ -71,5 +71,7 @@ CreateCommit ()
 	git add -A
 	git commit -S -a -m "$message"
 	git push
+	
+	~/ValveProtobufs/update.sh
 }
 
