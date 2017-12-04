@@ -17,7 +17,7 @@ ProcessDepot ()
 		
 		echo " > $file"
 		
-		mono ../.support/ProtobufDumper.exe "$file" "Protobufs/" > /dev/null
+		dotnet ~/ProtobufDumper/ProtobufDumper.dll "$file" "Protobufs/" > /dev/null
 		
 		nmBinary=nm
 		
