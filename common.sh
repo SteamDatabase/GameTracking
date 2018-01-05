@@ -45,7 +45,7 @@ ProcessVPK ()
 		
 		../.support/vpktool "$file" > "${file%.*}.txt"
 		
-		mono ../.support/SourceDecompiler/Decompiler.exe --input "$file" --output "$(echo "$file" | sed -e 's/\.vpk$/\//g')" --vpk_decompile --vpk_extensions "vxml_c,vjs_c,vcss_c,vsndevts_c,vpcf_c,txt,cfg,res,png,jpg,gif"
+		dotnet /home/steamdb/ValveResourceFormat/Decompiler/bin/Release/netcoreapp2.0/Decompiler.dll --input "$file" --output "$(echo "$file" | sed -e 's/\.vpk$/\//g')" --vpk_cache --vpk_decompile --vpk_extensions "vxml_c,vjs_c,vcss_c,vsndevts_c,vpcf_c,txt,cfg,res,png,jpg,gif"
 	done <   <(find . -type f -name "*_dir.vpk" -print0)
 }
 
