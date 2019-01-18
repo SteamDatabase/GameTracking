@@ -63,7 +63,7 @@ CreateCommit ()
 {
 	message="$1 | $(git status --porcelain | wc -l) files | $(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g' | cut -c 1-1024)"
 
-	if [ -z "$2" ]; then
+	if [ -n "$2" ]; then
 		bashpls=$'\n\n'
 		message="${message}${bashpls}https://steamdb.info/patchnotes/$2/"
 	fi
