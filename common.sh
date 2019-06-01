@@ -19,11 +19,11 @@ ProcessDepot ()
 		
 		dotnet ~/ProtobufDumper/ProtobufDumper.dll "$file" "Protobufs/" > /dev/null
 		
-		nmBinary=nm
+		nmBinary="nm"
 		
 		if [ "$1" = ".dylib" ]
 		then
-			nmBinary=../.support/nm-with-macho
+			nmBinary="$(dirname "${BASH_SOURCE[0]}")/.support/nm-with-macho"
 		fi
 		
 		if [ "$1" = ".dylib" ] || [ "$1" = ".so" ]
@@ -43,7 +43,7 @@ ProcessVPK ()
 	do
 		echo " > $file"
 		
-		../.support/vpktool "$file" > "${file%.*}.txt"
+		"$(dirname "${BASH_SOURCE[0]}")/.support/vpktool" "$file" > "${file%.*}.txt"
 		
 		dotnet /home/steamdb/ValveResourceFormat/Decompiler/bin/Release/netcoreapp2.0/Decompiler.dll --input "$file" --output "$(echo "$file" | sed -e 's/\.vpk$/\//g')" --vpk_cache --vpk_decompile --vpk_extensions "vxml_c,vjs_c,vcss_c,vsndevts_c,vpcf_c,txt,cfg,res,pop,png,jpg,gif"
 	done <   <(find . -type f -name "*_dir.vpk" -print0)
@@ -55,7 +55,8 @@ FixUCS2 ()
 
 	while IFS= read -r -d '' file
 	do
-		../fix_encoding "$file"
+		((i=i%20)); ((i++==0)) && wait
+		"$(dirname "${BASH_SOURCE[0]}")/fix_encoding" "$file" &
 	done <   <(find . -type f -name "*.txt" -print0)
 }
 
