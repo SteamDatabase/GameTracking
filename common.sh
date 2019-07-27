@@ -55,9 +55,10 @@ FixUCS2 ()
 
 	while IFS= read -r -d '' file
 	do
-		((i=i%20)); ((i++==0)) && wait
+	#	((i=i%20)); ((i++==0)) && wait
 		"$(dirname "${BASH_SOURCE[0]}")/fix_encoding" "$file" &
 	done <   <(find . -type f -name "*.txt" -print0)
+	wait
 }
 
 CreateCommit ()
