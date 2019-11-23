@@ -6,6 +6,7 @@ ProcessDepot ()
 {
 	echo "> Processing binaries"
 	
+	rm -r "Protobufs"
 	mkdir -p "Protobufs"
 	
 	while IFS= read -r -d '' file
