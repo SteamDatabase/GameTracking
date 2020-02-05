@@ -32,7 +32,12 @@ ProcessDepot ()
 			$nmBinary -C -p "$file" | grep -Evi "GCC_except_table|google::protobuf" | awk '{$1=""; print $0}' | sort -u > "$(echo "$file" | sed -e "s/$1$/.txt/g")"
 		fi
 		
-		strings "$file" -n 5 | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -_ | sort -u > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
+		if [ "$1" = ".so" ]
+		then
+			"$(dirname "${BASH_SOURCE[0]}")/.support/elfstrings/elfstrings" -binary "$file" | sort -u > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
+		else
+			strings "$file" -n 5 | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -_ | sort -u > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
+		fi
 	done <   <(find . -type f -name "*$1" -print0)
 }
 

@@ -18,7 +18,7 @@ if [[ $1 = "all" ]]; then
 		./update.sh "${dir}" "no-git"
 	done
 	
-	./update.sh 0
+	./update.sh 0 "no-git"
 	
 	exit 0
 fi
