@@ -55,6 +55,18 @@ ProcessVPK ()
 	done <   <(find . -type f -name "*_dir.vpk" -print0)
 }
 
+ProcessToolAssetInfo ()
+{
+	echo "> Processing tools asset info"
+	
+	while IFS= read -r -d '' file
+	do
+		echo " > $file"
+		
+		~/ValveResourceFormat/Decompiler/bin/Release/netcoreapp3.1/linux-x64/publish/Decompiler --input "$file" --output "$(echo "$file" | sed -e 's/\.bin$/\.txt/g')"
+	done <   <(find . -type f -name "*asset_info.bin" -print0)
+}
+
 FixUCS2 ()
 {
 	echo "> Fixing UCS-2"
@@ -82,4 +94,3 @@ CreateCommit ()
 	
 	~/ValveProtobufs/update.sh
 }
-
