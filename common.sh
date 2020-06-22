@@ -71,12 +71,7 @@ FixUCS2 ()
 {
 	echo "> Fixing UCS-2"
 
-	while IFS= read -r -d '' file
-	do
-	#	((i=i%20)); ((i++==0)) && wait
-		"$(dirname "${BASH_SOURCE[0]}")/fix_encoding" "$file" &
-	done <   <(find . -type f -name "*.txt" -print0)
-	wait
+	find . -type f -name "*.txt" -print0 | xargs --null --max-lines=1 --max-procs=3 "$(dirname "${BASH_SOURCE[0]}")/fix_encoding"
 }
 
 CreateCommit ()
