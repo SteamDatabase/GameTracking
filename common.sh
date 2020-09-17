@@ -51,7 +51,7 @@ ProcessVPK ()
 		
 		"$(dirname "${BASH_SOURCE[0]}")/.support/vpktool" "$file" > "${file%.*}.txt"
 		
-		~/ValveResourceFormat/Decompiler/bin/Release/netcoreapp3.1/linux-x64/publish/Decompiler --input "$file" --output "$(echo "$file" | sed -e 's/\.vpk$/\//g')" --vpk_cache --vpk_decompile --vpk_extensions "vxml_c,vjs_c,vcss_c,vsndevts_c,vsndstck_c,json,txt,cfg,res,pop,gameevents,png,jpg,gif"
+		~/ValveResourceFormat/Decompiler/bin/Release/linux-x64/publish/Decompiler --input "$file" --output "$(echo "$file" | sed -e 's/\.vpk$/\//g')" --vpk_cache --vpk_decompile --vpk_extensions "vxml_c,vjs_c,vcss_c,vsndevts_c,vsndstck_c,vdpn_c,json,txt,cfg,res,pop,gameevents,png,jpg,gif"
 	done <   <(find . -type f -name "*_dir.vpk" -print0)
 }
 
@@ -63,7 +63,7 @@ ProcessToolAssetInfo ()
 	do
 		echo " > $file"
 		
-		~/ValveResourceFormat/Decompiler/bin/Release/netcoreapp3.1/linux-x64/publish/Decompiler --input "$file" --output "$(echo "$file" | sed -e 's/\.bin$/\.txt/g')"
+		~/ValveResourceFormat/Decompiler/bin/Release/linux-x64/publish/Decompiler --input "$file" --output "$(echo "$file" | sed -e 's/\.bin$/\.txt/g')"
 	done <   <(find . -type f -name "*asset_info.bin" -print0)
 }
 
