@@ -434,12 +434,15 @@
  B CSceneEntity_DataDescInit::g_DataMapHolder
  B CSceneListManager_DataDescInit::g_DataMapHolder
  B CSceneManager_DataDescInit::g_DataMapHolder
+ B CScriptBaseButton_DataDescInit::g_DataMapHolder
  B CScriptItem_DataDescInit::g_DataMapHolder
+ B CScriptNavAttributeRegion_DataDescInit::g_DataMapHolder
  B CScriptNavBlocker_DataDescInit::g_DataMapHolder
  B CScriptTriggerHurt_DataDescInit::g_DataMapHolder
  B CScriptTriggerMultiple_DataDescInit::g_DataMapHolder
  B CScriptTriggerOnce_DataDescInit::g_DataMapHolder
  B CScriptTriggerPush_DataDescInit::g_DataMapHolder
+ B CScriptVPhysicsClip_DataDescInit::g_DataMapHolder
  B CSelfDestruct_DataDescInit::g_DataMapHolder
  B CServerBenchmarkHook::s_pBenchmarkHook
  B CServerNetworkProperty_DataDescInit::g_DataMapHolder
@@ -956,6 +959,8 @@
  B DT_ScavengeProgressDisplay::g_SendTableInit
  B DT_SceneEntity::g_SendTable
  B DT_SceneEntity::g_SendTableInit
+ B DT_ScriptBaseButton::g_SendTable
+ B DT_ScriptBaseButton::g_SendTableInit
  B DT_SelfDestruct::g_SendTable
  B DT_SelfDestruct::g_SendTableInit
  B DT_ServerAnimationData::g_SendTable
@@ -1777,6 +1782,9 @@
  B TankThrowMinInterval
  B TankVisibilityToleranceSuicide
  B Tank_DataDescInit::g_DataMapHolder
+ B TeammateInFocusEnabled
+ B TeammateInFocusSpeed
+ B TeammateInFocusStickyness
  B TemplateEntityData_t_DataDescInit::g_DataMapHolder
  B TerrorAmmoMultiplier
  B TerrorNavArea::gm_wanderingPopulationRequests
@@ -1949,6 +1957,7 @@
  B ZombieFallingLandSpeed
  B ZombieFinaleChance
  B ZombieFinaleGhostWarpToSurvivor
+ B ZombieFinaleMobSpawnSafetyRange
  B ZombieFinaleSpawnSafetyRange
  B ZombieFinaleSpawnSafetyRangeOverride
  B ZombieFinaleTankSpawnSafetyRange
@@ -2098,7 +2107,6 @@
  B ZombiePlayerLungeUp
  B ZombiePlayerZombieDebug
  B ZombiePlayerZombieLandDelay
- B ZombiePlayerZombieMinDeadTime
  B ZombiePopulation
  B ZombiePounceAllowPartialHidden
  B ZombiePounceCrouchDelay
@@ -2378,6 +2386,7 @@
  B director_always_allow_wanderers
  B director_configurable_weapon_spawn_density
  B director_convert_pills_to_defib_health
+ B director_cs_weapon_spawn_chance
  B director_debug_revisit
  B director_debug_scavenge_items
  B director_defibrillator_density
@@ -2475,6 +2484,8 @@
  B g_BitWriteMasks
  B g_CBaseAnimating_ScriptDesc
  B g_CBaseEntity_ScriptDesc
+ B g_CBaseFlex_ScriptDesc
+ B g_CBaseTrigger_ScriptDesc
  B g_CDirector_ScriptDesc
  B g_CEnvEntityMaker_ScriptDesc
  B g_CInfoItemPosition_ScriptDesc
@@ -2485,7 +2496,9 @@
  B g_CRuleScriptBridge_ScriptDesc
  B g_CScriptConvarAccessor_ScriptDesc
  B g_CScriptEntityIterator_ScriptDesc
+ B g_CScriptResponseCriteria_ScriptDesc
  B g_CTerrorPlayer_ScriptDesc
+ B g_CTerrorWeapon_ScriptDesc
  B g_CatmullRomInterpolator
  B g_CheckClient
  B g_ChoreoStringPool
@@ -2553,6 +2566,7 @@
  B g_ScriptConvars
  B g_ScriptEntityIterator
  B g_ScriptErrorScreenOverlay
+ B g_ScriptResponseCriteria
  B g_SentBanMasks
  B g_SentGameRulesMasks
  B g_ServerGameClients
@@ -3138,6 +3152,7 @@
  B sv_healing_gnome_replenish_rate
  B sv_hibernate_when_empty
  B sv_infected_ceda_vomitjar_probability
+ B sv_infected_police_tonfa_probability
  B sv_infected_riot_control_tonfa_probability
  B sv_infected_scale_max
  B sv_infected_scale_min
@@ -4009,12 +4024,15 @@
  D CSceneEntity::m_DataMap
  D CSceneListManager::m_DataMap
  D CSceneManager::m_DataMap
+ D CScriptBaseButton::m_DataMap
  D CScriptItem::m_DataMap
+ D CScriptNavAttributeRegion::m_DataMap
  D CScriptNavBlocker::m_DataMap
  D CScriptTriggerHurt::m_DataMap
  D CScriptTriggerMultiple::m_DataMap
  D CScriptTriggerOnce::m_DataMap
  D CScriptTriggerPush::m_DataMap
+ D CScriptVPhysicsClip::m_DataMap
  D CSelfDestruct::m_DataMap
  D CServerNetworkProperty::m_DataMap
  D CShadowControl::m_DataMap
@@ -4302,6 +4320,8 @@
  D ScriptClassDesc_t* GetScriptDesc<AI_ResponseScriptWrapper>(AI_ResponseScriptWrapper*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CBaseAnimating>(CBaseAnimating*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CBaseEntity>(CBaseEntity*)::bInitialized
+ D ScriptClassDesc_t* GetScriptDesc<CBaseFlex>(CBaseFlex*)::bInitialized
+ D ScriptClassDesc_t* GetScriptDesc<CBaseTrigger>(CBaseTrigger*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CDirector>(CDirector*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CEnvEntityMaker>(CEnvEntityMaker*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CInfoItemPosition>(CInfoItemPosition*)::bInitialized
@@ -4312,7 +4332,9 @@
  D ScriptClassDesc_t* GetScriptDesc<CRuleScriptBridge>(CRuleScriptBridge*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CScriptConvarAccessor>(CScriptConvarAccessor*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CScriptEntityIterator>(CScriptEntityIterator*)::bInitialized
+ D ScriptClassDesc_t* GetScriptDesc<CScriptResponseCriteria>(CScriptResponseCriteria*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CTerrorPlayer>(CTerrorPlayer*)::bInitialized
+ D ScriptClassDesc_t* GetScriptDesc<CTerrorWeapon>(CTerrorWeapon*)::bInitialized
  D SmokeTrail::m_DataMap
  D Smoker::m_DataMap
  D SoundCommand_t::m_DataMap
@@ -5102,8 +5124,12 @@
  D datamap_t* DataMapInit<CSceneListManager>(CSceneListManager*)::nameHolder
  D datamap_t* DataMapInit<CSceneManager>(CSceneManager*)::dataDesc
  D datamap_t* DataMapInit<CSceneManager>(CSceneManager*)::nameHolder
+ D datamap_t* DataMapInit<CScriptBaseButton>(CScriptBaseButton*)::dataDesc
+ D datamap_t* DataMapInit<CScriptBaseButton>(CScriptBaseButton*)::nameHolder
  D datamap_t* DataMapInit<CScriptItem>(CScriptItem*)::dataDesc
  D datamap_t* DataMapInit<CScriptItem>(CScriptItem*)::nameHolder
+ D datamap_t* DataMapInit<CScriptNavAttributeRegion>(CScriptNavAttributeRegion*)::dataDesc
+ D datamap_t* DataMapInit<CScriptNavAttributeRegion>(CScriptNavAttributeRegion*)::nameHolder
  D datamap_t* DataMapInit<CScriptNavBlocker>(CScriptNavBlocker*)::dataDesc
  D datamap_t* DataMapInit<CScriptNavBlocker>(CScriptNavBlocker*)::nameHolder
  D datamap_t* DataMapInit<CScriptTriggerHurt>(CScriptTriggerHurt*)::dataDesc
@@ -5114,6 +5140,8 @@
  D datamap_t* DataMapInit<CScriptTriggerOnce>(CScriptTriggerOnce*)::nameHolder
  D datamap_t* DataMapInit<CScriptTriggerPush>(CScriptTriggerPush*)::dataDesc
  D datamap_t* DataMapInit<CScriptTriggerPush>(CScriptTriggerPush*)::nameHolder
+ D datamap_t* DataMapInit<CScriptVPhysicsClip>(CScriptVPhysicsClip*)::dataDesc
+ D datamap_t* DataMapInit<CScriptVPhysicsClip>(CScriptVPhysicsClip*)::nameHolder
  D datamap_t* DataMapInit<CSelfDestruct>(CSelfDestruct*)::dataDesc
  D datamap_t* DataMapInit<CSelfDestruct>(CSelfDestruct*)::nameHolder
  D datamap_t* DataMapInit<CServerNetworkProperty>(CServerNetworkProperty*)::dataDesc
@@ -6138,13 +6166,16 @@
  D guard variable for datamap_t* DataMapInit<CSceneListManager>(CSceneListManager*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CSceneManager>(CSceneManager*)::dataDesc
  D guard variable for datamap_t* DataMapInit<CSceneManager>(CSceneManager*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CScriptBaseButton>(CScriptBaseButton*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CScriptItem>(CScriptItem*)::dataDesc
  D guard variable for datamap_t* DataMapInit<CScriptItem>(CScriptItem*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CScriptNavAttributeRegion>(CScriptNavAttributeRegion*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CScriptNavBlocker>(CScriptNavBlocker*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CScriptTriggerHurt>(CScriptTriggerHurt*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CScriptTriggerMultiple>(CScriptTriggerMultiple*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CScriptTriggerOnce>(CScriptTriggerOnce*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CScriptTriggerPush>(CScriptTriggerPush*)::nameHolder
+ D guard variable for datamap_t* DataMapInit<CScriptVPhysicsClip>(CScriptVPhysicsClip*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CSelfDestruct>(CSelfDestruct*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CServerNetworkProperty>(CServerNetworkProperty*)::nameHolder
  D guard variable for datamap_t* DataMapInit<CShadowControl>(CShadowControl*)::nameHolder
@@ -6532,6 +6563,7 @@
  D guard variable for int ServerClassInit<DT_ScavengeItemSpawn::ignored>(DT_ScavengeItemSpawn::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_ScavengeProgressDisplay::ignored>(DT_ScavengeProgressDisplay::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_SceneEntity::ignored>(DT_SceneEntity::ignored*)::g_SendProps
+ D guard variable for int ServerClassInit<DT_ScriptBaseButton::ignored>(DT_ScriptBaseButton::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_SelfDestruct::ignored>(DT_SelfDestruct::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_ServerAnimationData::ignored>(DT_ServerAnimationData::ignored*)::g_SendProps
  D guard variable for int ServerClassInit<DT_ShadowControl::ignored>(DT_ShadowControl::ignored*)::g_SendProps
@@ -7029,6 +7061,8 @@
  D int ServerClassInit<DT_ScavengeProgressDisplay::ignored>(DT_ScavengeProgressDisplay::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_SceneEntity::ignored>(DT_SceneEntity::ignored*)::g_SendProps
  D int ServerClassInit<DT_SceneEntity::ignored>(DT_SceneEntity::ignored*)::g_pSendTableName
+ D int ServerClassInit<DT_ScriptBaseButton::ignored>(DT_ScriptBaseButton::ignored*)::g_SendProps
+ D int ServerClassInit<DT_ScriptBaseButton::ignored>(DT_ScriptBaseButton::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_SelfDestruct::ignored>(DT_SelfDestruct::ignored*)::g_SendProps
  D int ServerClassInit<DT_SelfDestruct::ignored>(DT_SelfDestruct::ignored*)::g_pSendTableName
  D int ServerClassInit<DT_ServerAnimationData::ignored>(DT_ServerAnimationData::ignored*)::g_SendProps
@@ -7887,12 +7921,15 @@
  D typeinfo for CEntityFactory<CSceneEntity>
  D typeinfo for CEntityFactory<CSceneListManager>
  D typeinfo for CEntityFactory<CSceneManager>
+ D typeinfo for CEntityFactory<CScriptBaseButton>
  D typeinfo for CEntityFactory<CScriptItem>
+ D typeinfo for CEntityFactory<CScriptNavAttributeRegion>
  D typeinfo for CEntityFactory<CScriptNavBlocker>
  D typeinfo for CEntityFactory<CScriptTriggerHurt>
  D typeinfo for CEntityFactory<CScriptTriggerMultiple>
  D typeinfo for CEntityFactory<CScriptTriggerOnce>
  D typeinfo for CEntityFactory<CScriptTriggerPush>
+ D typeinfo for CEntityFactory<CScriptVPhysicsClip>
  D typeinfo for CEntityFactory<CSelfDestruct>
  D typeinfo for CEntityFactory<CServerRagdollTrigger>
  D typeinfo for CEntityFactory<CShadowControl>
@@ -8017,11 +8054,15 @@
  D typeinfo for CEntityFactory<CWeaponrifleSpawn>
  D typeinfo for CEntityFactory<CWeaponrifle_ak47Spawn>
  D typeinfo for CEntityFactory<CWeaponrifle_desertSpawn>
+ D typeinfo for CEntityFactory<CWeaponrifle_sg552Spawn>
  D typeinfo for CEntityFactory<CWeaponshotgun_chromeSpawn>
  D typeinfo for CEntityFactory<CWeaponshotgun_spasSpawn>
  D typeinfo for CEntityFactory<CWeaponsmgSpawn>
+ D typeinfo for CEntityFactory<CWeaponsmg_mp5Spawn>
  D typeinfo for CEntityFactory<CWeaponsmg_silencedSpawn>
+ D typeinfo for CEntityFactory<CWeaponsniper_awpSpawn>
  D typeinfo for CEntityFactory<CWeaponsniper_militarySpawn>
+ D typeinfo for CEntityFactory<CWeaponsniper_scoutSpawn>
  D typeinfo for CEntityFactory<CWeaponupgradepack_explosiveSpawn>
  D typeinfo for CEntityFactory<CWeaponupgradepack_incendiarySpawn>
  D typeinfo for CEntityFactory<CWeaponvomitjarSpawn>
@@ -8539,13 +8580,16 @@
  D typeinfo for CSceneManager
  D typeinfo for CScenePrecacheSystem
  D typeinfo for CSceneTokenProcessor
+ D typeinfo for CScriptBaseButton
  D typeinfo for CScriptFunctionCriterion
  D typeinfo for CScriptItem
+ D typeinfo for CScriptNavAttributeRegion
  D typeinfo for CScriptNavBlocker
  D typeinfo for CScriptTriggerHurt
  D typeinfo for CScriptTriggerMultiple
  D typeinfo for CScriptTriggerOnce
  D typeinfo for CScriptTriggerPush
+ D typeinfo for CScriptVPhysicsClip
  D typeinfo for CSecurityFailureAwardTemplate
  D typeinfo for CSelfDestruct
  D typeinfo for CServerBenchmark
@@ -8877,11 +8921,15 @@
  D typeinfo for CWeaponrifleSpawn
  D typeinfo for CWeaponrifle_ak47Spawn
  D typeinfo for CWeaponrifle_desertSpawn
+ D typeinfo for CWeaponrifle_sg552Spawn
  D typeinfo for CWeaponshotgun_chromeSpawn
  D typeinfo for CWeaponshotgun_spasSpawn
  D typeinfo for CWeaponsmgSpawn
+ D typeinfo for CWeaponsmg_mp5Spawn
  D typeinfo for CWeaponsmg_silencedSpawn
+ D typeinfo for CWeaponsniper_awpSpawn
  D typeinfo for CWeaponsniper_militarySpawn
+ D typeinfo for CWeaponsniper_scoutSpawn
  D typeinfo for CWeaponupgradepack_explosiveSpawn
  D typeinfo for CWeaponupgradepack_incendiarySpawn
  D typeinfo for CWeaponvomitjarSpawn
@@ -9900,12 +9948,15 @@
  D vtable for CEntityFactory<CSceneEntity>
  D vtable for CEntityFactory<CSceneListManager>
  D vtable for CEntityFactory<CSceneManager>
+ D vtable for CEntityFactory<CScriptBaseButton>
  D vtable for CEntityFactory<CScriptItem>
+ D vtable for CEntityFactory<CScriptNavAttributeRegion>
  D vtable for CEntityFactory<CScriptNavBlocker>
  D vtable for CEntityFactory<CScriptTriggerHurt>
  D vtable for CEntityFactory<CScriptTriggerMultiple>
  D vtable for CEntityFactory<CScriptTriggerOnce>
  D vtable for CEntityFactory<CScriptTriggerPush>
+ D vtable for CEntityFactory<CScriptVPhysicsClip>
  D vtable for CEntityFactory<CSelfDestruct>
  D vtable for CEntityFactory<CServerRagdollTrigger>
  D vtable for CEntityFactory<CShadowControl>
@@ -10030,11 +10081,15 @@
  D vtable for CEntityFactory<CWeaponrifleSpawn>
  D vtable for CEntityFactory<CWeaponrifle_ak47Spawn>
  D vtable for CEntityFactory<CWeaponrifle_desertSpawn>
+ D vtable for CEntityFactory<CWeaponrifle_sg552Spawn>
  D vtable for CEntityFactory<CWeaponshotgun_chromeSpawn>
  D vtable for CEntityFactory<CWeaponshotgun_spasSpawn>
  D vtable for CEntityFactory<CWeaponsmgSpawn>
+ D vtable for CEntityFactory<CWeaponsmg_mp5Spawn>
  D vtable for CEntityFactory<CWeaponsmg_silencedSpawn>
+ D vtable for CEntityFactory<CWeaponsniper_awpSpawn>
  D vtable for CEntityFactory<CWeaponsniper_militarySpawn>
+ D vtable for CEntityFactory<CWeaponsniper_scoutSpawn>
  D vtable for CEntityFactory<CWeaponupgradepack_explosiveSpawn>
  D vtable for CEntityFactory<CWeaponupgradepack_incendiarySpawn>
  D vtable for CEntityFactory<CWeaponvomitjarSpawn>
@@ -10536,13 +10591,16 @@
  D vtable for CSceneManager
  D vtable for CScenePrecacheSystem
  D vtable for CSceneTokenProcessor
+ D vtable for CScriptBaseButton
  D vtable for CScriptFunctionCriterion
  D vtable for CScriptItem
+ D vtable for CScriptNavAttributeRegion
  D vtable for CScriptNavBlocker
  D vtable for CScriptTriggerHurt
  D vtable for CScriptTriggerMultiple
  D vtable for CScriptTriggerOnce
  D vtable for CScriptTriggerPush
+ D vtable for CScriptVPhysicsClip
  D vtable for CSecurityFailureAwardTemplate
  D vtable for CSelfDestruct
  D vtable for CServerBenchmark
@@ -10866,11 +10924,15 @@
  D vtable for CWeaponrifleSpawn
  D vtable for CWeaponrifle_ak47Spawn
  D vtable for CWeaponrifle_desertSpawn
+ D vtable for CWeaponrifle_sg552Spawn
  D vtable for CWeaponshotgun_chromeSpawn
  D vtable for CWeaponshotgun_spasSpawn
  D vtable for CWeaponsmgSpawn
+ D vtable for CWeaponsmg_mp5Spawn
  D vtable for CWeaponsmg_silencedSpawn
+ D vtable for CWeaponsniper_awpSpawn
  D vtable for CWeaponsniper_militarySpawn
+ D vtable for CWeaponsniper_scoutSpawn
  D vtable for CWeaponupgradepack_explosiveSpawn
  D vtable for CWeaponupgradepack_incendiarySpawn
  D vtable for CWeaponvomitjarSpawn
@@ -11824,12 +11886,15 @@
  R typeinfo name for CEntityFactory<CSceneEntity>
  R typeinfo name for CEntityFactory<CSceneListManager>
  R typeinfo name for CEntityFactory<CSceneManager>
+ R typeinfo name for CEntityFactory<CScriptBaseButton>
  R typeinfo name for CEntityFactory<CScriptItem>
+ R typeinfo name for CEntityFactory<CScriptNavAttributeRegion>
  R typeinfo name for CEntityFactory<CScriptNavBlocker>
  R typeinfo name for CEntityFactory<CScriptTriggerHurt>
  R typeinfo name for CEntityFactory<CScriptTriggerMultiple>
  R typeinfo name for CEntityFactory<CScriptTriggerOnce>
  R typeinfo name for CEntityFactory<CScriptTriggerPush>
+ R typeinfo name for CEntityFactory<CScriptVPhysicsClip>
  R typeinfo name for CEntityFactory<CSelfDestruct>
  R typeinfo name for CEntityFactory<CServerRagdollTrigger>
  R typeinfo name for CEntityFactory<CShadowControl>
@@ -11954,11 +12019,15 @@
  R typeinfo name for CEntityFactory<CWeaponrifleSpawn>
  R typeinfo name for CEntityFactory<CWeaponrifle_ak47Spawn>
  R typeinfo name for CEntityFactory<CWeaponrifle_desertSpawn>
+ R typeinfo name for CEntityFactory<CWeaponrifle_sg552Spawn>
  R typeinfo name for CEntityFactory<CWeaponshotgun_chromeSpawn>
  R typeinfo name for CEntityFactory<CWeaponshotgun_spasSpawn>
  R typeinfo name for CEntityFactory<CWeaponsmgSpawn>
+ R typeinfo name for CEntityFactory<CWeaponsmg_mp5Spawn>
  R typeinfo name for CEntityFactory<CWeaponsmg_silencedSpawn>
+ R typeinfo name for CEntityFactory<CWeaponsniper_awpSpawn>
  R typeinfo name for CEntityFactory<CWeaponsniper_militarySpawn>
+ R typeinfo name for CEntityFactory<CWeaponsniper_scoutSpawn>
  R typeinfo name for CEntityFactory<CWeaponupgradepack_explosiveSpawn>
  R typeinfo name for CEntityFactory<CWeaponupgradepack_incendiarySpawn>
  R typeinfo name for CEntityFactory<CWeaponvomitjarSpawn>
@@ -12476,13 +12545,16 @@
  R typeinfo name for CSceneManager
  R typeinfo name for CScenePrecacheSystem
  R typeinfo name for CSceneTokenProcessor
+ R typeinfo name for CScriptBaseButton
  R typeinfo name for CScriptFunctionCriterion
  R typeinfo name for CScriptItem
+ R typeinfo name for CScriptNavAttributeRegion
  R typeinfo name for CScriptNavBlocker
  R typeinfo name for CScriptTriggerHurt
  R typeinfo name for CScriptTriggerMultiple
  R typeinfo name for CScriptTriggerOnce
  R typeinfo name for CScriptTriggerPush
+ R typeinfo name for CScriptVPhysicsClip
  R typeinfo name for CSecurityFailureAwardTemplate
  R typeinfo name for CSelfDestruct
  R typeinfo name for CServerBenchmark
@@ -12814,11 +12886,15 @@
  R typeinfo name for CWeaponrifleSpawn
  R typeinfo name for CWeaponrifle_ak47Spawn
  R typeinfo name for CWeaponrifle_desertSpawn
+ R typeinfo name for CWeaponrifle_sg552Spawn
  R typeinfo name for CWeaponshotgun_chromeSpawn
  R typeinfo name for CWeaponshotgun_spasSpawn
  R typeinfo name for CWeaponsmgSpawn
+ R typeinfo name for CWeaponsmg_mp5Spawn
  R typeinfo name for CWeaponsmg_silencedSpawn
+ R typeinfo name for CWeaponsniper_awpSpawn
  R typeinfo name for CWeaponsniper_militarySpawn
+ R typeinfo name for CWeaponsniper_scoutSpawn
  R typeinfo name for CWeaponupgradepack_explosiveSpawn
  R typeinfo name for CWeaponupgradepack_incendiarySpawn
  R typeinfo name for CWeaponvomitjarSpawn
@@ -14693,6 +14769,7 @@
  T CBaseAchievement::FireGameEvent_Internal(IGameEvent*)
  T CBaseAchievement::GetAchievementID()
  T CBaseAchievement::GetComponentBits()
+ T CBaseAchievement::GetComponentDisplayLocalizedString(int)
  T CBaseAchievement::GetComponentDisplayString(int)
  T CBaseAchievement::GetCount()
  T CBaseAchievement::GetDataDescMap()
@@ -14710,6 +14787,7 @@
  T CBaseAchievement::IsActive()
  T CBaseAchievement::IsAvailable()
  T CBaseAchievement::ListenForEvents()
+ T CBaseAchievement::OnLeaderboardUpdate(KeyValues*)
  T CBaseAchievement::OnMapEvent(char const*)
  T CBaseAchievement::OnPlayerStatsUpdate()
  T CBaseAchievement::OnSteamUserStatsStored()
@@ -14759,6 +14837,7 @@
  T CBaseAnimating::GetBaseAnimating()
  T CBaseAnimating::GetBodygroup(int)
  T CBaseAnimating::GetBodygroupCount(int)
+ T CBaseAnimating::GetBodygroupName(int)
  T CBaseAnimating::GetBodygroupPartName(int, int)
  T CBaseAnimating::GetBoneCache()
  T CBaseAnimating::GetBonePosition(int, Vector&, QAngle&)
@@ -14776,6 +14855,7 @@
  T CBaseAnimating::GetIdealSpeed() const
  T CBaseAnimating::GetIntervalMovement(float, bool&, Vector&, QAngle&)
  T CBaseAnimating::GetLastVisibleCycle(CStudioHdr*, int)
+ T CBaseAnimating::GetModelScale()
  T CBaseAnimating::GetNumBodyGroups()
  T CBaseAnimating::GetNumFlexControllers()
  T CBaseAnimating::GetPhysicsBone(int)
@@ -14783,6 +14863,7 @@
  T CBaseAnimating::GetPoseParameter(int)
  T CBaseAnimating::GetPoseParameterRange(int, float&, float&)
  T CBaseAnimating::GetScriptDesc()
+ T CBaseAnimating::GetSequence()
  T CBaseAnimating::GetSequenceActivity(int)
  T CBaseAnimating::GetSequenceActivityName(int)
  T CBaseAnimating::GetSequenceCycleRate(CStudioHdr*, int)
@@ -14812,6 +14893,7 @@
  T CBaseAnimating::IsFrozen()
  T CBaseAnimating::IsOnFire()
  T CBaseAnimating::IsRagdoll()
+ T CBaseAnimating::IsSequenceFinished()
  T CBaseAnimating::IsValidSequence(int)
  T CBaseAnimating::IsViewModel() const
  T CBaseAnimating::LockStudioHdr()
@@ -14832,6 +14914,12 @@
  T CBaseAnimating::ResetSequenceInfo()
  T CBaseAnimating::Restore(IRestore&)
  T CBaseAnimating::Scorch(int, int)
+ T CBaseAnimating::ScriptGetAttachmentAngles(int)
+ T CBaseAnimating::ScriptGetAttachmentOrigin(int)
+ T CBaseAnimating::ScriptGetBoneAngles(int)
+ T CBaseAnimating::ScriptGetBoneOrigin(int)
+ T CBaseAnimating::ScriptGetSequenceDuration(int)
+ T CBaseAnimating::ScriptSetPoseParameter(int, float)
  T CBaseAnimating::SelectHeaviestSequence(Activity)
  T CBaseAnimating::SelectWeightedSequence(Activity)
  T CBaseAnimating::SequenceDuration(CStudioHdr*, int)
@@ -15191,6 +15279,8 @@
  T CBaseCombatWeapon::CapabilitiesGet()
  T CBaseCombatWeapon::CheckReload()
  T CBaseCombatWeapon::CheckRespawn()
+ T CBaseCombatWeapon::Clip1() const
+ T CBaseCombatWeapon::Clip2() const
  T CBaseCombatWeapon::DefaultDeploy(char*, char*, int, char*)
  T CBaseCombatWeapon::DefaultReload(int, int, int)
  T CBaseCombatWeapon::DefaultTouch(CBaseEntity*)
@@ -15528,7 +15618,9 @@
  T CBaseEntity::GetIndexForThinkContext(char const*)
  T CBaseEntity::GetKeyValue(char const*, char*, int)
  T CBaseEntity::GetLastThink(char const*)
+ T CBaseEntity::GetLocalAngles() const
  T CBaseEntity::GetLocalAngularVelocity() const
+ T CBaseEntity::GetLocalOrigin() const
  T CBaseEntity::GetLocalVelocity() const
  T CBaseEntity::GetMaxHealth() const
  T CBaseEntity::GetModel()
@@ -15744,6 +15836,7 @@
  T CBaseEntity::PrecacheModel(char const*)
  T CBaseEntity::PrecacheModelComponents(int)
  T CBaseEntity::PrecacheScriptSound(char const*)
+ T CBaseEntity::PrecacheSound(char const*)
  T CBaseEntity::PrefetchScriptSound(char const*)
  T CBaseEntity::RebaseThinkTicks(bool)
  T CBaseEntity::RecalcHasPlayerChildBit()
@@ -15774,6 +15867,7 @@
  T CBaseEntity::ScriptFirstMoveChild()
  T CBaseEntity::ScriptGetEHandle()
  T CBaseEntity::ScriptGetForward()
+ T CBaseEntity::ScriptGetModelName() const
  T CBaseEntity::ScriptGetMoveParent()
  T CBaseEntity::ScriptGetOwnerEntity()
  T CBaseEntity::ScriptGetRootMoveParent()
@@ -15815,6 +15909,7 @@
  T CBaseEntity::SetLocalAngularVelocity(QAngle const&)
  T CBaseEntity::SetLocalOrigin(Vector const&)
  T CBaseEntity::SetLocalVelocity(Vector const&)
+ T CBaseEntity::SetMaxHealth(int)
  T CBaseEntity::SetModel(char const*)
  T CBaseEntity::SetModelIndex(int)
  T CBaseEntity::SetMoveDoneTime(float)
@@ -15936,7 +16031,7 @@
  T CBaseFire::~CBaseFire()
  T CBaseFlex::AddFlexAnimation(CSceneEventInfo*)
  T CBaseFlex::AddFlexSetting(char const*, float, flexsettinghdr_t const*, bool)
- T CBaseFlex::AddSceneEvent(CChoreoScene*, CChoreoEvent*, CBaseEntity*)
+ T CBaseFlex::AddSceneEvent(CChoreoScene*, CChoreoEvent*, CBaseEntity*, CSceneEntity*)
  T CBaseFlex::CBaseFlex()
  T CBaseFlex::CheckSceneEvent(float, CChoreoScene*, CChoreoEvent*)
  T CBaseFlex::CheckSceneEventCompletion(CSceneEventInfo*, float, CChoreoScene*, CChoreoEvent*)
@@ -15948,6 +16043,7 @@
  T CBaseFlex::FlexSettingLessFunc(CBaseFlex::FS_LocalToGlobal_t const&, CBaseFlex::FS_LocalToGlobal_t const&)
  T CBaseFlex::GetDataDescMap()
  T CBaseFlex::GetDemoRecordingState(KeyValues*)
+ T CBaseFlex::GetScriptDesc()
  T CBaseFlex::GetServerClass()
  T CBaseFlex::HandleStartGestureSceneEvent(CSceneEventInfo*, CChoreoScene*, CChoreoEvent*, CChoreoActor*)
  T CBaseFlex::HandleStartSequenceSceneEvent(CSceneEventInfo*, CChoreoScene*, CChoreoEvent*, CChoreoActor*)
@@ -15960,6 +16056,9 @@
  T CBaseFlex::ProcessSequenceSceneEvent(CSceneEventInfo*, CChoreoScene*, CChoreoEvent*)
  T CBaseFlex::RemoveChoreoScene(CChoreoScene*, bool)
  T CBaseFlex::RemoveSceneEvent(CChoreoScene*, CChoreoEvent*, bool)
+ T CBaseFlex::ScriptGetOldestScene()
+ T CBaseFlex::ScriptGetSceneByIndex(int)
+ T CBaseFlex::ScriptPlayScene(char const*, float)
  T CBaseFlex::SetFlexWeight(LocalFlexController_t, float)
  T CBaseFlex::SetModel(char const*)
  T CBaseFlex::SetPermitResponse(float)
@@ -16743,6 +16842,7 @@
  T CBaseTrigger::Enable()
  T CBaseTrigger::EndTouch(CBaseEntity*)
  T CBaseTrigger::GetDataDescMap()
+ T CBaseTrigger::GetScriptDesc()
  T CBaseTrigger::GetServerClass()
  T CBaseTrigger::InitTrigger()
  T CBaseTrigger::InputDisable(inputdata_t&)
@@ -16754,6 +16854,7 @@
  T CBaseTrigger::IsTouching(CBaseEntity*)
  T CBaseTrigger::PassesTriggerFilters(CBaseEntity*)
  T CBaseTrigger::PostClientActive()
+ T CBaseTrigger::Script_IsTouching(HSCRIPT__*)
  T CBaseTrigger::Spawn()
  T CBaseTrigger::StartTouch(CBaseEntity*)
  T CBaseTrigger::UpdateOnRemove()
@@ -18245,6 +18346,7 @@
  T CDirector::GetHunterAttackDamage() const
  T CDirector::GetIntensityRelaxAllowWanderersThreshold()
  T CDirector::GetMapArcValue() const
+ T CDirector::GetMapName()
  T CDirector::GetMapNumber() const
  T CDirector::GetMaxPendingMobCount()
  T CDirector::GetMaxPlayerZombies() const
@@ -18267,6 +18369,7 @@
  T CDirector::GetSpecialRespawnInterval()
  T CDirector::GetSpecialSlotCountdownTime()
  T CDirector::GetSpecialSlotTimeRemaining(int) const
+ T CDirector::GetSurvivorSet()
  T CDirector::GetTankDamage(CBaseEntity*) const
  T CDirector::GetTankHealth() const
  T CDirector::GetTankLimit() const
@@ -18358,6 +18461,7 @@
  T CDirector::OnWitchRemoved(Infected*)
  T CDirector::OnZombieAdded(CTerrorPlayer*)
  T CDirector::OnZombieRemoved(CTerrorPlayer*)
+ T CDirector::OverridePopulation(char const*, char const*)
  T CDirector::PlayMegaMobWarningSounds()
  T CDirector::PlayerAvatarGet(edict_t*)
  T CDirector::PlayerAvatarResetAll()
@@ -18369,6 +18473,7 @@
  T CDirector::QueueEntitiesToFadeOut()
  T CDirector::RandomizeSpecialSpawnTimers()
  T CDirector::RegisterForbiddenTarget(CBaseEntity*)
+ T CDirector::ReloadPopulationData()
  T CDirector::Rematch()
  T CDirector::Reset()
  T CDirector::ResetMobTimer()
@@ -18377,7 +18482,7 @@
  T CDirector::RespawnPlayers()
  T CDirector::Restart()
  T CDirector::RestartScenarioFromVote(char const*)
- T CDirector::RunScript(char const*, CDirector::ScriptLevels_t)
+ T CDirector::RunScript(char const*, CDirector::ScriptLevels_t, bool)
  T CDirector::ScriptGetCommonInfectedCount() const
  T CDirector::ScriptGetPendingMobCount() const
  T CDirector::ScriptUserDefinedEvent1() const
@@ -18422,6 +18527,7 @@
  T CDirectorChallengeMode::AddEnumsToScope()
  T CDirectorChallengeMode::AggresiveSpecials() const
  T CDirectorChallengeMode::AllowCrescendoEvents() const
+ T CDirectorChallengeMode::AllowFallenSurvivorItem(CSWeaponID) const
  T CDirectorChallengeMode::AllowPillConversion() const
  T CDirectorChallengeMode::AllowSurvivorRescue(bool) const
  T CDirectorChallengeMode::AllowWeaponSpawn(CSWeaponID) const
@@ -18502,7 +18608,7 @@
  T CDirectorItemManager::GetCountOfProspectiveScavengeItem(CSWeaponID)
  T CDirectorItemManager::GetNavAreaForScavengeItem(CBaseEntity*)
  T CDirectorItemManager::IsMeleeWeaponAllowedToExist(char const*)
- T CDirectorItemManager::IsWeaponAllowedToExist(CSWeaponID)
+ T CDirectorItemManager::IsWeaponAllowedToExist(CSWeaponID, bool)
  T CDirectorItemManager::L4D1SurvivorCanGiveItem(CSWeaponID)
  T CDirectorItemManager::L4D1SurvivorMarkWeaponAsGiven(CSWeaponID)
  T CDirectorItemManager::LogScavengeItems(char const*)
@@ -18516,7 +18622,6 @@
  T CDirectorItemManager::ReportAllItems()
  T CDirectorItemManager::Reset()
  T CDirectorItemManager::SaveRevisitableItemState()
- T CDirectorItemManager::SetWeaponAllowed_CSWeapon(bool, CSWeaponAllowed)
  T CDirectorItemManager::ShouldRecreateEntityOnCleanupMap(char const*)
  T CDirectorItemManager::ShouldTransitionPhysicsProp(CPhysicsProp*)
  T CDirectorItemManager::SortItemLocationInfoByFlowDistance(EntityLocationInfo<CHandle<CBaseEntity> > const*, EntityLocationInfo<CHandle<CBaseEntity> > const*)
@@ -18570,6 +18675,7 @@
  T CDirectorScriptedEventManager::ChangeScriptedEventStage(int, char const*)
  T CDirectorScriptedEventManager::DrawDebugNonVirtual(int)
  T CDirectorScriptedEventManager::EndCustomScriptedStage()
+ T CDirectorScriptedEventManager::GetCustomScriptedStageProgress(float)
  T CDirectorScriptedEventManager::GetHoldoutCooldownEndTime()
  T CDirectorScriptedEventManager::GetNextScriptedStage()
  T CDirectorScriptedEventManager::GetScriptedEventStageRemainingTime()
@@ -18664,7 +18770,7 @@
  T CDirectorVersusMode::GetFinaleTankLimit()
  T CDirectorVersusMode::GetFinaleTravelCompletionValue() const
  T CDirectorVersusMode::GetHealthkitConversionMode(float*)
- T CDirectorVersusMode::GetMissionVersusBossSpawning(float&, float&, float&, float&)
+ T CDirectorVersusMode::GetMissionVersusBossSpawning(float&, float&, float&, float&, bool&)
  T CDirectorVersusMode::GetSpecialRespawnInterval(float*)
  T CDirectorVersusMode::GetWanderingZombieDensityModifier(float*) const
  T CDirectorVersusMode::HideScoreboardNonVirtual()
@@ -19945,9 +20051,15 @@
  T CEntityFactory<CSceneManager>::Create(char const*)
  T CEntityFactory<CSceneManager>::Destroy(IServerNetworkable*)
  T CEntityFactory<CSceneManager>::GetEntitySize()
+ T CEntityFactory<CScriptBaseButton>::Create(char const*)
+ T CEntityFactory<CScriptBaseButton>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CScriptBaseButton>::GetEntitySize()
  T CEntityFactory<CScriptItem>::Create(char const*)
  T CEntityFactory<CScriptItem>::Destroy(IServerNetworkable*)
  T CEntityFactory<CScriptItem>::GetEntitySize()
+ T CEntityFactory<CScriptNavAttributeRegion>::Create(char const*)
+ T CEntityFactory<CScriptNavAttributeRegion>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CScriptNavAttributeRegion>::GetEntitySize()
  T CEntityFactory<CScriptNavBlocker>::Create(char const*)
  T CEntityFactory<CScriptNavBlocker>::Destroy(IServerNetworkable*)
  T CEntityFactory<CScriptNavBlocker>::GetEntitySize()
@@ -19963,6 +20075,9 @@
  T CEntityFactory<CScriptTriggerPush>::Create(char const*)
  T CEntityFactory<CScriptTriggerPush>::Destroy(IServerNetworkable*)
  T CEntityFactory<CScriptTriggerPush>::GetEntitySize()
+ T CEntityFactory<CScriptVPhysicsClip>::Create(char const*)
+ T CEntityFactory<CScriptVPhysicsClip>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CScriptVPhysicsClip>::GetEntitySize()
  T CEntityFactory<CSelfDestruct>::Create(char const*)
  T CEntityFactory<CSelfDestruct>::Destroy(IServerNetworkable*)
  T CEntityFactory<CSelfDestruct>::GetEntitySize()
@@ -20335,6 +20450,9 @@
  T CEntityFactory<CWeaponrifle_desertSpawn>::Create(char const*)
  T CEntityFactory<CWeaponrifle_desertSpawn>::Destroy(IServerNetworkable*)
  T CEntityFactory<CWeaponrifle_desertSpawn>::GetEntitySize()
+ T CEntityFactory<CWeaponrifle_sg552Spawn>::Create(char const*)
+ T CEntityFactory<CWeaponrifle_sg552Spawn>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CWeaponrifle_sg552Spawn>::GetEntitySize()
  T CEntityFactory<CWeaponshotgun_chromeSpawn>::Create(char const*)
  T CEntityFactory<CWeaponshotgun_chromeSpawn>::Destroy(IServerNetworkable*)
  T CEntityFactory<CWeaponshotgun_chromeSpawn>::GetEntitySize()
@@ -20344,12 +20462,21 @@
  T CEntityFactory<CWeaponsmgSpawn>::Create(char const*)
  T CEntityFactory<CWeaponsmgSpawn>::Destroy(IServerNetworkable*)
  T CEntityFactory<CWeaponsmgSpawn>::GetEntitySize()
+ T CEntityFactory<CWeaponsmg_mp5Spawn>::Create(char const*)
+ T CEntityFactory<CWeaponsmg_mp5Spawn>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CWeaponsmg_mp5Spawn>::GetEntitySize()
  T CEntityFactory<CWeaponsmg_silencedSpawn>::Create(char const*)
  T CEntityFactory<CWeaponsmg_silencedSpawn>::Destroy(IServerNetworkable*)
  T CEntityFactory<CWeaponsmg_silencedSpawn>::GetEntitySize()
+ T CEntityFactory<CWeaponsniper_awpSpawn>::Create(char const*)
+ T CEntityFactory<CWeaponsniper_awpSpawn>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CWeaponsniper_awpSpawn>::GetEntitySize()
  T CEntityFactory<CWeaponsniper_militarySpawn>::Create(char const*)
  T CEntityFactory<CWeaponsniper_militarySpawn>::Destroy(IServerNetworkable*)
  T CEntityFactory<CWeaponsniper_militarySpawn>::GetEntitySize()
+ T CEntityFactory<CWeaponsniper_scoutSpawn>::Create(char const*)
+ T CEntityFactory<CWeaponsniper_scoutSpawn>::Destroy(IServerNetworkable*)
+ T CEntityFactory<CWeaponsniper_scoutSpawn>::GetEntitySize()
  T CEntityFactory<CWeaponupgradepack_explosiveSpawn>::Create(char const*)
  T CEntityFactory<CWeaponupgradepack_explosiveSpawn>::Destroy(IServerNetworkable*)
  T CEntityFactory<CWeaponupgradepack_explosiveSpawn>::GetEntitySize()
@@ -22355,6 +22482,7 @@
  T CInfoDirector::InputIncrementTeamScore(inputdata_t&)
  T CInfoDirector::InputOpenJournalForWrite(inputdata_t&)
  T CInfoDirector::InputPanicEvent(inputdata_t&)
+ T CInfoDirector::InputRefreshInitialSpawnPositions(inputdata_t&)
  T CInfoDirector::InputReleaseSurvivorPositions(inputdata_t&)
  T CInfoDirector::InputScriptedPanicEvent(inputdata_t&)
  T CInfoDirector::InputStartIntro(inputdata_t&)
@@ -22478,6 +22606,7 @@
  T CItem::ActivateWhenAtRest()
  T CItem::CItem()
  T CItem::ComeToRest()
+ T CItem::ConstrainItem()
  T CItem::CreateItemVPhysicsObject()
  T CItem::GetDataDescMap()
  T CItem::HandleTouch(CBasePlayer*, CBaseEntity*)
@@ -22988,6 +23117,9 @@
  T CMemberFunctor3<CBreakableProp*, void (CBreakableProp::*)(Vector const&, Vector const&, QAngle const&), Vector, Vector, QAngle, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>::operator()()
  T CMemberFunctor3<CBreakableProp*, void (CBreakableProp::*)(Vector const&, Vector const&, QAngle const&), Vector, Vector, QAngle, CRefCounted1<CFunctor, CRefCountServiceBase<true, CRefMT> >, CFuncMemPolicyNone>::~CMemberFunctor3()
  T CMemberScriptBinding0<AI_ResponseScriptWrapper*, float (AI_Response::*)(), float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CBaseAnimating*, bool (CBaseAnimating::*)(), bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CBaseAnimating*, float (CBaseAnimating::*)(), float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CBaseAnimating*, int (CBaseAnimating::*)(), int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CBaseEntity*, CHandle<CBaseEntity> (CBaseEntity::*)(), CHandle<CBaseEntity> >::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CBaseEntity*, HSCRIPT__* (CBaseEntity::*)(), HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CBaseEntity*, QAngle const& (CBaseEntity::*)(), QAngle const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -22996,6 +23128,8 @@
  T CMemberScriptBinding0<CBaseEntity*, char const* (CBaseEntity::*)(), char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CBaseEntity*, int (CBaseEntity::*)(), int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CBaseEntity*, void (CBaseEntity::*)(), void>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CBaseFlex*, HSCRIPT__* (CBaseFlex::*)(), HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CBaseTrigger*, void (CBaseTrigger::*)(), void>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CDirector*, bool (CDirector::*)(), bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CDirector*, char const* (CDirector::*)(), char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CDirector*, float (CDirector::*)(), float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23018,12 +23152,24 @@
  T CMemberScriptBinding0<CTerrorPlayer*, float (CTerrorPlayer::*)(), float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CTerrorPlayer*, int (CTerrorPlayer::*)(), int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CTerrorPlayer*, void (CTerrorPlayer::*)(), void>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CTerrorWeapon*, bool (CTerrorWeapon::*)(), bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CTerrorWeapon*, int (CBaseCombatWeapon::*)(), int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CTerrorWeapon*, void (CBaseCombatWeapon::*)(), void>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CBaseAnimating*, QAngle (CBaseAnimating::*)(int), QAngle, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CBaseAnimating*, Vector (CBaseAnimating::*)(int), Vector, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CBaseAnimating*, char const* (CBaseAnimating::*)(int), char const*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CBaseAnimating*, float (CBaseAnimating::*)(int), float, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CBaseAnimating*, int (CBaseAnimating::*)(char const*), int, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CBaseAnimating*, int (CBaseAnimating::*)(int), int, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CBaseAnimating*, void (CBaseAnimating::*)(int), void, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CBaseEntity*, CVariantBase<CVariantDefaultAllocator> (CBaseEntity::*)(char const*), CVariantBase<CVariantDefaultAllocator>, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CBaseEntity*, void (CBaseEntity::*)(QAngle const&), void, QAngle const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CBaseEntity*, void (CBaseEntity::*)(Vector const&), void, Vector const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CBaseEntity*, void (CBaseEntity::*)(char const*), void, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CBaseEntity*, void (CBaseEntity::*)(float), void, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CBaseEntity*, void (CBaseEntity::*)(int), void, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CBaseFlex*, HSCRIPT__* (CBaseFlex::*)(int), HSCRIPT__*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CBaseTrigger*, bool (CBaseTrigger::*)(HSCRIPT__*), bool, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CDirector*, void (CDirector::*)(float), void, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CEnvEntityMaker*, void (CEnvEntityMaker::*)(HSCRIPT__*), void, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CEnvEntityMaker*, void (CEnvEntityMaker::*)(char const*), void, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23037,15 +23183,23 @@
  T CMemberScriptBinding1<CScriptConvarAccessor*, CVariantBase<CVariantDefaultAllocator> (CScriptConvarAccessor::*)(char const*), CVariantBase<CVariantDefaultAllocator>, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(HSCRIPT__*), HSCRIPT__*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CTerrorPlayer*, Vector (CTerrorPlayer::*)(float), Vector, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CTerrorPlayer*, bool (CTerrorPlayer::*)(char const*), bool, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CTerrorPlayer*, void (CBasePlayer::*)(QAngle const&), void, QAngle const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CTerrorPlayer*, void (CTerrorPlayer::*)(Vector), void, Vector>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CTerrorPlayer*, void (CTerrorPlayer::*)(char const*), void, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CTerrorPlayer*, void (CTerrorPlayer::*)(float), void, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CTerrorPlayer*, void (CTerrorPlayer::*)(int), void, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CTerrorWeapon*, void (CTerrorWeapon::*)(int), void, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CBaseAnimating*, char const* (CBaseAnimating::*)(int, int), char const*, int, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CBaseAnimating*, float (CBaseAnimating::*)(int, float), float, int, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CBaseAnimating*, void (CBaseAnimating::*)(float, float), void, float, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CBaseAnimating*, void (CBaseAnimating::*)(int, int), void, int, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CBaseEntity*, bool (CBaseEntity::*)(char const*, Vector const&), bool, char const*, Vector const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CBaseEntity*, bool (CBaseEntity::*)(char const*, char const*), bool, char const*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CBaseEntity*, bool (CBaseEntity::*)(char const*, float), bool, char const*, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CBaseEntity*, void (CBaseEntity::*)(char const*, char const*), void, char const*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CBaseEntity*, void (CBaseEntity::*)(float, float), void, float, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CBaseFlex*, float (CBaseFlex::*)(char const*, float), float, char const*, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CEnvEntityMaker*, void (CEnvEntityMaker::*)(Vector const&, Vector const&), void, Vector const&, Vector const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CNetPropManager*, HSCRIPT__* (CNetPropManager::*)(HSCRIPT__*, char const*), HSCRIPT__*, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CNetPropManager*, Vector const& (CNetPropManager::*)(HSCRIPT__*, char const*), Vector const&, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23059,6 +23213,10 @@
  T CMemberScriptBinding2<CScriptConvarAccessor*, char const* (CScriptConvarAccessor::*)(char const*, int), char const*, char const*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CScriptConvarAccessor*, void (CScriptConvarAccessor::*)(char const*, CVariantBase<CVariantDefaultAllocator>), void, char const*, CVariantBase<CVariantDefaultAllocator> >::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(HSCRIPT__*, char const*), HSCRIPT__*, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CScriptResponseCriteria*, bool (CScriptResponseCriteria::*)(HSCRIPT__*, char const*), bool, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CScriptResponseCriteria*, char const* (CScriptResponseCriteria::*)(HSCRIPT__*, char const*), char const*, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CScriptResponseCriteria*, void (CScriptResponseCriteria::*)(HSCRIPT__*, HSCRIPT__*), void, HSCRIPT__*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CTerrorPlayer*, void (CTerrorPlayer::*)(char const*, int), void, char const*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding3<CBaseEntity*, void (CBaseEntity::*)(char const*, char const*, float), void, char const*, char const*, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding3<CBaseEntity*, void (CBaseEntity::*)(char const*, float, float), void, char const*, float, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding3<CBaseEntity*, void (CBaseEntity::*)(float, int, HSCRIPT__*), void, float, int, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23701,12 +23859,14 @@
  T CNoSurvivorsAwardTemplate::OnCreate()
  T CNoSurvivorsAwardTemplate::~CNoSurvivorsAwardTemplate()
  T CNonMemberScriptBinding0<HSCRIPT__* (*)(), HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CNonMemberScriptBinding0<bool (*)(), bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding0<float (*)(), float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding0<int (*)(), int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding0<void (*)(), void>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding1<HSCRIPT__* (*)(int), HSCRIPT__*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding1<Vector const& (*)(HSCRIPT__*), Vector const&, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding1<bool (*)(HSCRIPT__*), bool, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CNonMemberScriptBinding1<bool (*)(char const*), bool, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding1<char const* (*)(HSCRIPT__*), char const*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding1<char const* (*)(char const*), char const*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding1<float (*)(HSCRIPT__*), float, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23722,20 +23882,27 @@
  T CNonMemberScriptBinding2<bool (*)(char const*, HSCRIPT__*), bool, char const*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding2<bool (*)(char const*, char const*), bool, char const*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding2<float (*)(Vector, bool), float, Vector, bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CNonMemberScriptBinding2<float (*)(char const*, char const*), float, char const*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding2<void (*)(HSCRIPT__*, HSCRIPT__*), void, HSCRIPT__*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding2<void (*)(HSCRIPT__*, char const*), void, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding2<void (*)(char const*, HSCRIPT__*), void, char const*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding2<void (*)(int, HSCRIPT__*), void, int, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding3<Vector const& (*)(Vector, QAngle, Vector), Vector const&, Vector, QAngle, Vector>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding3<void (*)(HSCRIPT__*, char const*, bool), void, HSCRIPT__*, char const*, bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CNonMemberScriptBinding3<void (*)(HSCRIPT__*, char const*, char const*), void, HSCRIPT__*, char const*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CNonMemberScriptBinding3<void (*)(HSCRIPT__*, int, char const*), void, HSCRIPT__*, int, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding3<void (*)(int, int, float), void, int, int, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding4<void (*)(Vector const&, char const*, bool, float), void, Vector const&, char const*, bool, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding5<void (*)(Vector, Vector, Vector, bool, float), void, Vector, Vector, Vector, bool, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CNonMemberScriptBinding5<void (*)(char const*, float, int, int, HSCRIPT__*), void, char const*, float, int, int, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding5<void (*)(int, float, float, float, float), void, int, float, float, float, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding6<void (*)(Vector, Vector, float, float, bool, float), void, Vector, Vector, float, float, bool, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding6<void (*)(char const*, char const*, char const*, float, HSCRIPT__*, HSCRIPT__*), void, char const*, char const*, char const*, float, HSCRIPT__*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding7<void (*)(Vector const&, Vector const&, int, int, int, bool, float), void, Vector const&, Vector const&, int, int, int, bool, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CNonMemberScriptBinding7<void (*)(Vector const&, float, float, float, float, int, bool), void, Vector const&, float, float, float, float, int, bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CNonMemberScriptBinding7<void (*)(Vector, Vector, Vector, QAngle, Vector, float, float), void, Vector, Vector, Vector, QAngle, Vector, float, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding7<void (*)(Vector, Vector, Vector, Vector, Vector, float, float), void, Vector, Vector, Vector, Vector, Vector, float, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CNonMemberScriptBinding8<void (*)(HSCRIPT__*, int, int, int, int, float, float, int), void, HSCRIPT__*, int, int, int, int, float, float, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding8<void (*)(Vector const&, Vector const&, Vector const&, int, int, int, int, float), void, Vector const&, Vector const&, Vector const&, int, int, int, int, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding9<void (*)(float, float, int, char const*, int, int, int, int, float), void, float, float, int, char const*, int, int, int, int, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonModifiedPointerProxy::CNonModifiedPointerProxy(void* (*)(SendProp const*, void const*, void const*, CSendProxyRecipients*, int))
@@ -24189,6 +24356,7 @@
  T CPhysicsProp::IsPotentiallyAbleToObstructNavAreas() const
  T CPhysicsProp::NavThink()
  T CPhysicsProp::ObjectCaps()
+ T CPhysicsProp::OnBreak(Vector const&, Vector const&, CBaseEntity*)
  T CPhysicsProp::OnHitByTank()
  T CPhysicsProp::OnNavMeshLoaded()
  T CPhysicsProp::OnPhysGunDrop(CBasePlayer*, PhysGunDrop_t)
@@ -25526,6 +25694,13 @@
  T CSceneTokenProcessor::Error(char const*, ...)
  T CSceneTokenProcessor::GetToken(bool)
  T CSceneTokenProcessor::TokenAvailable()
+ T CScriptBaseButton* _CreateEntityTemplate<CScriptBaseButton>(CScriptBaseButton*, char const*)
+ T CScriptBaseButton::GetDataDescMap()
+ T CScriptBaseButton::GetServerClass()
+ T CScriptBaseButton::Spawn()
+ T CScriptBaseButton::UpdateTransmitState()
+ T CScriptBaseButton::YouForgotToImplementOrDeclareServerClass()
+ T CScriptBaseButton::~CScriptBaseButton()
  T CScriptConstructor<CRuleScriptBridge>::Construct()
  T CScriptConvarAccessor::GetClientConvarValue(char const*, int)
  T CScriptConvarAccessor::GetFloat(char const*)
@@ -25572,9 +25747,15 @@
  T CScriptJournal::SetScriptLevel(CDirector::ScriptLevels_t)
  T CScriptJournal::ToggleJournal()
  T CScriptJournal::UpdateJournal()
+ T CScriptNavAttributeRegion::GetDataDescMap()
+ T CScriptNavAttributeRegion::Spawn()
+ T CScriptNavAttributeRegion::~CScriptNavAttributeRegion()
  T CScriptNavBlocker::GetDataDescMap()
  T CScriptNavBlocker::Spawn()
  T CScriptNavBlocker::~CScriptNavBlocker()
+ T CScriptResponseCriteria::GetTable(HSCRIPT__*, HSCRIPT__*)
+ T CScriptResponseCriteria::GetValue(HSCRIPT__*, char const*)
+ T CScriptResponseCriteria::HasCriterion(HSCRIPT__*, char const*)
  T CScriptScopeT<CDefScriptScopeBase>::Run(char const*, char const*)
  T CScriptScopeT<CDefScriptScopeBase>::~CScriptScopeT()
  T CScriptSpeechQueue::Add(HSCRIPT__*, HSCRIPT__*, float, CBaseEntity*, AI_CriteriaSet*)
@@ -25591,6 +25772,9 @@
  T CScriptTriggerPush::GetDataDescMap()
  T CScriptTriggerPush::Spawn()
  T CScriptTriggerPush::~CScriptTriggerPush()
+ T CScriptVPhysicsClip::GetDataDescMap()
+ T CScriptVPhysicsClip::Spawn()
+ T CScriptVPhysicsClip::~CScriptVPhysicsClip()
  T CScrollingScreenOverlay::AddText(char const*, int, int, int)
  T CScrollingScreenOverlay::Draw()
  T CScrollingScreenOverlay::~CScrollingScreenOverlay()
@@ -26542,6 +26726,7 @@
  T CTankRock::BounceTouch(CBaseEntity*)
  T CTankRock::Create(Vector const&, QAngle const&, Vector const&, CBaseCombatCharacter*)
  T CTankRock::Detonate()
+ T CTankRock::Event_Killed(CTakeDamageInfo const&)
  T CTankRock::GetDataDescMap()
  T CTankRock::OnRelease(Vector const&, QAngle const&, Vector const&, Vector const&)
  T CTankRock::Precache()
@@ -26804,6 +26989,7 @@
  T CTerrorGameRules::GetMissionFirstMap(KeyValues**)
  T CTerrorGameRules::GetMissionInfo()
  T CTerrorGameRules::GetMissionNextMap(KeyValues**)
+ T CTerrorGameRules::GetNumChaptersForMissionAndMode()
  T CTerrorGameRules::GetPlayerSpawnSpot(CBasePlayer*)
  T CTerrorGameRules::GetPlayerZombieDamage(ZombieClassType, bool)
  T CTerrorGameRules::GetRemainingAccumulatedTime() const
@@ -26846,6 +27032,7 @@
  T CTerrorGameRules::IsL4D1Campaign(int*)
  T CTerrorGameRules::IsMissionFinalMap()
  T CTerrorGameRules::IsRealismMode()
+ T CTerrorGameRules::IsSacrificeEscapee(CTerrorPlayer*) const
  T CTerrorGameRules::IsScavengeMode()
  T CTerrorGameRules::IsSingleChapterMode()
  T CTerrorGameRules::IsSoloMode()
@@ -26855,6 +27042,7 @@
  T CTerrorGameRules::IsWeaponPrecacheAllowed(char const*)
  T CTerrorGameRules::LevelInitPostEntity()
  T CTerrorGameRules::LevelInitPreEntity()
+ T CTerrorGameRules::LevelShutdownPostEntity()
  T CTerrorGameRules::NeededPlayersCheck(bool&)
  T CTerrorGameRules::OnBeginChangeLevel(char const*)
  T CTerrorGameRules::OnFinaleEscape(CUtlVector<CTerrorPlayer*, CUtlMemory<CTerrorPlayer*, int> > const&)
@@ -26872,7 +27060,9 @@
  T CTerrorGameRules::ResetRoundNumber()
  T CTerrorGameRules::ResetScriptedHUD()
  T CTerrorGameRules::RestartRound()
+ T CTerrorGameRules::RevertSavedConvars()
  T CTerrorGameRules::RunVersusTieBreaker()
+ T CTerrorGameRules::SaveConvar(ConVarRef const&)
  T CTerrorGameRules::SetCampaignScores(int, int)
  T CTerrorGameRules::SetChallengeModeActive(bool)
  T CTerrorGameRules::SetHoldoutCooldownEndTime(float)
@@ -26945,7 +27135,7 @@
  T CTerrorGun::PrimaryAttack()
  T CTerrorGun::Reload()
  T CTerrorGun::RemoveAllUpgrades()
- T CTerrorGun::RemoveSecondWeapon()
+ T CTerrorGun::RemoveSecondWeapon(bool)
  T CTerrorGun::RemoveUpgrade(SurvivorUpgradeType)
  T CTerrorGun::SendWeaponAnim(int)
  T CTerrorGun::SetNextAttackTimes(float)
@@ -27407,15 +27597,18 @@
  T CTerrorPlayer::RoundRespawn()
  T CTerrorPlayer::ScoreKilledZombie(ZombieClassType)
  T CTerrorPlayer::ScriptAddUpgrade(int)
+ T CTerrorPlayer::ScriptDropItem(char const*)
  T CTerrorPlayer::ScriptGetActiveWeapon()
  T CTerrorPlayer::ScriptGetButtons() const
  T CTerrorPlayer::ScriptGetPlayerUserId()
  T CTerrorPlayer::ScriptGiveNamedItem(char const*)
+ T CTerrorPlayer::ScriptGiveNamedItemWithSkin(char const*, int)
  T CTerrorPlayer::ScriptGivePrimaryAmmo(int)
  T CTerrorPlayer::ScriptHitWithVomit()
  T CTerrorPlayer::ScriptRemoveUpgrade(int)
  T CTerrorPlayer::ScriptReviveByDefibrillator()
  T CTerrorPlayer::ScriptStaggerPlayer(Vector)
+ T CTerrorPlayer::ScriptSwitchToItem(char const*)
  T CTerrorPlayer::SelectDeathPose(CTakeDamageInfo const&)
  T CTerrorPlayer::SelectWeightedSequence(Activity)
  T CTerrorPlayer::SendGasCanDestroyMessage()
@@ -27645,6 +27838,7 @@
  T CTerrorWeapon::GetPlayerOwner() const
  T CTerrorWeapon::GetReloadDurationModifier()
  T CTerrorWeapon::GetResponseRulesWeaponName() const
+ T CTerrorWeapon::GetScriptDesc()
  T CTerrorWeapon::GetServerClass()
  T CTerrorWeapon::GetSwingForward()
  T CTerrorWeapon::GetTerrorWeaponData() const
@@ -27686,6 +27880,8 @@
  T CTerrorWeapon::Reload()
  T CTerrorWeapon::RemoveAllUpgrades()
  T CTerrorWeapon::RemoveUpgrade(SurvivorUpgradeType)
+ T CTerrorWeapon::ScriptSetClip1(int)
+ T CTerrorWeapon::ScriptSetClip2(int)
  T CTerrorWeapon::SecondaryAttack()
  T CTerrorWeapon::SendWeaponAnim(int)
  T CTerrorWeapon::SetHelpingHandState(CTerrorWeapon::HelpingHandState)
@@ -27814,7 +28010,7 @@
  T CTongue::OnLeaveMisfireState(TongueState)
  T CTongue::OnOwnerLeaveActiveState()
  T CTongue::OnOwnerTakeDamage(CTakeDamageInfo const&)
- T CTongue::OnTongueShot(CTerrorPlayer*, float, Vector const&, Vector const&)
+ T CTongue::OnTongueShot(CTerrorPlayer*, float, unsigned int, Vector const&, Vector const&)
  T CTongue::OnTouch(CBaseEntity*)
  T CTongue::OnUpdateAttachedToTargetState()
  T CTongue::OnUpdateDroppingToGroundState()
@@ -30154,6 +30350,11 @@
  T CWeaponrifle_desertSpawn::GetWeaponID() const
  T CWeaponrifle_desertSpawn::ShouldSpawnInPressDemoMode() const
  T CWeaponrifle_desertSpawn::~CWeaponrifle_desertSpawn()
+ T CWeaponrifle_sg552Spawn::GetTierUpgradeWeaponID() const
+ T CWeaponrifle_sg552Spawn::GetTierUpgradeWeaponSpawnerName() const
+ T CWeaponrifle_sg552Spawn::GetWeaponID() const
+ T CWeaponrifle_sg552Spawn::ShouldSpawnInPressDemoMode() const
+ T CWeaponrifle_sg552Spawn::~CWeaponrifle_sg552Spawn()
  T CWeaponshotgun_chromeSpawn::GetTierUpgradeWeaponID() const
  T CWeaponshotgun_chromeSpawn::GetTierUpgradeWeaponSpawnerName() const
  T CWeaponshotgun_chromeSpawn::GetWeaponID() const
@@ -30169,16 +30370,31 @@
  T CWeaponsmgSpawn::GetWeaponID() const
  T CWeaponsmgSpawn::ShouldSpawnInPressDemoMode() const
  T CWeaponsmgSpawn::~CWeaponsmgSpawn()
+ T CWeaponsmg_mp5Spawn::GetTierUpgradeWeaponID() const
+ T CWeaponsmg_mp5Spawn::GetTierUpgradeWeaponSpawnerName() const
+ T CWeaponsmg_mp5Spawn::GetWeaponID() const
+ T CWeaponsmg_mp5Spawn::ShouldSpawnInPressDemoMode() const
+ T CWeaponsmg_mp5Spawn::~CWeaponsmg_mp5Spawn()
  T CWeaponsmg_silencedSpawn::GetTierUpgradeWeaponID() const
  T CWeaponsmg_silencedSpawn::GetTierUpgradeWeaponSpawnerName() const
  T CWeaponsmg_silencedSpawn::GetWeaponID() const
  T CWeaponsmg_silencedSpawn::ShouldSpawnInPressDemoMode() const
  T CWeaponsmg_silencedSpawn::~CWeaponsmg_silencedSpawn()
+ T CWeaponsniper_awpSpawn::GetTierUpgradeWeaponID() const
+ T CWeaponsniper_awpSpawn::GetTierUpgradeWeaponSpawnerName() const
+ T CWeaponsniper_awpSpawn::GetWeaponID() const
+ T CWeaponsniper_awpSpawn::ShouldSpawnInPressDemoMode() const
+ T CWeaponsniper_awpSpawn::~CWeaponsniper_awpSpawn()
  T CWeaponsniper_militarySpawn::GetTierUpgradeWeaponID() const
  T CWeaponsniper_militarySpawn::GetTierUpgradeWeaponSpawnerName() const
  T CWeaponsniper_militarySpawn::GetWeaponID() const
  T CWeaponsniper_militarySpawn::ShouldSpawnInPressDemoMode() const
  T CWeaponsniper_militarySpawn::~CWeaponsniper_militarySpawn()
+ T CWeaponsniper_scoutSpawn::GetTierUpgradeWeaponID() const
+ T CWeaponsniper_scoutSpawn::GetTierUpgradeWeaponSpawnerName() const
+ T CWeaponsniper_scoutSpawn::GetWeaponID() const
+ T CWeaponsniper_scoutSpawn::ShouldSpawnInPressDemoMode() const
+ T CWeaponsniper_scoutSpawn::~CWeaponsniper_scoutSpawn()
  T CWeaponupgradepack_explosiveSpawn::GetTierUpgradeWeaponID() const
  T CWeaponupgradepack_explosiveSpawn::GetTierUpgradeWeaponSpawnerName() const
  T CWeaponupgradepack_explosiveSpawn::GetWeaponID() const
@@ -30602,7 +30818,6 @@
  T CountdownTimer::NetworkStateChanged(void*)
  T CountdownTimer::Now() const
  T CreateAttractGoal(Infected*)
- T CreateBlackMarketString()
  T CreateBoneFollowersFromRagdoll(CBaseAnimating*, CBoneFollowerManager*, vcollide_t*)
  T CreateEntitiesInTransitionList(CSaveRestoreData*, int)
  T CreateEntityByName(char const*, int, bool)
@@ -30806,6 +31021,7 @@
  T GetAutoMultiplayerPhysicsMode(Vector, float)
  T GetBodygroup(CStudioHdr*, int, int)
  T GetBodygroupCount(CStudioHdr*, int)
+ T GetBodygroupName(CStudioHdr*, int)
  T GetBodygroupPartName(CStudioHdr*, int, int)
  T GetBreakableDamage(CTakeDamageInfo const&, IBreakableWithPropData*)
  T GetCSLevelIndex(char const*)
@@ -32342,7 +32558,7 @@
  T PrecacheMaterial(char const*)
  T PrecacheParticleSystem(char const*)
  T PrecachePhysicsSounds()
- T PrecachePlayerModelAndMaterials(CBaseAnimating*, char const*, CUtlVector<char const*, CUtlMemory<char const*, int> >*)
+ T PrecachePlayerModelAndMaterials(CBaseAnimating*, char const*, char const*, CUtlVector<char const*, CUtlMemory<char const*, int> >*)
  T PrecachePointCommentaryNodePrecache::CResourcePrecacher::Cache(IPrecacheHandler*, bool, ResourceList_t__*, bool)
  T PrecachePointTemplates()
  T PrecacheStandardParticleSystems()
@@ -32502,7 +32718,10 @@
  T Scene_Printf(char const*, ...)
  T ScrimmageUpdate::ScrimmageUpdate()
  T ScriptClassDesc_t* GetScriptDesc<AI_ResponseScriptWrapper>(AI_ResponseScriptWrapper*)
+ T ScriptClassDesc_t* GetScriptDesc<CBaseAnimating>(CBaseAnimating*)
  T ScriptClassDesc_t* GetScriptDesc<CBaseEntity>(CBaseEntity*)
+ T ScriptClassDesc_t* GetScriptDesc<CBaseFlex>(CBaseFlex*)
+ T ScriptClassDesc_t* GetScriptDesc<CBaseTrigger>(CBaseTrigger*)
  T ScriptClassDesc_t* GetScriptDesc<CDirector>(CDirector*)
  T ScriptClassDesc_t* GetScriptDesc<CEnvEntityMaker>(CEnvEntityMaker*)
  T ScriptClassDesc_t* GetScriptDesc<CInfoItemPosition>(CInfoItemPosition*)
@@ -32513,7 +32732,9 @@
  T ScriptClassDesc_t* GetScriptDesc<CRuleScriptBridge>(CRuleScriptBridge*)
  T ScriptClassDesc_t* GetScriptDesc<CScriptConvarAccessor>(CScriptConvarAccessor*)
  T ScriptClassDesc_t* GetScriptDesc<CScriptEntityIterator>(CScriptEntityIterator*)
+ T ScriptClassDesc_t* GetScriptDesc<CScriptResponseCriteria>(CScriptResponseCriteria*)
  T ScriptClassDesc_t* GetScriptDesc<CTerrorPlayer>(CTerrorPlayer*)
+ T ScriptClassDesc_t* GetScriptDesc<CTerrorWeapon>(CTerrorWeapon*)
  T ScriptClassDesc_t::~ScriptClassDesc_t()
  T ScriptCreateEntityFromTable(char const*, HSCRIPT__*)
  T ScriptFireGameEvent(char const*, HSCRIPT__*)
@@ -32523,6 +32744,11 @@
  T ScriptTableToKeyValues(IScriptVM*, char const*, HSCRIPT__*)
  T ScriptVmKeyValueFromVariant(IScriptVM*, CVariantBase<CVariantDefaultAllocator>&)
  T ScriptVmKeyValueToVariant(IScriptVM*, KeyValues*, CVariantBase<CVariantDefaultAllocator>&, char*)
+ T Script_GetListenServerHost()
+ T Script_IsDedicatedServer()
+ T Script_IsModelPrecached(char const*)
+ T Script_PrecacheModel(char const*)
+ T Script_PrecacheSound(char const*)
  T Script_ZSpawn(HSCRIPT__*)
  T SealCheckpointCheck::operator()(CTerrorPlayer*)
  T SeatPrioritySort(CPassengerSeatTransition const*, CPassengerSeatTransition const*)
@@ -33795,6 +34021,7 @@
  T VScriptServerInit()
  T VScriptServerReplaceClosures(char const*, HSCRIPT__*, bool)
  T VScriptServerRunScript(char const*, HSCRIPT__*, bool)
+ T VScriptServerRunScriptForAllAddons(char const*, HSCRIPT__*, bool)
  T VScriptServerScriptErrorFunc(ScriptErrorLevel_t, char const*)
  T V_BinToString(char*, void*, unsigned int)
  T V_DefaultExtension(char*, char const*, int)
@@ -33820,6 +34047,7 @@
  T V_StripTrailingSlash(char*)
  T V_UTF8ToUnicode(char const*, wchar_t*, int)
  T V_UnicodeToUTF8(wchar_t const*, char*, int)
+ T V_atod(char const*)
  T V_atof(char const*)
  T V_atoi(char const*)
  T V_atoi64(char const*)
@@ -33879,6 +34107,7 @@
  T Witch::CreateDeathAction(CTakeDamageInfo const&) const
  T Witch::DoAttack(CBaseEntity*)
  T Witch::DoBloodEffect(float, CTakeDamageInfo const&, Vector const&, CGameTrace*)
+ T Witch::Event_Killed(CTakeDamageInfo const&)
  T Witch::GetBodyInterface() const
  T Witch::GetClass() const
  T Witch::GetEntity() const
@@ -34780,6 +35009,7 @@
  T int ServerClassInit<DT_ScavengeItemSpawn::ignored>(DT_ScavengeItemSpawn::ignored*)
  T int ServerClassInit<DT_ScavengeProgressDisplay::ignored>(DT_ScavengeProgressDisplay::ignored*)
  T int ServerClassInit<DT_SceneEntity::ignored>(DT_SceneEntity::ignored*)
+ T int ServerClassInit<DT_ScriptBaseButton::ignored>(DT_ScriptBaseButton::ignored*)
  T int ServerClassInit<DT_SelfDestruct::ignored>(DT_SelfDestruct::ignored*)
  T int ServerClassInit<DT_ServerAnimationData::ignored>(DT_ServerAnimationData::ignored*)
  T int ServerClassInit<DT_ShadowControl::ignored>(DT_ShadowControl::ignored*)
@@ -35026,6 +35256,7 @@
  T non-virtual thunk to CAchievementMsgHandler::~CAchievementMsgHandler()
  T non-virtual thunk to CBaseAchievement::GetAchievementID()
  T non-virtual thunk to CBaseAchievement::GetComponentBits()
+ T non-virtual thunk to CBaseAchievement::GetComponentDisplayLocalizedString(int)
  T non-virtual thunk to CBaseAchievement::GetComponentDisplayString(int)
  T non-virtual thunk to CBaseAchievement::GetCount()
  T non-virtual thunk to CBaseAchievement::GetDisplayOrder()
@@ -35746,13 +35977,19 @@
  T void ScriptDeduceFunctionSignature<CScriptEntityIterator*, CScriptEntityIterator, HSCRIPT__*, char const*, Vector const&, float>(ScriptFuncDescriptor_t*, CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(char const*, Vector const&, float))
  T void ScriptDeduceFunctionSignature<Vector const&, Vector, QAngle, Vector>(ScriptFuncDescriptor_t*, Vector const& (*)(Vector, QAngle, Vector))
  T void ScriptDeduceFunctionSignature<void, HSCRIPT__*, char const*, bool>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, char const*, bool))
+ T void ScriptDeduceFunctionSignature<void, HSCRIPT__*, char const*, char const*>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, char const*, char const*))
+ T void ScriptDeduceFunctionSignature<void, HSCRIPT__*, int, char const*>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, int, char const*))
+ T void ScriptDeduceFunctionSignature<void, HSCRIPT__*, int, int, int, int, float, float, int>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, int, int, int, int, float, float, int))
  T void ScriptDeduceFunctionSignature<void, Vector const&, Vector const&, Vector const&, int, int, int, int, float>(ScriptFuncDescriptor_t*, void (*)(Vector const&, Vector const&, Vector const&, int, int, int, int, float))
  T void ScriptDeduceFunctionSignature<void, Vector const&, Vector const&, int, int, int, bool, float>(ScriptFuncDescriptor_t*, void (*)(Vector const&, Vector const&, int, int, int, bool, float))
  T void ScriptDeduceFunctionSignature<void, Vector const&, char const*, bool, float>(ScriptFuncDescriptor_t*, void (*)(Vector const&, char const*, bool, float))
+ T void ScriptDeduceFunctionSignature<void, Vector const&, float, float, float, float, int, bool>(ScriptFuncDescriptor_t*, void (*)(Vector const&, float, float, float, float, int, bool))
+ T void ScriptDeduceFunctionSignature<void, Vector, Vector, Vector, QAngle, Vector, float, float>(ScriptFuncDescriptor_t*, void (*)(Vector, Vector, Vector, QAngle, Vector, float, float))
  T void ScriptDeduceFunctionSignature<void, Vector, Vector, Vector, Vector, Vector, float, float>(ScriptFuncDescriptor_t*, void (*)(Vector, Vector, Vector, Vector, Vector, float, float))
  T void ScriptDeduceFunctionSignature<void, Vector, Vector, Vector, bool, float>(ScriptFuncDescriptor_t*, void (*)(Vector, Vector, Vector, bool, float))
  T void ScriptDeduceFunctionSignature<void, Vector, Vector, float, float, bool, float>(ScriptFuncDescriptor_t*, void (*)(Vector, Vector, float, float, bool, float))
  T void ScriptDeduceFunctionSignature<void, char const*, char const*, char const*, float, HSCRIPT__*, HSCRIPT__*>(ScriptFuncDescriptor_t*, void (*)(char const*, char const*, char const*, float, HSCRIPT__*, HSCRIPT__*))
+ T void ScriptDeduceFunctionSignature<void, char const*, float, int, int, HSCRIPT__*>(ScriptFuncDescriptor_t*, void (*)(char const*, float, int, int, HSCRIPT__*))
  T void ScriptDeduceFunctionSignature<void, float, float, int, char const*, int, int, int, int, float>(ScriptFuncDescriptor_t*, void (*)(float, float, int, char const*, int, int, int, int, float))
  T void ScriptDeduceFunctionSignature<void, int, float, float, float, float>(ScriptFuncDescriptor_t*, void (*)(int, float, float, float, float))
  T void ScriptDeduceFunctionSignature<void, int, int, float>(ScriptFuncDescriptor_t*, void (*)(int, int, float))
@@ -35868,6 +36105,8 @@
  b CAI_Expresser::GatherCriteria(AI_CriteriaSet*, CAI_Concept const&, char const*)::snPreviousCriteriaCount
  b CBGSDriver
  b CBaseAnimating::GetDemoRecordingState(KeyValues*)::currentState
+ b CBaseAnimating::ScriptGetAttachmentOrigin(int)::qAngles
+ b CBaseAnimating::ScriptGetAttachmentOrigin(int)::vOrigin
  b CBaseAnimatingOverlay::GetDemoRecordingState(KeyValues*)::currentState
  b CBaseCombatCharacter::FindEntityRelationship(CBaseEntity*)::dummy
  b CBaseCombatWeapon::GetBulletSpread()::cone
@@ -36076,6 +36315,7 @@
  b WarpSelectedHere
  b WaveTrace(char const*, char const*)::s_WaveTrace
  b Witch::GetFootstepSound(char const*, bool, float, bool) const::s_footstepSound
+ b WitchModels
  b WitchWander::Update(Infected*, float)::m_masterMusicTimer
  b ZombieManager::BuildEscapeRoute(TerrorNavArea*) const::escapeRouteStr
  b ZombieManager::SpawnCommonZombie(TerrorNavArea*, Vector const&, ZombieManager::CommonInfectedSpawnDirective)::vStepHeight
@@ -36136,6 +36376,21 @@
  b _ZGVZ17VScriptServerInitvE7binding__63_
  b _ZGVZ17VScriptServerInitvE7binding__64_
  b _ZGVZ17VScriptServerInitvE7binding__65_
+ b _ZGVZ17VScriptServerInitvE7binding__66_
+ b _ZGVZ17VScriptServerInitvE7binding__67_
+ b _ZGVZ17VScriptServerInitvE7binding__68_
+ b _ZGVZ17VScriptServerInitvE7binding__69_
+ b _ZGVZ17VScriptServerInitvE7binding__70_
+ b _ZGVZ17VScriptServerInitvE7binding__71_
+ b _ZGVZ17VScriptServerInitvE7binding__72_
+ b _ZGVZ17VScriptServerInitvE7binding__73_
+ b _ZGVZ17VScriptServerInitvE7binding__74_
+ b _ZGVZ17VScriptServerInitvE7binding__75_
+ b _ZGVZ17VScriptServerInitvE7binding__76_
+ b _ZGVZ17VScriptServerInitvE7binding__77_
+ b _ZGVZ17VScriptServerInitvE7binding__78_
+ b _ZGVZ17VScriptServerInitvE7binding__79_
+ b _ZGVZ17VScriptServerInitvE7binding__80_
  b _ZL8ice_sbox.0
  b _ZL8ice_sbox.1
  b _ZL8ice_sbox.2
@@ -36196,6 +36451,21 @@
  b _ZZ17VScriptServerInitvE7binding__63_
  b _ZZ17VScriptServerInitvE7binding__64_
  b _ZZ17VScriptServerInitvE7binding__65_
+ b _ZZ17VScriptServerInitvE7binding__66_
+ b _ZZ17VScriptServerInitvE7binding__67_
+ b _ZZ17VScriptServerInitvE7binding__68_
+ b _ZZ17VScriptServerInitvE7binding__69_
+ b _ZZ17VScriptServerInitvE7binding__70_
+ b _ZZ17VScriptServerInitvE7binding__71_
+ b _ZZ17VScriptServerInitvE7binding__72_
+ b _ZZ17VScriptServerInitvE7binding__73_
+ b _ZZ17VScriptServerInitvE7binding__74_
+ b _ZZ17VScriptServerInitvE7binding__75_
+ b _ZZ17VScriptServerInitvE7binding__76_
+ b _ZZ17VScriptServerInitvE7binding__77_
+ b _ZZ17VScriptServerInitvE7binding__78_
+ b _ZZ17VScriptServerInitvE7binding__79_
+ b _ZZ17VScriptServerInitvE7binding__80_
  b __g_CServerDLLSharedAppSystems_singleton
  b __g_CServerGameEnts_singleton
  b __g_CServerGameTags_singleton
@@ -36521,15 +36791,19 @@
  b gDamageCutoutHalfBodyWounds
  b gDamageCutoutHalfBodyWoundsCEDA
  b gDamageCutoutHalfBodyWoundsFemale
+ b gDamageCutoutHalfBodyWoundsFemale_l4d1
  b gDamageCutoutHalfBodyWoundsHospitalPatient
  b gDamageCutoutHalfBodyWoundsJimmy
  b gDamageCutoutHalfBodyWoundsRiot
+ b gDamageCutoutHalfBodyWounds_l4d1
  b gDamageCutoutInfoArray
  b gDamageCutoutInfoArrayCEDA
  b gDamageCutoutInfoArrayFemale
+ b gDamageCutoutInfoArrayFemale_l4d1
  b gDamageCutoutInfoArrayHospitalPatient
  b gDamageCutoutInfoArrayJimmy
  b gDamageCutoutInfoArrayRiot
+ b gDamageCutoutInfoArray_l4d1
  b gGlobalState
  b gNullWeaponInfo
  b g_ActivityDataOps
@@ -36701,6 +36975,7 @@
  b g_CSViewVectors
  b g_CScavengeProgressDisplay_ClassReg
  b g_CSceneEntity_ClassReg
+ b g_CScriptBaseButton_ClassReg
  b g_CSelfDestruct_ClassReg
  b g_CShadowControl_ClassReg
  b g_CShotgun_Chrome_ClassReg
@@ -36990,6 +37265,8 @@
  b guard variable for BlackBox_Record(char const*, char const*, ...)::blackbox
  b guard variable for BoomerBehavior::OnContact(Boomer*, CBaseEntity*, CGameTrace*)::pressAltFireButton
  b guard variable for CBaseAnimating::GetDemoRecordingState(KeyValues*)::currentState
+ b guard variable for CBaseAnimating::ScriptGetAttachmentOrigin(int)::qAngles
+ b guard variable for CBaseAnimating::ScriptGetAttachmentOrigin(int)::vOrigin
  b guard variable for CBaseAnimatingOverlay::GetDemoRecordingState(KeyValues*)::currentState
  b guard variable for CBaseCombatCharacter::FindEntityRelationship(CBaseEntity*)::dummy
  b guard variable for CBaseCombatWeapon::GetBulletSpread()::cone
@@ -37601,12 +37878,15 @@
  b script_add_watch_pattern_command
  b script_attach_debugger_command
  b script_clear_watches_command
+ b script_clip_vphysics
  b script_command
  b script_debug_command
  b script_dump_all_command
  b script_execute_command
  b script_find_command
+ b script_func_button
  b script_help_command
+ b script_nav_attribute_region
  b script_nav_blocker
  b script_reload_code_command
  b script_reload_enity_code_command
@@ -37831,6 +38111,7 @@
  b weapon_rifle_m60
  b weapon_rifle_m60_spawn
  b weapon_rifle_sg552
+ b weapon_rifle_sg552_spawn
  b weapon_rifle_spawn
  b weapon_scavenge_item_spawn
  b weapon_shotgun_chrome
@@ -37839,14 +38120,17 @@
  b weapon_shotgun_spas_spawn
  b weapon_smg
  b weapon_smg_mp5
+ b weapon_smg_mp5_spawn
  b weapon_smg_silenced
  b weapon_smg_silenced_spawn
  b weapon_smg_spawn
  b weapon_smoker_claw
  b weapon_sniper_awp
+ b weapon_sniper_awp_spawn
  b weapon_sniper_military
  b weapon_sniper_military_spawn
  b weapon_sniper_scout
+ b weapon_sniper_scout_spawn
  b weapon_spawn
  b weapon_spitter_claw
  b weapon_tank_claw
@@ -38165,8 +38449,11 @@
  t ReportStats(CCommand const&)
  t ResolveFollowupTargetToEntity(CAI_Concept&, AI_CriteriaSet&, char const*, AI_Response*)
  t SafeFallSpeedChanged(IConVar*, char const*, float)
+ t ScriptEmitAmbientSoundOn(char const*, float, int, int, HSCRIPT__*)
+ t ScriptStopAmbientSoundOn(char const*, HSCRIPT__*)
  t Script_AddThinkToEnt(HSCRIPT__*, char const*)
  t Script_ClearSavedTables()
+ t Script_ClientPrint(HSCRIPT__*, int, char const*)
  t Script_CommandABot(HSCRIPT__*)
  t Script_DropFire(Vector)
  t Script_DropSpit(Vector)
@@ -38188,12 +38475,16 @@
  t Script_GetPhysVelocity(HSCRIPT__*)
  t Script_GetPlayerFromCharacter(int)
  t Script_GetPlayerFromUserID(int)
+ t Script_GetSoundDuration(char const*, char const*)
  t Script_HUDManageTimers(int, int, float)
  t Script_HUDPlace(int, float, float, float, float)
  t Script_HUDReadTimer(int)
  t Script_HUDSetLayout(HSCRIPT__*)
+ t Script_HasPlayerControlledZombies()
  t Script_IsPlayerABot(HSCRIPT__*)
+ t Script_IsSoundPrecached(char const*)
  t Script_LoadMOTD()
+ t Script_OverlayBoxAngles(Vector, Vector, Vector, QAngle, Vector, float, float)
  t Script_OverlayBoxDirection(Vector, Vector, Vector, Vector, Vector, float, float)
  t Script_OverlayCircle(Vector, Vector, float, float, bool, float)
  t Script_OverlayClear()
@@ -38204,6 +38495,9 @@
  t Script_RestoreTable(char const*, HSCRIPT__*)
  t Script_SaveTable(char const*, HSCRIPT__*)
  t Script_Say(HSCRIPT__*, char const*, bool)
+ t Script_ScreenFade(HSCRIPT__*, int, int, int, int, float, float, int)
+ t Script_ScreenShake(Vector const&, float, float, float, float, int, bool)
+ t Script_SetFakeClientConVarValue(HSCRIPT__*, char const*, char const*)
  t Script_SpawnEntityFromTable(char const*, HSCRIPT__*)
  t Script_SpawnEntityGroupFromTable(HSCRIPT__*)
  t Script_StartAssault()
@@ -38255,12 +38549,11 @@
  t __cxx_global_array_dtor111
  t __cxx_global_array_dtor116
  t __cxx_global_array_dtor124
- t __cxx_global_array_dtor138
  t __cxx_global_array_dtor151
- t __cxx_global_array_dtor158
+ t __cxx_global_array_dtor154
  t __cxx_global_array_dtor159
- t __cxx_global_array_dtor1612
- t __cxx_global_array_dtor163
+ t __cxx_global_array_dtor1645
+ t __cxx_global_array_dtor174
  t __cxx_global_array_dtor177
  t __cxx_global_array_dtor187
  t __cxx_global_array_dtor20
@@ -38276,14 +38569,14 @@
  t __cxx_global_array_dtor330
  t __cxx_global_array_dtor35
  t __cxx_global_array_dtor36
- t __cxx_global_array_dtor380
+ t __cxx_global_array_dtor385
  t __cxx_global_array_dtor392
  t __cxx_global_array_dtor410
  t __cxx_global_array_dtor42
  t __cxx_global_array_dtor43
- t __cxx_global_array_dtor434
+ t __cxx_global_array_dtor439
  t __cxx_global_array_dtor440
- t __cxx_global_array_dtor443
+ t __cxx_global_array_dtor448
  t __cxx_global_array_dtor48
  t __cxx_global_array_dtor49
  t __cxx_global_array_dtor50
@@ -38293,14 +38586,15 @@
  t __cxx_global_array_dtor63
  t __cxx_global_array_dtor65
  t __cxx_global_array_dtor67
+ t __cxx_global_array_dtor69
  t __cxx_global_array_dtor71
  t __cxx_global_array_dtor72
  t __cxx_global_array_dtor75
  t __cxx_global_array_dtor76
  t __cxx_global_array_dtor82
- t __cxx_global_array_dtor903
  t __cxx_global_array_dtor91
  t __cxx_global_array_dtor92
+ t __cxx_global_array_dtor924
  t __cxx_global_array_dtor94
  t __cxx_global_array_dtor95
  t __cxx_global_array_dtor98

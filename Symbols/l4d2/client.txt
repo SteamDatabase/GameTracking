@@ -872,6 +872,8 @@
  B DT_ScavengeProgressDisplay::g_RecvTableInit
  B DT_SceneEntity::g_RecvTable
  B DT_SceneEntity::g_RecvTableInit
+ B DT_ScriptBaseButton::g_RecvTable
+ B DT_ScriptBaseButton::g_RecvTableInit
  B DT_SelfDestruct::g_RecvTable
  B DT_SelfDestruct::g_RecvTableInit
  B DT_ServerAnimationData::g_RecvTable
@@ -1683,6 +1685,7 @@
  B __g_C_SMG_MP5ClientClass
  B __g_C_SMG_SilencedClientClass
  B __g_C_SceneEntityClientClass
+ B __g_C_ScriptBaseButtonClientClass
  B __g_C_SelfDestructClientClass
  B __g_C_ServerRagdollAttachedClientClass
  B __g_C_ServerRagdollClientClass
@@ -2419,6 +2422,7 @@
  B in_lookspin
  B in_moveleft
  B in_moveright
+ B in_resetcamera
  B in_speed
  B in_strafe
  B in_walk
@@ -3004,9 +3008,14 @@
  D BasePlayerStatsPanel::GetMessageMap()::s_pMap
  D BasePlayerStatsPanel::KB_ChainToMap()::chained
  D CAchievementAirlineFinaleNoDamage::Init()::s_szEvents
+ D CAchievementBeatAtriumBeforeFirstTank::Init()::s_szEvents
+ D CAchievementBeatConcertFromStage::Init()::s_szEvents
  D CAchievementBileTank::Init()::s_szEvents
  D CAchievementBridgeTimedRun::Init()::s_szEvents
  D CAchievementCollectCEDAVials::Init()::s_szEvents
+ D CAchievementCollectGoldenCrowbars::Init()::s_szEvents
+ D CAchievementCollectGoldenCrowbars::Init()::szComponentDisplay
+ D CAchievementCollectGoldenCrowbars::Init()::szComponents
  D CAchievementCompleteChallengeModes::Init()::s_szEvents
  D CAchievementCompleteChallengeModes::Init()::szComponentDisplay
  D CAchievementDLC2CompleteTheSacrifice::Init()::s_szEvents
@@ -3015,7 +3024,17 @@
  D CAchievementDLC2RunAllGeneratorsAtOnce::Init()::s_szEvents
  D CAchievementDLC2SacrificeBill::Init()::s_szEvents
  D CAchievementDeployAmmoUpgrade::Init()::s_szEvents
+ D CAchievementDestroyTankRock::Init()::s_szEvents
+ D CAchievementEarnAllMedalsBase::Init()::s_szEvents
+ D CAchievementEarnAllMedalsBase::Init()::szCampaignDisplay
+ D CAchievementEarnAllMedalsBase::Init()::szComponentDisplay
+ D CAchievementEarnAllMedalsBase::Init()::szComponents
+ D CAchievementFindLighthouseHiddenRoom::Init()::s_szEvents
+ D CAchievementFreeSelfFromSmokerWithMelee::Init()::s_szEvents
+ D CAchievementGetBronzeMedal::Init()::s_szEvents
+ D CAchievementGetGoldMedal::Init()::s_szEvents
  D CAchievementGetMedalWithOnlyMelee::Init()::s_szEvents
+ D CAchievementGetSilverMedal::Init()::s_szEvents
  D CAchievementGnomeRescue::Init()::s_szEvents
  D CAchievementGnomeRescueAsset::Init()::s_szEvents
  D CAchievementGolfClubHeads::Init()::s_szEvents
@@ -3031,22 +3050,31 @@
  D CAchievementKillEveryUncommonInfected::Init()::szComponentDisplay
  D CAchievementKillEveryUncommonInfected::Init()::szComponents
  D CAchievementKillInfectedWithChainsaw::Init()::s_szEvents
+ D CAchievementKillLeapingHunterWithShotgun::Init()::s_szEvents
  D CAchievementKillManyWithM60::Init()::s_szEvents
  D CAchievementKillSpitterFast::Init()::s_szEvents
  D CAchievementKillSubmergedMudMen::Init()::s_szEvents
  D CAchievementKillTankL4D1Only::Init()::s_szEvents
  D CAchievementKillTankMeleeOnly::Init()::s_szEvents
  D CAchievementKillThenThousandZombies::Init()::s_szEvents
+ D CAchievementKillWitchMeleeOnly::Init()::s_szEvents
  D CAchievementKillWithEveryMelee::Init()::s_szEvents
  D CAchievementKillWithEveryMelee::Init()::szComponentDisplay
  D CAchievementKillWithEveryMelee::Init()::szComponents
+ D CAchievementKillXInfectedLifetime::Init()::s_szEvents
+ D CAchievementKillXJockeysWithMelee::Init()::s_szEvents
  D CAchievementKillZombiesGrenadeBlast::Init()::s_szEvents
+ D CAchievementLastStandTimed::Init()::s_szEvents
  D CAchievementLeaveSaferoomToDefib::Init()::s_szEvents
  D CAchievementMeleeACharger::Init()::s_szEvents
  D CAchievementMeleeOnly::Init()::s_szEvents
+ D CAchievementOneShotKillWitchBride::Init()::s_szEvents
  D CAchievementOpenFootLockers::Init()::s_szEvents
  D CAchievementPlayC6FinaleScavenge::Init()::s_szEvents
+ D CAchievementPounceForXDamage::Init()::s_szEvents
  D CAchievementResSurvivorsWithDefib::Init()::s_szEvents
+ D CAchievementRescueXPlayersTogether::Init()::s_szEvents
+ D CAchievementReviveWithActiveTank::Init()::s_szEvents
  D CAchievementSavePlayerFromJockeyFast::Init()::s_szEvents
  D CAchievementScavengeCanDropGrind::Init()::s_szEvents
  D CAchievementScavengeCapGrind::Init()::s_szEvents
@@ -3059,14 +3087,22 @@
  D CAchievementStrongmanGame::Init()::s_szEvents
  D CAchievementSurviveCampaign::Init()::s_szEvents
  D CAchievementSurviveExpertRealism::Init()::s_szEvents
+ D CAchievementSurviveLighthouseExpertRealism::Init()::s_szEvents
+ D CAchievementSurviveXMinutesSurvival::Init()::s_szEvents
+ D CAchievementSurviveXMinutesVersusSurvival::Init()::s_szEvents
+ D CAchievementVSSpitOnXGasCans::Init()::s_szEvents
+ D CAchievementVsBilePlayerNoLineOfSight::Init()::s_szEvents
  D CAchievementVsBowlEnemyTeam::Init()::s_szEvents
  D CAchievementVsChargeThroughChairs::Init()::s_szEvents
  D CAchievementVsChargerGroundSmash::Init()::s_szEvents
+ D CAchievementVsChargerInstantKill::Init()::s_szEvents
  D CAchievementVsChargerLongCarry::Init()::s_szEvents
  D CAchievementVsJockeyIntoAcid::Init()::s_szEvents
  D CAchievementVsJockeyLongRide::Init()::s_szEvents
  D CAchievementVsJockeyTwoPlayers::Init()::s_szEvents
+ D CAchievementVsSpitOnChargedPlayer::Init()::s_szEvents
  D CAchievementVsSpitOnEnemyTeam::Init()::s_szEvents
+ D CAchievementVsSpitOnPouncedPlayer::Init()::s_szEvents
  D CAchievementVsSpitOnSmokeredPlayer::Init()::s_szEvents
  D CAchievementWin10ScavengeAsset::Init()::s_szEvents
  D CAchievementWin10Versus::Init()::s_szEvents
@@ -5619,6 +5655,7 @@
  D guard variable for int ClientClassInit<DT_ScavengeItemSpawn::ignored>(DT_ScavengeItemSpawn::ignored*)::RecvProps
  D guard variable for int ClientClassInit<DT_ScavengeProgressDisplay::ignored>(DT_ScavengeProgressDisplay::ignored*)::RecvProps
  D guard variable for int ClientClassInit<DT_SceneEntity::ignored>(DT_SceneEntity::ignored*)::RecvProps
+ D guard variable for int ClientClassInit<DT_ScriptBaseButton::ignored>(DT_ScriptBaseButton::ignored*)::RecvProps
  D guard variable for int ClientClassInit<DT_SelfDestruct::ignored>(DT_SelfDestruct::ignored*)::RecvProps
  D guard variable for int ClientClassInit<DT_ServerAnimationData::ignored>(DT_ServerAnimationData::ignored*)::RecvProps
  D guard variable for int ClientClassInit<DT_ShadowControl::ignored>(DT_ShadowControl::ignored*)::RecvProps
@@ -6043,6 +6080,7 @@
  D int ClientClassInit<DT_ScavengeItemSpawn::ignored>(DT_ScavengeItemSpawn::ignored*)::RecvProps
  D int ClientClassInit<DT_ScavengeProgressDisplay::ignored>(DT_ScavengeProgressDisplay::ignored*)::RecvProps
  D int ClientClassInit<DT_SceneEntity::ignored>(DT_SceneEntity::ignored*)::RecvProps
+ D int ClientClassInit<DT_ScriptBaseButton::ignored>(DT_ScriptBaseButton::ignored*)::RecvProps
  D int ClientClassInit<DT_SelfDestruct::ignored>(DT_SelfDestruct::ignored*)::RecvProps
  D int ClientClassInit<DT_ServerAnimationData::ignored>(DT_ServerAnimationData::ignored*)::RecvProps
  D int ClientClassInit<DT_ShadowControl::ignored>(DT_ShadowControl::ignored*)::RecvProps
@@ -6207,9 +6245,12 @@
  D typeinfo for CAboveWaterView::CWaterSurfaceView
  D typeinfo for CAbsProxy
  D typeinfo for CAchievementAirlineFinaleNoDamage
+ D typeinfo for CAchievementBeatAtriumBeforeFirstTank
+ D typeinfo for CAchievementBeatConcertFromStage
  D typeinfo for CAchievementBileTank
  D typeinfo for CAchievementBridgeTimedRun
  D typeinfo for CAchievementCollectCEDAVials
+ D typeinfo for CAchievementCollectGoldenCrowbars
  D typeinfo for CAchievementCollectHolidayGifts
  D typeinfo for CAchievementCompleteChallengeModes
  D typeinfo for CAchievementDLC2CompleteTheSacrifice
@@ -6218,7 +6259,17 @@
  D typeinfo for CAchievementDLC2RunAllGeneratorsAtOnce
  D typeinfo for CAchievementDLC2SacrificeBill
  D typeinfo for CAchievementDeployAmmoUpgrade
+ D typeinfo for CAchievementDestroyTankRock
+ D typeinfo for CAchievementEarnAllBronzeMedals
+ D typeinfo for CAchievementEarnAllGoldMedals
+ D typeinfo for CAchievementEarnAllMedalsBase
+ D typeinfo for CAchievementEarnAllSilverMedals
+ D typeinfo for CAchievementFindLighthouseHiddenRoom
+ D typeinfo for CAchievementFreeSelfFromSmokerWithMelee
+ D typeinfo for CAchievementGetBronzeMedal
+ D typeinfo for CAchievementGetGoldMedal
  D typeinfo for CAchievementGetMedalWithOnlyMelee
+ D typeinfo for CAchievementGetSilverMedal
  D typeinfo for CAchievementGnomeRescue
  D typeinfo for CAchievementGnomeRescueAsset
  D typeinfo for CAchievementGolfClubHeads
@@ -6232,21 +6283,30 @@
  D typeinfo for CAchievementIncendiaryClownPosse
  D typeinfo for CAchievementKillEveryUncommonInfected
  D typeinfo for CAchievementKillInfectedWithChainsaw
+ D typeinfo for CAchievementKillLeapingHunterWithShotgun
  D typeinfo for CAchievementKillManyWithM60
  D typeinfo for CAchievementKillSpitterFast
  D typeinfo for CAchievementKillSubmergedMudMen
  D typeinfo for CAchievementKillTankL4D1Only
  D typeinfo for CAchievementKillTankMeleeOnly
  D typeinfo for CAchievementKillThenThousandZombies
+ D typeinfo for CAchievementKillWitchMeleeOnly
  D typeinfo for CAchievementKillWithEveryMelee
+ D typeinfo for CAchievementKillXInfectedLifetime
+ D typeinfo for CAchievementKillXJockeysWithMelee
  D typeinfo for CAchievementKillZombiesGrenadeBlast
+ D typeinfo for CAchievementLastStandTimed
  D typeinfo for CAchievementLeaveSaferoomToDefib
  D typeinfo for CAchievementMeleeACharger
  D typeinfo for CAchievementMeleeOnly
  D typeinfo for CAchievementMgr
+ D typeinfo for CAchievementOneShotKillWitchBride
  D typeinfo for CAchievementOpenFootLockers
  D typeinfo for CAchievementPlayC6FinaleScavenge
+ D typeinfo for CAchievementPounceForXDamage
  D typeinfo for CAchievementResSurvivorsWithDefib
+ D typeinfo for CAchievementRescueXPlayersTogether
+ D typeinfo for CAchievementReviveWithActiveTank
  D typeinfo for CAchievementSavePlayerFromJockeyFast
  D typeinfo for CAchievementScavengeCanDropGrind
  D typeinfo for CAchievementScavengeCapGrind
@@ -6263,20 +6323,29 @@
  D typeinfo for CAchievementSurviveCampaign
  D typeinfo for CAchievementSurviveColdStream
  D typeinfo for CAchievementSurviveExpertRealism
+ D typeinfo for CAchievementSurviveLighthouse
+ D typeinfo for CAchievementSurviveLighthouseExpertRealism
  D typeinfo for CAchievementSurviveMall
  D typeinfo for CAchievementSurviveRoad
  D typeinfo for CAchievementSurviveSwamp
  D typeinfo for CAchievementSurviveThePassing
  D typeinfo for CAchievementSurviveTown
+ D typeinfo for CAchievementSurviveXMinutesSurvival
+ D typeinfo for CAchievementSurviveXMinutesVersusSurvival
+ D typeinfo for CAchievementVSSpitOnXGasCans
+ D typeinfo for CAchievementVsBilePlayerNoLineOfSight
  D typeinfo for CAchievementVsBowlEnemyTeam
  D typeinfo for CAchievementVsChargeThroughChairs
  D typeinfo for CAchievementVsChargerGroundSmash
+ D typeinfo for CAchievementVsChargerInstantKill
  D typeinfo for CAchievementVsChargerLongCarry
  D typeinfo for CAchievementVsCompleteDeadAir
  D typeinfo for CAchievementVsJockeyIntoAcid
  D typeinfo for CAchievementVsJockeyLongRide
  D typeinfo for CAchievementVsJockeyTwoPlayers
+ D typeinfo for CAchievementVsSpitOnChargedPlayer
  D typeinfo for CAchievementVsSpitOnEnemyTeam
+ D typeinfo for CAchievementVsSpitOnPouncedPlayer
  D typeinfo for CAchievementVsSpitOnSmokeredPlayer
  D typeinfo for CAchievementWin10ScavengeAsset
  D typeinfo for CAchievementWin10Versus
@@ -7467,6 +7536,7 @@
  D typeinfo for C_SMG_MP5
  D typeinfo for C_SMG_Silenced
  D typeinfo for C_SceneEntity
+ D typeinfo for C_ScriptBaseButton
  D typeinfo for C_SelfDestruct
  D typeinfo for C_ServerRagdoll
  D typeinfo for C_ServerRagdollAttached
@@ -8431,9 +8501,12 @@
  D vtable for CAboveWaterView::CWaterSurfaceView
  D vtable for CAbsProxy
  D vtable for CAchievementAirlineFinaleNoDamage
+ D vtable for CAchievementBeatAtriumBeforeFirstTank
+ D vtable for CAchievementBeatConcertFromStage
  D vtable for CAchievementBileTank
  D vtable for CAchievementBridgeTimedRun
  D vtable for CAchievementCollectCEDAVials
+ D vtable for CAchievementCollectGoldenCrowbars
  D vtable for CAchievementCollectHolidayGifts
  D vtable for CAchievementCompleteChallengeModes
  D vtable for CAchievementDLC2CompleteTheSacrifice
@@ -8442,7 +8515,16 @@
  D vtable for CAchievementDLC2RunAllGeneratorsAtOnce
  D vtable for CAchievementDLC2SacrificeBill
  D vtable for CAchievementDeployAmmoUpgrade
+ D vtable for CAchievementDestroyTankRock
+ D vtable for CAchievementEarnAllBronzeMedals
+ D vtable for CAchievementEarnAllGoldMedals
+ D vtable for CAchievementEarnAllSilverMedals
+ D vtable for CAchievementFindLighthouseHiddenRoom
+ D vtable for CAchievementFreeSelfFromSmokerWithMelee
+ D vtable for CAchievementGetBronzeMedal
+ D vtable for CAchievementGetGoldMedal
  D vtable for CAchievementGetMedalWithOnlyMelee
+ D vtable for CAchievementGetSilverMedal
  D vtable for CAchievementGnomeRescue
  D vtable for CAchievementGnomeRescueAsset
  D vtable for CAchievementGolfClubHeads
@@ -8456,21 +8538,30 @@
  D vtable for CAchievementIncendiaryClownPosse
  D vtable for CAchievementKillEveryUncommonInfected
  D vtable for CAchievementKillInfectedWithChainsaw
+ D vtable for CAchievementKillLeapingHunterWithShotgun
  D vtable for CAchievementKillManyWithM60
  D vtable for CAchievementKillSpitterFast
  D vtable for CAchievementKillSubmergedMudMen
  D vtable for CAchievementKillTankL4D1Only
  D vtable for CAchievementKillTankMeleeOnly
  D vtable for CAchievementKillThenThousandZombies
+ D vtable for CAchievementKillWitchMeleeOnly
  D vtable for CAchievementKillWithEveryMelee
+ D vtable for CAchievementKillXInfectedLifetime
+ D vtable for CAchievementKillXJockeysWithMelee
  D vtable for CAchievementKillZombiesGrenadeBlast
+ D vtable for CAchievementLastStandTimed
  D vtable for CAchievementLeaveSaferoomToDefib
  D vtable for CAchievementMeleeACharger
  D vtable for CAchievementMeleeOnly
  D vtable for CAchievementMgr
+ D vtable for CAchievementOneShotKillWitchBride
  D vtable for CAchievementOpenFootLockers
  D vtable for CAchievementPlayC6FinaleScavenge
+ D vtable for CAchievementPounceForXDamage
  D vtable for CAchievementResSurvivorsWithDefib
+ D vtable for CAchievementRescueXPlayersTogether
+ D vtable for CAchievementReviveWithActiveTank
  D vtable for CAchievementSavePlayerFromJockeyFast
  D vtable for CAchievementScavengeCanDropGrind
  D vtable for CAchievementScavengeCapGrind
@@ -8486,20 +8577,29 @@
  D vtable for CAchievementSurviveBridge
  D vtable for CAchievementSurviveColdStream
  D vtable for CAchievementSurviveExpertRealism
+ D vtable for CAchievementSurviveLighthouse
+ D vtable for CAchievementSurviveLighthouseExpertRealism
  D vtable for CAchievementSurviveMall
  D vtable for CAchievementSurviveRoad
  D vtable for CAchievementSurviveSwamp
  D vtable for CAchievementSurviveThePassing
  D vtable for CAchievementSurviveTown
+ D vtable for CAchievementSurviveXMinutesSurvival
+ D vtable for CAchievementSurviveXMinutesVersusSurvival
+ D vtable for CAchievementVSSpitOnXGasCans
+ D vtable for CAchievementVsBilePlayerNoLineOfSight
  D vtable for CAchievementVsBowlEnemyTeam
  D vtable for CAchievementVsChargeThroughChairs
  D vtable for CAchievementVsChargerGroundSmash
+ D vtable for CAchievementVsChargerInstantKill
  D vtable for CAchievementVsChargerLongCarry
  D vtable for CAchievementVsCompleteDeadAir
  D vtable for CAchievementVsJockeyIntoAcid
  D vtable for CAchievementVsJockeyLongRide
  D vtable for CAchievementVsJockeyTwoPlayers
+ D vtable for CAchievementVsSpitOnChargedPlayer
  D vtable for CAchievementVsSpitOnEnemyTeam
+ D vtable for CAchievementVsSpitOnPouncedPlayer
  D vtable for CAchievementVsSpitOnSmokeredPlayer
  D vtable for CAchievementWin10ScavengeAsset
  D vtable for CAchievementWin10Versus
@@ -9642,6 +9742,7 @@
  D vtable for C_SMG_MP5
  D vtable for C_SMG_Silenced
  D vtable for C_SceneEntity
+ D vtable for C_ScriptBaseButton
  D vtable for C_SelfDestruct
  D vtable for C_ServerRagdoll
  D vtable for C_ServerRagdollAttached
@@ -10092,9 +10193,12 @@
  R typeinfo name for CAboveWaterView::CWaterSurfaceView
  R typeinfo name for CAbsProxy
  R typeinfo name for CAchievementAirlineFinaleNoDamage
+ R typeinfo name for CAchievementBeatAtriumBeforeFirstTank
+ R typeinfo name for CAchievementBeatConcertFromStage
  R typeinfo name for CAchievementBileTank
  R typeinfo name for CAchievementBridgeTimedRun
  R typeinfo name for CAchievementCollectCEDAVials
+ R typeinfo name for CAchievementCollectGoldenCrowbars
  R typeinfo name for CAchievementCollectHolidayGifts
  R typeinfo name for CAchievementCompleteChallengeModes
  R typeinfo name for CAchievementDLC2CompleteTheSacrifice
@@ -10103,7 +10207,17 @@
  R typeinfo name for CAchievementDLC2RunAllGeneratorsAtOnce
  R typeinfo name for CAchievementDLC2SacrificeBill
  R typeinfo name for CAchievementDeployAmmoUpgrade
+ R typeinfo name for CAchievementDestroyTankRock
+ R typeinfo name for CAchievementEarnAllBronzeMedals
+ R typeinfo name for CAchievementEarnAllGoldMedals
+ R typeinfo name for CAchievementEarnAllMedalsBase
+ R typeinfo name for CAchievementEarnAllSilverMedals
+ R typeinfo name for CAchievementFindLighthouseHiddenRoom
+ R typeinfo name for CAchievementFreeSelfFromSmokerWithMelee
+ R typeinfo name for CAchievementGetBronzeMedal
+ R typeinfo name for CAchievementGetGoldMedal
  R typeinfo name for CAchievementGetMedalWithOnlyMelee
+ R typeinfo name for CAchievementGetSilverMedal
  R typeinfo name for CAchievementGnomeRescue
  R typeinfo name for CAchievementGnomeRescueAsset
  R typeinfo name for CAchievementGolfClubHeads
@@ -10117,21 +10231,30 @@
  R typeinfo name for CAchievementIncendiaryClownPosse
  R typeinfo name for CAchievementKillEveryUncommonInfected
  R typeinfo name for CAchievementKillInfectedWithChainsaw
+ R typeinfo name for CAchievementKillLeapingHunterWithShotgun
  R typeinfo name for CAchievementKillManyWithM60
  R typeinfo name for CAchievementKillSpitterFast
  R typeinfo name for CAchievementKillSubmergedMudMen
  R typeinfo name for CAchievementKillTankL4D1Only
  R typeinfo name for CAchievementKillTankMeleeOnly
  R typeinfo name for CAchievementKillThenThousandZombies
+ R typeinfo name for CAchievementKillWitchMeleeOnly
  R typeinfo name for CAchievementKillWithEveryMelee
+ R typeinfo name for CAchievementKillXInfectedLifetime
+ R typeinfo name for CAchievementKillXJockeysWithMelee
  R typeinfo name for CAchievementKillZombiesGrenadeBlast
+ R typeinfo name for CAchievementLastStandTimed
  R typeinfo name for CAchievementLeaveSaferoomToDefib
  R typeinfo name for CAchievementMeleeACharger
  R typeinfo name for CAchievementMeleeOnly
  R typeinfo name for CAchievementMgr
+ R typeinfo name for CAchievementOneShotKillWitchBride
  R typeinfo name for CAchievementOpenFootLockers
  R typeinfo name for CAchievementPlayC6FinaleScavenge
+ R typeinfo name for CAchievementPounceForXDamage
  R typeinfo name for CAchievementResSurvivorsWithDefib
+ R typeinfo name for CAchievementRescueXPlayersTogether
+ R typeinfo name for CAchievementReviveWithActiveTank
  R typeinfo name for CAchievementSavePlayerFromJockeyFast
  R typeinfo name for CAchievementScavengeCanDropGrind
  R typeinfo name for CAchievementScavengeCapGrind
@@ -10148,20 +10271,29 @@
  R typeinfo name for CAchievementSurviveCampaign
  R typeinfo name for CAchievementSurviveColdStream
  R typeinfo name for CAchievementSurviveExpertRealism
+ R typeinfo name for CAchievementSurviveLighthouse
+ R typeinfo name for CAchievementSurviveLighthouseExpertRealism
  R typeinfo name for CAchievementSurviveMall
  R typeinfo name for CAchievementSurviveRoad
  R typeinfo name for CAchievementSurviveSwamp
  R typeinfo name for CAchievementSurviveThePassing
  R typeinfo name for CAchievementSurviveTown
+ R typeinfo name for CAchievementSurviveXMinutesSurvival
+ R typeinfo name for CAchievementSurviveXMinutesVersusSurvival
+ R typeinfo name for CAchievementVSSpitOnXGasCans
+ R typeinfo name for CAchievementVsBilePlayerNoLineOfSight
  R typeinfo name for CAchievementVsBowlEnemyTeam
  R typeinfo name for CAchievementVsChargeThroughChairs
  R typeinfo name for CAchievementVsChargerGroundSmash
+ R typeinfo name for CAchievementVsChargerInstantKill
  R typeinfo name for CAchievementVsChargerLongCarry
  R typeinfo name for CAchievementVsCompleteDeadAir
  R typeinfo name for CAchievementVsJockeyIntoAcid
  R typeinfo name for CAchievementVsJockeyLongRide
  R typeinfo name for CAchievementVsJockeyTwoPlayers
+ R typeinfo name for CAchievementVsSpitOnChargedPlayer
  R typeinfo name for CAchievementVsSpitOnEnemyTeam
+ R typeinfo name for CAchievementVsSpitOnPouncedPlayer
  R typeinfo name for CAchievementVsSpitOnSmokeredPlayer
  R typeinfo name for CAchievementWin10ScavengeAsset
  R typeinfo name for CAchievementWin10Versus
@@ -11353,6 +11485,7 @@
  R typeinfo name for C_SMG_MP5
  R typeinfo name for C_SMG_Silenced
  R typeinfo name for C_SceneEntity
+ R typeinfo name for C_ScriptBaseButton
  R typeinfo name for C_SelfDestruct
  R typeinfo name for C_ServerRagdoll
  R typeinfo name for C_ServerRagdollAttached
@@ -12063,6 +12196,13 @@
  T CAchievementAirlineFinaleNoDamage::OnEvent(char const*, IGameEvent*)
  T CAchievementAirlineFinaleNoDamage::OnLevelBegin()
  T CAchievementAirlineFinaleNoDamage::~CAchievementAirlineFinaleNoDamage()
+ T CAchievementBeatAtriumBeforeFirstTank::Init()
+ T CAchievementBeatAtriumBeforeFirstTank::MustBeAliveToEarn()
+ T CAchievementBeatAtriumBeforeFirstTank::OnEvent(char const*, IGameEvent*)
+ T CAchievementBeatAtriumBeforeFirstTank::~CAchievementBeatAtriumBeforeFirstTank()
+ T CAchievementBeatConcertFromStage::Init()
+ T CAchievementBeatConcertFromStage::OnEvent(char const*, IGameEvent*)
+ T CAchievementBeatConcertFromStage::~CAchievementBeatConcertFromStage()
  T CAchievementBileTank::Init()
  T CAchievementBileTank::OnEvent(char const*, IGameEvent*)
  T CAchievementBileTank::~CAchievementBileTank()
@@ -12077,6 +12217,11 @@
  T CAchievementCollectCEDAVials::ReadProgress(IPlayerLocal*)
  T CAchievementCollectCEDAVials::WriteProgress(IPlayerLocal*)
  T CAchievementCollectCEDAVials::~CAchievementCollectCEDAVials()
+ T CAchievementCollectGoldenCrowbars::Init()
+ T CAchievementCollectGoldenCrowbars::OnEvent(char const*, IGameEvent*)
+ T CAchievementCollectGoldenCrowbars::ReadProgress(IPlayerLocal*)
+ T CAchievementCollectGoldenCrowbars::WriteProgress(IPlayerLocal*)
+ T CAchievementCollectGoldenCrowbars::~CAchievementCollectGoldenCrowbars()
  T CAchievementCollectHolidayGifts::FireGameEvent_Internal(IGameEvent*)
  T CAchievementCollectHolidayGifts::Init()
  T CAchievementCollectHolidayGifts::ListenForEvents()
@@ -12111,11 +12256,52 @@
  T CAchievementDeployAmmoUpgrade::OnEvent(char const*, IGameEvent*)
  T CAchievementDeployAmmoUpgrade::OnLevelBegin()
  T CAchievementDeployAmmoUpgrade::~CAchievementDeployAmmoUpgrade()
+ T CAchievementDestroyTankRock::Init()
+ T CAchievementDestroyTankRock::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
+ T CAchievementDestroyTankRock::~CAchievementDestroyTankRock()
+ T CAchievementEarnAllBronzeMedals::Init()
+ T CAchievementEarnAllBronzeMedals::ReadProgress(IPlayerLocal*)
+ T CAchievementEarnAllBronzeMedals::WriteProgress(IPlayerLocal*)
+ T CAchievementEarnAllBronzeMedals::~CAchievementEarnAllBronzeMedals()
+ T CAchievementEarnAllGoldMedals::Init()
+ T CAchievementEarnAllGoldMedals::ReadProgress(IPlayerLocal*)
+ T CAchievementEarnAllGoldMedals::WriteProgress(IPlayerLocal*)
+ T CAchievementEarnAllGoldMedals::~CAchievementEarnAllGoldMedals()
+ T CAchievementEarnAllMedalsBase::GetComponentDisplayLocalizedString(int)
+ T CAchievementEarnAllMedalsBase::MustBeAliveToEarn()
+ T CAchievementEarnAllMedalsBase::OnEvent(char const*, IGameEvent*)
+ T CAchievementEarnAllMedalsBase::OnLeaderboardUpdate(KeyValues*)
+ T CAchievementEarnAllMedalsBase::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
+ T CAchievementEarnAllSilverMedals::Init()
+ T CAchievementEarnAllSilverMedals::ReadProgress(IPlayerLocal*)
+ T CAchievementEarnAllSilverMedals::WriteProgress(IPlayerLocal*)
+ T CAchievementEarnAllSilverMedals::~CAchievementEarnAllSilverMedals()
+ T CAchievementFindLighthouseHiddenRoom::Init()
+ T CAchievementFindLighthouseHiddenRoom::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
+ T CAchievementFindLighthouseHiddenRoom::~CAchievementFindLighthouseHiddenRoom()
+ T CAchievementFreeSelfFromSmokerWithMelee::Init()
+ T CAchievementFreeSelfFromSmokerWithMelee::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
+ T CAchievementFreeSelfFromSmokerWithMelee::~CAchievementFreeSelfFromSmokerWithMelee()
+ T CAchievementGetBronzeMedal::Init()
+ T CAchievementGetBronzeMedal::MustBeAliveToEarn()
+ T CAchievementGetBronzeMedal::OnEvent(char const*, IGameEvent*)
+ T CAchievementGetBronzeMedal::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
+ T CAchievementGetBronzeMedal::~CAchievementGetBronzeMedal()
+ T CAchievementGetGoldMedal::Init()
+ T CAchievementGetGoldMedal::MustBeAliveToEarn()
+ T CAchievementGetGoldMedal::OnEvent(char const*, IGameEvent*)
+ T CAchievementGetGoldMedal::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
+ T CAchievementGetGoldMedal::~CAchievementGetGoldMedal()
  T CAchievementGetMedalWithOnlyMelee::Init()
  T CAchievementGetMedalWithOnlyMelee::MustBeAliveToEarn()
  T CAchievementGetMedalWithOnlyMelee::OnEvent(char const*, IGameEvent*)
  T CAchievementGetMedalWithOnlyMelee::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
  T CAchievementGetMedalWithOnlyMelee::~CAchievementGetMedalWithOnlyMelee()
+ T CAchievementGetSilverMedal::Init()
+ T CAchievementGetSilverMedal::MustBeAliveToEarn()
+ T CAchievementGetSilverMedal::OnEvent(char const*, IGameEvent*)
+ T CAchievementGetSilverMedal::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
+ T CAchievementGetSilverMedal::~CAchievementGetSilverMedal()
  T CAchievementGnomeRescue::CheckAssetAwards(int)
  T CAchievementGnomeRescue::Init()
  T CAchievementGnomeRescue::OnEvent(char const*, IGameEvent*)
@@ -12174,6 +12360,9 @@
  T CAchievementKillInfectedWithChainsaw::ReadProgress(IPlayerLocal*)
  T CAchievementKillInfectedWithChainsaw::WriteProgress(IPlayerLocal*)
  T CAchievementKillInfectedWithChainsaw::~CAchievementKillInfectedWithChainsaw()
+ T CAchievementKillLeapingHunterWithShotgun::Init()
+ T CAchievementKillLeapingHunterWithShotgun::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
+ T CAchievementKillLeapingHunterWithShotgun::~CAchievementKillLeapingHunterWithShotgun()
  T CAchievementKillManyWithM60::Init()
  T CAchievementKillManyWithM60::OnEvent(char const*, IGameEvent*)
  T CAchievementKillManyWithM60::~CAchievementKillManyWithM60()
@@ -12197,15 +12386,36 @@
  T CAchievementKillThenThousandZombies::ReadProgress(IPlayerLocal*)
  T CAchievementKillThenThousandZombies::WriteProgress(IPlayerLocal*)
  T CAchievementKillThenThousandZombies::~CAchievementKillThenThousandZombies()
+ T CAchievementKillWitchMeleeOnly::Init()
+ T CAchievementKillWitchMeleeOnly::OnEvent(char const*, IGameEvent*)
+ T CAchievementKillWitchMeleeOnly::OnLevelBegin()
+ T CAchievementKillWitchMeleeOnly::~CAchievementKillWitchMeleeOnly()
  T CAchievementKillWithEveryMelee::Init()
  T CAchievementKillWithEveryMelee::OnEvent(char const*, IGameEvent*)
  T CAchievementKillWithEveryMelee::ReadProgress(IPlayerLocal*)
  T CAchievementKillWithEveryMelee::WriteProgress(IPlayerLocal*)
  T CAchievementKillWithEveryMelee::~CAchievementKillWithEveryMelee()
+ T CAchievementKillXInfectedLifetime::Init()
+ T CAchievementKillXInfectedLifetime::OnEvent(char const*, IGameEvent*)
+ T CAchievementKillXInfectedLifetime::ReadProgress(IPlayerLocal*)
+ T CAchievementKillXInfectedLifetime::WriteProgress(IPlayerLocal*)
+ T CAchievementKillXInfectedLifetime::~CAchievementKillXInfectedLifetime()
+ T CAchievementKillXJockeysWithMelee::Init()
+ T CAchievementKillXJockeysWithMelee::OnEvent(char const*, IGameEvent*)
+ T CAchievementKillXJockeysWithMelee::ReadProgress(IPlayerLocal*)
+ T CAchievementKillXJockeysWithMelee::WriteProgress(IPlayerLocal*)
+ T CAchievementKillXJockeysWithMelee::~CAchievementKillXJockeysWithMelee()
  T CAchievementKillZombiesGrenadeBlast::Init()
  T CAchievementKillZombiesGrenadeBlast::OnEvent(char const*, IGameEvent*)
  T CAchievementKillZombiesGrenadeBlast::OnLevelBegin()
  T CAchievementKillZombiesGrenadeBlast::~CAchievementKillZombiesGrenadeBlast()
+ T CAchievementLastStandTimed::Init()
+ T CAchievementLastStandTimed::MustBeAliveToEarn()
+ T CAchievementLastStandTimed::OnCampaignBegin()
+ T CAchievementLastStandTimed::OnCampaignEnd(char const*, int)
+ T CAchievementLastStandTimed::OnEvent(char const*, IGameEvent*)
+ T CAchievementLastStandTimed::OnLevelEnd()
+ T CAchievementLastStandTimed::~CAchievementLastStandTimed()
  T CAchievementLeaveSaferoomToDefib::Init()
  T CAchievementLeaveSaferoomToDefib::OnEvent(char const*, IGameEvent*)
  T CAchievementLeaveSaferoomToDefib::ResetState()
@@ -12241,6 +12451,7 @@
  T CAchievementMgr::OnMapEvent(char const*, int)
  T CAchievementMgr::PostInit()
  T CAchievementMgr::PrintAchievementStatus()
+ T CAchievementMgr::ReadAchievementsFromTitleData(int, int)
  T CAchievementMgr::ResetAchievedDuringCurrentGame(int)
  T CAchievementMgr::ResetAchievement(int)
  T CAchievementMgr::ResetAchievements()
@@ -12254,6 +12465,9 @@
  T CAchievementMgr::~CAchievementMgr()
  T CAchievementNotificationPanel::AddNotification(char const*, wchar_t const*, wchar_t const*)
  T CAchievementNotificationPanel::ShowNextNotification()
+ T CAchievementOneShotKillWitchBride::Init()
+ T CAchievementOneShotKillWitchBride::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
+ T CAchievementOneShotKillWitchBride::~CAchievementOneShotKillWitchBride()
  T CAchievementOpenFootLockers::Init()
  T CAchievementOpenFootLockers::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
  T CAchievementOpenFootLockers::ReadProgress(IPlayerLocal*)
@@ -12264,12 +12478,21 @@
  T CAchievementPlayC6FinaleScavenge::ReadProgress(IPlayerLocal*)
  T CAchievementPlayC6FinaleScavenge::WriteProgress(IPlayerLocal*)
  T CAchievementPlayC6FinaleScavenge::~CAchievementPlayC6FinaleScavenge()
+ T CAchievementPounceForXDamage::Init()
+ T CAchievementPounceForXDamage::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
+ T CAchievementPounceForXDamage::~CAchievementPounceForXDamage()
  T CAchievementResSurvivorsWithDefib::Init()
  T CAchievementResSurvivorsWithDefib::OnEvent(char const*, IGameEvent*)
  T CAchievementResSurvivorsWithDefib::OnLevelBegin()
  T CAchievementResSurvivorsWithDefib::ReadProgress(IPlayerLocal*)
  T CAchievementResSurvivorsWithDefib::WriteProgress(IPlayerLocal*)
  T CAchievementResSurvivorsWithDefib::~CAchievementResSurvivorsWithDefib()
+ T CAchievementRescueXPlayersTogether::Init()
+ T CAchievementRescueXPlayersTogether::OnEvent(char const*, IGameEvent*)
+ T CAchievementRescueXPlayersTogether::~CAchievementRescueXPlayersTogether()
+ T CAchievementReviveWithActiveTank::Init()
+ T CAchievementReviveWithActiveTank::OnEvent(char const*, IGameEvent*)
+ T CAchievementReviveWithActiveTank::~CAchievementReviveWithActiveTank()
  T CAchievementSavePlayerFromJockeyFast::Init()
  T CAchievementSavePlayerFromJockeyFast::OnEvent(char const*, IGameEvent*)
  T CAchievementSavePlayerFromJockeyFast::~CAchievementSavePlayerFromJockeyFast()
@@ -12335,6 +12558,13 @@
  T CAchievementSurviveExpertRealism::OnCampaignEnd(char const*, int)
  T CAchievementSurviveExpertRealism::OnDifficultyChanged(int, int)
  T CAchievementSurviveExpertRealism::~CAchievementSurviveExpertRealism()
+ T CAchievementSurviveLighthouse::Init()
+ T CAchievementSurviveLighthouse::~CAchievementSurviveLighthouse()
+ T CAchievementSurviveLighthouseExpertRealism::Init()
+ T CAchievementSurviveLighthouseExpertRealism::MustBeAliveToEarn()
+ T CAchievementSurviveLighthouseExpertRealism::OnCampaignEnd(char const*, int)
+ T CAchievementSurviveLighthouseExpertRealism::OnDifficultyChanged(int, int)
+ T CAchievementSurviveLighthouseExpertRealism::~CAchievementSurviveLighthouseExpertRealism()
  T CAchievementSurviveMall::Init()
  T CAchievementSurviveMall::~CAchievementSurviveMall()
  T CAchievementSurviveRoad::Init()
@@ -12345,6 +12575,21 @@
  T CAchievementSurviveThePassing::~CAchievementSurviveThePassing()
  T CAchievementSurviveTown::Init()
  T CAchievementSurviveTown::~CAchievementSurviveTown()
+ T CAchievementSurviveXMinutesSurvival::Init()
+ T CAchievementSurviveXMinutesSurvival::MustBeAliveToEarn()
+ T CAchievementSurviveXMinutesSurvival::OnEvent(char const*, IGameEvent*)
+ T CAchievementSurviveXMinutesSurvival::~CAchievementSurviveXMinutesSurvival()
+ T CAchievementSurviveXMinutesVersusSurvival::Init()
+ T CAchievementSurviveXMinutesVersusSurvival::MustBeAliveToEarn()
+ T CAchievementSurviveXMinutesVersusSurvival::OnEvent(char const*, IGameEvent*)
+ T CAchievementSurviveXMinutesVersusSurvival::~CAchievementSurviveXMinutesVersusSurvival()
+ T CAchievementVSSpitOnXGasCans::Init()
+ T CAchievementVSSpitOnXGasCans::ReadProgress(IPlayerLocal*)
+ T CAchievementVSSpitOnXGasCans::WriteProgress(IPlayerLocal*)
+ T CAchievementVSSpitOnXGasCans::~CAchievementVSSpitOnXGasCans()
+ T CAchievementVsBilePlayerNoLineOfSight::Init()
+ T CAchievementVsBilePlayerNoLineOfSight::OnEvent(char const*, IGameEvent*)
+ T CAchievementVsBilePlayerNoLineOfSight::~CAchievementVsBilePlayerNoLineOfSight()
  T CAchievementVsBowlEnemyTeam::Init()
  T CAchievementVsBowlEnemyTeam::OnEvent(char const*, IGameEvent*)
  T CAchievementVsBowlEnemyTeam::ResetState()
@@ -12358,6 +12603,9 @@
  T CAchievementVsChargerGroundSmash::ResetState()
  T CAchievementVsChargerGroundSmash::RoundEnd()
  T CAchievementVsChargerGroundSmash::~CAchievementVsChargerGroundSmash()
+ T CAchievementVsChargerInstantKill::Init()
+ T CAchievementVsChargerInstantKill::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
+ T CAchievementVsChargerInstantKill::~CAchievementVsChargerInstantKill()
  T CAchievementVsChargerLongCarry::Init()
  T CAchievementVsChargerLongCarry::OnEvent(char const*, IGameEvent*)
  T CAchievementVsChargerLongCarry::ResetState()
@@ -12378,10 +12626,18 @@
  T CAchievementVsJockeyTwoPlayers::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
  T CAchievementVsJockeyTwoPlayers::ResetState()
  T CAchievementVsJockeyTwoPlayers::~CAchievementVsJockeyTwoPlayers()
+ T CAchievementVsSpitOnChargedPlayer::Init()
+ T CAchievementVsSpitOnChargedPlayer::OnEvent(char const*, IGameEvent*)
+ T CAchievementVsSpitOnChargedPlayer::ResetState()
+ T CAchievementVsSpitOnChargedPlayer::~CAchievementVsSpitOnChargedPlayer()
  T CAchievementVsSpitOnEnemyTeam::Init()
  T CAchievementVsSpitOnEnemyTeam::OnEvent(char const*, IGameEvent*)
  T CAchievementVsSpitOnEnemyTeam::ResetState()
  T CAchievementVsSpitOnEnemyTeam::~CAchievementVsSpitOnEnemyTeam()
+ T CAchievementVsSpitOnPouncedPlayer::Init()
+ T CAchievementVsSpitOnPouncedPlayer::OnEvent(char const*, IGameEvent*)
+ T CAchievementVsSpitOnPouncedPlayer::ResetState()
+ T CAchievementVsSpitOnPouncedPlayer::~CAchievementVsSpitOnPouncedPlayer()
  T CAchievementVsSpitOnSmokeredPlayer::Init()
  T CAchievementVsSpitOnSmokeredPlayer::OnEvent(char const*, IGameEvent*)
  T CAchievementVsSpitOnSmokeredPlayer::ResetState()
@@ -12505,6 +12761,7 @@
  T CBaseAchievement::FireGameEvent_Internal(IGameEvent*)
  T CBaseAchievement::GetAchievementID()
  T CBaseAchievement::GetComponentBits()
+ T CBaseAchievement::GetComponentDisplayLocalizedString(int)
  T CBaseAchievement::GetComponentDisplayString(int)
  T CBaseAchievement::GetCount()
  T CBaseAchievement::GetDataDescMap()
@@ -12523,6 +12780,7 @@
  T CBaseAchievement::IsAvailable()
  T CBaseAchievement::ListenForEvents()
  T CBaseAchievement::OnComponentEvent(char const*)
+ T CBaseAchievement::OnLeaderboardUpdate(KeyValues*)
  T CBaseAchievement::OnMapEvent(char const*)
  T CBaseAchievement::OnPlayerStatsUpdate()
  T CBaseAchievement::OnSteamUserStatsStored()
@@ -15834,6 +16092,7 @@
  T CInput::MakeWeaponSelection(C_BaseCombatWeapon*)
  T CInput::MouseMove(int, CUserCmd*)
  T CInput::ResetMouse()
+ T CInput::ResponseCurveLook(int, int, float, int, float, float, float)
  T CInput::ScaleMouse(int, float*, float*)
  T CInput::SetFullscreenMousePos(int, int)
  T CInput::SetLastUsedInput(int)
@@ -16092,6 +16351,7 @@
  T CLeft4DeadCompetitiveAchievement::FireGameEvent_Internal(IGameEvent*)
  T CLeft4DeadCompetitiveAchievement::IncrementCount()
  T CLeft4DeadCompetitiveAchievement::ListenForEvents()
+ T CLeft4DeadCompetitiveAchievement::ResetState()
  T CLeft4DeadCompetitiveAchievement::RoundEnd()
  T CLeft4DeadCompetitiveAchievement::RoundStart()
  T CLessOrEqualProxy::Init(IMaterial*, KeyValues*)
@@ -19842,9 +20102,12 @@
  T CTerrorGameRules::IsWeaponPrecacheAllowed(char const*)
  T CTerrorGameRules::LevelInitPostEntity()
  T CTerrorGameRules::LevelInitPreEntity()
+ T CTerrorGameRules::LevelShutdownPostEntity()
  T CTerrorGameRules::OnMatchEvent(KeyValues*)
  T CTerrorGameRules::OnSurvivalStatsDownloaded(int, unsigned long long)
  T CTerrorGameRules::PlayersAllowedToAttack() const
+ T CTerrorGameRules::RevertSavedConvars()
+ T CTerrorGameRules::SaveConvar(ConVarRef const&)
  T CTerrorGameRules::~CTerrorGameRules()
  T CTerrorGameRulesProxy::GetClientClass()
  T CTerrorGameRulesProxy::YouForgotToImplementOrDeclareClientClass()
@@ -22250,7 +22513,6 @@
  T C_BaseAnimating::InvalidateBoneCaches()
  T C_BaseAnimating::IsActivityFinished()
  T C_BaseAnimating::IsBoneAccessAllowed() const
- T C_BaseAnimating::IsBoneCacheValid() const
  T C_BaseAnimating::IsMenuModel() const
  T C_BaseAnimating::IsRagdoll() const
  T C_BaseAnimating::IsSelfAnimating()
@@ -26095,6 +26357,9 @@
  T C_SceneEntity::UnloadScene()
  T C_SceneEntity::YouForgotToImplementOrDeclareClientClass()
  T C_SceneEntity::~C_SceneEntity()
+ T C_ScriptBaseButton::GetClientClass()
+ T C_ScriptBaseButton::YouForgotToImplementOrDeclareClientClass()
+ T C_ScriptBaseButton::~C_ScriptBaseButton()
  T C_SelfDestruct::ActivateAbility()
  T C_SelfDestruct::GetButton() const
  T C_SelfDestruct::GetClientClass()
@@ -27095,6 +27360,7 @@
  T C_TerrorPlayer::UpdateTankEffects()
  T C_TerrorPlayer::UpdateUseTarget()
  T C_TerrorPlayer::UpdateViewOffset(Vector const&, QAngle const&)
+ T C_TerrorPlayer::UseDoor(C_BasePropDoor*)
  T C_TerrorPlayer::WeaponHasInfiniteAmmo(C_BaseCombatWeapon*)
  T C_TerrorPlayer::Weapon_GetSlot(int) const
  T C_TerrorPlayer::YouForgotToImplementOrDeclareClientClass()
@@ -27652,6 +27918,7 @@
  T ClientWorldListInfo_t::AllocPooled(ClientWorldListInfo_t const&)
  T ClientWorldListInfo_t::OnFinalRelease()
  T ClientWorldListInfo_t::~ClientWorldListInfo_t()
+ T CloseRadialMenu(char const*, bool)
  T Cmd_CAM_ToFirstPerson()
  T Cmd_CAM_ToOrthographic()
  T Cmd_CAM_ToThirdPerson()
@@ -28414,6 +28681,8 @@
  T IN_MoverightUp(CCommand const&)
  T IN_ReloadDown(CCommand const&)
  T IN_ReloadUp(CCommand const&)
+ T IN_ResetCameraDown(CCommand const&)
+ T IN_ResetCameraUp(CCommand const&)
  T IN_RightDown(CCommand const&)
  T IN_RightUp(CCommand const&)
  T IN_ScoreDown(CCommand const&)
@@ -29565,6 +29834,7 @@
  T V_UTF8ToUnicode(char const*, wchar_t*, int)
  T V_UnicodeToUTF8(wchar_t const*, char*, int)
  T V_UnqualifiedFileName(char const*)
+ T V_atod(char const*)
  T V_atof(char const*)
  T V_atoi(char const*)
  T V_atoi64(char const*)
@@ -29734,6 +30004,7 @@
  T __MsgFunc_MusicCmd(bf_read&)
  T __MsgFunc_ReloadEffect(bf_read&)
  T __MsgFunc_RequestState(bf_read&)
+ T __MsgFunc_SavedConvar(bf_read&)
  T __MsgFunc_Shake(bf_read&)
  T __MsgFunc_SteamWeaponStatData(bf_read&)
  T __MsgFunc_VoiceMask(bf_read&)
@@ -29987,6 +30258,7 @@
  T int ClientClassInit<DT_ScavengeItemSpawn::ignored>(DT_ScavengeItemSpawn::ignored*)
  T int ClientClassInit<DT_ScavengeProgressDisplay::ignored>(DT_ScavengeProgressDisplay::ignored*)
  T int ClientClassInit<DT_SceneEntity::ignored>(DT_SceneEntity::ignored*)
+ T int ClientClassInit<DT_ScriptBaseButton::ignored>(DT_ScriptBaseButton::ignored*)
  T int ClientClassInit<DT_SelfDestruct::ignored>(DT_SelfDestruct::ignored*)
  T int ClientClassInit<DT_ServerAnimationData::ignored>(DT_ServerAnimationData::ignored*)
  T int ClientClassInit<DT_ShadowControl::ignored>(DT_ShadowControl::ignored*)
@@ -30120,6 +30392,7 @@
  T non-virtual thunk to Beam_t::GetRenderOrigin()
  T non-virtual thunk to Beam_t::RenderableToWorldTransform()
  T non-virtual thunk to Beam_t::ShouldDraw()
+ T non-virtual thunk to CAchievementEarnAllMedalsBase::GetComponentDisplayLocalizedString(int)
  T non-virtual thunk to CAchievementMgr::AwardAchievement(int, int)
  T non-virtual thunk to CAchievementMgr::FireGameEvent(IGameEvent*)
  T non-virtual thunk to CAchievementMgr::GetAchievedDuringCurrentGame(int)
@@ -30137,6 +30410,7 @@
  T non-virtual thunk to CAchievementMgr::~CAchievementMgr()
  T non-virtual thunk to CBaseAchievement::GetAchievementID()
  T non-virtual thunk to CBaseAchievement::GetComponentBits()
+ T non-virtual thunk to CBaseAchievement::GetComponentDisplayLocalizedString(int)
  T non-virtual thunk to CBaseAchievement::GetComponentDisplayString(int)
  T non-virtual thunk to CBaseAchievement::GetCount()
  T non-virtual thunk to CBaseAchievement::GetDisplayOrder()
@@ -31469,6 +31743,7 @@
  T non-virtual thunk to C_SceneEntity::PreDataUpdate(DataUpdateType_t)
  T non-virtual thunk to C_SceneEntity::ProcessEvent(float, CChoreoScene*, CChoreoEvent*)
  T non-virtual thunk to C_SceneEntity::StartEvent(float, CChoreoScene*, CChoreoEvent*)
+ T non-virtual thunk to C_ScriptBaseButton::GetClientClass()
  T non-virtual thunk to C_SelfDestruct::GetClientClass()
  T non-virtual thunk to C_ServerRagdoll::GetClientClass()
  T non-virtual thunk to C_ServerRagdoll::GetRenderBounds(Vector&, Vector&)
@@ -34404,6 +34679,8 @@
  b CInput::Joystick_Advanced(bool)::s_joy_movement_stick
  b CInput::SteamControllerMove(int, float, CUserCmd*)::bControllerTablesInitialized
  b CInput::SteamControllerMove(int, float, CUserCmd*)::bWasUIVisible
+ b CInput::SteamControllerMove(int, float, CUserCmd*)::s_joy_pitchsensitivity
+ b CInput::SteamControllerMove(int, float, CUserCmd*)::s_joy_yawsensitivity
  b CLocatorPanel::AnimateIconSize(int, int*, int*, float)::ss_verticalsplit
  b CMaterialModifyProxy::OnBindFloatLerp(C_MaterialModifyControl*)::count
  b CModelPanel::Paint()::white
@@ -35036,6 +35313,7 @@
  b endpitchdown
  b endpitcup
  b endreload
+ b endresetcamera
  b endright
  b endscore
  b endshowscores
@@ -35074,15 +35352,19 @@
  b gDamageCutoutHalfBodyWounds
  b gDamageCutoutHalfBodyWoundsCEDA
  b gDamageCutoutHalfBodyWoundsFemale
+ b gDamageCutoutHalfBodyWoundsFemale_l4d1
  b gDamageCutoutHalfBodyWoundsHospitalPatient
  b gDamageCutoutHalfBodyWoundsJimmy
  b gDamageCutoutHalfBodyWoundsRiot
+ b gDamageCutoutHalfBodyWounds_l4d1
  b gDamageCutoutInfoArray
  b gDamageCutoutInfoArrayCEDA
  b gDamageCutoutInfoArrayFemale
+ b gDamageCutoutInfoArrayFemale_l4d1
  b gDamageCutoutInfoArrayHospitalPatient
  b gDamageCutoutInfoArrayJimmy
  b gDamageCutoutInfoArrayRiot
+ b gDamageCutoutInfoArray_l4d1
  b gNullWeaponInfo
  b gRagdolls
  b g_ActivityDataOps
@@ -35099,9 +35381,12 @@
  b g_BuildModeDialogMgr
  b g_Button_Helper
  b g_CAchievementAirlineFinaleNoDamage_Helper
+ b g_CAchievementBeatAtriumBeforeFirstTank_Helper
+ b g_CAchievementBeatConcertFromStage_Helper
  b g_CAchievementBileTank_Helper
  b g_CAchievementBridgeTimedRun_Helper
  b g_CAchievementCollectCEDAVials_Helper
+ b g_CAchievementCollectGoldenCrowbars_Helper
  b g_CAchievementCollectHolidayGifts_Helper
  b g_CAchievementCompleteChallengeModes_Helper
  b g_CAchievementDLC2CompleteTheSacrifice_Helper
@@ -35110,7 +35395,16 @@
  b g_CAchievementDLC2RunAllGeneratorsAtOnce_Helper
  b g_CAchievementDLC2SacrificeBill_Helper
  b g_CAchievementDeployAmmoUpgrade_Helper
+ b g_CAchievementDestroyTankRock_Helper
+ b g_CAchievementEarnAllBronzeMedals_Helper
+ b g_CAchievementEarnAllGoldMedals_Helper
+ b g_CAchievementEarnAllSilverMedals_Helper
+ b g_CAchievementFindLighthouseHiddenRoom_Helper
+ b g_CAchievementFreeSelfFromSmokerWithMelee_Helper
+ b g_CAchievementGetBronzeMedal_Helper
+ b g_CAchievementGetGoldMedal_Helper
  b g_CAchievementGetMedalWithOnlyMelee_Helper
+ b g_CAchievementGetSilverMedal_Helper
  b g_CAchievementGnomeRescueAsset_Helper
  b g_CAchievementGnomeRescue_Helper
  b g_CAchievementGolfClubHeads_Helper
@@ -35124,20 +35418,29 @@
  b g_CAchievementIncendiaryClownPosse_Helper
  b g_CAchievementKillEveryUncommonInfected_Helper
  b g_CAchievementKillInfectedWithChainsaw_Helper
+ b g_CAchievementKillLeapingHunterWithShotgun_Helper
  b g_CAchievementKillManyWithM60_Helper
  b g_CAchievementKillSpitterFast_Helper
  b g_CAchievementKillSubmergedMudMen_Helper
  b g_CAchievementKillTankL4D1Only_Helper
  b g_CAchievementKillTankMeleeOnly_Helper
  b g_CAchievementKillThenThousandZombies_Helper
+ b g_CAchievementKillWitchMeleeOnly_Helper
  b g_CAchievementKillWithEveryMelee_Helper
+ b g_CAchievementKillXInfectedLifetime_Helper
+ b g_CAchievementKillXJockeysWithMelee_Helper
  b g_CAchievementKillZombiesGrenadeBlast_Helper
+ b g_CAchievementLastStandTimed_Helper
  b g_CAchievementLeaveSaferoomToDefib_Helper
  b g_CAchievementMeleeACharger_Helper
  b g_CAchievementMeleeOnly_Helper
+ b g_CAchievementOneShotKillWitchBride_Helper
  b g_CAchievementOpenFootLockers_Helper
  b g_CAchievementPlayC6FinaleScavenge_Helper
+ b g_CAchievementPounceForXDamage_Helper
  b g_CAchievementResSurvivorsWithDefib_Helper
+ b g_CAchievementRescueXPlayersTogether_Helper
+ b g_CAchievementReviveWithActiveTank_Helper
  b g_CAchievementSavePlayerFromJockeyFast_Helper
  b g_CAchievementScavengeCanDropGrind_Helper
  b g_CAchievementScavengeCapGrind_Helper
@@ -35153,20 +35456,29 @@
  b g_CAchievementSurviveBridge_Helper
  b g_CAchievementSurviveColdStream_Helper
  b g_CAchievementSurviveExpertRealism_Helper
+ b g_CAchievementSurviveLighthouseExpertRealism_Helper
+ b g_CAchievementSurviveLighthouse_Helper
  b g_CAchievementSurviveMall_Helper
  b g_CAchievementSurviveRoad_Helper
  b g_CAchievementSurviveSwamp_Helper
  b g_CAchievementSurviveThePassing_Helper
  b g_CAchievementSurviveTown_Helper
+ b g_CAchievementSurviveXMinutesSurvival_Helper
+ b g_CAchievementSurviveXMinutesVersusSurvival_Helper
+ b g_CAchievementVSSpitOnXGasCans_Helper
+ b g_CAchievementVsBilePlayerNoLineOfSight_Helper
  b g_CAchievementVsBowlEnemyTeam_Helper
  b g_CAchievementVsChargeThroughChairs_Helper
  b g_CAchievementVsChargerGroundSmash_Helper
+ b g_CAchievementVsChargerInstantKill_Helper
  b g_CAchievementVsChargerLongCarry_Helper
  b g_CAchievementVsCompleteDeadAir_Helper
  b g_CAchievementVsJockeyIntoAcid_Helper
  b g_CAchievementVsJockeyLongRide_Helper
  b g_CAchievementVsJockeyTwoPlayers_Helper
+ b g_CAchievementVsSpitOnChargedPlayer_Helper
  b g_CAchievementVsSpitOnEnemyTeam_Helper
+ b g_CAchievementVsSpitOnPouncedPlayer_Helper
  b g_CAchievementVsSpitOnSmokeredPlayer_Helper
  b g_CAchievementWin10ScavengeAsset_Helper
  b g_CAchievementWin10Versus_Helper
@@ -35252,6 +35564,7 @@
  b g_ContinuousProgressBar_Helper
  b g_Controller
  b g_ControllerCameraHandle
+ b g_ControllerCameraJoystickHandle
  b g_ControllerDigitalActionState
  b g_ControllerMoveHandle
  b g_CvarToggleCheckButton_Helper
@@ -35493,6 +35806,8 @@
  b guard variable for CInput::JoyStickMove(float, CUserCmd*)::s_joy_pitchsensitivity
  b guard variable for CInput::JoyStickMove(float, CUserCmd*)::s_joy_yawsensitivity
  b guard variable for CInput::Joystick_Advanced(bool)::s_joy_movement_stick
+ b guard variable for CInput::SteamControllerMove(int, float, CUserCmd*)::s_joy_pitchsensitivity
+ b guard variable for CInput::SteamControllerMove(int, float, CUserCmd*)::s_joy_yawsensitivity
  b guard variable for CLocatorPanel::AnimateIconSize(int, int*, int*, float)::ss_verticalsplit
  b guard variable for CModelPanel::Paint()::white
  b guard variable for CNewParticleEffect::RecordControlPointOrientation(int)::state
@@ -36171,6 +36486,9 @@
  b s_viewFadeColor
  b s_windControllers
  b sc_enable
+ b sc_joystick_pitch_sensitivity
+ b sc_joystick_yaw_sensitivity
+ b sc_mouse_sensitivity
  b sc_pitch_sensitivity
  b sc_pitch_sensitivity_default
  b sc_yaw_sensitivity
@@ -36256,6 +36574,7 @@
  b startpitchdown
  b startpitchup
  b startreload
+ b startresetcamera
  b startright
  b startscore
  b startshowscores
@@ -36292,6 +36611,7 @@
  b userMessageRegister_CurrentTimescale
  b userMessageRegister_DesiredTimescale
  b userMessageRegister_ReloadEffect
+ b userMessageRegister_SavedConvar
  b v_centermove
  b v_centerspeed
  b vec2_invalid
@@ -36356,6 +36676,7 @@
  cos
  cosf
  d (anonymous namespace)::protobuf_AssignDescriptors_once_
+ d CAchievementMgr::ReadAchievementsFromTitleData(int, int)::szLegacyLeaderboards
  d CHLClient::CheckStrictBindingTokens(char const*, char const*)::arr
  d CHudSurvivalTimer::OnTargetTimeChanged()::m_pszMedalLocalizationKeys
  d CModelRenderSystem::RenderVCollideDebugOverlay(int, CModelRenderSystem::ModelListByType_t*)::debugColor
@@ -36942,9 +37263,12 @@
  t Create_AnimatingImagePanel()
  t Create_Button()
  t Create_CAchievementAirlineFinaleNoDamage()
+ t Create_CAchievementBeatAtriumBeforeFirstTank()
+ t Create_CAchievementBeatConcertFromStage()
  t Create_CAchievementBileTank()
  t Create_CAchievementBridgeTimedRun()
  t Create_CAchievementCollectCEDAVials()
+ t Create_CAchievementCollectGoldenCrowbars()
  t Create_CAchievementCollectHolidayGifts()
  t Create_CAchievementCompleteChallengeModes()
  t Create_CAchievementDLC2CompleteTheSacrifice()
@@ -36953,7 +37277,16 @@
  t Create_CAchievementDLC2RunAllGeneratorsAtOnce()
  t Create_CAchievementDLC2SacrificeBill()
  t Create_CAchievementDeployAmmoUpgrade()
+ t Create_CAchievementDestroyTankRock()
+ t Create_CAchievementEarnAllBronzeMedals()
+ t Create_CAchievementEarnAllGoldMedals()
+ t Create_CAchievementEarnAllSilverMedals()
+ t Create_CAchievementFindLighthouseHiddenRoom()
+ t Create_CAchievementFreeSelfFromSmokerWithMelee()
+ t Create_CAchievementGetBronzeMedal()
+ t Create_CAchievementGetGoldMedal()
  t Create_CAchievementGetMedalWithOnlyMelee()
+ t Create_CAchievementGetSilverMedal()
  t Create_CAchievementGnomeRescue()
  t Create_CAchievementGnomeRescueAsset()
  t Create_CAchievementGolfClubHeads()
@@ -36967,20 +37300,29 @@
  t Create_CAchievementIncendiaryClownPosse()
  t Create_CAchievementKillEveryUncommonInfected()
  t Create_CAchievementKillInfectedWithChainsaw()
+ t Create_CAchievementKillLeapingHunterWithShotgun()
  t Create_CAchievementKillManyWithM60()
  t Create_CAchievementKillSpitterFast()
  t Create_CAchievementKillSubmergedMudMen()
  t Create_CAchievementKillTankL4D1Only()
  t Create_CAchievementKillTankMeleeOnly()
  t Create_CAchievementKillThenThousandZombies()
+ t Create_CAchievementKillWitchMeleeOnly()
  t Create_CAchievementKillWithEveryMelee()
+ t Create_CAchievementKillXInfectedLifetime()
+ t Create_CAchievementKillXJockeysWithMelee()
  t Create_CAchievementKillZombiesGrenadeBlast()
+ t Create_CAchievementLastStandTimed()
  t Create_CAchievementLeaveSaferoomToDefib()
  t Create_CAchievementMeleeACharger()
  t Create_CAchievementMeleeOnly()
+ t Create_CAchievementOneShotKillWitchBride()
  t Create_CAchievementOpenFootLockers()
  t Create_CAchievementPlayC6FinaleScavenge()
+ t Create_CAchievementPounceForXDamage()
  t Create_CAchievementResSurvivorsWithDefib()
+ t Create_CAchievementRescueXPlayersTogether()
+ t Create_CAchievementReviveWithActiveTank()
  t Create_CAchievementSavePlayerFromJockeyFast()
  t Create_CAchievementScavengeCanDropGrind()
  t Create_CAchievementScavengeCapGrind()
@@ -36996,20 +37338,29 @@
  t Create_CAchievementSurviveBridge()
  t Create_CAchievementSurviveColdStream()
  t Create_CAchievementSurviveExpertRealism()
+ t Create_CAchievementSurviveLighthouse()
+ t Create_CAchievementSurviveLighthouseExpertRealism()
  t Create_CAchievementSurviveMall()
  t Create_CAchievementSurviveRoad()
  t Create_CAchievementSurviveSwamp()
  t Create_CAchievementSurviveThePassing()
  t Create_CAchievementSurviveTown()
+ t Create_CAchievementSurviveXMinutesSurvival()
+ t Create_CAchievementSurviveXMinutesVersusSurvival()
+ t Create_CAchievementVSSpitOnXGasCans()
+ t Create_CAchievementVsBilePlayerNoLineOfSight()
  t Create_CAchievementVsBowlEnemyTeam()
  t Create_CAchievementVsChargeThroughChairs()
  t Create_CAchievementVsChargerGroundSmash()
+ t Create_CAchievementVsChargerInstantKill()
  t Create_CAchievementVsChargerLongCarry()
  t Create_CAchievementVsCompleteDeadAir()
  t Create_CAchievementVsJockeyIntoAcid()
  t Create_CAchievementVsJockeyLongRide()
  t Create_CAchievementVsJockeyTwoPlayers()
+ t Create_CAchievementVsSpitOnChargedPlayer()
  t Create_CAchievementVsSpitOnEnemyTeam()
+ t Create_CAchievementVsSpitOnPouncedPlayer()
  t Create_CAchievementVsSpitOnSmokeredPlayer()
  t Create_CAchievementWin10ScavengeAsset()
  t Create_CAchievementWin10Versus()
@@ -37197,8 +37548,9 @@
  t MeleeReloadInfo_f()
  t MissionSortFunc(void const*, void const*)
  t Noise(float*, int, float)
- t OpenRadialMenuOrders()
- t OpenRadialMenuQA()
+ t OnVoiceAllIconsChanged(IConVar*, char const*, float)
+ t OpenRadialMenuOrders(bool)
+ t OpenRadialMenuQA(bool)
  t OverlayFrameBufferTexture(int)
  t OverlayWaterTexture(IMaterial*, int, int, bool)
  t PerformBloodSplatter(Vector const&)
@@ -37211,6 +37563,8 @@
  t PrintSteamStats()
  t ProcessLabel(char const*)
  t ProcessPSystem(CNewParticleEffect*&)
+ t RadialMenuAccept(bool)
+ t RadialMenuDecline(bool)
  t RecordArmorRicochet(Vector const&, Vector const&)
  t RecordBloodSprite(Vector const&, Vector const&, int, int, int, int, int, int, int)
  t RecordBreakModel(Vector const&, QAngle const&, Vector const&, Vector const&, int, int, int, float, int)
@@ -37240,7 +37594,6 @@
  t RemoveDecals_f()
  t ResetSpawnMenuViewCounts()
  t ResetSteamStats()
- t ResponseCurveLook(int, int, float, int, float, float, float)
  t S_MusicPrint(CCommand const&)
  t S_SetSoundParam(CCommand const&)
  t ScoreSort(PZScoreType const*, PZScoreType const*)
@@ -37436,6 +37789,7 @@
  t _C_SMG_MP5_CreateObject(int, int)
  t _C_SMG_Silenced_CreateObject(int, int)
  t _C_SceneEntity_CreateObject(int, int)
+ t _C_ScriptBaseButton_CreateObject(int, int)
  t _C_SelfDestruct_CreateObject(int, int)
  t _C_ServerRagdollAttached_CreateObject(int, int)
  t _C_ServerRagdoll_CreateObject(int, int)
