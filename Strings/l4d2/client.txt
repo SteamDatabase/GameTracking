@@ -810,7 +810,6 @@ $&YA1
 $>!@v>
 $@ `0
 $@8CRagdoll
-$@@PP
 $AAInternal1
 $AAInternal2
 $AAInternal3
@@ -824,6 +823,7 @@ $LINEARREAD_BASETEXTURE
 $LINEARWRITE
 $MotionBlurInternal
 $MotionBlurViewportInternal
+$P@@PP
 $USINGPIXELSHADER
 $^_[]
 $alpha
@@ -7697,6 +7697,7 @@ CAchievementBeatAtriumBeforeFirstTank::OnEvent(char const*, IGameEvent*)
 CAchievementBeatAtriumBeforeFirstTank::~CAchievementBeatAtriumBeforeFirstTank()
 CAchievementBeatConcertFromStage::Init()
 CAchievementBeatConcertFromStage::Init()::s_szEvents
+CAchievementBeatConcertFromStage::MustBeAliveToEarn()
 CAchievementBeatConcertFromStage::OnEvent(char const*, IGameEvent*)
 CAchievementBeatConcertFromStage::~CAchievementBeatConcertFromStage()
 CAchievementBileTank::Init()
@@ -7786,14 +7787,13 @@ CAchievementEarnAllMedalsBase::Init()::szComponents
 CAchievementEarnAllMedalsBase::MustBeAliveToEarn()
 CAchievementEarnAllMedalsBase::OnEvent(char const*, IGameEvent*)
 CAchievementEarnAllMedalsBase::OnLeaderboardUpdate(KeyValues*)
-CAchievementEarnAllMedalsBase::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
 CAchievementEarnAllSilverMedals::Init()
 CAchievementEarnAllSilverMedals::ReadProgress(IPlayerLocal*)
 CAchievementEarnAllSilverMedals::WriteProgress(IPlayerLocal*)
 CAchievementEarnAllSilverMedals::~CAchievementEarnAllSilverMedals()
 CAchievementFindLighthouseHiddenRoom::Init()
 CAchievementFindLighthouseHiddenRoom::Init()::s_szEvents
-CAchievementFindLighthouseHiddenRoom::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
+CAchievementFindLighthouseHiddenRoom::OnEvent(char const*, IGameEvent*)
 CAchievementFindLighthouseHiddenRoom::~CAchievementFindLighthouseHiddenRoom()
 CAchievementFreeSelfFromSmokerWithMelee::Init()
 CAchievementFreeSelfFromSmokerWithMelee::Init()::s_szEvents
@@ -7803,25 +7803,21 @@ CAchievementGetBronzeMedal::Init()
 CAchievementGetBronzeMedal::Init()::s_szEvents
 CAchievementGetBronzeMedal::MustBeAliveToEarn()
 CAchievementGetBronzeMedal::OnEvent(char const*, IGameEvent*)
-CAchievementGetBronzeMedal::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
 CAchievementGetBronzeMedal::~CAchievementGetBronzeMedal()
 CAchievementGetGoldMedal::Init()
 CAchievementGetGoldMedal::Init()::s_szEvents
 CAchievementGetGoldMedal::MustBeAliveToEarn()
 CAchievementGetGoldMedal::OnEvent(char const*, IGameEvent*)
-CAchievementGetGoldMedal::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
 CAchievementGetGoldMedal::~CAchievementGetGoldMedal()
 CAchievementGetMedalWithOnlyMelee::Init()
 CAchievementGetMedalWithOnlyMelee::Init()::s_szEvents
 CAchievementGetMedalWithOnlyMelee::MustBeAliveToEarn()
 CAchievementGetMedalWithOnlyMelee::OnEvent(char const*, IGameEvent*)
-CAchievementGetMedalWithOnlyMelee::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
 CAchievementGetMedalWithOnlyMelee::~CAchievementGetMedalWithOnlyMelee()
 CAchievementGetSilverMedal::Init()
 CAchievementGetSilverMedal::Init()::s_szEvents
 CAchievementGetSilverMedal::MustBeAliveToEarn()
 CAchievementGetSilverMedal::OnEvent(char const*, IGameEvent*)
-CAchievementGetSilverMedal::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
 CAchievementGetSilverMedal::~CAchievementGetSilverMedal()
 CAchievementGnomeRescue::CheckAssetAwards(int)
 CAchievementGnomeRescue::Init()
@@ -12764,7 +12760,7 @@ CInput::AdjustAngles(int, float)
 CInput::AdjustPitch(int, float, QAngle&)
 CInput::AdjustYaw(int, float, QAngle&)
 CInput::ApplyMouse(int, QAngle&, CUserCmd*, float, float)
-CInput::ApplySteamControllerCameraMove(int, QAngle&, CUserCmd*, Vector2D)
+CInput::ApplySteamControllerCameraMove(int, QAngle&, CUserCmd*, Vector2D, float&)
 CInput::CAM_CameraThirdThink()
 CInput::CAM_Command(int)
 CInput::CAM_EndDistance()
@@ -12838,10 +12834,11 @@ CInput::SetLastUsedInput(int)
 CInput::Shutdown_All()
 CInput::Shutdown_TrackIR()
 CInput::SteamControllerMove(int, float, CUserCmd*)
-CInput::SteamControllerMove(int, float, CUserCmd*)::bControllerTablesInitialized
 CInput::SteamControllerMove(int, float, CUserCmd*)::bWasUIVisible
+CInput::SteamControllerMove(int, float, CUserCmd*)::nControllersInitialized
 CInput::SteamControllerMove(int, float, CUserCmd*)::s_joy_pitchsensitivity
 CInput::SteamControllerMove(int, float, CUserCmd*)::s_joy_yawsensitivity
+CInput::SteamController_SetSampleTime(float)
 CInput::TrackIRMove(float, CUserCmd*)
 CInput::ValidateUserCmd(CUserCmd*, int)
 CInput::WriteUsercmdDeltaToBuffer(int, bf_write*, int, int, bool)
@@ -32090,7 +32087,6 @@ NV_DST24
 NV_INTZ
 NV_NULL
 NV_RAWZ
-N_Ju"
 NamVet
 Name					Count		Child Count Per Instance
 Name:
@@ -34220,8 +34216,6 @@ SteamController004
 SteamFriends015
 SteamGameStats001
 SteamInput global mouse sensitivity factor
-SteamInput joystick pitch factor.
-SteamInput joystick yaw factor.
 SteamInternal_ModuleContext()::ctx
 SteamLightGreen
 SteamMatchMaking009
@@ -40233,6 +40227,7 @@ experimental_map_key
 expires
 explode_fire
 explode_ice
+exploded
 explosion
 explosion_buildup
 explosion_delay
@@ -48682,8 +48677,6 @@ sb_perf_dump_low
 sb_perf_dump_low_dist
 sb_pushscale
 sc_enable
-sc_joystick_pitch_sensitivity
-sc_joystick_yaw_sensitivity
 sc_mouse_sensitivity
 sc_pitch_sensitivity
 sc_pitch_sensitivity_default

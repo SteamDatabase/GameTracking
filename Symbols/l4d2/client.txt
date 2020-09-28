@@ -12201,6 +12201,7 @@
  T CAchievementBeatAtriumBeforeFirstTank::OnEvent(char const*, IGameEvent*)
  T CAchievementBeatAtriumBeforeFirstTank::~CAchievementBeatAtriumBeforeFirstTank()
  T CAchievementBeatConcertFromStage::Init()
+ T CAchievementBeatConcertFromStage::MustBeAliveToEarn()
  T CAchievementBeatConcertFromStage::OnEvent(char const*, IGameEvent*)
  T CAchievementBeatConcertFromStage::~CAchievementBeatConcertFromStage()
  T CAchievementBileTank::Init()
@@ -12271,13 +12272,12 @@
  T CAchievementEarnAllMedalsBase::MustBeAliveToEarn()
  T CAchievementEarnAllMedalsBase::OnEvent(char const*, IGameEvent*)
  T CAchievementEarnAllMedalsBase::OnLeaderboardUpdate(KeyValues*)
- T CAchievementEarnAllMedalsBase::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
  T CAchievementEarnAllSilverMedals::Init()
  T CAchievementEarnAllSilverMedals::ReadProgress(IPlayerLocal*)
  T CAchievementEarnAllSilverMedals::WriteProgress(IPlayerLocal*)
  T CAchievementEarnAllSilverMedals::~CAchievementEarnAllSilverMedals()
  T CAchievementFindLighthouseHiddenRoom::Init()
- T CAchievementFindLighthouseHiddenRoom::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
+ T CAchievementFindLighthouseHiddenRoom::OnEvent(char const*, IGameEvent*)
  T CAchievementFindLighthouseHiddenRoom::~CAchievementFindLighthouseHiddenRoom()
  T CAchievementFreeSelfFromSmokerWithMelee::Init()
  T CAchievementFreeSelfFromSmokerWithMelee::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
@@ -12285,22 +12285,18 @@
  T CAchievementGetBronzeMedal::Init()
  T CAchievementGetBronzeMedal::MustBeAliveToEarn()
  T CAchievementGetBronzeMedal::OnEvent(char const*, IGameEvent*)
- T CAchievementGetBronzeMedal::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
  T CAchievementGetBronzeMedal::~CAchievementGetBronzeMedal()
  T CAchievementGetGoldMedal::Init()
  T CAchievementGetGoldMedal::MustBeAliveToEarn()
  T CAchievementGetGoldMedal::OnEvent(char const*, IGameEvent*)
- T CAchievementGetGoldMedal::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
  T CAchievementGetGoldMedal::~CAchievementGetGoldMedal()
  T CAchievementGetMedalWithOnlyMelee::Init()
  T CAchievementGetMedalWithOnlyMelee::MustBeAliveToEarn()
  T CAchievementGetMedalWithOnlyMelee::OnEvent(char const*, IGameEvent*)
- T CAchievementGetMedalWithOnlyMelee::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
  T CAchievementGetMedalWithOnlyMelee::~CAchievementGetMedalWithOnlyMelee()
  T CAchievementGetSilverMedal::Init()
  T CAchievementGetSilverMedal::MustBeAliveToEarn()
  T CAchievementGetSilverMedal::OnEvent(char const*, IGameEvent*)
- T CAchievementGetSilverMedal::OnLocalPlayerEvent(C_BasePlayer*, char const*, IGameEvent*)
  T CAchievementGetSilverMedal::~CAchievementGetSilverMedal()
  T CAchievementGnomeRescue::CheckAssetAwards(int)
  T CAchievementGnomeRescue::Init()
@@ -16033,7 +16029,7 @@
  T CInput::AdjustPitch(int, float, QAngle&)
  T CInput::AdjustYaw(int, float, QAngle&)
  T CInput::ApplyMouse(int, QAngle&, CUserCmd*, float, float)
- T CInput::ApplySteamControllerCameraMove(int, QAngle&, CUserCmd*, Vector2D)
+ T CInput::ApplySteamControllerCameraMove(int, QAngle&, CUserCmd*, Vector2D, float&)
  T CInput::CAM_CameraThirdThink()
  T CInput::CAM_Command(int)
  T CInput::CAM_EndDistance()
@@ -16099,6 +16095,7 @@
  T CInput::Shutdown_All()
  T CInput::Shutdown_TrackIR()
  T CInput::SteamControllerMove(int, float, CUserCmd*)
+ T CInput::SteamController_SetSampleTime(float)
  T CInput::TrackIRMove(float, CUserCmd*)
  T CInput::ValidateUserCmd(CUserCmd*, int)
  T CInput::WriteUsercmdDeltaToBuffer(int, bf_write*, int, int, bool)
@@ -34678,8 +34675,8 @@
  b CInput::JoyStickMove(float, CUserCmd*)::s_joy_pitchsensitivity
  b CInput::JoyStickMove(float, CUserCmd*)::s_joy_yawsensitivity
  b CInput::Joystick_Advanced(bool)::s_joy_movement_stick
- b CInput::SteamControllerMove(int, float, CUserCmd*)::bControllerTablesInitialized
  b CInput::SteamControllerMove(int, float, CUserCmd*)::bWasUIVisible
+ b CInput::SteamControllerMove(int, float, CUserCmd*)::nControllersInitialized
  b CInput::SteamControllerMove(int, float, CUserCmd*)::s_joy_pitchsensitivity
  b CInput::SteamControllerMove(int, float, CUserCmd*)::s_joy_yawsensitivity
  b CLocatorPanel::AnimateIconSize(int, int*, int*, float)::ss_verticalsplit
@@ -36487,8 +36484,6 @@
  b s_viewFadeColor
  b s_windControllers
  b sc_enable
- b sc_joystick_pitch_sensitivity
- b sc_joystick_yaw_sensitivity
  b sc_mouse_sensitivity
  b sc_pitch_sensitivity
  b sc_pitch_sensitivity_default
