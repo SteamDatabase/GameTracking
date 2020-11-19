@@ -42,7 +42,7 @@ ProcessDepot ()
 		
 		echo "> $baseFile"
 		
-		dotnet ~/ProtobufDumper/ProtobufDumper.dll "$file" "Protobufs/$1/" > /dev/null
+		~/ProtobufDumper/ProtobufDumper "$file" "Protobufs/$1/" > /dev/null
 		
 		mkdir -p "BuildbotPaths/$1"
 		

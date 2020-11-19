@@ -18,7 +18,7 @@ ProcessDepot ()
 		
 		echo " > $file"
 		
-		dotnet ~/ProtobufDumper/ProtobufDumper.dll "$file" "Protobufs/" > /dev/null
+		~/ProtobufDumper/ProtobufDumper "$file" "Protobufs/" > /dev/null
 		
 		nmBinary="nm"
 		
