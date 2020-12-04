@@ -176,6 +176,7 @@
 	bot_difficulty(integer) : "Bot Difficulty (int)" : 0 : "How hard the bot is to fight and what his skill level is. [0-7] (0 = super easy, 7 = super human)."
 	is_agressive(boolean) : "Is agressive?" : 0 : "Is the bot agreesive for his difficulty level?"
 	hide_radius(float) : "Hide Radius": 1000 : "Range around the spawn spot the bot will try to hide. Set to 0 to hold position and never try to hide."
+	behavior_tree_file(string) : "Behavior Tree File" : "" : "The behavior tree file to use for this bot ( empty = classic AI )." 
 ]
 
 @PointClass base(Targetname, Angles) studio("models/props_junk/wood_crate001a.mdl") = info_survival_crate_spawn :
@@ -976,8 +977,12 @@
 	input Trigger(void) : "Swap to this skybox."
 ]
 
+@BaseClass base(Targetname) = point_dz_itemspawn :
+	"Survival item spawn point.\n"
+[
+]
 
-@PointClass base(Targetname, Angles) studio("models/props_survival/cases/case_heavy_weapon.mdl") = point_dz_weaponspawn :
+@PointClass base(Angles, point_dz_itemspawn) studio("models/props_survival/cases/case_heavy_weapon.mdl") = point_dz_weaponspawn :
 	"Survival weapon spawn point.\n"
 [
 	groupID(integer) : "Group ID" : 0 : "When an item spawns in a spawn point, other nearby spawn points with the same ID will have less chance of spawning an item."
@@ -985,10 +990,15 @@
 	door_name(string) : "Door Name" : "" : "This point is behind a specific door"
 ]
 
-@PointClass base(Targetname) sphere() = point_dz_weaponspawn_group : 
-	"Survival weapon spawn grouping.\n"
+@BaseClass base(Targetname) = point_dz_itemspawn_group : 
+	"Survival item spawn grouping.\n"
 [
 	radius(integer) : "Radius" : 512
+]
+
+@PointClass base(point_dz_itemspawn_group) sphere() = point_dz_weaponspawn_group : 
+	"Survival weapon spawn grouping.\n"
+[
 ]
 
 @PointClass base(Targetname) size(-8 -8 -8, 8 8 8) = dangerzone_controller
@@ -1086,6 +1096,13 @@
 	radius(float) : "Radius" : 128 : "Area of denial radius"
 ]
 
+@PointClass base(Targetname, Parentname) = game_dz_coop_manager :
+	"Manager for DZ coop missions."
+[
+	configFile(string) : "Config File" : "" : "Path to the KV3 configuration file."
+	input OnHostageFirstPickedUp(void) : "OnHostageFirstPickedUp"
+	input OnHostageRescued(void) : "OnHostageRescued"
+]
 
 @PointClass base(Targetname, Parentname) studio("models/props_survival/crates/crate_ammobox.mdl") = prop_ammo_box_generic :
 	"Sharable ammo box."
@@ -1162,3 +1179,96 @@
 	output OnUseCompleted(void) : "Fired when a player finishes the long use."
 ]
 
+@PointClass base(Weapon) studio("models/weapons/w_smg_mp5sd.mdl") = weapon_mp5sd : "MP5-SD" 
+[
+]
+
+@PointClass base(Targetname, Parentname, Global, Angles, BreakableProp, SystemLevelChoice, BaseFadeProp, RenderFields, Shadow) studio("models/chicken/chicken.mdl") = chicken :
+    "Chicken AI entity."
+[
+    Health(integer) : "Health" : 1 : "Set higher with damage to hurt to make chicken invincible."
+    minhealthdmg(integer) : "Damage to hurt" : 1 : "Set higher with health to make chicken invincible."
+    glowdist(integer)       : "Glow Distance" : 1024
+    glowenabled(boolean) : "Glow by default?" : 0
+    glowcolor(color255) : "Glow Color (R G B)" : "255 255 255" : "The color of the glow (if enabled)."
+    glowstyle(choices) : "Glow Style" : 0 : "What style of glow should be used." =
+    [
+        0 : "Default (through walls)"
+        1 : "Shimmer (doesn't glow through walls)"
+        2 : "Outline (doesn't glow through walls)"
+        3 : "Outline Pulse (doesn't glow through walls)"
+    ]
+ 	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
+    SetBodyGroup(choices) : "Chicken model": 0 : "Holiday submodels of chicken" =
+    [
+        0 : "Default"
+        1 : "Party Hat"
+        2 : "Ghost"
+        3 : "Sweater"
+        4 : "Bunny ears"
+	5 : "Pumpkin head"
+    ]
+    input SetGlowEnabled(void) : "Starts the glow."
+    input SetGlowDisabled(void) : "Stops the glow."
+    input SetGlowColor(color255) : "Change the glow's color. Format: <Red 0-255> <Green 0-255> <Blue 0-255>"
+    input GlowColorRedValue(float) : "Sets the glow red color channel's value (0 - 255)."
+    input GlowColorGreenValue(float) : "Sets the glow green color channel's value (0 - 255)."
+    input GlowColorBlueValue(float) : "Sets the glow blue color channel's value (0 - 255)."
+ 
+    output OnHealthChanged(void) : "Fires output when health changes."
+           
+]
+
+@PointClass base(Parentname, Angles) studioprop("models/editor/camera.mdl") = point_camera : "Camera"
+[
+    spawnflags(Flags) =
+    [
+        1 : "Start Off" : 0 
+    ]
+
+    targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+    FOV(float) : "FOV" : 90 : "Field of view in degrees"
+    UseScreenAspectRatio(choices) : "Screen Aspect Ratio" : 0 =
+    [
+        0 : "No"
+        1 : "Yes"
+    ]   
+    fogEnable(choices) : "Fog Enable" : 0 =
+    [
+        0 : "No"
+        1 : "Yes"
+    ]   
+    fogColor(color255) : "Fog Color" : "0 0 0"
+    fogStart(float) : "Fog Start" : 2048 : "The near fog plane."
+    fogEnd(float) : "Fog End" : 4096 : "The far fog/clipping plane."
+    fogMaxDensity(float) : "Fog Max Density [0..1]" : 1 : "The maximum fog density. 0=no fog, 1=full fog."
+
+    // Inputs
+    input ChangeFOV(string) : "Changes camera's FOV over time"
+    input SetOnAndTurnOthersOff(void) : "Turn the camera on, and turn all other cameras off."
+    input SetOn(void) : "Turn the camera on."
+    input SetOff(void) : "Turn the camera off."
+]
+
+@SolidClass base(func_brush) = func_monitor :
+    "A monitor that renders the view from a given point_camera entity."
+[
+    target(target_destination) : "Camera name"
+
+    // Inputs
+    input Toggle(void) : "Toggle - If on, turn off, if off, turn on."
+    input Enable(void) : "Enable."
+    input Disable(void) : "Disable."
+    input SetCamera(string) : "Sets the camera to use for this monitor. Takes the name of a point_camera entity in the map."
+] 
+
+@PointClass base(Angles) = mapvetopick_controller :
+	"Map veto controller."
+[
+	// Outputs
+	output OnMapVetoed(string) : "Triggered when a map is vetoed (multiple times at once)"
+	output OnMapPicked(string) : "Triggered when a map is picked to be played (usually one)"
+	output OnSidesPicked(integer) : "Triggered when sides are decided (0 = stay, 1 = switch)"
+	output OnNewPhaseStarted(integer) : "Triggered when new veto pick phase starts ( n = phase )"
+	output OnLevelTransition(integer) : "Triggered when level transition begins ( n = phase )"
+]
