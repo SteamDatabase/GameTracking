@@ -24169,6 +24169,7 @@ CTerrorPlayer::StopDragging()
 CTerrorPlayer::StopRevivingSomeone(bool)
 CTerrorPlayer::StopTrackedSound(char const*)
 CTerrorPlayer::StopUseActions()
+CTerrorPlayer::SuppressFallingDamage()
 CTerrorPlayer::TakeHealth(float, int)
 CTerrorPlayer::TakeOverBot(bool)
 CTerrorPlayer::TakeOverZombieBot(CTerrorPlayer*)
@@ -31216,6 +31217,7 @@ FileWeaponInfo_t::FileWeaponInfo_t()
 FileWeaponInfo_t::Parse(KeyValues*, char const*)
 Fill passed in table with current stats about infected in the world
 Fill the tank raffle with dummy values for debugging
+Fills out a table with the local time (second, minute, hour, day, month, year, dayofweek, dayofyear, daylightsavings)
 Filter01
 Filter02
 Filter03
@@ -33850,6 +33852,7 @@ IsSoundPrecached
 IsSpeaking() %f
 IsStairs(Vector const&, Vector const&, StairTestType)
 IsStaticPointEntity(CBaseEntity*)
+IsSuppressingFallingDamage
 IsSurvivor
 IsTankInPlay
 IsTeenGirlAlive
@@ -34239,6 +34242,7 @@ LocalActiveWeaponData
 LocalL4DWeaponData
 LocalScript
 LocalShotgunData
+LocalTime
 LocalWeaponData
 Location
 Location: %2.2f %2.2f %2.2f
@@ -36902,6 +36906,7 @@ Returns the instance of the scene entity at the specified index.
 Returns tnumber of infected waiting to spawn
 Returns true if any survivor recently dealt or took damage
 Returns true if any tanks are aggro on survivors
+Returns true if falling damage is currently suppressed
 Returns true if this server is a dedicated server.
 Returns whether a player is on fire
 Reunited with orphaned friend
@@ -37440,6 +37445,8 @@ Script_GetInvTable
 Script_GetInvTable(HSCRIPT__*, HSCRIPT__*)
 Script_GetListenServerHost
 Script_GetListenServerHost()
+Script_GetLocalTime
+Script_GetLocalTime(HSCRIPT__*)
 Script_GetMaxFlowDistance
 Script_GetMaxFlowDistance()
 Script_GetPhysAngularVelocity
@@ -39306,6 +39313,7 @@ SubjectIsA:%s,Distance:%f
 Subtract
 SubtractFromTimer
 Supporting friend in combat
+SuppressFallingDamage
 Suppressed StaticDecal which would have hit entity %i (class:%s, name:%s) with modelindex = 0
 Suppressing %s
 Surface Shatter
@@ -43276,7 +43284,7 @@ ___cxx_global_array_dtor124
 ___cxx_global_array_dtor151
 ___cxx_global_array_dtor154
 ___cxx_global_array_dtor159
-___cxx_global_array_dtor1645
+___cxx_global_array_dtor1648
 ___cxx_global_array_dtor174
 ___cxx_global_array_dtor177
 ___cxx_global_array_dtor187
@@ -43318,7 +43326,7 @@ ___cxx_global_array_dtor76
 ___cxx_global_array_dtor82
 ___cxx_global_array_dtor91
 ___cxx_global_array_dtor92
-___cxx_global_array_dtor924
+___cxx_global_array_dtor927
 ___cxx_global_array_dtor94
 ___cxx_global_array_dtor95
 ___cxx_global_array_dtor98
@@ -46068,6 +46076,9 @@ datamap_t* DataMapInit<magnetted_objects_t>(magnetted_objects_t*)
 datamap_t* DataMapInit<vehiclesounds_t>(vehiclesounds_t*)
 dataoffset
 dataval
+daylightsavings
+dayofweek
+dayofyear
 dbghist_addline
 dbghist_dump
 de_aztec
@@ -53536,6 +53547,7 @@ minoccluderarea
 minpropscreenwidth
 minslidetime
 minspeed
+minute
 minwind
 misc1
 misc2
@@ -53695,6 +53707,7 @@ molotov_thrown
 molotovprojectile.cpp
 momentary_door
 momentary_rot_button
+month
 more...
 mosthitsawardtemplate.cpp
 motd.txt
@@ -55351,6 +55364,7 @@ pistol.cpp
 pistol_magnum
 pistol_magnum.cpp
 pitch
+pitchfork
 pitchstart
 placeDirectory
 placementOrigin
@@ -56479,6 +56493,7 @@ shout_view_motion_threshold
 shout_view_target_threahold
 shoved_backward_04g
 shoved_backward_04j
+shovel
 show_subtitle
 showtriggers
 showtriggers_toggle
