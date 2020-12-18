@@ -585,7 +585,6 @@
  P @`
  P PPpp0
  P0@0
- P@ @@0@
  P@@P`
  PPP0@P`p 
  PPPP 
@@ -1338,6 +1337,8 @@ $u3;u
 (ffff.
 (fffff.
 (flDamage, nDamageType, hAttacker)
+(hEntity, szConcept, flDelay, szCriteria) Queue a speech concept
+(hVictim, flRange) Make all common zombies in range rush the victim
 (id, value) Sets a pose parameter value
 (mob) 
 (null)
@@ -5221,6 +5222,7 @@ $u3;u
 @   0
 @   P P
 @  @`
+@ @@0@
 @ @u(
 @ P P
 @ PP  
@@ -13712,6 +13714,7 @@ CDirectorScavengeMode::IncrementScavengeTeamScoreNonVirtual(int)
 CDirectorScavengeMode::InitiateEndScenarioNonVirtual()
 CDirectorScavengeMode::OnBeginRoundSetupTime()
 CDirectorScavengeMode::OnEndOvertime(bool)
+CDirectorScavengeMode::OnEndRoundSetupTime()
 CDirectorScavengeMode::OnFinishIntro()
 CDirectorScavengeMode::OnFirstSurvivorLeftSafeAreaNonVirtual(CTerrorPlayer*)
 CDirectorScavengeMode::OnGameplayStart()
@@ -13846,6 +13849,7 @@ CDirectorVersusMode::InFinaleMap() const
 CDirectorVersusMode::InitVersusBossSpawning()
 CDirectorVersusMode::InitiateEndScenarioNonVirtual()
 CDirectorVersusMode::IsOverridingThreats()
+CDirectorVersusMode::IsVersusMode() const
 CDirectorVersusMode::OnFinaleTriggerSpawned()
 CDirectorVersusMode::OnMapLoadedNonVirtual()
 CDirectorVersusMode::OnRoundStartNonVirtual()
@@ -19709,6 +19713,7 @@ CNonMemberScriptBinding2<float (*)(Vector, bool), float, Vector, bool>::Call(voi
 CNonMemberScriptBinding2<float (*)(char const*, char const*), float, char const*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CNonMemberScriptBinding2<void (*)(HSCRIPT__*, HSCRIPT__*), void, HSCRIPT__*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CNonMemberScriptBinding2<void (*)(HSCRIPT__*, char const*), void, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+CNonMemberScriptBinding2<void (*)(HSCRIPT__*, float), void, HSCRIPT__*, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CNonMemberScriptBinding2<void (*)(char const*, HSCRIPT__*), void, char const*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CNonMemberScriptBinding2<void (*)(int, HSCRIPT__*), void, int, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CNonMemberScriptBinding3<Vector const& (*)(Vector, QAngle, Vector), Vector const&, Vector, QAngle, Vector>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -19716,6 +19721,7 @@ CNonMemberScriptBinding3<void (*)(HSCRIPT__*, char const*, bool), void, HSCRIPT_
 CNonMemberScriptBinding3<void (*)(HSCRIPT__*, char const*, char const*), void, HSCRIPT__*, char const*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CNonMemberScriptBinding3<void (*)(HSCRIPT__*, int, char const*), void, HSCRIPT__*, int, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CNonMemberScriptBinding3<void (*)(int, int, float), void, int, int, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+CNonMemberScriptBinding4<void (*)(HSCRIPT__*, char const*, float, char const*), void, HSCRIPT__*, char const*, float, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CNonMemberScriptBinding4<void (*)(Vector const&, char const*, bool, float), void, Vector const&, char const*, bool, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CNonMemberScriptBinding5<void (*)(Vector, Vector, Vector, bool, float), void, Vector, Vector, Vector, bool, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CNonMemberScriptBinding5<void (*)(char const*, float, int, int, HSCRIPT__*), void, char const*, float, int, int, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -31477,10 +31483,13 @@ ForceLookAt
 ForceNextStage
 ForceOff
 ForcePanicEvent
+ForceScavengeStart
 ForceSpawn
 ForceSpawnAtEntityOrigin
+ForceSurvivalStart
 ForceSurvivorPositions
 ForceTankSpawn
+ForceVersusStart
 Forces a 'PanicEvent' to occur
 Forces background map population logic for testing
 Forces boss zombie bots to crouch
@@ -35048,6 +35057,7 @@ NewLevelUnit
 NextBot
 NextBot tickrate changed from %d (%.3fms) to %d (%.3fms)
 NextBotApproacher::GetGoalFromCursor()
+NextBotAttackTheIT::NextBotAttackTheIT(CBaseCombatCharacter*, float)
 NextBotAttackTheIT::operator()(INextBot*)
 NextBotCombatCharacter
 NextBotCombatCharacter::BecomeRagdoll(CTakeDamageInfo const&, Vector const&)
@@ -36558,6 +36568,7 @@ Query key %s has value %s, which appears to be a number -- you should pass this 
 QueryCacheEntry_t::IssueQuery()
 QueryCacheKey_t::Matches(QueryCacheKey_t const*) const
 QueryThink
+QueueSpeak
 QueuedLoaderVersion001
 R49P4t
 RADIATION
@@ -36984,6 +36995,7 @@ RunRight
 RunScriptCode
 RunScriptFile
 Running in ambient mob
+RushVictim
 S(%d) Z(%d)
 SCRIPTED MODE: Failed to call GetNextScriptedStage
 SCRIPTED_MODE: Old Clearout Stage Timer reset to %d seconds.
@@ -37423,6 +37435,12 @@ Script_FileToString
 Script_FileToString(char const*)
 Script_FindBestResponse couldn't convert second parameter to a criterion set.
 Script_FindBestResponse: Given query did not have a 'concept' field.
+Script_ForceScavengeStart
+Script_ForceScavengeStart()
+Script_ForceSurvivalStart
+Script_ForceSurvivalStart()
+Script_ForceVersusStart
+Script_ForceVersusStart()
 Script_GetAverageSurvivorFlowDistance
 Script_GetAverageSurvivorFlowDistance()
 Script_GetCharacterDisplayName
@@ -37501,10 +37519,14 @@ Script_PrecacheModel(char const*)
 Script_PrecacheScriptSound
 Script_PrecacheSound
 Script_PrecacheSound(char const*)
+Script_QueueSpeak
+Script_QueueSpeak(HSCRIPT__*, char const*, float, char const*)
 Script_ReapplyInfectedFlags
 Script_ReapplyInfectedFlags(int, HSCRIPT__*)
 Script_RestoreTable
 Script_RestoreTable(char const*, HSCRIPT__*)
+Script_RushVictim
+Script_RushVictim(HSCRIPT__*, float)
 Script_SaveTable
 Script_SaveTable(char const*, HSCRIPT__*)
 Script_Say
@@ -39175,6 +39197,9 @@ Starting with random facing
 StartingAnim
 StartingWeapons
 StartleZombie
+Starts the scavenge round, even if the setup timer hasn't elapsed
+Starts the survival round, even if the survivors haven't activated the radio
+Starts the versus round, even if the survivors haven't left the safe room
 Starts versus game after this amount of time, even if survivors are still inside the safe room
 State: %s
 State: Disabled
@@ -49917,11 +49942,19 @@ l4d1survivorbehavior.cpp
 l4d1survivorlegsbattlestations.cpp
 l4d1survivorminigunattack.cpp
 l4d2_1
+l4d2_10
+l4d2_11
+l4d2_12
+l4d2_13
+l4d2_14
 l4d2_2
 l4d2_3
 l4d2_4
 l4d2_5
 l4d2_6
+l4d2_7
+l4d2_8
+l4d2_9
 l4d2_snd_adrenaline
 l4d_airport02_offices
 l4d_airport05_runway
@@ -62103,6 +62136,7 @@ void ScriptDeduceFunctionSignature<CScriptEntityIterator*, CScriptEntityIterator
 void ScriptDeduceFunctionSignature<Vector const&, Vector, QAngle, Vector>(ScriptFuncDescriptor_t*, Vector const& (*)(Vector, QAngle, Vector))
 void ScriptDeduceFunctionSignature<void, HSCRIPT__*, char const*, bool>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, char const*, bool))
 void ScriptDeduceFunctionSignature<void, HSCRIPT__*, char const*, char const*>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, char const*, char const*))
+void ScriptDeduceFunctionSignature<void, HSCRIPT__*, char const*, float, char const*>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, char const*, float, char const*))
 void ScriptDeduceFunctionSignature<void, HSCRIPT__*, int, char const*>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, int, char const*))
 void ScriptDeduceFunctionSignature<void, HSCRIPT__*, int, int, int, int, float, float, int>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, int, int, int, int, float, float, int))
 void ScriptDeduceFunctionSignature<void, Vector const&, Vector const&, Vector const&, int, int, int, int, float>(ScriptFuncDescriptor_t*, void (*)(Vector const&, Vector const&, Vector const&, int, int, int, int, float))
