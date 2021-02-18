@@ -2496,6 +2496,7 @@
  B g_CRuleScriptBridge_ScriptDesc
  B g_CScriptConvarAccessor_ScriptDesc
  B g_CScriptEntityIterator_ScriptDesc
+ B g_CScriptEntityOutputs_ScriptDesc
  B g_CScriptResponseCriteria_ScriptDesc
  B g_CTerrorPlayer_ScriptDesc
  B g_CTerrorWeapon_ScriptDesc
@@ -2565,6 +2566,7 @@
  B g_SaveRestoreBlockSet
  B g_ScriptConvars
  B g_ScriptEntityIterator
+ B g_ScriptEntityOutputs
  B g_ScriptErrorScreenOverlay
  B g_ScriptResponseCriteria
  B g_SentBanMasks
@@ -4011,6 +4013,7 @@
  D CRifle_M60::m_DataMap
  D CRifle_M60::m_acttable
  D CRifle_SG552::m_DataMap
+ D CRifle_SG552::m_acttable
  D CRopeKeyframe::m_DataMap
  D CRotDoor::m_DataMap
  D CRotorWashShooter::m_DataMap
@@ -4332,6 +4335,7 @@
  D ScriptClassDesc_t* GetScriptDesc<CRuleScriptBridge>(CRuleScriptBridge*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CScriptConvarAccessor>(CScriptConvarAccessor*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CScriptEntityIterator>(CScriptEntityIterator*)::bInitialized
+ D ScriptClassDesc_t* GetScriptDesc<CScriptEntityOutputs>(CScriptEntityOutputs*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CScriptResponseCriteria>(CScriptResponseCriteria*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CTerrorPlayer>(CTerrorPlayer*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CTerrorWeapon>(CTerrorWeapon*)::bInitialized
@@ -15572,6 +15576,7 @@
  T CBaseEntity::FVisible(CBaseEntity*, int, CBaseEntity**)
  T CBaseEntity::FVisible(Vector const&, int, CBaseEntity**)
  T CBaseEntity::FindContextByName(char const*) const
+ T CBaseEntity::FindNamedOutput(char const*)
  T CBaseEntity::FireBullets(FireBulletsInfo_t const&)
  T CBaseEntity::FireNamedOutput(char const*, variant_t, CBaseEntity*, CBaseEntity*, float)
  T CBaseEntity::FollowEntity(CBaseEntity*, bool)
@@ -16013,6 +16018,7 @@
  T CBaseEntityOutput::GetMaxDelay()
  T CBaseEntityOutput::NumberOfElements()
  T CBaseEntityOutput::RemoveEventAction(CEventAction*)
+ T CBaseEntityOutput::ScriptRemoveEventAction(CEventAction*, char const*, char const*, char const*)
  T CBaseEntityOutput::~CBaseEntityOutput()
  T CBaseEntityScriptInstanceHelper::BindOnRead(HSCRIPT__*, void*, char const*)
  T CBaseEntityScriptInstanceHelper::ToString(void*, char*, int)
@@ -23218,6 +23224,8 @@
  T CMemberScriptBinding2<CScriptConvarAccessor*, char const* (CScriptConvarAccessor::*)(char const*, int), char const*, char const*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CScriptConvarAccessor*, void (CScriptConvarAccessor::*)(char const*, CVariantBase<CVariantDefaultAllocator>), void, char const*, CVariantBase<CVariantDefaultAllocator> >::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(HSCRIPT__*, char const*), HSCRIPT__*, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CScriptEntityOutputs*, bool (CScriptEntityOutputs::*)(HSCRIPT__*, char const*), bool, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CScriptEntityOutputs*, int (CScriptEntityOutputs::*)(HSCRIPT__*, char const*), int, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CScriptResponseCriteria*, bool (CScriptResponseCriteria::*)(HSCRIPT__*, char const*), bool, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CScriptResponseCriteria*, char const* (CScriptResponseCriteria::*)(HSCRIPT__*, char const*), char const*, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CScriptResponseCriteria*, void (CScriptResponseCriteria::*)(HSCRIPT__*, HSCRIPT__*), void, HSCRIPT__*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23243,6 +23251,9 @@
  T CMemberScriptBinding4<CNetPropManager*, void (CNetPropManager::*)(HSCRIPT__*, char const*, float, int), void, HSCRIPT__*, char const*, float, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding4<CNetPropManager*, void (CNetPropManager::*)(HSCRIPT__*, char const*, int, int), void, HSCRIPT__*, char const*, int, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding4<CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(HSCRIPT__*, char const*, Vector const&, float), HSCRIPT__*, HSCRIPT__*, char const*, Vector const&, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding4<CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, HSCRIPT__*, int), void, HSCRIPT__*, char const*, HSCRIPT__*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding5<CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, char const*, char const*, char const*), void, HSCRIPT__*, char const*, char const*, char const*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding7<CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, char const*, char const*, char const*, float, int), void, HSCRIPT__*, char const*, char const*, char const*, char const*, float, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemoryStack::CMemoryStack()
  T CMemoryStack::CommitTo(unsigned char*)
  T CMemoryStack::FreeAll(bool)
@@ -25403,6 +25414,8 @@
  T CRifle_M60::WeaponIdle()
  T CRifle_M60::YouForgotToImplementOrDeclareServerClass()
  T CRifle_M60::~CRifle_M60()
+ T CRifle_SG552::ActivityList()
+ T CRifle_SG552::ActivityListCount()
  T CRifle_SG552::GetDataDescMap()
  T CRifle_SG552::GetRateOfFire() const
  T CRifle_SG552::GetServerClass()
@@ -25411,6 +25424,7 @@
  T CRifle_SG552::HideViewModelWhenZoomed()
  T CRifle_SG552::IsFullyAutomatic() const
  T CRifle_SG552::TranslateViewmodelActivity(Activity) const
+ T CRifle_SG552::WeaponTranslateMainActivity(Activity)
  T CRifle_SG552::YouForgotToImplementOrDeclareServerClass()
  T CRifle_SG552::~CRifle_SG552()
  T CRopeKeyframe::Activate()
@@ -25726,6 +25740,12 @@
  T CScriptEntityIterator::FindInSphere(HSCRIPT__*, Vector const&, float)
  T CScriptEntityIterator::First()
  T CScriptEntityIterator::Next(HSCRIPT__*)
+ T CScriptEntityOutputs::AddOutput(HSCRIPT__*, char const*, char const*, char const*, char const*, float, int)
+ T CScriptEntityOutputs::GetNumElements(HSCRIPT__*, char const*)
+ T CScriptEntityOutputs::GetOutputTable(HSCRIPT__*, char const*, HSCRIPT__*, int)
+ T CScriptEntityOutputs::HasAction(HSCRIPT__*, char const*)
+ T CScriptEntityOutputs::HasOutput(HSCRIPT__*, char const*)
+ T CScriptEntityOutputs::RemoveOutput(HSCRIPT__*, char const*, char const*, char const*, char const*)
  T CScriptFunctionCriterion::Compare(rr2::Symbol const&, rr2::RVariant const&, rr2::CResponseQuery const*)
  T CScriptFunctionCriterion::~CScriptFunctionCriterion()
  T CScriptHud::CScriptHud()
@@ -32741,6 +32761,7 @@
  T ScriptClassDesc_t* GetScriptDesc<CRuleScriptBridge>(CRuleScriptBridge*)
  T ScriptClassDesc_t* GetScriptDesc<CScriptConvarAccessor>(CScriptConvarAccessor*)
  T ScriptClassDesc_t* GetScriptDesc<CScriptEntityIterator>(CScriptEntityIterator*)
+ T ScriptClassDesc_t* GetScriptDesc<CScriptEntityOutputs>(CScriptEntityOutputs*)
  T ScriptClassDesc_t* GetScriptDesc<CScriptResponseCriteria>(CScriptResponseCriteria*)
  T ScriptClassDesc_t* GetScriptDesc<CTerrorPlayer>(CTerrorPlayer*)
  T ScriptClassDesc_t* GetScriptDesc<CTerrorWeapon>(CTerrorWeapon*)
@@ -35984,6 +36005,9 @@
  T void ScriptDeduceFunctionSignature<CScriptEntityIterator*, CScriptEntityIterator, HSCRIPT__*, HSCRIPT__*, Vector const&, float>(ScriptFuncDescriptor_t*, CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(HSCRIPT__*, Vector const&, float))
  T void ScriptDeduceFunctionSignature<CScriptEntityIterator*, CScriptEntityIterator, HSCRIPT__*, HSCRIPT__*, char const*, Vector const&, float>(ScriptFuncDescriptor_t*, CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(HSCRIPT__*, char const*, Vector const&, float))
  T void ScriptDeduceFunctionSignature<CScriptEntityIterator*, CScriptEntityIterator, HSCRIPT__*, char const*, Vector const&, float>(ScriptFuncDescriptor_t*, CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(char const*, Vector const&, float))
+ T void ScriptDeduceFunctionSignature<CScriptEntityOutputs*, CScriptEntityOutputs, void, HSCRIPT__*, char const*, HSCRIPT__*, int>(ScriptFuncDescriptor_t*, CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, HSCRIPT__*, int))
+ T void ScriptDeduceFunctionSignature<CScriptEntityOutputs*, CScriptEntityOutputs, void, HSCRIPT__*, char const*, char const*, char const*, char const*, float, int>(ScriptFuncDescriptor_t*, CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, char const*, char const*, char const*, float, int))
+ T void ScriptDeduceFunctionSignature<CScriptEntityOutputs*, CScriptEntityOutputs, void, HSCRIPT__*, char const*, char const*, char const*, char const*>(ScriptFuncDescriptor_t*, CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, char const*, char const*, char const*))
  T void ScriptDeduceFunctionSignature<Vector const&, Vector, QAngle, Vector>(ScriptFuncDescriptor_t*, Vector const& (*)(Vector, QAngle, Vector))
  T void ScriptDeduceFunctionSignature<void, HSCRIPT__*, char const*, bool>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, char const*, bool))
  T void ScriptDeduceFunctionSignature<void, HSCRIPT__*, char const*, char const*>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, char const*, char const*))

@@ -644,6 +644,7 @@
 !HEV_MED1
 !IsWeaponVisible()
 !The global list of entities
+!Used to access entity output data
 !Used to get response criteria
 !Used to get/set entity network fields
 !activator
@@ -8537,6 +8538,12 @@ AreaSortFunc(TerrorNavArea::AreaBindInfo const*, TerrorNavArea::AreaBindInfo con
 Areas with non-walkable connections check
 Arguments: ( entity, criteriaName ) - returns a string
 Arguments: ( entity, criteriaName ) - returns true if the criterion exists
+Arguments: ( entity, outputName ) - returns the number of array elements
+Arguments: ( entity, outputName ) - returns true if an action exists for the output
+Arguments: ( entity, outputName ) - returns true if the output exists
+Arguments: ( entity, outputName, table, arrayElement ) - returns a table of output information
+Arguments: ( entity, outputName, targetName, inputName, parameter ) - remove an output from the entity
+Arguments: ( entity, outputName, targetName, inputName, parameter, delay, timesToFire ) - add a new output to the entity
 Arguments: ( entity, propertyName )
 Arguments: ( entity, propertyName ) - return the prop type as a string
 Arguments: ( entity, propertyName ) - returns an entity
@@ -10316,6 +10323,7 @@ CBaseEntity::EyePosition()
 CBaseEntity::FVisible(CBaseEntity*, int, CBaseEntity**)
 CBaseEntity::FVisible(Vector const&, int, CBaseEntity**)
 CBaseEntity::FindContextByName(char const*) const
+CBaseEntity::FindNamedOutput(char const*)
 CBaseEntity::FireBullets(FireBulletsInfo_t const&)
 CBaseEntity::FireBullets(FireBulletsInfo_t const&)::tracerCount
 CBaseEntity::FireNamedOutput(char const*, variant_t, CBaseEntity*, CBaseEntity*, float)
@@ -10786,6 +10794,7 @@ CBaseEntityOutput::GetActionForTarget(string_t) const
 CBaseEntityOutput::GetMaxDelay()
 CBaseEntityOutput::NumberOfElements()
 CBaseEntityOutput::RemoveEventAction(CEventAction*)
+CBaseEntityOutput::ScriptRemoveEventAction(CEventAction*, char const*, char const*, char const*)
 CBaseEntityOutput::m_DataMap
 CBaseEntityOutput::~CBaseEntityOutput()
 CBaseEntityOutput_DataDescInit::g_DataMapHolder
@@ -18950,6 +18959,8 @@ CMemberScriptBinding2<CRuleScriptBridge*, HSCRIPT__* (CRuleScriptBridge::*)(HSCR
 CMemberScriptBinding2<CScriptConvarAccessor*, char const* (CScriptConvarAccessor::*)(char const*, int), char const*, char const*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding2<CScriptConvarAccessor*, void (CScriptConvarAccessor::*)(char const*, CVariantBase<CVariantDefaultAllocator>), void, char const*, CVariantBase<CVariantDefaultAllocator> >::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding2<CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(HSCRIPT__*, char const*), HSCRIPT__*, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+CMemberScriptBinding2<CScriptEntityOutputs*, bool (CScriptEntityOutputs::*)(HSCRIPT__*, char const*), bool, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+CMemberScriptBinding2<CScriptEntityOutputs*, int (CScriptEntityOutputs::*)(HSCRIPT__*, char const*), int, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding2<CScriptResponseCriteria*, bool (CScriptResponseCriteria::*)(HSCRIPT__*, char const*), bool, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding2<CScriptResponseCriteria*, char const* (CScriptResponseCriteria::*)(HSCRIPT__*, char const*), char const*, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding2<CScriptResponseCriteria*, void (CScriptResponseCriteria::*)(HSCRIPT__*, HSCRIPT__*), void, HSCRIPT__*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -18975,6 +18986,9 @@ CMemberScriptBinding4<CNetPropManager*, void (CNetPropManager::*)(HSCRIPT__*, ch
 CMemberScriptBinding4<CNetPropManager*, void (CNetPropManager::*)(HSCRIPT__*, char const*, float, int), void, HSCRIPT__*, char const*, float, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding4<CNetPropManager*, void (CNetPropManager::*)(HSCRIPT__*, char const*, int, int), void, HSCRIPT__*, char const*, int, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding4<CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(HSCRIPT__*, char const*, Vector const&, float), HSCRIPT__*, HSCRIPT__*, char const*, Vector const&, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+CMemberScriptBinding4<CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, HSCRIPT__*, int), void, HSCRIPT__*, char const*, HSCRIPT__*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+CMemberScriptBinding5<CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, char const*, char const*, char const*), void, HSCRIPT__*, char const*, char const*, char const*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+CMemberScriptBinding7<CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, char const*, char const*, char const*, float, int), void, HSCRIPT__*, char const*, char const*, char const*, char const*, float, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemoryStack::CMemoryStack()
 CMemoryStack::CommitTo(unsigned char*)
 CMemoryStack::FreeAll(bool)
@@ -21551,6 +21565,8 @@ CRifle_M60::m_acttable
 CRifle_M60::~CRifle_M60()
 CRifle_M60_DataDescInit::g_DataMapHolder
 CRifle_SG552
+CRifle_SG552::ActivityList()
+CRifle_SG552::ActivityListCount()
 CRifle_SG552::GetDataDescMap()
 CRifle_SG552::GetRateOfFire() const
 CRifle_SG552::GetServerClass()
@@ -21559,8 +21575,10 @@ CRifle_SG552::GetZoomLevel() const
 CRifle_SG552::HideViewModelWhenZoomed()
 CRifle_SG552::IsFullyAutomatic() const
 CRifle_SG552::TranslateViewmodelActivity(Activity) const
+CRifle_SG552::WeaponTranslateMainActivity(Activity)
 CRifle_SG552::YouForgotToImplementOrDeclareServerClass()
 CRifle_SG552::m_DataMap
+CRifle_SG552::m_acttable
 CRifle_SG552::~CRifle_SG552()
 CRifle_SG552_DataDescInit::g_DataMapHolder
 CRopeKeyframe
@@ -21935,6 +21953,13 @@ CScriptEntityIterator::FindByTarget(HSCRIPT__*, char const*)
 CScriptEntityIterator::FindInSphere(HSCRIPT__*, Vector const&, float)
 CScriptEntityIterator::First()
 CScriptEntityIterator::Next(HSCRIPT__*)
+CScriptEntityOutputs
+CScriptEntityOutputs::AddOutput(HSCRIPT__*, char const*, char const*, char const*, char const*, float, int)
+CScriptEntityOutputs::GetNumElements(HSCRIPT__*, char const*)
+CScriptEntityOutputs::GetOutputTable(HSCRIPT__*, char const*, HSCRIPT__*, int)
+CScriptEntityOutputs::HasAction(HSCRIPT__*, char const*)
+CScriptEntityOutputs::HasOutput(HSCRIPT__*, char const*)
+CScriptEntityOutputs::RemoveOutput(HSCRIPT__*, char const*, char const*, char const*, char const*)
 CScriptFunctionCriterion::Compare(rr2::Symbol const&, rr2::RVariant const&, rr2::CResponseQuery const*)
 CScriptFunctionCriterion::~CScriptFunctionCriterion()
 CScriptHud::CScriptHud()
@@ -30879,6 +30904,7 @@ EntityMatrix::InitFromEntity(CBaseEntity*, int)
 EntityMatrix::InitFromEntityLocal(CBaseEntity*)
 EntityMessageBegin(CBaseEntity*, bool)
 EntityOutput
+EntityOutputs
 EntityParticleTrailInfo_t
 EntityParticleTrailInfo_t::EntityParticleTrailInfo_t()
 EntityParticleTrailInfo_t::NetworkStateChanged()
@@ -31801,8 +31827,10 @@ GetNextCommandEntity(CBasePlayer*, char const*, CBaseEntity*)
 GetNextStage
 GetNoEscCharConversion()
 GetNumBodyGroups(CStudioHdr*)
+GetNumElements
 GetNumberOfTeams()
 GetOrigin
+GetOutputTable
 GetOwnerEntity
 GetParticleManifest(CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&)
 GetParticleManifest(CUtlVector<CUtlString, CUtlMemory<CUtlString, int> >&, char const*)
@@ -31869,6 +31897,7 @@ GetScriptDesc<CPointScriptUseTarget>(CPointScriptUseTarget*)::bInitialized
 GetScriptDesc<CRuleScriptBridge>(CRuleScriptBridge*)::bInitialized
 GetScriptDesc<CScriptConvarAccessor>(CScriptConvarAccessor*)::bInitialized
 GetScriptDesc<CScriptEntityIterator>(CScriptEntityIterator*)::bInitialized
+GetScriptDesc<CScriptEntityOutputs>(CScriptEntityOutputs*)::bInitialized
 GetScriptDesc<CScriptResponseCriteria>(CScriptResponseCriteria*)::bInitialized
 GetScriptDesc<CTerrorPlayer>(CTerrorPlayer*)::bInitialized
 GetScriptDesc<CTerrorWeapon>(CTerrorWeapon*)::bInitialized
@@ -32107,11 +32136,13 @@ HandleFoundryEntitySpawnRecords()
 HangingCharacter:
 HangingFromLedge
 HangingFromTongue
+HasAction
 HasAnySurvivorLeftSafeArea
 HasCriterion
 HasFirstAidKit
 HasGrenade
 HasMolotov
+HasOutput
 HasPainPills
 HasPlayerControlledZombies
 HasProp
@@ -36757,6 +36788,7 @@ RemoveBotControl()
 RemoveContext
 RemoveHealth
 RemoveItems(CCommand const&)
+RemoveOutput
 RemovePlayer
 RemoveTransitioningPlayerRecord(int)
 RemoveUpgrade
@@ -37313,6 +37345,7 @@ ScriptClassDesc_t* GetScriptDesc<CPointScriptUseTarget>(CPointScriptUseTarget*)
 ScriptClassDesc_t* GetScriptDesc<CRuleScriptBridge>(CRuleScriptBridge*)
 ScriptClassDesc_t* GetScriptDesc<CScriptConvarAccessor>(CScriptConvarAccessor*)
 ScriptClassDesc_t* GetScriptDesc<CScriptEntityIterator>(CScriptEntityIterator*)
+ScriptClassDesc_t* GetScriptDesc<CScriptEntityOutputs>(CScriptEntityOutputs*)
 ScriptClassDesc_t* GetScriptDesc<CScriptResponseCriteria>(CScriptResponseCriteria*)
 ScriptClassDesc_t* GetScriptDesc<CTerrorPlayer>(CTerrorPlayer*)
 ScriptClassDesc_t* GetScriptDesc<CTerrorWeapon>(CTerrorWeapon*)
@@ -39335,6 +39368,7 @@ Subject:%s,Distance:%g
 Subject:%s,Savior:%s
 Subject:%s,TimeToReunite:%f
 SubjectIsA:%s,Distance:%f
+SubjectIsA:%s,Distance:%f,OneShot:%s
 Subtract
 SubtractFromTimer
 Supporting friend in combat
@@ -43666,6 +43700,7 @@ _g_CPointScriptUseTarget_ScriptDesc
 _g_CRuleScriptBridge_ScriptDesc
 _g_CScriptConvarAccessor_ScriptDesc
 _g_CScriptEntityIterator_ScriptDesc
+_g_CScriptEntityOutputs_ScriptDesc
 _g_CScriptResponseCriteria_ScriptDesc
 _g_CTerrorPlayer_ScriptDesc
 _g_CTerrorWeapon_ScriptDesc
@@ -43743,6 +43778,7 @@ _g_SIMD_signmask
 _g_SaveRestoreBlockSet
 _g_ScriptConvars
 _g_ScriptEntityIterator
+_g_ScriptEntityOutputs
 _g_ScriptErrorScreenOverlay
 _g_ScriptResponseCriteria
 _g_SentBanMasks
@@ -49452,6 +49488,7 @@ inmax
 inmin
 inner_radius
 inposition
+input
 input: (%s) -> (%s,%s), from (%s)
 input: (%s,%d) -> (%s,%s), from (%s)
 input: (%s,%s) -> (%s,%s), from (%s)
@@ -55223,6 +55260,7 @@ painpills.cpp
 paintsplat
 panelname
 panic_event_finished
+parameter
 params
 parentattachment
 parentname
@@ -55997,6 +56035,7 @@ rulename
 rulename is %s
 rumble
 rumble_effect
+r{.M$
 s.fff.
 s9fff.
 s:C;^
@@ -57589,6 +57628,7 @@ timedeventmgr.cpp
 timelimit
 timeofday
 timeout
+times_to_fire
 timestamp
 timeutils.cpp
 title
@@ -62133,6 +62173,9 @@ void ScriptDeduceFunctionSignature<CNetPropManager*, CNetPropManager, void, HSCR
 void ScriptDeduceFunctionSignature<CScriptEntityIterator*, CScriptEntityIterator, HSCRIPT__*, HSCRIPT__*, Vector const&, float>(ScriptFuncDescriptor_t*, CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(HSCRIPT__*, Vector const&, float))
 void ScriptDeduceFunctionSignature<CScriptEntityIterator*, CScriptEntityIterator, HSCRIPT__*, HSCRIPT__*, char const*, Vector const&, float>(ScriptFuncDescriptor_t*, CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(HSCRIPT__*, char const*, Vector const&, float))
 void ScriptDeduceFunctionSignature<CScriptEntityIterator*, CScriptEntityIterator, HSCRIPT__*, char const*, Vector const&, float>(ScriptFuncDescriptor_t*, CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(char const*, Vector const&, float))
+void ScriptDeduceFunctionSignature<CScriptEntityOutputs*, CScriptEntityOutputs, void, HSCRIPT__*, char const*, HSCRIPT__*, int>(ScriptFuncDescriptor_t*, CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, HSCRIPT__*, int))
+void ScriptDeduceFunctionSignature<CScriptEntityOutputs*, CScriptEntityOutputs, void, HSCRIPT__*, char const*, char const*, char const*, char const*, float, int>(ScriptFuncDescriptor_t*, CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, char const*, char const*, char const*, float, int))
+void ScriptDeduceFunctionSignature<CScriptEntityOutputs*, CScriptEntityOutputs, void, HSCRIPT__*, char const*, char const*, char const*, char const*>(ScriptFuncDescriptor_t*, CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, char const*, char const*, char const*))
 void ScriptDeduceFunctionSignature<Vector const&, Vector, QAngle, Vector>(ScriptFuncDescriptor_t*, Vector const& (*)(Vector, QAngle, Vector))
 void ScriptDeduceFunctionSignature<void, HSCRIPT__*, char const*, bool>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, char const*, bool))
 void ScriptDeduceFunctionSignature<void, HSCRIPT__*, char const*, char const*>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, char const*, char const*))
