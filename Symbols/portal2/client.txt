@@ -2515,7 +2515,6 @@
  B mp_usehwmvcds
  B mp_winlimit
  B muzzleflash_light
- B n_intersection_calculations
  B net_showusercmd
  B networkstringtable
  B ogs_achievement_data
@@ -3189,6 +3188,7 @@
  D BaseModUI::CAdvancedVideo::GetKBMap()::s_pMap
  D BaseModUI::CAdvancedVideo::GetMessageMap()::s_pMap
  D BaseModUI::CAdvancedVideo::KB_ChainToMap()::chained
+ D BaseModUI::CAdvancedVideo::PanelMessageFunc_OnHybridButtonNavigatedTo::InitVar()::bAdded
  D BaseModUI::CAttractScreen::ChainToAnimationMap()::chained
  D BaseModUI::CAttractScreen::ChainToMap()::chained
  D BaseModUI::CAttractScreen::GetKBMap()::s_pMap
@@ -5913,7 +5913,7 @@
  D _ZZN14CUtlLinkedListI13CRagdollEntrytLb0Et10CUtlMemoryI19UtlLinkedListElem_tIS0_tEtEE13AllocInternalEbE14__executeCount32
  D _ZZN14CUtlLinkedListI17CDataChangedEventtLb0Et10CUtlMemoryI19UtlLinkedListElem_tIS0_tEtEE13AllocInternalEbE14__executeCount160
  D _ZZN14CUtlLinkedListI7Panel_ttLb0Et10CUtlMemoryI19UtlLinkedListElem_tIS0_tEtEE13AllocInternalEbE14__executeCount58
- D _ZZN14CUtlLinkedListIN12CRopeManager23RopeQueuedRenderCache_tEtLb0Et10CUtlMemoryI19UtlLinkedListElem_tIS1_tEtEE13AllocInternalEbE14__executeCount128
+ D _ZZN14CUtlLinkedListIN12CRopeManager23RopeQueuedRenderCache_tEtLb0Et10CUtlMemoryI19UtlLinkedListElem_tIS1_tEtEE13AllocInternalEbE14__executeCount129
  D _ZZN14CUtlLinkedListIN13CUtlMultiListI12CPixelVisSettE6List_tEtLb0Et10CUtlMemoryI19UtlLinkedListElem_tIS3_tEtEE13AllocInternalEbE14__executeCount35
  D _ZZN14CUtlLinkedListIN13CUtlMultiListI21CPixelVisibilityQuerytE6List_tEtLb0Et10CUtlMemoryI19UtlLinkedListElem_tIS3_tEtEE13AllocInternalEbE14__executeCount37
  D _ZZN14CUtlLinkedListIN13CUtlMultiListIN16CDataManagerBase22resource_lru_element_tEtE6List_tEtLb0Et10CUtlMemoryI19UtlLinkedListElem_tIS4_tEtEE13AllocInternalEbE14__executeCount7
@@ -5938,7 +5938,7 @@
  D _ZZN14CUtlLinkedListIP13CAsyncCaptiontLb0Et10CUtlMemoryI19UtlLinkedListElem_tIS1_tEtEE13AllocInternalEbE14__executeCount114
  D _ZZN14CUtlLinkedListIP13IEditorActiontLb0Et10CUtlMemoryI19UtlLinkedListElem_tIS1_tEtEE13AllocInternalEbE14__executeCount72
  D _ZZN14CUtlLinkedListIP14CEnvWindSharedtLb0Et10CUtlMemoryI19UtlLinkedListElem_tIS1_tEtEE13AllocInternalEbE14__executeCount9
- D _ZZN14CUtlLinkedListIP14C_RopeKeyframeiLb0Ei10CUtlMemoryI19UtlLinkedListElem_tIS1_iEiEE13AllocInternalEbE14__executeCount126
+ D _ZZN14CUtlLinkedListIP14C_RopeKeyframeiLb0Ei10CUtlMemoryI19UtlLinkedListElem_tIS1_iEiEE13AllocInternalEbE14__executeCount127
  D _ZZN14CUtlLinkedListIP14C_RopeKeyframetLb0Et10CUtlMemoryI19UtlLinkedListElem_tIS1_tEtEE13AllocInternalEbE14__executeCount215
  D _ZZN14CUtlLinkedListIP15CEffectMaterialtLb0Et10CUtlMemoryI19UtlLinkedListElem_tIS1_tEtEE13AllocInternalEbE14__executeCount68
  D _ZZN14CUtlLinkedListIP17C_LocalTempEntitytLb0Et10CUtlMemoryI19UtlLinkedListElem_tIS1_tEtEE13AllocInternalEbE14__executeCount64
@@ -9189,6 +9189,7 @@
  D typeinfo for CAutoInitBasicPropPortalDrawingMaterials
  D typeinfo for CAutoInitPlayerSilhoutteMaterials
  D typeinfo for CAutoInitPortalDrawingMaterials
+ D typeinfo for CAutoInitRopeShadowDepthMaterial
  D typeinfo for CAvatarImage
  D typeinfo for CAvatarImagePanel
  D typeinfo for CBackpackPanel
@@ -12042,6 +12043,7 @@
  D vtable for CAutoInitBasicPropPortalDrawingMaterials
  D vtable for CAutoInitPlayerSilhoutteMaterials
  D vtable for CAutoInitPortalDrawingMaterials
+ D vtable for CAutoInitRopeShadowDepthMaterial
  D vtable for CAvatarImage
  D vtable for CAvatarImagePanel
  D vtable for CBackpackPanel
@@ -14256,6 +14258,7 @@
  R typeinfo name for CAutoInitBasicPropPortalDrawingMaterials
  R typeinfo name for CAutoInitPlayerSilhoutteMaterials
  R typeinfo name for CAutoInitPortalDrawingMaterials
+ R typeinfo name for CAutoInitRopeShadowDepthMaterial
  R typeinfo name for CAvatarImage
  R typeinfo name for CAvatarImagePanel
  R typeinfo name for CBackpackPanel
@@ -16474,7 +16477,6 @@
  T AR2TracerCallback(CEffectData const&)
  T AR2TracerPrecache::CResourcePrecacher::Cache(IPrecacheHandler*, bool, ResourceList_t__*, bool)
  T AcceptPowerSavingsWarningCallback()
- T AcceptWarningCallback()
  T ActivateVguiScreen(C_BaseEntity*)
  T ActivityList_AddActivityEntry(char const*, int, bool)
  T ActivityList_Free()
@@ -16680,6 +16682,7 @@
  T BaseModUI::BaseModHybridButton::SetOpen()
  T BaseModUI::BaseModHybridButton::~BaseModHybridButton()
  T BaseModUI::CAdvancedVideo::Activate()
+ T BaseModUI::CAdvancedVideo::AddToMap(char const*, void (vgui::Panel::*)(), int, int, char const*, int, char const*)
  T BaseModUI::CAdvancedVideo::ApplyChanges()
  T BaseModUI::CAdvancedVideo::ApplySchemeSettings(vgui::IScheme*)
  T BaseModUI::CAdvancedVideo::CAdvancedVideo(vgui::Panel*, char const*)
@@ -16690,6 +16693,7 @@
  T BaseModUI::CAdvancedVideo::GetPanelClassName()
  T BaseModUI::CAdvancedVideo::GetRecommendedSettings()
  T BaseModUI::CAdvancedVideo::OnCommand(char const*)
+ T BaseModUI::CAdvancedVideo::OnHybridButtonNavigatedTo(unsigned int)
  T BaseModUI::CAdvancedVideo::OnKeyCodePressed(ButtonCode_t)
  T BaseModUI::CAdvancedVideo::OnThink()
  T BaseModUI::CAdvancedVideo::ProcessAAList()
@@ -16773,7 +16777,7 @@
  T BaseModUI::CBaseModFooterPanel::OnMousePressed(ButtonCode_t)
  T BaseModUI::CBaseModFooterPanel::PaintBackground()
  T BaseModUI::CBaseModFooterPanel::SetButtonText(BaseModUI::Button_t, char const*, bool, BaseModUI::FooterType_t)
- T BaseModUI::CBaseModFooterPanel::SetButtons(unsigned int, BaseModUI::FooterFormat_t, BaseModUI::FooterType_t)
+ T BaseModUI::CBaseModFooterPanel::SetButtons(unsigned int, BaseModUI::FooterFormat_t, BaseModUI::FooterType_t, unsigned int)
  T BaseModUI::CBaseModFooterPanel::SetFooterType(BaseModUI::FooterType_t)
  T BaseModUI::CBaseModFooterPanel::SetPosition(int, int, BaseModUI::FooterType_t)
  T BaseModUI::CBaseModFooterPanel::SetShowCloud(bool)
@@ -19155,11 +19159,17 @@
  T CAutoGameSystemPerFrame::Name()
  T CAutoGameSystemPerFrame::~CAutoGameSystemPerFrame()
  T CAutoInitBasicPropPortalDrawingMaterials::LevelInitPreEntity()
+ T CAutoInitBasicPropPortalDrawingMaterials::LevelShutdownPostEntity()
  T CAutoInitBasicPropPortalDrawingMaterials::~CAutoInitBasicPropPortalDrawingMaterials()
  T CAutoInitPlayerSilhoutteMaterials::LevelInitPreEntity()
+ T CAutoInitPlayerSilhoutteMaterials::LevelShutdownPostEntity()
  T CAutoInitPlayerSilhoutteMaterials::~CAutoInitPlayerSilhoutteMaterials()
  T CAutoInitPortalDrawingMaterials::LevelInitPreEntity()
+ T CAutoInitPortalDrawingMaterials::LevelShutdownPostEntity()
  T CAutoInitPortalDrawingMaterials::~CAutoInitPortalDrawingMaterials()
+ T CAutoInitRopeShadowDepthMaterial::LevelInitPreEntity()
+ T CAutoInitRopeShadowDepthMaterial::LevelShutdownPostEntity()
+ T CAutoInitRopeShadowDepthMaterial::~CAutoInitRopeShadowDepthMaterial()
  T CAvatarImage::CAvatarImage()
  T CAvatarImage::Evict()
  T CAvatarImage::GetContentSize(int&, int&)
@@ -23658,7 +23668,7 @@
  T CInput::AdjustPitch(int, float, QAngle&)
  T CInput::AdjustYaw(int, float, QAngle&)
  T CInput::ApplyMouse(int, QAngle&, CUserCmd*, float, float)
- T CInput::ApplySteamControllerCameraMove(int, QAngle&, CUserCmd*, Vector2D)
+ T CInput::ApplySteamControllerCameraMove(int, float, QAngle&, CUserCmd*, Vector2D)
  T CInput::CAM_CameraThirdThink()
  T CInput::CAM_Command(int)
  T CInput::CAM_EndDistance()
@@ -23685,7 +23695,7 @@
  T CInput::ComputeForwardMove(int, CUserCmd*)
  T CInput::ComputeSideMove(int, CUserCmd*)
  T CInput::ControllerCommands()
- T CInput::ControllerModeActive()
+ T CInput::ControllerModeActive(int)
  T CInput::ControllerMove(int, float, CUserCmd*)
  T CInput::CreateMove(int, float, bool)
  T CInput::DeactivateMouse()
@@ -23731,13 +23741,14 @@
  T CInput::ResetMouse()
  T CInput::ScaleAxisValue(float, float)
  T CInput::ScaleMouse(int, float*, float*)
- T CInput::SetControllerModeActive(bool)
+ T CInput::SetControllerModeActive(int, bool)
  T CInput::SetFullscreenMousePos(int, int)
  T CInput::SetLastUsedInput(int)
  T CInput::Shutdown_All()
  T CInput::Shutdown_TrackIR()
  T CInput::SteamControllerMove(int, float, CUserCmd*)
  T CInput::TrackIRMove(float, CUserCmd*)
+ T CInput::UpdateAndGetQuickTurnYaw(int, float, float)
  T CInput::ValidateUserCmd(CUserCmd*, int)
  T CInput::WriteUsercmdDeltaToBuffer(int, bf_write*, int, int, bool)
  T CInput::~CInput()
@@ -23980,6 +23991,7 @@
  T CItemAngledPanel::OnMoved(IntVector3D const&, QVector3D const&, IntVector3D const&, IntVector3D const&, QVector3D const&, IntVector3D const&)
  T CItemAngledPanel::OnPortalabilityChanged()
  T CItemAngledPanel::OnPropertyChanged(ItemPropertyType_t, QString const&, QString const&)
+ T CItemAngledPanel::OnWorldChanged()
  T CItemAngledPanel::RecomputeCollisionVoxels()
  T CItemAngledPanel::RemoveInput(CEditorItemConnection*)
  T CItemAngledPanel::RenderOpaque()
@@ -27751,6 +27763,7 @@
  T CParticleSystemMgr::SetLastSimulationTime(float)
  T CParticleSystemMgr::SetSystemLevel(int, int)
  T CParticleSystemMgr::ShouldLoadSheets(bool)
+ T CParticleSystemMgr::Shutdown()
  T CParticleSystemMgr::UncacheAllParticleSystems()
  T CParticleSystemMgr::~CParticleSystemMgr()
  T CParticleSystemQuery::BeginDrawModels(int, Vector const&, CParticleCollection*)
@@ -28305,6 +28318,7 @@
  T CPortalRender::IsRenderingPortal() const
  T CPortalRender::IsSkyboxVisibleFromExitPortal() const
  T CPortalRender::LevelInitPreEntity()
+ T CPortalRender::LevelShutdownPostEntity()
  T CPortalRender::LevelShutdownPreEntity()
  T CPortalRender::OverlayPortalRenderTargets(float, float)
  T CPortalRender::RemovePortal(CPortalRenderable*)
@@ -35085,8 +35099,8 @@
  T C_BasePlayer::RecvProxy_LocalVelocityX(CRecvProxyData const*, void*, void*)
  T C_BasePlayer::RecvProxy_LocalVelocityY(CRecvProxyData const*, void*, void*)
  T C_BasePlayer::RecvProxy_LocalVelocityZ(CRecvProxyData const*, void*, void*)
- T C_BasePlayer::RecvProxy_NonLocalCellOriginXY(CRecvProxyData const*, void*, void*)
- T C_BasePlayer::RecvProxy_NonLocalCellOriginZ(CRecvProxyData const*, void*, void*)
+ T C_BasePlayer::RecvProxy_NonLocalOriginXY(CRecvProxyData const*, void*, void*)
+ T C_BasePlayer::RecvProxy_NonLocalOriginZ(CRecvProxyData const*, void*, void*)
  T C_BasePlayer::RecvProxy_ObserverMode(CRecvProxyData const*, void*, void*)
  T C_BasePlayer::RecvProxy_ObserverTarget(CRecvProxyData const*, void*, void*)
  T C_BasePlayer::RemoveFromPlayerSimulationList(C_BaseEntity*)
@@ -35097,6 +35111,7 @@
  T C_BasePlayer::SelectLastItem()
  T C_BasePlayer::SetAnimation(PLAYER_ANIM)
  T C_BasePlayer::SetAnimationExtension(char const*)
+ T C_BasePlayer::SetFOV(C_BaseEntity*, int, float, int)
  T C_BasePlayer::SetLocalViewAngles(QAngle const&)
  T C_BasePlayer::SetObserverTarget(CHandle<C_BaseEntity>)
  T C_BasePlayer::SetPlayerUnderwater(bool)
@@ -37900,6 +37915,8 @@
  T C_Portal_Player::Weapon_ShootPosition()
  T C_Portal_Player::WorldSpaceCenter() const
  T C_Portal_Player::YouForgotToImplementOrDeclareClientClass()
+ T C_Portal_Player::ZoomIn()
+ T C_Portal_Player::ZoomOut()
  T C_Portal_Player::~C_Portal_Player()
  T C_Portal_PointPush::ClientThink()
  T C_Portal_PointPush::GetClientClass()
@@ -40868,6 +40885,8 @@
  T GetSequenceLinearMotion(CStudioHdr*, int, float const*, Vector*)
  T GetSequenceName(CStudioHdr*, int)
  T GetSimpleWorldModelConfiguration(bool&, int&, float&)
+ T GetSmallBuffer0()
+ T GetSmallBuffer1()
  T GetSoundSaveRestoreOps()
  T GetSpecialHammerCharacter()
  T GetSpectatorMode()
@@ -41557,6 +41576,7 @@
  T ParseFile(char*, char*, int, bool*)
  T ParseImpactData(CEffectData const&, Vector*, Vector*, Vector*, short&, int&, int&, int&)
  T ParseParticleEffects(bool)
+ T ParseParticleEffectsMap(char const*, bool)
  T ParseRGBA(KeyValues*, char const*, Color&)
  T ParseStringToEffectArray(char const*, char (*) [64], int*, int)
  T ParseStringToExclusionArray(char const*, char (*) [64], int)
@@ -41626,6 +41646,7 @@
  T Playgamesound_f(CCommand const&)
  T PolyFromPlane(Vector*, Vector const&, float, float)
  T PolyFromPlane_SIMD(float __vector(4)*, float __vector(4) const&, float)
+ T Portal2_GetCurrentCommunityMapID()
  T PortalBlastCallback(CEffectData const&)
  T PortalBlastPrecache::CResourcePrecacher::Cache(IPrecacheHandler*, bool, ResourceList_t__*, bool)
  T PortalInventoryManager()
@@ -47956,7 +47977,6 @@
  atan2f
  atof
  atoi
- atol
  b (anonymous namespace)::CCommunity_GamePersonalDataCategoryInfo_descriptor_
  b (anonymous namespace)::CCommunity_GamePersonalDataCategoryInfo_reflection_
  b (anonymous namespace)::CCommunity_GetGamePersonalDataCategories_Request_descriptor_
@@ -48940,6 +48960,7 @@
  b VarArgs(char const*, ...)::string
  b VideoPanel::OnKeyCodePressed(ButtonCode_t)::con_enable
  b VideoPanel::OnKeyCodeTyped(ButtonCode_t)::con_enable
+ b VideoPanel::OnTick()::volumeConVar
  b WALL_MAX
  b WALL_MIN
  b WaveTrace(char const*, char const*)::s_WaveTrace
@@ -49513,7 +49534,6 @@
  b g_pRootPanel
  b g_pSimpleSingleton
  b g_pSmokeFogMaterial
- b g_pSplineCableShadowdepth
  b g_pTestObj
  b g_pcv_ThreadMode
  b g_puzzleFileInfoQueue
@@ -49784,6 +49804,7 @@
  b guard variable for VScriptClientInit()::binding
  b guard variable for VideoPanel::OnKeyCodePressed(ButtonCode_t)::con_enable
  b guard variable for VideoPanel::OnKeyCodeTyped(ButtonCode_t)::con_enable
+ b guard variable for VideoPanel::OnTick()::volumeConVar
  b guard variable for WaveTrace(char const*, char const*)::s_WaveTrace
  b guard variable for vgui::GetAnimationController()::s_pAnimationController
  b guard variable for vgui::GetPanelKeyBindingMapDictionary()::dictionary
@@ -50365,6 +50386,7 @@
  b s_ProjectedWallEntityIFMHandler
  b s_PuzzleMakerGameSystem
  b s_RopeManager
+ b s_RopeShadowDepthMaterial
  b s_SIMDRandContexts
  b s_SaveOverflow
  b s_SimulateEntitiesCallQueue
@@ -52095,8 +52117,8 @@
  t __cxx_global_var_init21
  t __cxx_global_var_init234
  t __cxx_global_var_init235
- t __cxx_global_var_init238
- t __cxx_global_var_init239
+ t __cxx_global_var_init236
+ t __cxx_global_var_init237
  t __cxx_global_var_init31
  t __cxx_global_var_init32
  t __cxx_global_var_init37
