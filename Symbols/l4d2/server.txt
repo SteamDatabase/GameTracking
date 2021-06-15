@@ -2350,6 +2350,7 @@
  B chainsaw_hit_interval
  B chainsaw_startup_fadeout_time
  B chargerPrecache::s_ResourcePrecacher
+ B charger_pz_claw_dmg
  B chet_debug_idle
  B cl_backspeed
  B cl_forwardspeed
@@ -2483,12 +2484,14 @@
  B g_BaseEntityScriptInstanceHelper
  B g_BitWriteMasks
  B g_CBaseAnimating_ScriptDesc
+ B g_CBaseCombatCharacter_ScriptDesc
  B g_CBaseEntity_ScriptDesc
  B g_CBaseFlex_ScriptDesc
  B g_CBaseTrigger_ScriptDesc
  B g_CDirector_ScriptDesc
  B g_CEnvEntityMaker_ScriptDesc
  B g_CInfoItemPosition_ScriptDesc
+ B g_CNavLadder_ScriptDesc
  B g_CNavMesh_ScriptDesc
  B g_CNetPropManager_ScriptDesc
  B g_CPointScriptTemplate_ScriptDesc
@@ -2544,6 +2547,8 @@
  B g_MediumBuffers
  B g_MeleeWeaponInfoStore
  B g_MultiDamage
+ B g_NavAreaScriptInstanceHelper
+ B g_NavLadderScriptInstanceHelper
  B g_NetworkPropertyEventMgr
  B g_PhysGameTrace
  B g_PhysObjSaveRestoreOps
@@ -2592,6 +2597,7 @@
  B g_TemplateEntityHook
  B g_Template_SaveRestoreBlockHandler
  B g_TerrorEventLog
+ B g_TerrorNavArea_ScriptDesc
  B g_TerrorPlayerPostThinkQueue
  B g_TextStatsMgr
  B g_ThinkContextsSaveDataOps
@@ -4322,12 +4328,14 @@
  D SaveRestoreBlockHeader_t::m_DataMap
  D ScriptClassDesc_t* GetScriptDesc<AI_ResponseScriptWrapper>(AI_ResponseScriptWrapper*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CBaseAnimating>(CBaseAnimating*)::bInitialized
+ D ScriptClassDesc_t* GetScriptDesc<CBaseCombatCharacter>(CBaseCombatCharacter*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CBaseEntity>(CBaseEntity*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CBaseFlex>(CBaseFlex*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CBaseTrigger>(CBaseTrigger*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CDirector>(CDirector*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CEnvEntityMaker>(CEnvEntityMaker*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CInfoItemPosition>(CInfoItemPosition*)::bInitialized
+ D ScriptClassDesc_t* GetScriptDesc<CNavLadder>(CNavLadder*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CNavMesh>(CNavMesh*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CNetPropManager>(CNetPropManager*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CPointScriptTemplate>(CPointScriptTemplate*)::bInitialized
@@ -4339,14 +4347,15 @@
  D ScriptClassDesc_t* GetScriptDesc<CScriptResponseCriteria>(CScriptResponseCriteria*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CTerrorPlayer>(CTerrorPlayer*)::bInitialized
  D ScriptClassDesc_t* GetScriptDesc<CTerrorWeapon>(CTerrorWeapon*)::bInitialized
+ D ScriptClassDesc_t* GetScriptDesc<TerrorNavArea>(TerrorNavArea*)::bInitialized
  D SmokeTrail::m_DataMap
  D Smoker::m_DataMap
  D SoundCommand_t::m_DataMap
  D Spitter::m_DataMap
  D SporeExplosion::m_DataMap
  D SporeTrail::m_DataMap
- D SteamGameServerInternal_ModuleContext()::ctx
- D SteamInternal_ModuleContext()::ctx
+ D SteamGameServerInternal_ModuleContext()::s_CallbackCounterAndContext
+ D SteamInternal_ModuleContext()::s_CallbackCounterAndContext
  D SurvivorBot::m_DataMap
  D SurvivorLightPlayerModelStrings
  D SurvivorPlayerModelStrings
@@ -8405,6 +8414,9 @@
  D typeinfo for CNarrowEscapeAwardTemplate
  D typeinfo for CNavArea
  D typeinfo for CNavAreaCriticalData
+ D typeinfo for CNavAreaScriptInstanceHelper
+ D typeinfo for CNavLadder
+ D typeinfo for CNavLadderScriptInstanceHelper
  D typeinfo for CNavMesh
  D typeinfo for CNoSurvivorsAwardTemplate
  D typeinfo for CNotifyList
@@ -10424,6 +10436,9 @@
  D vtable for CMurderAwardTemplate
  D vtable for CNarrowEscapeAwardTemplate
  D vtable for CNavArea
+ D vtable for CNavAreaScriptInstanceHelper
+ D vtable for CNavLadder
+ D vtable for CNavLadderScriptInstanceHelper
  D vtable for CNavMesh
  D vtable for CNoSurvivorsAwardTemplate
  D vtable for CNotifyList
@@ -12370,6 +12385,9 @@
  R typeinfo name for CNarrowEscapeAwardTemplate
  R typeinfo name for CNavArea
  R typeinfo name for CNavAreaCriticalData
+ R typeinfo name for CNavAreaScriptInstanceHelper
+ R typeinfo name for CNavLadder
+ R typeinfo name for CNavLadderScriptInstanceHelper
  R typeinfo name for CNavMesh
  R typeinfo name for CNoSurvivorsAwardTemplate
  R typeinfo name for CNotifyList
@@ -13349,6 +13367,7 @@
  SteamAPI_UnregisterCallback
  SteamGameServer_GetHSteamPipe
  SteamGameServer_GetHSteamUser
+ SteamInternal_ContextInit
  SteamInternal_CreateInterface
  T AI_CriteriaSet::AI_CriteriaSet()
  T AI_CriteriaSet::AI_CriteriaSet(AI_CriteriaSet const&)
@@ -15167,6 +15186,7 @@
  T CBaseCombatCharacter::GetGroundSurface() const
  T CBaseCombatCharacter::GetLastKnownArea() const
  T CBaseCombatCharacter::GetPhysicsImpactDamageTable()
+ T CBaseCombatCharacter::GetScriptDesc()
  T CBaseCombatCharacter::GetServerClass()
  T CBaseCombatCharacter::GetSpreadBias(CBaseCombatWeapon*, CBaseEntity*)
  T CBaseCombatCharacter::GetTimeSinceLastInjury(int) const
@@ -15230,6 +15250,7 @@
  T CBaseCombatCharacter::RemovePlayerItem(CBaseCombatWeapon*)
  T CBaseCombatCharacter::ResetVisibilityCache(CBaseCombatCharacter*)
  T CBaseCombatCharacter::Restore(IRestore&)
+ T CBaseCombatCharacter::ScriptGetLastKnownArea() const
  T CBaseCombatCharacter::SetActiveWeapon(CBaseCombatWeapon*)
  T CBaseCombatCharacter::SetAmmoCount(int, int)
  T CBaseCombatCharacter::SetBloodColor(int)
@@ -15876,12 +15897,14 @@
  T CBaseEntity::ScriptGetMoveParent()
  T CBaseEntity::ScriptGetOwnerEntity()
  T CBaseEntity::ScriptGetRootMoveParent()
+ T CBaseEntity::ScriptGetWorldSpaceCenter()
  T CBaseEntity::ScriptInputKill()
  T CBaseEntity::ScriptNextMovePeer()
  T CBaseEntity::ScriptPrecacheModel(char const*)
  T CBaseEntity::ScriptSetForward(Vector const&)
  T CBaseEntity::ScriptSetOrigin(Vector const&)
  T CBaseEntity::ScriptTakeDamage(float, int, HSCRIPT__*)
+ T CBaseEntity::ScriptTakeDamageEx(HSCRIPT__*, HSCRIPT__*, HSCRIPT__*, Vector, Vector, float, int)
  T CBaseEntity::ScriptThink()
  T CBaseEntity::Script_PrecacheScriptSound(char const*)
  T CBaseEntity::SendDebugPivotOverlay()
@@ -18489,8 +18512,13 @@
  T CDirector::Restart()
  T CDirector::RestartScenarioFromVote(char const*)
  T CDirector::RunScript(char const*, CDirector::ScriptLevels_t, bool)
+ T CDirector::ScriptGetClosestActivePipeBomb(Vector)
  T CDirector::ScriptGetCommonInfectedCount() const
  T CDirector::ScriptGetPendingMobCount() const
+ T CDirector::ScriptGetTimeSinceSpecialZombieKilled(int)
+ T CDirector::ScriptIsLocationFoggedToSurvivors(Vector)
+ T CDirector::ScriptRegisterForbiddenTarget(HSCRIPT__*)
+ T CDirector::ScriptUnregisterForbiddenTarget(HSCRIPT__*)
  T CDirector::ScriptUserDefinedEvent1() const
  T CDirector::ScriptUserDefinedEvent2() const
  T CDirector::ScriptUserDefinedEvent3() const
@@ -23131,9 +23159,11 @@
  T CMemberScriptBinding0<CBaseAnimating*, bool (CBaseAnimating::*)(), bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CBaseAnimating*, float (CBaseAnimating::*)(), float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CBaseAnimating*, int (CBaseAnimating::*)(), int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CBaseCombatCharacter*, HSCRIPT__* (CBaseCombatCharacter::*)(), HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CBaseEntity*, CHandle<CBaseEntity> (CBaseEntity::*)(), CHandle<CBaseEntity> >::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CBaseEntity*, HSCRIPT__* (CBaseEntity::*)(), HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CBaseEntity*, QAngle const& (CBaseEntity::*)(), QAngle const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CBaseEntity*, Vector (CBaseEntity::*)(), Vector>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CBaseEntity*, Vector const& (CBaseEntity::*)(), Vector const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CBaseEntity*, bool (CBaseEntity::*)(), bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CBaseEntity*, char const* (CBaseEntity::*)(), char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23148,6 +23178,11 @@
  T CMemberScriptBinding0<CDirector*, void (CDirector::*)(), void>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CEnvEntityMaker*, void (CEnvEntityMaker::*)(), void>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CInfoItemPosition*, int (CInfoItemPosition::*)(), int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CNavLadder*, HSCRIPT__* (CNavLadder::*)(), HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CNavLadder*, Vector (CNavLadder::*)(), Vector>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CNavLadder*, float (CNavLadder::*)(), float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CNavLadder*, int (CNavLadder::*)(), int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CNavMesh*, int (CNavMesh::*)(), int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CNavMesh*, void (CNavMesh::*)(), void>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CPointScriptUseTarget*, char const* (CPointScriptUseTarget::*)(), char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CPointScriptUseTarget*, float (CPointScriptUseTarget::*)(), float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23160,12 +23195,24 @@
  T CMemberScriptBinding0<CTerrorPlayer*, bool (CBasePlayer::*)(), bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CTerrorPlayer*, bool (CTerrorPlayer::*)(), bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CTerrorPlayer*, char const* (CBasePlayer::*)(), char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<CTerrorPlayer*, float (CBaseCombatCharacter::*)(), float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CTerrorPlayer*, float (CTerrorPlayer::*)(), float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CTerrorPlayer*, int (CTerrorPlayer::*)(), int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CTerrorPlayer*, void (CTerrorPlayer::*)(), void>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CTerrorWeapon*, bool (CTerrorWeapon::*)(), bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CTerrorWeapon*, int (CBaseCombatWeapon::*)(), int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding0<CTerrorWeapon*, void (CBaseCombatWeapon::*)(), void>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<TerrorNavArea*, HSCRIPT__* (TerrorNavArea::*)(), HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<TerrorNavArea*, Vector (TerrorNavArea::*)(), Vector>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<TerrorNavArea*, Vector const& (CNavArea::*)(), Vector const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<TerrorNavArea*, bool (CNavArea::*)(), bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<TerrorNavArea*, bool (TerrorNavArea::*)(), bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<TerrorNavArea*, char const* (TerrorNavArea::*)(), char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<TerrorNavArea*, float (CNavArea::*)(), float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<TerrorNavArea*, float (TerrorNavArea::*)(), float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<TerrorNavArea*, int (CNavArea::*)(), int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<TerrorNavArea*, int (TerrorNavArea::*)(), int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding0<TerrorNavArea*, void (TerrorNavArea::*)(), void>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CBaseAnimating*, QAngle (CBaseAnimating::*)(int), QAngle, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CBaseAnimating*, Vector (CBaseAnimating::*)(int), Vector, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CBaseAnimating*, char const* (CBaseAnimating::*)(int), char const*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23181,11 +23228,21 @@
  T CMemberScriptBinding1<CBaseEntity*, void (CBaseEntity::*)(int), void, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CBaseFlex*, HSCRIPT__* (CBaseFlex::*)(int), HSCRIPT__*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CBaseTrigger*, bool (CBaseTrigger::*)(HSCRIPT__*), bool, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CDirector*, HSCRIPT__* (CDirector::*)(Vector), HSCRIPT__*, Vector>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CDirector*, bool (CDirector::*)(Vector), bool, Vector>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CDirector*, float (CDirector::*)(int), float, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CDirector*, void (CDirector::*)(HSCRIPT__*), void, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CDirector*, void (CDirector::*)(float), void, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CEnvEntityMaker*, void (CEnvEntityMaker::*)(HSCRIPT__*), void, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CEnvEntityMaker*, void (CEnvEntityMaker::*)(char const*), void, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CInfoItemPosition*, char const* (CInfoItemPosition::*)(int), char const*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CInfoItemPosition*, void (CInfoItemPosition::*)(int), void, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CNavLadder*, Vector (CNavLadder::*)(float), Vector, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CNavLadder*, bool (CNavLadder::*)(HSCRIPT__*), bool, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CNavLadder*, bool (CNavLadder::*)(int), bool, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CNavLadder*, void (CNavLadder::*)(HSCRIPT__*), void, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CNavMesh*, HSCRIPT__* (CNavMesh::*)(int), HSCRIPT__*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CNavMesh*, void (CNavMesh::*)(HSCRIPT__*), void, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CPointScriptUseTarget*, void (CPointScriptUseTarget::*)(bool), void, bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CPointScriptUseTarget*, void (CPointScriptUseTarget::*)(char const*), void, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CPointScriptUseTarget*, void (CPointScriptUseTarget::*)(float), void, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23194,6 +23251,7 @@
  T CMemberScriptBinding1<CScriptConvarAccessor*, CVariantBase<CVariantDefaultAllocator> (CScriptConvarAccessor::*)(char const*), CVariantBase<CVariantDefaultAllocator>, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(HSCRIPT__*), HSCRIPT__*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CTerrorPlayer*, Vector (CTerrorPlayer::*)(float), Vector, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<CTerrorPlayer*, bool (CBaseCombatCharacter::*)(int), bool, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CTerrorPlayer*, bool (CTerrorPlayer::*)(char const*), bool, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CTerrorPlayer*, void (CBasePlayer::*)(QAngle const&), void, QAngle const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CTerrorPlayer*, void (CTerrorPlayer::*)(Vector), void, Vector>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23201,6 +23259,22 @@
  T CMemberScriptBinding1<CTerrorPlayer*, void (CTerrorPlayer::*)(float), void, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CTerrorPlayer*, void (CTerrorPlayer::*)(int), void, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding1<CTerrorWeapon*, void (CTerrorWeapon::*)(int), void, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, HSCRIPT__* (TerrorNavArea::*)(int), HSCRIPT__*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, Vector const (TerrorNavArea::*)(int), Vector const, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, bool (CNavArea::*)(float), bool, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, bool (CNavArea::*)(int), bool, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, bool (TerrorNavArea::*)(HSCRIPT__*), bool, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, bool (TerrorNavArea::*)(Vector const&), bool, Vector const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, bool (TerrorNavArea::*)(int), bool, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, float (CNavArea::*)(Vector const&), float, Vector const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, float (TerrorNavArea::*)(Vector const&), float, Vector const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, int (TerrorNavArea::*)(Vector const&), int, Vector const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, int (TerrorNavArea::*)(int), int, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, void (CNavArea::*)(float), void, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, void (CNavArea::*)(int), void, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, void (TerrorNavArea::*)(HSCRIPT__*), void, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, void (TerrorNavArea::*)(char const*), void, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding1<TerrorNavArea*, void (TerrorNavArea::*)(int), void, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CBaseAnimating*, char const* (CBaseAnimating::*)(int, int), char const*, int, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CBaseAnimating*, float (CBaseAnimating::*)(int, float), float, int, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CBaseAnimating*, void (CBaseAnimating::*)(float, float), void, float, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23212,6 +23286,10 @@
  T CMemberScriptBinding2<CBaseEntity*, void (CBaseEntity::*)(float, float), void, float, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CBaseFlex*, float (CBaseFlex::*)(char const*, float), float, char const*, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CEnvEntityMaker*, void (CEnvEntityMaker::*)(Vector const&, Vector const&), void, Vector const&, Vector const&>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CNavLadder*, bool (CNavLadder::*)(HSCRIPT__*, int), bool, HSCRIPT__*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CNavMesh*, HSCRIPT__* (CNavMesh::*)(Vector const&, float), HSCRIPT__*, Vector const&, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CNavMesh*, void (CNavMesh::*)(HSCRIPT__*, HSCRIPT__*), void, HSCRIPT__*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<CNavMesh*, void (CNavMesh::*)(int, HSCRIPT__*), void, int, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CNetPropManager*, HSCRIPT__* (CNetPropManager::*)(HSCRIPT__*, char const*), HSCRIPT__*, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CNetPropManager*, Vector const& (CNetPropManager::*)(HSCRIPT__*, char const*), Vector const&, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CNetPropManager*, bool (CNetPropManager::*)(HSCRIPT__*, char const*), bool, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23230,9 +23308,18 @@
  T CMemberScriptBinding2<CScriptResponseCriteria*, char const* (CScriptResponseCriteria::*)(HSCRIPT__*, char const*), char const*, HSCRIPT__*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CScriptResponseCriteria*, void (CScriptResponseCriteria::*)(HSCRIPT__*, HSCRIPT__*), void, HSCRIPT__*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding2<CTerrorPlayer*, void (CTerrorPlayer::*)(char const*, int), void, char const*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<TerrorNavArea*, HSCRIPT__* (TerrorNavArea::*)(int, int), HSCRIPT__*, int, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<TerrorNavArea*, bool (CNavArea::*)(int, bool), bool, int, bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<TerrorNavArea*, bool (TerrorNavArea::*)(HSCRIPT__*, int), bool, HSCRIPT__*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<TerrorNavArea*, bool (TerrorNavArea::*)(Vector const&, float), bool, Vector const&, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<TerrorNavArea*, void (TerrorNavArea::*)(HSCRIPT__*, int), void, HSCRIPT__*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding2<TerrorNavArea*, void (TerrorNavArea::*)(int, HSCRIPT__*), void, int, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding3<CBaseEntity*, void (CBaseEntity::*)(char const*, char const*, float), void, char const*, char const*, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding3<CBaseEntity*, void (CBaseEntity::*)(char const*, float, float), void, char const*, float, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding3<CBaseEntity*, void (CBaseEntity::*)(float, int, HSCRIPT__*), void, float, int, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding3<CNavMesh*, HSCRIPT__* (CNavMesh::*)(Vector const&, Vector const&, HSCRIPT__*), HSCRIPT__*, Vector const&, Vector const&, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding3<CNavMesh*, float (CNavMesh::*)(HSCRIPT__*, HSCRIPT__*, float), float, HSCRIPT__*, HSCRIPT__*, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding3<CNavMesh*, void (CNavMesh::*)(Vector const&, float, HSCRIPT__*), void, Vector const&, float, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding3<CNetPropManager*, HSCRIPT__* (CNetPropManager::*)(HSCRIPT__*, char const*, int), HSCRIPT__*, HSCRIPT__*, char const*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding3<CNetPropManager*, Vector const& (CNetPropManager::*)(HSCRIPT__*, char const*, int), Vector const&, HSCRIPT__*, char const*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding3<CNetPropManager*, char const* (CNetPropManager::*)(HSCRIPT__*, char const*, int), char const*, HSCRIPT__*, char const*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23245,6 +23332,7 @@
  T CMemberScriptBinding3<CNetPropManager*, void (CNetPropManager::*)(HSCRIPT__*, char const*, int), void, HSCRIPT__*, char const*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding3<CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(HSCRIPT__*, Vector const&, float), HSCRIPT__*, HSCRIPT__*, Vector const&, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding3<CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(char const*, Vector const&, float), HSCRIPT__*, char const*, Vector const&, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding4<CNavMesh*, HSCRIPT__* (CNavMesh::*)(Vector const&, float, bool, bool), HSCRIPT__*, Vector const&, float, bool, bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding4<CNetPropManager*, void (CNetPropManager::*)(HSCRIPT__*, char const*, HSCRIPT__*, int), void, HSCRIPT__*, char const*, HSCRIPT__*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding4<CNetPropManager*, void (CNetPropManager::*)(HSCRIPT__*, char const*, Vector, int), void, HSCRIPT__*, char const*, Vector, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding4<CNetPropManager*, void (CNetPropManager::*)(HSCRIPT__*, char const*, char const*, int), void, HSCRIPT__*, char const*, char const*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23253,6 +23341,10 @@
  T CMemberScriptBinding4<CScriptEntityIterator*, HSCRIPT__* (CScriptEntityIterator::*)(HSCRIPT__*, char const*, Vector const&, float), HSCRIPT__*, HSCRIPT__*, char const*, Vector const&, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding4<CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, HSCRIPT__*, int), void, HSCRIPT__*, char const*, HSCRIPT__*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding5<CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, char const*, char const*, char const*), void, HSCRIPT__*, char const*, char const*, char const*, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding6<CNavMesh*, bool (CNavMesh::*)(HSCRIPT__*, HSCRIPT__*, Vector const&, float, int, bool), bool, HSCRIPT__*, HSCRIPT__*, Vector const&, float, int, bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding6<TerrorNavArea*, void (CNavArea::*)(int, int, int, int, float, bool), void, int, int, int, int, float, bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding7<CBaseEntity*, void (CBaseEntity::*)(HSCRIPT__*, HSCRIPT__*, HSCRIPT__*, Vector, Vector, float, int), void, HSCRIPT__*, HSCRIPT__*, HSCRIPT__*, Vector, Vector, float, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CMemberScriptBinding7<CNavMesh*, bool (CNavMesh::*)(HSCRIPT__*, HSCRIPT__*, Vector const&, float, int, bool, HSCRIPT__*), bool, HSCRIPT__*, HSCRIPT__*, Vector const&, float, int, bool, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemberScriptBinding7<CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, char const*, char const*, char const*, float, int), void, HSCRIPT__*, char const*, char const*, char const*, char const*, float, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CMemoryStack::CMemoryStack()
  T CMemoryStack::CommitTo(unsigned char*)
@@ -23535,6 +23627,7 @@
  T CNavArea::ClearSearchLists()
  T CNavArea::CompressIDs()
  T CNavArea::ComputeClosestPointInPortal(CNavArea const*, NavDirType, Vector const&, Vector*, float) const
+ T CNavArea::ComputeDirection(Vector*) const
  T CNavArea::ComputeEarliestOccupyTimes()
  T CNavArea::ComputeHeightChange(CNavArea const*)
  T CNavArea::ComputeHidingSpots()
@@ -23564,7 +23657,10 @@
  T CNavArea::FindClosestNode(Vector const&, NavDirType) const
  T CNavArea::FinishMerge(CNavArea*)
  T CNavArea::FinishSplitEdit(CNavArea*, NavDirType)
+ T CNavArea::GetAttributes() const
  T CNavArea::GetAverageLightIntensity() const
+ T CNavArea::GetAvoidanceObstacleHeight() const
+ T CNavArea::GetCenter() const
  T CNavArea::GetClosestPointOnArea(Vector const*, Vector*) const
  T CNavArea::GetCornerHotspot(NavCornerType, Vector*) const
  T CNavArea::GetDanger(int)
@@ -23574,8 +23670,12 @@
  T CNavArea::GetLightIntensity(Vector const&) const
  T CNavArea::GetNodes(NavDirType, CUtlVector<CNavNode*, CUtlMemory<CNavNode*, int> >*) const
  T CNavArea::GetRandomAdjacentArea(NavDirType) const
+ T CNavArea::GetSizeX() const
+ T CNavArea::GetSizeY() const
  T CNavArea::GetZ(float, float) const
  T CNavArea::GetZDeltaAtEdgeToArea(CNavArea const&) const
+ T CNavArea::HasAttributes(int) const
+ T CNavArea::HasAvoidanceObstacle(float) const
  T CNavArea::HasNodes() const
  T CNavArea::IncreaseDanger(int, float)
  T CNavArea::InheritAttributes(CNavArea*, CNavArea*)
@@ -23584,14 +23684,20 @@
  T CNavArea::IsConnected(CNavArea const*, NavDirType) const
  T CNavArea::IsConnected(CNavLadder const*, CNavLadder::LadderDirectionType) const
  T CNavArea::IsCoplanar(CNavArea const*) const
+ T CNavArea::IsDamaging() const
+ T CNavArea::IsDegenerate() const
+ T CNavArea::IsEdge(NavDirType) const
  T CNavArea::IsFlat() const
  T CNavArea::IsLineToPointWithinPortal(CNavArea const*, NavDirType, Vector const&, Vector const&, float) const
  T CNavArea::IsOverlapping(CNavArea const*) const
  T CNavArea::IsOverlapping(Extent const&) const
  T CNavArea::IsOverlapping(Vector const&, float) const
  T CNavArea::IsRoughlySquare() const
+ T CNavArea::IsUnderwater() const
+ T CNavArea::IsVisible(Vector const&, Vector*) const
  T CNavArea::Load(CUtlBuffer&, unsigned int, unsigned int)
  T CNavArea::MarkAsBlocked(int, CBaseEntity*, bool)
+ T CNavArea::MarkAsDamaging(float)
  T CNavArea::MarkObstacleToAvoid(float)
  T CNavArea::MergeAdjacentConnections(CNavArea*)
  T CNavArea::MergeEdit(CNavArea*)
@@ -23609,12 +23715,14 @@
  T CNavArea::PostLoad()
  T CNavArea::RaiseCorner(NavCornerType, int, bool)
  T CNavArea::RecomputeAverageLightIntensity()
+ T CNavArea::RemoveAttributes(int)
  T CNavArea::RemoveFromOpenList()
  T CNavArea::RemoveOrthogonalConnections(NavDirType)
  T CNavArea::ResetNodes()
  T CNavArea::RestoreFromSelectedSet(KeyValues*)
  T CNavArea::Save(CUtlBuffer&, unsigned int) const
  T CNavArea::SaveToSelectedSet(KeyValues*) const
+ T CNavArea::SetAttributes(int)
  T CNavArea::Shift(Vector const&)
  T CNavArea::SpliceEdit(CNavArea*)
  T CNavArea::SplitEdit(bool, float, CNavArea**, CNavArea**)
@@ -23628,6 +23736,7 @@
  T CNavArea::UpdateOnOpenList()
  T CNavArea::~CNavArea()
  T CNavAreaCriticalData::~CNavAreaCriticalData()
+ T CNavAreaScriptInstanceHelper::ToString(void*, char*, int)
  T CNavLadder::CompressIDs()
  T CNavLadder::ConnectGeneratedLadder(float)
  T CNavLadder::ConnectTo(CNavArea*)
@@ -23635,15 +23744,32 @@
  T CNavLadder::DrawConnectedAreas()
  T CNavLadder::DrawLadder() const
  T CNavLadder::GetPosAtHeight(float) const
+ T CNavLadder::GetScriptDesc()
+ T CNavLadder::GetScriptInstance()
  T CNavLadder::IsConnected(CNavArea const*, CNavLadder::LadderDirectionType) const
+ T CNavLadder::IsUsableByTeam(int) const
  T CNavLadder::Load(CUtlBuffer&, unsigned int)
  T CNavLadder::OnDestroyNotify(CNavArea*)
  T CNavLadder::OnRoundRestart()
  T CNavLadder::OnSplit(CNavArea*, CNavArea*, CNavArea*)
  T CNavLadder::Save(CUtlBuffer&, unsigned int) const
+ T CNavLadder::ScriptConnectTo(HSCRIPT__*)
+ T CNavLadder::ScriptDisconnect(HSCRIPT__*)
+ T CNavLadder::ScriptGetBottomArea()
+ T CNavLadder::ScriptGetBottomOrigin() const
+ T CNavLadder::ScriptGetDir() const
+ T CNavLadder::ScriptGetID() const
+ T CNavLadder::ScriptGetLadderEntity()
+ T CNavLadder::ScriptGetLength() const
+ T CNavLadder::ScriptGetTopArea()
+ T CNavLadder::ScriptGetTopOrigin() const
+ T CNavLadder::ScriptGetWidth() const
+ T CNavLadder::ScriptIsConnected(HSCRIPT__*, int)
+ T CNavLadder::ScriptIsInUse(HSCRIPT__*)
  T CNavLadder::SetDir(NavDirType)
  T CNavLadder::Shift(Vector const&)
  T CNavLadder::~CNavLadder()
+ T CNavLadderScriptInstanceHelper::ToString(void*, char*, int)
  T CNavMesh::AddNavArea(CNavArea*)
  T CNavMesh::AddNode(Vector const&, Vector const&, NavDirType, CNavNode*, bool, float, float, float)
  T CNavMesh::AddToSelectedSet(CNavArea*)
@@ -23744,25 +23870,33 @@
  T CNavMesh::EndCustomAnalysis()
  T CNavMesh::FindActiveNavArea()
  T CNavMesh::FindGroundForNode(Vector*, Vector*)
+ T CNavMesh::FindLadderAlongRay(Vector const&, Vector const&, HSCRIPT__*)
  T CNavMesh::FindLadderCorners(Vector*, Vector*, Vector*)
+ T CNavMesh::FindNavAreaAlongRay(Vector const&, Vector const&, HSCRIPT__*)
  T CNavMesh::FindNavAreaOrLadderAlongRay(Vector const&, Vector const&, CNavArea**, CNavLadder**, CNavArea*)
  T CNavMesh::FireGameEvent(IGameEvent*)
  T CNavMesh::FixConnections()
  T CNavMesh::FixCornerOnCornerAreas()
  T CNavMesh::FixUpGeneratedAreas()
+ T CNavMesh::GetAllAreas(HSCRIPT__*)
+ T CNavMesh::GetAllLadders(HSCRIPT__*)
+ T CNavMesh::GetAreasWithAttributes(int, HSCRIPT__*)
  T CNavMesh::GetCachedOrLoadNavData(int*, bool*)
  T CNavMesh::GetEditVectors(Vector*, Vector*)
  T CNavMesh::GetFilename() const
  T CNavMesh::GetGroundHeight(Vector const&, float*, Vector*) const
  T CNavMesh::GetLadderByID(unsigned int) const
+ T CNavMesh::GetLadderCount()
  T CNavMesh::GetMarkedArea() const
  T CNavMesh::GetNavArea(CBaseEntity*, int, float) const
  T CNavMesh::GetNavArea(Vector const&, float) const
  T CNavMesh::GetNavAreaByID(unsigned int) const
  T CNavMesh::GetNavAreaWithLargestPortal(Vector const&, CNavArea*, NavDirType, float) const
  T CNavMesh::GetNavAreasInBox(CUtlVector<CNavArea*, CUtlMemory<CNavArea*, int> >&, Vector const&, Vector const&)
+ T CNavMesh::GetNavAreasInRadius(Vector const&, float, HSCRIPT__*)
  T CNavMesh::GetNearestNavArea(CBaseEntity*, int, float) const
  T CNavMesh::GetNearestNavArea(Vector const&, bool, float, bool, bool, bool) const
+ T CNavMesh::GetObstructingEntities(HSCRIPT__*)
  T CNavMesh::GetPlacesFromNavFile(bool*)
  T CNavMesh::GetSelecteSetSize() const
  T CNavMesh::GetSelectedSet() const
@@ -23815,6 +23949,17 @@
  T CNavMesh::Save()
  T CNavMesh::SaveCustomData(CUtlBuffer&) const
  T CNavMesh::SaveCustomDataPreArea(CUtlBuffer&) const
+ T CNavMesh::ScriptGetLadderByID(int)
+ T CNavMesh::ScriptGetNavArea(Vector const&, float)
+ T CNavMesh::ScriptGetNavAreaByID(int)
+ T CNavMesh::ScriptGetNavAreaCount()
+ T CNavMesh::ScriptGetNavAreasFromBuildPath(HSCRIPT__*, HSCRIPT__*, Vector const&, float, int, bool, HSCRIPT__*)
+ T CNavMesh::ScriptGetNavAreasOverlappingEntityExtent(HSCRIPT__*, HSCRIPT__*)
+ T CNavMesh::ScriptGetNearestNavArea(Vector const&, float, bool, bool)
+ T CNavMesh::ScriptNavAreaBuildPath(HSCRIPT__*, HSCRIPT__*, Vector const&, float, int, bool)
+ T CNavMesh::ScriptNavAreaTravelDistance(HSCRIPT__*, HSCRIPT__*, float)
+ T CNavMesh::ScriptRegisterAvoidanceObstacle(HSCRIPT__*)
+ T CNavMesh::ScriptUnregisterAvoidanceObstacle(HSCRIPT__*)
  T CNavMesh::SetEditMode(CNavMesh::EditModeType)
  T CNavMesh::SetMarkedArea(CNavArea*)
  T CNavMesh::SimplifySelectedAreas()
@@ -23876,6 +24021,7 @@
  T CNoSurvivorsAwardTemplate::~CNoSurvivorsAwardTemplate()
  T CNonMemberScriptBinding0<HSCRIPT__* (*)(), HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding0<bool (*)(), bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CNonMemberScriptBinding0<char const* (*)(), char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding0<float (*)(), float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding0<int (*)(), int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding0<void (*)(), void>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -23891,6 +24037,7 @@
  T CNonMemberScriptBinding1<void (*)(HSCRIPT__*), void, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding1<void (*)(Vector), void, Vector>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding1<void (*)(char const*), void, char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+ T CNonMemberScriptBinding1<void (*)(int), void, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding2<HSCRIPT__* (*)(HSCRIPT__*, HSCRIPT__*), HSCRIPT__*, HSCRIPT__*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding2<HSCRIPT__* (*)(char const*, HSCRIPT__*), HSCRIPT__*, char const*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
  T CNonMemberScriptBinding2<QAngle (*)(QAngle, QAngle), QAngle, QAngle, QAngle>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -26341,7 +26488,6 @@
  T CSteamJet::Use(CBaseEntity*, CBaseEntity*, USE_TYPE, float)
  T CSteamJet::YouForgotToImplementOrDeclareServerClass()
  T CSteamJet::~CSteamJet()
- T CSteamWorksGameStatsUploader::AccessToSteamAPI()
  T CSteamWorksGameStatsUploader::AddStatsForUpload(KeyValues*)
  T CSteamWorksGameStatsUploader::CSteamWorksGameStatsUploader()
  T CSteamWorksGameStatsUploader::FireGameEvent(IGameEvent*)
@@ -27025,6 +27171,7 @@
  T CTerrorGameRules::GetRoundNumber() const
  T CTerrorGameRules::GetRoundStartTime() const
  T CTerrorGameRules::GetScavengeItemsGoal() const
+ T CTerrorGameRules::GetScavengeItemsRemaining() const
  T CTerrorGameRules::GetScavengeMatchScore(int)
  T CTerrorGameRules::GetScavengeRoundHalfScore(bool, int)
  T CTerrorGameRules::GetScavengeTeamScore(int, int)
@@ -27627,11 +27774,14 @@
  T CTerrorPlayer::ScriptDropItem(char const*)
  T CTerrorPlayer::ScriptGetActiveWeapon()
  T CTerrorPlayer::ScriptGetButtons() const
+ T CTerrorPlayer::ScriptGetLastKnownArea() const
  T CTerrorPlayer::ScriptGetPlayerUserId()
+ T CTerrorPlayer::ScriptGetSpecialInfectedDominatingMe()
  T CTerrorPlayer::ScriptGiveNamedItem(char const*)
  T CTerrorPlayer::ScriptGiveNamedItemWithSkin(char const*, int)
  T CTerrorPlayer::ScriptGivePrimaryAmmo(int)
  T CTerrorPlayer::ScriptHitWithVomit()
+ T CTerrorPlayer::ScriptIsInCombat() const
  T CTerrorPlayer::ScriptRemoveUpgrade(int)
  T CTerrorPlayer::ScriptReviveByDefibrillator()
  T CTerrorPlayer::ScriptStaggerPlayer(Vector)
@@ -31481,6 +31631,7 @@
  T IPhysics2ActorArray::GetDebugIndex() const
  T IPlayerFunctor::OnBeginIteration()
  T IPredictionSystem::~IPredictionSystem()
+ T IScriptInstanceHelper::BindOnRead(HSCRIPT__*, void*, char const*)
  T IScriptInstanceHelper::GetProxied(void*, ScriptFunctionBinding_t*)
  T IVision::GetClosestRecognized(INextBotEntityFilter const&) const
  T IVision::GetClosestRecognized(int) const
@@ -32748,12 +32899,14 @@
  T ScrimmageUpdate::ScrimmageUpdate()
  T ScriptClassDesc_t* GetScriptDesc<AI_ResponseScriptWrapper>(AI_ResponseScriptWrapper*)
  T ScriptClassDesc_t* GetScriptDesc<CBaseAnimating>(CBaseAnimating*)
+ T ScriptClassDesc_t* GetScriptDesc<CBaseCombatCharacter>(CBaseCombatCharacter*)
  T ScriptClassDesc_t* GetScriptDesc<CBaseEntity>(CBaseEntity*)
  T ScriptClassDesc_t* GetScriptDesc<CBaseFlex>(CBaseFlex*)
  T ScriptClassDesc_t* GetScriptDesc<CBaseTrigger>(CBaseTrigger*)
  T ScriptClassDesc_t* GetScriptDesc<CDirector>(CDirector*)
  T ScriptClassDesc_t* GetScriptDesc<CEnvEntityMaker>(CEnvEntityMaker*)
  T ScriptClassDesc_t* GetScriptDesc<CInfoItemPosition>(CInfoItemPosition*)
+ T ScriptClassDesc_t* GetScriptDesc<CNavLadder>(CNavLadder*)
  T ScriptClassDesc_t* GetScriptDesc<CNavMesh>(CNavMesh*)
  T ScriptClassDesc_t* GetScriptDesc<CNetPropManager>(CNetPropManager*)
  T ScriptClassDesc_t* GetScriptDesc<CPointScriptTemplate>(CPointScriptTemplate*)
@@ -32765,6 +32918,7 @@
  T ScriptClassDesc_t* GetScriptDesc<CScriptResponseCriteria>(CScriptResponseCriteria*)
  T ScriptClassDesc_t* GetScriptDesc<CTerrorPlayer>(CTerrorPlayer*)
  T ScriptClassDesc_t* GetScriptDesc<CTerrorWeapon>(CTerrorWeapon*)
+ T ScriptClassDesc_t* GetScriptDesc<TerrorNavArea>(TerrorNavArea*)
  T ScriptClassDesc_t::~ScriptClassDesc_t()
  T ScriptCreateEntityFromTable(char const*, HSCRIPT__*)
  T ScriptFireGameEvent(char const*, HSCRIPT__*)
@@ -32774,8 +32928,10 @@
  T ScriptTableToKeyValues(IScriptVM*, char const*, HSCRIPT__*)
  T ScriptVmKeyValueFromVariant(IScriptVM*, CVariantBase<CVariantDefaultAllocator>&)
  T ScriptVmKeyValueToVariant(IScriptVM*, KeyValues*, CVariantBase<CVariantDefaultAllocator>&, char*)
+ T Script_FindRescueAreaTrigger()
  T Script_GetListenServerHost()
  T Script_IsDedicatedServer()
+ T Script_IsMissionFinalMap()
  T Script_IsModelPrecached(char const*)
  T Script_PrecacheModel(char const*)
  T Script_PrecacheSound(char const*)
@@ -33064,6 +33220,8 @@
  T StandardFilterRules(IHandleEntity*, int)
  T StayOnFloor(CGameTrace*, float)
  T Steam3Server()
+ T SteamGameServerInternal_OnContextInit(void*)
+ T SteamInternal_OnContextInit(void*)
  T StopTankMusic()
  T StrLessInsensitive(char const* const&, char const* const&)
  T StrLessSensitive(char const* const&, char const* const&)
@@ -33757,13 +33915,18 @@
  T TerrorNavArea::GetDangerDecayRate() const
  T TerrorNavArea::GetDoor() const
  T TerrorNavArea::GetNextEscapeStep(NavTraverseType*) const
+ T TerrorNavArea::GetScriptDesc()
+ T TerrorNavArea::GetScriptInstance()
+ T TerrorNavArea::GetTimeSinceCleared() const
  T TerrorNavArea::InheritAttributes(CNavArea*, CNavArea*)
  T TerrorNavArea::IsAbleToMergeWith(CNavArea*) const
  T TerrorNavArea::IsBottleneck() const
  T TerrorNavArea::IsCleared(CTerrorPlayer*) const
  T TerrorNavArea::IsCompletelyVisible(TerrorNavArea const*) const
+ T TerrorNavArea::IsCompletelyVisibleToTeam(int) const
  T TerrorNavArea::IsPartiallyVisible(Vector const&) const
  T TerrorNavArea::IsPotentiallyVisible(TerrorNavArea const*, bool) const
+ T TerrorNavArea::IsPotentiallyVisibleToTeam(int) const
  T TerrorNavArea::IsSpawningAllowed() const
  T TerrorNavArea::IsTerrorMarked() const
  T TerrorNavArea::IsValidForWanderingPopulation() const
@@ -33771,6 +33934,7 @@
  T TerrorNavArea::MaintainWanderingPopulation()
  T TerrorNavArea::MakeNewTerrorMarker()
  T TerrorNavArea::MarkAreaCleared(CTerrorPlayer*)
+ T TerrorNavArea::MarkAreaNotCleared()
  T TerrorNavArea::OnDestroyNotify(CNavArea*)
  T TerrorNavArea::OnEditCreateNotify(CNavArea*)
  T TerrorNavArea::OnEnter(CBaseCombatCharacter*, CNavArea*)
@@ -33786,6 +33950,47 @@
  T TerrorNavArea::RestoreFromSelectedSet(KeyValues*)
  T TerrorNavArea::Save(CUtlBuffer&, unsigned int) const
  T TerrorNavArea::SaveToSelectedSet(KeyValues*) const
+ T TerrorNavArea::ScriptAddIncomingConnection(HSCRIPT__*, int)
+ T TerrorNavArea::ScriptComputeDirection(Vector const&) const
+ T TerrorNavArea::ScriptConnectToArea(HSCRIPT__*, int)
+ T TerrorNavArea::ScriptConnectToLadder(HSCRIPT__*)
+ T TerrorNavArea::ScriptContains(HSCRIPT__*) const
+ T TerrorNavArea::ScriptContainsOrigin(Vector const&) const
+ T TerrorNavArea::ScriptDisconnectArea(HSCRIPT__*)
+ T TerrorNavArea::ScriptDisconnectLadder(HSCRIPT__*)
+ T TerrorNavArea::ScriptGetAdjacentArea(int, int)
+ T TerrorNavArea::ScriptGetAdjacentAreas(int, HSCRIPT__*)
+ T TerrorNavArea::ScriptGetAdjacentCount(int) const
+ T TerrorNavArea::ScriptGetCorner(int) const
+ T TerrorNavArea::ScriptGetDoor()
+ T TerrorNavArea::ScriptGetElevator()
+ T TerrorNavArea::ScriptGetElevatorAreas(HSCRIPT__*)
+ T TerrorNavArea::ScriptGetID() const
+ T TerrorNavArea::ScriptGetIncomingConnections(int, HSCRIPT__*)
+ T TerrorNavArea::ScriptGetLadders(int, HSCRIPT__*)
+ T TerrorNavArea::ScriptGetParent()
+ T TerrorNavArea::ScriptGetParentHow() const
+ T TerrorNavArea::ScriptGetPlaceName()
+ T TerrorNavArea::ScriptGetPlayerCount(int) const
+ T TerrorNavArea::ScriptGetRandomAdjacentArea(int)
+ T TerrorNavArea::ScriptGetSpawnAttributes() const
+ T TerrorNavArea::ScriptGetZ(Vector const&) const
+ T TerrorNavArea::ScriptHasSpawnAttributes(int) const
+ T TerrorNavArea::ScriptIsCleared(HSCRIPT__*)
+ T TerrorNavArea::ScriptIsConnectedArea(HSCRIPT__*, int)
+ T TerrorNavArea::ScriptIsConnectedLadder(HSCRIPT__*, int)
+ T TerrorNavArea::ScriptIsCoplanar(HSCRIPT__*) const
+ T TerrorNavArea::ScriptIsEdge(int) const
+ T TerrorNavArea::ScriptIsOverlapping(HSCRIPT__*) const
+ T TerrorNavArea::ScriptIsOverlappingOrigin(Vector const&, float) const
+ T TerrorNavArea::ScriptIsVisible(Vector const&) const
+ T TerrorNavArea::ScriptMarkAreaCleared(HSCRIPT__*)
+ T TerrorNavArea::ScriptMarkAsBlocked(int)
+ T TerrorNavArea::ScriptRemoveOrthogonalConnections(int)
+ T TerrorNavArea::ScriptRemoveSpawnAttributes(int)
+ T TerrorNavArea::ScriptSetPlaceName(char const*)
+ T TerrorNavArea::ScriptSetSpawnAttributes(int)
+ T TerrorNavArea::ScriptUnblockArea()
  T TerrorNavArea::SetSpawnAttributes(unsigned int)
  T TerrorNavArea::SetupPVS() const
  T TerrorNavArea::SpawnAttributeFromString(char const*)
@@ -34501,6 +34706,7 @@
  T bool ForEachPlayer<CheckpointSurvivorCount>(CheckpointSurvivorCount&)
  T bool ForEachPlayer<ClosestPlayerScan>(ClosestPlayerScan&)
  T bool ForEachPlayer<EntireTeamCheck>(EntireTeamCheck&)
+ T bool ForEachPlayer<IsLadderFreeFunctor>(IsLadderFreeFunctor&)
  T bool ForEachPlayer<LivePlayerCounter>(LivePlayerCounter&)
  T bool ForEachPlayer<LiveSurvivorCounter>(LiveSurvivorCounter&)
  T bool ForEachPlayer<PlayerCounter>(PlayerCounter&)
@@ -35984,9 +36190,16 @@
  T void CHideDesires::Hiding<1>(float*, TerrorNavArea*)
  T void CNavMesh::StitchAreaIntoMesh<AreaSet>(CNavArea*, NavDirType, AreaSet&)
  T void CNavMesh::StitchAreaIntoMesh<IncrementallyGeneratedAreas>(CNavArea*, NavDirType, IncrementallyGeneratedAreas&)
+ T void ScriptDeduceFunctionSignature<CBaseEntity*, CBaseEntity, void, HSCRIPT__*, HSCRIPT__*, HSCRIPT__*, Vector, Vector, float, int>(ScriptFuncDescriptor_t*, CBaseEntity*, void (CBaseEntity::*)(HSCRIPT__*, HSCRIPT__*, HSCRIPT__*, Vector, Vector, float, int))
  T void ScriptDeduceFunctionSignature<CBaseEntity*, CBaseEntity, void, char const*, char const*, float>(ScriptFuncDescriptor_t*, CBaseEntity*, void (CBaseEntity::*)(char const*, char const*, float))
  T void ScriptDeduceFunctionSignature<CBaseEntity*, CBaseEntity, void, char const*, float, float>(ScriptFuncDescriptor_t*, CBaseEntity*, void (CBaseEntity::*)(char const*, float, float))
  T void ScriptDeduceFunctionSignature<CBaseEntity*, CBaseEntity, void, float, int, HSCRIPT__*>(ScriptFuncDescriptor_t*, CBaseEntity*, void (CBaseEntity::*)(float, int, HSCRIPT__*))
+ T void ScriptDeduceFunctionSignature<CNavMesh*, CNavMesh, HSCRIPT__*, Vector const&, Vector const&, HSCRIPT__*>(ScriptFuncDescriptor_t*, CNavMesh*, HSCRIPT__* (CNavMesh::*)(Vector const&, Vector const&, HSCRIPT__*))
+ T void ScriptDeduceFunctionSignature<CNavMesh*, CNavMesh, HSCRIPT__*, Vector const&, float, bool, bool>(ScriptFuncDescriptor_t*, CNavMesh*, HSCRIPT__* (CNavMesh::*)(Vector const&, float, bool, bool))
+ T void ScriptDeduceFunctionSignature<CNavMesh*, CNavMesh, bool, HSCRIPT__*, HSCRIPT__*, Vector const&, float, int, bool, HSCRIPT__*>(ScriptFuncDescriptor_t*, CNavMesh*, bool (CNavMesh::*)(HSCRIPT__*, HSCRIPT__*, Vector const&, float, int, bool, HSCRIPT__*))
+ T void ScriptDeduceFunctionSignature<CNavMesh*, CNavMesh, bool, HSCRIPT__*, HSCRIPT__*, Vector const&, float, int, bool>(ScriptFuncDescriptor_t*, CNavMesh*, bool (CNavMesh::*)(HSCRIPT__*, HSCRIPT__*, Vector const&, float, int, bool))
+ T void ScriptDeduceFunctionSignature<CNavMesh*, CNavMesh, float, HSCRIPT__*, HSCRIPT__*, float>(ScriptFuncDescriptor_t*, CNavMesh*, float (CNavMesh::*)(HSCRIPT__*, HSCRIPT__*, float))
+ T void ScriptDeduceFunctionSignature<CNavMesh*, CNavMesh, void, Vector const&, float, HSCRIPT__*>(ScriptFuncDescriptor_t*, CNavMesh*, void (CNavMesh::*)(Vector const&, float, HSCRIPT__*))
  T void ScriptDeduceFunctionSignature<CNetPropManager*, CNetPropManager, HSCRIPT__*, HSCRIPT__*, char const*, int>(ScriptFuncDescriptor_t*, CNetPropManager*, HSCRIPT__* (CNetPropManager::*)(HSCRIPT__*, char const*, int))
  T void ScriptDeduceFunctionSignature<CNetPropManager*, CNetPropManager, Vector const&, HSCRIPT__*, char const*, int>(ScriptFuncDescriptor_t*, CNetPropManager*, Vector const& (CNetPropManager::*)(HSCRIPT__*, char const*, int))
  T void ScriptDeduceFunctionSignature<CNetPropManager*, CNetPropManager, char const*, HSCRIPT__*, char const*, int>(ScriptFuncDescriptor_t*, CNetPropManager*, char const* (CNetPropManager::*)(HSCRIPT__*, char const*, int))
@@ -36008,6 +36221,7 @@
  T void ScriptDeduceFunctionSignature<CScriptEntityOutputs*, CScriptEntityOutputs, void, HSCRIPT__*, char const*, HSCRIPT__*, int>(ScriptFuncDescriptor_t*, CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, HSCRIPT__*, int))
  T void ScriptDeduceFunctionSignature<CScriptEntityOutputs*, CScriptEntityOutputs, void, HSCRIPT__*, char const*, char const*, char const*, char const*, float, int>(ScriptFuncDescriptor_t*, CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, char const*, char const*, char const*, float, int))
  T void ScriptDeduceFunctionSignature<CScriptEntityOutputs*, CScriptEntityOutputs, void, HSCRIPT__*, char const*, char const*, char const*, char const*>(ScriptFuncDescriptor_t*, CScriptEntityOutputs*, void (CScriptEntityOutputs::*)(HSCRIPT__*, char const*, char const*, char const*, char const*))
+ T void ScriptDeduceFunctionSignature<TerrorNavArea*, CNavArea, void, int, int, int, int, float, bool>(ScriptFuncDescriptor_t*, TerrorNavArea*, void (CNavArea::*)(int, int, int, int, float, bool) const)
  T void ScriptDeduceFunctionSignature<Vector const&, Vector, QAngle, Vector>(ScriptFuncDescriptor_t*, Vector const& (*)(Vector, QAngle, Vector))
  T void ScriptDeduceFunctionSignature<void, HSCRIPT__*, char const*, bool>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, char const*, bool))
  T void ScriptDeduceFunctionSignature<void, HSCRIPT__*, char const*, char const*>(ScriptFuncDescriptor_t*, void (*)(HSCRIPT__*, char const*, char const*))
@@ -36431,6 +36645,15 @@
  b _ZGVZ17VScriptServerInitvE7binding__84_
  b _ZGVZ17VScriptServerInitvE7binding__85_
  b _ZGVZ17VScriptServerInitvE7binding__86_
+ b _ZGVZ17VScriptServerInitvE7binding__87_
+ b _ZGVZ17VScriptServerInitvE7binding__88_
+ b _ZGVZ17VScriptServerInitvE7binding__89_
+ b _ZGVZ17VScriptServerInitvE7binding__90_
+ b _ZGVZ17VScriptServerInitvE7binding__91_
+ b _ZGVZ17VScriptServerInitvE7binding__92_
+ b _ZGVZ17VScriptServerInitvE7binding__93_
+ b _ZGVZ17VScriptServerInitvE7binding__94_
+ b _ZGVZ17VScriptServerInitvE7binding__95_
  b _ZL8ice_sbox.0
  b _ZL8ice_sbox.1
  b _ZL8ice_sbox.2
@@ -36512,6 +36735,15 @@
  b _ZZ17VScriptServerInitvE7binding__84_
  b _ZZ17VScriptServerInitvE7binding__85_
  b _ZZ17VScriptServerInitvE7binding__86_
+ b _ZZ17VScriptServerInitvE7binding__87_
+ b _ZZ17VScriptServerInitvE7binding__88_
+ b _ZZ17VScriptServerInitvE7binding__89_
+ b _ZZ17VScriptServerInitvE7binding__90_
+ b _ZZ17VScriptServerInitvE7binding__91_
+ b _ZZ17VScriptServerInitvE7binding__92_
+ b _ZZ17VScriptServerInitvE7binding__93_
+ b _ZZ17VScriptServerInitvE7binding__94_
+ b _ZZ17VScriptServerInitvE7binding__95_
  b __g_CServerDLLSharedAppSystems_singleton
  b __g_CServerGameEnts_singleton
  b __g_CServerGameTags_singleton
@@ -38336,13 +38568,15 @@
  g_pVCR
  getMemAllocPtr
  getcwd
+ iconv
+ iconv_close
+ iconv_open
  localtime
  log
  log10
  logf
  malloc
  malloc_size
- mbstowcs
  memchr
  memcmp
  memcpy
@@ -38513,6 +38747,8 @@
  t Script_GetCharacterDisplayName(HSCRIPT__*)
  t Script_GetCurrentFlowDistanceForPlayer(HSCRIPT__*)
  t Script_GetCurrentFlowPercentForPlayer(HSCRIPT__*)
+ t Script_GetDifficulty()
+ t Script_GetDifficultyString()
  t Script_GetFlowDistanceForPosition(Vector)
  t Script_GetFlowPercentForPosition(Vector, bool)
  t Script_GetFrameCount()
@@ -38525,11 +38761,14 @@
  t Script_GetPhysVelocity(HSCRIPT__*)
  t Script_GetPlayerFromCharacter(int)
  t Script_GetPlayerFromUserID(int)
+ t Script_GetScavengeItemsGoal()
+ t Script_GetScavengeItemsRemaining()
  t Script_GetSoundDuration(char const*, char const*)
  t Script_HUDManageTimers(int, int, float)
  t Script_HUDPlace(int, float, float, float, float)
  t Script_HUDReadTimer(int)
  t Script_HUDSetLayout(HSCRIPT__*)
+ t Script_HasConfigurableDifficultySetting()
  t Script_HasPlayerControlledZombies()
  t Script_IsPlayerABot(HSCRIPT__*)
  t Script_IsSoundPrecached(char const*)
@@ -38550,6 +38789,8 @@
  t Script_ScreenFade(HSCRIPT__*, int, int, int, int, float, float, int)
  t Script_ScreenShake(Vector const&, float, float, float, float, int, bool)
  t Script_SetFakeClientConVarValue(HSCRIPT__*, char const*, char const*)
+ t Script_SetScavengeItemsGoal(int)
+ t Script_SetScavengeItemsRemaining(int)
  t Script_SpawnEntityFromTable(char const*, HSCRIPT__*)
  t Script_SpawnEntityGroupFromTable(HSCRIPT__*)
  t Script_StartAssault()
@@ -38604,7 +38845,7 @@
  t __cxx_global_array_dtor151
  t __cxx_global_array_dtor154
  t __cxx_global_array_dtor159
- t __cxx_global_array_dtor1648
+ t __cxx_global_array_dtor1673
  t __cxx_global_array_dtor174
  t __cxx_global_array_dtor177
  t __cxx_global_array_dtor187
@@ -38646,9 +38887,9 @@
  t __cxx_global_array_dtor82
  t __cxx_global_array_dtor91
  t __cxx_global_array_dtor92
- t __cxx_global_array_dtor927
  t __cxx_global_array_dtor94
  t __cxx_global_array_dtor95
+ t __cxx_global_array_dtor952
  t __cxx_global_array_dtor98
  t bool CreateAndValidateFileLocation<260ul>(char (&) [260ul], char const*)
  t callvote(CCommand const&)
@@ -38845,4 +39086,3 @@
  wcslen
  wcstof
  wcstol
- wcstombs

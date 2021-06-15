@@ -1344,9 +1344,11 @@
  B SurvivorIncapRoll
  B SurvivorIncapacitatedAccuracyPenalty
  B SurvivorIncapacitatedCycleTime
+ B SurvivorIncapacitatedDecayRate
  B SurvivorIncapacitatedDizzySeverity
  B SurvivorIncapacitatedDizzyTimer
  B SurvivorIncapacitatedEyeHeight
+ B SurvivorIncapacitatedHealth
  B SurvivorIncapacitatedReloadMultiplier
  B SurvivorItDuration
  B SurvivorLean
@@ -1852,6 +1854,7 @@
  B cc_lang
  B cc_showmissing
  B chainsaw_debug
+ B charger_pz_claw_dmg
  B cl_ShowBoneSetupEnts
  B cl_ShowSunVectors
  B cl_addon_debug
@@ -2565,7 +2568,6 @@
  B mp_winlimit
  B musicCmd
  B muzzleflash_light
- B n_intersection_calculations
  B nb_shadow_blobby_dist
  B nb_shadow_cull_dist
  B net_showusercmd
@@ -4608,7 +4610,7 @@
  D SimpleMouseoverButton::GetMessageMap()::s_pMap
  D SimpleMouseoverButton::KB_ChainToMap()::chained
  D SoundCommand_t::m_DataMap
- D SteamInternal_ModuleContext()::ctx
+ D SteamInternal_ModuleContext()::s_CallbackCounterAndContext
  D SurvivorStatsPanel::ChainToAnimationMap()::chained
  D SurvivorStatsPanel::ChainToMap()::chained
  D SurvivorStatsPanel::GetKBMap()::s_pMap
@@ -4859,6 +4861,7 @@
  D g_RagdolMaxByType
  D g_RatioToAspectModes
  D g_StandardRecvProxies
+ D g_SteamControllerOriginStrings
  D g_SurvivorStatList
  D g_WaterSplashHandle
  D g_aFadeData
@@ -12026,6 +12029,7 @@
  SteamAPI_RegisterCallback
  SteamAPI_SetTryCatchCallbacks
  SteamAPI_UnregisterCallback
+ SteamInternal_ContextInit
  SteamInternal_CreateInterface
  T AccumulatePose(CStudioHdr const*, CIKContext*, Vector*, Quaternion*, int, float, float const*, int, float, float)
  T ActivateVguiScreen(C_BaseEntity*)
@@ -16421,6 +16425,7 @@
  T CLocatorPanel::PerformLayout()
  T CLocatorPanel::ValidateTargetTextures(CLocatorTarget*)
  T CLocatorPanel::~CLocatorPanel()
+ T CLocatorTarget::CLocatorTarget()
  T CLocatorTarget::Deactivate(bool)
  T CLocatorTarget::EndPresent()
  T CLocatorTarget::IsPresenting()
@@ -16430,9 +16435,11 @@
  T CLocatorTarget::SetCaptionText(char const*, char const*)
  T CLocatorTarget::SetOffscreenIconTextureName(char const*)
  T CLocatorTarget::SetOnscreenIconTextureName(char const*)
+ T CLocatorTarget::SetSteamControllerBindingToOrigin(EControllerActionOrigin*, int, char const*)
  T CLocatorTarget::SetVisible(bool)
  T CLocatorTarget::Update()
  T CLocatorTarget::UseBindingImage(char*, unsigned long, float&)
+ T CLocatorTarget::~CLocatorTarget()
  T CManagedDataCacheClient<AsyncCaptionData_t, asynccaptionparams_t, AsyncCaptionData_t*>::HandleCacheNotification(DataCacheNotification_t const&)
  T CMatStubHandler::CMatStubHandler()
  T CMatStubHandler::End()
@@ -20098,6 +20105,7 @@
  T CTerrorGameRules::IsCurrentRoundActive() const
  T CTerrorGameRules::IsGenericCooperativeMode()
  T CTerrorGameRules::IsInIntro()
+ T CTerrorGameRules::IsL4D1Campaign(int*)
  T CTerrorGameRules::IsMissionFinalMap()
  T CTerrorGameRules::IsOriginalCampaign()
  T CTerrorGameRules::IsRealismMode()
@@ -29516,6 +29524,7 @@
  T StandardGlowBlend(pixelvis_queryparams_t const&, int*, int, int, int, float*)
  T StartParticleEffect(CEffectData const&, int)
  T StartVomitCallback(CEffectData const&)
+ T SteamInternal_OnContextInit(void*)
  T StickRagdollNow(Vector const&, Vector const&)
  T StickyBoltCallback(CEffectData const&)
  T StopAllRumbleEffects(int)
@@ -32117,6 +32126,8 @@
  T ss_splitmode_changed(IConVar*, char const*, float)
  T ss_verticalsplit_changed(IConVar*, char const*, float)
  T startvomitPrecache::CResourcePrecacher::Cache(IPrecacheHandler*, bool, ResourceList_t__*, bool)
+ T stbi_image_free
+ T stbi_load
  T std::_Rb_tree<std::pair<std::string, int>, std::pair<std::pair<std::string, int> const, std::pair<void const*, int> >, std::_Select1st<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > >, std::less<std::pair<std::string, int> >, std::allocator<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > > >::_M_create_node(std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > const&)
  T std::_Rb_tree<std::pair<std::string, int>, std::pair<std::pair<std::string, int> const, std::pair<void const*, int> >, std::_Select1st<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > >, std::less<std::pair<std::string, int> >, std::allocator<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > > >::_M_destroy_node(std::_Rb_tree_node<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > >*)
  T std::_Rb_tree<std::pair<std::string, int>, std::pair<std::pair<std::string, int> const, std::pair<void const*, int> >, std::_Select1st<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > >, std::less<std::pair<std::string, int> >, std::allocator<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > > >::_M_erase(std::_Rb_tree_node<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > >*)
@@ -35030,7 +35041,6 @@
  b ShowSteamStatsSessionID
  b SplitScreenConVarRef::Init(char const*, bool)::bFirst
  b SurvivorColor
- b TerrorClientMode::UpdatePostProcessingEffects()::survivor_incap_health
  b TerrorClientMode::WriteSurvivalLeaderboardStats(unsigned long long)::sv_cheats
  b Test_ProxyToggle_EnsureValue_command
  b TheClientMenuManager
@@ -35047,7 +35057,6 @@
  b VGui_OnSplitScreenStateChanged()::cl_viewmodelfovsmoker
  b VGui_OnSplitScreenStateChanged()::cl_viewmodelfovsurvivor
  b VGui_OnSplitScreenStateChanged()::cl_viewmodelfovtank
- b VGui_OnSplitScreenStateChanged()::fov_desired
  b VGui_OneTimeInit()::initialized
  b V_pretifymem(float, int, bool)::current
  b V_pretifymem(float, int, bool)::output
@@ -35921,7 +35930,6 @@
  b guard variable for ResponseCurveLookAccelerated(int, float, int, float, float, float)::s_autoaim
  b guard variable for ResponseCurveLookDefault(int, float, int, float, float, float)::s_autoaim
  b guard variable for SelectWeightedSequence(CStudioHdr*, int, int)::_counter
- b guard variable for TerrorClientMode::UpdatePostProcessingEffects()::survivor_incap_health
  b guard variable for TerrorClientMode::WriteSurvivalLeaderboardStats(unsigned long long)::sv_cheats
  b guard variable for TheClientNextBots()::manager
  b guard variable for TheTutorDisplay()::tutor
@@ -35932,7 +35940,6 @@
  b guard variable for VGui_OnSplitScreenStateChanged()::cl_viewmodelfovsmoker
  b guard variable for VGui_OnSplitScreenStateChanged()::cl_viewmodelfovsurvivor
  b guard variable for VGui_OnSplitScreenStateChanged()::cl_viewmodelfovtank
- b guard variable for VGui_OnSplitScreenStateChanged()::fov_desired
  b guard variable for WaveTrace(char const*, char const*)::s_WaveTrace
  b guard variable for vgui::GetAnimationController()::s_pAnimationController
  b guard variable for vgui::GetPanelKeyBindingMapDictionary()::dictionary
@@ -36609,6 +36616,10 @@
  b startzoom
  b stats_highlight_interval
  b statsnexthighlight
+ b stbi__de_iphone_flag
+ b stbi__g_failure_reason
+ b stbi__unpremultiply_on_load
+ b stbi__vertically_flip_on_load_global
  b std::__ioinit
  b steam_stats_write_to_keyvalue
  b stopsoundscape_command
@@ -36812,6 +36823,10 @@
  d s_pTopHalfWoundSkipBones
  d s_shared_quote
  d s_stepPrefix
+ d stbi__h2l_gamma_i
+ d stbi__h2l_scale_i
+ d stbi__parse_png_file(stbi__png*, int, int)::invalid_chunk
+ d stbi__stdio_callbacks
  d typeinfo for (anonymous namespace)::CaptionGripPanel
  d typeinfo for (anonymous namespace)::GripPanel
  d typeinfo for (anonymous namespace)::ScrollBarButton
@@ -36826,12 +36841,20 @@
  dlsym
  exp
  expf
+ fclose
+ feof
+ ferror
  fflush
+ fgetc
  floor
  floorf
  fmod
  fmodf
+ fopen
  fprintf
+ fread
+ free
+ fseek
  g_ClockSpeed
  g_ClockSpeedMillisecondsMultiplier
  g_VProfCurrentProfile
@@ -36843,10 +36866,11 @@
  iconv
  iconv_close
  iconv_open
+ ldexp
  localtime
  log
  logf
- mbstowcs
+ malloc
  memchr
  memcmp
  memcpy
@@ -36891,6 +36915,7 @@
  r bloodcolors
  r commandercolors
  r coord
+ r first_row_filter
  r gSizes
  r g_HealthColors
  r g_HealthColors_ColorBlind
@@ -37006,10 +37031,27 @@
  r s_pBoxFaceIndices
  r s_pQuadCount
  r s_randomGradients
+ r stbi__bmask
+ r stbi__check_png_header(stbi__context*)::png_sig
+ r stbi__compute_huffman_codes(stbi__zbuf*)::length_dezigzag
+ r stbi__depth_scale_table
+ r stbi__jbias
+ r stbi__jpeg_dezigzag
+ r stbi__process_frame_header(stbi__jpeg*, int)::rgb
+ r stbi__process_marker(stbi__jpeg*, int)::tag
+ r stbi__shiftsigned(unsigned int, int, int)::mul_table
+ r stbi__shiftsigned(unsigned int, int, int)::shift_table
+ r stbi__zdefault_distance
+ r stbi__zdefault_length
+ r stbi__zdist_base
+ r stbi__zdist_extra
+ r stbi__zlength_base
+ r stbi__zlength_extra
  r typeinfo name for (anonymous namespace)::CaptionGripPanel
  r typeinfo name for (anonymous namespace)::GripPanel
  r typeinfo name for (anonymous namespace)::ScrollBarButton
  raise
+ realloc
  setlocale
  sin
  sinf
@@ -38026,6 +38068,7 @@
  t hide_message_panel(CCommand const&)
  t hidepanel(CCommand const&)
  t hud_reloadscheme(CCommand const&)
+ t load_jpeg_image(stbi__jpeg*, int*, int*, int*, int)
  t menuselect(CCommand const&)
  t overview_mode(CCommand const&)
  t overview_zoom(CCommand const&)
@@ -38046,6 +38089,7 @@
  t r_shadowdist(CCommand const&)
  t r_skyboxfogfactor(CCommand const&)
  t radialmenu(CCommand const&)
+ t resample_row_1(unsigned char*, unsigned char*, unsigned char*, int, int)
  t s_RenderFastSpriteGuts(CDetailObjectSystem*, DistanceFadeInfo_t, Vector, Vector, Vector, Vector, int, CUtlEnvelope<unsigned short> const&)
  t show_menu_f(CCommand const&)
  t showinfo(CCommand const&)
@@ -38066,6 +38110,40 @@
  t spec_pos(CCommand const&)
  t spec_prev(CCommand const&)
  t ss_teleport(CCommand const&)
+ t stbi__YCbCr_to_RGB_simd(unsigned char*, unsigned char const*, unsigned char const*, unsigned char const*, int, int)
+ t stbi__at_eof(stbi__context*)
+ t stbi__bmp_parse_header(stbi__context*, stbi__bmp_data*)
+ t stbi__build_huffman(stbi__huffman*, int*)
+ t stbi__convert_format(unsigned char*, int, int, unsigned int, unsigned int)
+ t stbi__convert_format16(unsigned short*, int, int, unsigned int, unsigned int)
+ t stbi__create_png_image_raw(stbi__png*, unsigned char*, unsigned int, int, unsigned int, unsigned int, int, int)
+ t stbi__decode_jpeg_header(stbi__jpeg*, int)
+ t stbi__do_zlib(stbi__zbuf*, char*, int, int, int)
+ t stbi__get8(stbi__context*)
+ t stbi__gif_header(stbi__context*, stbi__gif*, int*, int)
+ t stbi__gif_load_next(stbi__context*, stbi__gif*, int*, int, unsigned char*)
+ t stbi__gif_test(stbi__context*)
+ t stbi__hdr_gettoken(stbi__context*, char*)
+ t stbi__hdr_load(stbi__context*, int*, int*, int*, int, stbi__result_info*)
+ t stbi__idct_simd(unsigned char*, int, short*)
+ t stbi__jpeg_decode_block(stbi__jpeg*, short*, stbi__huffman*, stbi__huffman*, short*, int, unsigned short*)
+ t stbi__jpeg_decode_block_prog_dc(stbi__jpeg*, short*, stbi__huffman*, int)
+ t stbi__load_and_postprocess_8bit(stbi__context*, int*, int*, int*, int)
+ t stbi__load_main(stbi__context*, int*, int*, int*, int, stbi__result_info*, int)
+ t stbi__out_gif_code(stbi__gif*, unsigned short)
+ t stbi__parse_png_file(stbi__png*, int, int)
+ t stbi__pnm_info(stbi__context*, int*, int*, int*)
+ t stbi__pnm_skip_whitespace(stbi__context*, char*)
+ t stbi__process_marker(stbi__jpeg*, int)
+ t stbi__resample_row_generic(unsigned char*, unsigned char*, unsigned char*, int, int)
+ t stbi__resample_row_h_2(unsigned char*, unsigned char*, unsigned char*, int, int)
+ t stbi__resample_row_hv_2_simd(unsigned char*, unsigned char*, unsigned char*, int, int)
+ t stbi__resample_row_v_2(unsigned char*, unsigned char*, unsigned char*, int, int)
+ t stbi__stdio_eof(void*)
+ t stbi__stdio_read(void*, char*, int)
+ t stbi__stdio_skip(void*, int)
+ t stbi__tga_read_rgb16(stbi__context*, unsigned char*)
+ t stbi__zbuild_huffman(stbi__zhuffman*, unsigned char const*, int)
  t stopsoundscape(CCommand const&)
  t terror_reload_team_display(CCommand const&)
  t terror_test_hud_glow(CCommand const&)
@@ -38097,6 +38175,7 @@
  tan
  time
  typeinfo for std::bad_alloc
+ ungetc
  vsnprintf
  vswprintf
  vtable for __cxxabiv1::__class_type_info
@@ -38114,4 +38193,3 @@
  wcstod
  wcstof
  wcstol
- wcstombs
