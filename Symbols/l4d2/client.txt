@@ -4611,7 +4611,29 @@
  D SimpleMouseoverButton::GetMessageMap()::s_pMap
  D SimpleMouseoverButton::KB_ChainToMap()::chained
  D SoundCommand_t::m_DataMap
- D SteamInternal_ModuleContext()::s_CallbackCounterAndContext
+ D SteamAppList()::s_CallbackCounterAndContext
+ D SteamApps()::s_CallbackCounterAndContext
+ D SteamClient()::s_CallbackCounterAndContext
+ D SteamController()::s_CallbackCounterAndContext
+ D SteamFriends()::s_CallbackCounterAndContext
+ D SteamGameSearch()::s_CallbackCounterAndContext
+ D SteamHTMLSurface()::s_CallbackCounterAndContext
+ D SteamHTTP()::s_CallbackCounterAndContext
+ D SteamInput()::s_CallbackCounterAndContext
+ D SteamInventory()::s_CallbackCounterAndContext
+ D SteamMatchmaking()::s_CallbackCounterAndContext
+ D SteamMatchmakingServers()::s_CallbackCounterAndContext
+ D SteamMusic()::s_CallbackCounterAndContext
+ D SteamMusicRemote()::s_CallbackCounterAndContext
+ D SteamNetworking()::s_CallbackCounterAndContext
+ D SteamParentalSettings()::s_CallbackCounterAndContext
+ D SteamRemoteStorage()::s_CallbackCounterAndContext
+ D SteamScreenshots()::s_CallbackCounterAndContext
+ D SteamUGC()::s_CallbackCounterAndContext
+ D SteamUser()::s_CallbackCounterAndContext
+ D SteamUserStats()::s_CallbackCounterAndContext
+ D SteamUtils()::s_CallbackCounterAndContext
+ D SteamVideo()::s_CallbackCounterAndContext
  D SurvivorStatsPanel::ChainToAnimationMap()::chained
  D SurvivorStatsPanel::ChainToMap()::chained
  D SurvivorStatsPanel::GetKBMap()::s_pMap
@@ -6424,6 +6446,7 @@
  D typeinfo for CCSViewRender
  D typeinfo for CCSWeaponInfo
  D typeinfo for CCallback<CAchievementMgr, UserStatsStored_t, false>
+ D typeinfo for CCallback<CBaseHudChat, FloatingGamepadTextInputDismissed_t, false>
  D typeinfo for CCallback<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>
  D typeinfo for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>
  D typeinfo for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, false>
@@ -6433,6 +6456,7 @@
  D typeinfo for CCallbackBase
  D typeinfo for CCallbackImpl<12>
  D typeinfo for CCallbackImpl<16>
+ D typeinfo for CCallbackImpl<1>
  D typeinfo for CCallbackImpl<20>
  D typeinfo for CCallbackManual<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>
  D typeinfo for CCallbackManual<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>
@@ -8671,8 +8695,10 @@
  D vtable for CCSViewRender
  D vtable for CCSWeaponInfo
  D vtable for CCallback<CAchievementMgr, UserStatsStored_t, false>
+ D vtable for CCallback<CBaseHudChat, FloatingGamepadTextInputDismissed_t, false>
  D vtable for CCallbackImpl<12>
  D vtable for CCallbackImpl<16>
+ D vtable for CCallbackImpl<1>
  D vtable for CCallbackImpl<20>
  D vtable for CCallbackManual<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>
  D vtable for CCallbackManual<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>
@@ -10155,7 +10181,6 @@
  Error
  GenericThreadLocals::CThreadLocalBase::Get() const
  GetCPUInformation
- GetHSteamPipe
  KeyValuesSystem
  LoggingSystem_LogAssert
  Msg
@@ -10374,6 +10399,7 @@
  R typeinfo name for CCSViewRender
  R typeinfo name for CCSWeaponInfo
  R typeinfo name for CCallback<CAchievementMgr, UserStatsStored_t, false>
+ R typeinfo name for CCallback<CBaseHudChat, FloatingGamepadTextInputDismissed_t, false>
  R typeinfo name for CCallback<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>
  R typeinfo name for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>
  R typeinfo name for CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, false>
@@ -10383,6 +10409,7 @@
  R typeinfo name for CCallbackBase
  R typeinfo name for CCallbackImpl<12>
  R typeinfo name for CCallbackImpl<16>
+ R typeinfo name for CCallbackImpl<1>
  R typeinfo name for CCallbackImpl<20>
  R typeinfo name for CCallbackManual<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>
  R typeinfo name for CCallbackManual<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>
@@ -12031,6 +12058,7 @@
  SteamAPI_UnregisterCallback
  SteamInternal_ContextInit
  SteamInternal_CreateInterface
+ SteamInternal_FindOrCreateUserInterface
  T AccumulatePose(CStudioHdr const*, CIKContext*, Vector*, Quaternion*, int, float, float const*, int, float, float)
  T ActivateVguiScreen(C_BaseEntity*)
  T ActivityList_Free()
@@ -12932,12 +12960,14 @@
  T CBaseHudChat::MsgFunc_SayText2(bf_read&)
  T CBaseHudChat::MsgFunc_TextMsg(bf_read&)
  T CBaseHudChat::MsgFunc_VoiceSubtitle(bf_read&)
+ T CBaseHudChat::OnFloatingGamepadTextInputDismissed(FloatingGamepadTextInputDismissed_t*)
  T CBaseHudChat::OnTick()
  T CBaseHudChat::Paint()
  T CBaseHudChat::Printf(int, char const*, ...)
  T CBaseHudChat::Reset()
  T CBaseHudChat::Send()
  T CBaseHudChat::StartMessageMode(int)
+ T CBaseHudChat::StartSteamMessageMode()
  T CBaseHudChat::StopMessageMode(bool)
  T CBaseHudChat::~CBaseHudChat()
  T CBaseHudChatEntry::ApplySchemeSettings(vgui::IScheme*)
@@ -13282,6 +13312,9 @@
  T CCallQueueT<CTSQueue<CFunctor*, false> >::CallQueued()
  T CCallQueueT<CTSQueue<CFunctor*, false> >::QueueFunctorInternal(CFunctor*)
  T CCallback<CAchievementMgr, UserStatsStored_t, false>::Run(void*)
+ T CCallback<CAchievementMgr, UserStatsStored_t, false>::~CCallback()
+ T CCallback<CBaseHudChat, FloatingGamepadTextInputDismissed_t, false>::Run(void*)
+ T CCallback<CBaseHudChat, FloatingGamepadTextInputDismissed_t, false>::~CCallback()
  T CCallback<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>::Run(void*)
  T CCallback<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>::Run(void*)
  T CCallback<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, false>::Run(void*)
@@ -13290,10 +13323,22 @@
  T CCallback<C_SteamUserStats, UserStatsStored_t, false>::Run(void*)
  T CCallbackImpl<12>::GetCallbackSizeBytes()
  T CCallbackImpl<12>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<12>::~CCallbackImpl()
  T CCallbackImpl<16>::GetCallbackSizeBytes()
  T CCallbackImpl<16>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<16>::~CCallbackImpl()
+ T CCallbackImpl<1>::GetCallbackSizeBytes()
+ T CCallbackImpl<1>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<1>::~CCallbackImpl()
  T CCallbackImpl<20>::GetCallbackSizeBytes()
  T CCallbackImpl<20>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<20>::~CCallbackImpl()
+ T CCallbackManual<CSteamWorksGameStatsUploader, GameLobbyJoinRequested_t, false>::~CCallbackManual()
+ T CCallbackManual<CSteamWorksGameStatsUploader, GameStatsSessionClosed_t, false>::~CCallbackManual()
+ T CCallbackManual<CSteamWorksGameStatsUploader, GameStatsSessionIssued_t, false>::~CCallbackManual()
+ T CCallbackManual<CSteamWorksGameStatsUploader, LobbyEnter_t, false>::~CCallbackManual()
+ T CCallbackManual<C_SteamUserStats, UserStatsReceived_t, false>::~CCallbackManual()
+ T CCallbackManual<C_SteamUserStats, UserStatsStored_t, false>::~CCallbackManual()
  T CCamoMaterialProxy::GenerateCamoTexture(ITexture*, IVTFTexture*)
  T CCamoMaterialProxy::GetColors(Vector&, Vector&, int, Vector const&, Vector const&, Vector const&, Vector const&, Vector const&, Vector const&)
  T CCamoMaterialProxy::GetMaterial()
@@ -15832,6 +15877,7 @@
  T CHudWeaponSelection::CancelWeaponSelection()
  T CHudWeaponSelection::CycleToNextWeapon()
  T CHudWeaponSelection::CycleToPrevWeapon()
+ T CHudWeaponSelection::DrawSlotGlyph(int, int, int, int, int)
  T CHudWeaponSelection::DrawTextureForSlot(int, int, int, int, int, int)
  T CHudWeaponSelection::FindNextWeaponInWeaponSelection(int, int, C_TerrorWeapon*)
  T CHudWeaponSelection::FindPrevWeaponInWeaponSelection(int, int, C_TerrorWeapon*)
@@ -15936,6 +15982,7 @@
  T CHudWeaponSelection::SetSelectedWeapon(C_BaseCombatWeapon*)
  T CHudWeaponSelection::ShouldDraw()
  T CHudWeaponSelection::SwitchToLastWeapon()
+ T CHudWeaponSelection::UpdateOriginTextures()
  T CHudWeaponSelection::~CHudWeaponSelection()
  T CHudZombieHealth::ApplySchemeSettings(vgui::IScheme*)
  T CHudZombieHealth::CHudZombieHealth(char const*)
@@ -16436,7 +16483,7 @@
  T CLocatorTarget::SetCaptionText(char const*, char const*)
  T CLocatorTarget::SetOffscreenIconTextureName(char const*)
  T CLocatorTarget::SetOnscreenIconTextureName(char const*)
- T CLocatorTarget::SetSteamControllerBindingToOrigin(EControllerActionOrigin*, int, char const*)
+ T CLocatorTarget::SetSteamControllerBindingToOrigin(EInputActionOrigin*, int, char const*)
  T CLocatorTarget::SetVisible(bool)
  T CLocatorTarget::Update()
  T CLocatorTarget::UseBindingImage(char*, unsigned long, float&)
@@ -20761,6 +20808,7 @@
  T CUtlMemory<GestureSlot_t, int>::Grow(int)
  T CUtlMemory<HTMLCommandBuffer_t*, int>::Grow(int)
  T CUtlMemory<HudMessageLabel*, int>::Grow(int)
+ T CUtlMemory<HudTextRange, int>::Grow(int)
  T CUtlMemory<IClientEntityListener*, int>::Grow(int)
  T CUtlMemory<IGameSystem*, int>::Grow(int)
  T CUtlMemory<IGameSystemPerFrame*, int>::Grow(int)
@@ -20794,7 +20842,6 @@
  T CUtlMemory<SurvivorCharacterType, int>::Grow(int)
  T CUtlMemory<TeamDisplayPlayer*, int>::Grow(int)
  T CUtlMemory<TeamGoal_t, int>::Grow(int)
- T CUtlMemory<TextRange, int>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<CAchievementNotificationPanel::Notification_t, unsigned short>, unsigned short>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<CAddonModel, int>, int>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<CAsyncCaption*, unsigned short>, unsigned short>::Grow(int)
@@ -21946,6 +21993,7 @@
  T CUtlVector<GestureSlot_t, CUtlMemory<GestureSlot_t, int> >::~CUtlVector()
  T CUtlVector<HTMLCommandBuffer_t*, CUtlMemory<HTMLCommandBuffer_t*, int> >::~CUtlVector()
  T CUtlVector<HudMessageLabel*, CUtlMemory<HudMessageLabel*, int> >::~CUtlVector()
+ T CUtlVector<HudTextRange, CUtlMemory<HudTextRange, int> >::~CUtlVector()
  T CUtlVector<IClientEntityListener*, CUtlMemory<IClientEntityListener*, int> >::~CUtlVector()
  T CUtlVector<IClientParticleListener*, CUtlMemory<IClientParticleListener*, int> >::~CUtlVector()
  T CUtlVector<IGameSystem*, CUtlMemory<IGameSystem*, int> >::~CUtlVector()
@@ -21984,7 +22032,6 @@
  T CUtlVector<SurvivorCharacterType, CUtlMemory<SurvivorCharacterType, int> >::~CUtlVector()
  T CUtlVector<TeamDisplayPlayer*, CUtlMemory<TeamDisplayPlayer*, int> >::~CUtlVector()
  T CUtlVector<TeamGoal_t, CUtlMemory<TeamGoal_t, int> >::~CUtlVector()
- T CUtlVector<TextRange, CUtlMemory<TextRange, int> >::~CUtlVector()
  T CUtlVector<VMatrix, CUtlMemory<VMatrix, int> >::~CUtlVector()
  T CUtlVector<VarMapEntry_t, CUtlMemory<VarMapEntry_t, int> >::~CUtlVector()
  T CUtlVector<Vector, CUtlMemory<Vector, int> >::~CUtlVector()
@@ -29524,7 +29571,29 @@
  T StandardGlowBlend(pixelvis_queryparams_t const&, int*, int, int, int, float*)
  T StartParticleEffect(CEffectData const&, int)
  T StartVomitCallback(CEffectData const&)
- T SteamInternal_OnContextInit(void*)
+ T SteamInternal_Init_SteamAppList(ISteamAppList**)
+ T SteamInternal_Init_SteamApps(ISteamApps**)
+ T SteamInternal_Init_SteamClient(ISteamClient**)
+ T SteamInternal_Init_SteamController(ISteamController**)
+ T SteamInternal_Init_SteamFriends(ISteamFriends**)
+ T SteamInternal_Init_SteamGameSearch(ISteamGameSearch**)
+ T SteamInternal_Init_SteamHTMLSurface(ISteamHTMLSurface**)
+ T SteamInternal_Init_SteamHTTP(ISteamHTTP**)
+ T SteamInternal_Init_SteamInput(ISteamInput**)
+ T SteamInternal_Init_SteamInventory(ISteamInventory**)
+ T SteamInternal_Init_SteamMatchmaking(ISteamMatchmaking**)
+ T SteamInternal_Init_SteamMatchmakingServers(ISteamMatchmakingServers**)
+ T SteamInternal_Init_SteamMusic(ISteamMusic**)
+ T SteamInternal_Init_SteamMusicRemote(ISteamMusicRemote**)
+ T SteamInternal_Init_SteamNetworking(ISteamNetworking**)
+ T SteamInternal_Init_SteamParentalSettings(ISteamParentalSettings**)
+ T SteamInternal_Init_SteamRemoteStorage(ISteamRemoteStorage**)
+ T SteamInternal_Init_SteamScreenshots(ISteamScreenshots**)
+ T SteamInternal_Init_SteamUGC(ISteamUGC**)
+ T SteamInternal_Init_SteamUser(ISteamUser**)
+ T SteamInternal_Init_SteamUserStats(ISteamUserStats**)
+ T SteamInternal_Init_SteamUtils(ISteamUtils**)
+ T SteamInternal_Init_SteamVideo(ISteamVideo**)
  T StickRagdollNow(Vector const&, Vector const&)
  T StickyBoltCallback(CEffectData const&)
  T StopAllRumbleEffects(int)
@@ -32129,6 +32198,7 @@
  T startvomitPrecache::CResourcePrecacher::Cache(IPrecacheHandler*, bool, ResourceList_t__*, bool)
  T stbi_image_free
  T stbi_load
+ T stbir_resize_uint8
  T std::_Rb_tree<std::pair<std::string, int>, std::pair<std::pair<std::string, int> const, std::pair<void const*, int> >, std::_Select1st<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > >, std::less<std::pair<std::string, int> >, std::allocator<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > > >::_M_create_node(std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > const&)
  T std::_Rb_tree<std::pair<std::string, int>, std::pair<std::pair<std::string, int> const, std::pair<void const*, int> >, std::_Select1st<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > >, std::less<std::pair<std::string, int> >, std::allocator<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > > >::_M_destroy_node(std::_Rb_tree_node<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > >*)
  T std::_Rb_tree<std::pair<std::string, int>, std::pair<std::pair<std::string, int> const, std::pair<void const*, int> >, std::_Select1st<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > >, std::less<std::pair<std::string, int> >, std::allocator<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > > >::_M_erase(std::_Rb_tree_node<std::pair<std::pair<std::string, int> const, std::pair<void const*, int> > >*)
@@ -36015,6 +36085,7 @@
  b joy_variable_frametime
  b joy_vehicle_turn_lowend
  b joy_vehicle_turn_lowmap
+ b joy_vibration
  b joy_wwhack2
  b joy_xcontroller_cfg_loaded
  b joy_yawsensitivity
@@ -36523,6 +36594,7 @@
  b sc_mouse_sensitivity
  b sc_pitch_sensitivity
  b sc_pitch_sensitivity_default
+ b sc_say_command
  b sc_yaw_sensitivity
  b sc_yaw_sensitivity_default
  b scene_print
@@ -36793,6 +36865,7 @@
  d g_pSoundLevels
  d g_pTeamScorePanelNames
  d g_pszBackgroundImages
+ d g_szSlotsOrigins
  d g_vMotionBlurViewportValues
  d idx_mask
  d narration
@@ -36828,6 +36901,7 @@
  d stbi__h2l_scale_i
  d stbi__parse_png_file(stbi__png*, int, int)::invalid_chunk
  d stbi__stdio_callbacks
+ d stbir__filter_info_table
  d typeinfo for (anonymous namespace)::CaptionGripPanel
  d typeinfo for (anonymous namespace)::GripPanel
  d typeinfo for (anonymous namespace)::ScrollBarButton
@@ -36892,21 +36966,21 @@
  r .memset_pattern
  r .memset_pattern178
  r .memset_pattern179
- r .memset_pattern25
  r .memset_pattern258
  r .memset_pattern259
  r .memset_pattern261
- r .memset_pattern56
- r .memset_pattern57
+ r .memset_pattern29
+ r .memset_pattern60
  r .memset_pattern61
- r .memset_pattern64
- r .memset_pattern66
+ r .memset_pattern65
  r .memset_pattern68
- r .memset_pattern69
+ r .memset_pattern70
  r .memset_pattern72
- r .memset_pattern74
+ r .memset_pattern73
  r .memset_pattern76
- r .memset_pattern77
+ r .memset_pattern78
+ r .memset_pattern80
+ r .memset_pattern81
  r CBaseGameStats_Driver::SendData()::szFileName
  r CClientLeafSystem::AddShadowToRenderable(unsigned short, unsigned short)::arrRecvType
  r CSchemeVisualizer::AddFontsToList()::strOAccent
@@ -36917,6 +36991,7 @@
  r commandercolors
  r coord
  r first_row_filter
+ r fp32_to_srgb8_tab4
  r gSizes
  r g_HealthColors
  r g_HealthColors_ColorBlind
@@ -37048,6 +37123,8 @@
  r stbi__zdist_extra
  r stbi__zlength_base
  r stbi__zlength_extra
+ r stbir__srgb_uchar_to_linear_float
+ r stbir__type_size
  r typeinfo name for (anonymous namespace)::CaptionGripPanel
  r typeinfo name for (anonymous namespace)::GripPanel
  r typeinfo name for (anonymous namespace)::ScrollBarButton
@@ -38092,6 +38169,7 @@
  t radialmenu(CCommand const&)
  t resample_row_1(unsigned char*, unsigned char*, unsigned char*, int, int)
  t s_RenderFastSpriteGuts(CDetailObjectSystem*, DistanceFadeInfo_t, Vector, Vector, Vector, Vector, int, CUtlEnvelope<unsigned short> const&)
+ t sc_say(CCommand const&)
  t show_menu_f(CCommand const&)
  t showinfo(CCommand const&)
  t showpanel(CCommand const&)
@@ -38145,6 +38223,22 @@
  t stbi__stdio_skip(void*, int)
  t stbi__tga_read_rgb16(stbi__context*, unsigned char*)
  t stbi__zbuild_huffman(stbi__zhuffman*, unsigned char const*, int)
+ t stbir__calculate_filters(stbir__contributors*, float*, stbir_filter, float, float, int, int)
+ t stbir__calculate_memory(stbir__info*)
+ t stbir__decode_scanline(stbir__info*, int)
+ t stbir__encode_scanline(stbir__info*, int, void*, float*, int, int, int)
+ t stbir__filter_catmullrom(float, float)
+ t stbir__filter_cubic(float, float)
+ t stbir__filter_mitchell(float, float)
+ t stbir__filter_trapezoid(float, float)
+ t stbir__filter_triangle(float, float)
+ t stbir__resample_horizontal_downsample(stbir__info*, float*)
+ t stbir__resample_horizontal_upsample(stbir__info*, float*)
+ t stbir__resize_arbitrary(void*, void const*, int, int, int, void*, int, int, int, float, float, float, float, float*, int, int, unsigned int, stbir_datatype, stbir_filter, stbir_filter, stbir_edge, stbir_edge, stbir_colorspace)
+ t stbir__support_one(float)
+ t stbir__support_trapezoid(float)
+ t stbir__support_two(float)
+ t stbir__support_zero(float)
  t stopsoundscape(CCommand const&)
  t terror_reload_team_display(CCommand const&)
  t terror_test_hud_glow(CCommand const&)
