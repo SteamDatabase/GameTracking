@@ -2418,6 +2418,7 @@
  B suitvolume
  B sv_accelerate
  B sv_airaccelerate
+ B sv_airboat_wheel_fix
  B sv_allow_votes
  B sv_alltalk
  B sv_alternateticks
@@ -2436,6 +2437,7 @@
  B sv_gravity
  B sv_hudhint_sound
  B sv_infinite_aux_power
+ B sv_jalopy_steering_angle
  B sv_lagflushbonecache
  B sv_massreport
  B sv_maxreplay
@@ -3484,6 +3486,36 @@
  D SoundCommand_t::m_DataMap
  D SporeExplosion::m_DataMap
  D SporeTrail::m_DataMap
+ D SteamAppList()::s_CallbackCounterAndContext
+ D SteamApps()::s_CallbackCounterAndContext
+ D SteamClient()::s_CallbackCounterAndContext
+ D SteamController()::s_CallbackCounterAndContext
+ D SteamFriends()::s_CallbackCounterAndContext
+ D SteamGameSearch()::s_CallbackCounterAndContext
+ D SteamGameServer()::s_CallbackCounterAndContext
+ D SteamGameServerHTTP()::s_CallbackCounterAndContext
+ D SteamGameServerInventory()::s_CallbackCounterAndContext
+ D SteamGameServerNetworking()::s_CallbackCounterAndContext
+ D SteamGameServerStats()::s_CallbackCounterAndContext
+ D SteamGameServerUGC()::s_CallbackCounterAndContext
+ D SteamGameServerUtils()::s_CallbackCounterAndContext
+ D SteamHTMLSurface()::s_CallbackCounterAndContext
+ D SteamHTTP()::s_CallbackCounterAndContext
+ D SteamInput()::s_CallbackCounterAndContext
+ D SteamInventory()::s_CallbackCounterAndContext
+ D SteamMatchmaking()::s_CallbackCounterAndContext
+ D SteamMatchmakingServers()::s_CallbackCounterAndContext
+ D SteamMusic()::s_CallbackCounterAndContext
+ D SteamMusicRemote()::s_CallbackCounterAndContext
+ D SteamNetworking()::s_CallbackCounterAndContext
+ D SteamParentalSettings()::s_CallbackCounterAndContext
+ D SteamRemoteStorage()::s_CallbackCounterAndContext
+ D SteamScreenshots()::s_CallbackCounterAndContext
+ D SteamUGC()::s_CallbackCounterAndContext
+ D SteamUser()::s_CallbackCounterAndContext
+ D SteamUserStats()::s_CallbackCounterAndContext
+ D SteamUtils()::s_CallbackCounterAndContext
+ D SteamVideo()::s_CallbackCounterAndContext
  D TemplateEntityData_t::m_DataMap
  D UnreachableEnt_t::m_DataMap
  D ViewSmoothingData_t::m_DataMap
@@ -6879,6 +6911,8 @@
  D typeinfo for CCallback<CAchievementMgr, UserStatsReceived_t, false>
  D typeinfo for CCallback<CAchievementMgr, UserStatsStored_t, false>
  D typeinfo for CCallbackBase
+ D typeinfo for CCallbackImpl<12>
+ D typeinfo for CCallbackImpl<20>
  D typeinfo for CCannonServerVehicle
  D typeinfo for CChangeLevel
  D typeinfo for CCheckClient
@@ -8581,6 +8615,8 @@
  D vtable for CBullseyeList
  D vtable for CCallback<CAchievementMgr, UserStatsReceived_t, false>
  D vtable for CCallback<CAchievementMgr, UserStatsStored_t, false>
+ D vtable for CCallbackImpl<12>
+ D vtable for CCallbackImpl<20>
  D vtable for CCannonServerVehicle
  D vtable for CChangeLevel
  D vtable for CCheckClient
@@ -10202,6 +10238,8 @@
  R typeinfo name for CCallback<CAchievementMgr, UserStatsReceived_t, false>
  R typeinfo name for CCallback<CAchievementMgr, UserStatsStored_t, false>
  R typeinfo name for CCallbackBase
+ R typeinfo name for CCallbackImpl<12>
+ R typeinfo name for CCallbackImpl<20>
  R typeinfo name for CCannonServerVehicle
  R typeinfo name for CChangeLevel
  R typeinfo name for CCheckClient
@@ -11705,9 +11743,11 @@
  SteamAPI_GetHSteamUser
  SteamAPI_RegisterCallback
  SteamAPI_UnregisterCallback
- SteamClient
- SteamGameServer_GetHSteamPipe
  SteamGameServer_GetHSteamUser
+ SteamInternal_ContextInit
+ SteamInternal_CreateInterface
+ SteamInternal_FindOrCreateGameServerInterface
+ SteamInternal_FindOrCreateUserInterface
  T AIGetNumFollowers(CBaseEntity*, string_t)
  T AIStrongOpt()
  T AI_ClampYaw(float, float, float, float)
@@ -14782,6 +14822,7 @@
  T CBaseCombatWeapon::GetName() const
  T CBaseCombatWeapon::GetOwner() const
  T CBaseCombatWeapon::GetPosition() const
+ T CBaseCombatWeapon::GetPositionConsole() const
  T CBaseCombatWeapon::GetPrimaryAmmoType() const
  T CBaseCombatWeapon::GetPrimaryAttackActivity()
  T CBaseCombatWeapon::GetPrintName() const
@@ -14794,6 +14835,7 @@
  T CBaseCombatWeapon::GetShootSound(int) const
  T CBaseCombatWeapon::GetSkinOverride() const
  T CBaseCombatWeapon::GetSlot() const
+ T CBaseCombatWeapon::GetSlotConsole() const
  T CBaseCombatWeapon::GetSpreadBias(WeaponProficiency_t)
  T CBaseCombatWeapon::GetSpriteActive() const
  T CBaseCombatWeapon::GetSpriteAmmo() const
@@ -16115,6 +16157,7 @@
  T CBasePlayer::Weapon_Drop(CBaseCombatWeapon*, Vector const*, Vector const*)
  T CBasePlayer::Weapon_Equip(CBaseCombatWeapon*)
  T CBasePlayer::Weapon_SetLast(CBaseCombatWeapon*)
+ T CBasePlayer::Weapon_SetLastPending(CBaseCombatWeapon*)
  T CBasePlayer::Weapon_ShootPosition()
  T CBasePlayer::Weapon_ShouldSelectItem(CBaseCombatWeapon*)
  T CBasePlayer::Weapon_ShouldSetLast(CBaseCombatWeapon*, CBaseCombatWeapon*)
@@ -16822,12 +16865,16 @@
  T CCallQueue::~CCallQueue()
  T CCallQueueT<CTSQueue<CFunctor*, false> >::CallQueued()
  T CCallQueueT<CTSQueue<CFunctor*, false> >::QueueFunctorInternal(CFunctor*)
- T CCallback<CAchievementMgr, UserStatsReceived_t, false>::GetCallbackSizeBytes()
  T CCallback<CAchievementMgr, UserStatsReceived_t, false>::Run(void*)
- T CCallback<CAchievementMgr, UserStatsReceived_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<CAchievementMgr, UserStatsStored_t, false>::GetCallbackSizeBytes()
+ T CCallback<CAchievementMgr, UserStatsReceived_t, false>::~CCallback()
  T CCallback<CAchievementMgr, UserStatsStored_t, false>::Run(void*)
- T CCallback<CAchievementMgr, UserStatsStored_t, false>::Run(void*, bool, unsigned long long)
+ T CCallback<CAchievementMgr, UserStatsStored_t, false>::~CCallback()
+ T CCallbackImpl<12>::GetCallbackSizeBytes()
+ T CCallbackImpl<12>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<12>::~CCallbackImpl()
+ T CCallbackImpl<20>::GetCallbackSizeBytes()
+ T CCallbackImpl<20>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<20>::~CCallbackImpl()
  T CCannonServerVehicle::GetVehicleViewPosition(int, Vector*, QAngle*, float*)
  T CChangeLevel::Activate()
  T CChangeLevel::AddTransitionToList(levellist_t*, int, char const*, char const*, edict_t*)
@@ -19922,6 +19969,7 @@
  T CFourWheelVehiclePhysics::SetHandbrake(bool)
  T CFourWheelVehiclePhysics::SetHasBrakePedal(bool)
  T CFourWheelVehiclePhysics::SetSteering(float, float)
+ T CFourWheelVehiclePhysics::SetSteeringDegrees(float)
  T CFourWheelVehiclePhysics::SetThrottle(float)
  T CFourWheelVehiclePhysics::Spawn()
  T CFourWheelVehiclePhysics::SteeringTurn(float, vehicleparams_t const&, bool, bool, bool)
@@ -29363,6 +29411,7 @@
  T IsRunningScriptedSceneWithSpeech(CBaseFlex*, bool)
  T IsRunningScriptedSceneWithSpeechAndNotPaused(CBaseFlex*, bool)
  T IsStaticPointEntity(CBaseEntity*)
+ T IsSteamDeck()
  T IsUniqueIdEqual(UniqueId_t const&, UniqueId_t const&)
  T IterateActivePhysicsEntities(void (*)(CBaseEntity*))
  T KeyValues::AddSubKey(KeyValues*)
@@ -29815,6 +29864,36 @@
  T SporeTrail::~SporeTrail()
  T SquadSortFunc(SquadMemberInfo_t const*, SquadMemberInfo_t const*)
  T StandardFilterRules(IHandleEntity*, int)
+ T SteamInternal_Init_SteamAppList(ISteamAppList**)
+ T SteamInternal_Init_SteamApps(ISteamApps**)
+ T SteamInternal_Init_SteamClient(ISteamClient**)
+ T SteamInternal_Init_SteamController(ISteamController**)
+ T SteamInternal_Init_SteamFriends(ISteamFriends**)
+ T SteamInternal_Init_SteamGameSearch(ISteamGameSearch**)
+ T SteamInternal_Init_SteamGameServer(ISteamGameServer**)
+ T SteamInternal_Init_SteamGameServerHTTP(ISteamHTTP**)
+ T SteamInternal_Init_SteamGameServerInventory(ISteamInventory**)
+ T SteamInternal_Init_SteamGameServerNetworking(ISteamNetworking**)
+ T SteamInternal_Init_SteamGameServerStats(ISteamGameServerStats**)
+ T SteamInternal_Init_SteamGameServerUGC(ISteamUGC**)
+ T SteamInternal_Init_SteamGameServerUtils(ISteamUtils**)
+ T SteamInternal_Init_SteamHTMLSurface(ISteamHTMLSurface**)
+ T SteamInternal_Init_SteamHTTP(ISteamHTTP**)
+ T SteamInternal_Init_SteamInput(ISteamInput**)
+ T SteamInternal_Init_SteamInventory(ISteamInventory**)
+ T SteamInternal_Init_SteamMatchmaking(ISteamMatchmaking**)
+ T SteamInternal_Init_SteamMatchmakingServers(ISteamMatchmakingServers**)
+ T SteamInternal_Init_SteamMusic(ISteamMusic**)
+ T SteamInternal_Init_SteamMusicRemote(ISteamMusicRemote**)
+ T SteamInternal_Init_SteamNetworking(ISteamNetworking**)
+ T SteamInternal_Init_SteamParentalSettings(ISteamParentalSettings**)
+ T SteamInternal_Init_SteamRemoteStorage(ISteamRemoteStorage**)
+ T SteamInternal_Init_SteamScreenshots(ISteamScreenshots**)
+ T SteamInternal_Init_SteamUGC(ISteamUGC**)
+ T SteamInternal_Init_SteamUser(ISteamUser**)
+ T SteamInternal_Init_SteamUserStats(ISteamUserStats**)
+ T SteamInternal_Init_SteamUtils(ISteamUtils**)
+ T SteamInternal_Init_SteamVideo(ISteamVideo**)
  T StopScriptedScene(CBaseFlex*, CHandle<CBaseEntity>)
  T StrLess(char const* const&, char const* const&)
  T Studio_AlignIKMatrix(matrix3x4_t&, Vector const&)
@@ -30468,7 +30547,6 @@
  T datamap_t* DataMapInit<EventQueuePrioritizedEvent_t>(EventQueuePrioritizedEvent_t*)
  T datamap_t* DataMapInit<magnetted_objects_t>(magnetted_objects_t*)
  T datamap_t* DataMapInit<vehiclesounds_t>(vehiclesounds_t*)
- T dyld_stub_binding_helper
  T float const& CNetworkVarBase<float, CBaseAnimating::NetworkVar_m_flCycle>::operator=<int>(int const&)
  T float const& CNetworkVarBase<float, CBaseAnimating::NetworkVar_m_flModelScale>::operator=<float>(float const&)
  T float const& CNetworkVarBase<float, CBaseAnimating::NetworkVar_m_flPlaybackRate>::operator=<double>(double const&)
@@ -31297,6 +31375,7 @@
  _SpewInfo
  _SpewMessage
  _Unwind_Resume
+ __bzero
  __cxa_atexit
  __cxa_begin_catch
  __cxa_guard_abort
@@ -32826,6 +32905,7 @@
  d EVENTQUEUE_SAVE_RESTORE_VERSION
  d GetAttachTypeFromString(char const*)::pAttachmentNames
  d GetMassEquivalent(float)::masstext
+ d IsSteamDeck()::s_nSteamDeckCached
  d PHYS_SAVE_RESTORE_VERSION
  d PrecacheInstancedScene(char const*)::nMakingReslists
  d RESPONSESYSTEM_SAVE_RESTORE_VERSION
@@ -32836,7 +32916,6 @@
  d cappedPlayerAngularTable
  d cappedPlayerLinearTable
  d constraintevents
- d dyld__mach_header
  d gCappedPlayerImpactDamageTable
  d gDamageTableRegistry
  d gTitleComments
@@ -32916,6 +32995,7 @@
  dlerror
  dlopen
  dlsym
+ dyld_stub_binder
  expf
  floor
  floorf
@@ -32927,10 +33007,10 @@
  g_ClockSpeedMillisecondsMultiplier
  g_ClockSpeedSecondsMultiplier
  g_VProfCurrentProfile
- g_pSteamClientGameServer
  g_pThreadPool
  g_pVCR
  getcwd
+ getenv
  localtime
  log
  log10

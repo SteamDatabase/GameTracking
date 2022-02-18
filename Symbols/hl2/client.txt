@@ -1053,6 +1053,7 @@
  B gLCD
  B gViewPortInterface
  B gWR
+ B g_ActionSet
  B g_ActivityList
  B g_ActivityStrings
  B g_AimEntsList
@@ -1263,6 +1264,7 @@
  B g_pDmeMakefileUtils
  B g_pFullFileSystem
  B g_pGameRules
+ B g_pGamepadUI
  B g_pImpactSoundRouteFn
  B g_pInputSystem
  B g_pIntroData
@@ -1330,6 +1332,7 @@
  B hidehud
  B hl2_episodic
  B hud_alpha_speed
+ B hud_aspect
  B hud_autoaim_method
  B hud_autoaim_scale_icon
  B hud_autoreloadscript
@@ -1337,7 +1340,9 @@
  B hud_draw_fixed_reticle
  B hud_drawhistory_time
  B hud_fastswitch
+ B hud_fastswitch_net
  B hud_freezecamhide
+ B hud_invert_zoom_unzoomed_crosshair_colors
  B hud_magnetism
  B hud_reticle_maxalpha
  B hud_reticle_minalpha
@@ -1354,8 +1359,10 @@
  B in_joyspeed
  B in_joystick
  B in_left
+ B in_lookspin
  B in_moveleft
  B in_moveright
+ B in_resetcamera
  B in_right
  B in_speed
  B in_strafe
@@ -1539,6 +1546,13 @@
  B s_bMathlibInitialized
  B s_pConv
  B s_pParticleSystemDefinitionUnpack
+ B sc_controller_mode
+ B sc_last_used_input
+ B sc_smart_sprint
+ B sc_smart_sprint_end_bounds
+ B sc_smart_sprint_start_bounds
+ B sc_tint_glyphs
+ B sc_use_glyphs
  B scene_clientflex
  B scenefilecache
  B screenfade_t_DataDescInit::g_DataMapHolder
@@ -1670,6 +1684,7 @@
  B vgui::g_pMaterialSystem
  B vgui::g_pMaterialSystemHardwareConfig
  B vgui::g_pStudioRender
+ B vgui_hud_posture
  B view
  B viewanim_reset
  B viewanim_test
@@ -1746,6 +1761,7 @@
  CWorkerThread::WaitForCall(unsigned int*)
  CallAssertFailedNotifyFunc
  CommandLine_Tier0
+ ConColorMsg(Color const&, char const*, ...)
  ConMsg(char const*, ...)
  D AllocTempVector()::s_nIndex
  D AllocTempVector()::s_vecTemp
@@ -1921,6 +1937,7 @@
  D CHudCloseCaption::PanelAnimationVar_m_flItemFadeInTime::InitVar()::bAdded
  D CHudCloseCaption::PanelAnimationVar_m_flItemFadeOutTime::InitVar()::bAdded
  D CHudCloseCaption::PanelAnimationVar_m_flItemHiddenTime::InitVar()::bAdded
+ D CHudCloseCaption::PanelAnimationVar_m_nAspectRatioOffset::InitVar()::bAdded
  D CHudCloseCaption::PanelAnimationVar_m_nTopOffset::InitVar()::bAdded
  D CHudCommentary::ChainToAnimationMap()::chained
  D CHudCommentary::ChainToMap()::chained
@@ -2098,6 +2115,10 @@
  D CHudPosture::GetKBMap()::s_pMap
  D CHudPosture::GetMessageMap()::s_pMap
  D CHudPosture::KB_ChainToMap()::chained
+ D CHudPosture::PanelAnimationVar_m_IconX::InitVar()::bAdded
+ D CHudPosture::PanelAnimationVar_m_IconY::InitVar()::bAdded
+ D CHudPosture::PanelAnimationVar_m_TextColor::InitVar()::bAdded
+ D CHudPosture::PanelAnimationVar_m_hFont::InitVar()::bAdded
  D CHudSecondaryAmmo::ChainToAnimationMap()::chained
  D CHudSecondaryAmmo::ChainToMap()::chained
  D CHudSecondaryAmmo::GetKBMap()::s_pMap
@@ -2274,11 +2295,6 @@
  D CTeamMenu::GetKBMap()::s_pMap
  D CTeamMenu::GetMessageMap()::s_pMap
  D CTeamMenu::KB_ChainToMap()::chained
- D CTextWindow::CMOTDHTML::ChainToAnimationMap()::chained
- D CTextWindow::CMOTDHTML::ChainToMap()::chained
- D CTextWindow::CMOTDHTML::GetKBMap()::s_pMap
- D CTextWindow::CMOTDHTML::GetMessageMap()::s_pMap
- D CTextWindow::CMOTDHTML::KB_ChainToMap()::chained
  D CTextWindow::ChainToAnimationMap()::chained
  D CTextWindow::ChainToMap()::chained
  D CTextWindow::GetKBMap()::s_pMap
@@ -2343,7 +2359,6 @@
  D CUtlRBTree<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short, CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<CSteamID, int, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::Node_t, unsigned short, CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
- D CUtlRBTree<CUtlMap<CUtlString, CUtlString, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlString, CUtlString, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, CUtlString, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::Node_t, unsigned short, CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<IClientUnknown*, unsigned short, unsigned short>::Node_t, unsigned short, CUtlMap<IClientUnknown*, unsigned short, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<IClientUnknown*, unsigned short, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D CUtlRBTree<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short, CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
@@ -2572,27 +2587,6 @@
  D DmxElementUnpackStructure_t* DmxElementUnpackInit<C_OP_WorldTraceConstraint>(C_OP_WorldTraceConstraint*)::unpack
  D DmxElementUnpackStructure_t* DmxElementUnpackInit<ParticleChildrenInfo_t>(ParticleChildrenInfo_t*)::unpack
  D GetBitForBitnum(int)::bitsForBitnum
- D HTMLComboBoxHost::ChainToAnimationMap()::chained
- D HTMLComboBoxHost::ChainToMap()::chained
- D HTMLComboBoxHost::GetKBMap()::s_pMap
- D HTMLComboBoxHost::GetMessageMap()::s_pMap
- D HTMLComboBoxHost::KB_ChainToMap()::chained
- D HTMLInterior::ChainToAnimationMap()::chained
- D HTMLInterior::ChainToMap()::chained
- D HTMLInterior::GetKBMap()::s_pMap
- D HTMLInterior::GetMessageMap()::s_pMap
- D HTMLInterior::KB_ChainToMap()::chained
- D HTMLPopup::ChainToAnimationMap()::chained
- D HTMLPopup::ChainToMap()::chained
- D HTMLPopup::GetKBMap()::s_pMap
- D HTMLPopup::GetMessageMap()::s_pMap
- D HTMLPopup::KB_ChainToMap()::chained
- D HTMLPopup::PanelMessageFunc_OnCloseWindow::InitVar()::bAdded
- D HTMLPopup::PopupHTML::ChainToAnimationMap()::chained
- D HTMLPopup::PopupHTML::ChainToMap()::chained
- D HTMLPopup::PopupHTML::GetKBMap()::s_pMap
- D HTMLPopup::PopupHTML::GetMessageMap()::s_pMap
- D HTMLPopup::PopupHTML::KB_ChainToMap()::chained
  D ISaveRestoreOps* CUtlVectorDataopsInstantiator<10>::GetDataOps<CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> > >(CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> >*)::ops
  D ISaveRestoreOps* CUtlVectorDataopsInstantiator<5>::GetDataOps<CUtlVector<int, CUtlMemory<int, int> > >(CUtlVector<int, CUtlMemory<int, int> >*)::ops
  D KeyValues::s_pfGetStringForSymbol
@@ -2631,6 +2625,29 @@
  D SaveRestoreBlockHeader_t::m_DataMap
  D SmokeStackMaterials::ClientEffectRegister::m_pszMaterials
  D SoundCommand_t::m_DataMap
+ D SteamAppList()::s_CallbackCounterAndContext
+ D SteamApps()::s_CallbackCounterAndContext
+ D SteamClient()::s_CallbackCounterAndContext
+ D SteamController()::s_CallbackCounterAndContext
+ D SteamFriends()::s_CallbackCounterAndContext
+ D SteamGameSearch()::s_CallbackCounterAndContext
+ D SteamHTMLSurface()::s_CallbackCounterAndContext
+ D SteamHTTP()::s_CallbackCounterAndContext
+ D SteamInput()::s_CallbackCounterAndContext
+ D SteamInventory()::s_CallbackCounterAndContext
+ D SteamMatchmaking()::s_CallbackCounterAndContext
+ D SteamMatchmakingServers()::s_CallbackCounterAndContext
+ D SteamMusic()::s_CallbackCounterAndContext
+ D SteamMusicRemote()::s_CallbackCounterAndContext
+ D SteamNetworking()::s_CallbackCounterAndContext
+ D SteamParentalSettings()::s_CallbackCounterAndContext
+ D SteamRemoteStorage()::s_CallbackCounterAndContext
+ D SteamScreenshots()::s_CallbackCounterAndContext
+ D SteamUGC()::s_CallbackCounterAndContext
+ D SteamUser()::s_CallbackCounterAndContext
+ D SteamUserStats()::s_CallbackCounterAndContext
+ D SteamUtils()::s_CallbackCounterAndContext
+ D SteamVideo()::s_CallbackCounterAndContext
  D TrailPoint_t::m_DataMap
  D VTFFileBaseHeader_t::m_DataMap
  D VTFFileHeaderV7_1_t::m_DataMap
@@ -2714,19 +2731,13 @@
  D VTT for CTeamMenu
  D VTT for CTeleportCountdownScreen
  D VTT for CTextWindow
- D VTT for CTextWindow::CMOTDHTML
  D VTT for CVGuiScreenPanel
  D VTT for ColumnButton
  D VTT for CommandMenu
  D VTT for Dragger
- D VTT for HTMLComboBoxHost
- D VTT for HTMLInterior
- D VTT for HTMLPopup
- D VTT for HTMLPopup::PopupHTML
  D VTT for VideoPanel
  D VTT for vgui::AnimatingImagePanel
  D VTT for vgui::AnimationController
- D VTT for vgui::BaseInputDialog
  D VTT for vgui::BuildModeDialog
  D VTT for vgui::Button
  D VTT for vgui::CBitmapImagePanel
@@ -2742,17 +2753,11 @@
  D VTT for vgui::Divider
  D VTT for vgui::EditablePanel
  D VTT for vgui::ExpandButton
- D VTT for vgui::FileCompletionEdit
- D VTT for vgui::FileCompletionMenu
- D VTT for vgui::FileOpenDialog
  D VTT for vgui::Frame
  D VTT for vgui::FrameButton
  D VTT for vgui::FrameSystemButton
  D VTT for vgui::GraphPanel
- D VTT for vgui::HTML
- D VTT for vgui::HTML::CHTMLFindBar
  D VTT for vgui::ImagePanel
- D VTT for vgui::InputDialog
  D VTT for vgui::Label
  D VTT for vgui::ListPanel
  D VTT for vgui::ListViewItem
@@ -2766,7 +2771,6 @@
  D VTT for vgui::Panel
  D VTT for vgui::PanelListPanel
  D VTT for vgui::ProgressBar
- D VTT for vgui::QueryBox
  D VTT for vgui::RadioButton
  D VTT for vgui::RichText
  D VTT for vgui::RichTextInterior
@@ -2812,7 +2816,6 @@
  D construction vtable for CPotteryWheelPanel-in-CMDLPanel
  D construction vtable for CVGuiScreenPanel-in-CSlideshowDisplayScreen
  D construction vtable for CVGuiScreenPanel-in-CTeleportCountdownScreen
- D construction vtable for vgui::BaseInputDialog-in-vgui::InputDialog
  D construction vtable for vgui::Button-in-CBitmapButton
  D construction vtable for vgui::Button-in-CHudChatFilterButton
  D construction vtable for vgui::Button-in-CHudChatFilterCheckButton
@@ -2855,18 +2858,11 @@
  D construction vtable for vgui::EditablePanel-in-CTeleportCountdownScreen
  D construction vtable for vgui::EditablePanel-in-CTextWindow
  D construction vtable for vgui::EditablePanel-in-CVGuiScreenPanel
- D construction vtable for vgui::EditablePanel-in-HTMLComboBoxHost
- D construction vtable for vgui::EditablePanel-in-HTMLPopup
  D construction vtable for vgui::EditablePanel-in-VideoPanel
- D construction vtable for vgui::EditablePanel-in-vgui::BaseInputDialog
  D construction vtable for vgui::EditablePanel-in-vgui::BuildModeDialog
- D construction vtable for vgui::EditablePanel-in-vgui::FileOpenDialog
  D construction vtable for vgui::EditablePanel-in-vgui::Frame
- D construction vtable for vgui::EditablePanel-in-vgui::HTML::CHTMLFindBar
- D construction vtable for vgui::EditablePanel-in-vgui::InputDialog
  D construction vtable for vgui::EditablePanel-in-vgui::MessageBox
  D construction vtable for vgui::EditablePanel-in-vgui::PanelListPanel
- D construction vtable for vgui::EditablePanel-in-vgui::QueryBox
  D construction vtable for vgui::Frame-in-CBaseViewport::CBackGroundPanel
  D construction vtable for vgui::Frame-in-CCommentaryModelViewer
  D construction vtable for vgui::Frame-in-CNavProgress
@@ -2874,15 +2870,8 @@
  D construction vtable for vgui::Frame-in-CSpectatorMenu
  D construction vtable for vgui::Frame-in-CTeamMenu
  D construction vtable for vgui::Frame-in-CTextWindow
- D construction vtable for vgui::Frame-in-HTMLPopup
- D construction vtable for vgui::Frame-in-vgui::BaseInputDialog
  D construction vtable for vgui::Frame-in-vgui::BuildModeDialog
- D construction vtable for vgui::Frame-in-vgui::FileOpenDialog
- D construction vtable for vgui::Frame-in-vgui::InputDialog
  D construction vtable for vgui::Frame-in-vgui::MessageBox
- D construction vtable for vgui::Frame-in-vgui::QueryBox
- D construction vtable for vgui::HTML-in-CTextWindow::CMOTDHTML
- D construction vtable for vgui::HTML-in-HTMLPopup::PopupHTML
  D construction vtable for vgui::ImagePanel-in-vgui::TreeNodeImage
  D construction vtable for vgui::Label-in-CBitmapButton
  D construction vtable for vgui::Label-in-CCenterStringLabel
@@ -2906,9 +2895,7 @@
  D construction vtable for vgui::Label-in-vgui::ToggleButton
  D construction vtable for vgui::Label-in-vgui::URLLabel
  D construction vtable for vgui::Menu-in-CommandMenu
- D construction vtable for vgui::Menu-in-vgui::FileCompletionMenu
  D construction vtable for vgui::MenuButton-in-vgui::FrameSystemButton
- D construction vtable for vgui::MessageBox-in-vgui::QueryBox
  D construction vtable for vgui::Panel-in-CAchievementNotificationPanel
  D construction vtable for vgui::Panel-in-CAvatarImagePanel
  D construction vtable for vgui::Panel-in-CBaseHudChat
@@ -2985,19 +2972,13 @@
  D construction vtable for vgui::Panel-in-CTeamMenu
  D construction vtable for vgui::Panel-in-CTeleportCountdownScreen
  D construction vtable for vgui::Panel-in-CTextWindow
- D construction vtable for vgui::Panel-in-CTextWindow::CMOTDHTML
  D construction vtable for vgui::Panel-in-CVGuiScreenPanel
  D construction vtable for vgui::Panel-in-ColumnButton
  D construction vtable for vgui::Panel-in-CommandMenu
  D construction vtable for vgui::Panel-in-Dragger
- D construction vtable for vgui::Panel-in-HTMLComboBoxHost
- D construction vtable for vgui::Panel-in-HTMLInterior
- D construction vtable for vgui::Panel-in-HTMLPopup
- D construction vtable for vgui::Panel-in-HTMLPopup::PopupHTML
  D construction vtable for vgui::Panel-in-VideoPanel
  D construction vtable for vgui::Panel-in-vgui::AnimatingImagePanel
  D construction vtable for vgui::Panel-in-vgui::AnimationController
- D construction vtable for vgui::Panel-in-vgui::BaseInputDialog
  D construction vtable for vgui::Panel-in-vgui::BuildModeDialog
  D construction vtable for vgui::Panel-in-vgui::Button
  D construction vtable for vgui::Panel-in-vgui::CBitmapImagePanel
@@ -3013,17 +2994,11 @@
  D construction vtable for vgui::Panel-in-vgui::Divider
  D construction vtable for vgui::Panel-in-vgui::EditablePanel
  D construction vtable for vgui::Panel-in-vgui::ExpandButton
- D construction vtable for vgui::Panel-in-vgui::FileCompletionEdit
- D construction vtable for vgui::Panel-in-vgui::FileCompletionMenu
- D construction vtable for vgui::Panel-in-vgui::FileOpenDialog
  D construction vtable for vgui::Panel-in-vgui::Frame
  D construction vtable for vgui::Panel-in-vgui::FrameButton
  D construction vtable for vgui::Panel-in-vgui::FrameSystemButton
  D construction vtable for vgui::Panel-in-vgui::GraphPanel
- D construction vtable for vgui::Panel-in-vgui::HTML
- D construction vtable for vgui::Panel-in-vgui::HTML::CHTMLFindBar
  D construction vtable for vgui::Panel-in-vgui::ImagePanel
- D construction vtable for vgui::Panel-in-vgui::InputDialog
  D construction vtable for vgui::Panel-in-vgui::Label
  D construction vtable for vgui::Panel-in-vgui::ListPanel
  D construction vtable for vgui::Panel-in-vgui::ListViewItem
@@ -3036,7 +3011,6 @@
  D construction vtable for vgui::Panel-in-vgui::MessageBox
  D construction vtable for vgui::Panel-in-vgui::PanelListPanel
  D construction vtable for vgui::Panel-in-vgui::ProgressBar
- D construction vtable for vgui::Panel-in-vgui::QueryBox
  D construction vtable for vgui::Panel-in-vgui::RadioButton
  D construction vtable for vgui::Panel-in-vgui::RichText
  D construction vtable for vgui::Panel-in-vgui::RichTextInterior
@@ -3062,7 +3036,6 @@
  D construction vtable for vgui::TextEntry-in-CBuildModeNavCombo
  D construction vtable for vgui::TextEntry-in-CSmallTextEntry
  D construction vtable for vgui::TextEntry-in-vgui::ComboBox
- D construction vtable for vgui::TextEntry-in-vgui::FileCompletionEdit
  D construction vtable for vgui::TextEntry-in-vgui::TreeNodeText
  D construction vtable for vgui::ToggleButton-in-CHudChatFilterCheckButton
  D construction vtable for vgui::ToggleButton-in-vgui::CheckButton
@@ -3247,6 +3220,7 @@
  D g_flSplashScale
  D g_frontFaceVerts
  D g_iAlive
+ D g_inputTypeToNameTable
  D g_leftFaceVerts
  D g_nActivityListVersion
  D g_nEventListVersion
@@ -3410,8 +3384,6 @@
  D guard variable for CSpectatorMenu::GetMessageMap()::s_pMap
  D guard variable for CTeamMenu::GetKBMap()::s_pMap
  D guard variable for CTeamMenu::GetMessageMap()::s_pMap
- D guard variable for CTextWindow::CMOTDHTML::GetKBMap()::s_pMap
- D guard variable for CTextWindow::CMOTDHTML::GetMessageMap()::s_pMap
  D guard variable for CTextWindow::GetKBMap()::s_pMap
  D guard variable for CTextWindow::GetMessageMap()::s_pMap
  D guard variable for CUtlRBTree<AsyncCaption_t::BlockInfo_t, unsigned short, bool (*)(AsyncCaption_t::BlockInfo_t const&, AsyncCaption_t::BlockInfo_t const&), CUtlMemory<UtlRBTreeNode_t<AsyncCaption_t::BlockInfo_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
@@ -3429,7 +3401,6 @@
  D guard variable for CUtlRBTree<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short, CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CPhysCollide const*, BBox_t, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<CSteamID, int, unsigned short>::Node_t, unsigned short, CUtlMap<CSteamID, int, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CSteamID, int, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::Node_t, unsigned short, CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
- D guard variable for CUtlRBTree<CUtlMap<CUtlString, CUtlString, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlString, CUtlString, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, CUtlString, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::Node_t, unsigned short, CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<IClientUnknown*, unsigned short, unsigned short>::Node_t, unsigned short, CUtlMap<IClientUnknown*, unsigned short, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<IClientUnknown*, unsigned short, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
  D guard variable for CUtlRBTree<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short, CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<IPhysicsObject*, CPhysCollide const*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Links(unsigned short) const::s_Sentinel
@@ -3563,14 +3534,6 @@
  D guard variable for DmxElementUnpackStructure_t* DmxElementUnpackInit<C_OP_WorldCollideConstraint>(C_OP_WorldCollideConstraint*)::unpack
  D guard variable for DmxElementUnpackStructure_t* DmxElementUnpackInit<C_OP_WorldTraceConstraint>(C_OP_WorldTraceConstraint*)::unpack
  D guard variable for DmxElementUnpackStructure_t* DmxElementUnpackInit<ParticleChildrenInfo_t>(ParticleChildrenInfo_t*)::unpack
- D guard variable for HTMLComboBoxHost::GetKBMap()::s_pMap
- D guard variable for HTMLComboBoxHost::GetMessageMap()::s_pMap
- D guard variable for HTMLInterior::GetKBMap()::s_pMap
- D guard variable for HTMLInterior::GetMessageMap()::s_pMap
- D guard variable for HTMLPopup::GetKBMap()::s_pMap
- D guard variable for HTMLPopup::GetMessageMap()::s_pMap
- D guard variable for HTMLPopup::PopupHTML::GetKBMap()::s_pMap
- D guard variable for HTMLPopup::PopupHTML::GetMessageMap()::s_pMap
  D guard variable for ISaveRestoreOps* CUtlVectorDataopsInstantiator<10>::GetDataOps<CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> > >(CUtlVector<SaveRestoreBlockHeader_t, CUtlMemory<SaveRestoreBlockHeader_t, int> >*)::ops
  D guard variable for ISaveRestoreOps* CUtlVectorDataopsInstantiator<5>::GetDataOps<CUtlVector<int, CUtlMemory<int, int> > >(CUtlVector<int, CUtlMemory<int, int> >*)::ops
  D guard variable for VideoPanel::GetKBMap()::s_pMap
@@ -3864,8 +3827,6 @@
  D guard variable for vgui::AnimatingImagePanel::GetMessageMap()::s_pMap
  D guard variable for vgui::AnimationController::GetKBMap()::s_pMap
  D guard variable for vgui::AnimationController::GetMessageMap()::s_pMap
- D guard variable for vgui::BaseInputDialog::GetKBMap()::s_pMap
- D guard variable for vgui::BaseInputDialog::GetMessageMap()::s_pMap
  D guard variable for vgui::BuildModeDialog::GetKBMap()::s_pMap
  D guard variable for vgui::BuildModeDialog::GetMessageMap()::s_pMap
  D guard variable for vgui::Button::GetKBMap()::s_pMap
@@ -3892,24 +3853,14 @@
  D guard variable for vgui::EditablePanel::GetMessageMap()::s_pMap
  D guard variable for vgui::ExpandButton::GetKBMap()::s_pMap
  D guard variable for vgui::ExpandButton::GetMessageMap()::s_pMap
- D guard variable for vgui::FileCompletionEdit::GetKBMap()::s_pMap
- D guard variable for vgui::FileCompletionEdit::GetMessageMap()::s_pMap
- D guard variable for vgui::FileOpenDialog::GetKBMap()::s_pMap
- D guard variable for vgui::FileOpenDialog::GetMessageMap()::s_pMap
  D guard variable for vgui::Frame::GetKBMap()::s_pMap
  D guard variable for vgui::Frame::GetMessageMap()::s_pMap
  D guard variable for vgui::FrameSystemButton::GetKBMap()::s_pMap
  D guard variable for vgui::FrameSystemButton::GetMessageMap()::s_pMap
  D guard variable for vgui::GraphPanel::GetKBMap()::s_pMap
  D guard variable for vgui::GraphPanel::GetMessageMap()::s_pMap
- D guard variable for vgui::HTML::CHTMLFindBar::GetKBMap()::s_pMap
- D guard variable for vgui::HTML::CHTMLFindBar::GetMessageMap()::s_pMap
- D guard variable for vgui::HTML::GetKBMap()::s_pMap
- D guard variable for vgui::HTML::GetMessageMap()::s_pMap
  D guard variable for vgui::ImagePanel::GetKBMap()::s_pMap
  D guard variable for vgui::ImagePanel::GetMessageMap()::s_pMap
- D guard variable for vgui::InputDialog::GetKBMap()::s_pMap
- D guard variable for vgui::InputDialog::GetMessageMap()::s_pMap
  D guard variable for vgui::Label::GetKBMap()::s_pMap
  D guard variable for vgui::Label::GetMessageMap()::s_pMap
  D guard variable for vgui::ListPanel::GetKBMap()::s_pMap
@@ -3936,8 +3887,6 @@
  D guard variable for vgui::PanelListPanel::GetMessageMap()::s_pMap
  D guard variable for vgui::ProgressBar::GetKBMap()::s_pMap
  D guard variable for vgui::ProgressBar::GetMessageMap()::s_pMap
- D guard variable for vgui::QueryBox::GetKBMap()::s_pMap
- D guard variable for vgui::QueryBox::GetMessageMap()::s_pMap
  D guard variable for vgui::RadioButton::GetKBMap()::s_pMap
  D guard variable for vgui::RadioButton::GetMessageMap()::s_pMap
  D guard variable for vgui::RichText::GetKBMap()::s_pMap
@@ -4306,37 +4255,15 @@
  D typeinfo for CBroadcastRecipientFilter
  D typeinfo for CBuildModeNavCombo
  D typeinfo for CBulletWhizTimer
- D typeinfo for CCallResult<vgui::HTML, HTML_BrowserReady_t>
  D typeinfo for CCallback<CAvatarImage, PersonaStateChange_t, false>
  D typeinfo for CCallback<CClientSteamContext, SteamServerConnectFailure_t, false>
  D typeinfo for CCallback<CClientSteamContext, SteamServersConnected_t, false>
  D typeinfo for CCallback<CClientSteamContext, SteamServersDisconnected_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_CanGoBackAndForward_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_ChangedTitle_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_CloseBrowser_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_FinishedRequest_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_HidePopup_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_HideToolTip_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_HorizontalScroll_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_JSAlert_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_JSConfirm_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_LinkAtPosition_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_NeedsPaint_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_NewWindow_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_OpenLinkInNewTab_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_SearchResults_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_SetCursor_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_ShowPopup_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_ShowToolTip_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_SizePopup_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_StartRequest_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_StatusText_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_URLChanged_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_UpdateToolTip_t, false>
- D typeinfo for CCallback<vgui::HTML, HTML_VerticalScroll_t, false>
  D typeinfo for CCallbackBase
+ D typeinfo for CCallbackImpl<12>
+ D typeinfo for CCallbackImpl<1>
+ D typeinfo for CCallbackImpl<4>
+ D typeinfo for CCallbackImpl<8>
  D typeinfo for CCamoMaterialProxy
  D typeinfo for CCamoTextureRegen
  D typeinfo for CCenterPrint
@@ -4771,7 +4698,6 @@
  D typeinfo for CTeleportCountdownScreen
  D typeinfo for CTempEnts
  D typeinfo for CTextWindow
- D typeinfo for CTextWindow::CMOTDHTML
  D typeinfo for CTextureIdProperty
  D typeinfo for CTextureScrollMaterialProxy
  D typeinfo for CTextureTransformProxy
@@ -5174,10 +5100,6 @@
  D typeinfo for Dragger
  D typeinfo for EntityParticleTrailInfo_t
  D typeinfo for FileWeaponInfo_t
- D typeinfo for HTMLComboBoxHost
- D typeinfo for HTMLInterior
- D typeinfo for HTMLPopup
- D typeinfo for HTMLPopup::PopupHTML
  D typeinfo for IAchievementMgr
  D typeinfo for IAppSystem
  D typeinfo for IBaseClientDLL
@@ -5336,7 +5258,6 @@
  D typeinfo for vehicleview_t
  D typeinfo for vgui::AnimatingImagePanel
  D typeinfo for vgui::AnimationController
- D typeinfo for vgui::BaseInputDialog
  D typeinfo for vgui::BaseTooltip
  D typeinfo for vgui::BuildGroup
  D typeinfo for vgui::BuildModeDialog
@@ -5355,23 +5276,17 @@
  D typeinfo for vgui::Divider
  D typeinfo for vgui::EditablePanel
  D typeinfo for vgui::ExpandButton
- D typeinfo for vgui::FileCompletionEdit
- D typeinfo for vgui::FileCompletionMenu
- D typeinfo for vgui::FileOpenDialog
  D typeinfo for vgui::FocusNavGroup
  D typeinfo for vgui::Frame
  D typeinfo for vgui::FrameButton
  D typeinfo for vgui::FrameSystemButton
  D typeinfo for vgui::GraphPanel
- D typeinfo for vgui::HTML
- D typeinfo for vgui::HTML::CHTMLFindBar
  D typeinfo for vgui::IClientPanel
  D typeinfo for vgui::IForceVirtualInheritancePanel
  D typeinfo for vgui::IImage
  D typeinfo for vgui::IPanelAnimationPropertyConverter
  D typeinfo for vgui::Image
  D typeinfo for vgui::ImagePanel
- D typeinfo for vgui::InputDialog
  D typeinfo for vgui::Label
  D typeinfo for vgui::ListPanel
  D typeinfo for vgui::ListViewItem
@@ -5385,7 +5300,6 @@
  D typeinfo for vgui::Panel
  D typeinfo for vgui::PanelListPanel
  D typeinfo for vgui::ProgressBar
- D typeinfo for vgui::QueryBox
  D typeinfo for vgui::RadioButton
  D typeinfo for vgui::RadioImage
  D typeinfo for vgui::RichText
@@ -5418,11 +5332,6 @@
  D vgui::AnimationController::GetMessageMap()::s_pMap
  D vgui::AnimationController::KB_ChainToMap()::chained
  D vgui::AnimationController::g_AlignmentLookup
- D vgui::BaseInputDialog::ChainToAnimationMap()::chained
- D vgui::BaseInputDialog::ChainToMap()::chained
- D vgui::BaseInputDialog::GetKBMap()::s_pMap
- D vgui::BaseInputDialog::GetMessageMap()::s_pMap
- D vgui::BaseInputDialog::KB_ChainToMap()::chained
  D vgui::BuildModeDialog::ChainToAnimationMap()::chained
  D vgui::BuildModeDialog::ChainToMap()::chained
  D vgui::BuildModeDialog::GetKBMap()::s_pMap
@@ -5522,30 +5431,6 @@
  D vgui::ExpandButton::GetMessageMap()::s_pMap
  D vgui::ExpandButton::KB_ChainToMap()::chained
  D vgui::ExpandButton::PanelMessageFunc_OnExpanded::InitVar()::bAdded
- D vgui::FileCompletionEdit::ChainToAnimationMap()::chained
- D vgui::FileCompletionEdit::ChainToMap()::chained
- D vgui::FileCompletionEdit::GetKBMap()::s_pMap
- D vgui::FileCompletionEdit::GetMessageMap()::s_pMap
- D vgui::FileCompletionEdit::KB_ChainToMap()::chained
- D vgui::FileCompletionEdit::PanelMessageFunc_OnMenuItemHighlight::InitVar()::bAdded
- D vgui::FileOpenDialog::ChainToAnimationMap()::chained
- D vgui::FileOpenDialog::ChainToMap()::chained
- D vgui::FileOpenDialog::GetKBMap()::s_pMap
- D vgui::FileOpenDialog::GetMessageMap()::s_pMap
- D vgui::FileOpenDialog::KB_ChainToMap()::chained
- D vgui::FileOpenDialog::PanelMessageFunc_OnFolderUp::InitVar()::bAdded
- D vgui::FileOpenDialog::PanelMessageFunc_OnInputCanceled::InitVar()::bAdded
- D vgui::FileOpenDialog::PanelMessageFunc_OnInputCompleted::InitVar()::bAdded
- D vgui::FileOpenDialog::PanelMessageFunc_OnItemSelected::InitVar()::bAdded
- D vgui::FileOpenDialog::PanelMessageFunc_OnListItemSelected::InitVar()::bAdded
- D vgui::FileOpenDialog::PanelMessageFunc_OnNewFolder::InitVar()::bAdded
- D vgui::FileOpenDialog::PanelMessageFunc_OnOpen::InitVar()::bAdded
- D vgui::FileOpenDialog::PanelMessageFunc_OnOpenInExplorer::InitVar()::bAdded
- D vgui::FileOpenDialog::PanelMessageFunc_OnSelectFolder::InitVar()::bAdded
- D vgui::FileOpenDialog::PanelMessageFunc_OnTextChanged::InitVar()::bAdded
- D vgui::FileOpenDialog::PanelMessageFunc_PopulateDriveList::InitVar()::bAdded
- D vgui::FileOpenDialog::PanelMessageFunc_PopulateFileList::InitVar()::bAdded
- D vgui::FileOpenDialog::PanelMessageFunc_PopulateFileNameCompletion::InitVar()::bAdded
  D vgui::Frame::ChainToAnimationMap()::chained
  D vgui::Frame::ChainToMap()::chained
  D vgui::Frame::GetKBMap()::s_pMap
@@ -5570,33 +5455,11 @@
  D vgui::GraphPanel::GetKBMap()::s_pMap
  D vgui::GraphPanel::GetMessageMap()::s_pMap
  D vgui::GraphPanel::KB_ChainToMap()::chained
- D vgui::HTML::CHTMLFindBar::ChainToAnimationMap()::chained
- D vgui::HTML::CHTMLFindBar::ChainToMap()::chained
- D vgui::HTML::CHTMLFindBar::GetKBMap()::s_pMap
- D vgui::HTML::CHTMLFindBar::GetMessageMap()::s_pMap
- D vgui::HTML::CHTMLFindBar::KB_ChainToMap()::chained
- D vgui::HTML::ChainToAnimationMap()::chained
- D vgui::HTML::ChainToMap()::chained
- D vgui::HTML::GetKBMap()::s_pMap
- D vgui::HTML::GetMessageMap()::s_pMap
- D vgui::HTML::KB_ChainToMap()::chained
- D vgui::HTML::PanelMessageFunc_DismissJSDialog::InitVar()::bAdded
- D vgui::HTML::PanelMessageFunc_OnEditNewLine::InitVar()::bAdded
- D vgui::HTML::PanelMessageFunc_OnFileSelected::InitVar()::bAdded
- D vgui::HTML::PanelMessageFunc_OnFileSelectionCancelled::InitVar()::bAdded
- D vgui::HTML::PanelMessageFunc_OnSetCursorVGUI::InitVar()::bAdded
- D vgui::HTML::PanelMessageFunc_OnSliderMoved::InitVar()::bAdded
- D vgui::HTML::PanelMessageFunc_OnTextChanged::InitVar()::bAdded
  D vgui::ImagePanel::ChainToAnimationMap()::chained
  D vgui::ImagePanel::ChainToMap()::chained
  D vgui::ImagePanel::GetKBMap()::s_pMap
  D vgui::ImagePanel::GetMessageMap()::s_pMap
  D vgui::ImagePanel::KB_ChainToMap()::chained
- D vgui::InputDialog::ChainToAnimationMap()::chained
- D vgui::InputDialog::ChainToMap()::chained
- D vgui::InputDialog::GetKBMap()::s_pMap
- D vgui::InputDialog::GetMessageMap()::s_pMap
- D vgui::InputDialog::KB_ChainToMap()::chained
  D vgui::Label::ChainToAnimationMap()::chained
  D vgui::Label::ChainToMap()::chained
  D vgui::Label::GetKBMap()::s_pMap
@@ -5726,11 +5589,6 @@
  D vgui::ProgressBar::KB_ChainToMap()::chained
  D vgui::ProgressBar::PanelMessageFunc_OnDialogVariablesChanged::InitVar()::bAdded
  D vgui::ProgressBar::PanelMessageFunc_SetProgress::InitVar()::bAdded
- D vgui::QueryBox::ChainToAnimationMap()::chained
- D vgui::QueryBox::ChainToMap()::chained
- D vgui::QueryBox::GetKBMap()::s_pMap
- D vgui::QueryBox::GetMessageMap()::s_pMap
- D vgui::QueryBox::KB_ChainToMap()::chained
  D vgui::RadioButton::ChainToAnimationMap()::chained
  D vgui::RadioButton::ChainToMap()::chained
  D vgui::RadioButton::GetKBMap()::s_pMap
@@ -5891,36 +5749,14 @@
  D vtable for CBroadcastRecipientFilter
  D vtable for CBuildModeNavCombo
  D vtable for CBulletWhizTimer
- D vtable for CCallResult<vgui::HTML, HTML_BrowserReady_t>
  D vtable for CCallback<CAvatarImage, PersonaStateChange_t, false>
  D vtable for CCallback<CClientSteamContext, SteamServerConnectFailure_t, false>
  D vtable for CCallback<CClientSteamContext, SteamServersConnected_t, false>
  D vtable for CCallback<CClientSteamContext, SteamServersDisconnected_t, false>
- D vtable for CCallback<vgui::HTML, HTML_CanGoBackAndForward_t, false>
- D vtable for CCallback<vgui::HTML, HTML_ChangedTitle_t, false>
- D vtable for CCallback<vgui::HTML, HTML_CloseBrowser_t, false>
- D vtable for CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>
- D vtable for CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>
- D vtable for CCallback<vgui::HTML, HTML_FinishedRequest_t, false>
- D vtable for CCallback<vgui::HTML, HTML_HidePopup_t, false>
- D vtable for CCallback<vgui::HTML, HTML_HideToolTip_t, false>
- D vtable for CCallback<vgui::HTML, HTML_HorizontalScroll_t, false>
- D vtable for CCallback<vgui::HTML, HTML_JSAlert_t, false>
- D vtable for CCallback<vgui::HTML, HTML_JSConfirm_t, false>
- D vtable for CCallback<vgui::HTML, HTML_LinkAtPosition_t, false>
- D vtable for CCallback<vgui::HTML, HTML_NeedsPaint_t, false>
- D vtable for CCallback<vgui::HTML, HTML_NewWindow_t, false>
- D vtable for CCallback<vgui::HTML, HTML_OpenLinkInNewTab_t, false>
- D vtable for CCallback<vgui::HTML, HTML_SearchResults_t, false>
- D vtable for CCallback<vgui::HTML, HTML_SetCursor_t, false>
- D vtable for CCallback<vgui::HTML, HTML_ShowPopup_t, false>
- D vtable for CCallback<vgui::HTML, HTML_ShowToolTip_t, false>
- D vtable for CCallback<vgui::HTML, HTML_SizePopup_t, false>
- D vtable for CCallback<vgui::HTML, HTML_StartRequest_t, false>
- D vtable for CCallback<vgui::HTML, HTML_StatusText_t, false>
- D vtable for CCallback<vgui::HTML, HTML_URLChanged_t, false>
- D vtable for CCallback<vgui::HTML, HTML_UpdateToolTip_t, false>
- D vtable for CCallback<vgui::HTML, HTML_VerticalScroll_t, false>
+ D vtable for CCallbackImpl<12>
+ D vtable for CCallbackImpl<1>
+ D vtable for CCallbackImpl<4>
+ D vtable for CCallbackImpl<8>
  D vtable for CCamoMaterialProxy
  D vtable for CCamoTextureRegen
  D vtable for CCenterPrint
@@ -6335,7 +6171,6 @@
  D vtable for CTeleportCountdownScreen
  D vtable for CTempEnts
  D vtable for CTextWindow
- D vtable for CTextWindow::CMOTDHTML
  D vtable for CTextureIdProperty
  D vtable for CTextureScrollMaterialProxy
  D vtable for CTextureTransformProxy
@@ -6724,10 +6559,6 @@
  D vtable for Dragger
  D vtable for EntityParticleTrailInfo_t
  D vtable for FileWeaponInfo_t
- D vtable for HTMLComboBoxHost
- D vtable for HTMLInterior
- D vtable for HTMLPopup
- D vtable for HTMLPopup::PopupHTML
  D vtable for IDecalEmitterSystem
  D vtable for IGameEventListener2
  D vtable for IGameSystem
@@ -6781,7 +6612,6 @@
  D vtable for vehicleview_t
  D vtable for vgui::AnimatingImagePanel
  D vtable for vgui::AnimationController
- D vtable for vgui::BaseInputDialog
  D vtable for vgui::BaseTooltip
  D vtable for vgui::BuildGroup
  D vtable for vgui::BuildModeDialog
@@ -6800,20 +6630,14 @@
  D vtable for vgui::Divider
  D vtable for vgui::EditablePanel
  D vtable for vgui::ExpandButton
- D vtable for vgui::FileCompletionEdit
- D vtable for vgui::FileCompletionMenu
- D vtable for vgui::FileOpenDialog
  D vtable for vgui::FocusNavGroup
  D vtable for vgui::Frame
  D vtable for vgui::FrameButton
  D vtable for vgui::FrameSystemButton
  D vtable for vgui::GraphPanel
- D vtable for vgui::HTML
- D vtable for vgui::HTML::CHTMLFindBar
  D vtable for vgui::IClientPanel
  D vtable for vgui::Image
  D vtable for vgui::ImagePanel
- D vtable for vgui::InputDialog
  D vtable for vgui::Label
  D vtable for vgui::ListPanel
  D vtable for vgui::ListViewItem
@@ -6827,7 +6651,6 @@
  D vtable for vgui::Panel
  D vtable for vgui::PanelListPanel
  D vtable for vgui::ProgressBar
- D vtable for vgui::QueryBox
  D vtable for vgui::RadioButton
  D vtable for vgui::RadioImage
  D vtable for vgui::RichText
@@ -6881,6 +6704,14 @@
  R g_SIMD_clear_signmask
  R g_SIMD_lsbmask
  R g_SIMD_signmask
+ R jpeg_aritab
+ R jpeg_natural_order
+ R jpeg_natural_order2
+ R jpeg_natural_order3
+ R jpeg_natural_order4
+ R jpeg_natural_order5
+ R jpeg_natural_order6
+ R jpeg_natural_order7
  R nanmask
  R typeinfo name for AshDebrisEffect
  R typeinfo name for Beam_t
@@ -6947,37 +6778,15 @@
  R typeinfo name for CBroadcastRecipientFilter
  R typeinfo name for CBuildModeNavCombo
  R typeinfo name for CBulletWhizTimer
- R typeinfo name for CCallResult<vgui::HTML, HTML_BrowserReady_t>
  R typeinfo name for CCallback<CAvatarImage, PersonaStateChange_t, false>
  R typeinfo name for CCallback<CClientSteamContext, SteamServerConnectFailure_t, false>
  R typeinfo name for CCallback<CClientSteamContext, SteamServersConnected_t, false>
  R typeinfo name for CCallback<CClientSteamContext, SteamServersDisconnected_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_CanGoBackAndForward_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_ChangedTitle_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_CloseBrowser_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_FinishedRequest_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_HidePopup_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_HideToolTip_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_HorizontalScroll_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_JSAlert_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_JSConfirm_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_LinkAtPosition_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_NeedsPaint_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_NewWindow_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_OpenLinkInNewTab_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_SearchResults_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_SetCursor_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_ShowPopup_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_ShowToolTip_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_SizePopup_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_StartRequest_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_StatusText_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_URLChanged_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_UpdateToolTip_t, false>
- R typeinfo name for CCallback<vgui::HTML, HTML_VerticalScroll_t, false>
  R typeinfo name for CCallbackBase
+ R typeinfo name for CCallbackImpl<12>
+ R typeinfo name for CCallbackImpl<1>
+ R typeinfo name for CCallbackImpl<4>
+ R typeinfo name for CCallbackImpl<8>
  R typeinfo name for CCamoMaterialProxy
  R typeinfo name for CCamoTextureRegen
  R typeinfo name for CCenterPrint
@@ -7412,7 +7221,6 @@
  R typeinfo name for CTeleportCountdownScreen
  R typeinfo name for CTempEnts
  R typeinfo name for CTextWindow
- R typeinfo name for CTextWindow::CMOTDHTML
  R typeinfo name for CTextureIdProperty
  R typeinfo name for CTextureScrollMaterialProxy
  R typeinfo name for CTextureTransformProxy
@@ -7816,10 +7624,6 @@
  R typeinfo name for Dragger
  R typeinfo name for EntityParticleTrailInfo_t
  R typeinfo name for FileWeaponInfo_t
- R typeinfo name for HTMLComboBoxHost
- R typeinfo name for HTMLInterior
- R typeinfo name for HTMLPopup
- R typeinfo name for HTMLPopup::PopupHTML
  R typeinfo name for IAchievementMgr
  R typeinfo name for IAppSystem
  R typeinfo name for IBaseClientDLL
@@ -7978,7 +7782,6 @@
  R typeinfo name for vehicleview_t
  R typeinfo name for vgui::AnimatingImagePanel
  R typeinfo name for vgui::AnimationController
- R typeinfo name for vgui::BaseInputDialog
  R typeinfo name for vgui::BaseTooltip
  R typeinfo name for vgui::BuildGroup
  R typeinfo name for vgui::BuildModeDialog
@@ -7997,23 +7800,17 @@
  R typeinfo name for vgui::Divider
  R typeinfo name for vgui::EditablePanel
  R typeinfo name for vgui::ExpandButton
- R typeinfo name for vgui::FileCompletionEdit
- R typeinfo name for vgui::FileCompletionMenu
- R typeinfo name for vgui::FileOpenDialog
  R typeinfo name for vgui::FocusNavGroup
  R typeinfo name for vgui::Frame
  R typeinfo name for vgui::FrameButton
  R typeinfo name for vgui::FrameSystemButton
  R typeinfo name for vgui::GraphPanel
- R typeinfo name for vgui::HTML
- R typeinfo name for vgui::HTML::CHTMLFindBar
  R typeinfo name for vgui::IClientPanel
  R typeinfo name for vgui::IForceVirtualInheritancePanel
  R typeinfo name for vgui::IImage
  R typeinfo name for vgui::IPanelAnimationPropertyConverter
  R typeinfo name for vgui::Image
  R typeinfo name for vgui::ImagePanel
- R typeinfo name for vgui::InputDialog
  R typeinfo name for vgui::Label
  R typeinfo name for vgui::ListPanel
  R typeinfo name for vgui::ListViewItem
@@ -8027,7 +7824,6 @@
  R typeinfo name for vgui::Panel
  R typeinfo name for vgui::PanelListPanel
  R typeinfo name for vgui::ProgressBar
- R typeinfo name for vgui::QueryBox
  R typeinfo name for vgui::RadioButton
  R typeinfo name for vgui::RadioImage
  R typeinfo name for vgui::RichText
@@ -8058,12 +7854,12 @@
  SteamAPI_GetHSteamPipe
  SteamAPI_GetHSteamUser
  SteamAPI_InitSafe
- SteamAPI_RegisterCallResult
  SteamAPI_RegisterCallback
  SteamAPI_SetTryCatchCallbacks
- SteamAPI_UnregisterCallResult
  SteamAPI_UnregisterCallback
- SteamClient
+ SteamInternal_ContextInit
+ SteamInternal_CreateInterface
+ SteamInternal_FindOrCreateUserInterface
  T AR2ExplosionCallback(CEffectData const&)
  T AR2ImpactCallback(CEffectData const&)
  T AR2TracerCallback(CEffectData const&)
@@ -8148,6 +7944,13 @@
  T BitmapImage::SetColor(Color const&)
  T BitmapImage::SetPos(int, int)
  T BitmapImage::~BitmapImage()
+ T Bitmap_t::Clear()
+ T Bitmap_t::GetColor(int, int) const
+ T Bitmap_t::Init(int, int, ImageFormat, int)
+ T Bitmap_t::IsValid() const
+ T Bitmap_t::MakeLogicalCopyOf(Bitmap_t&, bool)
+ T Bitmap_t::SetBuffer(int, int, ImageFormat, unsigned char*, bool, int)
+ T Bitmap_t::SetColor(int, int, Color)
  T BlankImage::Evict()
  T BlankImage::GetContentSize(int&, int&)
  T BlankImage::GetID()
@@ -8477,6 +8280,8 @@
  T CBaseHudWeaponSelection::SelectWeapon()
  T CBaseHudWeaponSelection::SetWeaponSelected()
  T CBaseHudWeaponSelection::SwitchToLastWeapon()
+ T CBaseHudWeaponSelection::UserCmd_Slot2()
+ T CBaseHudWeaponSelection::UserCmd_Slot4()
  T CBaseHudWeaponSelection::VidInit()
  T CBaseHudWeaponSelection::~CBaseHudWeaponSelection()
  T CBaseManipulator::OnAcceptManipulation()
@@ -8688,96 +8493,26 @@
  T CC_Shake_Stop()
  T CC_VR_Cycle_Aim_Move_Mode(CCommand const&)
  T CCallQueue::~CCallQueue()
- T CCallResult<vgui::HTML, HTML_BrowserReady_t>::GetCallbackSizeBytes()
- T CCallResult<vgui::HTML, HTML_BrowserReady_t>::Run(void*)
- T CCallResult<vgui::HTML, HTML_BrowserReady_t>::Run(void*, bool, unsigned long long)
- T CCallback<CAvatarImage, PersonaStateChange_t, false>::GetCallbackSizeBytes()
  T CCallback<CAvatarImage, PersonaStateChange_t, false>::Run(void*)
- T CCallback<CAvatarImage, PersonaStateChange_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<CClientSteamContext, SteamServerConnectFailure_t, false>::GetCallbackSizeBytes()
+ T CCallback<CAvatarImage, PersonaStateChange_t, false>::~CCallback()
  T CCallback<CClientSteamContext, SteamServerConnectFailure_t, false>::Run(void*)
- T CCallback<CClientSteamContext, SteamServerConnectFailure_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<CClientSteamContext, SteamServersConnected_t, false>::GetCallbackSizeBytes()
+ T CCallback<CClientSteamContext, SteamServerConnectFailure_t, false>::~CCallback()
  T CCallback<CClientSteamContext, SteamServersConnected_t, false>::Run(void*)
- T CCallback<CClientSteamContext, SteamServersConnected_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<CClientSteamContext, SteamServersDisconnected_t, false>::GetCallbackSizeBytes()
+ T CCallback<CClientSteamContext, SteamServersConnected_t, false>::~CCallback()
  T CCallback<CClientSteamContext, SteamServersDisconnected_t, false>::Run(void*)
- T CCallback<CClientSteamContext, SteamServersDisconnected_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_CanGoBackAndForward_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_CanGoBackAndForward_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_CanGoBackAndForward_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_ChangedTitle_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_ChangedTitle_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_ChangedTitle_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_CloseBrowser_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_CloseBrowser_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_CloseBrowser_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_ComboNeedsPaint_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_FileOpenDialog_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_FinishedRequest_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_FinishedRequest_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_FinishedRequest_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_HidePopup_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_HidePopup_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_HidePopup_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_HideToolTip_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_HideToolTip_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_HideToolTip_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_HorizontalScroll_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_HorizontalScroll_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_HorizontalScroll_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_JSAlert_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_JSAlert_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_JSAlert_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_JSConfirm_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_JSConfirm_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_JSConfirm_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_LinkAtPosition_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_LinkAtPosition_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_LinkAtPosition_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_NeedsPaint_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_NeedsPaint_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_NeedsPaint_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_NewWindow_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_NewWindow_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_NewWindow_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_OpenLinkInNewTab_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_OpenLinkInNewTab_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_OpenLinkInNewTab_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_SearchResults_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_SearchResults_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_SearchResults_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_SetCursor_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_SetCursor_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_SetCursor_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_ShowPopup_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_ShowPopup_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_ShowPopup_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_ShowToolTip_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_ShowToolTip_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_ShowToolTip_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_SizePopup_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_SizePopup_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_SizePopup_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_StartRequest_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_StartRequest_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_StartRequest_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_StatusText_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_StatusText_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_StatusText_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_URLChanged_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_URLChanged_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_URLChanged_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_UpdateToolTip_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_UpdateToolTip_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_UpdateToolTip_t, false>::Run(void*, bool, unsigned long long)
- T CCallback<vgui::HTML, HTML_VerticalScroll_t, false>::GetCallbackSizeBytes()
- T CCallback<vgui::HTML, HTML_VerticalScroll_t, false>::Run(void*)
- T CCallback<vgui::HTML, HTML_VerticalScroll_t, false>::Run(void*, bool, unsigned long long)
+ T CCallback<CClientSteamContext, SteamServersDisconnected_t, false>::~CCallback()
+ T CCallbackImpl<12>::GetCallbackSizeBytes()
+ T CCallbackImpl<12>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<12>::~CCallbackImpl()
+ T CCallbackImpl<1>::GetCallbackSizeBytes()
+ T CCallbackImpl<1>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<1>::~CCallbackImpl()
+ T CCallbackImpl<4>::GetCallbackSizeBytes()
+ T CCallbackImpl<4>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<4>::~CCallbackImpl()
+ T CCallbackImpl<8>::GetCallbackSizeBytes()
+ T CCallbackImpl<8>::Run(void*, bool, unsigned long long)
+ T CCallbackImpl<8>::~CCallbackImpl()
  T CCamoMaterialProxy::GenerateCamoTexture(ITexture*, IVTFTexture*)
  T CCamoMaterialProxy::GetColors(Vector&, Vector&, int, Vector const&, Vector const&, Vector const&, Vector const&, Vector const&, Vector const&)
  T CCamoMaterialProxy::GetMaterial()
@@ -9523,7 +9258,6 @@
  T CDefOps<CPhysCollide const*>::LessFunc(CPhysCollide const* const&, CPhysCollide const* const&)
  T CDefOps<CSteamID>::LessFunc(CSteamID const&, CSteamID const&)
  T CDefOps<CStudioHdr const*>::LessFunc(CStudioHdr const* const&, CStudioHdr const* const&)
- T CDefOps<CUtlString>::LessFunc(CUtlString const&, CUtlString const&)
  T CDefOps<C_BaseEntity*>::LessFunc(C_BaseEntity* const&, C_BaseEntity* const&)
  T CDefOps<IPhysicsObject*>::LessFunc(IPhysicsObject* const&, IPhysicsObject* const&)
  T CDefOps<char const*>::LessFunc(char const* const&, char const* const&)
@@ -10397,10 +10131,10 @@
  T CHudCloseCaption::AddAsyncWork(char const*, bool, float, bool, bool)
  T CHudCloseCaption::AddToAnimationMap(char const*, char const*, char const*, char const*, bool, void* (*)(vgui::Panel*))
  T CHudCloseCaption::AddWorkUnit(CCloseCaptionItem*, WorkUnitParams&)
+ T CHudCloseCaption::ApplySchemeSettings(vgui::IScheme*)
  T CHudCloseCaption::CHudCloseCaption(char const*)
  T CHudCloseCaption::CaptionTokenLessFunc(CHudCloseCaption::CaptionRepeat const&, CHudCloseCaption::CaptionRepeat const&)
  T CHudCloseCaption::ComputeStreamWork(int, CCloseCaptionItem*)
- T CHudCloseCaption::CreateFonts()
  T CHudCloseCaption::DrawStream(wrect_s&, wrect_s&, CCloseCaptionItem*, int, float)
  T CHudCloseCaption::FindSound(char const*)
  T CHudCloseCaption::GetAnimMap()
@@ -10414,6 +10148,7 @@
  T CHudCloseCaption::GetVar_m_flItemFadeInTime(vgui::Panel*)
  T CHudCloseCaption::GetVar_m_flItemFadeOutTime(vgui::Panel*)
  T CHudCloseCaption::GetVar_m_flItemHiddenTime(vgui::Panel*)
+ T CHudCloseCaption::GetVar_m_nAspectRatioOffset(vgui::Panel*)
  T CHudCloseCaption::GetVar_m_nTopOffset(vgui::Panel*)
  T CHudCloseCaption::InitCaptionDictionary(char const*)
  T CHudCloseCaption::LevelInit()
@@ -10652,6 +10387,7 @@
  T CHudHintKeyDisplay::Init()
  T CHudHintKeyDisplay::MsgFunc_KeyHintText(bf_read&)
  T CHudHintKeyDisplay::OnThink()
+ T CHudHintKeyDisplay::Paint()
  T CHudHintKeyDisplay::Reset()
  T CHudHintKeyDisplay::SetHintText(char const*)
  T CHudHintKeyDisplay::ShouldDraw()
@@ -10779,11 +10515,20 @@
  T CHudPoisonDamageIndicator::Reset()
  T CHudPoisonDamageIndicator::ShouldDraw()
  T CHudPoisonDamageIndicator::~CHudPoisonDamageIndicator()
+ T CHudPosture::AddToAnimationMap(char const*, char const*, char const*, char const*, bool, void* (*)(vgui::Panel*))
  T CHudPosture::CHudPosture(char const*)
  T CHudPosture::GetAnimMap()
  T CHudPosture::GetKBMap()
  T CHudPosture::GetMessageMap()
  T CHudPosture::GetPanelClassName()
+ T CHudPosture::GetVar_m_IconX(vgui::Panel*)
+ T CHudPosture::GetVar_m_IconY(vgui::Panel*)
+ T CHudPosture::GetVar_m_TextColor(vgui::Panel*)
+ T CHudPosture::GetVar_m_hFont(vgui::Panel*)
+ T CHudPosture::Init()
+ T CHudPosture::OnTick()
+ T CHudPosture::Paint()
+ T CHudPosture::Reset()
  T CHudPosture::ShouldDraw()
  T CHudPosture::~CHudPosture()
  T CHudSecondaryAmmo::CHudSecondaryAmmo(char const*)
@@ -10936,7 +10681,7 @@
  T CHudWeaponSelection::GetVar_m_flWeaponPickupGrowTime(vgui::Panel*)
  T CHudWeaponSelection::GetVar_m_hNumberFont(vgui::Panel*)
  T CHudWeaponSelection::GetVar_m_hTextFont(vgui::Panel*)
- T CHudWeaponSelection::GetWeaponInSlot(int, int)
+ T CHudWeaponSelection::GetWeaponInSlot(int, int, bool)
  T CHudWeaponSelection::HideSelection()
  T CHudWeaponSelection::IsWeaponSelectable()
  T CHudWeaponSelection::LevelInit()
@@ -11033,6 +10778,7 @@
  T CInput::ComputeForwardMove(CUserCmd*)
  T CInput::ComputeSideMove(CUserCmd*)
  T CInput::ControllerCommands()
+ T CInput::ControllerModeActive()
  T CInput::ControllerMove(float, CUserCmd*)
  T CInput::CreateMove(int, float, bool)
  T CInput::DeactivateMouse()
@@ -11045,6 +10791,7 @@
  T CInput::GetButtonBits(int)
  T CInput::GetFullscreenMousePos(int*, int*, int*, int*)
  T CInput::GetLastForwardMove()
+ T CInput::GetLastUsedInput()
  T CInput::GetLookSpring()
  T CInput::GetMousePos(int&, int&)
  T CInput::GetUserCmd(int)
@@ -11068,9 +10815,16 @@
  T CInput::MakeWeaponSelection(C_BaseCombatWeapon*)
  T CInput::MouseMove(CUserCmd*)
  T CInput::ResetMouse()
+ T CInput::ScaleAxisValue(float, float)
  T CInput::ScaleMouse(float*, float*)
+ T CInput::SetControllerModeActive(bool)
  T CInput::SetFullscreenMousePos(int, int)
+ T CInput::SetLastUsedInput(int)
  T CInput::Shutdown_All()
+ T CInput::SteamControllerMove(float, CUserCmd*)
+ T CInput::SteamInput_SetSampleTime(float)
+ T CInput::UpdateAndGetCameraReset(QAngle, float, float)
+ T CInput::UpdateAndGetQuickTurnYaw(float, float)
  T CInput::WriteUsercmdDeltaToBuffer(bf_write*, int, int, bool)
  T CInput::~CInput()
  T CIntProperty::GetData(vgui::Panel*, KeyValues*, PanelAnimationMapEntry*)
@@ -13249,13 +13003,6 @@
  T CTempEnts::Update()
  T CTempEnts::~CTempEnts()
  T CTextWindow::ApplySchemeSettings(vgui::IScheme*)
- T CTextWindow::CMOTDHTML::CMOTDHTML(vgui::Panel*, char const*)
- T CTextWindow::CMOTDHTML::GetAnimMap()
- T CTextWindow::CMOTDHTML::GetKBMap()
- T CTextWindow::CMOTDHTML::GetMessageMap()
- T CTextWindow::CMOTDHTML::GetPanelClassName()
- T CTextWindow::CMOTDHTML::OnStartRequest(char const*, char const*, char const*, bool)
- T CTextWindow::CMOTDHTML::~CMOTDHTML()
  T CTextWindow::CTextWindow(IViewPort*)
  T CTextWindow::GetAnimMap()
  T CTextWindow::GetKBMap()
@@ -13698,6 +13445,7 @@
  T CUtlMemory<SaveRestoreBlockHeader_t, int>::Grow(int)
  T CUtlMemory<SlideMaterialList_t*, int>::Grow(int)
  T CUtlMemory<SoundCommand_t*, int>::Grow(int)
+ T CUtlMemory<SteamControllerGlyphSet_t, int>::Grow(int)
  T CUtlMemory<TextRange, int>::Grow(int)
  T CUtlMemory<UniqueId_t, int>::Grow(int)
  T CUtlMemory<UtlLinkedListElem_t<CAchievementNotificationPanel::Notification_t, unsigned short>, unsigned short>::Grow(int)
@@ -13826,7 +13574,6 @@
  T CUtlMemory<vgui::CTreeViewListControl::CColumnInfo, int>::Grow(int)
  T CUtlMemory<vgui::ClickPanel*, int>::Grow(int)
  T CUtlMemory<vgui::DHANDLE<vgui::Menu>, int>::Grow(int)
- T CUtlMemory<vgui::HTML::CustomURLHandler_t, int>::Grow(int)
  T CUtlMemory<vgui::IImage*, int>::Grow(int)
  T CUtlMemory<vgui::ImagePanel*, int>::Grow(int)
  T CUtlMemory<vgui::Label*, int>::Grow(int)
@@ -14021,7 +13768,6 @@
  T CUtlRBTree<CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::Node_t, unsigned short, CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
  T CUtlRBTree<CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::Node_t, unsigned short, CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateLeft(unsigned short)
  T CUtlRBTree<CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::Node_t, unsigned short, CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CStudioHdr const*, ModelPoseDebugInfo, unsigned short>::Node_t, unsigned short>, unsigned short> >::RotateRight(unsigned short)
- T CUtlRBTree<CUtlMap<CUtlString, CUtlString, unsigned short>::Node_t, unsigned short, CUtlMap<CUtlString, CUtlString, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<CUtlString, CUtlString, unsigned short>::Node_t, unsigned short>, unsigned short> >::RemoveAll()
  T CUtlRBTree<CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::Node_t, unsigned short, CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::Node_t, unsigned short>, unsigned short> >::Find(CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::Node_t const&) const
  T CUtlRBTree<CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::Node_t, unsigned short, CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FindInsertionPosition(CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::Node_t const&, unsigned short&, bool&)
  T CUtlRBTree<CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::Node_t, unsigned short, CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<C_BaseEntity*, CPhysSaveRestoreBlockHandler::CEntityRestoreSet*, unsigned short>::Node_t, unsigned short>, unsigned short> >::FirstInorder() const
@@ -14418,7 +14164,6 @@
  T CUtlString::operator+=(char const*)
  T CUtlString::operator=(CUtlString const&)
  T CUtlString::operator=(char const*)
- T CUtlString::operator==(char const*) const
  T CUtlString::~CUtlString()
  T CUtlStringMap<CParticleSystemDefinition*>::operator[](char const*)
  T CUtlStringMap<CSheet*>::PurgeAndDeleteElements()
@@ -15074,6 +14819,7 @@
  T C_BaseCombatWeapon::GetName() const
  T C_BaseCombatWeapon::GetOwner() const
  T C_BaseCombatWeapon::GetPosition() const
+ T C_BaseCombatWeapon::GetPositionConsole() const
  T C_BaseCombatWeapon::GetPredDescMap()
  T C_BaseCombatWeapon::GetPrimaryAmmoType() const
  T C_BaseCombatWeapon::GetPrimaryAttackActivity()
@@ -15086,6 +14832,7 @@
  T C_BaseCombatWeapon::GetShootSound(int) const
  T C_BaseCombatWeapon::GetSkinOverride() const
  T C_BaseCombatWeapon::GetSlot() const
+ T C_BaseCombatWeapon::GetSlotConsole() const
  T C_BaseCombatWeapon::GetSpreadBias(WeaponProficiency_t)
  T C_BaseCombatWeapon::GetSpriteActive() const
  T C_BaseCombatWeapon::GetSpriteAmmo() const
@@ -15901,6 +15648,7 @@
  T C_BasePlayer::ViewPunch(QAngle const&)
  T C_BasePlayer::Weapon_DropPrimary()
  T C_BasePlayer::Weapon_SetLast(C_BaseCombatWeapon*)
+ T C_BasePlayer::Weapon_SetLastPending(C_BaseCombatWeapon*)
  T C_BasePlayer::Weapon_ShootPosition()
  T C_BasePlayer::Weapon_ShouldSelectItem(C_BaseCombatWeapon*)
  T C_BasePlayer::Weapon_ShouldSetLast(C_BaseCombatWeapon*, C_BaseCombatWeapon*)
@@ -18325,6 +18073,7 @@
  T ClientModeShared::IsInfoPanelAllowed()
  T ClientModeShared::KeyInput(int, ButtonCode_t, char const*)
  T ClientModeShared::Layout()
+ T ClientModeShared::Layout(bool)
  T ClientModeShared::LevelInit(char const*)
  T ClientModeShared::LevelShutdown()
  T ClientModeShared::OverrideMouseInput(float*, float*)
@@ -18733,6 +18482,7 @@
  T GetDetailController()
  T GetEntitySaveRestoreBlockHandler()
  T GetEventIndexForSequence(mstudioseqdesc_t&)
+ T GetFastSwitchType()
  T GetFileWeaponInfoFromHandle(unsigned short)
  T GetFullFrameDepthTexture()
  T GetFullFrameFrameBufferTexture(int)
@@ -18742,7 +18492,6 @@
  T GetHudWeaponSelection()
  T GetInterpolationData(float const*, float const*, int, int, float, bool, float*, float*, float*)
  T GetInvalidWeaponInfoHandle()
- T GetKeyModifiers()
  T GetLocalPlayerIndex()
  T GetLocalPlayerTeam()
  T GetLocalTeam()
@@ -18763,6 +18512,8 @@
  T GetPowerOfTwoFrameBufferTexture()
  T GetPushawayEnts(C_BaseCombatCharacter*, C_BaseEntity**, int, float, int, CPushAwayEnumerator*)
  T GetRagdollCurSequenceWithDeathPose(C_BaseAnimating*, matrix3x4_t*, float, int, int)
+ T GetRatioedHudSize(int&, int&, int&, int&)
+ T GetRealScreenSize(int&, int&)
  T GetSIMDRandContext()
  T GetSequenceFlags(CStudioHdr*, int)
  T GetSequenceLinearMotion(CStudioHdr*, int, float const*, Vector*)
@@ -18784,45 +18535,6 @@
  T Gunship_DrawSprite(Vector const&, float, color32_s const&, bool)
  T GunshotSplashCallback(CEffectData const&)
  T HLTVCamera()
- T HTMLComboBoxHost::GetAnimMap()
- T HTMLComboBoxHost::GetKBMap()
- T HTMLComboBoxHost::GetMessageMap()
- T HTMLComboBoxHost::GetPanelClassName()
- T HTMLComboBoxHost::HTMLComboBoxHost(vgui::HTML*, char const*)
- T HTMLComboBoxHost::OnCursorMoved(int, int)
- T HTMLComboBoxHost::OnKeyCodeReleased(ButtonCode_t)
- T HTMLComboBoxHost::OnKeyCodeTyped(ButtonCode_t)
- T HTMLComboBoxHost::OnKeyTyped(wchar_t)
- T HTMLComboBoxHost::OnKillFocus()
- T HTMLComboBoxHost::OnMouseDoublePressed(ButtonCode_t)
- T HTMLComboBoxHost::OnMousePressed(ButtonCode_t)
- T HTMLComboBoxHost::OnMouseReleased(ButtonCode_t)
- T HTMLComboBoxHost::OnMouseWheeled(int)
- T HTMLComboBoxHost::PaintBackground()
- T HTMLComboBoxHost::PerformLayout()
- T HTMLComboBoxHost::~HTMLComboBoxHost()
- T HTMLInterior::GetAnimMap()
- T HTMLInterior::GetKBMap()
- T HTMLInterior::GetMessageMap()
- T HTMLInterior::GetPanelClassName()
- T HTMLInterior::HTMLInterior(vgui::HTML*)
- T HTMLInterior::~HTMLInterior()
- T HTMLPopup::AddToMap(char const*, void (vgui::Panel::*)(), int, int, char const*, int, char const*)
- T HTMLPopup::GetAnimMap()
- T HTMLPopup::GetKBMap()
- T HTMLPopup::GetMessageMap()
- T HTMLPopup::GetPanelClassName()
- T HTMLPopup::HTMLPopup(vgui::Panel*, char const*, char const*)
- T HTMLPopup::OnCloseWindow()
- T HTMLPopup::PerformLayout()
- T HTMLPopup::PopupHTML::GetAnimMap()
- T HTMLPopup::PopupHTML::GetKBMap()
- T HTMLPopup::PopupHTML::GetMessageMap()
- T HTMLPopup::PopupHTML::GetPanelClassName()
- T HTMLPopup::PopupHTML::OnSetHTMLTitle(char const*)
- T HTMLPopup::PopupHTML::PopupHTML(vgui::Frame*, char const*, bool, bool)
- T HTMLPopup::PopupHTML::~PopupHTML()
- T HTMLPopup::~HTMLPopup()
  T Hack_FixEscapeChars(char*)
  T Hash4(void const*)
  T HashInt(int)
@@ -18907,6 +18619,8 @@
  T IN_KLookUp(CCommand const&)
  T IN_LeftDown(CCommand const&)
  T IN_LeftUp(CCommand const&)
+ T IN_LookSpinDown(CCommand const&)
+ T IN_LookSpinUp(CCommand const&)
  T IN_LookdownDown(CCommand const&)
  T IN_LookdownUp(CCommand const&)
  T IN_LookupDown(CCommand const&)
@@ -18917,6 +18631,8 @@
  T IN_MoverightUp(CCommand const&)
  T IN_ReloadDown(CCommand const&)
  T IN_ReloadUp(CCommand const&)
+ T IN_ResetCameraDown(CCommand const&)
+ T IN_ResetCameraUp(CCommand const&)
  T IN_RightDown(CCommand const&)
  T IN_RightUp(CCommand const&)
  T IN_ScoreDown(CCommand const&)
@@ -18995,6 +18711,15 @@
  T ImageLoader::ResampleRGBA8888(ImageLoader::ResampleInfo_t const&)
  T ImageLoader::RotateImage180(unsigned char const*, unsigned char*, int, ImageFormat)
  T ImageLoader::RotateImageLeft(unsigned char const*, unsigned char*, int, ImageFormat)
+ T ImgUtl_LoadBitmap(char const*, Bitmap_t&)
+ T ImgUtl_ReadImageAsRGBA(char const*, int&, int&, ConversionErrorType&)
+ T ImgUtl_ReadJPEGAsRGBA(char const*, int&, int&, ConversionErrorType&)
+ T ImgUtl_ReadPNGAsRGBA(char const*, int&, int&, ConversionErrorType&)
+ T ImgUtl_ReadPNGAsRGBAFromBuffer(CUtlBuffer&, int&, int&, ConversionErrorType&)
+ T ImgUtl_ReadTGAAsRGBA(char const*, int&, int&, ConversionErrorType&, TGAHeader&)
+ T ImgUtl_ReadVTFAsRGBA(char const*, int&, int&, ConversionErrorType&)
+ T ImgUtl_ResizeBitmap(Bitmap_t&, int, int, Bitmap_t const*)
+ T ImgUtl_StretchRGBAImage(unsigned char const*, int, int, unsigned char*, int, int)
  T Impact(Vector&, Vector&, int, int, int, C_BaseEntity*, CGameTrace&, int, int)
  T ImpactAirboatGunCallback(CEffectData const&)
  T ImpactCallback(CEffectData const&)
@@ -19034,9 +18759,9 @@
  T IsPointInBox(Vector const&, Vector const&, Vector const&)
  T IsReflectiveGlassInView(CViewSetup const&, cplane_t&)
  T IsSphereIntersectingSphere(Vector const&, float, Vector const&, float)
+ T IsSteamDeck()
  T IsUniqueIdEqual(UniqueId_t const&, UniqueId_t const&)
  T IsUniqueIdValid(UniqueId_t const&)
- T KeyCode_VGUIToVirtualKey(ButtonCode_t)
  T KeyDown(kbutton_t*, char const*)
  T KeyUp(kbutton_t*, char const*)
  T KeyValues::AddSubKey(KeyValues*)
@@ -19251,7 +18976,6 @@
  T PrevMainViewOrigin()
  T ProcessOnDataChangedEvents()
  T PropBreakableCreateAll(int, IPhysicsObject*, breakablepropparams_t const&, C_BaseEntity*, int, bool, bool)
- T Q_StripPrecedingAndTrailingWhitespace(char*)
  T QuaternionAlign(Quaternion const&, Quaternion const&, Quaternion&)
  T QuaternionAngles(Quaternion const&, QAngle&)
  T QuaternionAngles(Quaternion const&, RadianEuler&)
@@ -19376,6 +19100,7 @@
  T ResetViewAngles()
  T ResetWindspeed()
  T ResizeAnimationLayerCallback(void*, int, int)
+ T ResponseCurveLook(int, float, int, float, float, float)
  T RifleShellEjectCallback(CEffectData const&)
  T RippleCallback(CEffectData const&)
  T RopeManager()
@@ -19434,6 +19159,29 @@
  T SporeEffect::UpdateVelocity(SimpleParticle*, float)
  T SporeEffect::~SporeEffect()
  T StandardGlowBlend(pixelvis_queryparams_t const&, int*, int, int, int, float*)
+ T SteamInternal_Init_SteamAppList(ISteamAppList**)
+ T SteamInternal_Init_SteamApps(ISteamApps**)
+ T SteamInternal_Init_SteamClient(ISteamClient**)
+ T SteamInternal_Init_SteamController(ISteamController**)
+ T SteamInternal_Init_SteamFriends(ISteamFriends**)
+ T SteamInternal_Init_SteamGameSearch(ISteamGameSearch**)
+ T SteamInternal_Init_SteamHTMLSurface(ISteamHTMLSurface**)
+ T SteamInternal_Init_SteamHTTP(ISteamHTTP**)
+ T SteamInternal_Init_SteamInput(ISteamInput**)
+ T SteamInternal_Init_SteamInventory(ISteamInventory**)
+ T SteamInternal_Init_SteamMatchmaking(ISteamMatchmaking**)
+ T SteamInternal_Init_SteamMatchmakingServers(ISteamMatchmakingServers**)
+ T SteamInternal_Init_SteamMusic(ISteamMusic**)
+ T SteamInternal_Init_SteamMusicRemote(ISteamMusicRemote**)
+ T SteamInternal_Init_SteamNetworking(ISteamNetworking**)
+ T SteamInternal_Init_SteamParentalSettings(ISteamParentalSettings**)
+ T SteamInternal_Init_SteamRemoteStorage(ISteamRemoteStorage**)
+ T SteamInternal_Init_SteamScreenshots(ISteamScreenshots**)
+ T SteamInternal_Init_SteamUGC(ISteamUGC**)
+ T SteamInternal_Init_SteamUser(ISteamUser**)
+ T SteamInternal_Init_SteamUserStats(ISteamUserStats**)
+ T SteamInternal_Init_SteamUtils(ISteamUtils**)
+ T SteamInternal_Init_SteamVideo(ISteamVideo**)
  T StickRagdollNow(Vector const&, Vector const&)
  T StickyBoltCallback(CEffectData const&)
  T StopAllRumbleEffects()
@@ -19629,20 +19377,14 @@
  T VMatrix::Transpose() const
  T VMatrix::operator*(VMatrix const&) const
  T VMatrix::operator=(VMatrix const&)
- T V_AppendSlash(char*, int)
- T V_ExtractFileExtension(char const*, char*, int)
- T V_ExtractFilePath(char const*, char*, int)
  T V_FileBase(char const*, char*, int)
  T V_FixSlashes(char*, char)
  T V_GetFileExtension(char const*)
  T V_IsAbsolutePath(char const*)
- T V_MakeAbsolutePath(char*, int, char const*, char const*)
- T V_RemoveDotSlashes(char*, char, bool)
  T V_SetExtension(char*, char const*, int)
  T V_StripExtension(char const*, char*, int)
  T V_StripFilename(char*)
  T V_StripLastDir(char*, int)
- T V_StripTrailingSlash(char*)
  T V_UCS2ToUTF8(unsigned short const*, char*, int)
  T V_UCS2ToUnicode(unsigned short const*, wchar_t*, int)
  T V_UTF8ToUnicode(char const*, wchar_t*, int)
@@ -19819,7 +19561,6 @@
  T datamap_t* DataMapInit<CRagdoll>(CRagdoll*)
  T datamap_t* DataMapInit<C_ClientRagdoll>(C_ClientRagdoll*)
  T datamap_t* DataMapInit<C_PointCommentaryNode>(C_PointCommentaryNode*)
- T dyld_stub_binding_helper
  T float16::ConvertFloatTo16bits(float)
  T fogparams_t::NetworkStateChanged()
  T fogparams_t::NetworkStateChanged(void*)
@@ -20070,7 +19811,84 @@
  T int ClientClassInit<DT_World::ignored>(DT_World::ignored*)
  T int V_sprintf_safe<256ul>(char (&) [256ul], char const*, ...)
  T int V_swprintf_safe<64ul>(wchar_t (&) [64ul], wchar_t const*, ...)
+ T jcopy_block_row
+ T jcopy_sample_rows
+ T jdiv_round_up
+ T jinit_1pass_quantizer
+ T jinit_2pass_quantizer
+ T jinit_arith_decoder
+ T jinit_color_deconverter
+ T jinit_d_coef_controller
+ T jinit_d_main_controller
+ T jinit_d_post_controller
+ T jinit_huff_decoder
+ T jinit_input_controller
+ T jinit_inverse_dct
+ T jinit_marker_reader
+ T jinit_master_decompress
+ T jinit_memory_mgr
+ T jinit_merged_upsampler
+ T jinit_upsampler
  T joy_movement_stick_Callback(IConVar*, char const*, float)
+ T jpeg_CreateDecompress
+ T jpeg_abort
+ T jpeg_alloc_huff_table
+ T jpeg_alloc_quant_table
+ T jpeg_calc_output_dimensions
+ T jpeg_consume_input
+ T jpeg_core_output_dimensions
+ T jpeg_destroy
+ T jpeg_destroy_decompress
+ T jpeg_free_large(jpeg_common_struct*, void*, unsigned long)
+ T jpeg_free_small(jpeg_common_struct*, void*, unsigned long)
+ T jpeg_get_large(jpeg_common_struct*, unsigned long)
+ T jpeg_get_small(jpeg_common_struct*, unsigned long)
+ T jpeg_idct_10x10(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_10x5(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_11x11(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_12x12(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_12x6(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_13x13(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_14x14(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_14x7(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_15x15(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_16x16(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_16x8(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_1x1(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_1x2(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_2x1(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_2x2(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_2x4(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_3x3(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_3x6(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_4x2(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_4x4(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_4x8(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_5x10(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_5x5(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_6x12(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_6x3(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_6x6(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_7x14(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_7x7(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_8x16(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_8x4(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_9x9(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_float(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_ifast(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_idct_islow(jpeg_decompress_struct*, jpeg_component_info*, short*, unsigned char**, unsigned int)
+ T jpeg_mem_available(jpeg_common_struct*, long, long, long)
+ T jpeg_mem_init(jpeg_common_struct*)
+ T jpeg_mem_term(jpeg_common_struct*)
+ T jpeg_open_backing_store(jpeg_common_struct*, backing_store_struct*, long)
+ T jpeg_read_header
+ T jpeg_read_scanlines
+ T jpeg_resync_to_restart
+ T jpeg_start_decompress
+ T jpeg_std_error
+ T jpeg_stdio_src
+ T jround_up
+ T jzero_far
  T mat_show_ab_hdr_hudelement_changed(IConVar*, char const*, float)
  T mstudioanimdesc_t::pAnim(int*) const
  T mstudioanimdesc_t::pAnim(int*, float&) const
@@ -20309,6 +20127,7 @@
  T non-virtual thunk to CHudChat::GetKBMap()
  T non-virtual thunk to CHudChat::GetMessageMap()
  T non-virtual thunk to CHudChat::~CHudChat()
+ T non-virtual thunk to CHudCloseCaption::ApplySchemeSettings(vgui::IScheme*)
  T non-virtual thunk to CHudCloseCaption::GetAnimMap()
  T non-virtual thunk to CHudCloseCaption::GetKBMap()
  T non-virtual thunk to CHudCloseCaption::GetMessageMap()
@@ -20412,6 +20231,8 @@
  T non-virtual thunk to CHudPosture::GetAnimMap()
  T non-virtual thunk to CHudPosture::GetKBMap()
  T non-virtual thunk to CHudPosture::GetMessageMap()
+ T non-virtual thunk to CHudPosture::OnTick()
+ T non-virtual thunk to CHudPosture::Paint()
  T non-virtual thunk to CHudPosture::~CHudPosture()
  T non-virtual thunk to CHudSecondaryAmmo::Init()
  T non-virtual thunk to CHudSecondaryAmmo::Reset()
@@ -21476,6 +21297,344 @@
  T non-virtual thunk to ConVar::SetValue(int)
  T physicssound::AddImpactSound(physicssound::soundlist_t&, void*, int, int, IPhysicsObject*, int, int, float, float)
  T physicssound::PlayImpactSounds(physicssound::soundlist_t&)
+ T png_64bit_product
+ T png_access_version_number
+ T png_ascii_from_fixed
+ T png_ascii_from_fp
+ T png_benign_error
+ T png_build_gamma_table
+ T png_build_grayscale_palette
+ T png_calculate_crc
+ T png_calloc
+ T png_check_IHDR
+ T png_check_cHRM_fixed
+ T png_check_chunk_name
+ T png_check_fp_number
+ T png_check_fp_string
+ T png_check_keyword
+ T png_chunk_benign_error
+ T png_chunk_error
+ T png_chunk_warning
+ T png_combine_row
+ T png_convert_from_struct_tm
+ T png_convert_from_time_t
+ T png_convert_to_rfc1123
+ T png_crc_error
+ T png_crc_finish
+ T png_crc_read
+ T png_create_info_struct
+ T png_create_read_struct
+ T png_create_read_struct_2
+ T png_create_struct
+ T png_create_struct_2
+ T png_create_write_struct
+ T png_create_write_struct_2
+ T png_data_freer
+ T png_decompress_chunk
+ T png_default_flush
+ T png_default_read_data
+ T png_default_write_data
+ T png_destroy_info_struct
+ T png_destroy_read_struct
+ T png_destroy_struct
+ T png_destroy_struct_2
+ T png_destroy_write_struct
+ T png_do_background
+ T png_do_bgr
+ T png_do_chop
+ T png_do_expand
+ T png_do_expand_16
+ T png_do_expand_palette
+ T png_do_gamma
+ T png_do_gray_to_rgb
+ T png_do_invert
+ T png_do_pack
+ T png_do_packswap
+ T png_do_quantize
+ T png_do_read_filler
+ T png_do_read_interlace
+ T png_do_read_intrapixel
+ T png_do_read_invert_alpha
+ T png_do_read_swap_alpha
+ T png_do_read_transformations
+ T png_do_rgb_to_gray
+ T png_do_shift
+ T png_do_strip_channel
+ T png_do_swap
+ T png_do_unpack
+ T png_do_unshift
+ T png_do_write_interlace
+ T png_do_write_intrapixel
+ T png_do_write_invert_alpha
+ T png_do_write_swap_alpha
+ T png_do_write_transformations
+ T png_error
+ T png_fixed
+ T png_fixed_error
+ T png_flush
+ T png_free
+ T png_free_data
+ T png_free_default
+ T png_gamma_16bit_correct
+ T png_gamma_8bit_correct
+ T png_gamma_correct
+ T png_gamma_significant
+ T png_get_IHDR
+ T png_get_PLTE
+ T png_get_bKGD
+ T png_get_bit_depth
+ T png_get_cHRM
+ T png_get_cHRM_fixed
+ T png_get_channels
+ T png_get_chunk_cache_max
+ T png_get_chunk_malloc_max
+ T png_get_color_type
+ T png_get_compression_buffer_size
+ T png_get_compression_type
+ T png_get_copyright
+ T png_get_current_pass_number
+ T png_get_current_row_number
+ T png_get_error_ptr
+ T png_get_filter_type
+ T png_get_gAMA
+ T png_get_gAMA_fixed
+ T png_get_hIST
+ T png_get_header_ver
+ T png_get_header_version
+ T png_get_iCCP
+ T png_get_image_height
+ T png_get_image_width
+ T png_get_int_32
+ T png_get_interlace_type
+ T png_get_io_chunk_name
+ T png_get_io_chunk_type
+ T png_get_io_ptr
+ T png_get_io_state
+ T png_get_libpng_ver
+ T png_get_mem_ptr
+ T png_get_oFFs
+ T png_get_pCAL
+ T png_get_pHYs
+ T png_get_pHYs_dpi
+ T png_get_pixel_aspect_ratio
+ T png_get_pixel_aspect_ratio_fixed
+ T png_get_pixels_per_inch
+ T png_get_pixels_per_meter
+ T png_get_rgb_to_gray_status
+ T png_get_rowbytes
+ T png_get_rows
+ T png_get_sBIT
+ T png_get_sCAL
+ T png_get_sCAL_fixed
+ T png_get_sCAL_s
+ T png_get_sPLT
+ T png_get_sRGB
+ T png_get_signature
+ T png_get_tIME
+ T png_get_tRNS
+ T png_get_text
+ T png_get_uint_16
+ T png_get_uint_31
+ T png_get_uint_32
+ T png_get_unknown_chunks
+ T png_get_user_chunk_ptr
+ T png_get_user_height_max
+ T png_get_user_transform_ptr
+ T png_get_user_width_max
+ T png_get_valid
+ T png_get_x_offset_inches
+ T png_get_x_offset_inches_fixed
+ T png_get_x_offset_microns
+ T png_get_x_offset_pixels
+ T png_get_x_pixels_per_inch
+ T png_get_x_pixels_per_meter
+ T png_get_y_offset_inches
+ T png_get_y_offset_inches_fixed
+ T png_get_y_offset_microns
+ T png_get_y_offset_pixels
+ T png_get_y_pixels_per_inch
+ T png_get_y_pixels_per_meter
+ T png_handle_IEND
+ T png_handle_IHDR
+ T png_handle_PLTE
+ T png_handle_as_unknown
+ T png_handle_bKGD
+ T png_handle_cHRM
+ T png_handle_gAMA
+ T png_handle_hIST
+ T png_handle_iCCP
+ T png_handle_iTXt
+ T png_handle_oFFs
+ T png_handle_pCAL
+ T png_handle_pHYs
+ T png_handle_sBIT
+ T png_handle_sCAL
+ T png_handle_sPLT
+ T png_handle_sRGB
+ T png_handle_tEXt
+ T png_handle_tIME
+ T png_handle_tRNS
+ T png_handle_unknown
+ T png_handle_zTXt
+ T png_info_destroy
+ T png_info_init_3
+ T png_init_io
+ T png_init_read_transformations
+ T png_longjmp
+ T png_malloc
+ T png_malloc_default
+ T png_malloc_warn
+ T png_muldiv
+ T png_muldiv_warn
+ T png_permit_mng_features
+ T png_read_chunk_header
+ T png_read_data
+ T png_read_destroy
+ T png_read_end
+ T png_read_filter_row
+ T png_read_finish_row
+ T png_read_image
+ T png_read_info
+ T png_read_png
+ T png_read_row
+ T png_read_rows
+ T png_read_sig
+ T png_read_start_row
+ T png_read_transform_info
+ T png_read_update_info
+ T png_reciprocal
+ T png_reciprocal2
+ T png_reset_crc
+ T png_reset_zstream
+ T png_save_int_32
+ T png_save_uint_16
+ T png_save_uint_32
+ T png_set_IHDR
+ T png_set_PLTE
+ T png_set_add_alpha
+ T png_set_bKGD
+ T png_set_background
+ T png_set_background_fixed
+ T png_set_benign_errors
+ T png_set_bgr
+ T png_set_cHRM
+ T png_set_cHRM_fixed
+ T png_set_chunk_cache_max
+ T png_set_chunk_malloc_max
+ T png_set_compression_buffer_size
+ T png_set_compression_level
+ T png_set_compression_mem_level
+ T png_set_compression_method
+ T png_set_compression_strategy
+ T png_set_compression_window_bits
+ T png_set_crc_action
+ T png_set_error_fn
+ T png_set_expand
+ T png_set_expand_16
+ T png_set_expand_gray_1_2_4_to_8
+ T png_set_filler
+ T png_set_filter
+ T png_set_filter_heuristics
+ T png_set_filter_heuristics_fixed
+ T png_set_flush
+ T png_set_gAMA
+ T png_set_gAMA_fixed
+ T png_set_gamma
+ T png_set_gamma_fixed
+ T png_set_gray_to_rgb
+ T png_set_hIST
+ T png_set_iCCP
+ T png_set_interlace_handling
+ T png_set_invalid
+ T png_set_invert_alpha
+ T png_set_invert_mono
+ T png_set_keep_unknown_chunks
+ T png_set_longjmp_fn
+ T png_set_mem_fn
+ T png_set_oFFs
+ T png_set_pCAL
+ T png_set_pHYs
+ T png_set_packing
+ T png_set_packswap
+ T png_set_palette_to_rgb
+ T png_set_quantize
+ T png_set_read_fn
+ T png_set_read_status_fn
+ T png_set_read_user_chunk_fn
+ T png_set_read_user_transform_fn
+ T png_set_rgb_to_gray
+ T png_set_rgb_to_gray_fixed
+ T png_set_rows
+ T png_set_sBIT
+ T png_set_sCAL
+ T png_set_sCAL_fixed
+ T png_set_sCAL_s
+ T png_set_sPLT
+ T png_set_sRGB
+ T png_set_sRGB_gAMA_and_cHRM
+ T png_set_shift
+ T png_set_sig_bytes
+ T png_set_strip_16
+ T png_set_strip_alpha
+ T png_set_swap
+ T png_set_swap_alpha
+ T png_set_tIME
+ T png_set_tRNS
+ T png_set_tRNS_to_alpha
+ T png_set_text
+ T png_set_text_2
+ T png_set_unknown_chunk_location
+ T png_set_unknown_chunks
+ T png_set_user_limits
+ T png_set_user_transform_info
+ T png_set_write_fn
+ T png_set_write_status_fn
+ T png_set_write_user_transform_fn
+ T png_sig_cmp
+ T png_start_read_image
+ T png_warning
+ T png_write_IDAT
+ T png_write_IEND
+ T png_write_IHDR
+ T png_write_PLTE
+ T png_write_bKGD
+ T png_write_cHRM_fixed
+ T png_write_chunk
+ T png_write_chunk_data
+ T png_write_chunk_end
+ T png_write_chunk_start
+ T png_write_data
+ T png_write_destroy
+ T png_write_end
+ T png_write_filtered_row
+ T png_write_find_filter
+ T png_write_finish_row
+ T png_write_flush
+ T png_write_gAMA_fixed
+ T png_write_hIST
+ T png_write_iCCP
+ T png_write_iTXt
+ T png_write_image
+ T png_write_info
+ T png_write_info_before_PLTE
+ T png_write_oFFs
+ T png_write_pCAL
+ T png_write_pHYs
+ T png_write_png
+ T png_write_row
+ T png_write_rows
+ T png_write_sBIT
+ T png_write_sCAL_s
+ T png_write_sPLT
+ T png_write_sRGB
+ T png_write_sig
+ T png_write_start_row
+ T png_write_tEXt
+ T png_write_tIME
+ T png_write_tRNS
+ T png_write_zTXt
+ T png_zalloc
+ T png_zfree
  T r_newflashlightCallback_f(IConVar*, char const*, float)
  T ragdoll_memory_list_t::AddToList(C_BaseEntity*)
  T ragdoll_memory_list_t::~ragdoll_memory_list_t()
@@ -21545,16 +21704,6 @@
  T vgui::AnimationController::UpdatePostedMessages(bool)
  T vgui::AnimationController::UpdateScreenSize()
  T vgui::AnimationController::~AnimationController()
- T vgui::BaseInputDialog::BaseInputDialog(vgui::Panel*, char const*)
- T vgui::BaseInputDialog::DoModal(KeyValues*)
- T vgui::BaseInputDialog::GetAnimMap()
- T vgui::BaseInputDialog::GetKBMap()
- T vgui::BaseInputDialog::GetMessageMap()
- T vgui::BaseInputDialog::GetPanelClassName()
- T vgui::BaseInputDialog::OnCommand(char const*)
- T vgui::BaseInputDialog::PerformLayout()
- T vgui::BaseInputDialog::PerformLayout(int, int, int, int)
- T vgui::BaseInputDialog::~BaseInputDialog()
  T vgui::BaseTooltip::ApplySchemeSettings(vgui::IScheme*)
  T vgui::BaseTooltip::GetText()
  T vgui::BaseTooltip::HideTooltip()
@@ -21944,55 +22093,6 @@
  T vgui::ExpandButton::Paint()
  T vgui::ExpandButton::SetSelected(bool)
  T vgui::ExpandButton::~ExpandButton()
- T vgui::FileCompletionEdit::AddItem(wchar_t const*, KeyValues*)
- T vgui::FileCompletionEdit::AddToMap(char const*, void (vgui::Panel::*)(), int, int, char const*, int, char const*)
- T vgui::FileCompletionEdit::FileCompletionEdit(vgui::Panel*)
- T vgui::FileCompletionEdit::GetAnimMap()
- T vgui::FileCompletionEdit::GetKBMap()
- T vgui::FileCompletionEdit::GetMessageMap()
- T vgui::FileCompletionEdit::GetPanelClassName()
- T vgui::FileCompletionEdit::OnKeyCodeTyped(ButtonCode_t)
- T vgui::FileCompletionEdit::OnKillFocus()
- T vgui::FileCompletionEdit::OnMenuItemHighlight(int)
- T vgui::FileCompletionEdit::OnSetText(wchar_t const*)
- T vgui::FileCompletionEdit::PerformLayout()
- T vgui::FileCompletionEdit::ShowMenu()
- T vgui::FileCompletionEdit::~FileCompletionEdit()
- T vgui::FileCompletionMenu::SetVisible(bool)
- T vgui::FileCompletionMenu::~FileCompletionMenu()
- T vgui::FileOpenDialog::AddToMap(char const*, void (vgui::Panel::*)(), int, int, char const*, int, char const*)
- T vgui::FileOpenDialog::ApplySchemeSettings(vgui::IScheme*)
- T vgui::FileOpenDialog::ChooseExtension(char*, int)
- T vgui::FileOpenDialog::DoModal(bool)
- T vgui::FileOpenDialog::ExtensionMatchesFilter(char const*)
- T vgui::FileOpenDialog::FileOpenDialog(vgui::Panel*, char const*, bool, KeyValues*)
- T vgui::FileOpenDialog::GetAnimMap()
- T vgui::FileOpenDialog::GetKBMap()
- T vgui::FileOpenDialog::GetMessageMap()
- T vgui::FileOpenDialog::GetPanelClassName()
- T vgui::FileOpenDialog::Init(char const*, KeyValues*)
- T vgui::FileOpenDialog::MoveUpFolder()
- T vgui::FileOpenDialog::NewFolder(char const*)
- T vgui::FileOpenDialog::OnClose()
- T vgui::FileOpenDialog::OnCommand(char const*)
- T vgui::FileOpenDialog::OnFolderUp()
- T vgui::FileOpenDialog::OnInputCanceled()
- T vgui::FileOpenDialog::OnInputCompleted(KeyValues*)
- T vgui::FileOpenDialog::OnItemSelected()
- T vgui::FileOpenDialog::OnKeyCodeTyped(ButtonCode_t)
- T vgui::FileOpenDialog::OnListItemSelected()
- T vgui::FileOpenDialog::OnNewFolder()
- T vgui::FileOpenDialog::OnOpen()
- T vgui::FileOpenDialog::OnOpenInExplorer()
- T vgui::FileOpenDialog::OnSelectFolder()
- T vgui::FileOpenDialog::OnTextChanged(KeyValues*)
- T vgui::FileOpenDialog::PopulateDriveList()
- T vgui::FileOpenDialog::PopulateFileList()
- T vgui::FileOpenDialog::PopulateFileNameCompletion()
- T vgui::FileOpenDialog::PostFileSelectedMessage(char const*)
- T vgui::FileOpenDialog::SetStartDirectory(char const*)
- T vgui::FileOpenDialog::ValidatePath()
- T vgui::FileOpenDialog::~FileOpenDialog()
  T vgui::FindOrAddPanelKeyBindingMap(char const*)
  T vgui::FindOrAddPanelMessageMap(char const*)
  T vgui::FocusNavGroup::CanButtonBeDefault(unsigned int)
@@ -22056,6 +22156,7 @@
  T vgui::Frame::OnDialogVariablesChanged(KeyValues*)
  T vgui::Frame::OnFinishedClose()
  T vgui::Frame::OnFrameFocusChanged(bool)
+ T vgui::Frame::OnKeyCodePressed(ButtonCode_t)
  T vgui::Frame::OnKeyCodeReleased(ButtonCode_t)
  T vgui::Frame::OnKeyCodeTyped(ButtonCode_t)
  T vgui::Frame::OnKeyFocusTicked()
@@ -22114,93 +22215,6 @@
  T vgui::GraphPanel::Paint()
  T vgui::GraphPanel::PerformLayout()
  T vgui::GraphPanel::~GraphPanel()
- T vgui::HTML::AddCustomURLHandler(char const*, vgui::Panel*)
- T vgui::HTML::AddToMap(char const*, void (vgui::Panel::*)(), int, int, char const*, int, char const*)
- T vgui::HTML::ApplySchemeSettings(vgui::IScheme*)
- T vgui::HTML::BCanGoBack()
- T vgui::HTML::BCanGoFoward()
- T vgui::HTML::BrowserCanGoBackandForward(HTML_CanGoBackAndForward_t*)
- T vgui::HTML::BrowserClose(HTML_CloseBrowser_t*)
- T vgui::HTML::BrowserComboNeedsPaint(HTML_ComboNeedsPaint_t*)
- T vgui::HTML::BrowserFileLoadDialog(HTML_FileOpenDialog_t*)
- T vgui::HTML::BrowserFinishedRequest(HTML_FinishedRequest_t*)
- T vgui::HTML::BrowserHidePopup(HTML_HidePopup_t*)
- T vgui::HTML::BrowserHideToolTip(HTML_HideToolTip_t*)
- T vgui::HTML::BrowserHorizontalScrollBarSizeResponse(HTML_HorizontalScroll_t*)
- T vgui::HTML::BrowserJSAlert(HTML_JSAlert_t*)
- T vgui::HTML::BrowserJSConfirm(HTML_JSConfirm_t*)
- T vgui::HTML::BrowserLinkAtPositionResponse(HTML_LinkAtPosition_t*)
- T vgui::HTML::BrowserNeedsPaint(HTML_NeedsPaint_t*)
- T vgui::HTML::BrowserOpenNewTab(HTML_OpenLinkInNewTab_t*)
- T vgui::HTML::BrowserPopupHTMLWindow(HTML_NewWindow_t*)
- T vgui::HTML::BrowserResize()
- T vgui::HTML::BrowserSearchResults(HTML_SearchResults_t*)
- T vgui::HTML::BrowserSetCursor(HTML_SetCursor_t*)
- T vgui::HTML::BrowserSetHTMLTitle(HTML_ChangedTitle_t*)
- T vgui::HTML::BrowserShowPopup(HTML_ShowPopup_t*)
- T vgui::HTML::BrowserShowToolTip(HTML_ShowToolTip_t*)
- T vgui::HTML::BrowserSizePopup(HTML_SizePopup_t*)
- T vgui::HTML::BrowserStartRequest(HTML_StartRequest_t*)
- T vgui::HTML::BrowserStatusText(HTML_StatusText_t*)
- T vgui::HTML::BrowserURLChanged(HTML_URLChanged_t*)
- T vgui::HTML::BrowserUpdateToolTip(HTML_UpdateToolTip_t*)
- T vgui::HTML::BrowserVerticalScrollBarSizeResponse(HTML_VerticalScroll_t*)
- T vgui::HTML::CHTMLFindBar::CHTMLFindBar(vgui::HTML*)
- T vgui::HTML::CHTMLFindBar::GetAnimMap()
- T vgui::HTML::CHTMLFindBar::GetKBMap()
- T vgui::HTML::CHTMLFindBar::GetMessageMap()
- T vgui::HTML::CHTMLFindBar::GetPanelClassName()
- T vgui::HTML::CHTMLFindBar::OnCommand(char const*)
- T vgui::HTML::CHTMLFindBar::~CHTMLFindBar()
- T vgui::HTML::DismissJSDialog(int)
- T vgui::HTML::GetAnimMap()
- T vgui::HTML::GetKBMap()
- T vgui::HTML::GetMessageMap()
- T vgui::HTML::GetPanelClassName()
- T vgui::HTML::GoBack()
- T vgui::HTML::GoForward()
- T vgui::HTML::HTML(vgui::Panel*, char const*, bool, bool)
- T vgui::HTML::HideFindDialog()
- T vgui::HTML::NewWindowsOnly(bool)
- T vgui::HTML::OnBrowserReady(HTML_BrowserReady_t*, bool)
- T vgui::HTML::OnCommand(char const*)
- T vgui::HTML::OnCursorMoved(int, int)
- T vgui::HTML::OnEditNewLine(vgui::Panel*)
- T vgui::HTML::OnFileSelected(char const*)
- T vgui::HTML::OnFileSelectionCancelled()
- T vgui::HTML::OnFinishRequest(char const*, char const*, CUtlMap<CUtlString, CUtlString, unsigned short> const&)
- T vgui::HTML::OnKeyCodeReleased(ButtonCode_t)
- T vgui::HTML::OnKeyCodeTyped(ButtonCode_t)
- T vgui::HTML::OnKeyTyped(wchar_t)
- T vgui::HTML::OnKillFocus()
- T vgui::HTML::OnLinkAtPosition(char const*)
- T vgui::HTML::OnMouseDoublePressed(ButtonCode_t)
- T vgui::HTML::OnMousePressed(ButtonCode_t)
- T vgui::HTML::OnMouseReleased(ButtonCode_t)
- T vgui::HTML::OnMouseWheeled(int)
- T vgui::HTML::OnMove()
- T vgui::HTML::OnOpenNewTab(char const*, bool)
- T vgui::HTML::OnSetCursorVGUI(int)
- T vgui::HTML::OnSetFocus()
- T vgui::HTML::OnSetHTMLTitle(char const*)
- T vgui::HTML::OnSizeChanged(int, int)
- T vgui::HTML::OnSliderMoved()
- T vgui::HTML::OnStartRequest(char const*, char const*, char const*, bool)
- T vgui::HTML::OnTextChanged(vgui::Panel*)
- T vgui::HTML::OnURLChanged(char const*, char const*, bool)
- T vgui::HTML::OpenURL(char const*, char const*, bool)
- T vgui::HTML::Paint()
- T vgui::HTML::PerformLayout()
- T vgui::HTML::PostChildPaint()
- T vgui::HTML::PostURL(char const*, char const*, bool)
- T vgui::HTML::Refresh()
- T vgui::HTML::RunJavascript(char const*)
- T vgui::HTML::SetContextMenuEnabled(bool)
- T vgui::HTML::SetScrollbarsEnabled(bool)
- T vgui::HTML::SetViewSourceEnabled(bool)
- T vgui::HTML::ShowFindDialog()
- T vgui::HTML::StopLoading()
- T vgui::HTML::~HTML()
  T vgui::Image::DrawFilledRect(int, int, int, int)
  T vgui::Image::DrawLine(int, int, int, int)
  T vgui::Image::DrawOutlinedRect(int, int, int, int)
@@ -22256,15 +22270,6 @@
  T vgui::ImagePanel::SetImage(vgui::IImage*)
  T vgui::ImagePanel::SetShouldScaleImage(bool)
  T vgui::ImagePanel::~ImagePanel()
- T vgui::InputDialog::GetAnimMap()
- T vgui::InputDialog::GetKBMap()
- T vgui::InputDialog::GetMessageMap()
- T vgui::InputDialog::GetPanelClassName()
- T vgui::InputDialog::InputDialog(vgui::Panel*, char const*, char const*, char const*)
- T vgui::InputDialog::OnCommand(char const*)
- T vgui::InputDialog::PerformLayout(int, int, int, int)
- T vgui::InputDialog::SetMultiline(bool)
- T vgui::InputDialog::~InputDialog()
  T vgui::Label::AddImage(vgui::IImage*, int)
  T vgui::Label::AddToMap(char const*, void (vgui::Panel::*)(), int, int, char const*, int, char const*)
  T vgui::Label::ApplySchemeSettings(vgui::IScheme*)
@@ -22360,7 +22365,6 @@
  T vgui::ListPanel::GetSelectedColumn()
  T vgui::ListPanel::GetSelectedItem(int)
  T vgui::ListPanel::GetSelectedItemsCount()
- T vgui::ListPanel::GetSortColumn() const
  T vgui::ListPanel::GetStartItem()
  T vgui::ListPanel::GetUserConfigSettings(KeyValues*)
  T vgui::ListPanel::HandleAddSelection(int, int, int)
@@ -22410,7 +22414,6 @@
  T vgui::ListPanel::SetImageList(vgui::ImageList*, bool)
  T vgui::ListPanel::SetItemDisabled(int, bool)
  T vgui::ListPanel::SetItemVisible(int, bool)
- T vgui::ListPanel::SetMultiselectEnabled(bool)
  T vgui::ListPanel::SetSelectIndividualCells(bool)
  T vgui::ListPanel::SetSelectedCell(int, int)
  T vgui::ListPanel::SetSingleSelectedItem(int)
@@ -22926,7 +22929,6 @@
  T vgui::Panel::SetAllowKeyBindingChainToParent(bool)
  T vgui::Panel::SetAlpha(int)
  T vgui::Panel::SetAutoDelete(bool)
- T vgui::Panel::SetAutoResize(vgui::Panel::PinCorner_e, vgui::Panel::AutoResize_e, int, int, int, int)
  T vgui::Panel::SetBgColor(Color)
  T vgui::Panel::SetBlockDragChaining(bool)
  T vgui::Panel::SetBorder(vgui::IBorder*)
@@ -22954,7 +22956,6 @@
  T vgui::Panel::SetPaintEnabled(bool)
  T vgui::Panel::SetParent(unsigned int)
  T vgui::Panel::SetParent(vgui::Panel*)
- T vgui::Panel::SetPinCorner(vgui::Panel::PinCorner_e, int, int)
  T vgui::Panel::SetPos(int, int)
  T vgui::Panel::SetPostChildPaintEnabled(bool)
  T vgui::Panel::SetProportional(bool)
@@ -23016,18 +23017,6 @@
  T vgui::ProgressBar::SetProgress(float)
  T vgui::ProgressBar::SetSegmentInfo(int, int)
  T vgui::ProgressBar::~ProgressBar()
- T vgui::QueryBox::GetAnimMap()
- T vgui::QueryBox::GetKBMap()
- T vgui::QueryBox::GetMessageMap()
- T vgui::QueryBox::GetPanelClassName()
- T vgui::QueryBox::OnCommand(char const*)
- T vgui::QueryBox::OnKeyCodePressed(ButtonCode_t)
- T vgui::QueryBox::OnKeyCodeTyped(ButtonCode_t)
- T vgui::QueryBox::PerformLayout()
- T vgui::QueryBox::QueryBox(char const*, char const*, vgui::Panel*)
- T vgui::QueryBox::SetCancelCommand(KeyValues*)
- T vgui::QueryBox::SetOKCommand(KeyValues*)
- T vgui::QueryBox::~QueryBox()
  T vgui::RadioButton::AddToMap(char const*, void (vgui::Panel::*)(), int, int, char const*, int, char const*)
  T vgui::RadioButton::ApplySchemeSettings(vgui::IScheme*)
  T vgui::RadioButton::ApplySettings(KeyValues*)
@@ -23689,6 +23678,7 @@
  _SpewInfo
  _SpewMessage
  _Unwind_Resume
+ __bzero
  __cxa_atexit
  __cxa_begin_catch
  __cxa_guard_abort
@@ -23700,11 +23690,14 @@
  __error
  __gxx_personality_v0
  __maskrune
+ __memcpy_chk
  __stack_chk_fail
  __stack_chk_guard
+ __stderrp
  __tolower
  __toupper
  __udivdi3
+ abort
  acos
  acosf
  asctime
@@ -23747,7 +23740,12 @@
  b CHudTextMessage::BufferedLocaliseTextString(char const*)::dst_buffer
  b CHudTextMessage::LocaliseTextString(char const*, char*, int)::word_buf
  b CInput::CAM_Think()::s_oldAngles
+ b CInput::Joystick_Advanced()::s_joy_legacy
  b CInput::Joystick_Advanced()::var
+ b CInput::SteamControllerMove(float, CUserCmd*)::bControllerTablesInitialized
+ b CInput::SteamControllerMove(float, CUserCmd*)::joy_variable_frametime
+ b CInput::SteamControllerMove(float, CUserCmd*)::s_joy_pitchsensitivity
+ b CInput::SteamControllerMove(float, CUserCmd*)::s_joy_yawsensitivity
  b CLuminanceHistogramSystem::UpdateLuminanceRanges()::s_bFirstTime
  b CMaterialModifyProxy::OnBindFloatLerp(C_MaterialModifyControl*)::count
  b CModelPanel::Paint()::white
@@ -23766,6 +23764,8 @@
  b CPredictableId::Describe() const::desc
  b CPrediction::CheckError(int)::pos
  b CRendering3dView::DrawWorld(float)::_counter
+ b CRumbleEffects::StartEffect(unsigned char, unsigned char, unsigned char)::joy_vibration
+ b CRumbleEffects::UpdateEffects(float)::joy_vibration
  b CSentence::GetBoundedSample(int, float)::nullend
  b CSentence::GetBoundedSample(int, float)::nullstart
  b CSimpleEmitter::UpdateColor(SimpleParticle const*)::cColor
@@ -24019,6 +24019,7 @@
  b WALL_MAX
  b WALL_MIN
  b WaveTrace(char const*, char const*)::s_WaveTrace
+ b _ZL28g_ControllerCurrentActionSet.0
  b _ZL8ice_sbox.0
  b _ZL8ice_sbox.1
  b _ZL8ice_sbox.2
@@ -24260,6 +24261,7 @@
  b endjump
  b endklook
  b endleft
+ b endlookspin
  b endlookup
  b endmovedown
  b endmoveleft
@@ -24268,6 +24270,7 @@
  b endpitchdown
  b endpitcup
  b endreload
+ b endresetcamera
  b endright
  b endscore
  b endshowscores
@@ -24367,6 +24370,13 @@
  b g_ComboBox_Helper
  b g_ContinuousProgressBar_Helper
  b g_Controller
+ b g_ControllerAccelerationHandle
+ b g_ControllerBreakingHandle
+ b g_ControllerCameraHandle
+ b g_ControllerDigitalActionState
+ b g_ControllerJoystickCameraHandle
+ b g_ControllerMoveHandle
+ b g_ControllerSteerHandle
  b g_CvarToggleCheckButton_Helper
  b g_DataObjectAccessSystem
  b g_DecalSystem
@@ -24513,12 +24523,18 @@
  b guard variable for CFlexAnimationTrack::GetBoundedSample(int, bool&, int)::nullend
  b guard variable for CFlexAnimationTrack::GetBoundedSample(int, bool&, int)::nullstart
  b guard variable for CInput::CAM_Think()::s_oldAngles
+ b guard variable for CInput::Joystick_Advanced()::s_joy_legacy
  b guard variable for CInput::Joystick_Advanced()::var
+ b guard variable for CInput::SteamControllerMove(float, CUserCmd*)::joy_variable_frametime
+ b guard variable for CInput::SteamControllerMove(float, CUserCmd*)::s_joy_pitchsensitivity
+ b guard variable for CInput::SteamControllerMove(float, CUserCmd*)::s_joy_yawsensitivity
  b guard variable for CModelPanel::Paint()::white
  b guard variable for CNewParticleEffect::RecordControlPointOrientation(int)::state
  b guard variable for CNewParticleEffect::SetControlPoint(int, Vector const&)::state
  b guard variable for CParticleEffectBinding::RenderableToWorldTransform()::mat
  b guard variable for CRendering3dView::DrawWorld(float)::_counter
+ b guard variable for CRumbleEffects::StartEffect(unsigned char, unsigned char, unsigned char)::joy_vibration
+ b guard variable for CRumbleEffects::UpdateEffects(float)::joy_vibration
  b guard variable for CSimpleEmitter::UpdateColor(SimpleParticle const*)::cColor
  b guard variable for CViewRender::DrawOneMonitor(ITexture*, int, C_PointCamera*, CViewSetup const&, C_BasePlayer*, int, int, int, int)::_counter
  b guard variable for CViewRender::Render(vrect_t*)::sv_restrict_aspect_ratio_fov
@@ -24607,8 +24623,11 @@
  b joy_display_input
  b joy_forwardsensitivity
  b joy_forwardthreshold
+ b joy_invertx
  b joy_inverty
  b joy_inverty_default
+ b joy_legacy
+ b joy_lookspin_default
  b joy_lowend
  b joy_lowmap
  b joy_movement_stick
@@ -24621,8 +24640,11 @@
  b joy_response_move
  b joy_sidesensitivity
  b joy_sidethreshold
+ b joy_steamcontroller_cfg_loaded
+ b joy_variable_frametime
  b joy_vehicle_turn_lowend
  b joy_vehicle_turn_lowmap
+ b joy_vibration
  b joy_wwhack2
  b joy_xcontroller_cfg_loaded
  b joy_yawsensitivity
@@ -24993,7 +25015,6 @@
  b s_nCVarFlag
  b s_nHDRColorScaleCache
  b s_nInAverage
- b s_nLastSortColumn
  b s_nRTIndex
  b s_nRandContextsInUse
  b s_pCameraTexture
@@ -25026,6 +25047,16 @@
  b s_szStatUploadRegistryKeyName
  b s_vecSlimeColor
  b s_vecWindVelocity
+ b sc_enable
+ b sc_flashlight_command
+ b sc_joystick_inner_deadzone_scale
+ b sc_joystick_outer_deadzone_scale
+ b sc_mouse_sensitivity
+ b sc_pitch_sensitivity
+ b sc_pitch_sensitivity_default
+ b sc_squad_command
+ b sc_yaw_sensitivity
+ b sc_yaw_sensitivity_default
  b scene_print
  b scr_centertime
  b shake_show
@@ -25081,6 +25112,7 @@
  b startklook
  b startleft
  b startlookdown
+ b startlookspin
  b startlookup
  b startmovedown
  b startmoveleft
@@ -25089,6 +25121,7 @@
  b startpitchdown
  b startpitchup
  b startreload
+ b startresetcamera
  b startright
  b startscore
  b startshowscores
@@ -25177,6 +25210,7 @@
  ceilf
  cos
  cosf
+ crc32
  d CLuminanceHistogramSystem::UpdateLuminanceRanges()::s_nCurrentBucketAlgorithm
  d CRagdoll::DrawWireframe()::debugColor
  d CRestore::ReadFields(char const*, void*, datamap_t*, typedescription_t*, int)::lastName
@@ -25197,6 +25231,7 @@
  d ImageLoader::ResampleRGBA8888(ImageLoader::ResampleInfo_t const&)::lastSrcGamma
  d ImageLoader::g_KernelFunc
  d ImageLoader::g_KernelFuncNice
+ d IsSteamDeck()::s_nSteamDeckCached
  d PHYS_SAVE_RESTORE_VERSION
  d PryoVignetteSTHorizontal
  d PryoVignetteSTVertical
@@ -25208,11 +25243,10 @@
  d colorconverter
  d construction vtable for vgui::Button-in-(anonymous namespace)::ScrollBarButton
  d construction vtable for vgui::Label-in-(anonymous namespace)::ScrollBarButton
- d dyld__mach_header
  d floatconverter
  d fontconverter
  d g_CCNameMap
- d g_ColInfo
+ d g_ControllerDigitalGameActions
  d g_CurrentViewID
  d g_DamageAnimations
  d g_DebugOverlay
@@ -25233,6 +25267,7 @@
  d g_pSoundLevels
  d idx_mask
  d intconverter
+ d jpeg_std_message_table
  d p_floatconverter
  d p_intconverter
  d p_screenspace_intconverter_X
@@ -25268,31 +25303,51 @@
  d vtable for (anonymous namespace)::CaptionGripPanel
  d vtable for (anonymous namespace)::GripPanel
  d vtable for (anonymous namespace)::ScrollBarButton
+ deflate
+ deflateEnd
+ deflateInit2_
+ deflateReset
  dlclose
  dlerror
  dlopen
  dlsym
+ dyld_stub_binder
+ exit
  exp
  expf
+ fclose
+ fflush
  floor
  floorf
  fmaxf
  fminf
  fmod
  fmodf
+ fopen$UNIX2003
+ fprintf
+ fputc
+ fread
  free
+ frexp
+ fwrite$UNIX2003
  g_ClockSpeed
  g_VProfCurrentProfile
  g_pThreadPool
  getcwd
  getenv
  getuid
+ gmtime
  iconv
  iconv_close
  iconv_open
+ inflate
+ inflateEnd
+ inflateInit_
+ inflateReset
  localtime
  log
  logf
+ longjmp
  malloc
  malloc_size
  mbstowcs
@@ -25302,6 +25357,7 @@
  memset
  memset_pattern16
  mmap$UNIX2003
+ modf
  munmap$UNIX2003
  operator delete(void*)
  operator delete[](void*)
@@ -25319,25 +25375,30 @@
  putchar
  qsort
  r .memset_pattern
- r .memset_pattern23
- r .memset_pattern26
- r .memset_pattern29
- r .memset_pattern31
- r .memset_pattern33
+ r .memset_pattern24
+ r .memset_pattern27
+ r .memset_pattern30
+ r .memset_pattern32
  r .memset_pattern34
- r .memset_pattern36
- r .memset_pattern38
+ r .memset_pattern35
+ r .memset_pattern37
  r .memset_pattern39
  r .memset_pattern40
  r .memset_pattern41
+ r .memset_pattern42
  r CBaseGameStats_Driver::SendData()::szFileName
  r CSchemeVisualizer::AddFontsToList()::strOAccent
  r DrawClippedDepthBox(IClientRenderable*, float*)::iLines
  r DrawClippedDepthBox(IClientRenderable*, float*)::iQuads
  r FX_DustImpact(Vector const&, CGameTrace*, float)::nParticleIdArray
  r PryoSideIndexes
+ r base_dither_matrix
  r bloodcolors
+ r bmask
  r commandercolors
+ r extra_pool_slop
+ r first_pool_slop
+ r fourbppswaptable
  r gSizes
  r g_FieldSizes
  r g_nRandomValues
@@ -25346,9 +25407,93 @@
  r ice_smod
  r ice_sxor
  r impulse_xcoords
+ r jpeg_zigzag_order
+ r jpeg_zigzag_order2
+ r jpeg_zigzag_order3
+ r jpeg_zigzag_order4
+ r jpeg_zigzag_order5
+ r jpeg_zigzag_order6
+ r jpeg_zigzag_order7
+ r onebppswaptable
  r perm_a
  r perm_b
  r perm_c
+ r png_IDAT.6211
+ r png_IDAT.6290
+ r png_IDAT.6410
+ r png_IDAT.6446
+ r png_IDAT.7349
+ r png_IDAT.7828
+ r png_IEND.6212
+ r png_IEND.6447
+ r png_IEND.6460
+ r png_IHDR.6210
+ r png_IHDR.6299
+ r png_IHDR.6445
+ r png_PLTE.6213
+ r png_PLTE.6380
+ r png_PLTE.6448
+ r png_bKGD.6214
+ r png_bKGD.6449
+ r png_bKGD.6659
+ r png_cHRM.6215
+ r png_cHRM.6450
+ r png_cHRM.6603
+ r png_digit
+ r png_gAMA.6216
+ r png_gAMA.6451
+ r png_gAMA.6467
+ r png_hIST.6217
+ r png_hIST.6452
+ r png_hIST.6694
+ r png_iCCP.6218
+ r png_iCCP.6453
+ r png_iCCP.6484
+ r png_iTXt.6219
+ r png_iTXt.6454
+ r png_iTXt.6811
+ r png_oFFs.6220
+ r png_oFFs.6455
+ r png_oFFs.6847
+ r png_pCAL.6221
+ r png_pCAL.6456
+ r png_pCAL.6861
+ r png_pHYs.6222
+ r png_pHYs.6457
+ r png_pHYs.6935
+ r png_pass_dsp_mask.6291
+ r png_pass_inc.7541
+ r png_pass_inc.7823
+ r png_pass_inc.7899
+ r png_pass_mask.6292
+ r png_pass_start.7822
+ r png_pass_start.7898
+ r png_pass_yinc.7825
+ r png_pass_ystart.7824
+ r png_sBIT.6223
+ r png_sBIT.6458
+ r png_sBIT.6572
+ r png_sCAL.6224
+ r png_sCAL.6459
+ r png_sCAL.6907
+ r png_sPLT.6225
+ r png_sPLT.6460
+ r png_sPLT.6522
+ r png_sRGB.6226
+ r png_sRGB.6461
+ r png_sRGB.6474
+ r png_tEXt.6227
+ r png_tEXt.6462
+ r png_tEXt.6761
+ r png_tIME.6228
+ r png_tIME.6463
+ r png_tIME.6943
+ r png_tRNS.6229
+ r png_tRNS.6464
+ r png_tRNS.6628
+ r png_zTXt.6230
+ r png_zTXt.6465
+ r png_zTXt.6783
  r pulCRCTable
  r s_DefaultSheetSequence
  r s_ExtIndices
@@ -25357,11 +25502,17 @@
  r s_pBoxFaceIndices
  r s_pBoxFaceIndicesInsideOut
  r s_pQuadCount
+ r select_ncolors(jpeg_decompress_struct*, int*)::RGB_order
+ r short_months.6308
+ r start_pass(jpeg_decompress_struct*)::aanscalefactor
+ r start_pass(jpeg_decompress_struct*)::aanscales
+ r twobppswaptable
  r typeinfo name for (anonymous namespace)::CaptionGripPanel
  r typeinfo name for (anonymous namespace)::GripPanel
  r typeinfo name for (anonymous namespace)::ScrollBarButton
  raise
  realloc
+ setjmp
  setlocale
  shm_open
  sin
@@ -25369,10 +25520,8 @@
  snprintf
  sprintf
  sscanf
- stat
  std::terminate()
  strcasecmp
- strcat
  strchr
  strcmp
  strcpy
@@ -25389,7 +25538,6 @@
  strtoul
  swprintf
  swscanf
- system$UNIX2003
  t (anonymous namespace)::CaptionGripPanel::CaptionGripPanel(vgui::Frame*, char const*)
  t (anonymous namespace)::CaptionGripPanel::moved(int, int)
  t (anonymous namespace)::CaptionGripPanel::tryToDock(unsigned int, int&, int&)
@@ -25547,6 +25695,7 @@
  t GamesoundCompletion(char const*, char (*) [64])
  t GenerateBoxVertices(Vector const&, QAngle const&, Vector const&, Vector const&, Vector*)
  t GetPos(CCommand const&, Vector&, QAngle&)
+ t HudAspectRatioChanged(IConVar*, char const*, float)
  t HudElementCompletion(char const*, char (*) [64])
  t IN_PoseDebuggerEnd(CCommand const&)
  t IN_PoseDebuggerStart(CCommand const&)
@@ -25589,16 +25738,11 @@
  t ImageLoader::UV88ToRGBA8888(unsigned char const*, unsigned char*, int)
  t ImageLoader::UVLX8888ToRGBA8888(unsigned char const*, unsigned char*, int)
  t ImageLoader::UVWQ8888ToRGBA8888(unsigned char const*, unsigned char*, int)
+ t ImgUtl_ReadTGAHeader(__sFILE*, TGAHeader&)
  t InvokeMethod(void (IGameSystem::*)(), char const*)
  t InvokeMethodReverseOrder(void (IGameSystem::*)())
  t InvokePerFrameMethod(void (IGameSystemPerFrame::*)(), char const*)
  t KeyValueChainRecursive(KeyValues*, char const*)
- t ListBaseStringSortFunc(vgui::ListPanel*, vgui::ListPanelItem const&, vgui::ListPanelItem const&, char const*)
- t ListFileAttributesSortFunc(vgui::ListPanel*, vgui::ListPanelItem const&, vgui::ListPanelItem const&)
- t ListFileModifiedSortFunc(vgui::ListPanel*, vgui::ListPanelItem const&, vgui::ListPanelItem const&)
- t ListFileNameSortFunc(vgui::ListPanel*, vgui::ListPanelItem const&, vgui::ListPanelItem const&)
- t ListFileSizeSortFunc(vgui::ListPanel*, vgui::ListPanelItem const&, vgui::ListPanelItem const&)
- t ListFileTypeSortFunc(vgui::ListPanel*, vgui::ListPanelItem const&, vgui::ListPanelItem const&)
  t MD5Transform(unsigned int*, unsigned int const*)
  t Noise(float*, int, float)
  t OverlayFrameBufferTexture(int)
@@ -25607,6 +25751,7 @@
  t PostThreadedBoneSetup()
  t PreThreadedBoneSetup()
  t ProcessPSystem(CNewParticleEffect*&)
+ t ReadPNGData(png_struct_def*, unsigned char*, unsigned long)
  t RecordArmorRicochet(Vector const&, Vector const&)
  t RecordBloodSprite(Vector const&, Vector const&, int, int, int, int, int, int, int)
  t RecordBreakModel(Vector const&, QAngle const&, Vector const&, Vector const&, int, int, int, float, int)
@@ -25635,7 +25780,6 @@
  t RecvProxy_VectorDirtySurround(CRecvProxyData const*, void*, void*)
  t RecvProxy_Weapon(CRecvProxyData const*, void*, void*)
  t RemoveDecals_f()
- t ResponseCurveLook(int, float, int, float, float, float)
  t SetClearColorToFogColor()
  t SetRenderTargetAndViewPort(ITexture*)
  t SetToneMapScale(IMatRenderContext*, float, float, float)
@@ -25647,6 +25791,7 @@
  t StatsParticlesStop()
  t Test_ProxyToggle_EnsureValue(CCommand const&)
  t VGui_VideoMode_AdjustForModeChange()
+ t ValveJpegErrorHandler(jpeg_common_struct*)
  t WorldIntersectT(FourVectors const*, FourVectors const*, int, int, ISectData_t*, CWorldCollideContextData*)
  t WorldIntersectTNew(FourVectors const*, FourVectors const*, int, int, ISectData_t*, int, CWorldCollideContextData*, float __vector(4) const&, float)
  t WriteAchievementGlobalState(KeyValues*, bool)
@@ -25938,7 +26083,17 @@
  t __cxx_global_array_dtor8
  t __cxx_global_array_dtor94
  t __cxx_global_array_dtor97
+ t access_virt_barray(jpeg_common_struct*, jvirt_barray_control*, unsigned int, unsigned int, int)
+ t access_virt_sarray(jpeg_common_struct*, jvirt_sarray_control*, unsigned int, unsigned int, int)
  t achievement_notification_test(CCommand const&)
+ t alloc_barray(jpeg_common_struct*, int, unsigned int, unsigned int)
+ t alloc_fs_workspace(jpeg_decompress_struct*)
+ t alloc_funny_pointers(jpeg_decompress_struct*)
+ t alloc_large(jpeg_common_struct*, int, unsigned long)
+ t alloc_sarray(jpeg_common_struct*, int, unsigned int, unsigned int)
+ t alloc_small(jpeg_common_struct*, int, unsigned long)
+ t arith_decode(jpeg_decompress_struct*, unsigned char*)
+ t build_ycc_rgb_table(jpeg_decompress_struct*)
  t cc_emit(CCommand const&)
  t cc_findsound(CCommand const&)
  t cc_flush(CCommand const&)
@@ -25953,19 +26108,127 @@
  t cl_soundemitter_flush(CCommand const&)
  t cl_soundscape_flush(CCommand const&)
  t cl_soundscape_printdebuginfo(CCommand const&)
+ t color_quantize(jpeg_decompress_struct*, unsigned char**, unsigned char**, int)
+ t color_quantize3(jpeg_decompress_struct*, unsigned char**, unsigned char**, int)
+ t compute_color(jpeg_decompress_struct*, box*, int)
+ t consume_data(jpeg_decompress_struct*)
+ t consume_markers(jpeg_decompress_struct*)
+ t create_colorindex(jpeg_decompress_struct*)
+ t create_colormap(jpeg_decompress_struct*)
+ t create_odither_tables(jpeg_decompress_struct*)
+ t decode_mcu(jpeg_decompress_struct*, short (**) [64])
+ t decode_mcu_AC_first(jpeg_decompress_struct*, short (**) [64])
+ t decode_mcu_AC_refine(jpeg_decompress_struct*, short (**) [64])
+ t decode_mcu_DC_first(jpeg_decompress_struct*, short (**) [64])
+ t decode_mcu_DC_refine(jpeg_decompress_struct*, short (**) [64])
+ t decode_mcu_sub(jpeg_decompress_struct*, short (**) [64])
+ t decompress_data(jpeg_decompress_struct*, unsigned char***)
+ t decompress_onepass(jpeg_decompress_struct*, unsigned char***)
+ t decompress_smooth_data(jpeg_decompress_struct*, unsigned char***)
+ t default_decompress_parms(jpeg_decompress_struct*)
  t dlight_debug(CCommand const&)
+ t do_barray_io(jpeg_common_struct*, jvirt_barray_control*, int)
+ t do_sarray_io(jpeg_common_struct*, jvirt_sarray_control*, int)
+ t dummy_consume_data(jpeg_decompress_struct*)
+ t emit_message(jpeg_common_struct*, int)
+ t error_exit(jpeg_common_struct*)
+ t examine_app0(jpeg_decompress_struct*, unsigned char*, unsigned int, long)
+ t examine_app14(jpeg_decompress_struct*, unsigned char*, unsigned int, long)
+ t fill_input_buffer(jpeg_decompress_struct*)
+ t fill_inverse_cmap(jpeg_decompress_struct*, int, int, int)
+ t find_best_colors(jpeg_decompress_struct*, int, int, int, int, unsigned char*, unsigned char*)
+ t find_biggest_color_pop(box*, int)
+ t find_biggest_volume(box*, int)
+ t find_nearby_colors(jpeg_decompress_struct*, int, int, int, unsigned char*)
+ t finish_input_pass(jpeg_decompress_struct*)
+ t finish_output_pass(jpeg_decompress_struct*)
+ t finish_pass1(jpeg_decompress_struct*)
+ t finish_pass2(jpeg_decompress_struct*)
+ t finish_pass_1_quant(jpeg_decompress_struct*)
+ t first_marker(jpeg_decompress_struct*)
+ t format_message(jpeg_common_struct*, char*)
+ t free_pool(jpeg_common_struct*, int)
+ t fullsize_upsample(jpeg_decompress_struct*, jpeg_component_info*, unsigned char**, unsigned char***)
  t g15_dumpplayer(CCommand const&)
  t g15_reload(CCommand const&)
+ t get_byte(jpeg_decompress_struct*)
+ t get_dac(jpeg_decompress_struct*)
+ t get_dht(jpeg_decompress_struct*)
+ t get_dqt(jpeg_decompress_struct*)
+ t get_dri(jpeg_decompress_struct*)
+ t get_interesting_appn(jpeg_decompress_struct*)
+ t get_sof(jpeg_decompress_struct*, int, int, int)
+ t get_soi(jpeg_decompress_struct*)
+ t get_sos(jpeg_decompress_struct*)
  t getpos(CCommand const&)
  t global constructors keyed to a
+ t gray_rgb_convert(jpeg_decompress_struct*, unsigned char***, unsigned int, unsigned char**, int)
+ t grayscale_convert(jpeg_decompress_struct*, unsigned char***, unsigned int, unsigned char**, int)
+ t h2v1_merged_upsample(jpeg_decompress_struct*, unsigned char***, unsigned int, unsigned char**)
+ t h2v1_upsample(jpeg_decompress_struct*, jpeg_component_info*, unsigned char**, unsigned char***)
+ t h2v2_merged_upsample(jpeg_decompress_struct*, unsigned char***, unsigned int, unsigned char**)
+ t h2v2_upsample(jpeg_decompress_struct*, jpeg_component_info*, unsigned char**, unsigned char***)
  t hidepanel(CCommand const&)
  t hud_reloadscheme(CCommand const&)
+ t init_error_limit(jpeg_decompress_struct*)
+ t init_source(jpeg_decompress_struct*)
+ t initial_setup(jpeg_decompress_struct*)
+ t int_upsample(jpeg_decompress_struct*, jpeg_component_info*, unsigned char**, unsigned char***)
+ t jpeg_fill_bit_buffer(bitread_working_state*, long, int, int)
+ t jpeg_huff_decode(bitread_working_state*, long, int, d_derived_tbl*, int)
+ t jpeg_make_d_derived_tbl(jpeg_decompress_struct*, int, int, d_derived_tbl**)
+ t largest_input_value(jpeg_decompress_struct*, int, int, int)
+ t latch_quant_tables(jpeg_decompress_struct*)
+ t make_funny_pointers(jpeg_decompress_struct*)
+ t make_odither_array(jpeg_decompress_struct*, int)
+ t master_selection(jpeg_decompress_struct*)
+ t median_cut(jpeg_decompress_struct*, box*, int, int)
+ t merged_1v_upsample(jpeg_decompress_struct*, unsigned char***, unsigned int*, unsigned int, unsigned char**, unsigned int*, unsigned int)
+ t merged_2v_upsample(jpeg_decompress_struct*, unsigned char***, unsigned int*, unsigned int, unsigned char**, unsigned int*, unsigned int)
+ t new_color_map_1_quant(jpeg_decompress_struct*)
+ t new_color_map_2_quant(jpeg_decompress_struct*)
+ t next_marker(jpeg_decompress_struct*)
+ t noop_upsample(jpeg_decompress_struct*, jpeg_component_info*, unsigned char**, unsigned char***)
+ t null_convert(jpeg_decompress_struct*, unsigned char***, unsigned int, unsigned char**, int)
+ t out_of_memory(jpeg_common_struct*, int)
+ t output_message(jpeg_common_struct*)
+ t output_pass_setup(jpeg_decompress_struct*)
+ t output_value(jpeg_decompress_struct*, int, int, int)
  t overview_mode(CCommand const&)
  t overview_zoom(CCommand const&)
+ t pass2_fs_dither(jpeg_decompress_struct*, unsigned char**, unsigned char**, int)
+ t pass2_no_dither(jpeg_decompress_struct*, unsigned char**, unsigned char**, int)
+ t per_scan_setup(jpeg_decompress_struct*)
  t pixelvis_debug(CCommand const&)
  t playsoundscape(CCommand const&)
  t playvideo(CCommand const&)
  t playvideo_exitcommand(CCommand const&)
+ t png_build_16bit_table
+ t png_build_8bit_table
+ t png_fixed_inches_from_microns
+ t png_format_buffer
+ t png_gamma_threshold
+ t png_get_fixed_point
+ t png_inflate
+ t png_init_filter_heuristics
+ t png_pow10
+ t png_reset_filter_heuristics
+ t png_text_compress
+ t png_write_compressed_data_out
+ t post_process_1pass(jpeg_decompress_struct*, unsigned char***, unsigned int*, unsigned int, unsigned char**, unsigned int*, unsigned int)
+ t post_process_2pass(jpeg_decompress_struct*, unsigned char***, unsigned int*, unsigned int, unsigned char**, unsigned int*, unsigned int)
+ t post_process_prepass(jpeg_decompress_struct*, unsigned char***, unsigned int*, unsigned int, unsigned char**, unsigned int*, unsigned int)
+ t ppi_from_ppm
+ t prepare_for_output_pass(jpeg_decompress_struct*)
+ t prepare_range_limit_table(jpeg_decompress_struct*)
+ t prescan_quantize(jpeg_decompress_struct*, unsigned char**, unsigned char**, int)
+ t process_data_context_main(jpeg_decompress_struct*, unsigned char**, unsigned int*, unsigned int)
+ t process_data_crank_post(jpeg_decompress_struct*, unsigned char**, unsigned int*, unsigned int)
+ t process_data_simple_main(jpeg_decompress_struct*, unsigned char**, unsigned int*, unsigned int)
+ t process_restart(jpeg_decompress_struct*)
+ t quantize3_ord_dither(jpeg_decompress_struct*, unsigned char**, unsigned char**, int)
+ t quantize_fs_dither(jpeg_decompress_struct*, unsigned char**, unsigned char**, int)
+ t quantize_ord_dither(jpeg_decompress_struct*, unsigned char**, unsigned char**, int)
  t r_cheapwaterend(CCommand const&)
  t r_cheapwaterstart(CCommand const&)
  t r_screenoverlay(CCommand const&)
@@ -25974,18 +26237,52 @@
  t r_shadowcolor(CCommand const&)
  t r_shadowdir(CCommand const&)
  t r_shadowdist(CCommand const&)
+ t read_markers(jpeg_decompress_struct*)
+ t read_restart_marker(jpeg_decompress_struct*)
+ t realize_virt_arrays(jpeg_common_struct*)
  t report_soundpatch(CCommand const&)
+ t request_virt_barray(jpeg_common_struct*, int, int, unsigned int, unsigned int, unsigned int)
+ t request_virt_sarray(jpeg_common_struct*, int, int, unsigned int, unsigned int, unsigned int)
+ t reset_error_mgr(jpeg_common_struct*)
+ t reset_input_controller(jpeg_decompress_struct*)
+ t reset_marker_reader(jpeg_decompress_struct*)
+ t sc_flashlight(CCommand const&)
+ t sc_squad(CCommand const&)
+ t select_colors(jpeg_decompress_struct*, int)
+ t select_ncolors(jpeg_decompress_struct*, int*)
+ t self_destruct(jpeg_common_struct*)
+ t sep_upsample(jpeg_decompress_struct*, unsigned char***, unsigned int*, unsigned int, unsigned char**, unsigned int*, unsigned int)
+ t set_bottom_pointers(jpeg_decompress_struct*)
+ t set_wraparound_pointers(jpeg_decompress_struct*)
  t showinfo(CCommand const&)
  t showpanel(CCommand const&)
  t showschemevisualizer(CCommand const&)
+ t skip_input_data(jpeg_decompress_struct*, long)
+ t skip_variable(jpeg_decompress_struct*)
+ t smoothing_ok(jpeg_decompress_struct*)
  t spec_mode(CCommand const&)
  t spec_next(CCommand const&)
  t spec_player(CCommand const&)
  t spec_pos(CCommand const&)
  t spec_prev(CCommand const&)
+ t start_iMCU_row(jpeg_decompress_struct*)
+ t start_input_pass(jpeg_decompress_struct*)
+ t start_output_pass(jpeg_decompress_struct*)
+ t start_pass(jpeg_decompress_struct*)
+ t start_pass_1_quant(jpeg_decompress_struct*, int)
+ t start_pass_2_quant(jpeg_decompress_struct*, int)
+ t start_pass_dcolor(jpeg_decompress_struct*)
+ t start_pass_dpost(jpeg_decompress_struct*, J_BUF_MODE)
+ t start_pass_huff_decoder(jpeg_decompress_struct*)
+ t start_pass_main(jpeg_decompress_struct*, J_BUF_MODE)
+ t start_pass_merged_upsample(jpeg_decompress_struct*)
+ t start_pass_upsample(jpeg_decompress_struct*)
  t stopsoundscape(CCommand const&)
+ t term_source(jpeg_decompress_struct*)
  t testfreezeframe_f()
  t testhudanim(CCommand const&)
+ t update_box(jpeg_decompress_struct*, box*)
+ t use_merged_upsample(jpeg_decompress_struct*)
  t viewanim_addkeyframe(CCommand const&)
  t viewanim_create(CCommand const&)
  t viewanim_load(CCommand const&)
@@ -26009,6 +26306,8 @@
  t vr_activate(CCommand const&)
  t vr_deactivate(CCommand const&)
  t vr_toggle(CCommand const&)
+ t ycc_rgb_convert(jpeg_decompress_struct*, unsigned char***, unsigned int, unsigned char**, int)
+ t ycck_cmyk_convert(jpeg_decompress_struct*, unsigned char***, unsigned int, unsigned char**, int)
  tan
  tanf
  time
