@@ -19385,6 +19385,7 @@
  T V_StripExtension(char const*, char*, int)
  T V_StripFilename(char*)
  T V_StripLastDir(char*, int)
+ T V_StripTrailingSlash(char*)
  T V_UCS2ToUTF8(unsigned short const*, char*, int)
  T V_UCS2ToUnicode(unsigned short const*, wchar_t*, int)
  T V_UTF8ToUnicode(char const*, wchar_t*, int)
@@ -23742,7 +23743,7 @@
  b CInput::CAM_Think()::s_oldAngles
  b CInput::Joystick_Advanced()::s_joy_legacy
  b CInput::Joystick_Advanced()::var
- b CInput::SteamControllerMove(float, CUserCmd*)::bControllerTablesInitialized
+ b CInput::SteamControllerMove(float, CUserCmd*)::bControllersInitialized
  b CInput::SteamControllerMove(float, CUserCmd*)::joy_variable_frametime
  b CInput::SteamControllerMove(float, CUserCmd*)::s_joy_pitchsensitivity
  b CInput::SteamControllerMove(float, CUserCmd*)::s_joy_yawsensitivity
@@ -24019,7 +24020,6 @@
  b WALL_MAX
  b WALL_MIN
  b WaveTrace(char const*, char const*)::s_WaveTrace
- b _ZL28g_ControllerCurrentActionSet.0
  b _ZL8ice_sbox.0
  b _ZL8ice_sbox.1
  b _ZL8ice_sbox.2
@@ -24373,6 +24373,7 @@
  b g_ControllerAccelerationHandle
  b g_ControllerBreakingHandle
  b g_ControllerCameraHandle
+ b g_ControllerCurrentActionSet
  b g_ControllerDigitalActionState
  b g_ControllerJoystickCameraHandle
  b g_ControllerMoveHandle
@@ -25049,11 +25050,14 @@
  b s_vecWindVelocity
  b sc_enable
  b sc_flashlight_command
+ b sc_force_action_manifest_command
  b sc_joystick_inner_deadzone_scale
  b sc_joystick_outer_deadzone_scale
+ b sc_load_quick_command
  b sc_mouse_sensitivity
  b sc_pitch_sensitivity
  b sc_pitch_sensitivity_default
+ b sc_save_quick_command
  b sc_squad_command
  b sc_yaw_sensitivity
  b sc_yaw_sensitivity_default
@@ -26247,6 +26251,9 @@
  t reset_input_controller(jpeg_decompress_struct*)
  t reset_marker_reader(jpeg_decompress_struct*)
  t sc_flashlight(CCommand const&)
+ t sc_force_action_manifest(CCommand const&)
+ t sc_load_quick(CCommand const&)
+ t sc_save_quick(CCommand const&)
  t sc_squad(CCommand const&)
  t select_colors(jpeg_decompress_struct*, int)
  t select_ncolors(jpeg_decompress_struct*, int*)

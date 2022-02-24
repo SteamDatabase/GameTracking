@@ -395,6 +395,7 @@ $zTXt
 %s.txt
 %s/%s
 %s/bin/%s
+%s/steam_input/action_manifest_%s.vdf
 %s:  mapped to %s (%s)
 %s:  unmapped
 %s: '%s'
@@ -9773,7 +9774,7 @@ CInput::SetFullscreenMousePos(int, int)
 CInput::SetLastUsedInput(int)
 CInput::Shutdown_All()
 CInput::SteamControllerMove(float, CUserCmd*)
-CInput::SteamControllerMove(float, CUserCmd*)::bControllerTablesInitialized
+CInput::SteamControllerMove(float, CUserCmd*)::bControllersInitialized
 CInput::SteamControllerMove(float, CUserCmd*)::joy_variable_frametime
 CInput::SteamControllerMove(float, CUserCmd*)::s_joy_pitchsensitivity
 CInput::SteamControllerMove(float, CUserCmd*)::s_joy_yawsensitivity
@@ -18770,6 +18771,7 @@ Couldn't find metaclass definition file %s
 Couldn't find script file %s
 Couldn't find surface in GetColorForSurface()
 Couldn't get IClientEntity for %i
+Couldn't get app install dir.
 Couldn't load combine panel scheme!
 Couldn't parse script file: expected 'event', found '%s'
 Couldn't parse script file: expected <event name>, found nothing
@@ -20486,6 +20488,7 @@ Fonts
 Force the aspect ratio of the hud. 0 to disable.
 ForceStereoRenderToFrameBuffer
 Forces a soundscape to play
+Forces an action manifest from the app install dir. Arg 0 is the game name, so you get steam_input/action_manifest_[game name].vdf loaded
 Format: cl_find_ent <substring>
 Format: cl_find_ent_index <index>
 FormatViewModelAttachment(Vector&, bool)
@@ -20736,6 +20739,8 @@ HelicopterMegaBomb
 HelicopterMegaBombCallback(CEffectData const&)
 HelicopterTracer
 HelicopterTracerCallback(CEffectData const&)
+Helper binding for quick loading in Steam Input
+Helper binding for quick saving in Steam Input
 Helper_GetFrameTime()
 Helper_GetTime()
 Helper_RandomFloat(float, float)
@@ -21238,6 +21243,7 @@ Invalid JPEG file structure: two SOF markers
 Invalid JPEG file structure: two SOI markers
 Invalid PLTE after IDAT
 Invalid SOS parameters for sequential JPEG
+Invalid arg count.
 Invalid attach type specified for particle effect anim event. Trying to spawn effect '%s' with attach type of '%s'
 Invalid attach type specified for particle effect in model '%s' keyvalues section. Trying to spawn effect '%s' with attach type of '%s'
 Invalid attempt to read row data
@@ -21546,6 +21552,7 @@ ListViewPanel
 Lkh9Fgc^A
 LoadFromBuffer: missing {
 LoadHudTextures(CUtlDict<CHudTexture*, int>&, char const*, unsigned char const*)
+Loading action manifest: %s
 LoadingLabel
 LocalActiveWeaponData
 LocalWeaponData
@@ -23871,6 +23878,7 @@ V_SetExtension(char*, char const*, int)
 V_StripExtension(char const*, char*, int)
 V_StripFilename(char*)
 V_StripLastDir(char*, int)
+V_StripTrailingSlash(char*)
 V_UCS2ToUTF8(unsigned short const*, char*, int)
 V_UCS2ToUnicode(unsigned short const*, wchar_t*, int)
 V_UTF8ToUnicode(char const*, wchar_t*, int)
@@ -24088,8 +24096,8 @@ XBowBolt
 X^_[]
 Xbox360 controller
 Y?11CHudCredits
+YH,t%
 YOffset
-YX,t(
 YellowBlood
 Yellowish
 Yffffff.
@@ -24558,7 +24566,6 @@ __SpewInfo
 __SpewMessage
 __TEXT
 __Unwind_Resume
-__ZL28g_ControllerCurrentActionSet.0
 __ZL8ice_sbox.0
 __ZL8ice_sbox.1
 __ZL8ice_sbox.2
@@ -28073,6 +28080,7 @@ g_Controller
 g_ControllerAccelerationHandle
 g_ControllerBreakingHandle
 g_ControllerCameraHandle
+g_ControllerCurrentActionSet
 g_ControllerDigitalActionState
 g_ControllerDigitalGameActions
 g_ControllerJoystickCameraHandle
@@ -33583,6 +33591,8 @@ s_szStatUploadRegistryKeyName
 s_vecSlimeColor
 s_vecWindVelocity
 samples_use_time
+save load
+save quick
 saveentityindex
 say_team
 sc_controller_mode
@@ -33590,13 +33600,22 @@ sc_enable
 sc_flashlight
 sc_flashlight(CCommand const&)
 sc_flashlight_command
+sc_force_action_manifest
+sc_force_action_manifest(CCommand const&)
+sc_force_action_manifest_command
 sc_joystick_inner_deadzone_scale
 sc_joystick_outer_deadzone_scale
 sc_last_used_input
+sc_load_quick
+sc_load_quick(CCommand const&)
+sc_load_quick_command
 sc_mouse_sensitivity
 sc_pitch_sensitivity
 sc_pitch_sensitivity_default
 sc_pitch_sensitivity_new2
+sc_save_quick
+sc_save_quick(CCommand const&)
+sc_save_quick_command
 sc_smart_sprint
 sc_smart_sprint_end_bounds
 sc_smart_sprint_start_bounds
