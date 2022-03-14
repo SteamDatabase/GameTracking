@@ -79,6 +79,7 @@ ProcessVPK ()
 		
 		echo "> VPK $baseFile"
 		
+		# https://github.com/Penguinwizzard/VPKTool
 		./.support/vpktool "$file" > "$baseFile"
 	done <   <(find "$1/" -type f -name "*_dir.vpk" -print0)
 }
