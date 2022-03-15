@@ -52,7 +52,12 @@ ProcessVPK ()
 		# https://github.com/Penguinwizzard/VPKTool
 		"$(dirname "${BASH_SOURCE[0]}")/.support/vpktool" "$file" > "${file%.*}.txt"
 		
-		~/ValveResourceFormat/Decompiler/bin/Release/linux-x64/publish/Decompiler --input "$file" --output "$(echo "$file" | sed -e 's/\.vpk$/\//g')" --vpk_cache --vpk_decompile --vpk_extensions "vxml_c,vjs_c,vcss_c,vsndevts_c,vsndstck_c,vdpn_c,json,txt,cfg,res,pop,gameevents,png,jpg,gif,ctx"
+		~/ValveResourceFormat/Decompiler/bin/Release/linux-x64/publish/Decompiler \
+			--input "$file" \
+			--output "$(echo "$file" | sed -e 's/\.vpk$/\//g')" \
+			--vpk_cache \
+			--vpk_decompile \
+			--vpk_extensions "cfg,ctx,gameevents,gif,jpg,json,png,pop,rc,res,scr,txt,vcss_c,vdpn_c,vjs_c,vsndevts_c,vsndstck_c,vxml_c"
 	done <   <(find . -type f -name "*_dir.vpk" -print0)
 }
 
