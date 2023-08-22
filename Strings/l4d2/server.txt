@@ -8590,6 +8590,7 @@ Approach descending ladder
 Approach(float, float, float)
 ApproachAngle(float, float, float)
 Approaching
+AreAllSurvivorsInBattlefield
 AreAllSurvivorsInFinaleArea
 AreTeamsFlipped
 Area #%d %s %s
@@ -13651,9 +13652,15 @@ CDirector::Restart()
 CDirector::RestartScenarioFromVote(char const*)
 CDirector::RunScript(char const*, CDirector::ScriptLevels_t, bool)
 CDirector::RunScript, %s, level: %d
+CDirector::ScriptAreAllSurvivorsInBattlefield()
 CDirector::ScriptGetClosestActivePipeBomb(Vector)
+CDirector::ScriptGetClosestCharacterWhoIsIT(HSCRIPT__*)
+CDirector::ScriptGetClosestSurvivorOrigin(Vector, bool, bool)
 CDirector::ScriptGetCommonInfectedCount() const
+CDirector::ScriptGetHighestFlowSurvivor()
+CDirector::ScriptGetLowestFlowSurvivor()
 CDirector::ScriptGetPendingMobCount() const
+CDirector::ScriptGetRandomSurvivor()
 CDirector::ScriptGetTimeSinceSpecialZombieKilled(int)
 CDirector::ScriptIsLocationFoggedToSurvivors(Vector)
 CDirector::ScriptRegisterForbiddenTarget(HSCRIPT__*)
@@ -18991,6 +18998,7 @@ CMemberScriptBinding0<CBaseEntity*, int (CBaseEntity::*)(), int>::Call(void*, vo
 CMemberScriptBinding0<CBaseEntity*, void (CBaseEntity::*)(), void>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding0<CBaseFlex*, HSCRIPT__* (CBaseFlex::*)(), HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding0<CBaseTrigger*, void (CBaseTrigger::*)(), void>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+CMemberScriptBinding0<CDirector*, HSCRIPT__* (CDirector::*)(), HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding0<CDirector*, bool (CDirector::*)(), bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding0<CDirector*, char const* (CDirector::*)(), char const*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding0<CDirector*, float (CDirector::*)(), float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -19049,6 +19057,7 @@ CMemberScriptBinding1<CBaseEntity*, void (CBaseEntity::*)(float), void, float>::
 CMemberScriptBinding1<CBaseEntity*, void (CBaseEntity::*)(int), void, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding1<CBaseFlex*, HSCRIPT__* (CBaseFlex::*)(int), HSCRIPT__*, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding1<CBaseTrigger*, bool (CBaseTrigger::*)(HSCRIPT__*), bool, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+CMemberScriptBinding1<CDirector*, HSCRIPT__* (CDirector::*)(HSCRIPT__*), HSCRIPT__*, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding1<CDirector*, HSCRIPT__* (CDirector::*)(Vector), HSCRIPT__*, Vector>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding1<CDirector*, bool (CDirector::*)(Vector), bool, Vector>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding1<CDirector*, float (CDirector::*)(int), float, int>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -19138,6 +19147,7 @@ CMemberScriptBinding2<TerrorNavArea*, void (TerrorNavArea::*)(int, HSCRIPT__*), 
 CMemberScriptBinding3<CBaseEntity*, void (CBaseEntity::*)(char const*, char const*, float), void, char const*, char const*, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding3<CBaseEntity*, void (CBaseEntity::*)(char const*, float, float), void, char const*, float, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding3<CBaseEntity*, void (CBaseEntity::*)(float, int, HSCRIPT__*), void, float, int, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
+CMemberScriptBinding3<CDirector*, HSCRIPT__* (CDirector::*)(Vector, bool, bool), HSCRIPT__*, Vector, bool, bool>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding3<CNavMesh*, HSCRIPT__* (CNavMesh::*)(Vector const&, Vector const&, HSCRIPT__*), HSCRIPT__*, Vector const&, Vector const&, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding3<CNavMesh*, float (CNavMesh::*)(HSCRIPT__*, HSCRIPT__*, float), float, HSCRIPT__*, HSCRIPT__*, float>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
 CMemberScriptBinding3<CNavMesh*, void (CNavMesh::*)(Vector const&, float, HSCRIPT__*), void, Vector const&, float, HSCRIPT__*>::Call(void*, void*, CVariantBase<CVariantDefaultAllocator>*, int, CVariantBase<CVariantDefaultAllocator>*)
@@ -27783,6 +27793,7 @@ Changes the density of air for drag computations.
 Changes's player's model
 Changing collision rules within a callback is likely to cause crashes!
 Changing to new victim
+Chapter
 Chapter title: %s
 Character
 CharacterID
@@ -32019,6 +32030,8 @@ GetClientColor(CTerrorPlayer*)
 GetClientConvarValue
 GetClientConvarValue(name) : returns the convar value for the entindex as a string.
 GetClosestActivePipeBomb
+GetClosestCharacterWhoIsIT
+GetClosestSurvivor
 GetCommentarySaveRestoreBlockHandler()
 GetCommonInfectedCount
 GetConstraintAttachments(CBaseEntity*, CBaseEntity**, IPhysicsObject**)
@@ -32080,6 +32093,7 @@ GetGroup
 GetHealth
 GetHealthBuffer
 GetHidingSpotByID(unsigned int)
+GetHighestFlowSurvivor
 GetHoldoutCooldownEndTime
 GetID
 GetIncomingConnections
@@ -32098,6 +32112,7 @@ GetLocalAngles
 GetLocalAngularVelocity
 GetLocalOrigin
 GetLocalVelocity
+GetLowestFlowSurvivor
 GetMPConceptIndexFromString(char const*)
 GetMapInfo()
 GetMapName
@@ -32176,6 +32191,7 @@ GetPropVector
 GetPropVectorArray
 GetPushawayEnts(CBaseCombatCharacter*, CBaseEntity**, int, float, int, CPushAwayEnumerator*)
 GetRandomAdjacentArea
+GetRandomSurvivor
 GetRarity
 GetRecentNPCSpeech(recentNPCSpeech_t*)
 GetReplaceParm
@@ -36123,6 +36139,7 @@ P<^_[]
 P?14CEntityFactoryI15CGameGibManagerE
 P@ 0 
 P@ p0
+P@00 ```
 PANIC EVENT
 PANIC EVENT - CUSTOM (%c)
 PARALYZE
@@ -37370,14 +37387,19 @@ Return true is the current campaign is originally from L4D1
 Return x,y coordinate of the ladder at a given height
 ReturnMoveDone
 ReturnToLobby
+Returns a random Survivor
 Returns float duration of the sound. Takes soundname and optional actormodelname.
 Returns how we get from parent to us
 Returns number fo infected currently spawned
 Returns number of Scavenge items needed.
 Returns number of Scavenge items remaining.
 Returns the Friction on a player entity, meaningless if not a player
+Returns the Survivor with the highest flow
+Returns the Survivor with the lowest flow
 Returns the area just prior to this one in the search path
+Returns the closest Survivor to the passed origin
 Returns the closest active pipe bomb from this origin
+Returns the closest character who is IT
 Returns the current difficulty as a numeric value.
 Returns the current difficulty as a string.
 Returns the current number of mission wipes
@@ -37395,6 +37417,7 @@ Returns the time the character has been alive (only valid when alive)
 Returns the total elapsed mission time
 Returns the trigger for the rescue area
 Returns tnumber of infected waiting to spawn
+Returns true if all Survivors are in the battlefield
 Returns true if any survivor recently dealt or took damage
 Returns true if any tanks are aggro on survivors
 Returns true if area is a bottleneck
@@ -37787,6 +37810,7 @@ Script returned a response of inappropriate type %d
 Script: %s
 ScriptAddIncomingConnection
 ScriptAddUpgrade
+ScriptAreAllSurvivorsInBattlefield
 ScriptClassDesc_t* GetScriptDesc<AI_ResponseScriptWrapper>(AI_ResponseScriptWrapper*)
 ScriptClassDesc_t* GetScriptDesc<CBaseAnimating>(CBaseAnimating*)
 ScriptClassDesc_t* GetScriptDesc<CBaseCombatCharacter>(CBaseCombatCharacter*)
@@ -37867,6 +37891,8 @@ ScriptGetBottomArea
 ScriptGetBottomOrigin
 ScriptGetButtons
 ScriptGetClosestActivePipeBomb
+ScriptGetClosestCharacterWhoIsIT
+ScriptGetClosestSurvivorOrigin
 ScriptGetCommonInfectedCount
 ScriptGetCorner
 ScriptGetDir
@@ -37875,6 +37901,7 @@ ScriptGetEHandle
 ScriptGetElevator
 ScriptGetElevatorAreas
 ScriptGetForward
+ScriptGetHighestFlowSurvivor
 ScriptGetID
 ScriptGetIncomingConnections
 ScriptGetLadderByID
@@ -37882,6 +37909,7 @@ ScriptGetLadderEntity
 ScriptGetLadders
 ScriptGetLastKnownArea
 ScriptGetLength
+ScriptGetLowestFlowSurvivor
 ScriptGetModelName
 ScriptGetMoveParent
 ScriptGetNavArea
@@ -37899,6 +37927,7 @@ ScriptGetPlaceName
 ScriptGetPlayerCount
 ScriptGetPlayerUserId
 ScriptGetRandomAdjacentArea
+ScriptGetRandomSurvivor
 ScriptGetRootMoveParent
 ScriptGetSceneByIndex
 ScriptGetSequenceDuration
@@ -40884,6 +40913,7 @@ Tank::Tank()
 Tank::YouForgotToImplementOrDeclareServerClass()
 Tank::m_DataMap
 Tank::~Tank()
+TankActive
 TankArmsVariant
 TankAssistDamage
 TankAttack
@@ -62729,6 +62759,7 @@ variant_t::m_SaveInt
 variant_t::m_SavePositionVector
 variant_t::m_SaveString
 variant_t::m_SaveVector
+vc=6#
 vcd error, gesture %s of model %s is marked as STUDIO_LOOPING!
 vdisp_%04d
 vec2_invalid
@@ -62893,6 +62924,7 @@ void ScriptDeduceFunctionSignature<CBaseEntity*, CBaseEntity, void, HSCRIPT__*, 
 void ScriptDeduceFunctionSignature<CBaseEntity*, CBaseEntity, void, char const*, char const*, float>(ScriptFuncDescriptor_t*, CBaseEntity*, void (CBaseEntity::*)(char const*, char const*, float))
 void ScriptDeduceFunctionSignature<CBaseEntity*, CBaseEntity, void, char const*, float, float>(ScriptFuncDescriptor_t*, CBaseEntity*, void (CBaseEntity::*)(char const*, float, float))
 void ScriptDeduceFunctionSignature<CBaseEntity*, CBaseEntity, void, float, int, HSCRIPT__*>(ScriptFuncDescriptor_t*, CBaseEntity*, void (CBaseEntity::*)(float, int, HSCRIPT__*))
+void ScriptDeduceFunctionSignature<CDirector*, CDirector, HSCRIPT__*, Vector, bool, bool>(ScriptFuncDescriptor_t*, CDirector*, HSCRIPT__* (CDirector::*)(Vector, bool, bool))
 void ScriptDeduceFunctionSignature<CNavMesh*, CNavMesh, HSCRIPT__*, Vector const&, Vector const&, HSCRIPT__*>(ScriptFuncDescriptor_t*, CNavMesh*, HSCRIPT__* (CNavMesh::*)(Vector const&, Vector const&, HSCRIPT__*))
 void ScriptDeduceFunctionSignature<CNavMesh*, CNavMesh, HSCRIPT__*, Vector const&, float, bool, bool>(ScriptFuncDescriptor_t*, CNavMesh*, HSCRIPT__* (CNavMesh::*)(Vector const&, float, bool, bool))
 void ScriptDeduceFunctionSignature<CNavMesh*, CNavMesh, bool, HSCRIPT__*, HSCRIPT__*, Vector const&, float, int, bool, HSCRIPT__*>(ScriptFuncDescriptor_t*, CNavMesh*, bool (CNavMesh::*)(HSCRIPT__*, HSCRIPT__*, Vector const&, float, int, bool, HSCRIPT__*))
