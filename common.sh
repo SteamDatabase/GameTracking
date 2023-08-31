@@ -62,7 +62,7 @@ ProcessToolAssetInfo ()
 	do
 		echo " > $file"
 		
-		~/ValveResourceFormat/Decompiler/bin/Release/linux-x64/publish/Decompiler --input "$file" --output "$(echo "$file" | sed -e 's/\.bin$/\.txt/g')"
+		~/ValveResourceFormat/Decompiler/bin/Release/linux-x64/publish/Decompiler --input "$file" --output "$(echo "$file" | sed -e 's/\.bin$/\.txt/g')" --tools_asset_info_short
 	done <   <(find . -type f -name "*asset_info.bin" -print0)
 }
 
