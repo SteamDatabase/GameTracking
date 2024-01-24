@@ -5,7 +5,7 @@ Tracking things, so you don't have to.
 ### How files are tracked
 
 - [`files.json`](/files.json) is a mapping of depot ids and which files to download from them.
-- [`depots_mapping.json`](/depots_mapping.json) specifies which folder each depot should be download to.
+- [`depots_mapping.json`](/depots_mapping.json) specifies which folder each depot should be downloaded to.
 - [`common.sh`](/common.sh) provides common function used for dumping or decompiling files.
 - [`update.sh`](/update.sh) in this repository is only invoked if a folder does not have its own `update.sh` file.
 
