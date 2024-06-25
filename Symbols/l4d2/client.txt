@@ -2835,6 +2835,7 @@
  B think_limit
  B thirdperson_platformer
  B thirdperson_screenspace
+ B timeline_show_all_events
  B tracer_extra
  B upgrade_explosive_bullet_force
  B upgrade_explosive_slug_force
@@ -4631,6 +4632,7 @@
  D SteamParentalSettings()::s_CallbackCounterAndContext
  D SteamRemoteStorage()::s_CallbackCounterAndContext
  D SteamScreenshots()::s_CallbackCounterAndContext
+ D SteamTimeline()::s_CallbackCounterAndContext
  D SteamUGC()::s_CallbackCounterAndContext
  D SteamUser()::s_CallbackCounterAndContext
  D SteamUserStats()::s_CallbackCounterAndContext
@@ -7884,6 +7886,7 @@
  D typeinfo for KeybindLabel
  D typeinfo for KnifeSlashPrecache::CResourcePrecacher
  D typeinfo for L4DButton
+ D typeinfo for L4DSteamVideo
  D typeinfo for ManhackSparksPrecache::CResourcePrecacher
  D typeinfo for MenuItemCheckImage
  D typeinfo for MultiButton
@@ -9971,6 +9974,7 @@
  D vtable for KeybindLabel
  D vtable for KnifeSlashPrecache::CResourcePrecacher
  D vtable for L4DButton
+ D vtable for L4DSteamVideo
  D vtable for ManhackSparksPrecache::CResourcePrecacher
  D vtable for MenuItemCheckImage
  D vtable for MultiButton
@@ -11838,6 +11842,7 @@
  R typeinfo name for KeybindLabel
  R typeinfo name for KnifeSlashPrecache::CResourcePrecacher
  R typeinfo name for L4DButton
+ R typeinfo name for L4DSteamVideo
  R typeinfo name for ManhackSparksPrecache::CResourcePrecacher
  R typeinfo name for MenuItemCheckImage
  R typeinfo name for MultiButton
@@ -25109,6 +25114,7 @@
  T C_Infected::EmitGibs(C_BaseAnimating*, bool)
  T C_Infected::EmitWoundParticles(C_BaseAnimating*, int, Vector const&)
  T C_Infected::FireEvent(Vector const&, QAngle const&, int, char const*)
+ T C_Infected::GetClass() const
  T C_Infected::GetClientClass()
  T C_Infected::GetClientModelRenderable()
  T C_Infected::GetColorModulation(float*)
@@ -28974,6 +28980,10 @@
  T L4DButton::Paint()
  T L4DButton::PaintBackground()
  T L4DButton::~L4DButton()
+ T L4DSteamVideo::FireGameEvent(IGameEvent*)
+ T L4DSteamVideo::Init()
+ T L4DSteamVideo::Shutdown()
+ T L4DSteamVideo::~L4DSteamVideo()
  T LightDesc_t::ComputeLightAtPoints(FourVectors const&, FourVectors const&, FourVectors&, bool) const
  T LightDesc_t::ComputeNonincidenceLightAtPoints(FourVectors const&, FourVectors&) const
  T LightDesc_t::RecalculateDerivedValues()
@@ -29594,6 +29604,7 @@
  T SteamInternal_Init_SteamParentalSettings(ISteamParentalSettings**)
  T SteamInternal_Init_SteamRemoteStorage(ISteamRemoteStorage**)
  T SteamInternal_Init_SteamScreenshots(ISteamScreenshots**)
+ T SteamInternal_Init_SteamTimeline(ISteamTimeline**)
  T SteamInternal_Init_SteamUGC(ISteamUGC**)
  T SteamInternal_Init_SteamUser(ISteamUser**)
  T SteamInternal_Init_SteamUserStats(ISteamUserStats**)
@@ -32130,6 +32141,8 @@
  T non-virtual thunk to FullscreenTerrorClientMode::~FullscreenTerrorClientMode()
  T non-virtual thunk to FullscreenTerrorViewport::~FullscreenTerrorViewport()
  T non-virtual thunk to HTMLPopup::PopupHTML::~PopupHTML()
+ T non-virtual thunk to L4DSteamVideo::FireGameEvent(IGameEvent*)
+ T non-virtual thunk to L4DSteamVideo::~L4DSteamVideo()
  T non-virtual thunk to TeamDisplayPlayer::ApplySchemeSettings(vgui::IScheme*)
  T non-virtual thunk to TeamDisplayPlayer::CreateControlByName(char const*)
  T non-virtual thunk to TeamDisplayPlayer::GetAnimMap()
@@ -35076,11 +35089,14 @@
  b FlyCamera
  b FlyInterp
  b FlyKeyframeVector
+ b GetAttackerPlayerOrEntity(C_TerrorPlayer*, C_BaseEntity*)::szAttackerName
  b GetClassMap()::g_Classmap
  b GetClientBugReportInfo(char*, int)::r_mp_gamemode
  b GetClientInterpAmount()::pUpdateRate
  b GetCurrentTonemappingSystem()::s_HDR_HistogramSystem
  b GetFullFrameDepthTexture()::bNoDepthTexture
+ b GetLocalizedEventString(char const*, char const*, char const*)::szEventString
+ b GetLocalizedTitleString(char const*, char const*)::szTitleString
  b GetMaterialProxyDict()::g_MaterialProxyDict
  b GetNthSurvivorName(int, bool)::failString
  b GetPanelAnimationDictionary()::dictionary
@@ -36588,6 +36604,7 @@
  b s_shared_token
  b s_shouldShowMessagePanel
  b s_showMenuName
+ b s_steamVideo
  b s_szPseudoUniqueID
  b s_szSaveFileName
  b s_szStatUploadRegistryKeyName
@@ -37253,6 +37270,7 @@
  t AchievementIDCompare(CBaseAchievement* const*, CBaseAchievement* const*)
  t AchievementNameCompletion(char const*, char (*) [64])
  t AchievementOrderCompare(CBaseAchievement* const*, CBaseAchievement* const*)
+ t AddTimelineEvent_Internal(IGameEvent*, char const*, char const*, char const*, char const*)
  t AlignBoxes(matrix3x4_t*, Vector const&, Vector const&)
  t AscendingSortFunc(void const*, void const*)
  t BuildFlattenedChains_R(int, int&, int, datamap_t*, CUtlVector<typedescription_t, CUtlMemory<typedescription_t, int> >&, int)
@@ -37636,6 +37654,7 @@
  t GetAliveHumanSurvivorCnt()
  t GetFogColor(fogparams_t*, float*, bool, bool)
  t GetPos(CCommand const&, Vector&, QAngle&)
+ t GetRoleSpecificEventString(char const*, C_TerrorPlayer*, C_TerrorPlayer*, char const*)
  t GetSkyboxFogColor(float*, bool, bool)
  t HalfUpdateRateCallback(IConVar*, char const*, float)
  t HudElementCompletion(char const*, char (*) [64])
@@ -37760,6 +37779,7 @@
  t TGAWriter::fputLittleShort(unsigned short, CUtlBuffer&)
  t TeammateFactory()
  t Test_ProxyToggle_EnsureValue(CCommand const&)
+ t UpdateGameState()
  t UpdateNecessaryRenderTargets(int)
  t UpdateViewmodelVisibility(C_BasePlayer*)
  t VGui_VideoMode_AdjustForModeChange()
