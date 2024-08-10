@@ -2,6 +2,10 @@
 
 export LC_ALL=C
 
+ROOT_DIR="$(dirname "$(realpath -s "$0")")"
+
+echo "$ROOT_DIR"
+
 ProcessDepot ()
 {
 	echo "> Processing binaries"
@@ -24,7 +28,7 @@ ProcessDepot ()
 		
 		if [ "$1" = ".dylib" ]
 		then
-			nmBinary="$(dirname "${BASH_SOURCE[0]}")/.support/nm-with-macho"
+			nmBinary="$ROOT_DIR/.support/nm-with-macho"
 		fi
 		
 		if [ "$1" = ".dylib" ] || [ "$1" = ".so" ]
@@ -34,7 +38,7 @@ ProcessDepot ()
 		
 		if [ "$1" = ".so" ]
 		then
-			"$(dirname "${BASH_SOURCE[0]}")/.support/elfstrings/elfstrings" -binary "$file" | sort -u > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
+			"$ROOT_DIR/.support/elfstrings/elfstrings" -binary "$file" | sort -u > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
 		else
 			strings "$file" -n 5 | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -_ | sort -u > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
 		fi
@@ -49,8 +53,7 @@ ProcessVPK ()
 	do
 		echo " > $file"
 		
-		# https://github.com/Penguinwizzard/VPKTool
-		"$(dirname "${BASH_SOURCE[0]}")/.support/vpktool" "$file" > "${file%.*}.txt"
+		~/ValveResourceFormat/Decompiler/bin/Release/linux-x64/publish/Decompiler --input "$file" --vpk_list > "$(echo "$file" | sed -e 's/\.vpk$/\.txt/g')"
 	done <   <(find . -type f -name "*_dir.vpk" -print0)
 }
 
@@ -70,7 +73,7 @@ FixUCS2 ()
 {
 	echo "> Fixing UCS-2"
 
-	find . -type f -name "*.txt" -print0 | xargs --null --max-lines=1 --max-procs=3 "$(dirname "${BASH_SOURCE[0]}")/fix_encoding"
+	find . -type f -name "*.txt" -print0 | xargs --null --max-lines=1 --max-procs=3 "$ROOT_DIR/fix_encoding"
 }
 
 CreateCommit ()

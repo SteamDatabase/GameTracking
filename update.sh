@@ -29,61 +29,6 @@ if ! [[ $1 =~ $re ]]; then
 	echo "First argument must be an integer" >&2; exit 1
 fi
 
-ProcessDepot ()
-{
-	while IFS= read -r -d '' file
-	do
-		baseFile=$(basename "$file" "$2")
-		
-		if [ "$baseFile" = "steamclient" ]
-		then
-			continue
-		fi
-		
-		echo "> $baseFile"
-		
-		~/ProtobufDumper/ProtobufDumper "$file" "Protobufs/$1/" > /dev/null
-		
-		mkdir -p "BuildbotPaths/$1"
-		
-		strings "$file" | grep "buildslave" | grep -v "/.ccache/tmp/" | sort -u > "BuildbotPaths/$1/$baseFile.txt"
-		
-		nmBinary=nm
-		
-		if [ "$2" = ".dylib" ]
-		then
-			nmBinary=./.support/nm-with-macho
-		fi
-		
-		if [ "$2" = ".dylib" ] || [ "$2" = ".so" ]
-		then
-			mkdir -p "Symbols/$1"
-			
-			$nmBinary -C -p "$file" | grep -Evi "GCC_except_table|google::protobuf" | awk '{$1=""; print $0}' | sort -u > "Symbols/$1/$baseFile.txt"
-		fi
-		
-		#if [ "$2" != ".dylib" ] || [ "$1" = "csgo" ]
-		#then
-			mkdir -p "Strings/$1"
-			
-			strings "$file" -n 5 | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -_ | sort -u > "Strings/$1/$baseFile.txt"
-		#fi
-	done <   <(find "$1/" -type f -name "*$2" -print0)
-}
-
-ProcessVPK ()
-{
-	while IFS= read -r -d '' file
-	do
-		baseFile="${file%.*}.txt"
-		
-		echo "> VPK $baseFile"
-		
-		# https://github.com/Penguinwizzard/VPKTool
-		./.support/vpktool "$file" > "$baseFile"
-	done <   <(find "$1/" -type f -name "*_dir.vpk" -print0)
-}
-
 echo "Processing depot $1..."
 
 # Do stuff based on the depotid
@@ -91,89 +36,95 @@ case $1 in
 
 # Half-Life 2
 221)
-	ProcessVPK "hl2"
 	cd "hl2"
+	ProcessVPK
 	FixUCS2
 	;;
 
 223)
-	ProcessDepot "hl2" ".dylib"
+	cd "hl2"
+	ProcessDepot ".dylib"
 	;;
 
 # Half-Life 2: Episode One
 389)
-	ProcessVPK "hl2ep1"
 	cd "hl2ep1"
+	ProcessVPK
 	FixUCS2
 	;;
 
 # Half-Life 2: Episode Two
 420)
-	ProcessVPK "hl2ep2"
 	cd "hl2ep2"
+	ProcessVPK
 	FixUCS2
 	;;
 
 # Half-Life 2: Death Match
 321)
-	ProcessVPK "hl2dm"
 	cd "hl2dm"
+	ProcessVPK
 	FixUCS2
 	;;
 
 232372)
-	ProcessDepot "hl2dm" ".dylib"
+	cd "hl2dm"
+	ProcessDepot ".dylib"
 	;;
 
 # Portal
 401)
-	ProcessVPK "portal"
 	cd "portal"
+	ProcessVPK
 	FixUCS2
 	;;
 
 403)
-	ProcessDepot "portal" ".dylib"
+	cd "portal"
+	ProcessDepot ".dylib"
 	;;
 
 # Portal 2
 621)
-	ProcessVPK "portal2"
 	cd "portal2"
+	ProcessVPK
 	FixUCS2
 	;;
 
 624)
-	ProcessDepot "portal2" ".dylib"
+	cd "portal2"
+	ProcessDepot ".dylib"
 	;;
 
 # Left 4 Dead
 502)
-	ProcessVPK "l4d"
 	cd "l4d"
+	ProcessVPK
 	FixUCS2
 	;;
 
 515)
-	ProcessDepot "l4d" ".dylib"
+	cd "l4d"
+	ProcessDepot ".dylib"
 	;;
 
 # Left 4 Dead 2
 551)
-	ProcessVPK "l4d2"
 	cd "l4d2"
+	ProcessVPK
 	FixUCS2
 	;;
 
 553)
-	ProcessDepot "l4d2" ".dylib"
+	cd "l4d2"
+	ProcessDepot ".dylib"
 	;;
 
 # Alien Swarm
 631)
-	ProcessVPK "alienswarm"
-	ProcessDepot "alienswarm" ".dll"
 	cd "alienswarm"
+	ProcessDepot ".dll"
+	ProcessVPK
 	FixUCS2
 	;;
 
