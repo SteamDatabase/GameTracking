@@ -2,9 +2,8 @@
 
 export LC_ALL=C
 
-ROOT_DIR="$(dirname "$(realpath -s "$0")")"
-
-echo "$ROOT_DIR"
+ROOT_DIR="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")"
+VRF_PATH="$ROOT_DIR/ValveResourceFormat/Decompiler/bin/Release/linux-x64/publish/Decompiler"
 
 ProcessDepot ()
 {
@@ -53,7 +52,7 @@ ProcessVPK ()
 	do
 		echo " > $file"
 		
-		~/ValveResourceFormat/Decompiler/bin/Release/linux-x64/publish/Decompiler --input "$file" --vpk_list > "$(echo "$file" | sed -e 's/\.vpk$/\.txt/g')"
+		"$VRF_PATH" --input "$file" --vpk_list > "$(echo "$file" | sed -e 's/\.vpk$/\.txt/g')"
 	done <   <(find . -type f -name "*_dir.vpk" -print0)
 }
 
@@ -65,7 +64,7 @@ ProcessToolAssetInfo ()
 	do
 		echo " > $file"
 		
-		~/ValveResourceFormat/Decompiler/bin/Release/linux-x64/publish/Decompiler --input "$file" --output "$(echo "$file" | sed -e 's/\.bin$/\.txt/g')" --tools_asset_info_short
+		"$VRF_PATH" --input "$file" --output "$(echo "$file" | sed -e 's/\.bin$/\.txt/g')" --tools_asset_info_short
 	done <   <(find . -type f -name "*asset_info.bin" -print0)
 }
 
