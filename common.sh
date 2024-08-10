@@ -4,6 +4,11 @@ export LC_ALL=C
 
 ROOT_DIR="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")"
 VRF_PATH="$ROOT_DIR/ValveResourceFormat/Decompiler/bin/Release/linux-x64/publish/Decompiler"
+DO_GIT=1
+
+if [[ $2 = "no-git" ]]; then
+	DO_GIT=0
+fi
 
 ProcessDepot ()
 {
@@ -77,6 +82,11 @@ FixUCS2 ()
 
 CreateCommit ()
 {
+	if ! [[ $DO_GIT == 1 ]]; then
+		echo "Not performing git commit"
+		return
+	fi
+
 	message="$1 | $(git status --porcelain | wc -l) files | $(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g' | cut -c 1-1024)"
 
 	if [ -n "$2" ]; then
