@@ -4,6 +4,7 @@ export LC_ALL=C
 
 ROOT_DIR="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")"
 VRF_PATH="$ROOT_DIR/ValveResourceFormat/Decompiler/bin/Release/linux-x64/publish/Decompiler"
+DUMP_STRINGS_PATH="$ROOT_DIR/DumpStrings/DumpStrings"
 DO_GIT=1
 
 if [[ $2 = "no-git" ]]; then
@@ -13,50 +14,48 @@ fi
 ProcessDepot ()
 {
 	echo "> Processing binaries"
-	
+
 #	rm -r "Protobufs"
 	mkdir -p "Protobufs"
-	
+
 	while IFS= read -r -d '' file
 	do
 		if [ "$(basename "$file" "$1")" = "steamclient" ]
 		then
 			continue
 		fi
-		
+
 		echo " > $file"
-		
+
+		# Dump protobufs
 		~/ProtobufDumper/ProtobufDumper "$file" "Protobufs/" > /dev/null
-		
-		nmBinary="nm"
-		
-		if [ "$1" = ".dylib" ]
-		then
-			nmBinary="$ROOT_DIR/.support/nm-with-macho"
-		fi
-		
-		if [ "$1" = ".dylib" ] || [ "$1" = ".so" ]
-		then
-			$nmBinary -C -p "$file" | grep -Evi "GCC_except_table|google::protobuf" | awk '{$1=""; print $0}' | sort -u > "$(echo "$file" | sed -e "s/$1$/.txt/g")"
-		fi
-		
-		if [ "$1" = ".so" ]
-		then
-			"$ROOT_DIR/.support/elfstrings/elfstrings" -binary "$file" | sort -u > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
-		else
-			strings "$file" -n 5 | grep -Evi "protobuf|GCC_except_table|osx-builder\." | c++filt -_ | sort -u > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
-		fi
+
+		# Dump strings
+		file_type=""
+		case "$1" in
+			.dylib)
+				file_type="macho"
+				;;
+			.so)
+				file_type="elf"
+				;;
+			.dll)
+				file_type="pe"
+				;;
+		esac
+
+		"$DUMP_STRINGS_PATH" -binary "$file" -target "$file_type" > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
 	done <   <(find . -type f -name "*$1" -print0)
 }
 
 ProcessVPK ()
 {
 	echo "> Processing VPKs"
-	
+
 	while IFS= read -r -d '' file
 	do
 		echo " > $file"
-		
+
 		"$VRF_PATH" --input "$file" --vpk_list > "$(echo "$file" | sed -e 's/\.vpk$/\.txt/g')"
 	done <   <(find . -type f -name "*_dir.vpk" -print0)
 }
@@ -64,11 +63,11 @@ ProcessVPK ()
 ProcessToolAssetInfo ()
 {
 	echo "> Processing tools asset info"
-	
+
 	while IFS= read -r -d '' file
 	do
 		echo " > $file"
-		
+
 		"$VRF_PATH" --input "$file" --output "$(echo "$file" | sed -e 's/\.bin$/\.txt/g')" --tools_asset_info_short
 	done <   <(find . -type f -name "*asset_info.bin" -print0)
 }
@@ -97,6 +96,6 @@ CreateCommit ()
 	git add -A
 	git commit -S -a -m "$message"
 	git push
-	
+
 	~/ValveProtobufs/update.sh
 }
