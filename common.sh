@@ -4,6 +4,7 @@ export LC_ALL=C
 
 ROOT_DIR="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")"
 VRF_PATH="$ROOT_DIR/ValveResourceFormat/Decompiler/bin/Release/linux-x64/publish/Decompiler"
+PROTOBUF_DUMPER_PATH="$ROOT_DIR/SteamKit/Resources/ProtobufDumper/ProtobufDumper/bin/Release/linux-x64/publish/ProtobufDumper"
 DUMP_STRINGS_PATH="$ROOT_DIR/DumpStrings/DumpStrings"
 DO_GIT=1
 
@@ -28,7 +29,7 @@ ProcessDepot ()
 		echo " > $file"
 
 		# Dump protobufs
-		~/ProtobufDumper/ProtobufDumper "$file" "Protobufs/" > /dev/null
+		"$PROTOBUF_DUMPER_PATH" "$file" "Protobufs/" > /dev/null
 
 		# Dump strings
 		file_type=""
