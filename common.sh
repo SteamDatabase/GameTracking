@@ -7,7 +7,7 @@ VRF_PATH="$ROOT_DIR/ValveResourceFormat/Decompiler/bin/Release/linux-x64/publish
 DUMP_STRINGS_PATH="$ROOT_DIR/DumpStrings/DumpStrings"
 DO_GIT=1
 
-if [[ $2 = "no-git" ]]; then
+if [[ $1 = "no-git" ]] || [[ $2 = "no-git" ]]; then
 	DO_GIT=0
 fi
 
