@@ -98,5 +98,5 @@ CreateCommit ()
 	git commit -S -a -m "$message"
 	git push
 
-	~/ValveProtobufs/update.sh
+	[ -f ~/ValveProtobufs/update.sh ] && ~/ValveProtobufs/update.sh
 }
