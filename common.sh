@@ -45,7 +45,7 @@ ProcessDepot ()
 				;;
 		esac
 
-		"$DUMP_STRINGS_PATH" -binary "$file" -target "$file_type" > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
+		"$DUMP_STRINGS_PATH" -binary "$file" -target "$file_type" | sort --unique > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
 	done <   <(find . -type f -name "*$1" -print0)
 }
 
