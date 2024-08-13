@@ -61,6 +61,25 @@ ProcessVPK ()
 	done <   <(find . -type f -name "*_dir.vpk" -print0)
 }
 
+DeduplicateStringsFrom ()
+{
+	echo "> Deduplicating strings"
+
+	dedupeFile="$(realpath "$2")"
+	dedupeFile2="$(realpath "$3")"
+
+	while IFS= read -r -d '' file
+	do
+		file="$(realpath "$file" | sed -e "s/$1$/_strings.txt/g")"
+
+		if ! [ -f "$file" ] || [ "$dedupeFile" = "$file" ] || [ "$dedupeFile2" = "$file" ]; then
+			continue
+		fi
+
+		grep --fixed-strings --line-regexp --invert-match --file="$dedupeFile" --file="$dedupeFile2" "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+	done <   <(find . -type f -name "*$1" -print0)
+}
+
 ProcessToolAssetInfo ()
 {
 	echo "> Processing tools asset info"
