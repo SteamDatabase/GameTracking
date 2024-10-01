@@ -17,3 +17,12 @@ dotnet publish --configuration Release -p:PublishSingleFile=true --runtime linux
 # Strings
 cd ../DumpStrings
 go build
+
+# Verify
+echo Checking that the executables work
+cd ../
+. ./common.sh
+
+"$VRF_PATH" --version
+"$PROTOBUF_DUMPER_PATH" -v
+"$DUMP_STRINGS_PATH"
