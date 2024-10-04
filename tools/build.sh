@@ -4,7 +4,7 @@ set -euo pipefail
 cd "${0%/*}" || exit 1
 
 # Update
-git submodule update --remote --merge
+git submodule update --remote --merge --init
 
 # VRF
 cd ValveResourceFormat
