@@ -67,19 +67,41 @@ DeduplicateStringsFrom ()
 {
 	echo "> Deduplicating strings"
 
-	dedupeFile="$(realpath "$2")"
-	dedupeFile2="$(realpath "$3")"
+	suffix="$1"
+	shift
+
+	dedupe_files=()
+	for file in "$@"; do
+		dedupe_files+=("$(realpath "$file")")
+	done
+
+	grep_args=(
+		--fixed-strings
+		--line-regexp
+		--invert-match
+	)
+
+	for dedupe_file in "${dedupe_files[@]}"; do
+		grep_args+=(--file "$dedupe_file")
+	done
 
 	while IFS= read -r -d '' file
 	do
-		file="$(realpath "$file" | sed -e "s/$1$/_strings.txt/g")"
+		target_file="$(realpath "$file" | sed -e "s/$suffix$/_strings.txt/g")"
 
-		if ! [ -f "$file" ] || [ "$dedupeFile" = "$file" ] || [ "$dedupeFile2" = "$file" ]; then
+		if ! [ -f "$target_file" ]; then
 			continue
 		fi
 
-		grep --fixed-strings --line-regexp --invert-match --file="$dedupeFile" --file="$dedupeFile2" "$file" > "$file.tmp" && mv "$file.tmp" "$file"
-	done <   <(find . -type f -name "*$1" -print0)
+		for dedupe_file in "${dedupe_files[@]}"; do
+			if [ "$dedupe_file" = "$target_file" ]; then
+				continue 2
+			fi
+		done
+
+		grep "${grep_args[@]}" "$target_file" > "$target_file.tmp" &&
+			mv "$target_file.tmp" "$target_file"
+	done <   <(find . -type f -name "*$suffix" -print0)
 }
 
 ProcessToolAssetInfo ()
