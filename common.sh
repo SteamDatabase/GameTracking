@@ -65,10 +65,10 @@ ProcessVPK ()
 
 DeduplicateStringsFrom ()
 {
-	echo "> Deduplicating strings"
-
 	suffix="$1"
 	shift
+
+	echo "> Deduplicating strings ($suffix)"
 
 	dedupe_files=()
 	for file in "$@"; do
