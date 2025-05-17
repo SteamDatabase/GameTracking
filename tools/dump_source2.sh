@@ -7,11 +7,10 @@ if [[ $# -lt 2 ]]; then
 fi
 
 TOOLS_DIR="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")"
-DUMPER_PATH="$TOOLS_DIR/DumpSource2/build/DumpSource2"
+DUMPER_PATH="$TOOLS_DIR/DumpSource2/build/DumpSource2-$2"
 
 cd "$TOOLS_DIR" || exit 1
 
-MOD_NAME="$2"
 CORE_DIR="$(realpath "../$1/game/bin/linuxsteamrt64/")"
 DUMP_DIR="$(realpath "../$1/DumpSource2/")"
 
@@ -23,6 +22,11 @@ mv libvideo.so libvideo.so.original
 gcc -DIMPLIB_EXPORT_SHIMS=1 -g -fPIC -shared libvideo.so.tramp.S libvideo.so.init.c -ldl -o libvideo.so
 rm libvideo.so.tramp.S libvideo.so.init.c
 
-LD_LIBRARY_PATH="$CORE_DIR" timeout 2m "$DUMPER_PATH" "$MOD_NAME" "$DUMP_DIR" || true
+set +e
+LD_LIBRARY_PATH="$CORE_DIR" timeout 2m "$DUMPER_PATH" "$DUMP_DIR"
+DUMPER_EXIT_CODE=$?
+set -e
 
 mv libvideo.so.original libvideo.so
+
+exit "$DUMPER_EXIT_CODE"

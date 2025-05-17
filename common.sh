@@ -9,7 +9,7 @@ DUMP_STRINGS_PATH="$ROOT_DIR/tools/DumpStrings/DumpStrings"
 DO_GIT=1
 
 if [[ $# -gt 0 ]]; then
-	if [[ $1 = "no-git" ]] || [[ $2 = "no-git" ]]; then
+	if [[ $1 = "no-git" ]] || [[ $# -gt 1 && $2 = "no-git" ]]; then
 		DO_GIT=0
 	fi
 fi
@@ -23,7 +23,7 @@ ProcessDepot ()
 
 	while IFS= read -r -d '' file
 	do
-		if [ "$(basename "$file" "$1")" = "steamclient" ]
+		if [[ "$(basename "$file" "$1")" = "steamclient" ]]
 		then
 			continue
 		fi
@@ -45,6 +45,9 @@ ProcessDepot ()
 			.dll)
 				file_type="pe"
 				;;
+			*)
+				echo "Unknown file type $file_type"
+				continue
 		esac
 
 		"$DUMP_STRINGS_PATH" -binary "$file" -target "$file_type" | sort --unique > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
@@ -89,12 +92,12 @@ DeduplicateStringsFrom ()
 	do
 		target_file="$(realpath "$file" | sed -e "s/$suffix$/_strings.txt/g")"
 
-		if ! [ -f "$target_file" ]; then
+		if ! [[ -f "$target_file" ]]; then
 			continue
 		fi
 
 		for dedupe_file in "${dedupe_files[@]}"; do
-			if [ "$dedupe_file" = "$target_file" ]; then
+			if [[ "$dedupe_file" = "$target_file" ]]; then
 				continue 2
 			fi
 		done
@@ -112,7 +115,7 @@ ProcessToolAssetInfo ()
 	do
 		echo " > $file"
 
-		"$VRF_PATH" --input "$file" --output "$(echo "$file" | sed -e 's/\.bin$/\.txt/g')" --tools_asset_info_short
+		"$VRF_PATH" --input "$file" --output "$(echo "$file" | sed -e 's/\.bin$/\.txt/g')" --tools_asset_info_short || echo "S2V failed to dump tools asset info"
 	done <   <(find . -type f -name "*asset_info.bin" -print0)
 }
 
@@ -132,7 +135,7 @@ CreateCommit ()
 
 	message="$1 | $(git status --porcelain | wc -l) files | $(git status --porcelain | sed '{:q;N;s/\n/, /g;t q}' | sed 's/^ *//g' | cut -c 1-1024)"
 
-	if [ -n "$2" ]; then
+	if [[ -n "$2" ]]; then
 		bashpls=$'\n\n'
 		message="${message}${bashpls}https://steamdb.info/patchnotes/$2/"
 	fi
@@ -141,5 +144,5 @@ CreateCommit ()
 	git commit -S -a -m "$message"
 	git push
 
-	[ -f ~/ValveProtobufs/update.sh ] && ~/ValveProtobufs/update.sh
+	[[ -f ~/ValveProtobufs/update.sh ]] && ~/ValveProtobufs/update.sh
 }
