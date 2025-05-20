@@ -45,6 +45,9 @@ ProcessDepot ()
 			.dll)
 				file_type="pe"
 				;;
+			.exe)
+				file_type="pe"
+				;;
 			*)
 				echo "Unknown file type $file_type"
 				continue
