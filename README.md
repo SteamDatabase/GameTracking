@@ -12,6 +12,7 @@ to replicate the functionality using steamcmd though.
 - [`depots_mapping.json`](/depots_mapping.json) specifies which folder each depot should download to.
   - it must contain a mapping for the game appid itself.
 - [`common.sh`](/common.sh) provides common function used for dumping or decompiling files.
+- [`tools/build.sh`](/tools/build.sh) updates and builds the required tools which are available as submodules.
 
 Some folders (such as `dota`) are [ignored](/.gitignore) in this repository,
 and instead are tracked in [GameTracking-Dota2](https://github.com/SteamDatabase/GameTracking-Dota2) repository.

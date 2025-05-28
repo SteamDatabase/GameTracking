@@ -126,7 +126,7 @@ FixUCS2 ()
 {
 	echo "> Fixing UCS-2"
 
-	find . -type f -name "*.txt" -print0 | xargs --null --max-lines=1 --max-procs=3 "$ROOT_DIR/fix_encoding"
+	find . -type f -name "*.txt" -print0 | xargs --null --max-lines=1 --max-procs=3 "$ROOT_DIR/tools/fix_encoding.php"
 }
 
 CreateCommit ()
