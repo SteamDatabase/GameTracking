@@ -6,7 +6,6 @@ cd "${0%/*}"
 echo "Processing L4D..."
 
 ProcessDepot ".dylib"
-ProcessVPK
 FixUCS2
 
 CreateCommit "$(grep "ClientVersion=" left4dead/steam.inf | grep -o '[0-9\.]*')" "$1"
