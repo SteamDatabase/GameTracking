@@ -53,7 +53,13 @@ ProcessDepot ()
 				continue
 		esac
 
-		"$DUMP_STRINGS_PATH" -binary "$file" -target "$file_type" | sort --unique > "$(echo "$file" | sed -e "s/$1$/_strings.txt/g")"
+		if [[ "$1" == ".exe" ]]; then
+			strings_file="${file}_strings.txt"
+		else
+			strings_file="$(echo "$file" | sed -e "s/$(echo "$1" | sed 's/\./\\./g')$/_strings.txt/g")"
+		fi
+
+		"$DUMP_STRINGS_PATH" -binary "$file" -target "$file_type" | sort --unique > "$strings_file"
 	done <   <(find . -type f -name "*$1" -print0)
 }
 
@@ -93,7 +99,7 @@ DeduplicateStringsFrom ()
 
 	while IFS= read -r -d '' file
 	do
-		target_file="$(realpath "$file" | sed -e "s/$suffix$/_strings.txt/g")"
+		target_file="$(realpath "$file" | sed -e "s/$(echo "$suffix" | sed 's/\./\\./g')$/_strings.txt/g")"
 
 		if ! [[ -f "$target_file" ]]; then
 			continue
